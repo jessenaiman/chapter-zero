@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-spiral.dev/contracts/scene1_narrative_schema.json",
+  "title": "Narrative Terminal Scene Schema",
+  "description": "JSON schema for Godot-driven narrative terminal interface data",
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": [ "narrative_terminal" ], "description": "Scene type identifier" },
+    "openingLines": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 500 },
+      "minItems": 1,
+      "maxItems": 20,
+      "description": "Initial narrative lines displayed when scene loads"
+    },
+    "initialChoice": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 200,
+          "description": "Question prompting user to choose Dreamweaver thread"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "enum": [ "hero", "shadow", "ambition" ], "description": "Unique identifier for the choice option" },
+              "label": { "type": "string", "minLength": 1, "maxLength": 50, "description": "Display label for the choice" },
+              "description": { "type": "string", "minLength": 10, "maxLength": 200, "description": "Tooltip or description for the choice" }
+            },
+            "required": [ "id", "label", "description" ]
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Three Dreamweaver thread options"
+        }
+      },
+      "required": [ "prompt", "options" ]
+    },
+    "storyBlocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "paragraphs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 10, "maxLength": 300 },
+            "minItems": 1,
+            "maxItems": 5,
+            "description": "Narrative paragraphs for this story block"
+          },
+          "question": { "type": "string", "minLength": 10, "maxLength": 200, "description": "Question presented to the player" },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": { "type": "string", "minLength": 5, "maxLength": 100, "description": "Choice text displayed to player" },
+                "nextBlock": { "type": "integer", "minimum": 0, "description": "Index of next story block (0 to end scene)" }
+              },
+              "required": [ "text", "nextBlock" ]
+            },
+            "minItems": 2,
+            "maxItems": 4,
+            "description": "Player choices for this story block"
+          }
+        },
+        "required": [ "paragraphs", "question", "choices" ]
+      },
+      "description": "Sequential story blocks with branching choices"
+    },
+    "namePrompt": { "type": "string", "minLength": 5, "maxLength": 100, "description": "Prompt asking for player's name" },
+    "secretQuestion": {
+      "type": "object",
+      "properties": {
+        "prompt": { "type": "string", "minLength": 10, "maxLength": 200, "description": "Secret question prompt" },
+        "options": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 50 },
+          "minItems": 3,
+          "maxItems": 5,
+          "description": "Valid responses to secret question"
+        }
+      },
+      "required": [ "prompt", "options" ]
+    },
+    "exitLine": { "type": "string", "minLength": 10, "maxLength": 300, "description": "Final narrative line before scene transition" }
+  },
+  "required": [
+    "type",
+    "openingLines",
+    "initialChoice",
+    "storyBlocks",
+    "namePrompt",
+    "secretQuestion",
+    "exitLine"
+  ]
+}

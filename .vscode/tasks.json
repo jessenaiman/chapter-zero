@@ -1,0 +1,15 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Create docs/adr directory",
+			"type": "shell",
+			"command": "mkdir -p docs/adr"
+		},
+		{
+			"label": "Create unified blueprint file",
+			"type": "shell",
+			"command": "touch unified-blueprint.md"
+		}
+	]
+}

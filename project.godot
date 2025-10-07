@@ -1,0 +1,82 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Ωmega Spiral"
+config/description="A retro-styled narrative adventure game built with Godot 4.5 and C# 14"
+run/main_scene="res://Source/Scenes/Scene1Narrative.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="omega_spiral"
+boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
+boot_splash/show_image=false
+config/icon="res://Source/Resources/icon.png"
+
+[autoload]
+
+SceneManager="*res://Source/Scripts/SceneManager.cs"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=768
+window/size/mode=2
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[dotnet]
+
+project/assembly_name="OmegaSpiral"
+project/solution_directory="."
+
+[editor]
+
+movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
+
+[gui]
+
+theme/custom="res://theme.tres"
+theme/custom_font=""
+
+[input]
+
+ui_accept={
+deadzone=0.5,
+events=["Enter", "Space"]
+}
+ui_cancel={
+deadzone=0.5,
+events=["Escape"]
+}
+movement_up={
+deadzone=0.5,
+events=["W", "Up"]
+}
+movement_down={
+deadzone=0.5,
+events=["S", "Down"]
+}
+movement_left={
+deadzone=0.5,
+events=["A", "Left"]
+}
+movement_right={
+deadzone=0.5,
+events=["D", "Right"]
+}
+interact={
+deadzone=0.5,
+events=["Space", "Enter"]
+}
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.15, 0.15, 0.25, 1)

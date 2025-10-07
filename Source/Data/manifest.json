@@ -1,0 +1,9 @@
+{
+  "scenes": [
+    { "id": 1, "type": "narrative_terminal", "path": "scene1_narrative", "supportsThreads": true },
+    { "id": 2, "type": "ascii_dungeon_sequence", "path": "scene2_nethack", "supportsThreads": false },
+    { "id": 3, "type": "wizardry_party", "path": "scene3_wizardry", "supportsThreads": false },
+    { "id": 4, "type": "tile_dungeon", "path": "scene4_tile_dungeon", "supportsThreads": false },
+    { "id": 5, "type": "pixel_combat", "path": "scene5_ff_combat", "supportsThreads": false }
+  ]
+}
