@@ -1,0 +1,6 @@
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.csproj.AssemblyReference.cache
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.GeneratedMSBuildEditorConfig.editorconfig
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.AssemblyInfoInputs.cache
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.AssemblyInfo.cs
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.csproj.CoreCompileInputs.cache
+/home/adam/Dev/omega-spiral/chapter-zero/obj/Debug/net10.0/OmegaSpiral.sourcelink.json

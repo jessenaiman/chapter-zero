@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 uid="uid://-hmaxqqwtqiu1"]
+
+[ext_resource type="Script" path="res://Source/Scripts/NarrativeTerminal.cs" id="1"]
+
+[node name="NarrativeTerminalUI" type="Control"]
+script = ExtResource("1")
+
+[node name="OutputLabel" type="RichTextLabel" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 20.0
+margin_bottom = 200.0
+anchors_preset = 16
+size = Vector2(760, 380)
+position = Vector2(20, 20)
+bbcode_enabled = true
+
+[node name="InputField" type="LineEdit" parent="."]
+margin_left = 20.0
+margin_top = 420.0
+margin_right = 220.0
+margin_bottom = 440.0
+anchors_preset = 14
+size = Vector2(540, 40)
+position = Vector2(20, 420)
+
+[node name="SubmitButton" type="Button" parent="."]
+margin_left = 580.0
+margin_top = 420.0
+margin_right = 20.0
+margin_bottom = 440.0
+anchors_preset = 14
+size = Vector2(200, 40)
+position = Vector2(580, 420)
+text = "Submit"
+
+[node name="PromptLabel" type="Label" parent="."]
+margin_left = 20.0
+margin_top = 400.0
+margin_right = 20.0
+margin_bottom = 400.0
+anchors_preset = 16
+size = Vector2(760, 20)
+position = Vector2(20, 400)
+text = "Enter your response:"

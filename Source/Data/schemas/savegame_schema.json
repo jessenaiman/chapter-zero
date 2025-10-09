@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-spiral.dev/contracts/savegame_schema.json",
+  "title": "Save Game Schema",
+  "description": "JSON schema for game save data including all persistent state",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Save file version for compatibility"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the save was created"
+    },
+    "gameState": {
+      "type": "object",
+      "properties": {
+        "currentScene": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Current scene number"
+        },
+        "playerName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Player's chosen name"
+        },
+        "dreamweaverThread": {
+          "type": "string",
+          "enum": ["Hero", "Shadow", "Ambition"],
+          "description": "Selected narrative thread"
+        },
+        "dreamweaverScores": {
+          "type": "object",
+          "properties": {
+            "Light": { "type": "integer", "minimum": 0 },
+            "Mischief": { "type": "integer", "minimum": 0 },
+            "Wrath": { "type": "integer", "minimum": 0 }
+          },
+          "required": ["Light", "Mischief", "Wrath"]
+        },
+        "selectedDreamweaver": {
+          "type": ["string", "null"],
+          "enum": ["Light", "Mischief", "Wrath", null],
+          "description": "Final Dreamweaver selection"
+        },
+        "partyData": {
+          "type": "object",
+          "properties": {
+            "members": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "class": { "type": "string" },
+                  "race": { "type": "string" },
+                  "level": { "type": "integer" },
+                  "experience": { "type": "integer" },
+                  "stats": {
+                    "type": "object",
+                    "properties": {
+                      "strength": { "type": "integer" },
+                      "intelligence": { "type": "integer" },
+                      "wisdom": { "type": "integer" },
+                      "dexterity": { "type": "integer" },
+                      "constitution": { "type": "integer" },
+                      "charisma": { "type": "integer" },
+                      "luck": { "type": "integer" }
+                    }
+                  }
+                },
+                "required": ["name", "class", "race", "level", "experience", "stats"]
+              },
+              "maxItems": 3
+            },
+            "gold": { "type": "integer", "minimum": 0 },
+            "inventory": {
+              "type": "object",
+              "patternProperties": {
+                ".*": { "type": "integer", "minimum": 0 }
+              }
+            }
+          },
+          "required": ["members", "gold", "inventory"]
+        },
+        "collectedShards": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of collected narrative shards"
+        },
+        "sceneProgress": {
+          "type": "object",
+          "description": "Progress tracking for each scene"
+        }
+      },
+      "required": ["currentScene", "dreamweaverScores", "partyData", "collectedShards", "sceneProgress"]
+    }
+  },
+  "required": ["version", "timestamp", "gameState"]
+}

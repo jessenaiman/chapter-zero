@@ -1,0 +1,4 @@
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.csproj.AssemblyReference.cache
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.GeneratedMSBuildEditorConfig.editorconfig
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.csproj.CoreCompileInputs.cache
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.sourcelink.json

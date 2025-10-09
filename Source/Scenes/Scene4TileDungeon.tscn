@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 uid="uid://-hmaxqqwtqiu3"]
+
+[ext_resource type="Script" path="res://Source/Scripts/TileDungeonController.cs" id="1"]
+
+[node name="Scene4TileDungeon" type="Node2D"]
+script = ExtResource("1")

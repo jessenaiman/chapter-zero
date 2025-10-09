@@ -15,8 +15,8 @@ The screen remains still for a long moment—long enough that the player might w
 `> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?`  
 
 `[ HERO ]` — *A tale where one choice can unmake a world*  
-`[ RIDDLE ]` — *A tale that hides its truth until you bleed for it*  
-`[ LOOM ]` — *A tale that changes every time you look away*  
+`[ SHADOW ]` — *A tale that hides its truth until you bleed for it*  
+`[ AMBITION ]` — *A tale that changes every time you look away*  
 
 *(Player selects one)*  
 
@@ -88,19 +88,6 @@ The screen remains still for a long moment—long enough that the player might w
 
 `[ y ]`  
 
-*(On press: screen dissolves into ASCII static, then resolves into the NetHack room—walls forming character by character, as if Omega is now rendering the world using the player’s choices as source code.)*
+*(On press: screen dissolves into ASCII static)
 
-> WELCOME TO THE FIRST ROOM.  
-> THE SPIRAL IS WATCHING.  
-
----
-
-### Why this honors early PC adventure design:
-- **Pacing**: Long pauses, paragraph-by-paragraph reveals mimic 1980s text parsers where reading *was* the gameplay.  
-- **Player as co-author**: Choices don’t just select—they *complete* Omega’s story, making the player complicit in worldbuilding.  
-- **Meta-narrative**: The question “Are you the player or is Omega?” echoes King’s Quest’s self-aware fairy-tale framing.  
-- **No urgency**: No timers, no pressure—just a quiet, intimate exchange between entity and human.  
-
-This opening doesn’t just *reference* retro games—it **feels** like one, while embedding your deeper themes: identity, recursion, and the blurred line between creator and created.  
-
-Ready for implementation with your existing technical architecture.
+> THE SPIRAL IS WATCHING...

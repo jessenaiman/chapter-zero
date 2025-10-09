@@ -1,360 +1,122 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using System.Linq;
 
-namespace OmegaSpiral.Source.Scripts
+public partial class NarratorEngine : Node
 {
-    /// <summary>
-    /// Processes dialogue and choice rules from JSON, converting story blocks into queued lines.
-    /// Pushes lines to UI scenes via signals without hardcoded narrative content.
-    /// </summary>
-    public class NarratorEngine : Node
+    private Queue<string> _dialogueQueue;
+    private bool _isProcessing;
+    
+    public override void _Ready()
     {
-        // Signals for UI updates
-        [Signal]
-        public delegate void NarratorLineQueuedEventHandler(string line);
-
-        [Signal]
-        public delegate void NarratorChoiceAvailableEventHandler(JObject choiceData);
-
-        [Signal]
-        public delegate void NarratorQuestionAvailableEventHandler(string question, JArray options);
-
-        [Signal]
-        public delegate void NarratorSceneCompleteEventHandler();
-
-        // Internal state
-        private Queue<string> _dialogueQueue = new Queue<string>();
-        private JObject _currentSceneData;
-        private int _currentBlockIndex = 0;
-        private bool _isProcessing = false;
-
-        public override void _Ready()
+        _dialogueQueue = new Queue<string>();
+        _isProcessing = false;
+    }
+    
+    public void AddDialogue(string dialogue)
+    {
+        _dialogueQueue.Enqueue(dialogue);
+    }
+    
+    public void AddDialogueRange(List<string> dialogues)
+    {
+        foreach (string dialogue in dialogues)
         {
-            GD.Print("NarratorEngine initialized");
+            _dialogueQueue.Enqueue(dialogue);
         }
-
-        /// <summary>
-        /// Loads scene data and initializes the narrator engine.
-        /// </summary>
-        /// <param name="sceneData">JSON scene data to process</param>
-        public void LoadSceneData(JObject sceneData)
+    }
+    
+    public string GetNextDialogue()
+    {
+        if (_dialogueQueue.Count > 0)
         {
-            try
-            {
-                _currentSceneData = sceneData;
-                _currentBlockIndex = 0;
-                _dialogueQueue.Clear();
-
-                GD.Print("NarratorEngine loaded scene data");
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error loading scene data in NarratorEngine: {ex.Message}");
-            }
+            return _dialogueQueue.Dequeue();
         }
-
-        /// <summary>
-        /// Starts processing the narrative scene data.
-        /// </summary>
-        public void StartNarrative()
+        return null;
+    }
+    
+    public void ClearDialogueQueue()
+    {
+        _dialogueQueue.Clear();
+    }
+    
+    public bool HasDialogue()
+    {
+        return _dialogueQueue.Count > 0;
+    }
+    
+    public void ProcessDialogueQueue(Action<string> outputAction)
+    {
+        if (_isProcessing || !HasDialogue())
         {
-            try
+            return;
+        }
+        
+        _isProcessing = true;
+        
+        string dialogue = GetNextDialogue();
+        if (dialogue != null && outputAction != null)
+        {
+            outputAction(dialogue);
+        }
+        
+        _isProcessing = false;
+    }
+    
+    // Simulate the typewriter effect by breaking text into smaller chunks
+    public List<string> BreakTextIntoChunks(string text, int chunkSize = 10)
+    {
+        var chunks = new List<string>();
+        if (string.IsNullOrEmpty(text))
+        {
+            return chunks;
+        }
+        
+        string[] words = text.Split(' ');
+        string currentChunk = "";
+        
+        foreach (string word in words)
+        {
+            if ((currentChunk + " " + word).Length > chunkSize && currentChunk != "")
             {
-                if (_currentSceneData == null)
+                chunks.Add(currentChunk);
+                currentChunk = word;
+            }
+            else
+            {
+                if (currentChunk == "")
                 {
-                    GD.PrintErr("No scene data loaded in NarratorEngine");
-                    return;
+                    currentChunk = word;
                 }
-
-                _isProcessing = true;
-
-                // Process opening lines
-                if (_currentSceneData.ContainsKey("openingLines"))
+                else
                 {
-                    JArray openingLines = (JArray)_currentSceneData["openingLines"];
-                    foreach (string line in openingLines)
-                    {
-                        QueueLine(line);
-                    }
-                }
-
-                // Process initial choice if available
-                if (_currentSceneData.ContainsKey("initialChoice"))
-                {
-                    JObject initialChoice = (JObject)_currentSceneData["initialChoice"];
-                    EmitSignal(SignalName.NarratorChoiceAvailable, initialChoice);
-                }
-
-                GD.Print("NarratorEngine started narrative processing");
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error starting narrative in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Processes a story block and queues its content.
-        /// </summary>
-        /// <param name="blockIndex">Index of the story block to process</param>
-        public void ProcessStoryBlock(int blockIndex)
-        {
-            try
-            {
-                if (_currentSceneData == null || !_currentSceneData.ContainsKey("storyBlocks"))
-                {
-                    GD.PrintErr("No story blocks available in NarratorEngine");
-                    return;
-                }
-
-                JArray storyBlocks = (JArray)_currentSceneData["storyBlocks"];
-                if (blockIndex >= storyBlocks.Count)
-                {
-                    GD.PrintErr($"Story block index {blockIndex} out of range");
-                    return;
-                }
-
-                JObject block = (JObject)storyBlocks[blockIndex];
-
-                // Process paragraphs
-                if (block.ContainsKey("paragraphs"))
-                {
-                    JArray paragraphs = (JArray)block["paragraphs"];
-                    foreach (string paragraph in paragraphs)
-                    {
-                        QueueLine(paragraph);
-                    }
-                }
-
-                // Process question if available
-                if (block.ContainsKey("question"))
-                {
-                    string question = (string)block["question"];
-                    JArray choices = (JArray)block["choices"];
-                    EmitSignal(SignalName.NarratorQuestionAvailable, question, choices);
-                }
-
-                GD.Print($"Processed story block {blockIndex}");
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error processing story block {blockIndex} in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Queues a line for narration.
-        /// </summary>
-        /// <param name="line">Line to queue</param>
-        private void QueueLine(string line)
-        {
-            try
-            {
-                _dialogueQueue.Enqueue(line);
-                EmitSignal(SignalName.NarratorLineQueued, line);
-                GD.Print($"Queued line: {line}");
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error queuing line in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Gets the next line from the dialogue queue.
-        /// </summary>
-        /// <returns>Next line to narrate, or null if queue is empty</returns>
-        public string GetNextLine()
-        {
-            try
-            {
-                if (_dialogueQueue.Count > 0)
-                {
-                    string line = _dialogueQueue.Dequeue();
-                    GD.Print($"Dequeued line: {line}");
-                    return line;
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error getting next line from NarratorEngine: {ex.Message}");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Checks if there are more lines in the queue.
-        /// </summary>
-        /// <returns>True if queue has more lines, false otherwise</returns>
-        public bool HasMoreLines()
-        {
-            return _dialogueQueue.Count > 0;
-        }
-
-        /// <summary>
-        /// Processes a player choice and continues the narrative.
-        /// </summary>
-        /// <param name="choiceIndex">Index of the chosen option</param>
-        public void ProcessChoice(int choiceIndex)
-        {
-            try
-            {
-                GD.Print($"Processing choice {choiceIndex}");
-
-                // In a real implementation, we would process the choice and determine
-                // the next story block to load based on the choice
-                // For now, we'll just simulate continuing the narrative
-
-                // For demonstration, let's process the first story block after a choice
-                ProcessStoryBlock(0);
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error processing choice {choiceIndex} in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Processes a player answer to a question.
-        /// </summary>
-        /// <param name="answer">Player's answer</param>
-        public void ProcessAnswer(string answer)
-        {
-            try
-            {
-                GD.Print($"Processing answer: {answer}");
-
-                // In a real implementation, we would store the answer and potentially
-                // influence the narrative based on it
-                // For now, we'll just continue processing
-
-                // Signal that the scene is complete (for demonstration)
-                EmitSignal(SignalName.NarratorSceneComplete);
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error processing answer '{answer}' in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Handles player name input.
-        /// </summary>
-        /// <param name="name">Player's name</param>
-        public void ProcessPlayerName(string name)
-        {
-            try
-            {
-                GD.Print($"Processing player name: {name}");
-
-                // In a real implementation, we would store the name in GameState
-                // For now, we'll just log it
-
-                // Continue with name prompt if available
-                if (_currentSceneData.ContainsKey("namePrompt"))
-                {
-                    string namePrompt = (string)_currentSceneData["namePrompt"];
-                    QueueLine(namePrompt);
+                    currentChunk += " " + word;
                 }
             }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error processing player name '{name}' in NarratorEngine: {ex.Message}");
-            }
         }
-
-        /// <summary>
-        /// Handles secret question answer.
-        /// </summary>
-        /// <param name="answer">Player's answer to secret question</param>
-        public void ProcessSecretAnswer(string answer)
+        
+        if (currentChunk != "")
         {
-            try
+            chunks.Add(currentChunk);
+        }
+        
+        return chunks;
+    }
+    
+    // Process narrative blocks and add them to the queue
+    public void ProcessNarrativeBlock(List<string> paragraphs, Action<string> outputAction = null)
+    {
+        foreach (string paragraph in paragraphs)
+        {
+            var chunks = BreakTextIntoChunks(paragraph, 20);
+            foreach (string chunk in chunks)
             {
-                GD.Print($"Processing secret answer: {answer}");
-
-                // In a real implementation, we would store the secret answer
-                // For now, we'll just log it and signal completion
-
-                // Show exit line if available
-                if (_currentSceneData.ContainsKey("exitLine"))
+                AddDialogue(chunk);
+                if (outputAction != null)
                 {
-                    string exitLine = (string)_currentSceneData["exitLine"];
-                    QueueLine(exitLine);
+                    ProcessDialogueQueue(outputAction);
                 }
-
-                // Signal scene completion
-                EmitSignal(SignalName.NarratorSceneComplete);
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error processing secret answer '{answer}' in NarratorEngine: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Clears all queued dialogue.
-        /// </summary>
-        public void ClearQueue()
-        {
-            try
-            {
-                _dialogueQueue.Clear();
-                GD.Print("NarratorEngine dialogue queue cleared");
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"Error clearing NarratorEngine queue: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Gets the current queue size.
-        /// </summary>
-        /// <returns>Number of lines in the queue</returns>
-        public int GetQueueSize()
-        {
-            return _dialogueQueue.Count;
-        }
-
-        /// <summary>
-        /// Pauses narrative processing.
-        /// </summary>
-        public void Pause()
-        {
-            _isProcessing = false;
-            GD.Print("NarratorEngine paused");
-        }
-
-        /// <summary>
-        /// Resumes narrative processing.
-        /// </summary>
-        public void Resume()
-        {
-            _isProcessing = true;
-            GD.Print("NarratorEngine resumed");
-        }
-
-        /// <summary>
-        /// Checks if narrative processing is paused.
-        /// </summary>
-        /// <returns>True if paused, false otherwise</returns>
-        public bool IsPaused()
-        {
-            return !_isProcessing;
-        }
-
-        public override void _Process(double delta)
-        {
-            // Process any queued dialogue if not paused
-            if (_isProcessing && HasMoreLines())
-            {
-                // In a real implementation, we would process lines at a controlled pace
-                // For now, we'll just log that we're processing
-                // GD.Print("Processing queued dialogue...");
             }
         }
     }

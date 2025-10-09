@@ -2,13 +2,7 @@
 
 Based on all details extracted from the chat export, here are comprehensive drafts for both scenes. I've included **every detail, specification, and variation** mentioned so you can edit down rather than assuming what's needed.
 
-## 📋 **Project Overview**
-- **Engine**: Godot 4.5
-- **Architecture**: Standalone scenes with JSON-driven content
-- **Style**: CRT terminal → Rogue dungeon → Final Fantasy Dungeon -> 16bit turn based combat -> Bridge sequence
-- **Output**: Each scene writes results to `user://` for chaining
 
----
 
 ## 🎯 **Scene 1: Opening Hook – "The One Story"**
 

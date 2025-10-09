@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-spiral.dev/contracts/scene5_ff_combat_schema.json",
+  "title": "Pixel Combat Scene Schema",
+  "description": "JSON schema for the turn-based pixel combat scene data",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["pixel_combat"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Scene title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Scene description"
+    },
+    "playerSprite": {
+      "type": "string",
+      "description": "Path to player sprite texture"
+    },
+    "enemy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxHp": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "attack": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "defense": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sprite": {
+          "type": "string",
+          "description": "Path to enemy sprite texture"
+        },
+        "attackPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["name", "hp", "maxHp", "attack", "defense", "sprite"]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["FIGHT", "MAGIC", "ITEM", "RUN"]
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "music": {
+      "type": "string",
+      "description": "Path to combat music"
+    },
+    "victoryText": {
+      "type": "string",
+      "description": "Text displayed on victory"
+    }
+  },
+  "required": ["type", "enemy", "actions", "victoryText"]
+}
