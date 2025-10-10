@@ -1,45 +1,208 @@
-[gd_scene load_steps=3 uid="uid://-hmaxqqwtqiu1"]
+[gd_scene load_steps=8 uid="uid://narrativeterminalui"]
 
 [ext_resource type="Script" path="res://Source/Scripts/NarrativeTerminal.cs" id="1"]
 
+[sub_resource type="StyleBoxFlat" id="1"]
+content_margin_left = 28.0
+content_margin_top = 32.0
+content_margin_right = 28.0
+content_margin_bottom = 32.0
+bg_color = Color(0.0156863, 0.0196078, 0.0313725, 1)
+border_width_bottom = 8
+border_color = Color(0.2, 0.3, 0.4, 0.8)
+shadow_size = 20
+shadow_color = Color(0, 0.1, 0.05, 0.8)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.0, 0.152941, 0.168627, 0.94)
+border_width_top = 2
+border_width_left = 2
+border_width_right = 2
+border_color = Color(0.0, 0.254902, 0.360784, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="3"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.0117647, 0.0784314, 0.101961, 1)
+border_width_top = 2
+border_width_left = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.058235, 0.458824, 0.498039, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+
+[sub_resource type="StyleBoxFlat" id="4"]
+bg_color = Color(0.0196078, 0.0392157, 0.0705882, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+
 [node name="NarrativeTerminalUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
-[node name="OutputLabel" type="RichTextLabel" parent="."]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 20.0
-margin_bottom = 200.0
-anchors_preset = 16
-size = Vector2(760, 380)
-position = Vector2(20, 20)
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.00784314, 0.0156863, 0.0392157, 1)
+
+[node name="Bezel" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 48.0
+offset_right = -64.0
+offset_bottom = -48.0
+theme_override_styles/panel = SubResource("4")
+
+[node name="MainMargin" type="MarginContainer" parent="Bezel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="MainLayout" type="VBoxContainer" parent="Bezel/MainMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="TerminalFrame" type="Panel" parent="Bezel/MainMargin/MainLayout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("1")
+
+[node name="TerminalContent" type="VBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="HBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderGlow" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header"]
+custom_minimum_size = Vector2(6, 24)
+color = Color(0.188235, 0.737255, 0.552941, 0.95)
+
+[node name="Title" type="Label" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header"]
+text = "Ωmega Spiral / Terminal 01"
+theme_override_colors/font_color = Color(0.678431, 0.90582, 0.882353, 1)
+theme_override_font_sizes/font_size = 2
+
+[node name="Indicators" type="HBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="IndicatorGreen" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators"]
+custom_minimum_size = Vector2(12, 12)
+color = Color(0.286275, 0.976471, 0.615686, 0.85)
+theme_override_constants/margins = 0
+theme_override_constants/expand = 0
+
+[node name="IndicatorAmber" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators"]
+custom_minimum_size = Vector2(12, 12)
+color = Color(0.996078, 0.717647, 0.239216, 0.85)
+
+[node name="IndicatorRed" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators"]
+custom_minimum_size = Vector2(12, 12)
+color = Color(0.988235, 0.352941, 0.32549, 0.85)
+
+[node name="TerminalBody" type="Panel" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("2")
+
+[node name="ScreenPadding" type="MarginContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="ScreenLayout" type="VBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OutputLabel" type="RichTextLabel" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
+unique_name_in_owner = true
+size_flags_vertical = 3
 bbcode_enabled = true
+fit_content_height = true
+scroll_active = true
+scroll_following = true
+theme_override_colors/default_color = Color(0.647059, 0.980392, 0.796078, 1)
+theme_override_font_sizes/normal_font_size = 20
+theme_override_constants/line_spacing = 4
+text = ""
 
-[node name="InputField" type="LineEdit" parent="."]
-margin_left = 20.0
-margin_top = 420.0
-margin_right = 220.0
-margin_bottom = 440.0
-anchors_preset = 14
-size = Vector2(540, 40)
-position = Vector2(20, 420)
+[node name="ScanlineOverlay" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
+size_flags_vertical = 1
+custom_minimum_size = Vector2(0, 6)
+color = Color(0.0470588, 0.168627, 0.203922, 0.35)
 
-[node name="SubmitButton" type="Button" parent="."]
-margin_left = 580.0
-margin_top = 420.0
-margin_right = 20.0
-margin_bottom = 440.0
-anchors_preset = 14
-size = Vector2(200, 40)
-position = Vector2(580, 420)
-text = "Submit"
-
-[node name="PromptLabel" type="Label" parent="."]
-margin_left = 20.0
-margin_top = 400.0
-margin_right = 20.0
-margin_bottom = 400.0
-anchors_preset = 16
-size = Vector2(760, 20)
-position = Vector2(20, 400)
+[node name="PromptLabel" type="Label" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent"]
+unique_name_in_owner = true
 text = "Enter your response:"
+theme_override_colors/font_color = Color(0.494118, 0.858824, 0.870588, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="InputRow" type="HBoxContainer" parent="Bezel/MainMargin/MainLayout"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="InputFrame" type="Panel" parent="Bezel/MainMargin/MainLayout/InputRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("3")
+
+[node name="InputField" type="LineEdit" parent="Bezel/MainMargin/MainLayout/InputRow/InputFrame"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Type here…"
+caret_blink = true
+caret_blink_interval = 0.45
+theme_override_colors/font_color = Color(0.717647, 0.968627, 0.858824, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/placeholder_color = Color(0.396078, 0.639216, 0.639216, 0.7)
+
+[node name="SubmitButton" type="Button" parent="Bezel/MainMargin/MainLayout/InputRow"]
+unique_name_in_owner = true
+text = "Transmit"
+size_flags_horizontal = 1
+custom_minimum_size = Vector2(180, 48)
+theme_override_colors/font_color = Color(0.0470588, 0.13333, 0.176471, 1)
+theme_override_colors/font_hover_color = Color(0.0, 0.0, 0.0, 1)
+theme_override_colors/bg_color = Color(0.67451, 0.929412, 0.913725, 1)
+theme_override_colors/bg_hover_color = Color(0.756863, 0.976471, 0.960784, 1)
+theme_override_colors/bg_pressed_color = Color(0.494118, 0.780392, 0.764706, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="BottomGlow" type="ColorRect" parent="Bezel/MainMargin/MainLayout"]
+custom_minimum_size = Vector2(0, 12)
+color = Color(0.14176, 0.545098, 0.662745, 0.4)

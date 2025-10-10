@@ -2,6 +2,10 @@ using Godot;
 using System;
 using OmegaSpiral.Source.Scripts;
 
+/// <summary>
+/// Autoload singleton managing scene transitions and state validation.
+/// FUTURE: Will coordinate with DreamweaverSystem for narrative-driven transitions (see ADR-0003).
+/// </summary>
 public partial class SceneManager : Node
 {
     private GameState _gameState;

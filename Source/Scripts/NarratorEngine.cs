@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 public partial class NarratorEngine : Node
-{
-    private Queue<string> _dialogueQueue;
-    private bool _isProcessing;
-    
-    public override void _Ready()
     {
-        _dialogueQueue = new Queue<string>();
-        _isProcessing = false;
-    }
+        private Queue<string> _dialogueQueue;
+        private bool _isProcessing;
+        
+        public override void _Ready()
+        {
+            _dialogueQueue = new Queue<string>();
+            _isProcessing = false;
+        }
     
     public void AddDialogue(string dialogue)
     {

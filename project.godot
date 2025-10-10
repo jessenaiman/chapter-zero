@@ -24,6 +24,7 @@ boot_splash/show_image=false
 SceneManager="*res://Source/Scripts/SceneManager.cs"
 GameState="*res://Source/Scripts/GameState.cs"
 NarratorEngine="*res://Source/Scripts/NarratorEngine.cs"
+DreamweaverSystem="*res://Source/Scripts/DreamweaverSystem.cs"
 
 [display]
 

@@ -1,394 +1,632 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using FileAccess = Godot.FileAccess;
-using Timer = Godot.Timer;
+using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts;
 
-public partial class NarrativeTerminal : Node2D
+/// <summary>
+/// Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
+/// FUTURE: Will integrate with DreamweaverSystem for LLM-powered dynamic narrative (see ADR-0003).
+/// Integration points marked with // FUTURE: LLM_INTEGRATION comments.
+/// </summary>
+public partial class NarrativeTerminal : Control
 {
-    // UI elements for the terminal
-    private RichTextLabel _outputLabel;
-    private LineEdit _inputField;
-    private Button _submitButton;
-    private Label _promptLabel;
+    private enum PromptKind
+    {
+        None,
+        InitialChoice,
+        StoryChoice,
+        Freeform,
+        PlayerName,
+        Secret
+    }
+
+    private readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip
+    };
+
+    private RichTextLabel _outputLabel = default!;
+    private LineEdit _inputField = default!;
+    private Button _submitButton = default!;
+    private Label _promptLabel = default!;
+
+    private SceneManager _sceneManager = default!;
+    private GameState _gameState = default!;
+    private NarratorEngine? _narratorEngine;
+
+    // FUTURE: LLM_INTEGRATION - DreamweaverSystem connection
+    // Will be set via GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem")
+    // See ADR-0003 for complete integration architecture
+    private DreamweaverSystem? _dreamweaverSystem = null;
     
-    // Game state and scene data
-    private NarrativeSceneData _sceneData;
-    private SceneManager _sceneManager;
-    private NarratorEngine _narratorEngine;
-    private int _currentBlockIndex = 0;
-    private bool _waitingForInput = false;
-    private string _currentPromptType = ""; // "choice", "name", "secret", "question"
+    // FUTURE: LLM_INTEGRATION - Toggle for dynamic vs static narrative
+    // When true and _dreamweaverSystem is available, use LLM responses
+    // When false or _dreamweaverSystem is null, use static JSON (current behavior)
+    [Export] 
+    public bool UseDynamicNarrative { get; set; } = false;
+
+    private NarrativeSceneData _sceneData = new();
+    private PromptKind _currentPrompt = PromptKind.None;
+    private IReadOnlyList<DreamweaverChoice> _threadChoices = Array.Empty<DreamweaverChoice>();
+    private IReadOnlyList<ChoiceOption> _activeChoices = Array.Empty<ChoiceOption>();
+    private bool _awaitingInput;
+    private int _currentBlockIndex;
+
+    // Dynamic narrative state
+    private bool _useDynamicNarrative = false;
+    private string _lastGeneratedNarrative = "";
 
     public override void _Ready()
     {
-        // Initialize UI elements (in a real Godot scene, these would be connected)
-        _outputLabel = GetNode<RichTextLabel>("OutputLabel"); // This would be connected in the actual scene
-        _inputField = GetNode<LineEdit>("InputField");
-        _submitButton = GetNode<Button>("SubmitButton");
-        _promptLabel = GetNode<Label>("PromptLabel");
-        
-        // Connect button press signal
+        _outputLabel = GetNode<RichTextLabel>("%OutputLabel");
+        _inputField = GetNode<LineEdit>("%InputField");
+        _submitButton = GetNode<Button>("%SubmitButton");
+        _promptLabel = GetNode<Label>("%PromptLabel");
+
         _submitButton.Pressed += OnSubmitPressed;
-        _inputField.TextSubmitted += (string text) => OnSubmitPressed();
-        
-        // Get references to singletons
+        _inputField.TextSubmitted += _ => OnSubmitPressed();
+
         _sceneManager = GetNode<SceneManager>("/root/SceneManager");
-        _narratorEngine = GetNode<NarratorEngine>("/root/NarratorEngine");
-        
-        // Load scene data
-        LoadSceneData();
-        
-        // Start the narrative
-        StartNarrative();
-    }
-    
-    private void LoadSceneData()
-    {
-        try
+        _gameState = GetNode<GameState>("/root/GameState");
+        _narratorEngine = GetNodeOrNull<NarratorEngine>("/root/NarratorEngine");
+
+        // FUTURE: LLM_INTEGRATION - Connect to DreamweaverSystem when available
+        _dreamweaverSystem = GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
+        if (_dreamweaverSystem != null)
         {
-            // Determine which data file to load based on the current thread
-            string thread = _sceneManager.GetNode<GameState>("/root/GameState").DreamweaverThread.ToString().ToLower();
-            string dataPath = $"res://Source/Data/scenes/scene1_narrative/{thread}.json";
-            
-            if (!FileAccess.FileExists(dataPath))
+            // Connect to signals for dynamic narrative updates
+            _dreamweaverSystem.Connect("NarrativeGenerated", new Callable(this, nameof(OnNarrativeGenerated)));
+            _dreamweaverSystem.Connect("GenerationError", new Callable(this, nameof(OnGenerationError)));
+            GD.Print("NarrativeTerminal: DreamweaverSystem connected for dynamic narrative");
+        }
+
+        _inputField.GrabFocus();
+        CallDeferred(nameof(InitializeNarrativeAsync));
+    }
+
+    // Signal handlers for DreamweaverSystem
+    private void OnNarrativeGenerated(string personaId, string generatedText)
+    {
+        GD.Print($"Dreamweaver narrative generated for {personaId}: {generatedText}");
+        // Store the generated text for use in narrative display
+        _lastGeneratedNarrative = generatedText;
+    }
+
+    private void OnGenerationError(string personaId, string errorMessage)
+    {
+        GD.PrintErr($"Dreamweaver generation error for {personaId}: {errorMessage}");
+        // Fall back to static narrative when LLM fails
+        _useDynamicNarrative = false;
+    }
+
+    private async void InitializeNarrativeAsync()
+    {
+        if (!TryLoadSceneData())
+        {
+            DisplayImmediate("[color=#ff5959]Unable to load terminal narrative. Please verify content files.[/color]");
+            return;
+        }
+
+        await DisplayOpeningAsync();
+        PresentInitialChoice();
+    }
+
+    private bool TryLoadSceneData()
+    {
+        string basePath = "res://Source/Data/scenes/scene1_narrative";
+        string threadKey = _gameState.DreamweaverThread.ToString().ToLowerInvariant();
+        var candidates = new[] { threadKey, "hero", "shadow", "ambition" };
+
+        foreach (string candidate in candidates)
+        {
+            string path = $"{basePath}/{candidate}.json";
+            if (!Godot.FileAccess.FileExists(path))
             {
-                GD.PrintErr($"Narrative data file does not exist: {dataPath}");
-                // Fallback to hero thread if specific thread doesn't exist
-                dataPath = "res://Source/Data/scenes/scene1_narrative/hero.json";
+                continue;
             }
-            
-            string jsonData = FileAccess.GetFileAsString(dataPath);
-            JsonNode jsonNode = JsonNode.Parse(jsonData);
-            
-            _sceneData = new NarrativeSceneData();
-            _sceneData.Type = jsonNode["type"]?.ToString();
-            
-            // Load opening lines
-            if (jsonNode["openingLines"] != null)
+
+            try
             {
-                foreach (var line in jsonNode["openingLines"].AsArray())
+                string json = Godot.FileAccess.GetFileAsString(path);
+                NarrativeSceneData? data = JsonSerializer.Deserialize<NarrativeSceneData>(json, _jsonOptions);
+                if (data == null)
                 {
-                    _sceneData.OpeningLines.Add(line.ToString());
+                    continue;
                 }
+
+                NormalizeNarrativeData(data);
+                _sceneData = data;
+                return true;
             }
-            
-            // Load initial choice
-            if (jsonNode["initialChoice"] != null)
+            catch (Exception ex)
             {
-                var choiceNode = jsonNode["initialChoice"];
-                _sceneData.InitialChoice = new NarrativeChoice
+                GD.PrintErr($"Failed to parse narrative data at {path}: {ex.Message}");
+            }
+        }
+
+        GD.PrintErr("NarrativeTerminal: no valid data files found. Expected hero/shadow/ambition variants.");
+        return false;
+    }
+
+    private void NormalizeNarrativeData(NarrativeSceneData data)
+    {
+        data.OpeningLines ??= new List<string>();
+        data.StoryBlocks ??= new List<StoryBlock>();
+        data.SecretQuestion ??= new SecretQuestion { Options = new List<string>() };
+
+        if (data.InitialChoice != null)
+        {
+            data.InitialChoice.Options ??= new List<DreamweaverChoice>();
+            foreach (DreamweaverChoice option in data.InitialChoice.Options)
+            {
+                if (!Enum.TryParse(option.Id, true, out DreamweaverThread parsedThread))
                 {
-                    Prompt = choiceNode["prompt"]?.ToString()
-                };
-                
-                if (choiceNode["options"] != null)
-                {
-                    foreach (var option in choiceNode["options"].AsArray())
-                    {
-                        var choice = new DreamweaverChoice
-                        {
-                            Id = option["id"]?.ToString(),
-                            Text = option["label"]?.ToString(),
-                            Description = option["description"]?.ToString()
-                        };
-                        _sceneData.InitialChoice.Options.Add(choice);
-                    }
+                    parsedThread = DreamweaverThread.Hero;
                 }
+
+                option.Thread = parsedThread;
             }
-            
-            // Load story blocks
-            if (jsonNode["storyBlocks"] != null)
-            {
-                foreach (var block in jsonNode["storyBlocks"].AsArray())
-                {
-                    var storyBlock = new StoryBlock();
-                    
-                    if (block["paragraphs"] != null)
-                    {
-                        foreach (var para in block["paragraphs"].AsArray())
-                        {
-                            storyBlock.Paragraphs.Add(para.ToString());
-                        }
-                    }
-                    
-                    storyBlock.Question = block["question"]?.ToString();
-                    
-                    if (block["choices"] != null)
-                    {
-                        foreach (var choice in block["choices"].AsArray())
-                        {
-                            var choiceOption = new ChoiceOption
-                            {
-                                Text = choice["text"]?.ToString(),
-                                NextBlock = int.Parse(choice["nextBlock"]?.ToString() ?? "0")
-                            };
-                            storyBlock.Choices.Add(choiceOption);
-                        }
-                    }
-                    
-                    _sceneData.StoryBlocks.Add(storyBlock);
-                }
-            }
-            
-            _sceneData.NamePrompt = jsonNode["namePrompt"]?.ToString();
-            
-            if (jsonNode["secretQuestion"] != null)
-            {
-                var secretNode = jsonNode["secretQuestion"];
-                _sceneData.SecretQuestion = new SecretQuestion
-                {
-                    Prompt = secretNode["prompt"]?.ToString()
-                };
-                
-                if (secretNode["options"] != null)
-                {
-                    foreach (var opt in secretNode["options"].AsArray())
-                    {
-                        _sceneData.SecretQuestion.Options.Add(opt.ToString());
-                    }
-                }
-            }
-            
-            _sceneData.ExitLine = jsonNode["exitLine"]?.ToString();
+            _threadChoices = data.InitialChoice.Options;
         }
-        catch (Exception ex)
+
+        foreach (StoryBlock block in data.StoryBlocks)
         {
-            GD.PrintErr($"Error loading narrative scene data: {ex.Message}");
+            block.Paragraphs ??= new List<string>();
+            block.Choices ??= new List<ChoiceOption>();
         }
     }
-    
-    private void StartNarrative()
+
+    private async Task DisplayOpeningAsync()
     {
-        // Display opening lines
-        foreach (string line in _sceneData.OpeningLines)
+        if (UseDynamicNarrative && _dreamweaverSystem != null)
         {
-            DisplayText(line);
-        }
-        
-        // Present initial choice
-        if (_sceneData.InitialChoice != null)
-        {
-            DisplayText(_sceneData.InitialChoice.Prompt);
-            _promptLabel.Text = "Choose your story type:";
-            
-            // Display options
-            string optionsText = "";
-            foreach (var option in _sceneData.InitialChoice.Options)
-            {
-                optionsText += $"[{option.Id.ToUpper()}] {option.Text} - {option.Description}\n";
-            }
-            DisplayText(optionsText);
-            
-            _waitingForInput = true;
-            _currentPromptType = "choice";
-            _inputField.PlaceholderText = "Enter your choice (hero/shadow/ambition)";
-        }
-    }
-    
-    private void ContinueNarrative()
-    {
-        if (_currentBlockIndex < _sceneData.StoryBlocks.Count)
-        {
-            var block = _sceneData.StoryBlocks[_currentBlockIndex];
-            
-            // Display paragraphs
-            foreach (string paragraph in block.Paragraphs)
-            {
-                DisplayText(paragraph);
-            }
-            
-            if (!string.IsNullOrEmpty(block.Question))
-            {
-                DisplayText(block.Question);
-                _promptLabel.Text = "Your response:";
-                _waitingForInput = true;
-                _currentPromptType = "question";
-                _inputField.PlaceholderText = "Enter your answer";
-            }
-            else if (_currentBlockIndex == _sceneData.StoryBlocks.Count - 1)
-            {
-                // Last block - prompt for name
-                DisplayText(_sceneData.NamePrompt);
-                _promptLabel.Text = "Enter your name:";
-                _waitingForInput = true;
-                _currentPromptType = "name";
-                _inputField.PlaceholderText = "Your name";
-            }
-        }
-    }
-    
-    private void OnSubmitPressed()
-    {
-        if (!_waitingForInput) return;
-        
-        string input = _inputField.Text.Trim().ToLower();
-        _inputField.Text = "";
-        
-        switch (_currentPromptType)
-        {
-            case "choice":
-                HandleChoiceInput(input);
-                break;
-            case "name":
-                HandleNameInput(input);
-                break;
-            case "secret":
-                HandleSecretInput(input);
-                break;
-            case "question":
-                HandleQuestionInput(input);
-                break;
-        }
-    }
-    
-    private void HandleChoiceInput(string input)
-    {
-        // Find the matching choice
-        DreamweaverChoice selectedChoice = null;
-        foreach (var choice in _sceneData.InitialChoice.Options)
-        {
-            if (choice.Id.ToLower() == input)
-            {
-                selectedChoice = choice;
-                break;
-            }
-        }
-        
-        if (selectedChoice != null)
-        {
-            // Update game state with the chosen thread
-            _sceneManager.SetDreamweaverThread(selectedChoice.Id);
-            
-            // Display confirmation
-            DisplayText($"You have chosen the {selectedChoice.Text} path: {selectedChoice.Description}");
-            
-            // Move to first story block
-            _currentBlockIndex = 0;
-            _waitingForInput = false;
-            _currentPromptType = "";
-            
-            ContinueNarrative();
+            // Use dynamic narrative generation
+            var personaId = _gameState.DreamweaverThread.ToString().ToLowerInvariant();
+            var openingLine = await _dreamweaverSystem.GetOpeningLineAsync(personaId);
+            await DisplayTextWithTypewriterAsync(openingLine);
         }
         else
         {
-            DisplayText("Invalid choice. Please select hero, shadow, or ambition.");
-            _inputField.PlaceholderText = "Enter your choice (hero/shadow/ambition)";
+            // Use static JSON narrative (current behavior)
+            foreach (string line in _sceneData.OpeningLines)
+            {
+                await DisplayTextWithTypewriterAsync(line);
+            }
         }
     }
-    
-    private void HandleNameInput(string input)
+
+    private async void PresentInitialChoice()
     {
-        if (!string.IsNullOrEmpty(input))
+        if (_sceneData.InitialChoice == null || _threadChoices.Count == 0)
         {
-            _sceneManager.SetPlayerName(input);
-            DisplayText($"Welcome, {input}.");
-            
-            // Show secret question
-            if (_sceneData.SecretQuestion != null)
+            _currentBlockIndex = 0;
+            PresentStoryBlock();
+            return;
+        }
+
+        if (UseDynamicNarrative && _dreamweaverSystem != null)
+        {
+            // Use dynamic choice generation
+            var personaId = _gameState.DreamweaverThread.ToString().ToLowerInvariant();
+            var dynamicChoices = await _dreamweaverSystem.GenerateChoicesAsync(personaId, "initial choice");
+
+            DisplayImmediate($"[b]{_sceneData.InitialChoice.Prompt}[/b]");
+
+            for (int i = 0; i < dynamicChoices.Count; i++)
             {
-                DisplayText(_sceneData.SecretQuestion.Prompt);
-                _promptLabel.Text = "Your response:";
-                
-                string optionsText = "";
-                for (int i = 0; i < _sceneData.SecretQuestion.Options.Count; i++)
+                var choice = dynamicChoices[i];
+                DisplayImmediate($"  {i + 1}. {choice.Text} — {choice.Description}");
+            }
+
+            _activeChoices = (IReadOnlyList<ChoiceOption>)dynamicChoices;
+        }
+        else
+        {
+            // Use static JSON choices (current behavior)
+            DisplayImmediate($"[b]{_sceneData.InitialChoice.Prompt}[/b]");
+
+            for (int i = 0; i < _threadChoices.Count; i++)
+            {
+                DreamweaverChoice option = _threadChoices[i];
+                string label = option.Text ?? option.Id;
+                DisplayImmediate($"  {i + 1}. {label} — {option.Description}");
+            }
+
+            _activeChoices = _threadChoices;
+        }
+
+        ConfigurePrompt(PromptKind.InitialChoice, "Choose your story thread (ex: 1 or hero)" );
+    }
+
+    private void PresentStoryBlock()
+    {
+        if (_currentBlockIndex < 0 || _currentBlockIndex >= _sceneData.StoryBlocks.Count)
+        {
+            PromptForName();
+            return;
+        }
+
+        var block = _sceneData.StoryBlocks[_currentBlockIndex];
+
+        _ = DisplayStoryBlockAsync(block);
+    }
+
+    private async Task DisplayStoryBlockAsync(StoryBlock block)
+    {
+        foreach (string paragraph in block.Paragraphs)
+        {
+            await DisplayTextWithTypewriterAsync(paragraph);
+        }
+
+        if (!string.IsNullOrEmpty(block.Question))
+        {
+            DisplayImmediate($"[b]{block.Question}[/b]");
+
+            if (block.Choices.Count > 0)
+            {
+                _activeChoices = block.Choices;
+                for (int i = 0; i < block.Choices.Count; i++)
                 {
-                    optionsText += $"[{i}] {_sceneData.SecretQuestion.Options[i]}\n";
+                    DisplayImmediate($"  {i + 1}. {block.Choices[i].Text}");
                 }
-                DisplayText(optionsText);
-                
-                _waitingForInput = true;
-                _currentPromptType = "secret";
-                _inputField.PlaceholderText = "Enter option number or custom response";
+
+                ConfigurePrompt(PromptKind.StoryChoice, "Select an option (number or text)" );
             }
             else
             {
-                CompleteNarrativeScene();
+                _activeChoices = Array.Empty<ChoiceOption>();
+                ConfigurePrompt(PromptKind.Freeform, "Enter your response" );
             }
         }
         else
         {
-            DisplayText("Please enter a valid name.");
+            _currentBlockIndex++;
+            PresentStoryBlock();
         }
     }
-    
-    private void HandleSecretInput(string input)
+
+    private void PromptForName()
     {
-        DisplayText("Your secret is safe with us.");
-        CompleteNarrativeScene();
+        string prompt = string.IsNullOrWhiteSpace(_sceneData.NamePrompt)
+            ? "What name should the terminal record?"
+            : _sceneData.NamePrompt;
+
+        DisplayImmediate($"[b]{prompt}[/b]");
+        ConfigurePrompt(PromptKind.PlayerName, "Enter your name" );
     }
-    
-    private void HandleQuestionInput(string input)
+
+    private void PromptForSecret()
     {
-        // For now, just proceed to the next block
-        _currentBlockIndex++;
-        _waitingForInput = false;
-        _currentPromptType = "";
-        
-        if (_currentBlockIndex < _sceneData.StoryBlocks.Count)
+        if (_sceneData.SecretQuestion == null)
         {
-            ContinueNarrative();
+            CompleteNarrativeSceneAsync();
+            return;
+        }
+
+        DisplayImmediate($"[b]{_sceneData.SecretQuestion.Prompt}[/b]");
+
+        if (_sceneData.SecretQuestion.Options.Count > 0)
+        {
+            for (int i = 0; i < _sceneData.SecretQuestion.Options.Count; i++)
+            {
+                DisplayImmediate($"  {i + 1}. {_sceneData.SecretQuestion.Options[i]}");
+            }
+        }
+
+        ConfigurePrompt(PromptKind.Secret, "Share your secret (number or text)" );
+    }
+
+    private void ConfigurePrompt(PromptKind kind, string placeholder)
+    {
+        _currentPrompt = kind;
+        _awaitingInput = true;
+        _inputField.PlaceholderText = placeholder;
+        _promptLabel.Text = placeholder;
+        _inputField.Text = string.Empty;
+        _inputField.GrabFocus();
+    }
+
+    private void OnSubmitPressed()
+    {
+        if (!_awaitingInput)
+        {
+            return;
+        }
+
+        string rawInput = _inputField.Text.Trim();
+        _inputField.Text = string.Empty;
+
+        if (string.IsNullOrEmpty(rawInput))
+        {
+            return;
+        }
+
+        switch (_currentPrompt)
+        {
+            case PromptKind.InitialChoice:
+                HandleThreadSelection(rawInput);
+                break;
+            case PromptKind.StoryChoice:
+                HandleStoryChoice(rawInput);
+                break;
+            case PromptKind.Freeform:
+                HandleFreeformResponse(rawInput);
+                break;
+            case PromptKind.PlayerName:
+                HandlePlayerName(rawInput);
+                break;
+            case PromptKind.Secret:
+                HandleSecret(rawInput);
+                break;
+        }
+    }
+
+    private void HandleThreadSelection(string input)
+    {
+        DreamweaverChoice? choice = ResolveThreadChoice(input);
+        if (choice == null)
+        {
+            DisplayImmediate("[color=#ffae42]Please choose a valid thread (number or hero/shadow/ambition).[/color]");
+            return;
+        }
+
+        _sceneManager.SetDreamweaverThread(choice.Id);
+    _narratorEngine?.AddDialogue($"Thread locked: {choice.Text}");
+        DisplayImmediate($"You lean toward the {choice.Text} path: {choice.Description}");
+
+        _gameState.DreamweaverThread = choice.Thread;
+
+        _awaitingInput = false;
+        _currentPrompt = PromptKind.None;
+        _currentBlockIndex = 0;
+
+        PresentStoryBlock();
+    }
+
+    private DreamweaverChoice? ResolveThreadChoice(string input)
+    {
+        if (_threadChoices.Count == 0)
+        {
+            return null;
+        }
+
+        if (int.TryParse(input, NumberStyles.Integer, CultureInfo.InvariantCulture, out int index))
+        {
+            index -= 1;
+            if (index >= 0 && index < _threadChoices.Count)
+            {
+                return _threadChoices[index];
+            }
+        }
+
+        foreach (DreamweaverChoice option in _threadChoices)
+        {
+            if (option.Id.Equals(input, StringComparison.OrdinalIgnoreCase) ||
+                (option.Text != null && option.Text.Equals(input, StringComparison.OrdinalIgnoreCase)))
+            {
+                return option;
+            }
+        }
+
+        return null;
+    }
+
+    private void HandleStoryChoice(string input)
+    {
+        ChoiceOption? selection = ResolveChoiceOption(input);
+        if (selection == null)
+        {
+            DisplayImmediate("[color=#ffae42]That option is unavailable. Try the listed number or text.[/color]");
+            return;
+        }
+
+        _awaitingInput = false;
+        _currentPrompt = PromptKind.None;
+
+        int nextBlock = Mathf.Clamp(selection.NextBlock, 0, _sceneData.StoryBlocks.Count);
+        if (nextBlock == _currentBlockIndex)
+        {
+            _currentBlockIndex++;
         }
         else
         {
-            // Reached the end of story blocks, prompt for name
-            DisplayText(_sceneData.NamePrompt);
-            _promptLabel.Text = "Enter your name:";
-            _waitingForInput = true;
-            _currentPromptType = "name";
-            _inputField.PlaceholderText = "Your name";
+            _currentBlockIndex = nextBlock;
         }
+
+        PresentStoryBlock();
     }
-    
-    private void CompleteNarrativeScene()
+
+    private ChoiceOption? ResolveChoiceOption(string input)
     {
-        if (_sceneData.ExitLine != null)
+        if (_activeChoices.Count == 0)
         {
-            DisplayText(_sceneData.ExitLine);
+            return null;
         }
-        
-        DisplayText("\nMoving to the next part of your journey...");
-        
-        // Update scene manager that we're moving to scene 2
-        _sceneManager.UpdateCurrentScene(2);
-        
-        // Schedule scene transition after a short delay
-        var timer = new Timer();
-        timer.WaitTime = 3.0f;
-        timer.Timeout += () => {
-            _sceneManager.TransitionToScene("Scene2NethackSequence");
-        };
-        AddChild(timer);
-        timer.Start();
+
+        if (int.TryParse(input, NumberStyles.Integer, CultureInfo.InvariantCulture, out int index))
+        {
+            index -= 1;
+            if (index >= 0 && index < _activeChoices.Count)
+            {
+                return _activeChoices[index];
+            }
+        }
+
+        foreach (ChoiceOption option in _activeChoices)
+        {
+            if (option.Text.Equals(input, StringComparison.OrdinalIgnoreCase))
+            {
+                return option;
+            }
+        }
+
+        return null;
     }
-    
-    private void DisplayText(string text)
+
+    private void HandleFreeformResponse(string input)
     {
-        // In a real implementation, this would add text to the output label
-        // with typewriter effect. For now, we'll just add it directly.
+        RecordSceneResponse($"block-{_currentBlockIndex}-response", input);
+        _awaitingInput = false;
+        _currentPrompt = PromptKind.None;
+        _currentBlockIndex++;
+        PresentStoryBlock();
+    }
+
+    private void HandlePlayerName(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            DisplayImmediate("[color=#ff5959]Please provide a name for the archives.[/color]");
+            return;
+        }
+
+        _sceneManager.SetPlayerName(input);
+        DisplayImmediate($"Identity confirmed: [b]{input}[/b].");
+
+        _awaitingInput = false;
+        _currentPrompt = PromptKind.None;
+
+        PromptForSecret();
+    }
+
+    private void HandleSecret(string input)
+    {
+        if (_sceneData.SecretQuestion != null && _sceneData.SecretQuestion.Options.Count > 0)
+        {
+            if (int.TryParse(input, out int index))
+            {
+                index -= 1;
+                if (index >= 0 && index < _sceneData.SecretQuestion.Options.Count)
+                {
+                    input = _sceneData.SecretQuestion.Options[index];
+                }
+            }
+        }
+
+        RecordSceneResponse("secret", input);
+        DisplayImmediate("A fragment has been secured in the archive.");
+
+        _awaitingInput = false;
+        _currentPrompt = PromptKind.None;
+
+        CompleteNarrativeSceneAsync();
+    }
+
+    private void RecordSceneResponse(string key, string value)
+    {
+        string compositeKey = $"scene1_narrative.{key}";
+        if (_gameState.SceneData.ContainsKey(compositeKey))
+        {
+            _gameState.SceneData[compositeKey] = value;
+        }
+        else
+        {
+            _gameState.SceneData.Add(compositeKey, value);
+        }
+    }
+
+    private async void CompleteNarrativeSceneAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(_sceneData.ExitLine))
+        {
+            await DisplayTextWithTypewriterAsync(_sceneData.ExitLine);
+        }
+
+        await DisplayTextWithTypewriterAsync("Moving to the next part of your journey...");
+
+        _sceneManager.UpdateCurrentScene(2);
+    var timer = new Godot.Timer { WaitTime = 2.5f, OneShot = true };
+    timer.Timeout += () => _sceneManager.TransitionToScene("Scene2NethackSequence");
+    AddChild(timer);
+    timer.Start();
+    }
+
+    private void DisplayImmediate(string text)
+    {
         if (_outputLabel != null)
         {
-            _outputLabel.Text += text + "\n";
+            _outputLabel.AppendText(text + "\n");
         }
         else
         {
             GD.Print(text);
         }
     }
-    
-    // Simulate typewriter effect
-    private async void DisplayTextWithTypewriter(string text)
+
+    private async Task DisplayTextWithTypewriterAsync(string text)
     {
-        if (_outputLabel == null) return;
-        
-        _outputLabel.Text += "\n";
-        foreach (char c in text)
+        _outputLabel.AppendText("\n");
+        foreach (char character in text)
         {
-            _outputLabel.Text += c;
-            await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
+            _outputLabel.AppendText(character.ToString());
+            await ToSignal(GetTree().CreateTimer(0.025f), Godot.Timer.SignalName.Timeout);
         }
-        _outputLabel.Text += "\n";
+
+        _outputLabel.AppendText("\n");
     }
+
+    // ============================================================================
+    // FUTURE: LLM_INTEGRATION - Dreamweaver Consultation Methods
+    // ============================================================================
+    // These methods will be implemented when DreamweaverSystem is integrated
+    // See ADR-0003: docs/adr/adr-0003-nobodywho-llm-integration.md
+    // ============================================================================
+
+    /// <summary>
+    /// FUTURE: Consults all three Dreamweavers (Hero, Shadow, Ambition) + Omega narrator
+    /// based on player situation/choice. Will replace or augment static JSON responses.
+    /// </summary>
+    /// <param name="situation">Player's current situation or choice context</param>
+    // private void ConsultDreamweavers(string situation)
+    // {
+    //     if (_dreamweaverSystem != null && UseDynamicNarrative)
+    //     {
+    //         // Use LLM-powered Dreamweavers for dynamic narrative
+    //         _dreamweaverSystem.Call("ConsultAllDreamweavers", situation);
+    //     }
+    //     else
+    //     {
+    //         // Fallback to static JSON narrative (current behavior)
+    //         // Continue with existing story block display logic
+    //     }
+    // }
+
+    /// <summary>
+    /// FUTURE: Handles response from DreamweaverSystem after all personas have responded.
+    /// Receives Hero, Shadow, Ambition, and Omega responses in JSON format.
+    /// </summary>
+    /// <param name="consultations">Dictionary with hero/shadow/ambition/omega JSON responses</param>
+    // private void OnDreamweaversConsultation(Godot.Collections.Dictionary consultations)
+    // {
+    //     // Parse JSON responses from each Dreamweaver
+    //     // string heroJson = consultations["hero"].AsString();
+    //     // string shadowJson = consultations["shadow"].AsString();
+    //     // string ambitionJson = consultations["ambition"].AsString();
+    //     // string omegaJson = consultations["omega"].AsString();
+    //     
+    //     // Display formatted Dreamweaver guidance in terminal
+    //     // DisplayDreamweaverConsultation(heroJson, shadowJson, ambitionJson, omegaJson);
+    //     
+    //     // Update game state based on player's alignment with each Dreamweaver
+    //     // Continue narrative flow
+    // }
+
+    /// <summary>
+    /// FUTURE: Formats and displays LLM-generated Dreamweaver consultations.
+    /// Parses JSON and presents in terminal-style format.
+    /// </summary>
+    // private void DisplayDreamweaverConsultation(string heroJson, string shadowJson, string ambitionJson, string omegaJson)
+    // {
+    //     // Parse each JSON response according to schema defined in ADR-0003:
+    //     // Hero: {advice, challenge, moral}
+    //     // Shadow: {whisper, secret, cost}
+    //     // Ambition: {strategy, goal, reward}
+    //     // Omega: {narration, choice_context, consequence}
+    //     
+    //     // Display formatted output in terminal
+    // }
 }

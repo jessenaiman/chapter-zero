@@ -1,0 +1,44 @@
+type: narrative_terminal
+openingLines:
+  - "Ambition is a river that flows upward."
+  - "It defies the nature of things."
+  - "It carves new paths through the mountains of possibility."
+  - "Some try to dam it, to control its course."
+  - "Others… let it carry them where it will."
+initialChoice:
+  prompt: "What draws you to ambition?"
+  options:
+    - id: hero
+      label: HERO
+      description: "The ambition to save, to heal, to restore"
+    - id: shadow
+      label: SHADOW
+      description: "The ambition born of need, of desperation"
+    - id: ambition
+      label: AMBITION
+      description: "The ambition that exists for its own sake"
+storyBlocks:
+  - paragraphs:
+      - "A mirror appeared in your hands, but it showed not your face."
+      - "Instead, you saw yourself as you could be—"
+      - "Wiser, stronger, more complete."
+      - "But you also saw the price of becoming that person."
+    question: "What price are you willing to pay?"
+    choices:
+      - text: "Any price, if it means achieving my goals."
+        nextBlock: 1
+      - text: "Only the price that doesn't compromise who I am."
+        nextBlock: 1
+  - paragraphs:
+      - "The mirror cracked, but did not break."
+      - "In its fragments, three paths became visible—"
+      - "One that leads toward light, one toward shadow, one toward endless ambition."
+      - "The choice is yours to make."
+namePrompt: "What name represents your ambition?"
+secretQuestion:
+  prompt: "What do you truly desire?"
+  options:
+    - "power"
+    - "love"
+    - "knowledge"
+exitLine: "Ambition is the art of seeing your potential before others see your limits."

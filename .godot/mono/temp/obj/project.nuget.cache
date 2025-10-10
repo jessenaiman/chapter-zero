@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ruQn4Tl0SrE=",
+  "dgSpecHash": "ELAPrNEh3+U=",
   "success": true,
   "projectFilePath": "/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj",
   "expectedPackageFiles": [
+    "/home/adam/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/godot.sourcegenerators/4.5.0/godot.sourcegenerators.4.5.0.nupkg.sha512",
     "/home/adam/.nuget/packages/godotsharp/4.5.0/godotsharp.4.5.0.nupkg.sha512",
     "/home/adam/.nuget/packages/godotsharpeditor/4.5.0/godotsharpeditor.4.5.0.nupkg.sha512",

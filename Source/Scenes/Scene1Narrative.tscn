@@ -1,6 +1,54 @@
-[gd_scene load_steps=2 uid="uid://-hmaxqqwtqiu0"]
+[gd_scene load_steps=5 format=3 uid="uid://duvngshnh7y85"]
 
-[ext_resource type="Script" path="res://Source/Scripts/NarrativeTerminal.cs" id="1"]
+[ext_resource type="Theme" uid="uid://b1q8x8x8x8x8" path="res://theme.tres" id="2_suy8j"]
+[ext_resource type="Script" path="res://Source/Scripts/Scene1Narrative.cs" id="3_scene1"]
+[ext_resource type="Shader" path="res://Source/Shaders/crt_shader.gdshader" id="4_crt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y21uj"]
+shader = ExtResource("4_crt")
+shader_parameter/time = 0.0
 
 [node name="Scene1Narrative" type="Node2D"]
-script = ExtResource("1")
+script = ExtResource("3_scene1")
+
+[node name="OutputLabel" type="RichTextLabel" parent="."]
+material = SubResource("ShaderMaterial_y21uj")
+offset_right = 800.0
+offset_bottom = 400.0
+theme = ExtResource("2_suy8j")
+theme_override_colors/default_color = Color(0.2, 1, 0.2)
+theme_override_colors/font_shadow_color = Color(0, 0, 0)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = ""
+
+[node name="InputField" type="LineEdit" parent="."]
+offset_top = 420.0
+offset_right = 600.0
+offset_bottom = 450.0
+theme_override_colors/font_color = Color(0.2, 1, 0.2)
+theme_override_colors/font_placeholder_color = Color(0.1, 0.5, 0.1)
+theme_override_styles/normal/bg_color = Color(0, 0, 0)
+placeholder_text = "Enter your name..."
+visible = false
+
+[node name="SubmitButton" type="Button" parent="."]
+offset_left = 620.0
+offset_top = 420.0
+offset_right = 720.0
+offset_bottom = 450.0
+theme_override_colors/font_color = Color(0.2, 1, 0.2)
+theme_override_colors/font_hover_color = Color(1, 1, 1)
+theme_override_styles/normal/bg_color = Color(0, 0, 0)
+theme_override_styles/hover/bg_color = Color(0.1, 0.1, 0.1)
+text = "Submit"
+visible = false
+
+[node name="PromptLabel" type="Label" parent="."]
+offset_top = 460.0
+offset_right = 800.0
+offset_bottom = 480.0
+theme_override_colors/font_color = Color(0.2, 1, 0.2)
+text = ""
