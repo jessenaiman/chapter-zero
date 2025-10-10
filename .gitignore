@@ -12,3 +12,6 @@ addons/nobodywho/*.so
 addons/nobodywho/*.dll
 addons/nobodywho/*.dylib
 addons/nobodywho/*.pdb
+
+# Chat exports (may contain sensitive tokens)
+chat-export-*.json
