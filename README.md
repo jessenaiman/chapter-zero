@@ -78,7 +78,21 @@ cd ..
 4. Select `project.godot`
 5. Click "Import & Edit"
 
-### 4. Enable NobodyWho Plugin (First Time Only)
+### 4. Download NobodyWho Plugin Binaries
+
+The NobodyWho plugin requires platform-specific binaries that are too large for git. Download them separately:
+
+1. Visit [NobodyWho Releases](https://github.com/nobodywho-ooo/nobodywho/releases)
+2. Download the latest release for your platform
+3. Extract the binaries to `addons/nobodywho/` directory
+
+**Expected files**:
+
+- Linux: `nobodywho-godot-x86_64-unknown-linux-gnu-release.so`
+- Windows: `nobodywho-godot-x86_64-pc-windows-msvc-release.dll`
+- macOS: `nobodywho-godot-x86_64-apple-darwin-release.dylib` and `nobodywho-godot-aarch64-apple-darwin-release.dylib`
+
+### 5. Enable NobodyWho Plugin (First Time Only)
 
 1. In Godot, go to **Project → Project Settings → Plugins**
 2. Enable the "NobodyWho" plugin

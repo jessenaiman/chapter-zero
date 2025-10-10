@@ -6,3 +6,9 @@
 # LLM Models (large binary files - download separately)
 models/*.gguf
 *.gguf
+
+# NobodyWho plugin binaries (download from releases)
+addons/nobodywho/*.so
+addons/nobodywho/*.dll
+addons/nobodywho/*.dylib
+addons/nobodywho/*.pdb
