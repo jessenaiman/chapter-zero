@@ -171,6 +171,33 @@ The project uses Codacy for automated code analysis. Ensure your changes:
 - Pass all existing tests
 - Maintain or improve code coverage
 
+## Enforced Pre-Commit Workflow
+
+Before every commit, the following checks are automatically run and must pass:
+
+1. **Code Formatting**: `dotnet format --verify-no-changes` ensures all code is properly formatted.
+2. **Static Analysis & Linting**: `dotnet build --warnaserror` enforces all warnings as errors, using Roslyn and StyleCop analyzers.
+3. **Automated Tests**: `dotnet test` runs all unit and integration tests.
+4. **Security Scan (Optional)**: If Trivy is installed, `trivy fs --exit-code 1 --severity HIGH,CRITICAL .` scans for vulnerabilities and secrets.
+
+If any check fails, the commit is blocked until issues are resolved.
+
+### How it Works
+
+- The `.git/hooks/pre-commit` script enforces these checks automatically.
+- All contributors must have these tools installed and configured.
+- No code with errors, warnings, failed tests, or critical vulnerabilities can be committed.
+
+### Setup for Contributors
+
+- Ensure you have the latest .NET SDK and Trivy (optional) installed.
+- The pre-commit hook is located at `.git/hooks/pre-commit` and should be executable.
+- If you clone the repo, verify the hook is present and run `chmod +x .git/hooks/pre-commit` if needed.
+
+This workflow guarantees that only clean, tested, and secure code is committed, preventing error accumulation and improving team velocity.
+
+---
+
 ## Key Scenes
 
 1. **Scene 1: Narrative Terminal** - DOS-style terminal with typewriter effect and CRT shader

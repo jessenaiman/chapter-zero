@@ -1,26 +1,42 @@
-using Godot;
+// <copyright file="AsciiRoomRenderer.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 using OmegaSpiral.Source.Scripts;
 
+/// <summary>
+/// Renders ASCII-based dungeon rooms for the NetHack-style sequence.
+/// Handles player movement, object interactions, and dungeon progression.
+/// Loads dungeon data from JSON and renders it as ASCII art with collision detection.
+/// </summary>
 public partial class AsciiRoomRenderer : Node2D
 {
-    private Label _asciiDisplay;
-    private DungeonSequenceData _dungeonData;
-    private int _currentDungeonIndex = 0;
-    private Vector2I _playerPosition;
-    private SceneManager _sceneManager;
-    private GameState _gameState;
+    private Label? asciiDisplay;
+    private DungeonSequenceData? dungeonData;
+    private int currentDungeonIndex;
+    private Vector2I playerPosition;
+    private SceneManager? sceneManager;
+    private GameState? gameState;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _asciiDisplay = GetNode<Label>("AsciiDisplay");
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
-        _gameState = GetNode<GameState>("/root/GameState");
+        this.asciiDisplay = this.GetNode<Label>("AsciiDisplay");
+        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this.gameState = this.GetNode<GameState>("/root/GameState");
 
-        LoadDungeonData();
-        InitializePlayerPosition();
-        RenderDungeon();
+        if (this.asciiDisplay == null || this.sceneManager == null || this.gameState == null)
+        {
+            GD.PrintErr("Failed to initialize required nodes in AsciiRoomRenderer");
+            return;
+        }
+
+        this.LoadDungeonData();
+        this.InitializePlayerPosition();
+        this.RenderDungeon();
     }
 
     private void LoadDungeonData()
@@ -31,8 +47,8 @@ public partial class AsciiRoomRenderer : Node2D
             var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
-            _dungeonData = new DungeonSequenceData();
-            _dungeonData.Type = jsonNode["type"].ToString();
+            this.dungeonData = new DungeonSequenceData();
+            this.dungeonData.Type = jsonNode["type"].ToString();
 
             if (jsonNode.ContainsKey("dungeons"))
             {
@@ -101,31 +117,37 @@ public partial class AsciiRoomRenderer : Node2D
                         dungeon.PlayerStartPosition = new Vector2I(posArray[0].AsInt32(), posArray[1].AsInt32());
                     }
 
-                    _dungeonData.Dungeons.Add(dungeon);
+                    this.dungeonData.Dungeons.Add(dungeon);
                 }
             }
         }
         catch (Exception e)
         {
             GD.PrintErr($"Failed to load dungeon data: {e.Message}");
+
             // Create fallback data
-            _dungeonData = new DungeonSequenceData();
+            this.dungeonData = new DungeonSequenceData();
         }
     }
 
     private void InitializePlayerPosition()
     {
-        if (_dungeonData.Dungeons.Count > 0)
+        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
         {
-            _playerPosition = _dungeonData.Dungeons[_currentDungeonIndex].PlayerStartPosition;
+            return;
         }
+
+        this.playerPosition = this.dungeonData.Dungeons[this.currentDungeonIndex].PlayerStartPosition;
     }
 
     private void RenderDungeon()
     {
-        if (_dungeonData.Dungeons.Count == 0) return;
+        if (this.dungeonData == null || this.asciiDisplay == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return;
+        }
 
-        var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
+        var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
         var map = new List<string>();
 
         // Copy map
@@ -148,69 +170,101 @@ public partial class AsciiRoomRenderer : Node2D
         }
 
         // Place player (overwrites objects if on same position)
-        if (_playerPosition.Y < map.Count && _playerPosition.X < map[_playerPosition.Y].Length)
+        if (this.playerPosition.Y < map.Count && this.playerPosition.X < map[this.playerPosition.Y].Length)
         {
-            var row = map[_playerPosition.Y].ToCharArray();
-            row[_playerPosition.X] = '@';
-            map[_playerPosition.Y] = new string(row);
+            var row = map[this.playerPosition.Y].ToCharArray();
+            row[this.playerPosition.X] = '@';
+            map[this.playerPosition.Y] = new string(row);
         }
 
-        _asciiDisplay.Text = string.Join("\n", map);
+        this.asciiDisplay.Text = string.Join("\n", map);
     }
 
+    /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
+        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return;
+        }
+
         if (@event is InputEventKey keyEvent && keyEvent.Pressed)
         {
-            Vector2I newPosition = _playerPosition;
+            Vector2I newPosition = this.playerPosition;
 
             if (keyEvent.Keycode == Key.W || keyEvent.Keycode == Key.Up)
-                newPosition.Y--;
-            else if (keyEvent.Keycode == Key.S || keyEvent.Keycode == Key.Down)
-                newPosition.Y++;
-            else if (keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.Left)
-                newPosition.X--;
-            else if (keyEvent.Keycode == Key.D || keyEvent.Keycode == Key.Right)
-                newPosition.X++;
-
-            if (IsValidMove(newPosition))
             {
-                _playerPosition = newPosition;
-                CheckObjectInteraction();
-                RenderDungeon();
+                newPosition.Y--;
+            }
+            else if (keyEvent.Keycode == Key.S || keyEvent.Keycode == Key.Down)
+            {
+                newPosition.Y++;
+            }
+            else if (keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.Left)
+            {
+                newPosition.X--;
+            }
+            else if (keyEvent.Keycode == Key.D || keyEvent.Keycode == Key.Right)
+            {
+                newPosition.X++;
+            }
+
+            if (this.IsValidMove(newPosition))
+            {
+                this.playerPosition = newPosition;
+                this.CheckObjectInteraction();
+                this.RenderDungeon();
             }
         }
     }
 
     private bool IsValidMove(Vector2I position)
     {
-        var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
-        if (position.Y < 0 || position.Y >= dungeon.Map.Count) return false;
-        if (position.X < 0 || position.X >= dungeon.Map[position.Y].Length) return false;
-        
+        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return false;
+        }
+
+        var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
+        if (position.Y < 0 || position.Y >= dungeon.Map.Count)
+        {
+            return false;
+        }
+
+        if (position.X < 0 || position.X >= dungeon.Map[position.Y].Length)
+        {
+            return false;
+        }
+
         char tile = dungeon.Map[position.Y][position.X];
-        
+
         // Check if the tile is in the legend and if it's walkable (not a wall)
         if (dungeon.Legend.ContainsKey(tile))
         {
             string tileDescription = dungeon.Legend[tile];
+
             // If the tile is a wall, it's not valid to move to
             return tileDescription != "wall";
         }
-        
+
         // If the tile is not in the legend, assume it's not walkable
         return false;
     }
 
     private void CheckObjectInteraction()
     {
-        var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
+        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return;
+        }
+
+        var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
 
         foreach (var kvp in dungeon.Objects)
         {
-            if (kvp.Value.Position == _playerPosition)
+            if (kvp.Value.Position == this.playerPosition)
             {
-                InteractWithObject(kvp.Value);
+                this.InteractWithObject(kvp.Value);
                 break;
             }
         }
@@ -218,16 +272,21 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void InteractWithObject(DungeonObject obj)
     {
+        if (this.dungeonData == null || this.gameState == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return;
+        }
+
         // Update Dreamweaver scores
-        int score = obj.AlignedTo == _dungeonData.Dungeons[_currentDungeonIndex].Owner ? 2 : 1;
-        _gameState.DreamweaverScores[obj.AlignedTo] += score;
+        int score = obj.AlignedTo == this.dungeonData.Dungeons[this.currentDungeonIndex].Owner ? 2 : 1;
+        this.gameState.DreamweaverScores[obj.AlignedTo] += score;
 
         // Display interaction text
         GD.Print(obj.Text);
         GD.Print($"Dreamweaver {obj.AlignedTo} score increased by {score} points!");
 
         // Remove object
-        var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
+        var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
         char symbolToRemove = ' ';
         foreach (var kvp in dungeon.Objects)
         {
@@ -237,27 +296,28 @@ public partial class AsciiRoomRenderer : Node2D
                 break;
             }
         }
+
         dungeon.Objects.Remove(symbolToRemove);
 
         // Check if all objects collected
         if (dungeon.Objects.Count == 0)
         {
             // Move to next dungeon or scene
-            _currentDungeonIndex++;
-            if (_currentDungeonIndex >= _dungeonData.Dungeons.Count)
+            this.currentDungeonIndex++;
+            if (this.currentDungeonIndex >= this.dungeonData.Dungeons.Count)
             {
                 // Transition to party creation
-                _sceneManager.TransitionToScene("Scene3WizardryParty");
+                this.sceneManager?.TransitionToScene("Scene3WizardryParty");
             }
             else
             {
-                InitializePlayerPosition();
-                RenderDungeon();
+                this.InitializePlayerPosition();
+                this.RenderDungeon();
             }
         }
         else
         {
-            RenderDungeon();
+            this.RenderDungeon();
         }
     }
 }

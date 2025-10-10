@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SonarQubeAnalysisProperties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1" xsi:schemaLocation="http://www.sonarsource.com/msbuild/integration/2015/1 http://www.sonarsource.com/msbuild/integration/2015/1/sonarQubeAnalysis.xsd">
+  <Property Name="sonar.projectKey">chapter-zero-local</Property>
+  <Property Name="sonar.projectName">Chapter Zero - Omega Spiral</Property>
+  <Property Name="sonar.projectVersion">1.0.0</Property>
+  <Property Name="sonar.host.url">http://localhost:9000</Property>
+  <Property Name="sonar.login">admin</Property>
+  <Property Name="sonar.password">admin</Property>
+  <Property Name="sonar.sourceEncoding">UTF-8</Property>
+  <Property Name="sonar.exclusions">**/bin/**,**/obj/**,**/*.Test.cs,**/Tests/**,**/*.Generated.cs</Property>
+  <Property Name="sonar.test.inclusions">**/*.Test.cs,**/*Tests.cs</Property>
+  <Property Name="sonar.cs.opencover.reportsPaths">coverage.xml</Property>
+  <Property Name="sonar.cs.vstest.reportsPaths">*.trx</Property>
+</SonarQubeAnalysisProperties>

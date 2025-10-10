@@ -1,0 +1,16 @@
+{"dotnetenterprise.s4net.params.sonar_projectname.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_projectversion.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_sourceencoding.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_sourceencoding.value":"UTF-8"}
+{"dotnetenterprise.s4net.params.sonar_exclusions.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_test_inclusions.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_cs_opencover_reportspaths.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_cs_vstest_reportspaths.source":"SONARQUBE_ANALYSIS_XML"}
+{"dotnetenterprise.s4net.params.sonar_cs_vstest_reportspaths.value":"relative"}
+{"dotnetenterprise.s4net.serverInfo.product":"SQ_Server"}
+{"dotnetenterprise.s4net.serverInfo.serverUrl":"localhost"}
+{"dotnetenterprise.s4net.serverInfo.version":"25.10.0.114319"}
+{"dotnetenterprise.s4net.jre.bootstrapping":"Enabled"}
+{"dotnetenterprise.s4net.jre.download":"CacheHit"}
+{"dotnetenterprise.s4net.scannerEngine.bootstrapping":"Enabled"}
+{"dotnetenterprise.s4net.scannerEngine.download":"CacheHit"}

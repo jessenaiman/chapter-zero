@@ -230,7 +230,7 @@ format_technology_stack() {
 
 get_project_structure() {
     local project_type="$1"
-    
+
     if [[ "$project_type" == *"web"* ]]; then
         printf "backend/\ntests/\n"
     else
@@ -297,9 +297,9 @@ create_new_agent_file() {
     
     # Perform substitutions with error checking using safer approach
     # Escape special characters for sed by using a different delimiter or escaping
-    local escaped_lang=$(printf '%s\n' "$NEW_LANG" | sed 's/[\[\.*^$()+{}|]/\\&/g')
-    local escaped_framework=$(printf '%s\n' "$NEW_FRAMEWORK" | sed 's/[\[\.*^$()+{}|]/\\&/g')
-    local escaped_branch=$(printf '%s\n' "$CURRENT_BRANCH" | sed 's/[\[\.*^$()+{}|]/\\&/g')
+    local escaped_lang=$(printf '%s\n' "$NEW_LANG" | sed "s/[\\[\\.*^$()+{}|]/\\\\&/g")
+    local escaped_framework=$(printf '%s\n' "$NEW_FRAMEWORK" | sed "s/[\\[\\.*^$()+{}|]/\\\\&/g")
+    local escaped_branch=$(printf '%s\n' "$CURRENT_BRANCH" | sed "s/[\\[\\.*^$()+{}|]/\\\\&/g")
     
     # Build technology stack and recent change strings conditionally
     local tech_stack
@@ -392,7 +392,6 @@ update_existing_agent_file() {
     # Process file line by line
     local in_tech_section=false
     local in_changes_section=false
-    local tech_entries_added=false
     local existing_changes_count=0
     
     while IFS= read -r line || [[ -n "$line" ]]; do
@@ -444,7 +443,8 @@ update_existing_agent_file() {
         
         # Update timestamp
         if [[ "$line" =~ \*\*Last\ updated\*\*:.*[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] ]]; then
-            printf '%s\n' "$line" | sed "s/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/$current_date/" >> "$temp_file"
+            local new_line="${line/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/$current_date}"
+            echo "$new_line" >> "$temp_file"
         else
             echo "$line" >> "$temp_file"
         fi

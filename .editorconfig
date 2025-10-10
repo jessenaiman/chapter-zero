@@ -1,0 +1,33 @@
+# .editorconfig for strict C# code style
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C# specific rules
+csharp_new_line_before_open_brace = all
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_space_after_cast = true
+csharp_space_around_binary_operators = true
+csharp_style_var_for_built_in_types = false
+csharp_style_var_when_type_is_apparent = false
+csharp_style_var_elsewhere = false
+csharp_style_expression_bodied_methods = false
+csharp_style_expression_bodied_properties = false
+csharp_style_expression_bodied_indexers = false
+csharp_style_expression_bodied_accessors = false
+csharp_style_inlined_variable_declaration = false
+csharp_style_pattern_matching_over_is_with_cast_check = true
+csharp_style_prefer_switch_expression = false
+csharp_style_prefer_tuple_swap = false
+csharp_style_prefer_auto_properties = true
+csharp_style_prefer_simple_using_statement = true
+csharp_style_prefer_local_over_anonymous_function = true
+csharp_style_prefer_conditional_expression_over_assignment = true
+csharp_style_prefer_conditional_expression_over_return = true
