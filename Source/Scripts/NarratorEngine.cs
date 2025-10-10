@@ -105,7 +105,7 @@ public partial class NarratorEngine : Node
     }
     
     // Process narrative blocks and add them to the queue
-    public void ProcessNarrativeBlock(List<string> paragraphs, Action<string> outputAction = null)
+    public void ProcessNarrativeBlock(List<string> paragraphs, Action<string>? outputAction = null)
     {
         foreach (string paragraph in paragraphs)
         {

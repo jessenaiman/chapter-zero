@@ -16,14 +16,14 @@ public class SaveLoadTests
         _testSavePath = "user://test_savegame.json";
 
         // Clean up any existing test save
-        if (FileAccess.FileExists(_testSavePath))
+        if (Godot.FileAccess.FileExists(_testSavePath))
         {
             DirAccess.RemoveAbsolute(ProjectSettings.GlobalizePath(_testSavePath));
         }
 
         // Initialize test data
         _gameState.PlayerName = "TestPlayer";
-        _gameState.DreamweaverThread = DreamweaverThread.Light;
+        _gameState.DreamweaverThread = DreamweaverThread.Hero;
         _gameState.CurrentScene = 2;
         _gameState.Shards.Add("light_shard");
         _gameState.Shards.Add("mischief_shard");
@@ -36,7 +36,7 @@ public class SaveLoadTests
 
         // Create test party
         var partyData = new PartyData();
-        var character = new Character("TestHero", CharacterRace.Human, CharacterClass.Fighter);
+        var character = new Character("TestHero", CharacterClass.Fighter, CharacterRace.Human);
         partyData.Members.Add(character);
         _gameState.PlayerParty = partyData;
     }
@@ -45,7 +45,7 @@ public class SaveLoadTests
     public void TearDown()
     {
         // Clean up test save file
-        if (FileAccess.FileExists(_testSavePath))
+        if (Godot.FileAccess.FileExists(_testSavePath))
         {
             DirAccess.RemoveAbsolute(ProjectSettings.GlobalizePath(_testSavePath));
         }
@@ -58,7 +58,7 @@ public class SaveLoadTests
         _gameState.SaveGame();
 
         // Assert
-        Assert.IsTrue(FileAccess.FileExists("user://savegame.json"), "Save file should be created");
+        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should be created");
     }
 
     [Test]
@@ -68,19 +68,19 @@ public class SaveLoadTests
         _gameState.SaveGame();
 
         // Assert
-        Assert.IsTrue(FileAccess.FileExists("user://savegame.json"), "Save file should exist");
+        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should exist");
 
-        using var file = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.Read);
+        using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Read);
         var jsonString = file.GetAsText();
         var jsonNode = Json.ParseString(jsonString);
 
         Assert.IsNotNull(jsonNode, "JSON should parse successfully");
         Assert.IsInstanceOf<Godot.Collections.Dictionary>(jsonNode, "Root should be a dictionary");
 
-        var saveData = jsonNode as Godot.Collections.Dictionary;
+        var saveData = jsonNode.AsGodotDictionary();
         Assert.IsTrue(saveData.ContainsKey("gameState"), "Save data should contain gameState");
 
-        var gameStateData = saveData["gameState"] as Godot.Collections.Dictionary;
+        var gameStateData = saveData["gameState"].AsGodotDictionary();
         Assert.AreEqual(_gameState.CurrentScene, (int)gameStateData["currentScene"], "Current scene should match");
         Assert.AreEqual(_gameState.PlayerName, (string)gameStateData["playerName"], "Player name should match");
         Assert.AreEqual(_gameState.DreamweaverThread.ToString(), (string)gameStateData["dreamweaverThread"], "Dreamweaver thread should match");
@@ -101,7 +101,7 @@ public class SaveLoadTests
     {
         // Arrange - Save the game
         _gameState.SaveGame();
-        Assert.IsTrue(FileAccess.FileExists("user://savegame.json"), "Save file should exist");
+        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should exist");
 
         // Create a new GameState instance to simulate loading into a fresh state
         var loadedGameState = new GameState();
@@ -122,7 +122,7 @@ public class SaveLoadTests
     public void TestLoadGameHandlesCorruptedData()
     {
         // Arrange - Create a corrupted save file
-        using var file = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.Write);
+        using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Write);
         file.StoreString("invalid json content");
 
         // Act

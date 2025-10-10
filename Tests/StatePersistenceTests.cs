@@ -18,7 +18,7 @@ public class StatePersistenceTests
 
         // Initialize game state
         _gameState.PlayerName = "TestPlayer";
-        _gameState.DreamweaverThread = DreamweaverThread.Light;
+        _gameState.DreamweaverThread = DreamweaverThread.Hero;
         _gameState.CurrentScene = 1;
         _gameState.Shards.Add("test_shard");
         _gameState.SceneData["test_key"] = "test_value";
@@ -35,12 +35,12 @@ public class StatePersistenceTests
         // Act - Simulate scene transition
         _sceneManager.UpdateCurrentScene(2);
         _sceneManager.SetPlayerName("UpdatedPlayer");
-        _sceneManager.SetDreamweaverThread("Mischief");
+        _sceneManager.SetDreamweaverThread("Ambition");
 
         // Assert - State should persist
         Assert.AreEqual(2, _gameState.CurrentScene, "Current scene should be updated");
         Assert.AreEqual("UpdatedPlayer", _gameState.PlayerName, "Player name should be updated");
-        Assert.AreEqual(DreamweaverThread.Mischief, _gameState.DreamweaverThread, "Dreamweaver thread should be updated");
+        Assert.AreEqual(DreamweaverThread.Ambition, _gameState.DreamweaverThread, "Dreamweaver thread should be updated");
     }
 
     [Test]
@@ -94,7 +94,7 @@ public class StatePersistenceTests
     {
         // Arrange
         var partyData = new PartyData();
-        var testCharacter = new Character("TestChar", CharacterRace.Human, CharacterClass.Fighter);
+        var testCharacter = new Character("TestChar", CharacterClass.Fighter, CharacterRace.Human);
         partyData.Members.Add(testCharacter);
 
         // Act

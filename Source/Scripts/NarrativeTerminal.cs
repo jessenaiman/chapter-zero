@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using FileAccess = Godot.FileAccess;
+using Timer = Godot.Timer;
 
 public partial class NarrativeTerminal : Node2D
 {
@@ -31,7 +32,7 @@ public partial class NarrativeTerminal : Node2D
         
         // Connect button press signal
         _submitButton.Pressed += OnSubmitPressed;
-        _inputField.ReturnPressed += OnSubmitPressed;
+        _inputField.TextSubmitted += (string text) => OnSubmitPressed();
         
         // Get references to singletons
         _sceneManager = GetNode<SceneManager>("/root/SceneManager");
@@ -49,7 +50,7 @@ public partial class NarrativeTerminal : Node2D
         try
         {
             // Determine which data file to load based on the current thread
-            string thread = _sceneManager.GetNode<GameState>("/root/GameState").DreamweaverThread;
+            string thread = _sceneManager.GetNode<GameState>("/root/GameState").DreamweaverThread.ToString().ToLower();
             string dataPath = $"res://Source/Data/scenes/scene1_narrative/{thread}.json";
             
             if (!FileAccess.FileExists(dataPath))

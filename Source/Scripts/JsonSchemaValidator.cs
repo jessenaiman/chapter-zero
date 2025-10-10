@@ -16,12 +16,10 @@ public partial class JsonSchemaValidator : Node
             JsonNode schemaNode = JsonNode.Parse(schemaText);
             
             // Perform basic validation - check if required fields exist based on schema
-            if (schemaNode?["type"] != null)
+            if (schemaNode?["type"]?.ToString() is string schemaType)
             {
-                string schemaType = schemaNode["type"].ToString();
-                if (jsonData?["type"] != null)
+                if (jsonData?["type"]?.ToString() is string dataType)
                 {
-                    string dataType = jsonData["type"].ToString();
                     if (schemaType != dataType)
                     {
                         GD.PrintErr($"Schema validation error: Expected type '{schemaType}', got '{dataType}'");

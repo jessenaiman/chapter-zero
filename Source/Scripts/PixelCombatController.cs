@@ -36,7 +36,7 @@ public partial class PixelCombatController : Node2D
         try
         {
             string dataPath = "res://Source/Data/scenes/scene5_ff_combat/combat.json";
-            var jsonText = FileAccess.GetFileAsString(dataPath);
+            var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
             _combatData = new CombatSceneData

@@ -114,8 +114,15 @@ namespace OmegaSpiral.Source.Scripts
             if (dict.ContainsKey("experience"))
                 character.Experience = (int)dict["experience"];
 
-            if (dict.ContainsKey("stats") && dict["stats"].Obj is Godot.Collections.Dictionary statsDict)
-                character.Stats = CharacterStats.FromDictionary(statsDict);
+            if (dict.ContainsKey("stats"))
+            {
+                var statsVar = dict["stats"];
+                if (statsVar.VariantType == Variant.Type.Dictionary)
+                {
+                    var statsDict = statsVar.AsGodotDictionary<string, Variant>();
+                    character.Stats = CharacterStats.FromDictionary(statsDict);
+                }
+            }
 
             return character;
         }

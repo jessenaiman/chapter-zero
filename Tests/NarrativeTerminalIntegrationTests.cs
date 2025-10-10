@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Godot;
 using System.Collections.Generic;
+using OmegaSpiral.Source.Scripts;
 
 namespace OmegaSpiral.Tests
 {

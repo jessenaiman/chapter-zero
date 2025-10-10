@@ -19,7 +19,7 @@ public partial class SceneLoader : Node
         try
         {
             string dataPath = $"res://Source/Data/scenes/{scenePath}/data.json";
-            if (!File.Exists(dataPath))
+            if (!Godot.FileAccess.FileExists(dataPath))
             {
                 GD.PrintErr($"Scene data file does not exist: {dataPath}");
                 return null;
@@ -30,10 +30,15 @@ public partial class SceneLoader : Node
             
             // Validate against schema
             string schemaPath = $"res://Source/Data/scenes/{scenePath}/schema.json";
-            if (!File.Exists(schemaPath))
+            if (!Godot.FileAccess.FileExists(schemaPath))
             {
-                GD.PrintErr($"Schema file does not exist: {schemaPath}");
-                return null;
+                // Try the specs contracts directory as fallback
+                schemaPath = $"res://specs/004-implement-omega-spiral/contracts/{scenePath}_schema.json";
+                if (!Godot.FileAccess.FileExists(schemaPath))
+                {
+                    GD.PrintErr($"Schema file does not exist: {schemaPath}");
+                    return null;
+                }
             }
             
             bool isValid = _schemaValidator.ValidateSchema(sceneData, schemaPath);
@@ -81,10 +86,15 @@ public partial class SceneLoader : Node
         try
         {
             string schemaPath = $"res://Source/Data/scenes/{scenePath}/schema.json";
-            if (!File.Exists(schemaPath))
+            if (!Godot.FileAccess.FileExists(schemaPath))
             {
-                GD.PrintErr($"Schema file does not exist: {schemaPath}");
-                return false;
+                // Try the specs contracts directory as fallback
+                schemaPath = $"res://specs/004-implement-omega-spiral/contracts/{scenePath}_schema.json";
+                if (!Godot.FileAccess.FileExists(schemaPath))
+                {
+                    GD.PrintErr($"Schema file does not exist: {schemaPath}");
+                    return false;
+                }
             }
             
             return _schemaValidator.ValidateSchema(sceneData, schemaPath);

@@ -7,7 +7,7 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public class PartyData
     {
-        public Godot.Collections.Array<Character> Members { get; set; } = new();
+        public List<Character> Members { get; set; } = new();
         public int Gold { get; set; } = 0;
         public Godot.Collections.Dictionary<string, int> Inventory { get; set; } = new();
 
@@ -200,7 +200,7 @@ namespace OmegaSpiral.Source.Scripts
             {
                 ["members"] = membersArray,
                 ["gold"] = Gold,
-                ["inventory"] = new Godot.Collections.Dictionary<string, int>(Inventory)
+                ["inventory"] = Inventory
             };
         }
 
@@ -214,22 +214,33 @@ namespace OmegaSpiral.Source.Scripts
             if (dict.ContainsKey("gold"))
                 party.Gold = (int)dict["gold"];
 
-            if (dict.ContainsKey("inventory") && dict["inventory"].Obj is Godot.Collections.Dictionary inventoryDict)
+            if (dict.ContainsKey("inventory"))
             {
-                foreach (var key in inventoryDict.Keys)
+                var inventoryVar = dict["inventory"];
+                if (inventoryVar.VariantType == Variant.Type.Dictionary)
                 {
-                    party.Inventory[(string)key] = (int)inventoryDict[key];
+                    var inventoryDict = inventoryVar.AsGodotDictionary<string, Variant>();
+                    foreach (var kvp in inventoryDict)
+                    {
+                        party.Inventory[kvp.Key] = kvp.Value.AsInt32();
+                    }
                 }
             }
 
-            if (dict.ContainsKey("members") && dict["members"].Obj is Godot.Collections.Array membersArray)
+            if (dict.ContainsKey("members"))
             {
-                foreach (var memberVariant in membersArray)
+                var membersVar = dict["members"];
+                if (membersVar.VariantType == Variant.Type.Array)
                 {
-                    if (memberVariant.Obj is Godot.Collections.Dictionary memberDict)
+                    var membersArray = membersVar.AsGodotArray();
+                    foreach (var memberVar in membersArray)
                     {
-                        var character = Character.FromDictionary(memberDict);
-                        party.Members.Add(character);
+                        if (memberVar.VariantType == Variant.Type.Dictionary)
+                        {
+                            var memberDict = memberVar.AsGodotDictionary<string, Variant>();
+                            var character = Character.FromDictionary(memberDict);
+                            party.Members.Add(character);
+                        }
                     }
                 }
             }

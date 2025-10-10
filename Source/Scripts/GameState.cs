@@ -20,6 +20,7 @@ public partial class GameState : Node
     public DreamweaverType? SelectedDreamweaver { get; set; } = null;
     public DateTime LastSaveTime { get; set; } = DateTime.Now;
     public string SaveVersion { get; set; } = "1.0.0";
+    public PartyData PlayerParty { get; set; } = new();
 
     // Initialize the GameState
     public override void _Ready()
@@ -56,7 +57,7 @@ public partial class GameState : Node
         PlayerParty = new PartyData();
     }
     
-    public void UpdateDreamweaverScore(string dreamweaverType, int points)
+    public void UpdateDreamweaverScore(DreamweaverType dreamweaverType, int points)
     {
         if (DreamweaverScores.ContainsKey(dreamweaverType))
         {
@@ -64,9 +65,9 @@ public partial class GameState : Node
         }
     }
     
-    public string GetHighestScoringDreamweaver()
+    public DreamweaverType GetHighestScoringDreamweaver()
     {
-        string topDreamweaver = "light";
+        DreamweaverType topDreamweaver = DreamweaverType.Light;
         int topScore = DreamweaverScores[topDreamweaver];
         
         foreach (var kvp in DreamweaverScores)
@@ -101,12 +102,12 @@ public partial class GameState : Node
                 ["selectedDreamweaver"] = SelectedDreamweaver?.ToString() ?? "",
                 ["partyData"] = PlayerParty.ToDictionary(),
                 ["collectedShards"] = new Godot.Collections.Array<string>(Shards),
-                ["sceneProgress"] = new Godot.Collections.Dictionary<string, Variant>(SceneData)
+                ["sceneProgress"] = new Godot.Collections.Dictionary<string, Variant>(SceneData.ToDictionary(kvp => kvp.Key, kvp => Variant.From(kvp.Value)))
             }
         };
 
         var jsonString = Json.Stringify(saveData);
-        using var file = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.Write);
+        using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Write);
         file.StoreString(jsonString);
         LastSaveTime = DateTime.Now;
         GD.Print("Game saved successfully");
@@ -114,7 +115,7 @@ public partial class GameState : Node
 
     public bool LoadGame()
     {
-        if (!FileAccess.FileExists("user://savegame.json"))
+        if (!Godot.FileAccess.FileExists("user://savegame.json"))
         {
             GD.Print("No save file found");
             return false;
@@ -122,68 +123,103 @@ public partial class GameState : Node
 
         try
         {
-            using var file = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.Read);
+            using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Read);
             var jsonString = file.GetAsText();
             var jsonNode = Json.ParseString(jsonString);
 
-            if (jsonNode is not Godot.Collections.Dictionary saveData)
+            if (jsonNode.VariantType != Variant.Type.Dictionary)
             {
                 GD.Print("Invalid save file format");
                 return false;
             }
+            
+            var saveData = jsonNode.AsGodotDictionary<string, Variant>();
 
-            if (!saveData.ContainsKey("gameState") || saveData["gameState"].Obj is not Godot.Collections.Dictionary gameStateData)
+            if (!saveData.ContainsKey("gameState"))
             {
                 GD.Print("Invalid save file structure");
                 return false;
             }
+            
+            var gameStateVar = saveData["gameState"];
+            if (gameStateVar.VariantType != Variant.Type.Dictionary)
+            {
+                GD.Print("Invalid save file structure");
+                return false;
+            }
+            
+            var gameStateData = gameStateVar.AsGodotDictionary<string, Variant>();
 
             // Load game state with validation
-            if (gameStateData.ContainsKey("currentScene") && gameStateData["currentScene"].Obj is int sceneId)
+            if (gameStateData.ContainsKey("currentScene") && gameStateData["currentScene"].VariantType == Variant.Type.Int)
             {
+                int sceneId = gameStateData["currentScene"].AsInt32();
                 CurrentScene = Mathf.Clamp(sceneId, 1, 5); // Valid scene range
             }
 
-            if (gameStateData.ContainsKey("playerName") && gameStateData["playerName"].Obj is string playerName)
+            if (gameStateData.ContainsKey("playerName") && gameStateData["playerName"].VariantType == Variant.Type.String)
             {
+                string playerName = gameStateData["playerName"].AsString();
                 // Sanitize player name - limit length and remove potentially harmful characters
                 PlayerName = SanitizePlayerName(playerName);
             }
 
-            if (gameStateData.ContainsKey("dreamweaverThread") && gameStateData["dreamweaverThread"].Obj is string threadStr)
+            if (gameStateData.ContainsKey("dreamweaverThread") && gameStateData["dreamweaverThread"].VariantType == Variant.Type.String)
             {
+                string threadStr = gameStateData["dreamweaverThread"].AsString();
                 if (Enum.TryParse<DreamweaverThread>(threadStr, out var thread))
                 {
                     DreamweaverThread = thread;
                 }
             }
 
-            if (gameStateData.ContainsKey("dreamweaverScores") && gameStateData["dreamweaverScores"].Obj is Godot.Collections.Dictionary scoresDict)
+            if (gameStateData.ContainsKey("dreamweaverScores"))
             {
-                LoadDreamweaverScores(scoresDict);
+                var scoresVar = gameStateData["dreamweaverScores"];
+                if (scoresVar.VariantType == Variant.Type.Dictionary)
+                {
+                    var scoresDict = scoresVar.AsGodotDictionary<string, Variant>();
+                    LoadDreamweaverScores(scoresDict);
+                }
             }
 
-            if (gameStateData.ContainsKey("selectedDreamweaver") && gameStateData["selectedDreamweaver"].Obj is string selectedStr)
+            if (gameStateData.ContainsKey("selectedDreamweaver") && gameStateData["selectedDreamweaver"].VariantType == Variant.Type.String)
             {
+                string selectedStr = gameStateData["selectedDreamweaver"].AsString();
                 if (!string.IsNullOrEmpty(selectedStr) && Enum.TryParse<DreamweaverType>(selectedStr, out var selected))
                 {
                     SelectedDreamweaver = selected;
                 }
             }
 
-            if (gameStateData.ContainsKey("partyData") && gameStateData["partyData"].Obj is Godot.Collections.Dictionary partyDict)
+            if (gameStateData.ContainsKey("partyData"))
             {
-                PlayerParty = PartyData.FromDictionary(partyDict);
+                var partyVar = gameStateData["partyData"];
+                if (partyVar.VariantType == Variant.Type.Dictionary)
+                {
+                    var partyDict = partyVar.AsGodotDictionary<string, Variant>();
+                    PlayerParty = PartyData.FromDictionary(partyDict);
+                }
             }
 
-            if (gameStateData.ContainsKey("collectedShards") && gameStateData["collectedShards"].Obj is Godot.Collections.Array shardsArray)
+            if (gameStateData.ContainsKey("collectedShards"))
             {
-                LoadShards(shardsArray);
+                var shardsVar = gameStateData["collectedShards"];
+                if (shardsVar.VariantType == Variant.Type.Array)
+                {
+                    var shardsArray = shardsVar.AsGodotArray();
+                    LoadShards(shardsArray);
+                }
             }
 
-            if (gameStateData.ContainsKey("sceneProgress") && gameStateData["sceneProgress"].Obj is Godot.Collections.Dictionary progressDict)
+            if (gameStateData.ContainsKey("sceneProgress"))
             {
-                LoadSceneProgress(progressDict);
+                var progressVar = gameStateData["sceneProgress"];
+                if (progressVar.VariantType == Variant.Type.Dictionary)
+                {
+                    var progressDict = progressVar.AsGodotDictionary<string, Variant>();
+                    LoadSceneProgress(progressDict);
+                }
             }
 
             GD.Print("Game loaded successfully");
@@ -194,5 +230,45 @@ public partial class GameState : Node
             GD.PrintErr($"Error loading game: {ex.Message}");
             return false;
         }
+    }
+
+    private void LoadDreamweaverScores(Godot.Collections.Dictionary<string, Variant> scoresDict)
+    {
+        foreach (var kvp in scoresDict)
+        {
+            if (Enum.TryParse<DreamweaverType>(kvp.Key, out var dreamweaverType))
+            {
+                if (kvp.Value.VariantType == Variant.Type.Int)
+                {
+                    DreamweaverScores[dreamweaverType] = kvp.Value.AsInt32();
+                }
+            }
+        }
+    }
+
+    private void LoadShards(Godot.Collections.Array shardsArray)
+    {
+        Shards.Clear();
+        foreach (var shard in shardsArray)
+        {
+            if (shard.VariantType == Variant.Type.String)
+            {
+                string shardName = shard.AsString();
+                Shards.Add(shardName);
+            }
+        }
+    }
+
+    private void LoadSceneProgress(Godot.Collections.Dictionary<string, Variant> progressDict)
+    {
+        // Scene progress loading logic would go here
+        // For now, just log that it's being loaded
+        GD.Print("Loading scene progress data");
+    }
+
+    private string SanitizePlayerName(string name)
+    {
+        // Basic sanitization - remove potentially harmful characters
+        return name.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
     }
 }

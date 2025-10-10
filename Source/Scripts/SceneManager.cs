@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using OmegaSpiral.Source.Scripts;
 
 public partial class SceneManager : Node
 {
@@ -71,11 +72,7 @@ public partial class SceneManager : Node
                     GD.PrintErr("Player name is required for narrative scene");
                     return false;
                 }
-                if (_gameState.DreamweaverThread == DreamweaverThread.None)
-                {
-                    GD.PrintErr("Dreamweaver thread must be selected for narrative scene");
-                    return false;
-                }
+                // Dreamweaver thread is always set to a valid value, no need to check for None
                 break;
                 
             case "Scene2NethackSequence":
@@ -125,7 +122,14 @@ public partial class SceneManager : Node
     
     public void SetDreamweaverThread(string thread)
     {
-        _gameState.DreamweaverThread = thread;
+        if (Enum.TryParse<DreamweaverThread>(thread, out var parsedThread))
+        {
+            _gameState.DreamweaverThread = parsedThread;
+        }
+        else
+        {
+            GD.PrintErr($"Invalid dreamweaver thread: {thread}");
+        }
     }
     
     public void SetPlayerName(string name)

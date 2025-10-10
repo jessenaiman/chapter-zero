@@ -141,7 +141,7 @@ public partial class PartyCreator : Node2D
         if (_partyData.Members.Count >= 3)
         {
             _gameState.PlayerParty = _partyData;
-            _sceneManager.ChangeScene("res://Source/Scenes/Scene4TileDungeon.tscn");
+            _sceneManager.TransitionToScene("Scene4TileDungeon");
         }
     }
 }

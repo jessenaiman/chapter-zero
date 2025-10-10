@@ -5,7 +5,7 @@ using OmegaSpiral.Source.Scripts;
 
 public partial class TileDungeonController : Node2D
 {
-    private TileMap _tileMap;
+    private TileMapLayer _tileMapLayer;
     private Node2D _player;
     private Label _infoLabel;
     private TileDungeonData _dungeonData;
@@ -16,7 +16,7 @@ public partial class TileDungeonController : Node2D
 
     public override void _Ready()
     {
-        _tileMap = GetNode<TileMap>("TileMap");
+        _tileMapLayer = GetNode<TileMapLayer>("TileMapLayer");
         _player = GetNode<Node2D>("Player");
         _infoLabel = GetNode<Label>("InfoLabel");
         _sceneManager = GetNode<SceneManager>("/root/SceneManager");
@@ -32,7 +32,7 @@ public partial class TileDungeonController : Node2D
         try
         {
             string dataPath = "res://Source/Data/scenes/scene4_tile_dungeon/dungeon.json";
-            var jsonText = FileAccess.GetFileAsString(dataPath);
+            var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
             _dungeonData = new TileDungeonData
@@ -152,7 +152,7 @@ public partial class TileDungeonController : Node2D
 
     private void UpdatePlayerPosition()
     {
-        Vector2 tileSize = _tileMap.TileSet.TileSize;
+        Vector2 tileSize = _tileMapLayer.TileSet.TileSize;
         Vector2 worldPosition = new Vector2(_playerTilePosition.X * tileSize.X, _playerTilePosition.Y * tileSize.Y);
         _player.Position = worldPosition;
     }
@@ -166,7 +166,7 @@ public partial class TileDungeonController : Node2D
 
             if (definition.Type == TileType.Exit)
             {
-                _sceneManager.ChangeScene("res://Source/Scenes/Scene5PixelCombat.tscn");
+                _sceneManager.TransitionToScene("Scene5PixelCombat");
             }
         }
     }

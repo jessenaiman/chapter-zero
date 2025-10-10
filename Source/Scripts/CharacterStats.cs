@@ -149,17 +149,17 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Load stats from Godot dictionary.
         /// </summary>
-        public static CharacterStats FromDictionary(Godot.Collections.Dictionary<string, int> dict)
+        public static CharacterStats FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
             return new CharacterStats
             {
-                Strength = dict.GetValueOrDefault("strength", 10),
-                Intelligence = dict.GetValueOrDefault("intelligence", 10),
-                Wisdom = dict.GetValueOrDefault("wisdom", 10),
-                Dexterity = dict.GetValueOrDefault("dexterity", 10),
-                Constitution = dict.GetValueOrDefault("constitution", 10),
-                Charisma = dict.GetValueOrDefault("charisma", 10),
-                Luck = dict.GetValueOrDefault("luck", 10)
+                Strength = dict.ContainsKey("strength") ? dict["strength"].AsInt32() : 10,
+                Intelligence = dict.ContainsKey("intelligence") ? dict["intelligence"].AsInt32() : 10,
+                Wisdom = dict.ContainsKey("wisdom") ? dict["wisdom"].AsInt32() : 10,
+                Dexterity = dict.ContainsKey("dexterity") ? dict["dexterity"].AsInt32() : 10,
+                Constitution = dict.ContainsKey("constitution") ? dict["constitution"].AsInt32() : 10,
+                Charisma = dict.ContainsKey("charisma") ? dict["charisma"].AsInt32() : 10,
+                Luck = dict.ContainsKey("luck") ? dict["luck"].AsInt32() : 10
             };
         }
     }

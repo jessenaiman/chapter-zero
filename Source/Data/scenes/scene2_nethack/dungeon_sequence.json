@@ -96,7 +96,7 @@
       ],
       "legend": {
         "#": "wall",
-        ".": "wall",
+        ".": "floor",
         "@": "player",
         "D": "door",
         "M": "monster",

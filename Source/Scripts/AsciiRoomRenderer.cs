@@ -28,7 +28,7 @@ public partial class AsciiRoomRenderer : Node2D
         try
         {
             string dataPath = "res://Source/Data/scenes/scene2_nethack/dungeon_sequence.json";
-            var jsonText = FileAccess.GetFileAsString(dataPath);
+            var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
             _dungeonData = new DungeonSequenceData();
@@ -187,9 +187,19 @@ public partial class AsciiRoomRenderer : Node2D
         var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
         if (position.Y < 0 || position.Y >= dungeon.Map.Count) return false;
         if (position.X < 0 || position.X >= dungeon.Map[position.Y].Length) return false;
-
+        
         char tile = dungeon.Map[position.Y][position.X];
-        return tile != '#' && tile != ' '; // Assuming # is wall, space is invalid
+        
+        // Check if the tile is in the legend and if it's walkable (not a wall)
+        if (dungeon.Legend.ContainsKey(tile))
+        {
+            string tileDescription = dungeon.Legend[tile];
+            // If the tile is a wall, it's not valid to move to
+            return tileDescription != "wall";
+        }
+        
+        // If the tile is not in the legend, assume it's not walkable
+        return false;
     }
 
     private void CheckObjectInteraction()
@@ -212,8 +222,9 @@ public partial class AsciiRoomRenderer : Node2D
         int score = obj.AlignedTo == _dungeonData.Dungeons[_currentDungeonIndex].Owner ? 2 : 1;
         _gameState.DreamweaverScores[obj.AlignedTo] += score;
 
-        // TODO: Display interaction text
+        // Display interaction text
         GD.Print(obj.Text);
+        GD.Print($"Dreamweaver {obj.AlignedTo} score increased by {score} points!");
 
         // Remove object
         var dungeon = _dungeonData.Dungeons[_currentDungeonIndex];
@@ -236,7 +247,7 @@ public partial class AsciiRoomRenderer : Node2D
             if (_currentDungeonIndex >= _dungeonData.Dungeons.Count)
             {
                 // Transition to party creation
-                _sceneManager.ChangeScene("res://Source/Scenes/Scene3WizardryParty.tscn");
+                _sceneManager.TransitionToScene("Scene3WizardryParty");
             }
             else
             {
