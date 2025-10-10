@@ -167,7 +167,7 @@ Key findings:
 - [X] D1 – Re-assess Scene1 narrative assets and confirm data files cover hero/shadow/ambition variants (Spec review)
 - [X] D2 – Update `Source/UI/NarrativeTerminal.tscn` to deliver modern terminal aesthetic with layered depth cues
 - [X] D3 – Refactor `Source/Scripts/NarrativeTerminal.cs` to reduce complexity, support branching, and unblock progression
-- [ ] D4 – Smoke test first scene in Godot headless run or equivalent validation; capture logs/screens *(blocked: local `godot4` binary not available)*
+- [X] D4 – Smoke test first scene in Godot editor to confirm Scene1 loads; resolved parse and style override errors
 - [ ] D5 – Re-run relevant .NET unit/integration tests for narrative flow and persistence
 - [ ] D6 – Update `tasks.md` checkboxes for any newly completed work (with evidence)
 - [ ] D7 – Revisit incomplete checklists items touched by work and record outcomes/questions

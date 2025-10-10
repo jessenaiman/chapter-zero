@@ -12,7 +12,7 @@ public partial class Scene1Narrative : Node2D
     private Label _promptLabel;
     private string _fullText = "";
     private int _currentCharIndex = 0;
-    private Timer _typewriterTimer;
+    private Godot.Timer _typewriterTimer;
 
     private ShaderMaterial _crtMaterial;
 
@@ -35,7 +35,7 @@ public partial class Scene1Narrative : Node2D
     {
         if (_crtMaterial != null)
         {
-            _crtMaterial.SetShaderParameter("time", (float)Time.GetTimeSinceStartup());
+            _crtMaterial.SetShaderParameter("time", (float)(Time.GetTicksMsec() / 1000.0));
         }
     }
 
@@ -45,7 +45,7 @@ public partial class Scene1Narrative : Node2D
         _currentCharIndex = 0;
         _outputLabel.Text = "";
 
-        _typewriterTimer = new Timer();
+        _typewriterTimer = new Godot.Timer();
         _typewriterTimer.WaitTime = TypewriterSpeed;
         _typewriterTimer.OneShot = false;
         _typewriterTimer.Timeout += OnTypewriterTimeout;

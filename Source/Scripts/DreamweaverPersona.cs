@@ -24,8 +24,8 @@ public partial class DreamweaverPersona
         private GameState? _gameState = null;
     private Random _random = new();
 
-    // NobodyWho integration (placeholder for actual implementation)
-        // Removed unused _llmModel field
+    // NobodyWho integration
+    private GodotObject? _llmModel;
 
     public DreamweaverPersona(string personaId, JsonElement config, GameState gameState)
     {
@@ -37,7 +37,7 @@ public partial class DreamweaverPersona
         Name = GetConfigString("name", personaId.ToUpper());
         Archetype = GetConfigString("archetype", personaId);
 
-        // Initialize LLM model (placeholder)
+        // Initialize LLM model
         InitializeLlmModel();
     }
 
@@ -45,13 +45,24 @@ public partial class DreamweaverPersona
     {
         try
         {
-            // TODO: Initialize NobodyWho model here
-            // This would load the Qwen3-4B model and set up the chat interface
-            GD.Print($"Initializing LLM model for persona: {PersonaId}");
+            // Initialize NobodyWho model for this persona
+            _llmModel = (GodotObject)ClassDB.Instantiate("NobodyWhoModel");
+
+            // Load the Qwen3-4B model
+            var modelPath = "res://models/qwen3-4b-instruct-2507-q4_k_m.gguf";
+            _llmModel.Call("load_model", modelPath);
+
+            // Configure model parameters for narrative generation
+            _llmModel.Set("temperature", 0.8f);  // Creative but not too random
+            _llmModel.Set("max_tokens", 200);    // Keep responses concise
+            _llmModel.Set("top_p", 0.9f);        // Balanced sampling
+
+            GD.Print($"Initialized NobodyWho LLM model for persona: {PersonaId}");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"Failed to initialize LLM model for {PersonaId}: {ex.Message}");
+            GD.PrintErr($"Failed to initialize NobodyWho LLM model for {PersonaId}: {ex.Message}");
+            _llmModel = null;
         }
     }
 
@@ -201,21 +212,110 @@ public partial class DreamweaverPersona
 
     private async Task<string> GenerateWithLlmAsync(string prompt)
     {
-        // TODO: Implement actual NobodyWho LLM call
-        // This is a placeholder that would:
-        // 1. Call the NobodyWhoModel.GenerateText() method
-        // 2. Use structured output with grammar enforcement
-        // 3. Handle tool calling for game state queries
+        if (_llmModel == null)
+        {
+            GD.PrintErr("LLM model not initialized");
+            return "";
+        }
 
-        await Task.Delay(100); // Simulate async operation
-        return ""; // Return empty to trigger fallback for now
+        try
+        {
+            // Create a chat interface for structured conversation
+            var chat = (GodotObject)ClassDB.Instantiate("NobodyWhoChat");
+            chat.Call("set_model", _llmModel);
+
+            // Add system message to establish persona
+            var systemMessage = $"You are {Name}, the {Archetype.ToUpper()} Dreamweaver. Respond in character.";
+            chat.Call("add_message", "system", systemMessage);
+
+            // Add user prompt
+            chat.Call("add_message", "user", prompt);
+
+            // Generate response (synchronous call for now - Godot GDExtension async is complex)
+            var result = (string)chat.Call("generate");
+
+            // Clean up chat instance
+            chat.Call("queue_free");
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"LLM generation failed: {ex.Message}");
+            return "";
+        }
     }
 
     private async Task<List<ChoiceOption>> GenerateChoicesWithLlmAsync(string prompt)
     {
-        // TODO: Implement structured output parsing for choices
-        await Task.Delay(100);
-        return new List<ChoiceOption>();
+        if (_llmModel == null)
+        {
+            return new List<ChoiceOption>();
+        }
+
+        try
+        {
+            // Create a chat interface for structured conversation
+            var chat = (GodotObject)ClassDB.Instantiate("NobodyWhoChat");
+            chat.Call("set_model", _llmModel);
+
+            // Add system message for structured output
+            var systemMessage = @"You are a narrative choice generator. Always respond with exactly 3 choices in this JSON format:
+[
+  {""id"": ""choice1"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""},
+  {""id"": ""choice2"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""},
+  {""id"": ""choice3"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""}
+]";
+            chat.Call("add_message", "system", systemMessage);
+
+            // Add user prompt
+            chat.Call("add_message", "user", prompt);
+
+            // Generate response (synchronous call for now - Godot GDExtension async is complex)
+            var result = (string)chat.Call("generate");
+
+            // Parse JSON response
+            var choices = ParseChoicesFromJson(result);
+
+            // Clean up chat instance
+            chat.Call("queue_free");
+
+            return choices;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"LLM choice generation failed: {ex.Message}");
+            return new List<ChoiceOption>();
+        }
+    }
+
+    private List<ChoiceOption> ParseChoicesFromJson(string jsonResponse)
+    {
+        var choices = new List<ChoiceOption>();
+
+        try
+        {
+            // Clean up the response to extract JSON
+            var jsonStart = jsonResponse.IndexOf('[');
+            var jsonEnd = jsonResponse.LastIndexOf(']') + 1;
+            if (jsonStart >= 0 && jsonEnd > jsonStart)
+            {
+                var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, options);
+
+                if (parsedChoices != null)
+                {
+                    choices = parsedChoices;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
+        }
+
+        return choices;
     }
 
     private string GenerateFromJsonFallback(string context)
