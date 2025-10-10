@@ -1,103 +1,155 @@
-using Godot;
+// <copyright file="Scene1Narrative.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 public partial class Scene1Narrative : Node2D
 {
-    [Export] public string IntroductionText = "If you could hear only one story... what would it be?";
-    [Export] public float TypewriterSpeed = 0.05f; // seconds per character
+    [Export]
+    public string IntroductionText = "If you could hear only one story... what would it be?";
+    [Export]
+    public float TypewriterSpeed = 0.05f; // seconds per character
 
-    private RichTextLabel _outputLabel;
-    private LineEdit _inputField;
-    private Button _submitButton;
-    private Label _promptLabel;
-    private string _fullText = "";
-    private int _currentCharIndex = 0;
-    private Godot.Timer _typewriterTimer;
+    private RichTextLabel? outputLabel;
+    private LineEdit? inputField;
+    private Button? submitButton;
+    private Label? promptLabel;
+    private string fullText = string.Empty;
+    private int currentCharIndex;
+    private Godot.Timer? typewriterTimer;
 
-    private ShaderMaterial _crtMaterial;
+    private ShaderMaterial? crtMaterial;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _outputLabel = GetNode<RichTextLabel>("OutputLabel");
-        _inputField = GetNode<LineEdit>("InputField");
-        _submitButton = GetNode<Button>("SubmitButton");
-        _promptLabel = GetNode<Label>("PromptLabel");
+        this.outputLabel = this.GetNode<RichTextLabel>("OutputLabel");
+        this.inputField = this.GetNode<LineEdit>("InputField");
+        this.submitButton = this.GetNode<Button>("SubmitButton");
+        this.promptLabel = this.GetNode<Label>("PromptLabel");
 
-        _crtMaterial = (ShaderMaterial)_outputLabel.Material;
+        if (this.outputLabel == null || this.inputField == null || this.submitButton == null || this.promptLabel == null)
+        {
+            GD.PrintErr("Failed to find required UI nodes in Scene1Narrative");
+            return;
+        }
 
-        _submitButton.Pressed += OnSubmitPressed;
+        this.crtMaterial = (ShaderMaterial)this.outputLabel.Material;
+
+        this.submitButton.Pressed += this.OnSubmitPressed;
 
         // Start typewriter effect
-        StartTypewriterEffect();
+        this.StartTypewriterEffect();
     }
 
+    /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        if (_crtMaterial != null)
+        if (this.crtMaterial != null)
         {
-            _crtMaterial.SetShaderParameter("time", (float)(Time.GetTicksMsec() / 1000.0));
+            this.crtMaterial.SetShaderParameter("time", (float)(Time.GetTicksMsec() / 1000.0));
         }
     }
 
     private void StartTypewriterEffect()
     {
-        _fullText = IntroductionText;
-        _currentCharIndex = 0;
-        _outputLabel.Text = "";
+        this.fullText = this.IntroductionText;
+        this.currentCharIndex = 0;
+        if (this.outputLabel != null)
+        {
+            this.outputLabel.Text = string.Empty;
+        }
 
-        _typewriterTimer = new Godot.Timer();
-        _typewriterTimer.WaitTime = TypewriterSpeed;
-        _typewriterTimer.OneShot = false;
-        _typewriterTimer.Timeout += OnTypewriterTimeout;
-        AddChild(_typewriterTimer);
-        _typewriterTimer.Start();
+        this.typewriterTimer = new Godot.Timer();
+        this.typewriterTimer.WaitTime = this.TypewriterSpeed;
+        this.typewriterTimer.OneShot = false;
+        this.typewriterTimer.Timeout += this.OnTypewriterTimeout;
+        this.AddChild(this.typewriterTimer);
+        this.typewriterTimer.Start();
     }
 
     private void OnTypewriterTimeout()
     {
-        if (_currentCharIndex < _fullText.Length)
+        if (this.outputLabel == null || this.typewriterTimer == null)
         {
-            _outputLabel.Text += _fullText[_currentCharIndex];
-            _currentCharIndex++;
+            return;
+        }
+
+        if (this.currentCharIndex < this.fullText.Length)
+        {
+            this.outputLabel.Text += this.fullText[this.currentCharIndex];
+            this.currentCharIndex++;
         }
         else
         {
-            _typewriterTimer.Stop();
-            _typewriterTimer.QueueFree();
+            this.typewriterTimer.Stop();
+            this.typewriterTimer.QueueFree();
+
             // After typewriter, show the prompt
-            ShowNamePrompt();
+            this.ShowNamePrompt();
         }
     }
 
     private void ShowNamePrompt()
     {
-        _promptLabel.Text = "What is your name, traveler?";
-        _inputField.Visible = true;
-        _submitButton.Visible = true;
+        if (this.promptLabel == null || this.inputField == null || this.submitButton == null)
+        {
+            return;
+        }
+
+        this.promptLabel.Text = "What is your name, traveler?";
+        this.inputField.Visible = true;
+        this.submitButton.Visible = true;
     }
 
     private void OnSubmitPressed()
     {
-        string playerName = _inputField.Text.Trim();
+        if (this.inputField == null || this.outputLabel == null || this.promptLabel == null)
+        {
+            return;
+        }
+
+        string playerName = this.inputField.Text.Trim();
         if (!string.IsNullOrEmpty(playerName))
         {
             GD.Print($"Player name: {playerName}");
+
             // TODO: Save to GameState and transition to next scene
             // For now, just print
-            _outputLabel.Text += $"\n\nWelcome, {playerName}!";
-            _inputField.Visible = false;
-            _submitButton.Visible = false;
-            _promptLabel.Text = "Press any key to continue...";
+            if (this.outputLabel != null)
+            {
+                this.outputLabel.Text += $"\n\nWelcome, {playerName}!";
+            }
+
+            if (this.inputField != null)
+            {
+                this.inputField.Visible = false;
+            }
+
+            if (this.submitButton != null)
+            {
+                this.submitButton.Visible = false;
+            }
+
+            if (this.promptLabel != null)
+            {
+                this.promptLabel.Text = "Press any key to continue...";
+            }
+
             // TODO: Wait for input to proceed
         }
     }
 
+    /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey keyEvent && keyEvent.Pressed && _inputField.Visible == false)
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed && this.inputField != null && this.inputField.Visible == false)
         {
             // Proceed to next scene
             GD.Print("Proceeding to next scene...");
+
             // TODO: Load next scene
         }
     }

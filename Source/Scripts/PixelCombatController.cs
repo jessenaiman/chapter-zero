@@ -1,34 +1,39 @@
-using Godot;
+// <copyright file="PixelCombatController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 using OmegaSpiral.Source.Scripts;
 
 public partial class PixelCombatController : Node2D
 {
-    private Sprite2D _playerSprite;
-    private Sprite2D _enemySprite;
-    private Label _combatLog;
-    private VBoxContainer _actionButtons;
-    private CombatSceneData _combatData;
-    private SceneManager _sceneManager;
-    private GameState _gameState;
+    private Sprite2D? playerSprite;
+    private Sprite2D? enemySprite;
+    private Label? combatLog;
+    private VBoxContainer? actionButtons;
+    private CombatSceneData? combatData;
+    private SceneManager? sceneManager;
+    private GameState? gameState;
 
-    private int _playerHP;
-    private int _enemyHP;
-    private bool _playerTurn = true;
+    private int playerHP;
+    private int enemyHP;
+    private bool playerTurn = true;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _playerSprite = GetNode<Sprite2D>("PlayerSprite");
-        _enemySprite = GetNode<Sprite2D>("EnemySprite");
-        _combatLog = GetNode<Label>("CombatLog");
-        _actionButtons = GetNode<VBoxContainer>("ActionButtons");
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
-        _gameState = GetNode<GameState>("/root/GameState");
+        this.playerSprite = this.GetNode<Sprite2D>("PlayerSprite");
+        this.enemySprite = this.GetNode<Sprite2D>("EnemySprite");
+        this.combatLog = this.GetNode<Label>("CombatLog");
+        this.actionButtons = this.GetNode<VBoxContainer>("ActionButtons");
+        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this.gameState = this.GetNode<GameState>("/root/GameState");
 
-        LoadCombatData();
-        InitializeCombat();
-        UpdateUI();
+        this.LoadCombatData();
+        this.InitializeCombat();
+        this.UpdateUI();
     }
 
     private void LoadCombatData()
@@ -39,119 +44,144 @@ public partial class PixelCombatController : Node2D
             var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
-            _combatData = new CombatSceneData
+            this.combatData = new CombatSceneData
             {
                 Type = jsonNode["type"].ToString(),
                 PlayerSprite = jsonNode["playerSprite"].ToString(),
                 VictoryText = jsonNode["victoryText"].ToString(),
-                Music = jsonNode["music"].ToString()
+                Music = jsonNode["music"].ToString(),
             };
 
             // Parse enemy
             var enemyDict = jsonNode["enemy"].AsGodotDictionary();
-            _combatData.Enemy = new CombatEnemy
+            this.combatData.Enemy = new CombatEnemy
             {
                 Name = enemyDict["name"].ToString(),
                 HP = enemyDict["hp"].AsInt32(),
                 MaxHP = enemyDict["maxHp"].AsInt32(),
                 Attack = enemyDict["attack"].AsInt32(),
                 Defense = enemyDict["defense"].AsInt32(),
-                Sprite = enemyDict["sprite"].ToString()
+                Sprite = enemyDict["sprite"].ToString(),
             };
 
             // Parse actions
             foreach (var action in jsonNode["actions"].AsGodotArray())
             {
-                _combatData.Actions.Add(action.ToString());
+                this.combatData.Actions.Add(action.ToString());
             }
         }
         catch (Exception e)
         {
             GD.PrintErr($"Failed to load combat data: {e.Message}");
-            _combatData = new CombatSceneData();
+            this.combatData = new CombatSceneData();
         }
     }
 
     private void InitializeCombat()
     {
-        _playerHP = 100; // TODO: Calculate from party
-        _enemyHP = _combatData.Enemy.HP;
-
-        // Load sprites
-        if (!string.IsNullOrEmpty(_combatData.PlayerSprite))
+        if (this.combatData == null)
         {
-            var playerTexture = GD.Load<Texture2D>(_combatData.PlayerSprite);
-            _playerSprite.Texture = playerTexture;
+            GD.PrintErr("Combat data not loaded");
+            return;
         }
 
-        if (!string.IsNullOrEmpty(_combatData.Enemy.Sprite))
+        this.playerHP = 100; // TODO: Calculate from party
+        this.enemyHP = this.combatData.Enemy?.HP ?? 50;
+
+        // Load sprites
+        if (!string.IsNullOrEmpty(this.combatData.PlayerSprite))
         {
-            var enemyTexture = GD.Load<Texture2D>(_combatData.Enemy.Sprite);
-            _enemySprite.Texture = enemyTexture;
+            var playerTexture = GD.Load<Texture2D>(this.combatData.PlayerSprite);
+            if (this.playerSprite != null)
+            {
+                this.playerSprite.Texture = playerTexture;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(this.combatData.Enemy?.Sprite))
+        {
+            var enemyTexture = GD.Load<Texture2D>(this.combatData.Enemy.Sprite);
+            if (this.enemySprite != null)
+            {
+                this.enemySprite.Texture = enemyTexture;
+            }
         }
 
         // Create action buttons
-        foreach (var action in _combatData.Actions)
+        foreach (var action in this.combatData.Actions)
         {
             var button = new Button();
             button.Text = action;
-            button.Pressed += () => OnActionPressed(action);
-            _actionButtons.AddChild(button);
+            button.Pressed += () => this.OnActionPressed(action);
+            this.actionButtons?.AddChild(button);
         }
     }
 
     private void OnActionPressed(string action)
     {
-        if (!_playerTurn) return;
+        if (!this.playerTurn)
+        {
+            return;
+        }
 
         switch (action)
         {
             case "FIGHT":
-                PerformAttack(true);
+                this.PerformAttack(true);
                 break;
             case "MAGIC":
-                PerformMagic();
+                this.PerformMagic();
                 break;
             case "ITEM":
-                PerformItem();
+                this.PerformItem();
                 break;
             case "RUN":
-                AttemptRun();
+                this.AttemptRun();
                 break;
         }
 
-        _playerTurn = false;
-        UpdateUI();
+        this.playerTurn = false;
+        this.UpdateUI();
 
         // Enemy turn after a delay
-        GetTree().CreateTimer(1.0f).Timeout += EnemyTurn;
+        this.GetTree().CreateTimer(1.0f).Timeout += this.EnemyTurn;
     }
 
     private void PerformAttack(bool isPlayer)
     {
-        int damage = isPlayer ? CalculatePlayerDamage() : _combatData.Enemy.Attack;
+        if (this.combatData?.Enemy == null)
+        {
+            GD.PrintErr("Cannot perform attack: combat data or enemy not available");
+            return;
+        }
+
+        int damage = isPlayer ? CalculatePlayerDamage() : this.combatData.Enemy.Attack;
         string target = isPlayer ? "Enemy" : "Player";
 
         if (isPlayer)
-            _enemyHP -= damage;
+        {
+            this.enemyHP -= damage;
+        }
         else
-            _playerHP -= damage;
+        {
+            this.playerHP -= damage;
+        }
 
-        _combatLog.Text += $"\n{target} takes {damage} damage!";
+        this.combatLog?.Text += $"\n{target} takes {damage} damage!";
     }
 
     private void PerformMagic()
     {
         // Placeholder magic implementation
-        PerformAttack(true);
-        _combatLog.Text += "\nYou cast a spell!";
+        this.PerformAttack(true);
+        this.combatLog?.Text += "\nYou cast a spell!";
     }
 
     private void PerformItem()
     {
         // Placeholder item implementation
-        _playerHP += 20;
-        _combatLog.Text += "\nYou use a healing item!";
+        this.playerHP += 20;
+        this.combatLog?.Text += "\nYou use a healing item!";
     }
 
     private void AttemptRun()
@@ -159,18 +189,19 @@ public partial class PixelCombatController : Node2D
         // 50% chance to run
         if (GD.Randf() > 0.5f)
         {
-            _combatLog.Text += "\nYou successfully ran away!";
+            this.combatLog?.Text += "\nYou successfully ran away!";
+
             // TODO: Return to previous scene
         }
         else
         {
-            _combatLog.Text += "\nYou couldn't escape!";
-            _playerTurn = false;
-            EnemyTurn();
+            this.combatLog?.Text += "\nYou couldn't escape!";
+            this.playerTurn = false;
+            this.EnemyTurn();
         }
     }
 
-    private int CalculatePlayerDamage()
+    private static int CalculatePlayerDamage()
     {
         // TODO: Calculate based on party stats
         return 10 + (int)(GD.Randf() * 10);
@@ -178,47 +209,71 @@ public partial class PixelCombatController : Node2D
 
     private void EnemyTurn()
     {
-        if (_enemyHP <= 0) return;
+        if (this.enemyHP <= 0)
+        {
+            return;
+        }
 
         // Simple AI: always attack
-        PerformAttack(false);
-        _playerTurn = true;
-        UpdateUI();
+        this.PerformAttack(false);
+        this.playerTurn = true;
+        this.UpdateUI();
 
-        CheckCombatEnd();
+        this.CheckCombatEnd();
     }
 
     private void UpdateUI()
     {
-        // Update HP displays, enable/disable buttons, etc.
-        foreach (Button button in _actionButtons.GetChildren())
+        if (this.actionButtons == null)
         {
-            button.Disabled = !_playerTurn;
+            return;
+        }
+
+        // Update HP displays, enable/disable buttons, etc.
+        foreach (Button button in this.actionButtons.GetChildren())
+        {
+            button.Disabled = !this.playerTurn;
         }
     }
 
     private void CheckCombatEnd()
     {
-        if (_playerHP <= 0)
+        if (this.combatLog == null)
         {
-            _combatLog.Text += "\nYou have been defeated!";
+            return;
+        }
+
+        if (this.playerHP <= 0)
+        {
+            this.combatLog.Text += "\nYou have been defeated!";
+
             // TODO: Game over
         }
-        else if (_enemyHP <= 0)
+        else if (this.enemyHP <= 0)
         {
-            _combatLog.Text += $"\n{_combatData.VictoryText}";
-            SelectDreamweaver();
+            if (this.combatData != null)
+            {
+                this.combatLog.Text += $"\n{this.combatData.VictoryText}";
+            }
+
+            this.SelectDreamweaver();
+
             // TODO: Victory sequence
         }
     }
 
     private void SelectDreamweaver()
     {
+        if (this.gameState == null)
+        {
+            return;
+        }
+
         // Find the Dreamweaver with the highest score
         DreamweaverType selected = DreamweaverType.Light;
         int maxScore = 0;
 
-        foreach (var kvp in _gameState.DreamweaverScores)
+        foreach (var kvp in this.gameState.DreamweaverScores)
         {
             if (kvp.Value > maxScore)
             {
@@ -227,10 +282,10 @@ public partial class PixelCombatController : Node2D
             }
         }
 
-        _gameState.SelectedDreamweaver = selected;
+        this.gameState.SelectedDreamweaver = selected;
 
         // Set thread based on selected Dreamweaver
-        _gameState.DreamweaverThread = selected switch
+        this.gameState.DreamweaverThread = selected switch
         {
             DreamweaverType.Light => DreamweaverThread.Hero,
             DreamweaverType.Mischief => DreamweaverThread.Ambition,

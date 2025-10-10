@@ -1,9 +1,13 @@
-using Godot;
+// <copyright file="DreamweaverSystem.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Godot;
 
 namespace OmegaSpiral.Source.Scripts;
 
@@ -23,16 +27,16 @@ public partial class DreamweaverSystem : Node
     [Signal]
     public delegate void GenerationErrorEventHandler(string personaId, string errorMessage);
 
-    private Dictionary<string, DreamweaverPersona> _personas = new();
-    private GameState _gameState;
-    private Random _random = new();
+    private Dictionary<string, DreamweaverPersona> personas = new ();
+    private GameState? gameState;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _gameState = GetNode<GameState>("/root/GameState");
+        this.gameState = this.GetNode<GameState>("/root/GameState");
 
         // Initialize the three Dreamweaver personas
-        InitializePersonas();
+        this.InitializePersonas();
 
         GD.Print("Dreamweaver System initialized with 3 personas");
     }
@@ -44,23 +48,29 @@ public partial class DreamweaverSystem : Node
         var shadowConfig = LoadPersonaConfig("shadow");
         var ambitionConfig = LoadPersonaConfig("ambition");
 
+        if (this.gameState == null)
+        {
+            GD.PrintErr("GameState not found, cannot initialize personas");
+            return;
+        }
+
         if (heroConfig != null)
         {
-            _personas["hero"] = new DreamweaverPersona("hero", heroConfig.Value, _gameState);
+            this.personas["hero"] = new DreamweaverPersona("hero", heroConfig.Value, this.gameState);
         }
 
         if (shadowConfig != null)
         {
-            _personas["shadow"] = new DreamweaverPersona("shadow", shadowConfig.Value, _gameState);
+            this.personas["shadow"] = new DreamweaverPersona("shadow", shadowConfig.Value, this.gameState);
         }
 
         if (ambitionConfig != null)
         {
-            _personas["ambition"] = new DreamweaverPersona("ambition", ambitionConfig.Value, _gameState);
+            this.personas["ambition"] = new DreamweaverPersona("ambition", ambitionConfig.Value, this.gameState);
         }
     }
 
-    private JsonElement? LoadPersonaConfig(string personaId)
+    private static JsonElement? LoadPersonaConfig(string personaId)
     {
         try
         {
@@ -82,7 +92,7 @@ public partial class DreamweaverSystem : Node
             var options = new JsonSerializerOptions
             {
                 AllowTrailingCommas = true,
-                ReadCommentHandling = JsonCommentHandling.Skip
+                ReadCommentHandling = JsonCommentHandling.Skip,
             };
 
             var doc = JsonDocument.Parse(jsonText);
@@ -95,7 +105,7 @@ public partial class DreamweaverSystem : Node
         }
     }
 
-    private string ConvertYamlToJson(string yamlText)
+    private static string ConvertYamlToJson(string yamlText)
     {
         // Minimal YAML parser tailored to persona files. Replace with proper YAML parsing when available.
         var lines = yamlText.Split('\n');
@@ -115,6 +125,7 @@ public partial class DreamweaverSystem : Node
                     jsonBuilder.AppendLine(string.Join(",\n", pendingArrayItems));
                     pendingArrayItems.Clear();
                 }
+
                 jsonBuilder.AppendLine("],");
                 stack.Pop();
                 previousIndent -= 2;
@@ -139,15 +150,16 @@ public partial class DreamweaverSystem : Node
                 {
                     var parts = value.Split(new[] { ": " }, 2, StringSplitOptions.None);
                     var itemBuilder = new System.Text.StringBuilder();
-                    itemBuilder.Append("{");
+                    itemBuilder.Append('{');
                     itemBuilder.Append($"\"{parts[0]}\": \"{parts[1]}\"");
-                    itemBuilder.Append("}");
+                    itemBuilder.Append('}');
                     pendingArrayItems.Add(itemBuilder.ToString());
                 }
                 else
                 {
                     pendingArrayItems.Add($"\"{value}\"");
                 }
+
                 previousIndent = indent;
                 continue;
             }
@@ -173,6 +185,7 @@ public partial class DreamweaverSystem : Node
                 {
                     jsonBuilder.AppendLine($"\"{key}\": {{");
                 }
+
                 previousIndent = indent;
                 continue;
             }
@@ -188,6 +201,7 @@ public partial class DreamweaverSystem : Node
                 {
                     value = value.Trim('\"');
                 }
+
                 jsonBuilder.AppendLine($"\"{key}\": \"{value}\",");
                 previousIndent = indent;
             }
@@ -197,7 +211,7 @@ public partial class DreamweaverSystem : Node
         jsonBuilder.AppendLine("}");
 
         var result = jsonBuilder.ToString();
-    result = System.Text.RegularExpressions.Regex.Replace(result, ",\\n(?=[\\\\}\\]])", "\\n");
+        result = System.Text.RegularExpressions.Regex.Replace(result, ",\\n(?=[\\\\}\\]])", "\\n");
         result = result.Replace("}\n}\n", "}\n}");
 
         return result;
@@ -207,27 +221,28 @@ public partial class DreamweaverSystem : Node
     /// Generates dynamic narrative for a specific persona using LLM.
     /// Uses the JSON text as a foundation for the prompt.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task<string> GenerateNarrativeAsync(string personaId, string context = "")
     {
-        if (!_personas.ContainsKey(personaId))
+        if (!this.personas.ContainsKey(personaId))
         {
             GD.PrintErr($"Unknown persona: {personaId}");
-            EmitSignal(SignalName.GenerationError, personaId, "Unknown persona");
+            this.EmitSignal(SignalName.GenerationError, personaId, "Unknown persona");
             return GetFallbackNarrative(personaId);
         }
 
         try
         {
-            var persona = _personas[personaId];
-            var generatedText = await persona.GenerateNarrativeAsync(context);
+            var persona = this.personas[personaId];
+            var generatedText = await persona.GenerateNarrativeAsync(context).ConfigureAwait(false);
 
-            EmitSignal(SignalName.NarrativeGenerated, personaId, generatedText);
+            this.EmitSignal(SignalName.NarrativeGenerated, personaId, generatedText);
             return generatedText;
         }
         catch (Exception ex)
         {
             GD.PrintErr($"Failed to generate narrative for {personaId}: {ex.Message}");
-            EmitSignal(SignalName.GenerationError, personaId, ex.Message);
+            this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
             return GetFallbackNarrative(personaId);
         }
     }
@@ -235,17 +250,18 @@ public partial class DreamweaverSystem : Node
     /// <summary>
     /// Gets a random opening line for a persona, enhanced by LLM if available.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task<string> GetOpeningLineAsync(string personaId)
     {
-        if (!_personas.ContainsKey(personaId))
+        if (!this.personas.ContainsKey(personaId))
         {
             return GetFallbackOpeningLine(personaId);
         }
 
         try
         {
-            var persona = _personas[personaId];
-            return await persona.GetOpeningLineAsync();
+            var persona = this.personas[personaId];
+            return await persona.GetOpeningLineAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -257,17 +273,18 @@ public partial class DreamweaverSystem : Node
     /// <summary>
     /// Generates dynamic choices for a persona based on current game state.
     /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task<List<ChoiceOption>> GenerateChoicesAsync(string personaId, string context = "")
     {
-        if (!_personas.ContainsKey(personaId))
+        if (!this.personas.ContainsKey(personaId))
         {
             return GetFallbackChoices(personaId);
         }
 
         try
         {
-            var persona = _personas[personaId];
-            return await persona.GenerateChoicesAsync(context);
+            var persona = this.personas[personaId];
+            return await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -281,72 +298,63 @@ public partial class DreamweaverSystem : Node
     /// </summary>
     public void ActivatePersona(string personaId)
     {
-        if (!_personas.ContainsKey(personaId))
+        if (!this.personas.ContainsKey(personaId))
         {
             GD.PrintErr($"Cannot activate unknown persona: {personaId}");
             return;
         }
 
         // Deactivate all other personas
-        foreach (var kvp in _personas)
+        foreach (var kvp in this.personas)
         {
-            kvp.Value.IsActive = (kvp.Key == personaId);
+            kvp.Value.IsActive = kvp.Key == personaId;
         }
 
-        EmitSignal(SignalName.PersonaActivated, personaId);
+        this.EmitSignal(SignalName.PersonaActivated, personaId);
         GD.Print($"Activated Dreamweaver persona: {personaId}");
     }
 
     /// <summary>
     /// Gets the currently active persona.
     /// </summary>
-    public DreamweaverPersona GetActivePersona()
+    /// <returns>The currently active persona, or null if none is active.</returns>
+    public DreamweaverPersona? GetActivePersona()
     {
-        return _personas.Values.FirstOrDefault(p => p.IsActive);
+        return this.personas.Values.FirstOrDefault(p => p.IsActive);
     }
 
     // Fallback methods for when LLM generation fails
-    private string GetFallbackNarrative(string personaId)
+    private static string GetFallbackNarrative(string personaId)
     {
         var fallbacks = new Dictionary<string, string>
         {
             ["hero"] = "The hero's path calls to you, filled with light and shadow.",
             ["shadow"] = "The shadows whisper secrets that only you can hear.",
-            ["ambition"] = "Ambition drives you forward, carving new paths through reality."
+            ["ambition"] = "Ambition drives you forward, carving new paths through reality.",
         };
 
         return fallbacks.GetValueOrDefault(personaId, "The narrative continues...");
     }
 
-    private string GetFallbackOpeningLine(string personaId)
+    private static string GetFallbackOpeningLine(string personaId)
     {
         var fallbacks = new Dictionary<string, string>
         {
             ["hero"] = "A hero emerges from the darkness.",
             ["shadow"] = "The shadows remember what you forget.",
-            ["ambition"] = "Ambition flows upward, defying gravity."
+            ["ambition"] = "Ambition flows upward, defying gravity.",
         };
 
         return fallbacks.GetValueOrDefault(personaId, "Welcome to the spiral.");
     }
 
-    private List<ChoiceOption> GetFallbackChoices(string personaId)
+    private static List<ChoiceOption> GetFallbackChoices(string personaId)
     {
         return new List<ChoiceOption>
         {
             new ChoiceOption { Id = "continue", Text = "CONTINUE", Description = "Continue the journey" },
             new ChoiceOption { Id = "reflect", Text = "REFLECT", Description = "Take a moment to reflect" },
-            new ChoiceOption { Id = "question", Text = "QUESTION", Description = "Ask a question" }
+            new ChoiceOption { Id = "question", Text = "QUESTION", Description = "Ask a question" },
         };
     }
-}
-
-/// <summary>
-/// Represents a choice option in the narrative.
-/// </summary>
-public class ChoiceOption
-{
-    public string Id { get; set; } = "";
-    public string Text { get; set; } = "";
-    public string Description { get; set; } = "";
 }

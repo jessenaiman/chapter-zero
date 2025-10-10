@@ -89,6 +89,7 @@ public partial class GameState : Node
     // }
 
     // Initialize the GameState
+
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -164,12 +165,12 @@ public partial class GameState : Node
                 {
                     ["Light"] = this.DreamweaverScores[DreamweaverType.Light],
                     ["Mischief"] = this.DreamweaverScores[DreamweaverType.Mischief],
-                    ["Wrath"] = this.DreamweaverScores[DreamweaverType.Wrath]
+                    ["Wrath"] = this.DreamweaverScores[DreamweaverType.Wrath],
                 },
                 ["selectedDreamweaver"] = this.SelectedDreamweaver?.ToString() ?? string.Empty,
                 ["partyData"] = this.PlayerParty.ToDictionary(),
                 ["collectedShards"] = new Godot.Collections.Array<string>(this.Shards),
-                ["sceneProgress"] = new Godot.Collections.Dictionary<string, Variant>(this.SceneData.ToDictionary(kvp => kvp.Key, kvp => Variant.From(kvp.Value)))
+                ["sceneProgress"] = new Godot.Collections.Dictionary<string, Variant>(this.SceneData.ToDictionary(kvp => kvp.Key, kvp => Variant.From(kvp.Value))),
             },
         };
 
@@ -216,7 +217,7 @@ public partial class GameState : Node
             var gameStateData = gameStateVar.AsGodotDictionary<string, Variant>();
             this.LoadCoreState(gameStateData);
             this.LoadPartyState(gameStateData);
-            this.LoadProgressState(gameStateData);
+            LoadProgressState(gameStateData);
             GD.Print("Game loaded successfully");
             return true;
         }
@@ -293,7 +294,7 @@ public partial class GameState : Node
         }
     }
 
-    private void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)
+    private static void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)
     {
         if (gameStateData.ContainsKey("sceneProgress"))
         {

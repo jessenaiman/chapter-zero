@@ -1,91 +1,136 @@
-using Godot;
+// <copyright file="NarratorEngine.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 public partial class NarratorEngine : Node
+{
+    private Queue<string> dialogueQueue = new ();
+    private bool isProcessing;
+
+    /// <inheritdoc/>
+    public override void _Ready()
     {
-        private Queue<string> _dialogueQueue;
-        private bool _isProcessing;
-        
-        public override void _Ready()
-        {
-            _dialogueQueue = new Queue<string>();
-            _isProcessing = false;
-        }
-    
+        this.isProcessing = false;
+    }
+
+    /// <summary>
+    /// Adds a single dialogue line to the queue.
+    /// </summary>
+    /// <param name="dialogue">The dialogue text to add.</param>
     public void AddDialogue(string dialogue)
     {
-        _dialogueQueue.Enqueue(dialogue);
+        this.dialogueQueue.Enqueue(dialogue);
     }
-    
+
+    /// <summary>
+    /// Adds multiple dialogue lines to the queue.
+    /// </summary>
+    /// <param name="dialogues">The list of dialogue texts to add.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="dialogues"/> is <see langword="null"/>.</exception>
     public void AddDialogueRange(List<string> dialogues)
     {
+        if (dialogues == null)
+        {
+            throw new ArgumentNullException(nameof(dialogues));
+        }
+
         foreach (string dialogue in dialogues)
         {
-            _dialogueQueue.Enqueue(dialogue);
+            this.dialogueQueue.Enqueue(dialogue);
         }
     }
-    
-    public string GetNextDialogue()
+
+    /// <summary>
+    /// Gets the next dialogue from the queue, or <see langword="null"/> if empty.
+    /// </summary>
+    /// <returns>The next dialogue string, or <see langword="null"/> if queue is empty.</returns>
+    public string? GetNextDialogue()
     {
-        if (_dialogueQueue.Count > 0)
+        if (this.dialogueQueue.Count > 0)
         {
-            return _dialogueQueue.Dequeue();
+            return this.dialogueQueue.Dequeue();
         }
+
         return null;
     }
-    
+
+    /// <summary>
+    /// Clears all dialogue from the queue.
+    /// </summary>
     public void ClearDialogueQueue()
     {
-        _dialogueQueue.Clear();
+        this.dialogueQueue.Clear();
     }
-    
+
+    /// <summary>
+    /// Checks if there is any dialogue in the queue.
+    /// </summary>
+    /// <returns><see langword="true"/> if dialogue is available, <see langword="false"/> otherwise.</returns>
     public bool HasDialogue()
     {
-        return _dialogueQueue.Count > 0;
+        return this.dialogueQueue.Count > 0;
     }
-    
+
+    /// <summary>
+    /// Processes the next dialogue in the queue using the provided output action.
+    /// </summary>
+    /// <param name="outputAction">The action to perform with the dialogue text.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="outputAction"/> is <see langword="null"/>.</exception>
     public void ProcessDialogueQueue(Action<string> outputAction)
     {
-        if (_isProcessing || !HasDialogue())
+        if (outputAction == null)
+        {
+            throw new ArgumentNullException(nameof(outputAction));
+        }
+
+        if (this.isProcessing || !this.HasDialogue())
         {
             return;
         }
-        
-        _isProcessing = true;
-        
-        string dialogue = GetNextDialogue();
-        if (dialogue != null && outputAction != null)
+
+        this.isProcessing = true;
+
+        string? dialogue = this.GetNextDialogue();
+        if (dialogue != null)
         {
             outputAction(dialogue);
         }
-        
-        _isProcessing = false;
+
+        this.isProcessing = false;
     }
-    
-    // Simulate the typewriter effect by breaking text into smaller chunks
-    public List<string> BreakTextIntoChunks(string text, int chunkSize = 10)
+
+    /// <summary>
+    /// Simulates the typewriter effect by breaking text into smaller chunks.
+    /// </summary>
+    /// <param name="text">The text to break into chunks.</param>
+    /// <param name="chunkSize">The maximum size of each chunk (default 10).</param>
+    /// <returns>A list of text chunks.</returns>
+    public static List<string> BreakTextIntoChunks(string text, int chunkSize = 10)
     {
         var chunks = new List<string>();
         if (string.IsNullOrEmpty(text))
         {
             return chunks;
         }
-        
+
         string[] words = text.Split(' ');
-        string currentChunk = "";
-        
+        string currentChunk = string.Empty;
+
         foreach (string word in words)
         {
-            if ((currentChunk + " " + word).Length > chunkSize && currentChunk != "")
+            if ((currentChunk + " " + word).Length > chunkSize && !string.IsNullOrEmpty(currentChunk))
             {
                 chunks.Add(currentChunk);
                 currentChunk = word;
             }
             else
             {
-                if (currentChunk == "")
+                if (string.IsNullOrEmpty(currentChunk))
                 {
                     currentChunk = word;
                 }
@@ -95,27 +140,37 @@ public partial class NarratorEngine : Node
                 }
             }
         }
-        
-        if (currentChunk != "")
+
+        if (!string.IsNullOrEmpty(currentChunk))
         {
             chunks.Add(currentChunk);
         }
-        
+
         return chunks;
     }
-    
-    // Process narrative blocks and add them to the queue
+
+    /// <summary>
+    /// Processes narrative blocks and adds them to the dialogue queue.
+    /// </summary>
+    /// <param name="paragraphs">The list of paragraphs to process.</param>
+    /// <param name="outputAction">Optional action to output each chunk immediately.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="paragraphs"/> is <see langword="null"/>.</exception>
     public void ProcessNarrativeBlock(List<string> paragraphs, Action<string>? outputAction = null)
     {
+        if (paragraphs == null)
+        {
+            throw new ArgumentNullException(nameof(paragraphs));
+        }
+
         foreach (string paragraph in paragraphs)
         {
             var chunks = BreakTextIntoChunks(paragraph, 20);
             foreach (string chunk in chunks)
             {
-                AddDialogue(chunk);
+                this.AddDialogue(chunk);
                 if (outputAction != null)
                 {
-                    ProcessDialogueQueue(outputAction);
+                    this.ProcessDialogueQueue(outputAction);
                 }
             }
         }

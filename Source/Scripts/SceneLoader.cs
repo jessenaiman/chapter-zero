@@ -1,20 +1,25 @@
-using Godot;
+// <copyright file="SceneLoader.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Godot;
 
 public partial class SceneLoader : Node
 {
-    private JsonSchemaValidator _schemaValidator;
-    
+    private JsonSchemaValidator? schemaValidator;
+
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _schemaValidator = new JsonSchemaValidator();
+        this.schemaValidator = new JsonSchemaValidator();
     }
-    
-    public JsonNode LoadSceneData(string scenePath)
+
+    public static JsonNode? LoadSceneData(string scenePath)
     {
         try
         {
@@ -24,10 +29,15 @@ public partial class SceneLoader : Node
                 GD.PrintErr($"Scene data file does not exist: {dataPath}");
                 return null;
             }
-            
+
             string jsonText = File.ReadAllText(dataPath);
-            JsonNode sceneData = JsonNode.Parse(jsonText);
-            
+            JsonNode? sceneData = JsonNode.Parse(jsonText);
+            if (sceneData == null)
+            {
+                GD.PrintErr($"Failed to parse JSON data from: {dataPath}");
+                return null;
+            }
+
             // Validate against schema
             string schemaPath = $"res://Source/Data/scenes/{scenePath}/schema.json";
             if (!Godot.FileAccess.FileExists(schemaPath))
@@ -40,14 +50,14 @@ public partial class SceneLoader : Node
                     return null;
                 }
             }
-            
-            bool isValid = _schemaValidator.ValidateSchema(sceneData, schemaPath);
+
+            bool isValid = JsonSchemaValidator.ValidateSchema(sceneData, schemaPath);
             if (!isValid)
             {
                 GD.PrintErr($"Scene data validation failed for: {dataPath}");
                 return null;
             }
-            
+
             return sceneData;
         }
         catch (Exception ex)
@@ -56,14 +66,14 @@ public partial class SceneLoader : Node
             return null;
         }
     }
-    
-    public PackedScene LoadScene(string scenePath)
+
+    public static PackedScene? LoadScene(string scenePath)
     {
         try
         {
             string resourcePath = $"res://Source/Scenes/{scenePath}.tscn";
             Resource sceneResource = ResourceLoader.Load(resourcePath);
-            
+
             if (sceneResource is PackedScene packedScene)
             {
                 return packedScene;
@@ -80,8 +90,8 @@ public partial class SceneLoader : Node
             return null;
         }
     }
-    
-    public bool ValidateSceneData(JsonNode sceneData, string scenePath)
+
+    public static bool ValidateSceneData(JsonNode sceneData, string scenePath)
     {
         try
         {
@@ -96,8 +106,8 @@ public partial class SceneLoader : Node
                     return false;
                 }
             }
-            
-            return _schemaValidator.ValidateSchema(sceneData, schemaPath);
+
+            return JsonSchemaValidator.ValidateSchema(sceneData, schemaPath);
         }
         catch (Exception ex)
         {

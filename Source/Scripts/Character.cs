@@ -1,20 +1,48 @@
-using Godot;
+// <copyright file="Character.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Source.Scripts
 {
+    using Godot;
+
     /// <summary>
     /// Represents a single character in the player's party with class, race, and stats.
     /// </summary>
     public class Character
     {
-        public string Name { get; set; } = "";
-        public CharacterClass Class { get; set; } = CharacterClass.Fighter;
-        public CharacterRace Race { get; set; } = CharacterRace.Human;
-        public CharacterStats Stats { get; set; } = new CharacterStats();
-        public int Level { get; set; } = 1;
-        public int Experience { get; set; } = 0;
+        /// <summary>
+        /// Gets or sets the character's name.
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
+        /// Gets or sets the character's class.
+        /// </summary>
+        public CharacterClass Class { get; set; } = CharacterClass.Fighter;
+
+        /// <summary>
+        /// Gets or sets the character's race.
+        /// </summary>
+        public CharacterRace Race { get; set; } = CharacterRace.Human;
+
+        /// <summary>
+        /// Gets or sets the character's stats.
+        /// </summary>
+        public CharacterStats Stats { get; set; } = new CharacterStats();
+
+        /// <summary>
+        /// Gets or sets the character's level.
+        /// </summary>
+        public int Level { get; set; } = 1;
+
+        /// <summary>
+        /// Gets or sets the character's experience points.
+        /// </summary>
+        public int Experience { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Character"/> class.
         /// Default constructor.
         /// </summary>
         public Character()
@@ -22,23 +50,25 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Character"/> class.
         /// Constructor with basic character information.
         /// </summary>
         public Character(string name, CharacterClass characterClass, CharacterRace race)
         {
-            Name = name;
-            Class = characterClass;
-            Race = race;
-            Stats = CharacterStats.GenerateRandomStats();
-            Stats.ApplyRacialModifiers(race);
+            this.Name = name;
+            this.Class = characterClass;
+            this.Race = race;
+            this.Stats = CharacterStats.GenerateRandomStats();
+            this.Stats.ApplyRacialModifiers(race);
         }
 
         /// <summary>
         /// Get the character's hit points based on class and constitution.
         /// </summary>
+        /// <returns>The character's total hit points.</returns>
         public int GetHitPoints()
         {
-            int baseHp = Class switch
+            int baseHp = this.Class switch
             {
                 CharacterClass.Fighter => 10,
                 CharacterClass.Paladin => 9,
@@ -50,19 +80,22 @@ namespace OmegaSpiral.Source.Scripts
                 _ => 8
             };
 
-            int conModifier = Stats.GetModifier(Stats.Constitution);
-            return (baseHp + conModifier) * Level;
+            int conModifier = CharacterStats.GetModifier(this.Stats.Constitution);
+            return (baseHp + conModifier) * this.Level;
         }
 
         /// <summary>
         /// Get the character's magic points based on class and intelligence/wisdom.
         /// </summary>
+        /// <returns>The character's total magic points.</returns>
         public int GetMagicPoints()
         {
-            if (Class == CharacterClass.Fighter || Class == CharacterClass.Thief || Class == CharacterClass.Ranger)
+            if (this.Class == CharacterClass.Fighter || this.Class == CharacterClass.Thief || this.Class == CharacterClass.Ranger)
+            {
                 return 0; // Non-spellcasters have no MP
+            }
 
-            int baseMp = Class switch
+            int baseMp = this.Class switch
             {
                 CharacterClass.Mage => 4,
                 CharacterClass.Priest => 3,
@@ -71,48 +104,61 @@ namespace OmegaSpiral.Source.Scripts
                 _ => 2
             };
 
-            int spellStat = Class == CharacterClass.Priest ? Stats.Wisdom : Stats.Intelligence;
-            int spellModifier = Stats.GetModifier(spellStat);
-            return (baseMp + spellModifier) * Level;
+            int spellStat = this.Class == CharacterClass.Priest ? this.Stats.Wisdom : this.Stats.Intelligence;
+            int spellModifier = CharacterStats.GetModifier(spellStat);
+            return (baseMp + spellModifier) * this.Level;
         }
 
         /// <summary>
         /// Convert character to Godot dictionary for serialization.
         /// </summary>
+        /// <returns>A dictionary containing the character's data.</returns>
         public Godot.Collections.Dictionary<string, Variant> ToDictionary()
         {
             return new Godot.Collections.Dictionary<string, Variant>
             {
-                ["name"] = Name,
-                ["class"] = Class.ToString(),
-                ["race"] = Race.ToString(),
-                ["level"] = Level,
-                ["experience"] = Experience,
-                ["stats"] = Stats.ToDictionary()
+                ["name"] = this.Name,
+                ["class"] = this.Class.ToString(),
+                ["race"] = this.Race.ToString(),
+                ["level"] = this.Level,
+                ["experience"] = this.Experience,
+                ["stats"] = this.Stats.ToDictionary(),
             };
         }
 
         /// <summary>
         /// Create character from Godot dictionary.
         /// </summary>
+        /// <param name="dict">The dictionary containing character data.</param>
+        /// <returns>A new character instance created from the dictionary data.</returns>
         public static Character FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
             var character = new Character();
 
             if (dict.ContainsKey("name"))
+            {
                 character.Name = (string)dict["name"];
+            }
 
             if (dict.ContainsKey("class"))
+            {
                 character.Class = (CharacterClass)System.Enum.Parse(typeof(CharacterClass), (string)dict["class"]);
+            }
 
             if (dict.ContainsKey("race"))
+            {
                 character.Race = (CharacterRace)System.Enum.Parse(typeof(CharacterRace), (string)dict["race"]);
+            }
 
             if (dict.ContainsKey("level"))
+            {
                 character.Level = (int)dict["level"];
+            }
 
             if (dict.ContainsKey("experience"))
+            {
                 character.Experience = (int)dict["experience"];
+            }
 
             if (dict.ContainsKey("stats"))
             {

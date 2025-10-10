@@ -1,87 +1,132 @@
-using Godot;
+// <copyright file="PartyCreator.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System.Collections.Generic;
+using Godot;
 using OmegaSpiral.Source.Scripts;
 
+/// <summary>
+/// Handles party creation for the Wizardry-style character creation scene.
+/// Provides UI for selecting character classes, races, and managing party composition.
+/// Integrates with GameState to persist the created party for subsequent scenes.
+/// </summary>
 public partial class PartyCreator : Node2D
 {
-    private PartyData _partyData;
-    private GameState _gameState;
-    private SceneManager _sceneManager;
+    private PartyData? partyData;
+    private GameState? gameState;
+    private SceneManager? sceneManager;
 
     // UI Elements
-    private LineEdit _characterNameInput;
-    private OptionButton _classSelector;
-    private OptionButton _raceSelector;
-    private Label _statsDisplay;
-    private Button _addCharacterButton;
-    private Button _finishPartyButton;
-    private VBoxContainer _partyList;
+    private LineEdit? characterNameInput;
+    private OptionButton? classSelector;
+    private OptionButton? raceSelector;
+    private Label? statsDisplay;
+    private Button? addCharacterButton;
+    private Button? finishPartyButton;
+    private VBoxContainer? partyList;
 
+    /// <summary>
+    /// Initializes the party creator scene and sets up all UI components.
+    /// Loads GameState and SceneManager singletons, initializes UI elements,
+    /// populates dropdown selectors, and connects event handlers.
+    /// </summary>
     public override void _Ready()
     {
-        _partyData = new PartyData();
-        _gameState = GetNode<GameState>("/root/GameState");
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
+        this.partyData = new PartyData();
+        this.gameState = this.GetNode<GameState>("/root/GameState");
+        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
 
         // Initialize UI
-        _characterNameInput = GetNode<LineEdit>("CharacterNameInput");
-        _classSelector = GetNode<OptionButton>("ClassSelector");
-        _raceSelector = GetNode<OptionButton>("RaceSelector");
-        _statsDisplay = GetNode<Label>("StatsDisplay");
-        _addCharacterButton = GetNode<Button>("AddCharacterButton");
-        _finishPartyButton = GetNode<Button>("FinishPartyButton");
-        _partyList = GetNode<VBoxContainer>("PartyList");
+        this.characterNameInput = this.GetNode<LineEdit>("CharacterNameInput");
+        this.classSelector = this.GetNode<OptionButton>("ClassSelector");
+        this.raceSelector = this.GetNode<OptionButton>("RaceSelector");
+        this.statsDisplay = this.GetNode<Label>("StatsDisplay");
+        this.addCharacterButton = this.GetNode<Button>("AddCharacterButton");
+        this.finishPartyButton = this.GetNode<Button>("FinishPartyButton");
+        this.partyList = this.GetNode<VBoxContainer>("PartyList");
+
+        if (this.gameState == null || this.sceneManager == null || this.characterNameInput == null ||
+            this.classSelector == null || this.raceSelector == null || this.statsDisplay == null ||
+            this.addCharacterButton == null || this.finishPartyButton == null || this.partyList == null)
+        {
+            GD.PrintErr("Failed to find required nodes in PartyCreator");
+            return;
+        }
 
         // Populate selectors
-        PopulateClassSelector();
-        PopulateRaceSelector();
+        this.PopulateClassSelector();
+        this.PopulateRaceSelector();
 
         // Connect signals
-        _classSelector.ItemSelected += OnClassSelected;
-        _raceSelector.ItemSelected += OnRaceSelected;
-        _addCharacterButton.Pressed += OnAddCharacterPressed;
-        _finishPartyButton.Pressed += OnFinishPartyPressed;
+        this.classSelector.ItemSelected += this.OnClassSelected;
+        this.raceSelector.ItemSelected += this.OnRaceSelected;
+        this.addCharacterButton.Pressed += this.OnAddCharacterPressed;
+        this.finishPartyButton.Pressed += this.OnFinishPartyPressed;
 
-        UpdateUI();
+        this.UpdateUI();
     }
 
+    /// <summary>
+    /// Populates the character class selection dropdown with all available character classes.
+    /// Clears existing items and adds each enum value as a selectable option.
+    /// </summary>
     private void PopulateClassSelector()
     {
-        _classSelector.Clear();
+        if (this.classSelector == null)
+        {
+            return;
+        }
+
+        this.classSelector.Clear();
         foreach (CharacterClass cClass in System.Enum.GetValues(typeof(CharacterClass)))
         {
-            _classSelector.AddItem(cClass.ToString());
+            this.classSelector.AddItem(cClass.ToString());
         }
     }
 
+    /// <summary>
+    /// Populates the character race selection dropdown with all available character races.
+    /// Clears existing items and adds each enum value as a selectable option.
+    /// </summary>
     private void PopulateRaceSelector()
     {
-        _raceSelector.Clear();
+        if (this.raceSelector == null)
+        {
+            return;
+        }
+
+        this.raceSelector.Clear();
         foreach (CharacterRace race in System.Enum.GetValues(typeof(CharacterRace)))
         {
-            _raceSelector.AddItem(race.ToString());
+            this.raceSelector.AddItem(race.ToString());
         }
     }
 
     private void OnClassSelected(long index)
     {
-        UpdateStatsPreview();
+        this.UpdateStatsPreview();
     }
 
     private void OnRaceSelected(long index)
     {
-        UpdateStatsPreview();
+        this.UpdateStatsPreview();
     }
 
     private void UpdateStatsPreview()
     {
-        var selectedClass = (CharacterClass)_classSelector.Selected;
-        var selectedRace = (CharacterRace)_raceSelector.Selected;
+        if (this.classSelector == null || this.raceSelector == null || this.statsDisplay == null)
+        {
+            return;
+        }
+
+        var selectedClass = (CharacterClass)this.classSelector.Selected;
+        var selectedRace = (CharacterRace)this.raceSelector.Selected;
 
         var previewStats = CharacterStats.GenerateRandomStats();
         previewStats.ApplyRacialModifiers(selectedRace);
 
-        _statsDisplay.Text = $"Class: {selectedClass}\nRace: {selectedRace}\n\nStats:\n" +
+        this.statsDisplay.Text = $"Class: {selectedClass}\nRace: {selectedRace}\n\nStats:\n" +
                             $"STR: {previewStats.Strength}\n" +
                             $"INT: {previewStats.Intelligence}\n" +
                             $"WIS: {previewStats.Wisdom}\n" +
@@ -93,55 +138,75 @@ public partial class PartyCreator : Node2D
 
     private void OnAddCharacterPressed()
     {
-        string name = _characterNameInput.Text.Trim();
+        if (this.characterNameInput == null || this.classSelector == null || this.raceSelector == null || this.partyData == null)
+        {
+            return;
+        }
+
+        string name = this.characterNameInput.Text.Trim();
         if (string.IsNullOrEmpty(name))
         {
             GD.Print("Character name cannot be empty");
             return;
         }
 
-        var selectedClass = (CharacterClass)_classSelector.Selected;
-        var selectedRace = (CharacterRace)_raceSelector.Selected;
+        var selectedClass = (CharacterClass)this.classSelector.Selected;
+        var selectedRace = (CharacterRace)this.raceSelector.Selected;
 
         var character = new Character(name, selectedClass, selectedRace);
-        if (_partyData.AddMember(character))
+        if (this.partyData.AddMember(character))
         {
-            UpdatePartyList();
-            _characterNameInput.Text = "";
+            this.UpdatePartyList();
+            this.characterNameInput.Text = string.Empty;
         }
     }
 
     private void UpdatePartyList()
     {
+        if (this.partyList == null || this.partyData == null)
+        {
+            return;
+        }
+
         // Clear existing list
-        foreach (Node child in _partyList.GetChildren())
+        foreach (Node child in this.partyList.GetChildren())
         {
             child.QueueFree();
         }
 
         // Add current members
-        foreach (var member in _partyData.Members)
+        foreach (var member in this.partyData.Members)
         {
             var label = new Label();
             label.Text = $"{member.Name} - {member.Class} {member.Race}";
-            _partyList.AddChild(label);
+            this.partyList.AddChild(label);
         }
 
-        UpdateUI();
+        this.UpdateUI();
     }
 
     private void UpdateUI()
     {
-        _addCharacterButton.Disabled = _partyData.Members.Count >= 3;
-        _finishPartyButton.Disabled = _partyData.Members.Count < 3;
+        if (this.addCharacterButton == null || this.finishPartyButton == null || this.partyData == null)
+        {
+            return;
+        }
+
+        this.addCharacterButton.Disabled = this.partyData.Members.Count >= 3;
+        this.finishPartyButton.Disabled = this.partyData.Members.Count < 3;
     }
 
     private void OnFinishPartyPressed()
     {
-        if (_partyData.Members.Count >= 3)
+        if (this.partyData == null || this.gameState == null || this.sceneManager == null)
         {
-            _gameState.PlayerParty = _partyData;
-            _sceneManager.TransitionToScene("Scene4TileDungeon");
+            return;
+        }
+
+        if (this.partyData.Members.Count >= 3)
+        {
+            this.gameState.PlayerParty = this.partyData;
+            this.sceneManager.TransitionToScene("Scene4TileDungeon");
         }
     }
 }

@@ -1,30 +1,35 @@
-using Godot;
+// <copyright file="TileDungeonController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 using OmegaSpiral.Source.Scripts;
 
 public partial class TileDungeonController : Node2D
 {
-    private TileMapLayer _tileMapLayer;
-    private Node2D _player;
-    private Label _infoLabel;
-    private TileDungeonData _dungeonData;
-    private SceneManager _sceneManager;
-    private GameState _gameState;
+    private TileMapLayer? tileMapLayer;
+    private Node2D? player;
+    private Label? infoLabel;
+    private TileDungeonData? dungeonData;
+    private SceneManager? sceneManager;
+    private GameState? gameState;
 
-    private Vector2I _playerTilePosition;
+    private Vector2I playerTilePosition;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _tileMapLayer = GetNode<TileMapLayer>("TileMapLayer");
-        _player = GetNode<Node2D>("Player");
-        _infoLabel = GetNode<Label>("InfoLabel");
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
-        _gameState = GetNode<GameState>("/root/GameState");
+        this.tileMapLayer = this.GetNode<TileMapLayer>("TileMapLayer");
+        this.player = this.GetNode<Node2D>("Player");
+        this.infoLabel = this.GetNode<Label>("InfoLabel");
+        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this.gameState = this.GetNode<GameState>("/root/GameState");
 
-        LoadDungeonData();
+        this.LoadDungeonData();
         InitializeTileMap();
-        SetPlayerStartPosition();
+        this.SetPlayerStartPosition();
     }
 
     private void LoadDungeonData()
@@ -35,18 +40,18 @@ public partial class TileDungeonController : Node2D
             var jsonText = Godot.FileAccess.GetFileAsString(dataPath);
             var jsonNode = Json.ParseString(jsonText).AsGodotDictionary();
 
-            _dungeonData = new TileDungeonData
+            this.dungeonData = new TileDungeonData
             {
                 Type = jsonNode["type"].ToString(),
                 Controls = jsonNode["controls"].ToString(),
                 ExitCondition = jsonNode["exitCondition"].ToString(),
-                UI = new DungeonUI()
+                UI = new DungeonUI(),
             };
 
             // Parse tilemap
             foreach (var line in jsonNode["tilemap"].AsGodotArray())
             {
-                _dungeonData.Tilemap.Add(line.ToString());
+                this.dungeonData.Tilemap.Add(line.ToString());
             }
 
             // Parse legend
@@ -59,28 +64,28 @@ public partial class TileDungeonController : Node2D
                     Type = Enum.Parse<TileType>(entry["type"].ToString()),
                     Walkable = entry["walkable"].AsBool(),
                     Interactable = entry["interactable"].AsBool(),
-                    Description = entry["description"].ToString()
+                    Description = entry["description"].ToString(),
                 };
-                _dungeonData.Legend[key.ToString()[0]] = definition;
+                this.dungeonData.Legend[key.ToString()[0]] = definition;
             }
 
             // Parse UI
             var uiDict = jsonNode["ui"].AsGodotDictionary();
-            _dungeonData.UI.ShowInventory = uiDict["showInventory"].AsBool();
-            _dungeonData.UI.ShowMap = uiDict["showMap"].AsBool();
+            this.dungeonData.UI.ShowInventory = uiDict["showInventory"].AsBool();
+            this.dungeonData.UI.ShowMap = uiDict["showMap"].AsBool();
             foreach (var stat in uiDict["showStats"].AsGodotArray())
             {
-                _dungeonData.UI.ShowStats.Add(stat.ToString());
+                this.dungeonData.UI.ShowStats.Add(stat.ToString());
             }
         }
         catch (Exception e)
         {
             GD.PrintErr($"Failed to load tile dungeon data: {e.Message}");
-            _dungeonData = new TileDungeonData();
+            this.dungeonData = new TileDungeonData();
         }
     }
 
-    private void InitializeTileMap()
+    private static void InitializeTileMap()
     {
         // This is a placeholder implementation
         // In a full implementation, you would create tiles based on _dungeonData.Tilemap and _dungeonData.Legend
@@ -88,61 +93,87 @@ public partial class TileDungeonController : Node2D
 
     private void SetPlayerStartPosition()
     {
-        // Place player at first walkable tile
-        for (int y = 0; y < _dungeonData.Tilemap.Count; y++)
+        if (this.dungeonData == null)
         {
-            for (int x = 0; x < _dungeonData.Tilemap[y].Length; x++)
+            return;
+        }
+
+        // Place player at first walkable tile
+        for (int y = 0; y < this.dungeonData.Tilemap.Count; y++)
+        {
+            for (int x = 0; x < this.dungeonData.Tilemap[y].Length; x++)
             {
-                char symbol = _dungeonData.Tilemap[y][x];
-                if (_dungeonData.Legend.TryGetValue(symbol, out var definition) && definition.Walkable)
+                char symbol = this.dungeonData.Tilemap[y][x];
+                if (this.dungeonData.Legend.TryGetValue(symbol, out var definition) && definition.Walkable)
                 {
-                    _playerTilePosition = new Vector2I(x, y);
-                    UpdatePlayerPosition();
+                    this.playerTilePosition = new Vector2I(x, y);
+                    this.UpdatePlayerPosition();
                     return;
                 }
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey keyEvent && keyEvent.Pressed)
         {
             Vector2I direction = Vector2I.Zero;
             if (keyEvent.Keycode == Key.Up || keyEvent.Keycode == Key.W)
+            {
                 direction = new Vector2I(0, -1);
+            }
             else if (keyEvent.Keycode == Key.Down || keyEvent.Keycode == Key.S)
+            {
                 direction = new Vector2I(0, 1);
+            }
             else if (keyEvent.Keycode == Key.Left || keyEvent.Keycode == Key.A)
+            {
                 direction = new Vector2I(-1, 0);
+            }
             else if (keyEvent.Keycode == Key.Right || keyEvent.Keycode == Key.D)
+            {
                 direction = new Vector2I(1, 0);
+            }
 
             if (direction != Vector2I.Zero)
             {
-                TryMovePlayer(direction);
+                this.TryMovePlayer(direction);
             }
         }
     }
 
     private void TryMovePlayer(Vector2I direction)
     {
-        var newPosition = _playerTilePosition + direction;
-        if (IsWalkable(newPosition))
+        var newPosition = this.playerTilePosition + direction;
+        if (this.IsWalkable(newPosition))
         {
-            _playerTilePosition = newPosition;
-            UpdatePlayerPosition();
-            CheckTileInteraction();
+            this.playerTilePosition = newPosition;
+            this.UpdatePlayerPosition();
+            this.CheckTileInteraction();
         }
     }
 
     private bool IsWalkable(Vector2I position)
     {
-        if (position.Y < 0 || position.Y >= _dungeonData.Tilemap.Count) return false;
-        if (position.X < 0 || position.X >= _dungeonData.Tilemap[position.Y].Length) return false;
+        if (this.dungeonData == null)
+        {
+            return false;
+        }
 
-        char symbol = _dungeonData.Tilemap[position.Y][position.X];
-        if (_dungeonData.Legend.TryGetValue(symbol, out var definition))
+        if (position.Y < 0 || position.Y >= this.dungeonData.Tilemap.Count)
+        {
+            return false;
+        }
+
+        if (position.X < 0 || position.X >= this.dungeonData.Tilemap[position.Y].Length)
+        {
+            return false;
+        }
+
+        char symbol = this.dungeonData.Tilemap[position.Y][position.X];
+        if (this.dungeonData.Legend.TryGetValue(symbol, out var definition))
         {
             return definition.Walkable;
         }
@@ -152,21 +183,31 @@ public partial class TileDungeonController : Node2D
 
     private void UpdatePlayerPosition()
     {
-        Vector2 tileSize = _tileMapLayer.TileSet.TileSize;
-        Vector2 worldPosition = new Vector2(_playerTilePosition.X * tileSize.X, _playerTilePosition.Y * tileSize.Y);
-        _player.Position = worldPosition;
+        if (this.tileMapLayer?.TileSet == null || this.player == null)
+        {
+            return;
+        }
+
+        Vector2 tileSize = this.tileMapLayer.TileSet.TileSize;
+        Vector2 worldPosition = new Vector2(this.playerTilePosition.X * tileSize.X, this.playerTilePosition.Y * tileSize.Y);
+        this.player.Position = worldPosition;
     }
 
     private void CheckTileInteraction()
     {
-        char symbol = _dungeonData.Tilemap[_playerTilePosition.Y][_playerTilePosition.X];
-        if (_dungeonData.Legend.TryGetValue(symbol, out var definition) && definition.Interactable)
+        if (this.dungeonData == null || this.infoLabel == null || this.sceneManager == null)
         {
-            _infoLabel.Text = definition.Description;
+            return;
+        }
+
+        char symbol = this.dungeonData.Tilemap[this.playerTilePosition.Y][this.playerTilePosition.X];
+        if (this.dungeonData.Legend.TryGetValue(symbol, out var definition) && definition.Interactable)
+        {
+            this.infoLabel.Text = definition.Description;
 
             if (definition.Type == TileType.Exit)
             {
-                _sceneManager.TransitionToScene("Scene5PixelCombat");
+                this.sceneManager.TransitionToScene("Scene5PixelCombat");
             }
         }
     }

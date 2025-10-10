@@ -1,0 +1,2320 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OmegaSpiral</name>
+    </assembly>
+    <members>
+        <member name="M:AsciiRoomRenderer._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="M:AsciiRoomRenderer._Input(Godot.InputEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:AsciiRoomRenderer.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName.LoadDungeonData">
+            <summary>
+            Cached name for the 'LoadDungeonData' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName.InitializePlayerPosition">
+            <summary>
+            Cached name for the 'InitializePlayerPosition' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName.RenderDungeon">
+            <summary>
+            Cached name for the 'RenderDungeon' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName._Input">
+            <summary>
+            Cached name for the '_Input' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName.IsValidMove">
+            <summary>
+            Cached name for the 'IsValidMove' method.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.MethodName.CheckObjectInteraction">
+            <summary>
+            Cached name for the 'CheckObjectInteraction' method.
+            </summary>
+        </member>
+        <member name="M:AsciiRoomRenderer.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:AsciiRoomRenderer.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:AsciiRoomRenderer.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:AsciiRoomRenderer.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.PropertyName.asciiDisplay">
+            <summary>
+            Cached name for the 'asciiDisplay' field.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.PropertyName.currentDungeonIndex">
+            <summary>
+            Cached name for the 'currentDungeonIndex' field.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.PropertyName.playerPosition">
+            <summary>
+            Cached name for the 'playerPosition' field.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.PropertyName.sceneManager">
+            <summary>
+            Cached name for the 'sceneManager' field.
+            </summary>
+        </member>
+        <member name="F:AsciiRoomRenderer.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="M:AsciiRoomRenderer.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:AsciiRoomRenderer.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:AsciiRoomRenderer.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:AsciiRoomRenderer.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:AsciiRoomRenderer.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:AsciiRoomRenderer.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.Character">
+            <summary>
+            Represents a single character in the player's party with class, race, and stats.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Name">
+            <summary>
+            Gets or sets the character's name.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Class">
+            <summary>
+            Gets or sets the character's class.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Race">
+            <summary>
+            Gets or sets the character's race.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Stats">
+            <summary>
+            Gets or sets the character's stats.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Level">
+            <summary>
+            Gets or sets the character's level.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.Character.Experience">
+            <summary>
+            Gets or sets the character's experience points.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OmegaSpiral.Source.Scripts.Character"/> class.
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.#ctor(System.String,OmegaSpiral.Source.Scripts.CharacterClass,OmegaSpiral.Source.Scripts.CharacterRace)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OmegaSpiral.Source.Scripts.Character"/> class.
+            Constructor with basic character information.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.GetHitPoints">
+            <summary>
+            Get the character's hit points based on class and constitution.
+            </summary>
+            <returns>The character's total hit points.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.GetMagicPoints">
+            <summary>
+            Get the character's magic points based on class and intelligence/wisdom.
+            </summary>
+            <returns>The character's total magic points.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.ToDictionary">
+            <summary>
+            Convert character to Godot dictionary for serialization.
+            </summary>
+            <returns>A dictionary containing the character's data.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.Character.FromDictionary(Godot.Collections.Dictionary{System.String,Godot.Variant})">
+            <summary>
+            Create character from Godot dictionary.
+            </summary>
+            <param name="dict">The dictionary containing character data.</param>
+            <returns>A new character instance created from the dictionary data.</returns>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CharacterStats">
+            <summary>
+            Character statistics following classic CRPG attribute system.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Strength">
+            <summary>
+            Gets or sets the strength stat, which affects melee combat and physical tasks.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Intelligence">
+            <summary>
+            Gets or sets the intelligence stat, which affects spellcasting and knowledge skills.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Wisdom">
+            <summary>
+            Gets or sets the wisdom stat, which affects divine spellcasting and perception.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Dexterity">
+            <summary>
+            Gets or sets the dexterity stat, which affects ranged combat and agility.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Constitution">
+            <summary>
+            Gets or sets the constitution stat, which affects hit points and endurance.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Charisma">
+            <summary>
+            Gets or sets the charisma stat, which affects social interactions and leadership.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CharacterStats.Luck">
+            <summary>
+            Gets or sets the luck stat, which affects random events and critical hits.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OmegaSpiral.Source.Scripts.CharacterStats"/> class.
+            Default constructor with zero values.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OmegaSpiral.Source.Scripts.CharacterStats"/> class.
+            Constructor with specific stat values.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.GenerateRandomStats">
+            <summary>
+            Generate random stats using classic dice rolling method (3d6 for each stat).
+            </summary>
+            <returns>A new CharacterStats instance with randomly generated values.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.ApplyRacialModifiers(OmegaSpiral.Source.Scripts.CharacterRace)">
+            <summary>
+            Apply racial modifiers to base stats.
+            </summary>
+            <param name="race">The character's race.</param>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.GetModifier(System.Int32)">
+            <summary>
+            Get the modifier for a given stat (used in calculations).
+            </summary>
+            <param name="stat">The stat to get modifier for.</param>
+            <returns>Modifier value (-5 to +5 typically).</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.Roll3d6(System.Random)">
+            <summary>
+            Roll 3 six-sided dice for stat generation.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.ToDictionary">
+            <summary>
+            Convert stats to Godot dictionary for serialization.
+            </summary>
+            <returns>A dictionary containing all stat values.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.CharacterStats.FromDictionary(Godot.Collections.Dictionary{System.String,Godot.Variant})">
+            <summary>
+            Load stats from Godot dictionary.
+            </summary>
+            <param name="dict">The dictionary containing stat values.</param>
+            <returns>A new CharacterStats instance created from the dictionary data.</returns>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CombatSceneData">
+            <summary>
+            Data model for turn-based pixel combat scenes.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.Type">
+            <summary>
+            Gets or sets the scene type identifier.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.PlayerSprite">
+            <summary>
+            Gets or sets the path to the player sprite texture.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.Enemy">
+            <summary>
+            Gets or sets the enemy data for this combat encounter.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.Actions">
+            <summary>
+            Gets or sets the list of available combat actions.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.Music">
+            <summary>
+            Gets or sets the background music for the combat scene.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatSceneData.VictoryText">
+            <summary>
+            Gets or sets the text displayed when the player wins.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CombatEnemy">
+            <summary>
+            Represents an enemy in combat with stats and behavior.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.Name">
+            <summary>
+            Gets or sets the enemy's name.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.HP">
+            <summary>
+            Gets or sets the enemy's current hit points.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.MaxHP">
+            <summary>
+            Gets or sets the enemy's maximum hit points.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.Attack">
+            <summary>
+            Gets or sets the enemy's attack power.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.Defense">
+            <summary>
+            Gets or sets the enemy's defense value.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.Sprite">
+            <summary>
+            Gets or sets the path to the enemy sprite texture.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatEnemy.AttackPatterns">
+            <summary>
+            Gets or sets the list of attack patterns this enemy can use.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CombatAction">
+            <summary>
+            Represents a combat action (FIGHT, MAGIC, ITEM, RUN).
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatAction.Name">
+            <summary>
+            Gets or sets the name of the combat action.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatAction.Type">
+            <summary>
+            Gets or sets the type of the combat action.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatAction.Power">
+            <summary>
+            Gets or sets the power level of the combat action.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.CombatAction.Description">
+            <summary>
+            Gets or sets the description of the combat action.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverPersona">
+            <summary>
+            Represents an individual Dreamweaver persona that can generate dynamic narrative
+            using the nobodywho LLM framework. Each persona uses JSON text as a foundation
+            for creating personalized dialogue and choices.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.DreamweaverPersona.PersonaId">
+            <summary>
+            Gets the unique identifier for this persona.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.DreamweaverPersona.IsActive">
+            <summary>
+            Gets or sets a value indicating whether this persona is currently active.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.DreamweaverPersona.Name">
+            <summary>
+            Gets the display name of this persona.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.DreamweaverPersona.Archetype">
+            <summary>
+            Gets the archetype or personality type of this persona.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverPersona.GenerateNarrativeAsync(System.String)">
+            <summary>
+            Generates dynamic narrative text using the JSON foundation as prompts.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverPersona.GetOpeningLineAsync">
+            <summary>
+            Gets a dynamic opening line, potentially enhanced by LLM.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverPersona.GenerateChoicesAsync(System.String)">
+            <summary>
+            Generates dynamic choices based on current game state and persona.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverSystem">
+            <summary>
+            Main orchestrator for the Dreamweaver LLM system.
+            Manages three personas (Hero, Shadow, Ambition) and coordinates
+            dynamic narrative generation using the nobodywho framework.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GenerateNarrativeAsync(System.String,System.String)">
+            <summary>
+            Generates dynamic narrative for a specific persona using LLM.
+            Uses the JSON text as a foundation for the prompt.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetOpeningLineAsync(System.String)">
+            <summary>
+            Gets a random opening line for a persona, enhanced by LLM if available.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GenerateChoicesAsync(System.String,System.String)">
+            <summary>
+            Generates dynamic choices for a persona based on current game state.
+            </summary>
+            <returns><placeholder>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</placeholder></returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.ActivatePersona(System.String)">
+            <summary>
+            Activates a persona, making it the primary narrative voice.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetActivePersona">
+            <summary>
+            Gets the currently active persona.
+            </summary>
+            <returns>The currently active persona, or null if none is active.</returns>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName.InitializePersonas">
+            <summary>
+            Cached name for the 'InitializePersonas' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName.ConvertYamlToJson">
+            <summary>
+            Cached name for the 'ConvertYamlToJson' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName.ActivatePersona">
+            <summary>
+            Cached name for the 'ActivatePersona' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName.GetFallbackNarrative">
+            <summary>
+            Cached name for the 'GetFallbackNarrative' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.MethodName.GetFallbackOpeningLine">
+            <summary>
+            Cached name for the 'GetFallbackOpeningLine' method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.SignalName.NarrativeGenerated">
+            <summary>
+            Cached name for the 'NarrativeGenerated' signal.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.SignalName.PersonaActivated">
+            <summary>
+            Cached name for the 'PersonaActivated' signal.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverSystem.SignalName.GenerationError">
+            <summary>
+            Cached name for the 'GenerationError' signal.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.GetGodotSignalList">
+            <summary>
+            Get the signal information for all the signals declared in this class.
+            This method is used by Godot to register the available signals in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="E:OmegaSpiral.Source.Scripts.DreamweaverSystem.NarrativeGenerated">
+            <inheritdoc cref="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.NarrativeGeneratedEventHandler"/>
+        </member>
+        <member name="E:OmegaSpiral.Source.Scripts.DreamweaverSystem.PersonaActivated">
+            <inheritdoc cref="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.PersonaActivatedEventHandler"/>
+        </member>
+        <member name="E:OmegaSpiral.Source.Scripts.DreamweaverSystem.GenerationError">
+            <inheritdoc cref="T:OmegaSpiral.Source.Scripts.DreamweaverSystem.GenerationErrorEventHandler"/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.RaiseGodotClassSignalCallbacks(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.DreamweaverSystem.HasGodotClassSignal(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverType">
+            <summary>
+            Core alignment mechanic that influences narrative and gameplay throughout the game.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverType.Light">
+            <summary>
+            Hero thread - represents sacrifice, wisdom, and positive transformation.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverType.Mischief">
+            <summary>
+            Ambition thread - represents chaos, transformation, and unpredictable change.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverType.Wrath">
+            <summary>
+            Shadow thread - represents power, consequence, and darker impulses.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.DreamweaverThread">
+            <summary>
+            Player's chosen narrative alignment thread that determines story variations.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverThread.Hero">
+            <summary>
+            Light-aligned choices focusing on heroism and positive outcomes.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverThread.Shadow">
+            <summary>
+            Wrath-aligned choices focusing on power and darker consequences.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.DreamweaverThread.Ambition">
+            <summary>
+            Mischief-aligned choices focusing on chaos and transformation.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CharacterClass">
+            <summary>
+            Classic CRPG character classes for party creation.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Fighter">
+            <summary>
+            Warrior class specializing in combat and physical strength.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Mage">
+            <summary>
+            Magic-user class specializing in spellcasting and arcane knowledge.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Priest">
+            <summary>
+            Divine spellcaster class focusing on healing and support magic.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Thief">
+            <summary>
+            Rogue class specializing in stealth, traps, and opportunistic combat.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Bard">
+            <summary>
+            Charismatic class combining magic, music, and social skills.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Paladin">
+            <summary>
+            Holy warrior class combining combat prowess with divine magic.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterClass.Ranger">
+            <summary>
+            Wilderness expert class skilled in ranged combat and nature magic.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.CharacterRace">
+            <summary>
+            Fantasy races available for character creation.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.Human">
+            <summary>
+            Versatile human race with balanced abilities and adaptability.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.Elf">
+            <summary>
+            Graceful elf race with bonuses to dexterity and intelligence.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.Dwarf">
+            <summary>
+            Sturdy dwarf race with bonuses to constitution and strength.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.Gnome">
+            <summary>
+            Clever gnome race with bonuses to intelligence and wisdom.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.Halfling">
+            <summary>
+            Lucky halfling race with bonuses to dexterity and luck.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.CharacterRace.HalfElf">
+            <summary>
+            Mixed heritage half-elf race combining human and elven traits.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.ObjectType">
+            <summary>
+            Types of interactive objects in ASCII dungeons.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.ObjectType.Door">
+            <summary>
+            A door that can be opened or locked.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.ObjectType.Monster">
+            <summary>
+            A hostile creature that attacks the player.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.ObjectType.Chest">
+            <summary>
+            A container that may hold items or treasure.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.TileType">
+            <summary>
+            Types of tiles in the 2D tile dungeon.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Wall">
+            <summary>
+            Impassable wall tile.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Floor">
+            <summary>
+            Walkable floor tile.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Door">
+            <summary>
+            Door tile that can be opened.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Key">
+            <summary>
+            Key item tile.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Treasure">
+            <summary>
+            Treasure chest tile.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.TileType.Exit">
+            <summary>
+            Exit tile that completes the dungeon.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.NarrativeTerminal">
+            <summary>
+            Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
+            FUTURE: Will integrate with DreamweaverSystem for LLM-powered dynamic narrative (see ADR-0003).
+            Integration points marked with // FUTURE: LLM_INTEGRATION comments.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.OnNarrativeGenerated">
+            <summary>
+            Cached name for the 'OnNarrativeGenerated' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.OnGenerationError">
+            <summary>
+            Cached name for the 'OnGenerationError' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.InitializeNarrativeAsync">
+            <summary>
+            Cached name for the 'InitializeNarrativeAsync' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.TryLoadSceneData">
+            <summary>
+            Cached name for the 'TryLoadSceneData' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.PresentInitialChoice">
+            <summary>
+            Cached name for the 'PresentInitialChoice' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.PresentStoryBlock">
+            <summary>
+            Cached name for the 'PresentStoryBlock' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.PromptForName">
+            <summary>
+            Cached name for the 'PromptForName' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.PromptForSecret">
+            <summary>
+            Cached name for the 'PromptForSecret' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.ConfigurePrompt">
+            <summary>
+            Cached name for the 'ConfigurePrompt' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.OnSubmitPressed">
+            <summary>
+            Cached name for the 'OnSubmitPressed' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.HandleThreadSelection">
+            <summary>
+            Cached name for the 'HandleThreadSelection' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.HandleStoryChoice">
+            <summary>
+            Cached name for the 'HandleStoryChoice' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.HandleFreeformResponse">
+            <summary>
+            Cached name for the 'HandleFreeformResponse' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.HandlePlayerName">
+            <summary>
+            Cached name for the 'HandlePlayerName' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.HandleSecret">
+            <summary>
+            Cached name for the 'HandleSecret' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.RecordSceneResponse">
+            <summary>
+            Cached name for the 'RecordSceneResponse' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.CompleteNarrativeSceneAsync">
+            <summary>
+            Cached name for the 'CompleteNarrativeSceneAsync' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.MethodName.DisplayImmediate">
+            <summary>
+            Cached name for the 'DisplayImmediate' method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName.UseDynamicNarrative">
+            <summary>
+            Cached name for the 'UseDynamicNarrative' property.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._outputLabel">
+            <summary>
+            Cached name for the '_outputLabel' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._inputField">
+            <summary>
+            Cached name for the '_inputField' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._submitButton">
+            <summary>
+            Cached name for the '_submitButton' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._promptLabel">
+            <summary>
+            Cached name for the '_promptLabel' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._sceneManager">
+            <summary>
+            Cached name for the '_sceneManager' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._gameState">
+            <summary>
+            Cached name for the '_gameState' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._narratorEngine">
+            <summary>
+            Cached name for the '_narratorEngine' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._dreamweaverSystem">
+            <summary>
+            Cached name for the '_dreamweaverSystem' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._currentPrompt">
+            <summary>
+            Cached name for the '_currentPrompt' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._awaitingInput">
+            <summary>
+            Cached name for the '_awaitingInput' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._currentBlockIndex">
+            <summary>
+            Cached name for the '_currentBlockIndex' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._useDynamicNarrative">
+            <summary>
+            Cached name for the '_useDynamicNarrative' field.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Source.Scripts.NarrativeTerminal.PropertyName._lastGeneratedNarrative">
+            <summary>
+            Cached name for the '_lastGeneratedNarrative' field.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.GetGodotPropertyDefaultValues">
+            <summary>
+            Get the default values for all properties declared in this class.
+            This method is used by Godot to determine the value that will be
+            used by the inspector when resetting properties.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.NarrativeTerminal.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.NarrativeTerminal.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Source.Scripts.PartyData">
+            <summary>
+            Classic CRPG party creation and management system.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.PartyData.Members">
+            <summary>
+            Gets or sets the list of party members.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.PartyData.Gold">
+            <summary>
+            Gets or sets the party's gold amount.
+            </summary>
+        </member>
+        <member name="P:OmegaSpiral.Source.Scripts.PartyData.Inventory">
+            <summary>
+            Gets or sets the party's inventory as a dictionary of item names to quantities.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OmegaSpiral.Source.Scripts.PartyData"/> class.
+            </summary>
+            <remarks>Default constructor that creates an empty party with no members, zero gold, and empty inventory.</remarks>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.AddMember(OmegaSpiral.Source.Scripts.Character)">
+            <summary>
+            Adds a character to the party if there is space (maximum 3 members).
+            </summary>
+            <param name="character">The character to add.</param>
+            <returns><see langword="true"/> if character was added, <see langword="false"/> if party is full.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.RemoveMember(System.Int32)">
+            <summary>
+            Removes a character from the party by index.
+            </summary>
+            <param name="index">Index of character to remove.</param>
+            <returns><see langword="true"/> if character was removed, <see langword="false"/> if index is invalid.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.GetMember(System.Int32)">
+            <summary>
+            Gets a character by index.
+            </summary>
+            <param name="index">Index of character to get.</param>
+            <returns>Character if index is valid, <see langword="null"/> otherwise.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.IsComplete">
+            <summary>
+            Checks if the party is complete (has 3 members).
+            </summary>
+            <returns><see langword="true"/> if the party has 3 members, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.GetTotalLevel">
+            <summary>
+            Gets the total level of all party members.
+            </summary>
+            <returns>The sum of all party member levels.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.GetAverageLevel">
+            <summary>
+            Calculates the average party level.
+            </summary>
+            <returns>The average level of all party members, or 0 if party is empty.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.AddGold(System.Int32)">
+            <summary>
+            Adds gold to the party's treasury.
+            </summary>
+            <param name="amount">Amount of gold to add. Must be positive.</param>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.RemoveGold(System.Int32)">
+            <summary>
+            Removes gold from the party's treasury.
+            </summary>
+            <param name="amount">Amount of gold to remove.</param>
+            <returns><see langword="true"/> if gold was removed, <see langword="false"/> if insufficient funds.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.AddItem(System.String,System.Int32)">
+            <summary>
+            Adds an item to the party inventory.
+            </summary>
+            <param name="itemName">Name of the item.</param>
+            <param name="quantity">Quantity to add (default 1). Must be positive.</param>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.RemoveItem(System.String,System.Int32)">
+            <summary>
+            Removes an item from the party inventory.
+            </summary>
+            <param name="itemName">Name of the item.</param>
+            <param name="quantity">Quantity to remove (default 1).</param>
+            <returns><see langword="true"/> if item was removed, <see langword="false"/> if insufficient quantity.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.GetItemQuantity(System.String)">
+            <summary>
+            Gets the quantity of a specific item in the inventory.
+            </summary>
+            <param name="itemName">Name of the item.</param>
+            <returns>Quantity of the item, or 0 if not found.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.ToDictionary">
+            <summary>
+            Converts party data to a Godot dictionary for serialization.
+            </summary>
+            <returns>A dictionary containing members, gold, and inventory data.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Source.Scripts.PartyData.FromDictionary(Godot.Collections.Dictionary{System.String,Godot.Variant})">
+            <summary>
+            Creates party data from a Godot dictionary.
+            </summary>
+            <param name="dict">The dictionary containing serialized party data.</param>
+            <returns>A new <see cref="T:OmegaSpiral.Source.Scripts.PartyData"/> instance populated from the dictionary.</returns>
+        </member>
+        <member name="M:OmegaSpiral.Tests.NarrativeTerminalIntegrationTests.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Tests.NarrativeTerminalSchemaTests.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Tests.NarrativeTerminalSchemaTests.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the resources used by this test class.
+            </summary>
+            <param name="disposing">True if called from Dispose, false if called from finalizer.</param>
+        </member>
+        <member name="T:OmegaSpiral.Tests.Scene1LoadTests">
+            <summary>
+            Integration tests for Scene1Narrative to verify the first scene can load and function correctly.
+            This validates that we have a working product.
+            </summary>
+        </member>
+        <member name="T:OmegaSpiral.Tests.Scene1LoadTests.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_SceneFileExists">
+            <summary>
+            Cached name for the 'Scene1_SceneFileExists' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_HeroDataFileExists">
+            <summary>
+            Cached name for the 'Scene1_HeroDataFileExists' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_ShadowDataFileExists">
+            <summary>
+            Cached name for the 'Scene1_ShadowDataFileExists' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_AmbitionDataFileExists">
+            <summary>
+            Cached name for the 'Scene1_AmbitionDataFileExists' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_HeroDataCanBeParsed">
+            <summary>
+            Cached name for the 'Scene1_HeroDataCanBeParsed' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_SceneCanBeLoaded">
+            <summary>
+            Cached name for the 'Scene1_SceneCanBeLoaded' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_SceneCanBeInstantiated">
+            <summary>
+            Cached name for the 'Scene1_SceneCanBeInstantiated' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_NarrativeTerminalScriptExists">
+            <summary>
+            Cached name for the 'Scene1_NarrativeTerminalScriptExists' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_ManifestReferencesScene1">
+            <summary>
+            Cached name for the 'Scene1_ManifestReferencesScene1' method.
+            </summary>
+        </member>
+        <member name="F:OmegaSpiral.Tests.Scene1LoadTests.MethodName.Scene1_AllThreadDataFilesHaveValidStructure">
+            <summary>
+            Cached name for the 'Scene1_AllThreadDataFilesHaveValidStructure' method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Tests.Scene1LoadTests.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Tests.Scene1LoadTests.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Tests.Scene1LoadTests.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Tests.Scene1LoadTests.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:OmegaSpiral.Tests.Scene1LoadTests.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OmegaSpiral.Tests.Scene1LoadTests.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:OmegaSpiral.Tests.Scene1LoadTests.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="T:GameState">
+            <summary>
+            Global game state singleton managing player progress, Dreamweaver alignment, and persistence.
+            FUTURE: Will track LLM consultation history and dynamic narrative state (see ADR-0003).
+            </summary>
+        </member>
+        <member name="P:GameState.CurrentScene">
+            <summary>
+            Gets or sets the index of the current scene in the game.
+            </summary>
+        </member>
+        <member name="P:GameState.DreamweaverThread">
+            <summary>
+            Gets or sets the player's chosen Dreamweaver narrative thread.
+            </summary>
+        </member>
+        <member name="P:GameState.PlayerName">
+            <summary>
+            Gets or sets the player's chosen name.
+            </summary>
+        </member>
+        <member name="P:GameState.Shards">
+            <summary>
+            Gets or sets the list of story shards collected by the player.
+            </summary>
+        </member>
+        <member name="P:GameState.SceneData">
+            <summary>
+            Gets or sets scene-specific data stored as key-value pairs.
+            </summary>
+        </member>
+        <member name="P:GameState.NarratorQueue">
+            <summary>
+            Gets or sets the queue of narrator messages to be displayed.
+            </summary>
+        </member>
+        <member name="P:GameState.DreamweaverScores">
+            <summary>
+            Gets or sets the player's Dreamweaver alignment scores.
+            </summary>
+        </member>
+        <member name="P:GameState.SelectedDreamweaver">
+            <summary>
+            Gets or sets the player's selected Dreamweaver type.
+            </summary>
+        </member>
+        <member name="P:GameState.LastSaveTime">
+            <summary>
+            Gets or sets the timestamp of the last save operation.
+            </summary>
+        </member>
+        <member name="P:GameState.SaveVersion">
+            <summary>
+            Gets or sets the version of the save file format.
+            </summary>
+        </member>
+        <member name="P:GameState.PlayerParty">
+            <summary>
+            Gets or sets the player's party data including characters and inventory.
+            </summary>
+        </member>
+        <member name="M:GameState._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="T:GameState.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.ResetForNewRun">
+            <summary>
+            Cached name for the 'ResetForNewRun' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.UpdateDreamweaverScore">
+            <summary>
+            Cached name for the 'UpdateDreamweaverScore' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.GetHighestScoringDreamweaver">
+            <summary>
+            Cached name for the 'GetHighestScoringDreamweaver' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.SaveGame">
+            <summary>
+            Cached name for the 'SaveGame' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadGame">
+            <summary>
+            Cached name for the 'LoadGame' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadCoreState">
+            <summary>
+            Cached name for the 'LoadCoreState' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadPartyState">
+            <summary>
+            Cached name for the 'LoadPartyState' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadProgressState">
+            <summary>
+            Cached name for the 'LoadProgressState' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadDreamweaverScores">
+            <summary>
+            Cached name for the 'LoadDreamweaverScores' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadShards">
+            <summary>
+            Cached name for the 'LoadShards' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.LoadSceneProgress">
+            <summary>
+            Cached name for the 'LoadSceneProgress' method.
+            </summary>
+        </member>
+        <member name="F:GameState.MethodName.SanitizePlayerName">
+            <summary>
+            Cached name for the 'SanitizePlayerName' method.
+            </summary>
+        </member>
+        <member name="M:GameState.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:GameState.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GameState.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:GameState.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:GameState.PropertyName.CurrentScene">
+            <summary>
+            Cached name for the 'CurrentScene' property.
+            </summary>
+        </member>
+        <member name="F:GameState.PropertyName.DreamweaverThread">
+            <summary>
+            Cached name for the 'DreamweaverThread' property.
+            </summary>
+        </member>
+        <member name="F:GameState.PropertyName.PlayerName">
+            <summary>
+            Cached name for the 'PlayerName' property.
+            </summary>
+        </member>
+        <member name="F:GameState.PropertyName.SaveVersion">
+            <summary>
+            Cached name for the 'SaveVersion' property.
+            </summary>
+        </member>
+        <member name="M:GameState.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GameState.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GameState.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:GameState.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:GameState.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:GameState.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="T:JsonSchemaValidator.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:JsonSchemaValidator.MethodName.GetLastErrorMessage">
+            <summary>
+            Cached name for the 'GetLastErrorMessage' method.
+            </summary>
+        </member>
+        <member name="M:JsonSchemaValidator.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:JsonSchemaValidator.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSchemaValidator.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JsonSchemaValidator.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:JsonSchemaValidator.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:JsonSchemaValidator.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:JsonSchemaValidator.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="M:NarratorEngine.AddDialogue(System.String)">
+            <summary>
+            Adds a single dialogue line to the queue.
+            </summary>
+            <param name="dialogue">The dialogue text to add.</param>
+        </member>
+        <member name="M:NarratorEngine.AddDialogueRange(System.Collections.Generic.List{System.String})">
+            <summary>
+            Adds multiple dialogue lines to the queue.
+            </summary>
+            <param name="dialogues">The list of dialogue texts to add.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="dialogues"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:NarratorEngine.GetNextDialogue">
+            <summary>
+            Gets the next dialogue from the queue, or <see langword="null"/> if empty.
+            </summary>
+            <returns>The next dialogue string, or <see langword="null"/> if queue is empty.</returns>
+        </member>
+        <member name="M:NarratorEngine.ClearDialogueQueue">
+            <summary>
+            Clears all dialogue from the queue.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine.HasDialogue">
+            <summary>
+            Checks if there is any dialogue in the queue.
+            </summary>
+            <returns><see langword="true"/> if dialogue is available, <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:NarratorEngine.ProcessDialogueQueue(System.Action{System.String})">
+            <summary>
+            Processes the next dialogue in the queue using the provided output action.
+            </summary>
+            <param name="outputAction">The action to perform with the dialogue text.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="outputAction"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:NarratorEngine.BreakTextIntoChunks(System.String,System.Int32)">
+            <summary>
+            Simulates the typewriter effect by breaking text into smaller chunks.
+            </summary>
+            <param name="text">The text to break into chunks.</param>
+            <param name="chunkSize">The maximum size of each chunk (default 10).</param>
+            <returns>A list of text chunks.</returns>
+        </member>
+        <member name="M:NarratorEngine.ProcessNarrativeBlock(System.Collections.Generic.List{System.String},System.Action{System.String})">
+            <summary>
+            Processes narrative blocks and adds them to the dialogue queue.
+            </summary>
+            <param name="paragraphs">The list of paragraphs to process.</param>
+            <param name="outputAction">Optional action to output each chunk immediately.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="paragraphs"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="T:NarratorEngine.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.MethodName.AddDialogue">
+            <summary>
+            Cached name for the 'AddDialogue' method.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.MethodName.GetNextDialogue">
+            <summary>
+            Cached name for the 'GetNextDialogue' method.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.MethodName.ClearDialogueQueue">
+            <summary>
+            Cached name for the 'ClearDialogueQueue' method.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.MethodName.HasDialogue">
+            <summary>
+            Cached name for the 'HasDialogue' method.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NarratorEngine.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:NarratorEngine.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:NarratorEngine.PropertyName.isProcessing">
+            <summary>
+            Cached name for the 'isProcessing' field.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NarratorEngine.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NarratorEngine.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:NarratorEngine.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:NarratorEngine.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:NarratorEngine.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:PartyCreator._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="T:PartyCreator.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.PopulateClassSelector">
+            <summary>
+            Cached name for the 'PopulateClassSelector' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.PopulateRaceSelector">
+            <summary>
+            Cached name for the 'PopulateRaceSelector' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.OnClassSelected">
+            <summary>
+            Cached name for the 'OnClassSelected' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.OnRaceSelected">
+            <summary>
+            Cached name for the 'OnRaceSelected' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.UpdateStatsPreview">
+            <summary>
+            Cached name for the 'UpdateStatsPreview' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.OnAddCharacterPressed">
+            <summary>
+            Cached name for the 'OnAddCharacterPressed' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.UpdatePartyList">
+            <summary>
+            Cached name for the 'UpdatePartyList' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.UpdateUI">
+            <summary>
+            Cached name for the 'UpdateUI' method.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.MethodName.OnFinishPartyPressed">
+            <summary>
+            Cached name for the 'OnFinishPartyPressed' method.
+            </summary>
+        </member>
+        <member name="M:PartyCreator.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:PartyCreator.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PartyCreator.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PartyCreator.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.sceneManager">
+            <summary>
+            Cached name for the 'sceneManager' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.characterNameInput">
+            <summary>
+            Cached name for the 'characterNameInput' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.classSelector">
+            <summary>
+            Cached name for the 'classSelector' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.raceSelector">
+            <summary>
+            Cached name for the 'raceSelector' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.statsDisplay">
+            <summary>
+            Cached name for the 'statsDisplay' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.addCharacterButton">
+            <summary>
+            Cached name for the 'addCharacterButton' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.finishPartyButton">
+            <summary>
+            Cached name for the 'finishPartyButton' field.
+            </summary>
+        </member>
+        <member name="F:PartyCreator.PropertyName.partyList">
+            <summary>
+            Cached name for the 'partyList' field.
+            </summary>
+        </member>
+        <member name="M:PartyCreator.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PartyCreator.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PartyCreator.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:PartyCreator.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PartyCreator.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PartyCreator.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:PixelCombatController._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="T:PixelCombatController.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.LoadCombatData">
+            <summary>
+            Cached name for the 'LoadCombatData' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.InitializeCombat">
+            <summary>
+            Cached name for the 'InitializeCombat' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.OnActionPressed">
+            <summary>
+            Cached name for the 'OnActionPressed' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.PerformAttack">
+            <summary>
+            Cached name for the 'PerformAttack' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.PerformMagic">
+            <summary>
+            Cached name for the 'PerformMagic' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.PerformItem">
+            <summary>
+            Cached name for the 'PerformItem' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.AttemptRun">
+            <summary>
+            Cached name for the 'AttemptRun' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.CalculatePlayerDamage">
+            <summary>
+            Cached name for the 'CalculatePlayerDamage' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.EnemyTurn">
+            <summary>
+            Cached name for the 'EnemyTurn' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.UpdateUI">
+            <summary>
+            Cached name for the 'UpdateUI' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.CheckCombatEnd">
+            <summary>
+            Cached name for the 'CheckCombatEnd' method.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.MethodName.SelectDreamweaver">
+            <summary>
+            Cached name for the 'SelectDreamweaver' method.
+            </summary>
+        </member>
+        <member name="M:PixelCombatController.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:PixelCombatController.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PixelCombatController.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PixelCombatController.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.playerSprite">
+            <summary>
+            Cached name for the 'playerSprite' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.enemySprite">
+            <summary>
+            Cached name for the 'enemySprite' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.combatLog">
+            <summary>
+            Cached name for the 'combatLog' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.actionButtons">
+            <summary>
+            Cached name for the 'actionButtons' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.sceneManager">
+            <summary>
+            Cached name for the 'sceneManager' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.playerHP">
+            <summary>
+            Cached name for the 'playerHP' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.enemyHP">
+            <summary>
+            Cached name for the 'enemyHP' field.
+            </summary>
+        </member>
+        <member name="F:PixelCombatController.PropertyName.playerTurn">
+            <summary>
+            Cached name for the 'playerTurn' field.
+            </summary>
+        </member>
+        <member name="M:PixelCombatController.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PixelCombatController.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PixelCombatController.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:PixelCombatController.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PixelCombatController.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PixelCombatController.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative._Process(System.Double)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative._Input(Godot.InputEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Scene1Narrative.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName._Process">
+            <summary>
+            Cached name for the '_Process' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName.StartTypewriterEffect">
+            <summary>
+            Cached name for the 'StartTypewriterEffect' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName.OnTypewriterTimeout">
+            <summary>
+            Cached name for the 'OnTypewriterTimeout' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName.ShowNamePrompt">
+            <summary>
+            Cached name for the 'ShowNamePrompt' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName.OnSubmitPressed">
+            <summary>
+            Cached name for the 'OnSubmitPressed' method.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.MethodName._Input">
+            <summary>
+            Cached name for the '_Input' method.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Scene1Narrative.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.IntroductionText">
+            <summary>
+            Cached name for the 'IntroductionText' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.TypewriterSpeed">
+            <summary>
+            Cached name for the 'TypewriterSpeed' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.outputLabel">
+            <summary>
+            Cached name for the 'outputLabel' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.inputField">
+            <summary>
+            Cached name for the 'inputField' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.submitButton">
+            <summary>
+            Cached name for the 'submitButton' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.promptLabel">
+            <summary>
+            Cached name for the 'promptLabel' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.fullText">
+            <summary>
+            Cached name for the 'fullText' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.currentCharIndex">
+            <summary>
+            Cached name for the 'currentCharIndex' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.typewriterTimer">
+            <summary>
+            Cached name for the 'typewriterTimer' field.
+            </summary>
+        </member>
+        <member name="F:Scene1Narrative.PropertyName.crtMaterial">
+            <summary>
+            Cached name for the 'crtMaterial' field.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative.GetGodotPropertyDefaultValues">
+            <summary>
+            Get the default values for all properties declared in this class.
+            This method is used by Godot to determine the value that will be
+            used by the inspector when resetting properties.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:Scene1Narrative.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Scene1Narrative.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Scene1Narrative.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:SceneLoader._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneLoader.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:SceneLoader.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:SceneLoader.MethodName.LoadScene">
+            <summary>
+            Cached name for the 'LoadScene' method.
+            </summary>
+        </member>
+        <member name="M:SceneLoader.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:SceneLoader.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneLoader.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneLoader.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:SceneLoader.PropertyName.schemaValidator">
+            <summary>
+            Cached name for the 'schemaValidator' field.
+            </summary>
+        </member>
+        <member name="M:SceneLoader.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneLoader.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneLoader.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:SceneLoader.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneLoader.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneLoader.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="T:SceneManager">
+            <summary>
+            Autoload singleton managing scene transitions and state validation.
+            FUTURE: Will coordinate with DreamweaverSystem for narrative-driven transitions (see ADR-0003).
+            </summary>
+        </member>
+        <member name="M:SceneManager._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneManager.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.TransitionToScene">
+            <summary>
+            Cached name for the 'TransitionToScene' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.SaveCurrentState">
+            <summary>
+            Cached name for the 'SaveCurrentState' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.ValidateStateForTransition">
+            <summary>
+            Cached name for the 'ValidateStateForTransition' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.UpdateCurrentScene">
+            <summary>
+            Cached name for the 'UpdateCurrentScene' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.SetDreamweaverThread">
+            <summary>
+            Cached name for the 'SetDreamweaverThread' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.SetPlayerName">
+            <summary>
+            Cached name for the 'SetPlayerName' method.
+            </summary>
+        </member>
+        <member name="F:SceneManager.MethodName.AddShard">
+            <summary>
+            Cached name for the 'AddShard' method.
+            </summary>
+        </member>
+        <member name="M:SceneManager.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:SceneManager.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneManager.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneManager.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:SceneManager.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="M:SceneManager.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneManager.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneManager.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:SceneManager.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SceneManager.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:SceneManager.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:TileDungeonController._Ready">
+            <inheritdoc/>
+        </member>
+        <member name="M:TileDungeonController._Input(Godot.InputEvent)">
+            <inheritdoc/>
+        </member>
+        <member name="T:TileDungeonController.MethodName">
+            <summary>
+            Cached StringNames for the methods contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName._Ready">
+            <summary>
+            Cached name for the '_Ready' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.LoadDungeonData">
+            <summary>
+            Cached name for the 'LoadDungeonData' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.InitializeTileMap">
+            <summary>
+            Cached name for the 'InitializeTileMap' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.SetPlayerStartPosition">
+            <summary>
+            Cached name for the 'SetPlayerStartPosition' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName._Input">
+            <summary>
+            Cached name for the '_Input' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.TryMovePlayer">
+            <summary>
+            Cached name for the 'TryMovePlayer' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.IsWalkable">
+            <summary>
+            Cached name for the 'IsWalkable' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.UpdatePlayerPosition">
+            <summary>
+            Cached name for the 'UpdatePlayerPosition' method.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.MethodName.CheckTileInteraction">
+            <summary>
+            Cached name for the 'CheckTileInteraction' method.
+            </summary>
+        </member>
+        <member name="M:TileDungeonController.GetGodotMethodList">
+            <summary>
+            Get the method information for all the methods declared in this class.
+            This method is used by Godot to register the available methods in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:TileDungeonController.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:TileDungeonController.HasGodotClassMethod(Godot.NativeInterop.godot_string_name@)">
+            <inheritdoc/>
+        </member>
+        <member name="T:TileDungeonController.PropertyName">
+            <summary>
+            Cached StringNames for the properties and fields contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.tileMapLayer">
+            <summary>
+            Cached name for the 'tileMapLayer' field.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.player">
+            <summary>
+            Cached name for the 'player' field.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.infoLabel">
+            <summary>
+            Cached name for the 'infoLabel' field.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.sceneManager">
+            <summary>
+            Cached name for the 'sceneManager' field.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.gameState">
+            <summary>
+            Cached name for the 'gameState' field.
+            </summary>
+        </member>
+        <member name="F:TileDungeonController.PropertyName.playerTilePosition">
+            <summary>
+            Cached name for the 'playerTilePosition' field.
+            </summary>
+        </member>
+        <member name="M:TileDungeonController.SetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:TileDungeonController.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)">
+            <inheritdoc/>
+        </member>
+        <member name="M:TileDungeonController.GetGodotPropertyList">
+            <summary>
+            Get the property information for all the properties declared in this class.
+            This method is used by Godot to register the available properties in the editor.
+            Do not call this method.
+            </summary>
+        </member>
+        <member name="M:TileDungeonController.SaveGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:TileDungeonController.RestoreGodotObjectData(Godot.Bridge.GodotSerializationInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:TileDungeonController.SignalName">
+            <summary>
+            Cached StringNames for the signals contained in this class, for fast lookup.
+            </summary>
+        </member>
+        <member name="M:SaveLoadTests.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:StatePersistenceTests.Dispose">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

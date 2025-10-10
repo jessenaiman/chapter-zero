@@ -1,27 +1,33 @@
-using NUnit.Framework;
-using Godot;
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Nodes;
+// <copyright file="NarrativeTerminalSchemaTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Tests
 {
+    using System.IO;
+    using System.Text.Json;
+    using System.Text.Json.Nodes;
+    using Godot;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class NarrativeTerminalSchemaTests
+    public class NarrativeTerminalSchemaTests : IDisposable
     {
-        private JsonSchemaValidator _validator;
-        private string _schemaPath;
+        private JsonSchemaValidator? validator;
+        private string? schemaPath;
 
         [SetUp]
         public void Setup()
         {
-            _validator = new JsonSchemaValidator();
-            _schemaPath = "res://specs/004-implement-omega-spiral/contracts/scene1_narrative_schema.json";
+            this.validator = new JsonSchemaValidator();
+            this.schemaPath = "res://specs/004-implement-omega-spiral/contracts/scene1_narrative_schema.json";
         }
 
         [Test]
         public void ValidateNarrativeTerminalSchema_ValidData_ReturnsTrue()
         {
+            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+
             // Arrange
             var validData = new JsonObject
             {
@@ -42,22 +48,22 @@ namespace OmegaSpiral.Tests
                                 ["light"] = 2,
                                 ["mischief"] = 0,
                                 ["wrath"] = 0
-                            }
-                        }
-                    }
+                            },
+                        },
+                    },
                 },
                 ["storyBlocks"] = new JsonArray(),
                 ["namePrompt"] = "What is your name, traveler?",
                 ["secretQuestion"] = new JsonObject
                 {
                     ["question"] = "What is your deepest secret?",
-                    ["validation"] = "required"
+                    ["validation"] = "required",
                 },
-                ["exitLine"] = "Your journey begins..."
+                ["exitLine"] = "Your journey begins...",
             };
 
             // Act
-            bool result = _validator.ValidateSchema(validData, _schemaPath);
+            bool result = JsonSchemaValidator.ValidateSchema(validData, this.schemaPath!);
 
             // Assert
             Assert.IsTrue(result, "Valid narrative terminal data should pass schema validation");
@@ -66,15 +72,18 @@ namespace OmegaSpiral.Tests
         [Test]
         public void ValidateNarrativeTerminalSchema_MissingRequiredField_ReturnsFalse()
         {
+            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+
             // Arrange
             var invalidData = new JsonObject
             {
                 ["type"] = "narrative_terminal",
+
                 // Missing required fields like openingLines, initialChoice, etc.
             };
 
             // Act
-            bool result = _validator.ValidateSchema(invalidData, _schemaPath);
+            bool result = JsonSchemaValidator.ValidateSchema(invalidData, this.schemaPath!);
 
             // Assert
             Assert.IsFalse(result, "Data missing required fields should fail schema validation");
@@ -83,6 +92,8 @@ namespace OmegaSpiral.Tests
         [Test]
         public void ValidateNarrativeTerminalSchema_WrongType_ReturnsFalse()
         {
+            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+
             // Arrange
             var invalidData = new JsonObject
             {
@@ -92,11 +103,11 @@ namespace OmegaSpiral.Tests
                 ["storyBlocks"] = new JsonArray(),
                 ["namePrompt"] = "Test",
                 ["secretQuestion"] = new JsonObject(),
-                ["exitLine"] = "Test"
+                ["exitLine"] = "Test",
             };
 
             // Act
-            bool result = _validator.ValidateSchema(invalidData, _schemaPath);
+            bool result = JsonSchemaValidator.ValidateSchema(invalidData, this.schemaPath!);
 
             // Assert
             Assert.IsFalse(result, "Data with wrong type should fail schema validation");
@@ -105,14 +116,35 @@ namespace OmegaSpiral.Tests
         [Test]
         public void ValidateNarrativeTerminalSchema_EmptyData_ReturnsFalse()
         {
+            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+
             // Arrange
             var emptyData = new JsonObject();
 
             // Act
-            bool result = _validator.ValidateSchema(emptyData, _schemaPath);
+            bool result = JsonSchemaValidator.ValidateSchema(emptyData, this.schemaPath!);
 
             // Assert
             Assert.IsFalse(result, "Empty data should fail schema validation");
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of the resources used by this test class.
+        /// </summary>
+        /// <param name="disposing">True if called from Dispose, false if called from finalizer.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.validator?.Dispose();
+            }
         }
     }
 }
