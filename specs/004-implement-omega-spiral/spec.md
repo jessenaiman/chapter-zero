@@ -751,18 +751,17 @@ Test coverage must target player interactions, state changes, and system expecta
 - [ ] Godot 4.5 Mono project setup with C# scripting
 - [ ] .NET 10 RC runtime integration
 - [ ] JSON schema validation for scene data
+- [ ] Async JSON loading with `FileAccess` and proper error handling
 - [ ] Scene transition system with state preservation
 - [ ] Asset loading and management (ASCII art, pixel art, audio)
 - [ ] Input handling via Godot's Input Map system with scene-specific action overrides for flexible keyboard navigation
-- [ ] Save/load system for game progress
+- [ ] Async save/load system for game progress without blocking main thread
 
-### Performance Requirements
+### Performance Requirements (MVP - Nice to Have)
 
-- [ ] 60 FPS gameplay maintained across all scenes
-- [ ] Scene transitions under 500ms
-- [ ] JSON loading under 100ms
-- [ ] Memory usage under 500MB during gameplay
-- [ ] No frame drops during combat or navigation
+- [ ] Scene transitions complete without blocking user input
+- [ ] JSON loading does not cause visible delays
+- [ ] Game remains responsive during navigation and combat
 
 ## Non-Functional Requirements
 
@@ -778,6 +777,12 @@ Test coverage must target player interactions, state changes, and system expecta
 - [ ] Retro aesthetic consistency across all scenes (fonts, palettes, UI motion handled inside Godot)
 - [ ] Authentic recreation of classic game mechanics (terminal, roguelike navigation, party building, tile dungeon, JRPG combat)
 - [ ] Comprehensive error handling and logging (detailed schema validation errors with extensive debug content for demo development, asset load failures, state mismatches)
+- [ ] XML documentation for all public members (`<summary>`, `<param>`, `<returns>`, `<remarks>`) per Constitution Principle II
+- [ ] Async-first programming patterns for I/O operations (JSON loading, file access) per Constitution Principle VI
+  - All async methods use 'Async' suffix
+  - Return `Task<T>` or `Task`, never async void (except event handlers)
+  - Use `ConfigureAwait(false)` in library code to prevent deadlocks
+  - Long-running operations accept `CancellationToken` parameters
 - [ ] Clean C# code following SOLID principles with Godot node lifecycle discipline (ready, process, input)
 
 ## Dependencies
@@ -811,12 +816,12 @@ Test coverage must target player interactions, state changes, and system expecta
 - Performance requirements are non-negotiable
 - Classic game mechanics must be faithfully recreated
 
-## Success Criteria
+## Success Criteria (MVP)
 
 - [ ] All P1 user stories implemented and independently testable
 - [ ] Game runs on Windows and Linux platforms
-- [ ] 60 FPS performance maintained across all scenes
 - [ ] Retro aesthetic and mechanics feel authentic to classic games
 - [ ] Complete gameplay loop from start to combat victory
 - [ ] State persistence works across scene transitions
 - [ ] Code follows C# best practices and SOLID principles
+- [ ] XML documentation for public APIs per Constitution

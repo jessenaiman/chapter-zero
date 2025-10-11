@@ -7,7 +7,7 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 **Input**: Design documents from `/specs/002-using-godot-4/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: Tests are OPTIONAL and will be included based on feature specification requirements. No explicit testing was requested in the spec, so test tasks are included as optional additions.
+**Tests**: Tests are REQUIRED following player-driven TDD approach. Tests validate player interactions and game state changes, enabling MVP validation while implementation completes. Contract tests validate data schemas; integration tests validate player experience scenarios.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -26,6 +26,7 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Purpose**: Project initialization and basic Godot structure
 
+ - [ ] T001 [P] Configure pre-commit git hooks for build error prevention (Constitution Principle III)
  - [X] T002 Initialize Godot 4.5 project with C# 14 and .NET 10 RC configuration
  - [X] T003 [P] Configure Godot project settings for Windows and Linux export
  - [X] T004 [P] Set up Godot autoload singleton for SceneManager in project settings
@@ -40,12 +41,13 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
  - [X] T006 Create GameState singleton script in /Source/Scripts/GameState.cs
  - [X] T007 [P] Implement JSON schema validation system in /Source/Scripts/JsonSchemaValidator.cs
- - [X] T008 [P] Create SceneLoader system in /Source/Scripts/SceneLoader.cs
+ - [X] T008 [P] Create SceneLoader system with async LoadSceneAsync method in /Source/Scripts/SceneLoader.cs
  - [X] T009 Create SceneManager autoload singleton in /Source/Scripts/SceneManager.cs
  - [X] T010 Create NarratorEngine for dialogue processing in /Source/Scripts/NarratorEngine.cs
  - [X] T011 Set up input action mappings in Godot Project Settings
  - [X] T012 Create base manifest.json file in /Source/Data/manifest.json
  - [X] T013 Configure JSON.NET dependency for C# JSON handling
+ - [ ] T013A [P] Refactor JSON loading to use async patterns (LoadJsonAsync methods) per Constitution Principle VI
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -57,10 +59,10 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Independent Test**: Can be fully tested by running the narrative terminal scene inside Godot, making thread choices, answering questions, and verifying correct narrative progression and state updates without relying on hardcoded text.
 
-### Tests for User Story 1 (OPTIONAL) ⚠️
+### Tests for User Story 1 (REQUIRED - Player-Driven)
 
 - [X] T014 [P] [US1] Contract test for narrative terminal schema validation in /Tests/NarrativeTerminalSchemaTests.cs
-- [X] T015 [P] [US1] Integration test for state updates in /Tests/NarrativeTerminalIntegrationTests.cs
+- [X] T015 [P] [US1] Integration test for player choice interactions and state updates in /Tests/NarrativeTerminalIntegrationTests.cs
 
 ### Implementation for User Story 1
 
@@ -86,10 +88,10 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Independent Test**: Can be fully tested by navigating each dungeon's ASCII grid, interacting with objects (door/monster/chest), verifying Dreamweaver scoring, and confirming the final Dreamweaver selection.
 
-### Tests for User Story 2 (OPTIONAL) ⚠️
+### Tests for User Story 2 (REQUIRED - Player-Driven)
 
 - [ ] T027 [P] [US2] Contract test for ASCII dungeon schema validation in /Tests/AsciiDungeonSchemaTests.cs
-- [ ] T028 [P] [US2] Integration test for Dreamweaver scoring in /Tests/DreamweaverScoringTests.cs
+- [ ] T028 [P] [US2] Integration test for player interactions, Dreamweaver scoring, and alignment selection in /Tests/DreamweaverScoringTests.cs
 
 ### Implementation for User Story 2
 
@@ -116,10 +118,10 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Independent Test**: Can be fully tested by selecting party members, assigning classes/races, viewing stats, and verifying the party data is correctly saved and persisted.
 
-### Tests for User Story 3 (OPTIONAL) ⚠️
+### Tests for User Story 3 (REQUIRED - Player-Driven)
 
 - [ ] T041 [P] [US3] Contract test for party creation schema validation in /Tests/PartyCreationSchemaTests.cs
-- [ ] T042 [P] [US3] Integration test for party data persistence in /Tests/PartyPersistenceTests.cs
+- [ ] T042 [P] [US3] Integration test for player party creation flow and data persistence in /Tests/PartyPersistenceTests.cs
 
 ### Implementation for User Story 3
 
@@ -146,10 +148,10 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Independent Test**: Can be fully tested by navigating the tile map, interacting with doors and objects, using UI panels, and verifying correct scene transitions.
 
-### Tests for User Story 4 (OPTIONAL) ⚠️
+### Tests for User Story 4 (REQUIRED - Player-Driven)
 
 - [ ] T055 [P] [US4] Contract test for tile dungeon schema validation in /Tests/TileDungeonSchemaTests.cs
-- [ ] T056 [P] [US4] Integration test for tile navigation in /Tests/TileNavigationTests.cs
+- [ ] T056 [P] [US4] Integration test for player tile navigation, object interactions, and exit conditions in /Tests/TileNavigationTests.cs
 
 ### Implementation for User Story 4
 
@@ -176,10 +178,10 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 
 **Independent Test**: Can be fully tested by initiating combat, selecting actions, executing turns, and verifying win/loss conditions and rewards.
 
-### Tests for User Story 5 (OPTIONAL) ⚠️
+### Tests for User Story 5 (REQUIRED - Player-Driven)
 
-- [ ] T069 [P] [US5] Contract test for combat schema validation in /Tests/CombatSchemaTests.cs
-- [ ] T070 [P] [US5] Integration test for combat resolution in /Tests/CombatResolutionTests.cs
+- [ ] T069 [P] [US5] Contract test for pixel combat schema validation in /Tests/PixelCombatSchemaTests.cs
+- [ ] T070 [P] [US5] Integration test for player combat actions, turn queue execution, and victory/defeat conditions in /Tests/CombatMechanicsTests.cs
 
 ### Implementation for User Story 5
 
@@ -337,4 +339,11 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Each user story maintains the Godot project structure and C# 14 architecture
-- Performance targets: 60 FPS, scene transitions under 500ms, JSON loading under 10ms
+
+## MVP Focus
+
+- **Functional completeness** over performance optimization
+- **Player experience validation** over strict metrics
+- **Iterative improvement** - optimize after core gameplay validates
+- Performance targets deferred to post-MVP: Focus on responsiveness, not specific FPS/timing
+- Test coverage target: >30% for MVP, >50% for production (Constitution compliance)
