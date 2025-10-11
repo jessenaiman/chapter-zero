@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for the player inventory display.

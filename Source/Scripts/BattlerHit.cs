@@ -31,7 +31,7 @@ public partial class BattlerHit : Resource
     /// </summary>
     /// <param name="target">The battler being targeted by this hit</param>
     /// <returns>True if the hit is successful, false otherwise</returns>
-    public bool IsSuccessful(Battler target = null)
+    public bool IsSuccessful(Battler? target = null)
     {
         // Generate a random value between 0 and 100
         float randomValue = GD.Randf() * 100;

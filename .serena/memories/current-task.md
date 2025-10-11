@@ -1,0 +1,1 @@
+User requested to ensure code quality passes pre-commit; focus on identifying and resolving remaining issues in C# project without touching scene 1 generation.

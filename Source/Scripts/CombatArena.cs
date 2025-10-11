@@ -31,7 +31,7 @@ public partial class CombatArena : Control
     private AnimationPlayer uiAnimation;
     private UITurnBar uiTurnBar;
     private UIEffectLabelBuilder uiEffectLabelBuilder;
-    private UICombatMenus uiPlayerMenus;
+    private UICombatMenu uiPlayerMenus;
 
     public override void _Ready()
     {
@@ -63,7 +63,7 @@ public partial class CombatArena : Control
         }
         if (HasNode("UI/PlayerMenus"))
         {
-            uiPlayerMenus = GetNode<UICombatMenus>("UI/PlayerMenus");
+            uiPlayerMenus = GetNode<UICombatMenu>("UI/PlayerMenus");
         }
 
         // Set up UI elements if they exist

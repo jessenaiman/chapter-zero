@@ -25,6 +25,8 @@ SceneManager="*res://Source/Scripts/SceneManager.cs"
 GameState="*res://Source/Scripts/GameState.cs"
 NarratorEngine="*res://Source/Scripts/NarratorEngine.cs"
 DreamweaverSystem="*res://Source/Scripts/DreamweaverSystem.cs"
+SharedNobodyWhoModel="*res://Source/Scripts/SharedNobodyWhoModel.cs"
+SharedNobodyWhoEmbedding="*res://Source/Scripts/SharedNobodyWhoEmbedding.cs"
 
 [display]
 

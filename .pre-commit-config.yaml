@@ -1,0 +1,48 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: check-merge-conflict
+  - repo: local
+    hooks:
+      - id: dotnet-format
+        name: dotnet format (apply)
+        language: system
+        entry: "bash -c 'dotnet format --severity info || true'"
+        pass_filenames: false
+        stages: [commit]
+      - id: dotnet-build-gate
+        name: dotnet selective build gate
+        language: system
+        entry: "bash -c 'dotnet build --no-restore /warnaserror:CS8600,CS8602,CS8618 || exit 1'"
+        pass_filenames: false
+        stages: [commit]
+      - id: dotnet-analyzers-verify
+        name: analyzers verification
+        language: system
+        entry: "bash -c 'dotnet format analyzers --verify-no-changes || (echo Analyzer issues remain && exit 1)'"
+        pass_filenames: false
+        stages: [commit]
+      - id: dotnet-test-quick
+        name: dotnet tests (quick)
+        language: system
+        entry: "bash -c 'dotnet test --no-build --logger \"trx;LogFileName=TestResults.trx\" || exit 1'"
+        pass_filenames: false
+        stages: [commit]
+      - id: quality-summary
+        name: quality summary report
+        language: system
+        entry: "bash -c 'mkdir -p reports/quality/latest && echo Commit: $(git rev-parse --short HEAD) > reports/quality/latest/summary.txt || true'"
+        pass_filenames: false
+        stages: [commit]
+default_stages: [commit]
+ci:
+  autofix_prs: true
+  autoupdate_schedule: monthly
+  skip: []

@@ -18,7 +18,7 @@ public partial class Combat : CanvasLayer
     // Keep track of what music track was playing previously, and return to it once combat has finished.
     private AudioStream previousMusicTrack = null;
 
-    private Timer transitionDelayTimer;
+    private Godot.Timer transitionDelayTimer;
     private CenterContainer combatContainer;
 
     public override void _Ready()
@@ -26,7 +26,7 @@ public partial class Combat : CanvasLayer
         // FieldEvents.CombatTriggered += Start;
 
         combatContainer = GetNode<CenterContainer>("CenterContainer");
-        transitionDelayTimer = GetNode<Timer>("CenterContainer/TransitionDelay");
+        transitionDelayTimer = GetNode<Godot.Timer>("CenterContainer/TransitionDelay");
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public partial class Combat : CanvasLayer
 
         // Wait a short period of time and then fade the screen to black.
         transitionDelayTimer.Start();
-        await ToSignal(transitionDelayTimer, Timer.SignalName.Timeout);
+        await ToSignal(transitionDelayTimer, Godot.Timer.SignalName.Timeout);
         // await Transition.Cover(0.2f);
 
         if (activeArena != null)

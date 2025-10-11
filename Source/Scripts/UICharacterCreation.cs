@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for the player character creation display.
@@ -17,7 +20,7 @@ public partial class UICharacterCreation : Control
     /// Emitted when the player confirms their character creation.
     /// </summary>
     [Signal]
-    public delegate void CharacterConfirmedEventHandler(Character character);
+    public delegate void CharacterConfirmedEventHandler();
 
     /// <summary>
     /// Emitted when the player cancels character creation.
@@ -29,7 +32,7 @@ public partial class UICharacterCreation : Control
     /// Emitted when a character attribute changes.
     /// </summary>
     [Signal]
-    public delegate void CharacterAttributeChangedEventHandler(string attributeName, object newValue);
+    public delegate void CharacterAttributeChangedEventHandler(string attributeName, Variant newValue);
 
     /// <summary>
     /// The character being created.

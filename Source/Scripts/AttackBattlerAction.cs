@@ -19,7 +19,7 @@ public partial class AttackBattlerAction : BattlerAction
     [Export]
     public int BaseDamage { get; set; } = 50;
 
-    public override async void Execute(Battler source, List<Battler> targets = null)
+    public override async void Execute(Battler source, List<Battler>? targets = null)
     {
         if (targets == null) targets = new List<Battler>();
 

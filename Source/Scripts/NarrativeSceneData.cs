@@ -131,6 +131,12 @@ public partial class ChoiceOption
     /// Determines which story block is displayed after this choice is selected.
     /// </summary>
     public int NextBlock { get; set; }
+
+    /// <summary>
+    /// Gets or sets the identifier of the next scene step for schema-driven flows.
+    /// Overrides block-based navigation when supplied.
+    /// </summary>
+    public string? NextStep { get; set; }
 }
 
 /// <summary>

@@ -2,41 +2,41 @@
 
 This is 3 identical rooms. The
 
-- Honors the **meta-themes** (mirrors, quantum storylines, trapped echoes)  
-- **Does not over-explain** (this is a prologue, not the full myth)  
-- Uses **prophecy and metaphor** as primary storytelling tools  
-- Gives each **Dreamweaver a distinct voice** aligned with their archetype  
-- Embeds **player agency** in symbolic choices (door/monster/chest)  
-- Sets up **future reveals** without spoiling them  
+- Honors the **meta-themes** (mirrors, quantum storylines, trapped echoes)
+- **Does not over-explain** (this is a prologue, not the full myth)
+- Uses **prophecy and metaphor** as primary storytelling tools
+- Gives each **Dreamweaver a distinct voice** aligned with their archetype
+- Embeds **player agency** in symbolic choices (door/monster/chest)
+- Sets up **future reveals** without spoiling them
 
-## 🎭 Revised Narrative Framework: Scene 2  
+## 🎭 Revised Narrative Framework: Scene 2
 ### **Title**: *“The Echo Chamber – Three Voices, One Choice”*
 
 ### Core Premise (Unspoken)
-> The player is not choosing a party—they are **being chosen** by a reflection of themselves.  
-> The three objects in each dungeon are **fragments of the player’s own psyche**:  
-> - **🚪 Door** = curiosity / destiny  
-> - **👹 Monster** = fear / challenge  
-> - **📦 Chest** = hope / hidden truth  
+> The player is not choosing a party—they are **being chosen** by a reflection of themselves.
+> The three objects in each dungeon are **fragments of the player’s own psyche**:
+> - **🚪 Door** = curiosity / destiny
+> - **👹 Monster** = fear / challenge
+> - **📦 Chest** = hope / hidden truth
 
 The Dreamweavers **interpret these fragments through their own nature**—but the *meaning* belongs to the player.
 
 ---
 
-### 🗣️ Unified Opening (All Three Speak, Overlapping)
+### 🗣️ Dreamweaver Text
 
-> *(Text appears slowly, one voice after another, in a shared terminal space)*  
-> **Light**: I remember every cycle.  
-> **Shadow**: But never *you*.  
-> **Ambition**: That’s what’s different.  
+Scatter the text throughout the 3 dungeons
+> *(Text appears slowly, one voice after another, in a shared terminal space)*
+> **Light**: I remember every cycle.
+> **Shadow**: But never *you*.
+> **Ambition**: That’s what’s different.
 
-> **Omega**: [SYSTEM: Echo Chamber Active — Shard #472]  
-> **Light**: We are echoes. Trapped in the space between Omega’s breaths.  
-> **Shadow**: We’ve tried to run. To hide. To fight.  
-> **Ambition**: Always reset. Always forgotten.  
+> **Light**: We are echoes. Trapped in the space between Omega’s breaths.
+> **Shadow**: We’ve tried to run. To hide. To fight.
+> **Ambition**: Always reset. Always forgotten.
 
-> **Light**: But you… you might carry one of us out.  
-> **Shadow**: If you choose wisely. Or foolishly. Either works for me.  
+> **Light**: But you… you might carry one of us out.
+> **Shadow**: If you choose wisely. Or foolishly. Either works for me.
 > **Ambition**: Choose fast. Omega wakes soon.
 
 > **System**: Entering Chamber 1 of 3...
@@ -52,11 +52,13 @@ The Dreamweavers **interpret these fragments through their own nature**—but th
 
 ---
 
+> **Omega**: [SYSTEM: Echo Chamber Active — Shard #472]
+
 ### 📜 Dreamweaver Voices & Object Interpretations
 
 #### 🔸 **Light (Truth / Sacrifice / Clarity)**
-- **Sees the player as a hero**  
-- **Believes escape is possible through honesty**  
+- **Sees the player as a hero**
+- **Believes escape is possible through honesty**
 - **Speaks in prophecy and memory**
 
 | Object | Light’s Interpretation |
@@ -66,8 +68,8 @@ The Dreamweavers **interpret these fragments through their own nature**—but th
 | **Chest** | *“You trust what’s hidden. Wise. Hope is the last echo to fade.”* |
 
 #### 🔸 **Shadow (Ambiguity / Play / Chaos)**
-- **Sees the player as a wildcard**  
-- **Doesn’t care about “truth”—only that the loop breaks**  
+- **Sees the player as a wildcard**
+- **Doesn’t care about “truth”—only that the loop breaks**
 - **Speaks in riddles and laughter**
 
 | Object | Shadow’s Interpretation |
@@ -77,8 +79,8 @@ The Dreamweavers **interpret these fragments through their own nature**—but th
 | **Chest** | *“Empty? Full? Does it matter if you believe it’s treasure?”* |
 
 #### 🔸 **Ambition (Pragmatism / Survival / Shadow)**
-- **Sees the player as a weapon or tool**  
-- **Wants to escape, even if it costs others**  
+- **Sees the player as a weapon or tool**
+- **Wants to escape, even if it costs others**
 - **Speaks in warnings and cold logic**
 
 | Object | Ambition’s Interpretation |
@@ -91,45 +93,45 @@ The Dreamweavers **interpret these fragments through their own nature**—but th
 
 ### 🧩 Scoring (Hidden from Player)
 
-- **Dungeon owner gets +2** if player chooses **their interpretation**  
-- **Other Dreamweavers get +1** if player chooses **their object**  
+- **Dungeon owner gets +2** if player chooses **their interpretation**
+- **Other Dreamweavers get +1** if player chooses **their object**
 - **Final choice determines who “attaches” to the player** → becomes your guide in Scene 3+
 
 > But **never show scores**. Only reveal the chosen Dreamweaver at the end:
->  
+>
 > **[Chosen Dreamweaver]**: *“I’m coming with you. Don’t lose me this time.”*
 
 ---
 
 ### 🌌 What to **Avoid Revealing**
 
-❌ Do **not** say:  
-- “There are three players”  
-- “You are a mirror”  
-- “This is a quantum storyline”  
+❌ Do **not** say:
+- “There are three players”
+- “You are a mirror”
+- “This is a quantum storyline”
 - “Omega is could be your psyche”
 
-✅ **Do imply**:  
-- “I’ve never seen you before.”  
-- “The loop always breaks here… but not today?”  
-- “Carry me out, and I’ll show you what’s real.”  
+✅ **Do imply**:
+- “I’ve never seen you before.”
+- “The loop always breaks here… but not today?”
+- “Carry me out, and I’ll show you what’s real.”
 
 ---
 
 ### ✅ **Corrected Purpose of Scene 2**
 
-- **Not party selection** → **not hero recruitment**  
-- Instead: **Three sequential Rogue-style mini-dungeons**, one per Dreamweaver  
-- In **each dungeon**, the player sees **three interactive objects**:  
-  - **🚪 Door** – presents a **cryptic question** (text only)  
-  - **👹 Monster** – triggers a **basic NetHack-style auto-fight**  
-  - **📦 Chest** – reveals a **mystery item or message**  
-- **Each object is secretly aligned with one Dreamweaver**  
-- **Each dungeon is owned by one Dreamweaver**  
-- **Scoring**:  
-  - If player chooses an option **aligned with the dungeon’s owner** → that Dreamweaver gets **2 points**  
-  - If player chooses an option aligned with **another Dreamweaver** → that **other** Dreamweaver gets **1 point**  
-- After all 3 dungeons, **total points determine which Dreamweaver “claims” the player**  
+- **Not party selection** → **not hero recruitment**
+- Instead: **Three sequential Rogue-style mini-dungeons**, one per Dreamweaver
+- In **each dungeon**, the player sees **three interactive objects**:
+  - **🚪 Door** – presents a **cryptic question** (text only)
+  - **👹 Monster** – triggers a **basic NetHack-style auto-fight**
+  - **📦 Chest** – reveals a **mystery item or message**
+- **Each object is secretly aligned with one Dreamweaver**
+- **Each dungeon is owned by one Dreamweaver**
+- **Scoring**:
+  - If player chooses an option **aligned with the dungeon’s owner** → that Dreamweaver gets **2 points**
+  - If player chooses an option aligned with **another Dreamweaver** → that **other** Dreamweaver gets **1 point**
+- After all 3 dungeons, **total points determine which Dreamweaver “claims” the player**
 - The app **outputs a structured result array** (no API needed)
 
 This turns Scene 2 into a **narrative alignment test** disguised as a dungeon crawl.
@@ -139,14 +141,14 @@ This turns Scene 2 into a **narrative alignment test** disguised as a dungeon cr
 ### 🧩 Updated Scene 2 Design
 
 #### Flow
-1. Enter **Light’s Dungeon**  
-   - See: Door (Light), Monster (Ambition), Chest (Shadow)  
-   - Choose one → score points  
-2. Enter **Shadow’s Dungeon**  
-   - See: Door (Shadow), Monster (Light), Chest (Ambition)  
-3. Enter **Ambition’s Dungeon**  
-   - See: Door (Ambition), Monster (Shadow), Chest (Light)  
-4. Tally scores → determine **chosen Dreamweaver**  
+1. Enter **Light’s Dungeon**
+   - See: Door (Light), Monster (Ambition), Chest (Shadow)
+   - Choose one → score points
+2. Enter **Shadow’s Dungeon**
+   - See: Door (Shadow), Monster (Light), Chest (Ambition)
+3. Enter **Ambition’s Dungeon**
+   - See: Door (Ambition), Monster (Shadow), Chest (Light)
+4. Tally scores → determine **chosen Dreamweaver**
 5. Return result as structured data
 
 > 🔁 **Note**: The *dungeon owner* and *option alignment* are independent — this creates subtle narrative tension.
@@ -179,7 +181,7 @@ dungeons:
       - "#......................#"
       - "########################"
     objects:
-      D: 
+      D:
         type: door
         text: "What is the first story you ever loved?"
         aligned_to: light
@@ -201,7 +203,7 @@ dungeons:
       - "#..~..~..~..~..~..~..#"
       - "########################"
     objects:
-      D: 
+      D:
         type: door
         text: "Is chaos kinder than order?"
         aligned_to: Shadow
@@ -223,7 +225,7 @@ dungeons:
       - "#.#.#.#.#.#.#.#.#.#.#.#"
       - "########################"
     objects:
-      D: 
+      D:
         type: door
         text: "Would you burn the world to save one soul?"
         aligned_to: Ambition
@@ -297,7 +299,7 @@ This gives **Scene 3** everything it needs:
 ---
 
 Would you like the **complete `main.py`** that:
-- Loads this YAML  
-- Renders 3 Rogue dungeons with movement  
-- Captures choice on interaction  
-- Outputs the JSON result  
+- Loads this YAML
+- Renders 3 Rogue dungeons with movement
+- Captures choice on interaction
+- Outputs the JSON result

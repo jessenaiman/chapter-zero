@@ -68,7 +68,7 @@ public partial class Music : Node
     /// <summary>
     /// Timer for crossfade operations.
     /// </summary>
-    private Timer crossfadeTimer;
+    private Godot.Timer crossfadeTimer;
 
     public override void _Ready()
     {

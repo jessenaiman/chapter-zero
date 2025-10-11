@@ -150,7 +150,7 @@ public partial class PlayerController : GamepieceController
         // Player.PlayerPathSet.Emit(Gamepiece, value[value.Count - 1]);
     }
 
-    public void MoveToPressedKey(Vector2 inputDirection)
+    public override void MoveToPressedKey(Vector2 inputDirection)
     {
         if (IsActive)
         {

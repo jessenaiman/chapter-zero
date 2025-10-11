@@ -28,7 +28,7 @@ public partial class Gameboard : Node
     /// state (i.e. a visual update only), in which case this signal is not emitted.
     /// </summary>
     [Signal]
-    public delegate void PathfinderChangedEventHandler(Array<Vector2I> addedCells, Array<Vector2I> removedCells);
+    public delegate void PathfinderChangedEventHandler(Godot.Collections.Array addedCells, Godot.Collections.Array removedCells);
 
     /// <summary>
     /// An invalid cell is not part of the gameboard. Note that this requires positive boundaries.

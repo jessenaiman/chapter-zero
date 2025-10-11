@@ -72,8 +72,9 @@ public partial class Battler : Node2D
     /// <summary>
     /// If false, the battler will not be able to act.
     /// </summary>
-    public bool IsActive { get; set; } = true
+    public bool IsActive
     {
+        get => isActive;
         set
         {
             isActive = value;
@@ -184,7 +185,7 @@ public partial class Battler : Node2D
     /// <summary>
     /// Performs an action with the specified targets.
     /// </summary>
-    public async Task ActAsync(BattlerAction action, List<Battler> targets = null)
+    public async Task ActAsync(BattlerAction action, List<Battler>? targets = null)
     {
         if (targets == null) targets = new List<Battler>();
 

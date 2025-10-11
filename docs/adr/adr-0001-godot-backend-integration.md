@@ -1,8 +1,8 @@
 # ADR 0001: Godot Pitch Game Integration Architecture
 
-**Status**: Proposed 2025-10-07  
-**Decision Makers**: Core architecture guild  
-**Drivers**: Pitch demo deadline, multi-project backend alignment, namespace stability  
+**Status**: Proposed 2025-10-07
+**Decision Makers**: Core architecture guild
+**Drivers**: Pitch demo deadline, multi-project backend alignment, namespace stability
 
 ## 1. Context
 

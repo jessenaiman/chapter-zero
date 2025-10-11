@@ -16,7 +16,7 @@ Integration plan for adding local LLM-powered Dreamweaver personas to Omega Spir
 ### Four AI Personas
 
 1. **Hero Dreamweaver** - Courage & Honor
-2. **Shadow Dreamweaver** - Mystery & Power  
+2. **Shadow Dreamweaver** - Mystery & Power
 3. **Ambition Dreamweaver** - Achievement & Legacy
 4. **Omega System** - Meta-Narrator (synthesizes all three)
 
@@ -124,7 +124,7 @@ private void OnConsultation(Godot.Collections.Dictionary consultations)
     string shadowJson = consultations["shadow"].AsString();
     string ambitionJson = consultations["ambition"].AsString();
     string omegaJson = consultations["omega"].AsString();
-    
+
     // Parse and display
     DisplayDreamweaverGuidance(heroJson, shadowJson, ambitionJson, omegaJson);
 }
@@ -142,7 +142,7 @@ private void OnConsultation(Godot.Collections.Dictionary consultations)
 
 ```csharp
 // Let Dreamweavers query game state
-chatNode.Call("add_tool", 
+chatNode.Call("add_tool",
     new Callable(this, nameof(CheckInventory)),
     "Check player's inventory",
     new Dictionary());
@@ -267,11 +267,11 @@ ls -lh Source/Data/models/qwen3-4b.gguf
 
 ## Status
 
-**Current**: Research and planning complete  
-**Next**: Deferred until core game systems stable  
+**Current**: Research and planning complete
+**Next**: Deferred until core game systems stable
 **Priority**: Medium (enhancement, not blocker)
 
 ---
 
-*Last Updated: October 9, 2025*  
+*Last Updated: October 9, 2025*
 *For full implementation details, see ADR-0003*

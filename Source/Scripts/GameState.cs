@@ -73,6 +73,16 @@ public partial class GameState : Node
     /// </summary>
     public PartyData PlayerParty { get; set; } = new ();
 
+    /// <summary>
+    /// Gets or sets the currently selected narrative thread for the player.
+    /// </summary>
+    public string? SelectedThread { get; set; }
+
+    /// <summary>
+    /// Gets or sets the game seed used for procedural generation and narrative consistency.
+    /// </summary>
+    public long GameSeed { get; set; }
+
     // FUTURE: LLM_INTEGRATION - Dreamweaver consultation history
     // Will store LLM responses for replay/analysis and state persistence
     // public List<DreamweaverConsultation> ConsultationHistory { get; set; } = new();

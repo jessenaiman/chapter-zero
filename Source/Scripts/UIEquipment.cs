@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for the player equipment display.
@@ -19,19 +22,19 @@ public partial class UIEquipment : Control
     /// Emitted when the player equips an item.
     /// </summary>
     [Signal]
-    public delegate void ItemEquippedEventHandler(Item item, EquipmentSlot slot);
+    public delegate void ItemEquippedEventHandler(string itemId, string slotName);
 
     /// <summary>
     /// Emitted when the player unequips an item.
     /// </summary>
     [Signal]
-    public delegate void ItemUnequippedEventHandler(Item item, EquipmentSlot slot);
+    public delegate void ItemUnequippedEventHandler(string itemId, string slotName);
 
     /// <summary>
     /// Emitted when the player selects an equipment slot.
     /// </summary>
     [Signal]
-    public delegate void EquipmentSlotSelectedEventHandler(EquipmentSlot slot);
+    public delegate void EquipmentSlotSelectedEventHandler(string slotName);
 
     /// <summary>
     /// The player character to manage equipment for.
@@ -1827,86 +1830,6 @@ public partial class UIEquipment : Control
     }
 
     /// <summary>
-    /// Refresh the character sheet with current character data.
-    /// </summary>
-    public void Refresh()
-    {
-        // Clear and recreate all displays
-        ClearDisplays();
-
-        if (PlayerCharacter != null)
-        {
-            CreateStatsDisplay(PlayerCharacter.Stats, statsContainer);
-            CreateEquipmentDisplay(PlayerCharacter.Equipment, equipmentContainer);
-            CreateSkillsDisplay(PlayerCharacter.Skills, skillsContainer);
-            CreatePortraitDisplay(PlayerCharacter.Portrait, portraitContainer);
-        }
-
-        // Update all displays
-        UpdateAllDisplays();
-    }
-
-    /// <summary>
-    /// Show a message in the character sheet.
-    /// </summary>
-    /// <param name="message">The message to show</param>
-    /// <param name="duration">The duration to show the message for</param>
-    public async void ShowMessage(string message, float duration = 2.0f)
-    {
-        if (string.IsNullOrEmpty(message))
-        {
-            return;
-        }
-
-        // Show a temporary message in the character sheet
-        // This would typically involve showing a label or panel with the message
-
-        // For example:
-        // var messageLabel = GetNode<Label>("MessageLabel");
-        // messageLabel.Text = message;
-        // messageLabel.Show();
-
-        // Wait for the specified duration
-        await Task.Delay(TimeSpan.FromSeconds(duration));
-
-        // Hide the message
-        // messageLabel.Hide();
-    }
-
-    /// <summary>
-    /// Show an effect label (like stat increases or skill upgrades).
-    /// </summary>
-    /// <param name="text">The text to show</param>
-    /// <param name="position">The position to show the text at</param>
-    /// <param name="color">The color of the text</param>
-    public void ShowEffectLabel(string text, Vector2 position, Color color)
-    {
-        // Show a floating label at the specified position
-        // This would typically involve creating a temporary label that floats upward and fades out
-
-        // For example:
-        // var label = new Label();
-        // label.Text = text;
-        // label.AddThemeColorOverride("font_color", color);
-        // label.Position = position;
-        // AddChild(label);
-
-        // Create a tween to animate the label
-        // var tween = CreateTween();
-        // tween.TweenProperty(label, "position:y", position.Y - 50, 1.0f);
-        // tween.Parallel().TweenProperty(label, "modulate:a", 0.0f, 1.0f);
-        // tween.TweenCallback(new Callable(label, "queue_free"));
-    }
-
-    /// <summary>
-    /// Callback when the close button is pressed.
-    /// </summary>
-    private void OnCloseButtonPressed()
-    {
-        HideSheet();
-    }
-
-    /// <summary>
     /// Callback when character stats change.
     /// </summary>
     private void OnCharacterStatsChanged(CharacterStats stats)
@@ -2063,3 +1986,4 @@ public partial class UIEquipment : Control
         }
 
     }
+}

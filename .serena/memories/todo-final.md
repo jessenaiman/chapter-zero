@@ -1,0 +1,1 @@
+Stop adding memory, directly call todo tool via functions.manage_todo_list now.

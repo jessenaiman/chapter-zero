@@ -45,16 +45,16 @@ public partial class BattlerAction : Resource
     /// make use of the TargetsFriendlies or TargetsEnemies flags.
     /// </summary>
     [Export]
-    public TargetScope TargetScope { get; set; } = TargetScope.Single;
+    public TargetScope Scope { get; set; } = TargetScope.Single;
 
     /// <summary>
-    /// Can this action target friendly Battlers? Has no effect if TargetScope is TargetScope.Self.
+    /// Can this action target friendly Battlers? Has no effect if Scope is TargetScope.Self.
     /// </summary>
     [Export]
     public bool TargetsFriendlies { get; set; } = false;
 
     /// <summary>
-    /// Can this action target enemy Battlers? Has no effect if TargetScope is TargetScope.Self.
+    /// Can this action target enemy Battlers? Has no effect if Scope is TargetScope.Self.
     /// </summary>
     [Export]
     public bool TargetsEnemies { get; set; } = false;
@@ -69,23 +69,21 @@ public partial class BattlerAction : Resource
     /// <summary>
     /// Amount of energy required to perform the action.
     /// </summary>
-    [Export]
-    [Range(0, 10)]
+    [Export(PropertyHint.Range, "0,10")]
     public int EnergyCost { get; set; } = 0;
 
     /// <summary>
     /// The amount of Battler readiness left to the Battler after acting. This can be used to
     /// design weak attacks that allow the Battler to take fast turns.
     /// </summary>
-    [Export]
-    [Range(0.0f, 100.0f)]
+    [Export(PropertyHint.Range, "0.0,100.0")]
     public float ReadinessSaved { get; set; } = 0.0f;
 
     /// <summary>
     /// Verifies that an action can be run. This can be dependent on any number of details regarding the
     /// source and target Battlers.
     /// </summary>
-    public virtual bool CanExecute(Battler source, List<Battler> targets = null)
+    public virtual bool CanExecute(Battler source, List<Battler>? targets = null)
     {
         if (targets == null) targets = new List<Battler>();
 
@@ -121,7 +119,7 @@ public partial class BattlerAction : Resource
     /// execution to finish.
     /// Note: The base action class does nothing, but must be overridden to do anything.
     /// </summary>
-    public virtual async void Execute(Battler source, List<Battler> targets = null)
+    public virtual async void Execute(Battler source, List<Battler>? targets = null)
     {
         if (targets == null) targets = new List<Battler>();
 
@@ -140,7 +138,7 @@ public partial class BattlerAction : Resource
 
         // Normally, actions can pick from battlers of the opposing team. However, actions may be
         // specified to target the source battler only or to target ALL battlers instead.
-        if (TargetScope == TargetScope.Self)
+        if (Scope == TargetScope.Self)
         {
             possibleTargets.Add(source);
         }
@@ -190,6 +188,6 @@ public partial class BattlerAction : Resource
     /// </summary>
     public virtual bool TargetsAll()
     {
-        return TargetScope == TargetScope.All;
+        return Scope == TargetScope.All;
     }
 }

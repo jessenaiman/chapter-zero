@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for the player character sheet display.
@@ -22,13 +25,13 @@ public partial class UICharacterSheet : Control
     /// Emitted when the player selects an equipment slot.
     /// </summary>
     [Signal]
-    public delegate void EquipmentSlotSelectedEventHandler(EquipmentSlot slot);
+    public delegate void EquipmentSlotSelectedEventHandler(string slotName);
 
     /// <summary>
     /// Emitted when the player selects a skill.
     /// </summary>
     [Signal]
-    public delegate void SkillSelectedEventHandler(Skill skill);
+    public delegate void SkillSelectedEventHandler(string skillId);
 
     /// <summary>
     /// The player character to display information for.

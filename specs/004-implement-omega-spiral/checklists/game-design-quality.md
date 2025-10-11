@@ -1,7 +1,7 @@
 # Game Design Quality Requirements Checklist: Ωmega Spiral
 
-**Purpose**: Validate game design quality, player experience, and mechanics requirements for the Ωmega Spiral game  
-**Created**: 2025-10-08  
+**Purpose**: Validate game design quality, player experience, and mechanics requirements for the Ωmega Spiral game
+**Created**: 2025-10-08
 **Feature**: specs/004-implement-omega-spiral/spec.md
 
 ## Core Gameplay Loop Requirements

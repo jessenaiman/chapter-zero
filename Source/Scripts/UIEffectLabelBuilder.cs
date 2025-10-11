@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for creating and managing effect labels in combat.

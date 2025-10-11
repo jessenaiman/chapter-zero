@@ -13,7 +13,7 @@ public partial class Camera : Camera2D
     /// <summary>
     /// Singleton instance of Camera
     /// </summary>
-    public static Camera Instance { get; private set; }
+    public static Camera? Instance { get; private set; }
 
     /// <summary>
     /// The gamepiece that the camera should follow.
@@ -98,12 +98,12 @@ public partial class Camera : Camera2D
     /// <summary>
     /// The gamepiece that the camera is currently following.
     /// </summary>
-    private Gamepiece gamepiece;
+    private Gamepiece? gamepiece;
 
     /// <summary>
     /// Timer for shake effects.
     /// </summary>
-    private Timer shakeTimer;
+    private Godot.Timer? shakeTimer;
 
     public override void _Ready()
     {
@@ -113,7 +113,7 @@ public partial class Camera : Camera2D
         Zoom = ZoomLevel;
 
         // Create shake timer
-        shakeTimer = new Timer();
+        shakeTimer = new Godot.Timer();
         shakeTimer.OneShot = true;
         shakeTimer.Timeout += OnShakeTimeout;
         AddChild(shakeTimer);
@@ -147,10 +147,9 @@ public partial class Camera : Camera2D
             else
             {
                 // Calculate shake offset using Perlin noise for natural-looking shake
-                var time = (float)GetTimeSinceStartup();
-                shakeOffset.X = Mathf.PerlinNoise(time * ShakeFrequency, 0) * 2.0f - 1.0f;
-                shakeOffset.Y = Mathf.PerlinNoise(0, time * ShakeFrequency) * 2.0f - 1.0f;
-                shakeOffset *= ShakeAmplitude * (shakeRemaining / ShakeDuration);
+                var time = (float)Time.GetTimeDictFromSystem()["elapsed"];
+                shakeOffset.X = (GD.Randf() * 2.0f - 1.0f) * ShakeAmplitude * (shakeRemaining / ShakeDuration);
+                shakeOffset.Y = (GD.Randf() * 2.0f - 1.0f) * ShakeAmplitude * (shakeRemaining / ShakeDuration);
             }
         }
 
@@ -167,9 +166,9 @@ public partial class Camera : Camera2D
     /// <summary>
     /// Make this camera the current active camera.
     /// </summary>
-    public void MakeCurrent()
+    public new void MakeCurrent()
     {
-        Current = true;
+        base.MakeCurrent();
     }
 
     /// <summary>
@@ -223,7 +222,7 @@ public partial class Camera : Camera2D
 
         while (elapsed < duration)
         {
-            elapsed += GetProcessDeltaTime();
+            elapsed += (float)GetProcessDeltaTime();
             var t = elapsed / duration;
             Zoom = startZoom.Lerp(targetZoom, t);
 
@@ -248,7 +247,7 @@ public partial class Camera : Camera2D
     /// </summary>
     private void ConstrainToBoundaries()
     {
-        if (CameraBounds == Rect2.Empty)
+        if (CameraBounds.Size == Vector2.Zero)
         {
             return;
         }

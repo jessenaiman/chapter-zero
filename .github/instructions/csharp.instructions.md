@@ -7,7 +7,6 @@
 - Use `<paramref>` to reference parameters in documentation.
 - Use `<returns>` for method return values.
 - Use `<remarks>` for additional information, which can include implementation details, usage notes, or any other relevant context.
-- Use `<example>` for usage examples on how to use the member.
 - Use `<exception>` to document exceptions thrown by methods.
 - Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
 - Use `<see cref>` to reference other types or members inline (in a sentence).
@@ -21,7 +20,7 @@
 
 # C# Async Programming Best Practices
 
-Your goal is to help me follow best practices for asynchronous programming in C#.
+Follow best practices for asynchronous programming in C#
 
 ## Naming Conventions
 

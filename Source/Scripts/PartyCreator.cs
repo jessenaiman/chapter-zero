@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Models;
 
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.

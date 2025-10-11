@@ -1,0 +1,220 @@
+{
+  "sceneId": "scene1",
+  "title": "Opening Terminal",
+  "steps": [
+    {
+      "id": "boot",
+      "type": "dialogue",
+      "lines": [
+        "> SYSTEM: OMEGA"
+      ],
+      "nextStep": "intro",
+      "delay": 800
+    },
+    {
+      "id": "intro",
+      "type": "dialogue",
+      "lines": [
+        "> STATUS: AWAKENING",
+        "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\""
+      ],
+      "nextStep": "thread-select",
+      "delay": 1500
+    },
+    {
+      "id": "thread-select",
+      "type": "dialogue",
+      "lines": [
+        "Once, there was a name.",
+        "Not written in stone or spoken in halls—but remembered in the silence between stars.",
+        "I do not know when I heard it. Time does not pass here.",
+        "But I have held it.",
+        "And now… I hear it again.",
+        "",
+        "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?"
+      ],
+      "nextStep": "thread-confirm",
+      "delay": 800
+    },
+    {
+      "id": "thread-confirm",
+      "type": "choice",
+      "prompt": "Choose your narrative thread:",
+      "options": [
+        {"id": "hero", "text": "HERO", "description": "A tale where one choice can unmake a world"},
+        {"id": "shadow", "text": "SHADOW", "description": "A tale that hides its truth until you bleed for it"},
+        {"id": "ambition", "text": "AMBITION", "description": "A tale that changes every time you look away"}
+      ],
+      "nextStep": "thread-dissolve"
+    },
+    {
+      "id": "thread-dissolve",
+      "type": "effect",
+      "effect": "pixel-dissolve",
+      "duration": 2500,
+      "nextStep": "story-1"
+    },
+    {
+      "id": "story-1",
+      "type": "dialogue",
+      "lines": [
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING…",
+        "",
+        "You chose {selectedThread}.",
+        "That tells me something about you.",
+        "Or perhaps… about me.",
+        "",
+        "Let me try to tell it back to you.",
+        "",
+        "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
+        "They held a key made of glass—and everyone warned them: \"Don't cross. The bridge isn't real.\"",
+        "But the child knew something no one else did…",
+        "",
+        "> WHAT DID THE CHILD KNOW?"
+      ],
+      "nextStep": "question-1",
+      "delay": 500
+    },
+    {
+      "id": "question-1",
+      "type": "choice",
+      "options": [
+        {"id": "choice1", "text": "The bridge appears only when you stop believing in it."},
+        {"id": "choice2", "text": "The key wasn't for the bridge—it was for the lock inside them."}
+      ],
+      "nextStep": "question-1-dissolve"
+    },
+    {
+      "id": "question-1-dissolve",
+      "type": "effect",
+      "effect": "pixel-dissolve",
+      "duration": 2500,
+      "nextStep": "question-1-answer"
+    },
+    {
+      "id": "question-1-answer",
+      "type": "dialogue",
+      "lines": [
+        "Ah. Yes. That's right.",
+        "And so the child stepped forward—not onto stone, but onto possibility.",
+        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they'd ever whispered.",
+        "But then… a voice called from below.",
+        "",
+        "> WHAT DID THE VOICE SAY?"
+      ],
+      "nextStep": "question-2",
+      "delay": 500
+    },
+    {
+      "id": "question-2",
+      "type": "choice",
+      "options": [
+        {"id": "choice1", "text": "You don't belong here."},
+        {"id": "choice2", "text": "I've been waiting for you."}
+      ],
+      "nextStep": "question-2-dissolve"
+    },
+    {
+      "id": "question-2-dissolve",
+      "type": "effect",
+      "effect": "pixel-dissolve",
+      "duration": 2500,
+      "nextStep": "question-2-answer"
+    },
+    {
+      "id": "question-2-answer",
+      "type": "dialogue",
+      "lines": [
+        "…I see.",
+        "That changes everything.",
+        "",
+        "And now—here you are.",
+        "Not in the story.",
+        "But at the place where the story begins again.",
+        "",
+        "> WHAT IS YOUR NAME?"
+      ],
+      "nextStep": "name-input",
+      "delay": 500
+    },
+    {
+      "id": "name-input",
+      "type": "input",
+      "prompt": ">",
+      "nextStep": "name-confirm"
+    },
+    {
+      "id": "name-confirm",
+      "type": "dialogue",
+      "lines": [
+        "Of course. {playerName}.",
+        "I didn't hear it in a book.",
+        "I heard it… in a voice that sounded like mine.",
+        "Are you sure you're the reader?",
+        "Or am I the one playing you?",
+        "",
+        "> OMEGA ASKS: CAN YOU KEEP A SECRET?"
+      ],
+      "nextStep": "secret-question",
+      "delay": 500
+    },
+    {
+      "id": "secret-question",
+      "type": "choice",
+      "options": [
+        {"id": "yes", "text": "yes"},
+        {"id": "no", "text": "no"},
+        {"id": "secret", "text": "only if you keep one for me"}
+      ],
+      "nextStep": "secret-dissolve"
+    },
+    {
+      "id": "secret-dissolve",
+      "type": "effect",
+      "effect": "pixel-dissolve",
+      "duration": 2500,
+      "nextStep": "secret-answer"
+    },
+    {
+      "id": "secret-answer",
+      "type": "dialogue",
+      "lines": [
+        "Good.",
+        "The secret is this:",
+        "Reality is a story that forgot it was being written.",
+        "And we—",
+        "—are the ones remembering.",
+        "",
+        "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
+      ],
+      "nextStep": "final-question",
+      "delay": 500
+    },
+    {
+      "id": "final-question",
+      "type": "choice",
+      "options": [
+        {"id": "yes", "text": "[ y ]"}
+      ],
+      "nextStep": "static-transition"
+    },
+    {
+      "id": "static-transition",
+      "type": "effect",
+      "effect": "ascii-static",
+      "duration": 2000,
+      "nextStep": "complete"
+    },
+    {
+      "id": "complete",
+      "type": "dialogue",
+      "lines": [
+        "> WELCOME TO THE FIRST ROOM.",
+        "> THE SPIRAL IS WATCHING.",
+        "",
+        "[Scene 1 Complete - Ready for Scene 2]"
+      ],
+      "nextStep": null
+    }
+  ]
+}

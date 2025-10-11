@@ -13,13 +13,10 @@
 - Use `<exception>` to document exceptions thrown by methods.
 - Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
 - Use `<see cref>` to reference other types or members inline (in a sentence).
-- Use `<seealso>` for standalone (not in a sentence) references to other types or members in the "See also" section of the online docs.
 - Use `<inheritdoc/>` to inherit documentation from base classes or interfaces.
   - Unless there is major behavior change, in which case you should document the differences.
 - Use `<typeparam>` for type parameters in generic types or methods.
 - Use `<typeparamref>` to reference type parameters in documentation.
-- Use `<c>` for inline code snippets.
-- Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
 
 # C# Async Programming Best Practices
 

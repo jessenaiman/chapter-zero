@@ -56,7 +56,7 @@ public partial class BattlerList : Resource
     /// </summary>
     /// <param name="players">Array of player battlers</param>
     /// <param name="enemies">Array of enemy battlers</param>
-    public BattlerList(Battler[] players = null, Battler[] enemies = null)
+    public BattlerList(Battler[]? players = null, Battler[]? enemies = null)
     {
         if (players != null)
         {

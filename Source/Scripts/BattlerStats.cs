@@ -100,11 +100,6 @@ public partial class BattlerStats : Resource
     private Dictionary<string, Dictionary<int, int>> _modifiers = new Dictionary<string, Dictionary<int, int>>();
     private Dictionary<string, Dictionary<int, float>> _multipliers = new Dictionary<string, Dictionary<int, float>>();
 
-    public override void _Ready()
-    {
-        Initialize();
-    }
-
     public BattlerStats()
     {
         foreach (string propName in ModifiableStats)

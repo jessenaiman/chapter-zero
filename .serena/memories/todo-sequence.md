@@ -1,0 +1,1 @@
+Use todo list tool to record tasks; ensure updates as progressing.

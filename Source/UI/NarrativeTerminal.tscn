@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 uid="uid://narrativeterminalui"]
+[gd_scene load_steps=12 uid="uid://narrativeterminalui"]
 
 [ext_resource type="Script" path="res://Source/Scripts/NarrativeTerminal.cs" id="1"]
+[ext_resource type="Shader" path="res://Source/Shaders/pixel_dissolve.gdshader" id="5"]
+[ext_resource type="Shader" path="res://Source/Shaders/ascii_static.gdshader" id="6"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 28.0
@@ -50,6 +52,16 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_left = 20
 corner_radius_bottom_right = 20
+
+[sub_resource type="ShaderMaterial" id="5"]
+shader = ExtResource("5")
+shader_parameter/progress = 0.0
+shader_parameter/tint_color = Color(0.0, 0.0666667, 0.0470588, 1)
+
+[sub_resource type="ShaderMaterial" id="6"]
+shader = ExtResource("6")
+shader_parameter/intensity = 0.45
+shader_parameter/tint = Vector3(0.2, 1, 0.6)
 
 [node name="NarrativeTerminalUI" type="Control"]
 layout_mode = 3
@@ -148,8 +160,16 @@ theme_override_constants/margin_bottom = 18
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="OutputLabel" type="RichTextLabel" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
+[node name="OutputScroll" type="ScrollContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="OutputLabel" type="RichTextLabel" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout/OutputScroll"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 fit_content_height = true
@@ -159,6 +179,13 @@ theme_override_colors/default_color = Color(0.647059, 0.980392, 0.796078, 1)
 theme_override_font_sizes/normal_font_size = 20
 theme_override_constants/line_spacing = 4
 text = ""
+auto_translate = false
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+theme_override_constants/separation = 10
 
 [node name="ScanlineOverlay" type="ColorRect" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
 size_flags_vertical = 1
@@ -172,6 +199,7 @@ theme_override_colors/font_color = Color(0.494118, 0.858824, 0.870588, 1)
 theme_override_font_sizes/font_size = 18
 
 [node name="InputRow" type="HBoxContainer" parent="Bezel/MainMargin/MainLayout"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 16
 
@@ -206,3 +234,38 @@ theme_override_font_sizes/font_size = 18
 [node name="BottomGlow" type="ColorRect" parent="Bezel/MainMargin/MainLayout"]
 custom_minimum_size = Vector2(0, 12)
 color = Color(0.14176, 0.545098, 0.662745, 0.4)
+
+[node name="OverlayStack" type="Control" parent="Bezel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 48.0
+offset_right = -64.0
+offset_bottom = -48.0
+mouse_filter = 2
+z_index = 100
+
+[node name="PixelDissolveOverlay" type="ColorRect" parent="Bezel/OverlayStack"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+visible = false
+color = Color(0, 0, 0, 1)
+material = SubResource("5")
+
+[node name="AsciiStaticOverlay" type="ColorRect" parent="Bezel/OverlayStack"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+visible = false
+color = Color(0, 0, 0, 0.6)
+material = SubResource("6")

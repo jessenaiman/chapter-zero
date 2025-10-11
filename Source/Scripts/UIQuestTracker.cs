@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Models;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Interfaces;
 
 /// <summary>
 /// Container for the player quest tracker display.
@@ -890,7 +893,7 @@ public partial class UIQuestTracker : Control
     /// Get the quest tracker's current position.
     /// </summary>
     /// <returns>The quest tracker's current position</returns>
-    public Vector2 GetPosition()
+    public new Vector2 GetPosition()
     {
         return Position;
     }
@@ -899,7 +902,7 @@ public partial class UIQuestTracker : Control
     /// Get the quest tracker's current size.
     /// </summary>
     /// <returns>The quest tracker's current size</returns>
-    public Vector2 GetSize()
+    public new Vector2 GetSize()
     {
         return Size;
     }
@@ -917,7 +920,7 @@ public partial class UIQuestTracker : Control
     /// Get the quest tracker's current scale.
     /// </summary>
     /// <returns>The quest tracker's current scale</returns>
-    public Vector2 GetScale()
+    public new Vector2 GetScale()
     {
         return Scale;
     }
@@ -926,7 +929,7 @@ public partial class UIQuestTracker : Control
     /// Get the quest tracker's current theme.
     /// </summary>
     /// <returns>The quest tracker's current theme</returns>
-    public Theme GetTheme()
+    public new Theme GetTheme()
     {
         // Return the current theme
         // This would typically involve getting the theme from the control

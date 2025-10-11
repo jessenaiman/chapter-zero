@@ -1,0 +1,1 @@
+Use manage_todo_list tool directly; not reliant on Serena.

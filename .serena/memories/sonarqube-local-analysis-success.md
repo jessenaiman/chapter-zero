@@ -39,7 +39,7 @@ docker run -d --name sonarqube \
 
 ## Analysis Results
 - Successfully analyzes C# code with nullable reference type warnings
-- Detects code smells, bugs, and security vulnerabilities  
+- Detects code smells, bugs, and security vulnerabilities
 - Provides detailed reports in SonarQube web interface
 - Compatible with .NET 10 RC projects
 

@@ -5,6 +5,7 @@
 namespace OmegaSpiral.Source.Scripts
 {
     using Godot;
+    using OmegaSpiral.Source.Scripts.Models;
 
     /// <summary>
     /// Represents a single character in the player's party with class, race, and stats.
@@ -42,6 +43,26 @@ namespace OmegaSpiral.Source.Scripts
         public int Experience { get; set; }
 
         /// <summary>
+        /// Gets or sets the character's equipment.
+        /// </summary>
+        public Equipment Equipment { get; set; } = new Equipment();
+
+        /// <summary>
+        /// Gets or sets the character's skills.
+        /// </summary>
+        public List<string> Skills { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Gets or sets the character's portrait image path.
+        /// </summary>
+        public string Portrait { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the character's appearance data.
+        /// </summary>
+        public CharacterAppearance Appearance { get; set; } = new CharacterAppearance();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Character"/> class.
         /// Default constructor.
         /// </summary>
@@ -68,15 +89,15 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>The character's total hit points.</returns>
         public int GetHitPoints()
         {
-            int baseHp = this.Class switch
+            int baseHp = this.Class.Name switch
             {
-                CharacterClass.Fighter => 10,
-                CharacterClass.Paladin => 9,
-                CharacterClass.Ranger => 8,
-                CharacterClass.Thief => 6,
-                CharacterClass.Bard => 7,
-                CharacterClass.Mage => 4,
-                CharacterClass.Priest => 5,
+                "Fighter" => 10,
+                "Paladin" => 9,
+                "Ranger" => 8,
+                "Thief" => 6,
+                "Bard" => 7,
+                "Mage" => 4,
+                "Priest" => 5,
                 _ => 8
             };
 
@@ -90,21 +111,21 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>The character's total magic points.</returns>
         public int GetMagicPoints()
         {
-            if (this.Class == CharacterClass.Fighter || this.Class == CharacterClass.Thief || this.Class == CharacterClass.Ranger)
+            if (this.Class.Name == "Fighter" || this.Class.Name == "Thief" || this.Class.Name == "Ranger")
             {
                 return 0; // Non-spellcasters have no MP
             }
 
-            int baseMp = this.Class switch
+            int baseMp = this.Class.Name switch
             {
-                CharacterClass.Mage => 4,
-                CharacterClass.Priest => 3,
-                CharacterClass.Bard => 2,
-                CharacterClass.Paladin => 1,
+                "Mage" => 4,
+                "Priest" => 3,
+                "Bard" => 2,
+                "Paladin" => 1,
                 _ => 2
             };
 
-            int spellStat = this.Class == CharacterClass.Priest ? this.Stats.Wisdom : this.Stats.Intelligence;
+            int spellStat = this.Class.Name == "Priest" ? this.Stats.Wisdom : this.Stats.Intelligence;
             int spellModifier = CharacterStats.GetModifier(spellStat);
             return (baseMp + spellModifier) * this.Level;
         }
@@ -118,7 +139,7 @@ namespace OmegaSpiral.Source.Scripts
             return new Godot.Collections.Dictionary<string, Variant>
             {
                 ["name"] = this.Name,
-                ["class"] = this.Class.ToString(),
+                ["class"] = this.Class.Name,
                 ["race"] = this.Race.ToString(),
                 ["level"] = this.Level,
                 ["experience"] = this.Experience,
@@ -142,7 +163,8 @@ namespace OmegaSpiral.Source.Scripts
 
             if (dict.ContainsKey("class"))
             {
-                character.Class = (CharacterClass)System.Enum.Parse(typeof(CharacterClass), (string)dict["class"]);
+                string className = (string)dict["class"];
+                character.Class = GetCharacterClassByName(className);
             }
 
             if (dict.ContainsKey("race"))
@@ -171,6 +193,26 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             return character;
+        }
+
+        /// <summary>
+        /// Get a character class by name.
+        /// </summary>
+        /// <param name="className">The name of the character class.</param>
+        /// <returns>The character class instance, or Fighter as default.</returns>
+        private static CharacterClass GetCharacterClassByName(string className)
+        {
+            return className switch
+            {
+                "Fighter" => CharacterClass.Fighter,
+                "Paladin" => CharacterClass.Paladin,
+                "Ranger" => CharacterClass.Ranger,
+                "Thief" => CharacterClass.Thief,
+                "Bard" => CharacterClass.Bard,
+                "Mage" => CharacterClass.Mage,
+                "Priest" => CharacterClass.Priest,
+                _ => CharacterClass.Fighter
+            };
         }
     }
 }

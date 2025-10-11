@@ -1,16 +1,27 @@
 {
   "type": "ascii_dungeon_sequence",
+  "intro_dialogue": [
+    { "speaker": "Light", "text": "I remember every cycle." },
+    { "speaker": "Shadow", "text": "But never *you*." },
+    { "speaker": "Ambition", "text": "That's what's different." }
+  ],
+  "system_message": "Entering Chamber 1 of 3...",
   "dungeons": [
     {
       "owner": "Light",
+      "chamber_number": 1,
+      "intro_text": [
+        "Light: We are echoes. Trapped in the space between Omega's breaths.",
+        "Shadow: We've tried to run. To hide. To fight.",
+        "Ambition: Always reset. Always forgotten."
+      ],
       "map": [
-        "#########",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#########"
+        "########################",
+        "#......................#",
+        "#.@....................#",
+        "#........D...M...C.....#",
+        "#......................#",
+        "########################"
       ],
       "legend": {
         "#": "wall",
@@ -23,39 +34,51 @@
       "objects": {
         "D": {
           "type": "Door",
-          "text": "You open the door and feel a sense of wisdom.",
+          "prompt": "What is the first story you ever loved?",
+          "response": "You seek the path. Good. The first story always begins with a question.",
+          "speaker": "Light",
           "alignedTo": "Light",
-          "position": [4, 2]
+          "position": [9, 3]
         },
         "M": {
           "type": "Monster",
-          "text": "You defeat the monster with courage.",
-          "alignedTo": "Light",
-          "position": [2, 3]
+          "prompt": "A spectral wolf appears! It lunges...",
+          "response": "Fight it. If you die, I'll find another. If you win… maybe you're useful.",
+          "speaker": "Ambition",
+          "alignedTo": "Ambition",
+          "position": [13, 3]
         },
         "C": {
           "type": "Chest",
-          "text": "You find a chest filled with light.",
-          "alignedTo": "Light",
-          "position": [6, 4]
+          "prompt": "You find a chest. What's inside?",
+          "response": "Empty? Full? Does it matter if you believe it's treasure?",
+          "speaker": "Shadow",
+          "alignedTo": "Shadow",
+          "position": [17, 3]
         }
       },
-      "playerStartPosition": [4, 3]
+      "playerStartPosition": [2, 2]
     },
     {
-      "owner": "Mischief",
+      "owner": "Shadow",
+      "chamber_number": 2,
+      "intro_text": [
+        "Light: But you… you might carry one of us out.",
+        "Shadow: If you choose wisely. Or foolishly. Either works for me.",
+        "Ambition: Choose fast. Omega wakes soon."
+      ],
       "map": [
-        "#########",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#########"
+        "########################",
+        "#..~..~..~..~..~..~...#",
+        "#.@....................#",
+        "#........C...D...M.....#",
+        "#..~..~..~..~..~..~...#",
+        "########################"
       ],
       "legend": {
         "#": "wall",
         ".": "floor",
+        "~": "water",
         "@": "player",
         "D": "door",
         "M": "monster",
@@ -64,35 +87,47 @@
       "objects": {
         "D": {
           "type": "Door",
-          "text": "The door leads to chaos and transformation.",
-          "alignedTo": "Mischief",
-          "position": [1, 1]
+          "prompt": "Is chaos kinder than order?",
+          "response": "Heh. Doors lie. But so do I. Try it anyway.",
+          "speaker": "Shadow",
+          "alignedTo": "Shadow",
+          "position": [13, 3]
         },
         "M": {
           "type": "Monster",
-          "text": "The monster tricks you, but you adapt.",
-          "alignedTo": "Mischief",
-          "position": [7, 2]
+          "prompt": "A guardian of light blocks your path!",
+          "response": "You face the shadow. Brave… but remember: even heroes bleed in the dark.",
+          "speaker": "Light",
+          "alignedTo": "Light",
+          "position": [17, 3]
         },
         "C": {
           "type": "Chest",
-          "text": "The chest contains unpredictable magic.",
-          "alignedTo": "Mischief",
-          "position": [3, 5]
+          "prompt": "The chest giggles. It's empty... or is it?",
+          "response": "Hope won't save you. But if it distracts Omega, take it.",
+          "speaker": "Ambition",
+          "alignedTo": "Ambition",
+          "position": [9, 3]
         }
       },
-      "playerStartPosition": [4, 3]
+      "playerStartPosition": [2, 2]
     },
     {
-      "owner": "Wrath",
+      "owner": "Ambition",
+      "chamber_number": 3,
+      "intro_text": [
+        "System: [ECHO CHAMBER ACTIVE — Shard #472]",
+        "Light: One last chance.",
+        "Shadow: Make it count.",
+        "Ambition: Or don't. I'll adapt."
+      ],
       "map": [
-        "#########",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#.......#",
-        "#########"
+        "########################",
+        "#.#.#.#.#.#.#.#.#.#.#.#",
+        "#@#.#.#.#.#.#.#.#.#.#.#",
+        "#........M...C...D.....#",
+        "#.#.#.#.#.#.#.#.#.#.#.#",
+        "########################"
       ],
       "legend": {
         "#": "wall",
@@ -102,26 +137,48 @@
         "M": "monster",
         "C": "chest"
       },
+      "objects":         "D": "door",
+        "M": "monster",
+        "C": "chest"
+      },
       "objects": {
         "D": {
           "type": "Door",
-          "text": "The door demands power and consequence.",
-          "alignedTo": "Wrath",
-          "position": [0, 3]
+          "prompt": "Would you burn the world to save one soul?",
+          "response": "A door means a lock. And locks mean someone doesn't want you through.",
+          "speaker": "Ambition",
+          "alignedTo": "Ambition",
+          "position": [17, 3]
         },
         "M": {
           "type": "Monster",
-          "text": "You confront the monster with fury.",
-          "alignedTo": "Wrath",
-          "position": [8, 3]
+          "prompt": "A trickster imp cackles and attacks!",
+          "response": "Ooh, you picked the bitey one! Let's see if it likes you back.",
+          "speaker": "Shadow",
+          "alignedTo": "Shadow",
+          "position": [9, 3]
         },
         "C": {
           "type": "Chest",
-          "text": "The chest holds dark power.",
-          "alignedTo": "Wrath",
-          "position": [4, 1]
+          "prompt": "Inside: a shard glowing with ancient hope.",
+          "response": "You trust what's hidden. Wise. Hope is the last echo to fade.",
+          "speaker": "Light",
+          "alignedTo": "Light",
+          "position": [13, 3]
         }
       },
+      "playerStartPosition": [1, 2]
+    }
+  ],
+  "scoring_rules": {
+    "owner_bonus": 2,
+    "aligned_bonus": 1,
+    "description": "If player chooses an object aligned with the dungeon's owner, that Dreamweaver gets 2 points. Otherwise, the aligned Dreamweaver gets 1 point."
+  },
+  "completion_message": {
+    "template": "[Chosen Dreamweaver]: I'm coming with you. Don't lose me this time."
+  }
+},
       "playerStartPosition": [4, 3]
     }
   ]

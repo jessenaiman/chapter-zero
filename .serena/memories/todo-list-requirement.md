@@ -1,0 +1,1 @@
+Remember to maintain task list via todo tool; previous session tasks completed; new session requires new todo list focusing on code quality remediation.

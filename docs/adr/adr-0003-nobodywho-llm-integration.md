@@ -166,7 +166,7 @@ public partial class DreamweaverPersona : Node
 
     [Export] public PersonaType Type { get; set; }
     [Export] public NodePath ChatNodePath { get; set; } = null!;
-    
+
     private Node? _chatNode;
     private string _currentResponse = string.Empty;
     private bool _isResponding = false;
@@ -180,11 +180,11 @@ public partial class DreamweaverPersona : Node
     public override void _Ready()
     {
         _chatNode = GetNode(ChatNodePath);
-        
+
         // Connect to NobodyWhoChat signals
         _chatNode.Connect("response_updated", new Callable(this, nameof(OnResponseUpdated)));
         _chatNode.Connect("response_finished", new Callable(this, nameof(OnResponseFinished)));
-        
+
         // Start the worker thread
         _chatNode.Call("start_worker");
     }
@@ -428,10 +428,10 @@ private bool _useDynamicNarrative = true;
 public override void _Ready()
 {
     // ... existing code ...
-    
+
     // Try to get DreamweaverSystem if it exists
     _dreamweaverSystem = GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
-    
+
     if (_dreamweaverSystem != null)
     {
         _dreamweaverSystem.AllDreamweaversResponded += OnDreamweaversConsultation;
@@ -451,9 +451,9 @@ private void OnDreamweaversConsultation(Godot.Collections.Dictionary consultatio
 }
 
 private void DisplayDreamweaverConsultation(
-    string heroJson, 
-    string shadowJson, 
-    string ambitionJson, 
+    string heroJson,
+    string shadowJson,
+    string ambitionJson,
     string omegaJson)
 {
     // Parse JSONs
@@ -466,15 +466,15 @@ private void DisplayDreamweaverConsultation(
     _outputLabel.AppendText("\n[Hero Dreamweaver]\n");
     _outputLabel.AppendText($"{hero?.Advice}\n");
     _outputLabel.AppendText($"Challenge: {hero?.Challenge}\n");
-    
+
     _outputLabel.AppendText("\n[Shadow Dreamweaver]\n");
     _outputLabel.AppendText($"{shadow?.Whisper}\n");
     _outputLabel.AppendText($"Secret: {shadow?.Secret}\n");
-    
+
     _outputLabel.AppendText("\n[Ambition Dreamweaver]\n");
     _outputLabel.AppendText($"{ambition?.Strategy}\n");
     _outputLabel.AppendText($"Goal: {ambition?.Goal}\n");
-    
+
     _outputLabel.AppendText("\n[Omega]\n");
     _outputLabel.AppendText($"{omega?.Narration}\n");
 }
@@ -520,7 +520,7 @@ Enable Dreamweavers to query game state:
 public override void _Ready()
 {
     // ... existing code ...
-    
+
     // Add tools to chat nodes
     AddGameStateTool(_hero);
     AddGameStateTool(_shadow);
@@ -530,17 +530,17 @@ public override void _Ready()
 private void AddGameStateTool(DreamweaverPersona persona)
 {
     var chatNode = persona.GetNode(persona.ChatNodePath);
-    
+
     // Create a callable for checking inventory
     var checkInventoryCallable = new Callable(this, nameof(CheckInventory));
-    chatNode.Call("add_tool", checkInventoryCallable, 
-        "Check the player's inventory", 
+    chatNode.Call("add_tool", checkInventoryCallable,
+        "Check the player's inventory",
         new Godot.Collections.Dictionary());
-    
+
     // Create a callable for checking stats
     var checkStatsCallable = new Callable(this, nameof(CheckStats));
-    chatNode.Call("add_tool", checkStatsCallable, 
-        "Check the player's statistics", 
+    chatNode.Call("add_tool", checkStatsCallable,
+        "Check the player's statistics",
         new Godot.Collections.Dictionary());
 }
 
@@ -569,7 +569,7 @@ var action_embeddings = {}
 
 func _ready():
     model_node = get_node("../EmbeddingModel")
-    
+
     # Pre-compute embeddings for common actions
     await embed_actions()
 
@@ -581,7 +581,7 @@ func embed_actions():
         "use an item",
         "flee from battle"
     ]
-    
+
     for action in actions:
         var emb = await embed(action)
         action_embeddings[action] = await embedding_finished
@@ -589,16 +589,16 @@ func embed_actions():
 func match_player_input(input: String):
     var input_emb = await embed(input)
     var input_vec = await embedding_finished
-    
+
     var best_match = ""
     var best_score = 0.0
-    
+
     for action in action_embeddings:
         var score = cosine_similarity(input_vec, action_embeddings[action])
         if score > best_score:
             best_score = score
             best_match = action
-    
+
     if best_score > 0.7:  # Threshold
         return best_match
     else:
@@ -752,5 +752,5 @@ This allows:
 
 ---
 
-**Last Updated**: 2025-10-09  
+**Last Updated**: 2025-10-09
 **Next Review**: After Phase 1 completion

@@ -30,7 +30,7 @@ public partial class GameboardLayer : TileMapLayer
     /// Pathfinder to be updated.
     /// </summary>
     [Signal]
-    public delegate void CellsChangedEventHandler(List<Vector2I> clearedCells, List<Vector2I> blockedCells);
+    public delegate void CellsChangedEventHandler(Godot.Collections.Array clearedCells, Godot.Collections.Array blockedCells);
 
     /// <summary>
     /// A list of cells that can be moved to. Only cells that exist in the layer and are not blocked

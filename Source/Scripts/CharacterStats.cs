@@ -5,6 +5,7 @@
 namespace OmegaSpiral.Source.Scripts
 {
     using Godot;
+    using OmegaSpiral.Source.Scripts.Models;
 
     /// <summary>
     /// Character statistics following classic CRPG attribute system.
@@ -32,9 +33,19 @@ namespace OmegaSpiral.Source.Scripts
         public int Dexterity { get; set; }
 
         /// <summary>
+        /// Gets or sets the agility stat, which affects movement speed and evasion.
+        /// </summary>
+        public int Agility { get; set; }
+
+        /// <summary>
         /// Gets or sets the constitution stat, which affects hit points and endurance.
         /// </summary>
         public int Constitution { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vitality stat, which affects health regeneration and stamina.
+        /// </summary>
+        public int Vitality { get; set; }
 
         /// <summary>
         /// Gets or sets the charisma stat, which affects social interactions and leadership.
@@ -56,7 +67,9 @@ namespace OmegaSpiral.Source.Scripts
             this.Intelligence = 0;
             this.Wisdom = 0;
             this.Dexterity = 0;
+            this.Agility = 0;
             this.Constitution = 0;
+            this.Vitality = 0;
             this.Charisma = 0;
             this.Luck = 0;
         }
@@ -65,13 +78,15 @@ namespace OmegaSpiral.Source.Scripts
         /// Initializes a new instance of the <see cref="CharacterStats"/> class.
         /// Constructor with specific stat values.
         /// </summary>
-        public CharacterStats(int strength, int intelligence, int wisdom, int dexterity, int constitution, int charisma, int luck = 10)
+        public CharacterStats(int strength, int intelligence, int wisdom, int dexterity, int agility, int constitution, int vitality, int charisma, int luck = 10)
         {
             this.Strength = strength;
             this.Intelligence = intelligence;
             this.Wisdom = wisdom;
             this.Dexterity = dexterity;
+            this.Agility = agility;
             this.Constitution = constitution;
+            this.Vitality = vitality;
             this.Charisma = charisma;
             this.Luck = luck;
         }
@@ -90,7 +105,9 @@ namespace OmegaSpiral.Source.Scripts
                 Intelligence = Roll3d6(random),
                 Wisdom = Roll3d6(random),
                 Dexterity = Roll3d6(random),
+                Agility = Roll3d6(random),
                 Constitution = Roll3d6(random),
+                Vitality = Roll3d6(random),
                 Charisma = Roll3d6(random),
                 Luck = Roll3d6(random),
             };
@@ -110,18 +127,23 @@ namespace OmegaSpiral.Source.Scripts
                     this.Intelligence += 1;
                     this.Wisdom += 1;
                     this.Dexterity += 1;
+                    this.Agility += 1;
                     this.Constitution += 1;
+                    this.Vitality += 1;
                     this.Charisma += 1;
                     break;
 
                 case CharacterRace.Elf:
                     this.Dexterity += 2;
+                    this.Agility += 2;
                     this.Intelligence += 1;
                     this.Constitution -= 1;
+                    this.Vitality -= 1;
                     break;
 
                 case CharacterRace.Dwarf:
                     this.Constitution += 2;
+                    this.Vitality += 2;
                     this.Strength += 1;
                     this.Charisma -= 1;
                     break;
@@ -129,11 +151,13 @@ namespace OmegaSpiral.Source.Scripts
                 case CharacterRace.Gnome:
                     this.Intelligence += 2;
                     this.Wisdom += 1;
+                    this.Agility += 1;
                     this.Strength -= 1;
                     break;
 
                 case CharacterRace.Halfling:
                     this.Dexterity += 2;
+                    this.Agility += 2;
                     this.Luck += 1;
                     this.Strength -= 1;
                     break;
@@ -165,6 +189,23 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
+        /// Apply stat bonuses from a character class.
+        /// </summary>
+        /// <param name="bonuses">The stat bonuses to apply.</param>
+        public void ApplyBonuses(CharacterStats bonuses)
+        {
+            this.Strength += bonuses.Strength;
+            this.Intelligence += bonuses.Intelligence;
+            this.Wisdom += bonuses.Wisdom;
+            this.Dexterity += bonuses.Dexterity;
+            this.Agility += bonuses.Agility;
+            this.Constitution += bonuses.Constitution;
+            this.Vitality += bonuses.Vitality;
+            this.Charisma += bonuses.Charisma;
+            this.Luck += bonuses.Luck;
+        }
+
+        /// <summary>
         /// Convert stats to Godot dictionary for serialization.
         /// </summary>
         /// <returns>A dictionary containing all stat values.</returns>
@@ -176,7 +217,9 @@ namespace OmegaSpiral.Source.Scripts
                 ["intelligence"] = this.Intelligence,
                 ["wisdom"] = this.Wisdom,
                 ["dexterity"] = this.Dexterity,
+                ["agility"] = this.Agility,
                 ["constitution"] = this.Constitution,
+                ["vitality"] = this.Vitality,
                 ["charisma"] = this.Charisma,
                 ["luck"] = this.Luck,
             };
@@ -195,7 +238,9 @@ namespace OmegaSpiral.Source.Scripts
                 Intelligence = dict.ContainsKey("intelligence") ? dict["intelligence"].AsInt32() : 10,
                 Wisdom = dict.ContainsKey("wisdom") ? dict["wisdom"].AsInt32() : 10,
                 Dexterity = dict.ContainsKey("dexterity") ? dict["dexterity"].AsInt32() : 10,
+                Agility = dict.ContainsKey("agility") ? dict["agility"].AsInt32() : 10,
                 Constitution = dict.ContainsKey("constitution") ? dict["constitution"].AsInt32() : 10,
+                Vitality = dict.ContainsKey("vitality") ? dict["vitality"].AsInt32() : 10,
                 Charisma = dict.ContainsKey("charisma") ? dict["charisma"].AsInt32() : 10,
                 Luck = dict.ContainsKey("luck") ? dict["luck"].AsInt32() : 10,
             };

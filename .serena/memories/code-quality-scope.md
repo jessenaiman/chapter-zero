@@ -1,0 +1,1 @@
+Focus on static analysis, documentation compliance, tests for Omega Spiral C# project; ensure pre-commit passes; do not modify Scene1 generation assets.

@@ -11,8 +11,8 @@
     "prompt": "If you could live inside one kind of story, which would it be?",
     "options": [
       {"id": "hero", "label": "HERO", "description": "A tale where one choice can unmake a world"},
-      {"id": "riddle", "label": "RIDDLE", "description": "A tale that hides its truth until you bleed for it"},
-      {"id": "loom", "label": "LOOM", "description": "A tale that changes every time you look away"}
+      {"id": "shadow", "label": "SHADOW", "description": "A tale that hides its truth until you bleed for it"},
+      {"id": "ambition", "label": "AMBITION", "description": "A tale that changes every time you look away"}
     ]
   },
   "storyBlocks": [

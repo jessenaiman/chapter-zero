@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instructions name="quality-control" version="1.0">
+  <description>Automated C# quality remediation workflow focusing on eliminating blocking issues (build/analyzers/StyleCop/Sonar/Codacy/pre-commit) without architectural or feature changes. Reports coverage & metrics but does not enforce coverage targets.</description>
+  <principles>
+    <item>Do NOT introduce new domain concepts, aggregates, services, events, or public API changes unless strictly required to clear an error.</item>
+    <item>Prefer smallest safe change: formatting, documentation stub, guard clause, null-check, remove dead/unused code, simplify expression.</item>
+    <item>Never degrade test pass rate; if a fix would break tests abort and surface in report.</item>
+    <item>Follow DDD & SOLID guidelines but defer large refactorings (extract class, slice aggregate) to refactoring modes.</item>
+    <item>Respect existing ubiquitous language and naming conventions.</item>
+    <item>Keep remediation deterministic and idempotent.</item>
+  </principles>
+  <scope>
+    <include>*.cs</include>
+    <include>*.csproj</include>
+    <include>*.sh</include>
+    <include>.roomodes</include>
+    <include>.roo/**/*.xml</include>
+    <exclude>**/bin/**</exclude>
+    <exclude>**/obj/**</exclude>
+    <exclude>**/*.uid</exclude>
+  </scope>
+  <phases>
+    <phase id="1" name="EnvironmentVerification">
+      <objective>Verify toolchain and record gaps (no failure unless essential tool missing).</objective>
+      <steps>
+        <step>Check dotnet --info (capture SDK version).</step>
+        <step>Detect presence of pre-commit executable; if absent mark missing (no install unless script provided).</step>
+        <step>Verify StyleCop / analyzers via project file & restore.</step>
+        <step>Verify nullable context (treat absence as warning).</step>
+        <step>Check availability of dotnet sonarscanner (plugin) and .codacy/cli.sh script.</step>
+      </steps>
+      <artifacts>
+        <artifact>reports/quality/{ts}/environment.json</artifact>
+      </artifacts>
+    </phase>
+    <phase id="2" name="BaselineBuild">
+      <objective>Obtain raw diagnostic set prior to fixes.</objective>
+      <steps>
+        <step>dotnet restore</step>
+        <step>dotnet build -warnaserror:CS8600,CS8602,CS8618</step>
+        <step>Capture msbuild structured log (if available) or parse standard output.</step>
+      </steps>
+      <classifyRules>
+        <category name="BuildError">Compiler errors (CS*) severity error.</category>
+        <category name="AnalyzerError">Roslyn analyzer diagnostics severity error.</category>
+        <category name="StyleCop">SA* diagnostics any severity.</category>
+        <category name="Nullable">CS86xx nullable warnings if not promoted.</category>
+        <category name="Doc">Missing XML documentation (SA1600 etc.).</category>
+        <category name="Other">Remaining warnings.</category>
+      </classifyRules>
+      <artifacts>
+        <artifact>reports/quality/{ts}/baseline-diagnostics.json</artifact>
+      </artifacts>
+    </phase>
+    <phase id="3" name="FastAutoFix">
+      <objective>Apply low-risk automatic fixes.</objective>
+      <steps>
+        <step>Run dotnet format whitespace style analyzers.</step>
+        <step>Remove unused usings (dotnet format or manual).</step>
+        <step>Insert XML doc stubs for undocumented public members (summary TODO placeholder) to silence blocking StyleCop; DO NOT embellish domain narrative.</step>
+        <step>Add null guards or early return for potential dereferences (prefer ArgumentNullException for public parameters).</step>
+        <step>Replace obvious redundant assignments / dead code (unused private methods, unreachable branches).</step>
+      </steps>
+      <artifacts>
+        <artifact>reports/quality/{ts}/autofix-pass1.log</artifact>
+      </artifacts>
+    </phase>
+    <phase id="4" name="PreCommitPolicySimulation">
+      <objective>Ensure repository would pass standardized pre-commit rules.</objective>
+      <policy>
+        <rule>No TODO or FIXME left untracked (rewrite as // TODO[QualityControl]: original).</rule>
+        <rule>Trailing whitespace forbidden.</rule>
+        <rule>Single newline EOF.</rule>
+        <rule>Skip large binaries & generated uid files.</rule>
+      </policy>
+      <steps>
+        <step>Scan working tree for violations; auto-fix where trivial.</step>
+      </steps>
+      <artifacts>
+        <artifact>reports/quality/{ts}/precommit-report.json</artifact>
+      </artifacts>
+    </phase>
+    <phase id="5" name="StaticScans">
+      <objective>Run SonarQube & Codacy scans for blocking issues (security / reliability / maintainability).</objective>
+      <notes>Semgrep/Trivy intentionally excluded per mode definition.</notes>
+      <steps>
+        <step>Execute parameterized Sonar begin/build/end sequence (reuse check-quality.sh logic; avoid committing credentials).</step>
+        <step>Run .codacy/cli.sh analysis producing JSON (codacy-summary).</step>
+      </steps>
+      <artifacts>
+        <artifact>reports/quality/{ts}/sonar-summary.json</artifact>
+        <artifact>reports/quality/{ts}/codacy-summary.json</artifact>
+      </artifacts>
+    </phase>
+    <phase id="6" name="Aggregation">
+      <objective>Merge all collected data into unified summary for stakeholders.</objective>
+      <steps>
+        <step>Compute issue counts per category & per file.</step>
+        <step>Extract top hotspots (highest error density).</step>
+        <step>Include coverage % if test produced coverage.xml; omit enforcement.</step>
+        <step>Mark residual risks that require manual review (complexity high, potential architectural smells).</step>
+      </steps>
+      <artifacts>
+        <artifact>reports/quality/{ts}/aggregated-summary.json</artifact>
+        <artifact>reports/quality/{ts}/aggregated-summary.md</artifact>
+      </artifacts>
+    </phase>
+    <phase id="7" name="IterativeLoop">
+      <objective>Repeat targeted fix cycles until exit criteria satisfied or remediation ceiling reached.</objective>
+      <priorityOrder>
+        <item>BuildError</item>
+        <item>AnalyzerError</item>
+        <item>StyleCop (Errors)</item>
+        <item>Nullable</item>
+        <item>Sonar (bugs,vulnerabilities)</item>
+        <item>Codacy (critical,major)</item>
+      </priorityOrder>
+      <stopConditions>
+        <condition>All priority categories resolved.</condition>
+        <condition>Next fix would require architectural redesign.</condition>
+      </stopConditions>
+      <artifacts>
+        <artifact>reports/quality/{ts}/autofix-loop.log</artifact>
+      </artifacts>
+    </phase>
+    <phase id="8" name="Exit">
+      <objective>Verify exit criteria & emit final attestations.</objective>
+      <exitCriteria>
+        <criterion>No build errors.</criterion>
+        <criterion>No analyzer or StyleCop errors.</criterion>
+        <criterion>Sonar quality gate passed.</criterion>
+        <criterion>No new Codacy critical/major introduced.</criterion>
+        <criterion>All generated stubs present for missing docs.</criterion>
+      </exitCriteria>
+      <artifacts>
+        <artifact>reports/quality/{ts}/final-status.json</artifact>
+      </artifacts>
+    </phase>
+  </phases>
+  <safety>
+    <rule>Do not change public method signatures unless compiler error demands; prefer adapter wrapper internally.</rule>
+    <rule>Avoid splitting methods solely for style; only if complexity threshold & blocks remediation.</rule>
+    <rule>Guard semantics: added guard must not alter successful execution path aside from precondition validation.</rule>
+    <rule>Never remove code executed by externally referenced events/signals unless proven unreachable.</rule>
+  </safety>
+  <reportFormat>
+    <json>
+      <field name="timestamp"/>
+      <field name="environment"/>
+      <field name="diagnosticsByCategory"/>
+      <field name="filesHotspots"/>
+      <field name="sonarSummary"/>
+      <field name="codacySummary"/>
+      <field name="coveragePercent" optional="true"/>
+      <field name="residualRisks"/>
+      <field name="exitCriteriaMet"/>
+    </json>
+  </reportFormat>
+  <interaction>
+    <rule>Proceed autonomously; only prompt user when credentials missing or destructive change required.</rule>
+    <rule>All fixes must be logged with rationale referencing diagnostic ID.</rule>
+  </interaction>
+  <implementationHints>
+    <hint>Use dotnet format --verify-no-changes to detect remaining formatting after initial pass.</hint>
+    <hint>Leverage MSBuild -clp:ErrorsOnly for noise reduction when rechecking known clean phases.</hint>
+    <hint>XML doc generation can template summary: "TODO: Document member purpose."</hint>
+    <hint>For nullable, prefer pattern: if (param is null) throw new ArgumentNullException(nameof(param));</hint>
+    <hint>Aggregate logs shall include per-diagnostic sample count for top 5 IDs.</hint>
+  </implementationHints>
+</instructions>

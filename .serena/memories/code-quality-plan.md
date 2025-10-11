@@ -1,0 +1,1 @@
+Investigate incomplete checklists (technical requirements and C# code quality); run static analysis and tests; remediate issues; avoid modifying scene1 generation assets.

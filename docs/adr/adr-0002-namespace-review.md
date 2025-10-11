@@ -1,7 +1,7 @@
 # ADR 0002: Namespace Review Feedback
 
-**Status**: Proposed 2025-10-07  
-**Audience**: Gameplay, backend, tooling teams  
+**Status**: Proposed 2025-10-07
+**Audience**: Gameplay, backend, tooling teams
 
 ## 1. Snapshot of Current Structure
 
