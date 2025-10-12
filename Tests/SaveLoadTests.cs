@@ -74,7 +74,7 @@ public class SaveLoadTests : IDisposable
         this.gameState.SaveGame();
 
         // Assert
-        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should be created");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should be created");
     }
 
     [Test]
@@ -90,22 +90,22 @@ public class SaveLoadTests : IDisposable
         this.gameState.SaveGame();
 
         // Assert
-        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should exist");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should exist");
 
         using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Read);
         var jsonString = file.GetAsText();
         var jsonNode = Json.ParseString(jsonString);
 
         Assert.IsNotNull(jsonNode, "JSON should parse successfully");
-        Assert.IsInstanceOf<Godot.Collections.Dictionary>(jsonNode, "Root should be a dictionary");
+        Assert.That(jsonNode, Is.InstanceOf<Godot.Collections.Dictionary>(), "Root should be a dictionary");
 
         var saveData = jsonNode.AsGodotDictionary();
-        Assert.IsTrue(saveData.ContainsKey("gameState"), "Save data should contain gameState");
+        Assert.That(saveData.ContainsKey("gameState"), Is.True, "Save data should contain gameState");
 
         var gameStateData = saveData["gameState"].AsGodotDictionary();
-        Assert.AreEqual(this.gameState.CurrentScene, (int)gameStateData["currentScene"], "Current scene should match");
-        Assert.AreEqual(this.gameState.PlayerName, (string)gameStateData["playerName"], "Player name should match");
-        Assert.AreEqual(this.gameState.DreamweaverThread.ToString(), (string)gameStateData["dreamweaverThread"], "Dreamweaver thread should match");
+        Assert.That((int)gameStateData["currentScene"], Is.EqualTo(this.gameState.CurrentScene), "Current scene should match");
+        Assert.That((string)gameStateData["playerName"], Is.EqualTo(this.gameState.PlayerName), "Player name should match");
+        Assert.That((string)gameStateData["dreamweaverThread"], Is.EqualTo(this.gameState.DreamweaverThread.ToString()), "Dreamweaver thread should match");
     }
 
     [Test]
@@ -135,7 +135,7 @@ public class SaveLoadTests : IDisposable
 
         // Arrange - Save the game
         this.gameState.SaveGame();
-        Assert.IsTrue(Godot.FileAccess.FileExists("user://savegame.json"), "Save file should exist");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should exist");
 
         // Create a new GameState instance to simulate loading into a fresh state
         var loadedGameState = new GameState();

@@ -110,6 +110,9 @@ public partial class GameState : Node
         this.PlayerParty = new PartyData();
     }
 
+    /// <summary>
+    /// Resets the game state for a new run.
+    /// </summary>
     public void ResetForNewRun()
     {
         this.CurrentScene = 1;
@@ -126,6 +129,11 @@ public partial class GameState : Node
         this.PlayerParty = new PartyData();
     }
 
+    /// <summary>
+    /// Updates the score for the specified dreamweaver type.
+    /// </summary>
+    /// <param name="dreamweaverType">The dreamweaver type to update.</param>
+    /// <param name="points">The points to add to the score.</param>
     public void UpdateDreamweaverScore(DreamweaverType dreamweaverType, int points)
     {
         if (this.DreamweaverScores.ContainsKey(dreamweaverType))
@@ -134,6 +142,10 @@ public partial class GameState : Node
         }
     }
 
+    /// <summary>
+    /// Gets the dreamweaver type with the highest score.
+    /// </summary>
+    /// <returns>The dreamweaver type with the highest score.</returns>
     public DreamweaverType GetHighestScoringDreamweaver()
     {
         DreamweaverType topDreamweaver = DreamweaverType.Light;
@@ -151,6 +163,9 @@ public partial class GameState : Node
         return topDreamweaver;
     }
 
+    /// <summary>
+    /// Saves the current game state to a file.
+    /// </summary>
     public void SaveGame()
     {
         var saveData = new Godot.Collections.Dictionary<string, Variant>
@@ -182,6 +197,10 @@ public partial class GameState : Node
         GD.Print("Game saved successfully");
     }
 
+    /// <summary>
+    /// Loads the game state from a file.
+    /// </summary>
+    /// <returns>True if the game was loaded successfully, false otherwise.</returns>
     public bool LoadGame()
     {
         if (!Godot.FileAccess.FileExists("user://savegame.json"))
@@ -225,7 +244,7 @@ public partial class GameState : Node
         catch (Exception ex)
         {
             GD.PrintErr($"Error loading game: {ex.Message}");
-            return false;
+            throw;
         }
     }
 
@@ -339,6 +358,7 @@ public partial class GameState : Node
     {
         // Scene progress loading logic would go here
         // For now, just log that it's being loaded
+        _ = progressDict;
         GD.Print("Loading scene progress data");
     }
 

@@ -95,11 +95,11 @@ namespace OmegaSpiral.Tests
             // Verify required fields exist
             if (doc != null)
             {
-                Assert.IsTrue(doc.RootElement.TryGetProperty("type", out var typeProperty), "JSON should have 'type' field");
-                Assert.AreEqual("narrative_terminal", typeProperty.GetString(), "Type should be 'narrative_terminal'");
+                Assert.That(doc.RootElement.TryGetProperty("type", out var typeProperty), Is.True, "JSON should have 'type' field");
+                Assert.That(typeProperty.GetString(), Is.EqualTo("narrative_terminal"), "Type should be 'narrative_terminal'");
 
-                Assert.IsTrue(doc.RootElement.TryGetProperty("openingLines", out _), "JSON should have 'openingLines' array");
-                Assert.IsTrue(doc.RootElement.TryGetProperty("initialChoice", out _), "JSON should have 'initialChoice' object");
+                Assert.That(doc.RootElement.TryGetProperty("openingLines", out _), Is.True, "JSON should have 'openingLines' array");
+                Assert.That(doc.RootElement.TryGetProperty("initialChoice", out _), Is.True, "JSON should have 'initialChoice' object");
             }
 
             doc?.Dispose();
@@ -190,11 +190,11 @@ namespace OmegaSpiral.Tests
                         foundScene1 = true;
 
                         // Verify scene1 properties
-                        Assert.IsTrue(scene.TryGetProperty("type", out var typeProp), "Scene1 should have 'type' property");
-                        Assert.AreEqual("narrative_terminal", typeProp.GetString(), "Scene1 type should be 'narrative_terminal'");
+                        Assert.That(scene.TryGetProperty("type", out var typeProp), Is.True, "Scene1 should have 'type' property");
+                        Assert.That(typeProp.GetString(), Is.EqualTo("narrative_terminal"), "Scene1 type should be 'narrative_terminal'");
 
-                        Assert.IsTrue(scene.TryGetProperty("path", out var pathProp), "Scene1 should have 'path' property");
-                        Assert.AreEqual("scene1_narrative", pathProp.GetString(), "Scene1 path should be 'scene1_narrative'");
+                        Assert.That(scene.TryGetProperty("path", out var pathProp), Is.True, "Scene1 should have 'path' property");
+                        Assert.That(pathProp.GetString(), Is.EqualTo("scene1_narrative"), "Scene1 path should be 'scene1_narrative'");
 
                         break;
                     }
@@ -221,17 +221,17 @@ namespace OmegaSpiral.Tests
                 var doc = System.Text.Json.JsonDocument.Parse(jsonData);
 
                 // Assert
-                Assert.IsTrue(
-                    doc.RootElement.TryGetProperty("type", out var typeProperty),
+                Assert.That(
+                    doc.RootElement.TryGetProperty("type", out var typeProperty), Is.True,
                     $"{thread}.json should have 'type' field");
-                Assert.AreEqual("narrative_terminal", typeProperty.GetString(),
+                Assert.That(typeProperty.GetString(), Is.EqualTo("narrative_terminal"),
                     $"{thread}.json type should be 'narrative_terminal'");
 
-                Assert.IsTrue(
-                    doc.RootElement.TryGetProperty("openingLines", out var openingLines),
+                Assert.That(
+                    doc.RootElement.TryGetProperty("openingLines", out var openingLines), Is.True,
                     $"{thread}.json should have 'openingLines' array");
-                Assert.IsTrue(
-                    openingLines.GetArrayLength() > 0,
+                Assert.That(
+                    openingLines.GetArrayLength() > 0, Is.True,
                     $"{thread}.json should have at least one opening line");
 
                 Assert.IsTrue(

@@ -50,10 +50,10 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.AreEqual(DreamweaverThread.Hero, this.gameState.DreamweaverThread);
-            Assert.AreEqual(2, this.gameState.DreamweaverScores[DreamweaverType.Light]);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Mischief]);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Wrath]);
+            Assert.That(this.gameState.DreamweaverThread, Is.EqualTo(DreamweaverThread.Hero));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Light], Is.EqualTo(2));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Mischief], Is.EqualTo(0));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
         [Test]
@@ -81,10 +81,10 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.AreEqual(DreamweaverThread.Shadow, this.gameState.DreamweaverThread);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Light]);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Mischief]);
-            Assert.AreEqual(2, this.gameState.DreamweaverScores[DreamweaverType.Wrath]);
+            Assert.That(this.gameState.DreamweaverThread, Is.EqualTo(DreamweaverThread.Shadow));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Light], Is.EqualTo(0));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Mischief], Is.EqualTo(0));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(2));
         }
 
         [Test]
@@ -112,10 +112,10 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.AreEqual(DreamweaverThread.Ambition, this.gameState.DreamweaverThread);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Light]);
-            Assert.AreEqual(2, this.gameState.DreamweaverScores[DreamweaverType.Mischief]);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Wrath]);
+            Assert.That(this.gameState.DreamweaverThread, Is.EqualTo(DreamweaverThread.Ambition));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Light], Is.EqualTo(0));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Mischief], Is.EqualTo(2));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace OmegaSpiral.Tests
             this.gameState.PlayerName = playerName;
 
             // Assert
-            Assert.AreEqual(playerName, this.gameState.PlayerName);
+            Assert.That(this.gameState.PlayerName, Is.EqualTo(playerName));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace OmegaSpiral.Tests
             this.gameState.CurrentScene = initialScene + 1;
 
             // Assert
-            Assert.AreEqual(initialScene + 1, this.gameState.CurrentScene);
+            Assert.That(this.gameState.CurrentScene, Is.EqualTo(initialScene + 1));
         }
 
         [Test]
@@ -180,9 +180,9 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.AreEqual(2, this.gameState.DreamweaverScores[DreamweaverType.Light]);
-            Assert.AreEqual(1, this.gameState.DreamweaverScores[DreamweaverType.Mischief]);
-            Assert.AreEqual(0, this.gameState.DreamweaverScores[DreamweaverType.Wrath]);
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Light], Is.EqualTo(2));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Mischief], Is.EqualTo(1));
+            Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
         /// <inheritdoc/>
