@@ -57,7 +57,7 @@ public partial class ActiveTurnQueue : Node2D
     /// Gets a list of the combat participants, in BattlerList form. This object is created by the turn
     /// queue from children Battlers and then made available to other combat systems.
     /// </summary>
-    public BattlerList Battlers { get; private set; }
+    public BattlerList Battlers { get; private set; } = null!;
 
     // Private fields
     private bool isActive = true;
@@ -178,7 +178,7 @@ public partial class ActiveTurnQueue : Node2D
             this.activeAction = action;
 
             // Execute the action asynchronously
-            this.ExecuteActionAsync(battler, action, validTargets);
+            _ = this.ExecuteActionAsync(battler, action, validTargets);
         }
     }
 

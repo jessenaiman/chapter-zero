@@ -19,7 +19,7 @@ public partial class CombatTurnQueue : Node
     /// Gets a list of the combat participants, in <see cref="BattlerList"/> form. This object is created by the turn
     /// queue from children <see cref="Battler"/>s and then made available to other combat systems.
     /// </summary>
-    public BattlerRoster BattlerRoster { get; private set; }
+    public BattlerRoster BattlerRoster { get; private set; } = null!;
 
     private int roundCount = 1;
 
@@ -77,7 +77,7 @@ public partial class CombatTurnQueue : Node
 
         // Check for an active actor. If there are none, it may be that the turn has finished and all
         // actors can have their has_acted_this_turn flag reset.
-        CombatActor nextActor = this.GetNextActor();
+        CombatActor? nextActor = this.GetNextActor();
         if (nextActor == null)
         {
             this.ResetHasActedFlag();

@@ -56,7 +56,7 @@ public partial class FanInteraction : ConversationTemplate
         {
             var varNode = dialogic.GetNode("VAR");
             var tokenQuestStatus = varNode?.Call("get_variable", "TokenQuestStatus");
-            if (tokenQuestStatus.AsInt32() == 1)
+            if (tokenQuestStatus != null && tokenQuestStatus.AsInt32() == 1)
             {
                 await OnInitialConversationFinished().ConfigureAwait(false);
             }
@@ -69,7 +69,7 @@ public partial class FanInteraction : ConversationTemplate
     private async Task OnInitialConversationFinished()
     {
         var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
-        var sourceCell = gameboard?.PixelToCell(this.adoringFan.Position) ?? Vector2I.Zero;
+        var sourceCell = gameboard?.PixelToCell(this.adoringFan?.Position ?? Vector2.Zero) ?? Vector2I.Zero;
 
         // Everything is paused at the moment, so activate the fan's controller so that he can move on a
         // path during the cutscene.
@@ -77,11 +77,15 @@ public partial class FanInteraction : ConversationTemplate
         {
             this.Controller.IsActive = true;
             var pathfinder = gameboard?.GetNode<Pathfinder>("Pathfinder");
-            var path = pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13)) ?? new Godot.Collections.Array<Vector2I>();
-            this.Controller.MovePath = new System.Collections.Generic.List<Vector2I>(path);
+            var path = pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13));
+            var pathList = path != null ? new System.Collections.Generic.List<Vector2I>(path) : new System.Collections.Generic.List<Vector2I>();
+            this.Controller.MovePath = pathList;
 
             // Wait for the fan to arrive at destination
-            await this.ToSignal(this.adoringFan, "arrived");
+            if (this.adoringFan != null)
+            {
+                await this.ToSignal(this.adoringFan, "arrived");
+            }
 
             this.Controller.IsActive = false;
         }
@@ -112,7 +116,7 @@ public partial class FanInteraction : ConversationTemplate
     /// <summary>
     /// Override the Run method to execute the fan interaction.
     /// </summary>
-    public override async void Run()
+    public override void Run()
     {
         this.ExecuteFanInteraction();
         base.Run();

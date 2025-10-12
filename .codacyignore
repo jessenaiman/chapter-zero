@@ -1,0 +1,21 @@
+# Ignore local system and config files for Codacy analysis
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.log
+bin/
+obj/
+models/
+addons/nobodywho/*.so
+addons/nobodywho/*.dll
+addons/nobodywho/*.dylib
+addons/nobodywho/*.pdb
+chat-export-*.json
+.godot/
+.mono/
+.specify/
+**/*.md
+Copilot-Processing.md
