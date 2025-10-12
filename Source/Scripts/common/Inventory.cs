@@ -13,68 +13,94 @@ using Godot;
 [Tool]
 public partial class Inventory : Resource
 {
-    /// <summary>
-    /// All item types available to add or remove from the inventory.
-    /// </summary>
-    public enum ItemTypes
-    {
-        Key,
-        Coin,
-        Bomb,
-        RedWand,
-        BlueWand,
-        GreenWand,
-    }
-
-    // TODO: I expect we'll want to have a proper inventory definition somewhere. Some folks advocate for
-    // spreadsheets, but whatever it is should probably integrate with the editor so that level designers
-    // can easily pick from items from a dropdown list, or something similar.
-
-    /// <summary>
-    /// Icons associated with the <see cref="ItemTypes"/>.
-    /// </summary>
-    private static readonly Dictionary<ItemTypes, AtlasTexture> Icons = new Dictionary<ItemTypes, AtlasTexture>
-    {
-        { ItemTypes.Key, GD.Load<AtlasTexture>("res://assets/items/key.atlastex") },
-        { ItemTypes.Coin, GD.Load<AtlasTexture>("res://assets/items/coin.atlastex") },
-        { ItemTypes.Bomb, GD.Load<AtlasTexture>("res://assets/items/bomb.atlastex") },
-        { ItemTypes.RedWand, GD.Load<AtlasTexture>("res://assets/items/wand_red.atlastex") },
-        { ItemTypes.BlueWand, GD.Load<AtlasTexture>("res://assets/items/wand_blue.atlastex") },
-        { ItemTypes.GreenWand, GD.Load<AtlasTexture>("res://assets/items/wand_green.atlastex") },
-    };
-
     private const string InventoryPath = "user://inventory.tres";
 
     /// <summary>
-    /// Emitted when the count of a given item type changes.
+    /// Icons associated with the <see cref="ItemType"/>.
     /// </summary>
-    [Signal]
-    public delegate void ItemChangedEventHandler(ItemTypes type);
+    private static readonly Dictionary<ItemType, AtlasTexture> Icons = new Dictionary<ItemType, AtlasTexture>
+    {
+        { ItemType.Key, GD.Load<AtlasTexture>("res://assets/items/key.atlastex") },
+        { ItemType.Coin, GD.Load<AtlasTexture>("res://assets/items/coin.atlastex") },
+        { ItemType.Bomb, GD.Load<AtlasTexture>("res://assets/items/bomb.atlastex") },
+        { ItemType.RedWand, GD.Load<AtlasTexture>("res://assets/items/wand_red.atlastex") },
+        { ItemType.BlueWand, GD.Load<AtlasTexture>("res://assets/items/wand_blue.atlastex") },
+        { ItemType.GreenWand, GD.Load<AtlasTexture>("res://assets/items/wand_green.atlastex") },
+    };
 
     // Keep track of what is in the inventory. Dictionary keys are an ItemType, values are the amount.
-    private Dictionary<ItemTypes, int> items = new Dictionary<ItemTypes, int>();
+    private Dictionary<ItemType, int> items = new Dictionary<ItemType, int>();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Inventory"/> class.
+    /// </summary>
     public Inventory()
     {
-        foreach (ItemTypes itemType in Enum.GetValues(typeof(ItemTypes)))
+        foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
         {
             this.items[itemType] = 0;
         }
     }
 
     /// <summary>
+    /// Emitted when the count of a given item type changes.
+    /// </summary>
+    /// <param name="type">The item type that changed.</param>
+    [Signal]
+    public delegate void ItemChangedEventHandler(ItemType type);
+
+    /// <summary>
+    /// All item types available to add or remove from the inventory.
+    /// </summary>
+    /// <summary>
+    /// Represents the types of items that can be stored in the inventory.
+    /// </summary>
+    public enum ItemType
+    {
+        /// <summary>
+        /// A key item, typically used to unlock doors or chests.
+        /// </summary>
+        Key,
+
+        /// <summary>
+        /// A coin item, representing currency or collectible value.
+        /// </summary>
+        Coin,
+
+        /// <summary>
+        /// A bomb item, used for explosive actions or puzzles.
+        /// </summary>
+        Bomb,
+
+        /// <summary>
+        /// A red wand item, representing a magical tool with specific abilities.
+        /// </summary>
+        RedWand,
+
+        /// <summary>
+        /// A blue wand item, representing a magical tool with specific abilities.
+        /// </summary>
+        BlueWand,
+
+        /// <summary>
+        /// A green wand item, representing a magical tool with specific abilities.
+        /// </summary>
+        GreenWand,
+    }
+
+    /// <summary>
     /// Load the <see cref="Inventory"/> from file or create a new resource, if it was missing. Godot caches calls,
     /// so this can be used every time needed.
     /// </summary>
-    /// <returns></returns>
-    public static Inventory Restore()
+    /// <returns>The loaded or newly created inventory instance, or null in editor hint.</returns>
+    public static Inventory? Restore()
     {
         if (Engine.IsEditorHint())
         {
             return null;
         }
 
-        if (FileAccess.FileExists(InventoryPath))
+        if (Godot.FileAccess.FileExists(InventoryPath))
         {
             var inventory = ResourceLoader.Load(InventoryPath) as Inventory;
             if (inventory != null)
@@ -91,16 +117,28 @@ public partial class Inventory : Resource
     }
 
     /// <summary>
+    /// Returns the icon associated with a given item type.
+    /// </summary>
+    /// <param name="itemType">The type of item to get the icon for.</param>
+    /// <returns>The texture icon for the specified item type, or null if not found.</returns>
+    public static Texture2D? GetItemIcon(ItemType itemType)
+    {
+        return Icons.TryGetValue(itemType, out var icon) ? icon : null;
+    }
+
+    /// <summary>
     /// Increment the count of a given item by one, adding it to the inventory if it does not exist.
     /// </summary>
-    public void Add(ItemTypes itemType, int amount = 1)
+    /// <param name="itemType">The type of item to add to the inventory.</param>
+    /// <param name="amount">The amount of the item to add (can be negative to remove).</param>
+    public void Add(ItemType itemType, int amount = 1)
     {
         // Note that adding negative numbers is possible. Prevent having a total of negative items.
         // NPC: "You cannot have negative potatoes."
         int oldAmount = this.items.GetValueOrDefault(itemType, 0);
         this.items[itemType] = Math.Max(oldAmount + amount, 0);
 
-        EmitSignal(SignalName.ItemChanged, itemType);
+        this.EmitSignal(SignalName.ItemChanged, (int)itemType);
     }
 
     /// <summary>
@@ -108,7 +146,9 @@ public partial class Inventory : Resource
     /// The item will be removed entirely if there are none remaining. Removing an item that is not
     /// possessed will do nothing.
     /// </summary>
-    public void Remove(ItemTypes itemType, int amount = 1)
+    /// <param name="itemType">The type of item to remove from the inventory.</param>
+    /// <param name="amount">The amount of the item to remove.</param>
+    public void Remove(ItemType itemType, int amount = 1)
     {
         this.Add(itemType, -amount);
     }
@@ -116,19 +156,11 @@ public partial class Inventory : Resource
     /// <summary>
     /// Returns the number of a certain item type possessed by the player.
     /// </summary>
-    /// <returns></returns>
-    public int GetItemCount(ItemTypes itemType)
+    /// <param name="itemType">The type of item to count.</param>
+    /// <returns>The number of items of the specified type in the inventory.</returns>
+    public int GetItemCount(ItemType itemType)
     {
         return this.items.GetValueOrDefault(itemType, 0);
-    }
-
-    /// <summary>
-    /// Returns the icon associated with a given item type.
-    /// </summary>
-    /// <returns></returns>
-    public static Texture2D GetItemIcon(ItemTypes itemType)
-    {
-        return Icons.GetValueOrDefault(itemType, null);
     }
 
     /// <summary>

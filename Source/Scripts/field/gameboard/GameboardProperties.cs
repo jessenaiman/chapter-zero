@@ -15,6 +15,18 @@ using Godot;
 public partial class GameboardProperties : Resource
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="GameboardProperties"/> class.
+    /// Precalculates the half cell size for performance.
+    /// </summary>
+    /// <remarks>
+    /// The constructor sets the <see cref="HalfCellSize"/> property based on the initial <see cref="CellSize"/>.
+    /// </remarks>
+    public GameboardProperties()
+    {
+        this.HalfCellSize = new Vector2(this.CellSize.X * 0.5f, this.CellSize.Y * 0.5f);
+    }
+
+    /// <summary>
     /// Gets or sets determines the Extents of the Gameboard, among other details.
     /// </summary>
     [Export]
@@ -31,15 +43,13 @@ public partial class GameboardProperties : Resource
     /// </summary>
     public Vector2 HalfCellSize { get; private set; }
 
-    public GameboardProperties()
-    {
-        this.HalfCellSize = new Vector2(this.CellSize.X * 0.5f, this.CellSize.Y * 0.5f);
-    }
-
     /// <summary>
     /// Convert cell coordinates to pixel coordinates.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="cellCoordinates">The cell coordinates to convert to pixel coordinates.</param>
+    /// <returns>
+    /// The pixel coordinates corresponding to the specified cell coordinates.
+    /// </returns>
     public Vector2 CellToPixel(Vector2I cellCoordinates)
     {
         return new Vector2(
@@ -50,7 +60,10 @@ public partial class GameboardProperties : Resource
     /// <summary>
     /// Convert pixel coordinates to cell coordinates.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="pixelCoordinates">The pixel coordinates to convert to cell coordinates.</param>
+    /// <returns>
+    /// The cell coordinates corresponding to the specified pixel coordinates.
+    /// </returns>
     public Vector2I PixelToCell(Vector2 pixelCoordinates)
     {
         return new Vector2I(

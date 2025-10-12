@@ -11,8 +11,19 @@ using Godot;
 /// </summary>
 public enum ActionTargetScope
 {
+    /// <summary>
+    /// The action targets only the battler performing it.
+    /// </summary>
     Self,
-    Single,
+
+    /// <summary>
+    /// The action targets exactly one battler.
+    /// </summary>
+    One,
+
+    /// <summary>
+    /// The action targets all valid battlers.
+    /// </summary>
     All,
 }
 
@@ -51,7 +62,7 @@ public partial class BattlerAction : Resource
     /// make use of the <see cref="TargetsFriendlies"/> or <see cref="TargetsEnemies"/> flags.
     /// </summary>
     [Export]
-    public ActionTargetScope TargetScope { get; set; } = ActionTargetScope.Single;
+    public ActionTargetScope TargetScope { get; set; } = ActionTargetScope.One;
 
     /// <summary>
     /// Gets or sets a value indicating whether can this action target friendly <see cref="Battler"/>s? Has no effect if <see cref="TargetScope"/> is
@@ -68,7 +79,6 @@ public partial class BattlerAction : Resource
     public bool TargetsEnemies { get; set; } = false;
 
     [ExportGroup("")]
-
     /// <summary>
     /// The action's <see cref="Elements.Types"/>.
     /// </summary>
@@ -92,7 +102,9 @@ public partial class BattlerAction : Resource
     /// Verifies that an action can be run. This can be dependent on any number of details regarding the
     /// source and target <see cref="Battler"/>s.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="source">The <see cref="Battler"/> performing the action.</param>
+    /// <param name="targets">The target <see cref="Battler"/>s for the action.</param>
+    /// <returns><see langword="true"/> if the action can be executed; otherwise, <see langword="false"/>.</returns>
     public virtual bool CanExecute(Battler source, Battler[] targets = null!)
     {
         if (targets == null)
@@ -101,8 +113,8 @@ public partial class BattlerAction : Resource
         }
 
         if (source == null
-            || source.Stats.Health <= 0
-            || source.Stats.Energy < this.EnergyCost)
+            || source.Stats?.Health <= 0
+            || source.Stats?.Energy < this.EnergyCost)
         {
             return false;
         }
@@ -117,10 +129,16 @@ public partial class BattlerAction : Resource
     /// with <see cref="BattlerStats.Health"/> that is not greater than zero. Most actions, on the other
     /// hand, will want targets that are selectable and have health points greater than zero.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="target">The <see cref="Battler"/> to evaluate as a potential target.</param>
+    /// <returns><see langword="true"/> if the target is valid for this action; otherwise, <see langword="false"/>.</returns>
     public virtual bool IsTargetValid(Battler target)
     {
-        if (target.IsSelectable && target.Stats.Health > 0)
+        if (target == null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
+
+        if (target.IsSelectable && target.Stats?.Health > 0)
         {
             return true;
         }
@@ -134,9 +152,16 @@ public partial class BattlerAction : Resource
     /// execution to finish.
     /// <br/><br/>Note: The base action class does nothing, but must be overridden to do anything.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <param name="source">The <see cref="Battler"/> performing the action.</param>
+    /// <param name="targets">The target <see cref="Battler"/>s for the action.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public virtual async Task Execute(Battler source, Battler[] targets = null!)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
         if (targets == null)
         {
             targets = Array.Empty<Battler>();
@@ -147,12 +172,24 @@ public partial class BattlerAction : Resource
 
     /// <summary>
     /// Returns and array of <see cref="Battler"/>s that could be affected by the action.
-    /// This includes most cases, accounting for parameters such as <see cref="TargetsSelf"/>. Specific
+    /// This includes most cases, accounting for parameters such as <see cref="TargetsFriendlies"/>. Specific
     /// actions may wish to override GetPossibleTargets (to target only mushrooms, for example).
     /// </summary>
-    /// <returns></returns>
+    /// <param name="source">The <see cref="Battler"/> performing the action.</param>
+    /// <param name="battlers">The list of all available <see cref="Battler"/>s in the current battle.</param>
+    /// <returns>An array of <see cref="Battler"/>s that could be affected by this action.</returns>
     public virtual Battler[] GetPossibleTargets(Battler source, BattlerList battlers)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        if (battlers == null)
+        {
+            throw new ArgumentNullException(nameof(battlers));
+        }
+
         var possibleTargets = new System.Collections.Generic.List<Battler>();
 
         // Normally, actions can pick from battlers of the opposing team. However, actions may be
@@ -189,9 +226,19 @@ public partial class BattlerAction : Resource
         return BattlerList.GetLiveBattlers(possibleTargets.ToArray());
     }
 
+    /// <summary>
+    /// Determines whether the specified <see cref="Battler"/> can be targeted by this action.
+    /// </summary>
+    /// <param name="target">The <see cref="Battler"/> to check.</param>
+    /// <returns><see langword="true"/> if the battler can be targeted; otherwise, <see langword="false"/>.</returns>
     public virtual bool CanTargetBattler(Battler target)
     {
-        if (target.IsSelectable && target.Stats.Health > 0)
+        if (target == null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
+
+        if (target.IsSelectable && target.Stats?.Health > 0)
         {
             return true;
         }
@@ -199,6 +246,10 @@ public partial class BattlerAction : Resource
         return false;
     }
 
+    /// <summary>
+    /// Determines whether this action targets all available battlers.
+    /// </summary>
+    /// <returns><see langword="true"/> if the action targets all battlers; otherwise, <see langword="false"/>.</returns>
     public virtual bool TargetsAll()
     {
         return this.TargetScope == ActionTargetScope.All;

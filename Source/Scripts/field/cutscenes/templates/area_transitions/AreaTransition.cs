@@ -17,6 +17,17 @@ using Timer = Godot.Timer; // Resolve ambiguity between Godot.Timer and System.T
 public partial class AreaTransition : Trigger
 {
     /// <summary>
+    /// The coordinates where the player will arrive after the transition.
+    /// </summary>
+    private Vector2 arrivalCoordinates = Vector2.Zero;
+
+    /// <summary>
+    /// The blackout timer used to wait between fade-out and fade-in during transitions.
+    /// No delay looks odd, so this provides a brief pause in darkness.
+    /// </summary>
+    private Timer? blackoutTimer;
+
+    /// <summary>
     /// Gets or sets the coordinates where the player will arrive after the transition.
     /// </summary>
     [Export]
@@ -45,18 +56,7 @@ public partial class AreaTransition : Trigger
     /// Gets or sets the audio stream to play when entering this area.
     /// </summary>
     [Export]
-    public AudioStream NewMusic { get; set; }
-
-    /// <summary>
-    /// The blackout timer used to wait between fade-out and fade-in during transitions.
-    /// No delay looks odd, so this provides a brief pause in darkness.
-    /// </summary>
-    private Timer blackoutTimer;
-
-    /// <summary>
-    /// The coordinates where the player will arrive after the transition.
-    /// </summary>
-    private Vector2 arrivalCoordinates = Vector2.Zero;
+    public AudioStream? NewMusic { get; set; }
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -74,18 +74,6 @@ public partial class AreaTransition : Trigger
             {
                 destination.QueueFree();
             }
-        }
-    }
-
-    /// <summary>
-    /// Update the destination position in the editor based on arrival coordinates.
-    /// </summary>
-    private void UpdateDestinationPosition()
-    {
-        var destination = this.GetNode<Node2D>("Destination");
-        if (destination != null)
-        {
-            destination.Position = this.ArrivalCoordinates - this.Position;
         }
     }
 
@@ -109,7 +97,9 @@ public partial class AreaTransition : Trigger
         await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
 
         // Cover the screen to hide the area transition.
-        await Transition.Instance.Cover(0.25f);
+        var transition = this.GetNode("/root/Transition");
+        transition.Call("cover", 0.25f);
+        await this.ToSignal(transition, "finished");
 
         // Move the gamepiece to its new position and update the camera immediately.
         var gamepiece = area.Owner as Gamepiece;
@@ -119,37 +109,69 @@ public partial class AreaTransition : Trigger
             gamepiece.Position = this.ArrivalCoordinates;
 
             // Update the gamepiece registry with the new cell position
-            var newCell = Gameboard.PixelToCell(this.ArrivalCoordinates);
-            GamepieceRegistry.Instance.MoveGamepiece(gamepiece, newCell);
+            var gameboard = this.GetNode("/root/Gameboard");
+            if (gameboard != null)
+            {
+                var newCell = gameboard.Call("pixel_to_cell", this.ArrivalCoordinates);
+                var gamepieceRegistry = this.GetNode("/root/GamepieceRegistry");
+                if (gamepieceRegistry != null)
+                {
+                    gamepieceRegistry.Call("move_gamepiece", gamepiece, newCell);
+                }
 
-            // Reset the camera position
-            Camera.Instance.ResetPosition();
+                // Reset the camera position
+                var camera = this.GetNode("/root/FieldCamera");
+                if (camera != null)
+                {
+                    camera.Call("reset_position");
+                }
+            }
         }
 
         // Let the screen rest in darkness for a little while. Revealing the screen immediately with no
         // delay looks 'off'.
-        this.blackoutTimer.Start();
-        await this.ToSignal(this.blackoutTimer, Timer.SignalName.Timeout);
+        if (this.blackoutTimer != null)
+        {
+            this.blackoutTimer.Start();
+            await this.ToSignal(this.blackoutTimer, Timer.SignalName.Timeout);
+        }
 
         // All kinds of shenanigans could happen once the screen blacks out. It may be asynchronous, so
         // give the opportunity for the designer to run a lengthy event.
-        await OnBlackout().ConfigureAwait(false);
+        await this.OnBlackout().ConfigureAwait(false);
 
         // Reveal the screen and unpause the field gamestate.
-        await Transition.Instance.Clear(0.10f);
+        transition.Call("clear", 0.10f);
+        await this.ToSignal(transition, "finished");
     }
 
     /// <summary>
     /// Callback that occurs during the blackout phase of the transition.
     /// Override this method to add custom behavior during the transition blackout.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     protected virtual async Task OnBlackout()
     {
         // Play new music if specified
         if (this.NewMusic != null)
         {
-            Music.Instance?.Play(this.NewMusic);
+            var music = this.GetNode("/root/Music");
+            if (music != null)
+            {
+                music.Call("play", this.NewMusic);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Update the destination position in the editor based on arrival coordinates.
+    /// </summary>
+    private void UpdateDestinationPosition()
+    {
+        var destination = this.GetNode<Node2D>("Destination");
+        if (destination != null)
+        {
+            destination.Position = this.ArrivalCoordinates - this.Position;
         }
     }
 }

@@ -20,12 +20,27 @@ public partial class AttackBattlerAction : BattlerAction
     [Export]
     public float HitChance { get; set; } = 100.0f;
 
+    /// <summary>
+    /// Gets or sets the base damage value for this attack action.
+    /// </summary>
     [Export]
     public int BaseDamage { get; set; } = 50;
+
+    /// <summary>
+    /// Executes the attack action, moving the battler to attack position and applying damage.
+    /// </summary>
+    /// <param name="source">The battler performing the attack.</param>
+    /// <param name="targets">The targets of the attack.</param>
+    /// <returns>A task representing the asynchronous attack execution.</returns>
 
     /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source), "Source battler cannot be null.");
+        }
+
         if (targets == null)
         {
             targets = Array.Empty<Battler>();
@@ -60,12 +75,12 @@ public partial class AttackBattlerAction : BattlerAction
         foreach (Battler target in targets)
         {
             // Incorporate Battler attack and a random variation (10% +- potential damage) to damage.
-            int modifiedDamage = this.BaseDamage + source.Stats.Attack;
+            int modifiedDamage = this.BaseDamage + source.Stats?.Attack ?? 0;
             double damageDealt = modifiedDamage + ((GD.Randf() - 0.5) * 0.2 * modifiedDamage);
 
             // To hit is modified by a Battler's accuracy. That is, a Battler with 90 accuracy will have
             // 90% of the action's base to_hit chance.
-            float toHit = this.HitChance * (source.Stats.HitChance / 100.0f);
+            float toHit = this.HitChance * (source.Stats?.HitChance ?? 100.0f / 100.0f);
 
             BattlerHit hit = new BattlerHit((int)damageDealt, toHit);
             target.TakeHit(hit);

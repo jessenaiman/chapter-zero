@@ -10,6 +10,7 @@ namespace OmegaSpiral.Source.Scripts
     using System.Text.Json;
     using System.Threading.Tasks;
     using Godot;
+    using OmegaSpiral;
     using OmegaSpiral.Source.Scripts;
     using OmegaSpiral.Source.Scripts.Common;
 
@@ -20,91 +21,94 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public partial class NarrativeTerminal : Control
     {
-        private enum PromptKind
+    private readonly JsonSerializerOptions jsonOptions = new ()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+    };
+
+    /// <summary>
+    /// Optional Dialogic integration for enhanced dialogue presentation.
+    /// When enabled, uses Dialogic's timeline system for dialogue UI while
+    /// maintaining C# control over narrative logic and state.
+    /// </summary>
+    private DialogicIntegration? dialogicIntegration;
+
+    private RichTextLabel outputLabel = default!;
+    private LineEdit inputField = default!;
+    private Button submitButton = default!;
+    private Label promptLabel = default!;
+
+    private SceneManager sceneManager = default!;
+    private GameState gameState = default!;
+    private NarratorEngine? narratorEngine;
+
+    // FUTURE: LLM_INTEGRATION - DreamweaverSystem connection
+    // Will be set via GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem")
+    // See ADR-0003 for complete integration architecture
+    private DreamweaverSystem? dreamweaverSystem;
+
+    private NarrativeSceneData sceneData = new ();
+    private PromptKind currentPrompt = PromptKind.None;
+    private IReadOnlyList<DreamweaverChoice> threadChoices = Array.Empty<DreamweaverChoice>();
+    private IReadOnlyList<ChoiceOption> activeChoices = Array.Empty<ChoiceOption>();
+    private bool awaitingInput;
+    private int currentBlockIndex;
+
+    // Dynamic narrative state
+    private bool useDynamicNarrative;
+    private string lastGeneratedNarrative = string.Empty;
+
+    private enum PromptKind
+    {
+        None,
+        InitialChoice,
+        StoryChoice,
+        Freeform,
+        PlayerName,
+        Secret,
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether dynamic narrative generation should be used.
+    /// FUTURE: LLM_INTEGRATION - Toggle for dynamic vs static narrative.
+    /// When true and _dreamweaverSystem is available, use LLM responses.
+    /// When false or _dreamweaverSystem is null, use static JSON (current behavior).
+    /// </summary>
+    [Export]
+    public bool UseDynamicNarrative { get; set; } = false;
+
+    /// <inheritdoc/>
+    public override void _Ready()
+    {
+        this.outputLabel = this.GetNode<RichTextLabel>("%OutputLabel");
+        this.inputField = this.GetNode<LineEdit>("%InputField");
+        this.submitButton = this.GetNode<Button>("%SubmitButton");
+        this.promptLabel = this.GetNode<Label>("%PromptLabel");
+
+        this.submitButton.Pressed += this.OnSubmitPressed;
+        this.inputField.TextSubmitted += _ => this.OnSubmitPressed();
+
+        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this.gameState = this.GetNode<GameState>("/root/GameState");
+        this.narratorEngine = this.GetNodeOrNull<NarratorEngine>("/root/NarratorEngine");
+
+        // FUTURE: LLM_INTEGRATION - Connect to DreamweaverSystem when available
+        this.dreamweaverSystem = this.GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
+        if (this.dreamweaverSystem != null)
         {
-            None,
-            InitialChoice,
-            StoryChoice,
-            Freeform,
-            PlayerName,
-            Secret,
+            // Connect to signals for dynamic narrative updates
+            this.dreamweaverSystem.Connect("NarrativeGenerated", new Callable(this, nameof(this.OnNarrativeGenerated)));
+            this.dreamweaverSystem.Connect("GenerationError", new Callable(this, nameof(this.OnGenerationError)));
+            GD.Print("NarrativeTerminal: DreamweaverSystem connected for dynamic narrative");
         }
 
-        private readonly JsonSerializerOptions jsonOptions = new ()
-        {
-            PropertyNameCaseInsensitive = true,
-            ReadCommentHandling = JsonCommentHandling.Skip,
-        };
+        this.inputField.GrabFocus();
+        this.CallDeferred(nameof(this.InitializeNarrativeAsync));
+    }
 
-        private RichTextLabel outputLabel = default!;
-        private LineEdit inputField = default!;
-        private Button submitButton = default!;
-        private Label promptLabel = default!;
-
-        private SceneManager sceneManager = default!;
-        private GameState gameState = default!;
-        private NarratorEngine? narratorEngine;
-
-        // FUTURE: LLM_INTEGRATION - DreamweaverSystem connection
-        // Will be set via GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem")
-        // See ADR-0003 for complete integration architecture
-        private DreamweaverSystem? dreamweaverSystem;
-
-        /// <summary>
-        /// Optional Dialogic integration for enhanced dialogue presentation.
-        /// When enabled, uses Dialogic's timeline system for dialogue UI while
-        /// maintaining C# control over narrative logic and state.
-        /// </summary>
-        private DialogicIntegration? dialogicIntegration;
-
-        // FUTURE: LLM_INTEGRATION - Toggle for dynamic vs static narrative
-        // When true and _dreamweaverSystem is available, use LLM responses
-        // When false or _dreamweaverSystem is null, use static JSON (current behavior)
-        [Export]
-        public bool UseDynamicNarrative { get; set; } = false;
-
-        private NarrativeSceneData sceneData = new ();
-        private PromptKind currentPrompt = PromptKind.None;
-        private IReadOnlyList<DreamweaverChoice> threadChoices = Array.Empty<DreamweaverChoice>();
-        private IReadOnlyList<ChoiceOption> activeChoices = Array.Empty<ChoiceOption>();
-        private bool awaitingInput;
-        private int currentBlockIndex;
-
-        // Dynamic narrative state
-        private bool useDynamicNarrative;
-        private string lastGeneratedNarrative = string.Empty;
-
-        /// <inheritdoc/>
-        public override void _Ready()
-        {
-            this.outputLabel = this.GetNode<RichTextLabel>("%OutputLabel");
-            this.inputField = this.GetNode<LineEdit>("%InputField");
-            this.submitButton = this.GetNode<Button>("%SubmitButton");
-            this.promptLabel = this.GetNode<Label>("%PromptLabel");
-
-            this.submitButton.Pressed += this.OnSubmitPressed;
-            this.inputField.TextSubmitted += _ => this.OnSubmitPressed();
-
-            this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
-            this.gameState = this.GetNode<GameState>("/root/GameState");
-            this.narratorEngine = this.GetNodeOrNull<NarratorEngine>("/root/NarratorEngine");
-
-            // FUTURE: LLM_INTEGRATION - Connect to DreamweaverSystem when available
-            this.dreamweaverSystem = this.GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
-            if (this.dreamweaverSystem != null)
-            {
-                // Connect to signals for dynamic narrative updates
-                this.dreamweaverSystem.Connect("NarrativeGenerated", new Callable(this, nameof(this.OnNarrativeGenerated)));
-                this.dreamweaverSystem.Connect("GenerationError", new Callable(this, nameof(this.OnGenerationError)));
-                GD.Print("NarrativeTerminal: DreamweaverSystem connected for dynamic narrative");
-            }
-
-            this.inputField.GrabFocus();
-            this.CallDeferred(nameof(this.InitializeNarrativeAsync));
-        }
-
-        // Signal handlers for DreamweaverSystem
-        private void OnNarrativeGenerated(string personaId, string generatedText)
+    // Signal handlers for DreamweaverSystem
+    private void OnNarrativeGenerated(string personaId, string generatedText)
         {
             GD.Print($"Dreamweaver narrative generated for {personaId}: {generatedText}");
 
@@ -112,7 +116,7 @@ namespace OmegaSpiral.Source.Scripts
             this.lastGeneratedNarrative = generatedText;
         }
 
-        private void OnGenerationError(string personaId, string errorMessage)
+    private void OnGenerationError(string personaId, string errorMessage)
         {
             GD.PrintErr($"Dreamweaver generation error for {personaId}: {errorMessage}");
 
@@ -120,7 +124,7 @@ namespace OmegaSpiral.Source.Scripts
             this.useDynamicNarrative = false;
         }
 
-        private async void InitializeNarrativeAsync()
+    private async void InitializeNarrativeAsync()
         {
             // Initialize Dialogic integration if available
             this.dialogicIntegration = this.GetNodeOrNull<DialogicIntegration>("/root/DialogicIntegration");
@@ -139,10 +143,10 @@ namespace OmegaSpiral.Source.Scripts
             this.PresentInitialChoice();
         }
 
-        private bool TryLoadSceneData()
+    private bool TryLoadSceneData()
         {
             string basePath = "res://Source/Data/scenes/scene1_narrative";
-            string threadKey = this.gameState.DreamweaverThread.ToString().ToLowerInvariant();
+            string threadKey = this.gameState.DreamweaverThread.ToString().ToUpperInvariant();
             var candidates = new[] { threadKey, "hero", "shadow", "ambition" };
 
             foreach (string candidate in candidates)
@@ -166,9 +170,14 @@ namespace OmegaSpiral.Source.Scripts
                     this.sceneData = data;
                     return true;
                 }
-                catch (Exception ex)
+                catch (JsonException ex)
                 {
                     GD.PrintErr($"Failed to parse narrative data at {path}: {ex.Message}");
+                }
+                catch (Exception ex) when (ex is not JsonException)
+                {
+                    GD.PrintErr($"Unexpected error loading narrative data at {path}: {ex.Message}");
+                    throw;
                 }
             }
 
@@ -176,7 +185,7 @@ namespace OmegaSpiral.Source.Scripts
             return false;
         }
 
-        private void NormalizeNarrativeData(NarrativeSceneData data)
+    private void NormalizeNarrativeData(NarrativeSceneData data)
         {
             data.OpeningLines ??= new List<string>();
             data.StoryBlocks ??= new List<StoryBlock>();
@@ -208,7 +217,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private async Task DisplayOpeningAsync()
+    private async Task DisplayOpeningAsync()
         {
             if (this.UseDynamicNarrative && this.dreamweaverSystem != null)
             {
@@ -227,7 +236,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private async void PresentInitialChoice()
+    private async void PresentInitialChoice()
         {
             if (this.sceneData.InitialChoice == null || this.threadChoices.Count == 0)
             {
@@ -250,7 +259,7 @@ namespace OmegaSpiral.Source.Scripts
                     this.DisplayImmediate($"  {i + 1}. {choice.Text} — {choice.Description}");
                 }
 
-                this.activeChoices = (IReadOnlyList<ChoiceOption>)dynamicChoices;
+                this.activeChoices = Array.Empty<ChoiceOption>();
             }
             else
             {
@@ -264,13 +273,13 @@ namespace OmegaSpiral.Source.Scripts
                     this.DisplayImmediate($"  {i + 1}. {label} — {option.Description}");
                 }
 
-                this.activeChoices = (IReadOnlyList<ChoiceOption>)this.threadChoices;
+                this.activeChoices = Array.Empty<ChoiceOption>();
             }
 
             this.ConfigurePrompt(PromptKind.InitialChoice, "Choose your story thread (ex: 1 or hero)");
         }
 
-        private void PresentStoryBlock()
+    private void PresentStoryBlock()
         {
             if (this.currentBlockIndex < 0 || this.currentBlockIndex >= this.sceneData.StoryBlocks.Count)
             {
@@ -283,7 +292,7 @@ namespace OmegaSpiral.Source.Scripts
             _ = this.DisplayStoryBlockAsync(block);
         }
 
-        private async Task DisplayStoryBlockAsync(StoryBlock block)
+    private async Task DisplayStoryBlockAsync(StoryBlock block)
         {
             foreach (string paragraph in block.Paragraphs)
             {
@@ -317,7 +326,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private void PromptForName()
+    private void PromptForName()
         {
             string prompt = string.IsNullOrWhiteSpace(this.sceneData.NamePrompt)
                 ? "What name should the terminal record?"
@@ -327,7 +336,7 @@ namespace OmegaSpiral.Source.Scripts
             this.ConfigurePrompt(PromptKind.PlayerName, "Enter your name");
         }
 
-        private void PromptForSecret()
+    private void PromptForSecret()
         {
             if (this.sceneData.SecretQuestion == null)
             {
@@ -348,7 +357,7 @@ namespace OmegaSpiral.Source.Scripts
             this.ConfigurePrompt(PromptKind.Secret, "Share your secret (number or text)");
         }
 
-        private void ConfigurePrompt(PromptKind kind, string placeholder)
+    private void ConfigurePrompt(PromptKind kind, string placeholder)
         {
             this.currentPrompt = kind;
             this.awaitingInput = true;
@@ -358,7 +367,7 @@ namespace OmegaSpiral.Source.Scripts
             this.inputField.GrabFocus();
         }
 
-        private void OnSubmitPressed()
+    private void OnSubmitPressed()
         {
             if (!this.awaitingInput)
             {
@@ -393,7 +402,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private void HandleThreadSelection(string input)
+    private void HandleThreadSelection(string input)
         {
             DreamweaverChoice? choice = this.ResolveThreadChoice(input);
             if (choice == null)
@@ -415,7 +424,7 @@ namespace OmegaSpiral.Source.Scripts
             this.PresentStoryBlock();
         }
 
-        private DreamweaverChoice? ResolveThreadChoice(string input)
+    private DreamweaverChoice? ResolveThreadChoice(string input)
         {
             if (this.threadChoices.Count == 0)
             {
@@ -443,7 +452,7 @@ namespace OmegaSpiral.Source.Scripts
             return null;
         }
 
-        private void HandleStoryChoice(string input)
+    private void HandleStoryChoice(string input)
         {
             ChoiceOption? selection = this.ResolveChoiceOption(input);
             if (selection == null)
@@ -468,7 +477,7 @@ namespace OmegaSpiral.Source.Scripts
             this.PresentStoryBlock();
         }
 
-        private ChoiceOption? ResolveChoiceOption(string input)
+    private ChoiceOption? ResolveChoiceOption(string input)
         {
             if (this.activeChoices.Count == 0)
             {
@@ -495,7 +504,7 @@ namespace OmegaSpiral.Source.Scripts
             return null;
         }
 
-        private void HandleFreeformResponse(string input)
+    private void HandleFreeformResponse(string input)
         {
             this.RecordSceneResponse($"block-{this.currentBlockIndex}-response", input);
             this.awaitingInput = false;
@@ -504,7 +513,7 @@ namespace OmegaSpiral.Source.Scripts
             this.PresentStoryBlock();
         }
 
-        private void HandlePlayerName(string input)
+    private void HandlePlayerName(string input)
         {
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -521,7 +530,7 @@ namespace OmegaSpiral.Source.Scripts
             this.PromptForSecret();
         }
 
-        private void HandleSecret(string input)
+    private void HandleSecret(string input)
         {
             if (this.sceneData.SecretQuestion != null && this.sceneData.SecretQuestion.Options.Count > 0)
             {
@@ -544,7 +553,7 @@ namespace OmegaSpiral.Source.Scripts
             this.CompleteNarrativeSceneAsync();
         }
 
-        private void RecordSceneResponse(string key, string value)
+    private void RecordSceneResponse(string key, string value)
         {
             string compositeKey = $"scene1_narrative.{key}";
             if (this.gameState.SceneData.ContainsKey(compositeKey))
@@ -557,7 +566,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private async void CompleteNarrativeSceneAsync()
+    private async void CompleteNarrativeSceneAsync()
         {
             if (!string.IsNullOrWhiteSpace(this.sceneData.ExitLine))
             {
@@ -568,14 +577,17 @@ namespace OmegaSpiral.Source.Scripts
 
             this.sceneManager.UpdateCurrentScene(2);
             var timer = new Godot.Timer { WaitTime = 2.5f, OneShot = true };
-            timer.Timeout += () => this.sceneManager.TransitionToScene("Scene2NethackSequence");
+            timer.Timeout += () =>
+            {
+                this.sceneManager.TransitionToScene("Scene2NethackSequence");
+                timer.Dispose();
+            };
             this.AddChild(timer);
             timer.Start();
-
-            // Note: Timer will be automatically disposed when scene changes
+            timer.Dispose();
         }
 
-        private void DisplayImmediate(string text)
+    private void DisplayImmediate(string text)
         {
             if (this.outputLabel != null)
             {
@@ -587,7 +599,7 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        private async Task DisplayTextWithTypewriterAsync(string text)
+    private async Task DisplayTextWithTypewriterAsync(string text)
         {
             this.outputLabel.AppendText("\n");
             foreach (char character in text)
@@ -606,11 +618,12 @@ namespace OmegaSpiral.Source.Scripts
         // See ADR-0003: docs/adr/adr-0003-nobodywho-llm-integration.md
         // ============================================================================
 
-        /// <summary>
-        /// FUTURE: Consults all three Dreamweavers (Hero, Shadow, Ambition) + Omega narrator
-        /// based on player situation/choice. Will replace or augment static JSON responses.
-        /// </summary>
-        /// <param name="situation">Player's current situation or choice context</param>
+        // FUTURE: LLM_INTEGRATION - Dreamweaver Consultation Methods
+        // ============================================================================
+        // These methods will be implemented when DreamweaverSystem is integrated
+        // See ADR-0003: docs/adr/adr-0003-nobodywho-llm-integration.md
+        // ============================================================================
+
         // private void ConsultDreamweavers(string situation)
         // {
         //     if (_dreamweaverSystem != null && UseDynamicNarrative)
@@ -625,11 +638,6 @@ namespace OmegaSpiral.Source.Scripts
         //     }
         // }
 
-        /// <summary>
-        /// FUTURE: Handles response from DreamweaverSystem after all personas have responded.
-        /// Receives Hero, Shadow, Ambition, and Omega responses in JSON format.
-        /// </summary>
-        /// <param name="consultations">Dictionary with hero/shadow/ambition/omega JSON responses</param>
         // private void OnDreamweaversConsultation(Godot.Collections.Dictionary consultations)
         // {
         //     // Parse JSON responses from each Dreamweaver
@@ -645,10 +653,6 @@ namespace OmegaSpiral.Source.Scripts
         //     // Continue narrative flow
         // }
 
-        /// <summary>
-        /// FUTURE: Formats and displays LLM-generated Dreamweaver consultations.
-        /// Parses JSON and presents in terminal-style format.
-        /// </summary>
         // private void DisplayDreamweaverConsultation(string heroJson, string shadowJson, string ambitionJson, string omegaJson)
         // {
         //     // Parse each JSON response according to schema defined in ADR-0003:
@@ -656,8 +660,6 @@ namespace OmegaSpiral.Source.Scripts
         //     // Shadow: {whisper, secret, cost}
         //     // Ambition: {strategy, goal, reward}
         //     // Omega: {narration, choice_context, consequence}
+        // }
     }
-
-    // // Display formatted output in terminal
-    // }
 }

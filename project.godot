@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A retro-styled narrative adventure game built with Godot 4.5 and C# 14"
-run/main_scene="res://Source/Scenes/Scene1Narrative.tscn"
+run/main_scene="res://Source/Data/scenes/scene1_narrative.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
@@ -25,43 +25,7 @@ SceneManager="*res://Source/Scripts/SceneManager.cs"
 GameState="*res://Source/Scripts/common/GameState.cs"
 NarratorEngine="*res://Source/Scripts/field/narrative/NarratorEngine.cs"
 DreamweaverSystem="*res://Source/Scripts/field/narrative/DreamweaverSystem.cs"
-Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-
-[dialogic]
-
-text/skippable=true
-text/skippable_delay=0.05
-text/autoadvance_delay=1.0
-text/hide_empty_textbox=true
-animations/join_default_length=0.0
-animations/leave_default_length=0.0
-animations/leave_default_wait=false
-animations/join_default_wait=false
-choices/autofocus_first=true
-choices/delay=0.2
-choices/reveal_delay=0
-choices/reveal_by_input=false
-save/autosave_delay=60.0
-text/autopauses={}
-glossary/default_case_sensitive=true
-layout/mode=2
-variables={}
-layout/end_behaviour=0
-layout/styles={
-"Default": {
-"export_overrides": {},
-"inherits": "",
-"layout": ""
-}
-}
-layout/default_style="Default"
-text/letter_speed=0.02
-animations/join_default="Instant In"
-animations/leave_default="Instant Out"
-text/autocolor_names=true
-settings/text_speed=1.0
-directories/dch_directory={}
-directories/dtl_directory={}
+Dialogic="*res://addons/dialogic/plugin.gd"
 
 [display]
 
@@ -82,6 +46,7 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 [gui]
 
 theme/custom="res://theme.tres"
+
 
 [rendering]
 

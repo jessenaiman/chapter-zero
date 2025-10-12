@@ -40,32 +40,9 @@ public partial class StrangeTreeInteraction : ConversationTemplate
     }
 
     /// <summary>
-    /// Handle Dialogic signal events for the secret path reveal.
-    /// </summary>
-    /// <param name="argument">The signal argument from Dialogic.</param>
-    private void OnDialogicSignalEvent(string argument)
-    {
-        // Once the secret path is cleared, we'll want to deactivate the interaction to
-        // prevent the user from running it again.
-        this.IsActive = false;
-
-        if (this.popup != null)
-        {
-            this.popup.Hide();
-            this.popup.QueueFree();
-        }
-
-        // Clearing the secret path is controlled exclusively by the animation player.
-        if (this.anim != null)
-        {
-            this.anim.Play("disappear");
-        }
-    }
-
-    /// <summary>
     /// Wait for the disappear animation to finish.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task WaitForAnimationFinish()
     {
         if (this.anim != null)
@@ -81,5 +58,31 @@ public partial class StrangeTreeInteraction : ConversationTemplate
     {
         this.ExecuteTreeInteraction();
         base.Run();
+    }
+
+    /// <summary>
+    /// Handle Dialogic signal events for the secret path reveal.
+    /// </summary>
+    /// <param name="argument">The signal argument from Dialogic.</param>
+    private void OnDialogicSignalEvent(string argument)
+    {
+        // The argument is intentionally unused - we only care that the signal was emitted
+        _ = argument;
+
+        // Once the secret path is cleared, we'll want to deactivate the interaction to
+        // prevent the user from running it again.
+        this.IsActive = false;
+
+        if (this.popup != null)
+        {
+            this.popup.Hide();
+            this.popup.QueueFree();
+        }
+
+        // Clearing the secret path is controlled exclusively by the animation player.
+        if (this.anim != null)
+        {
+            this.anim.Play("disappear");
+        }
     }
 }

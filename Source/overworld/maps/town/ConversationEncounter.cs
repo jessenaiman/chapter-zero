@@ -37,6 +37,14 @@ public partial class ConversationEncounter : Interaction
     [Export]
     public PackedScene CombatArena { get; set; } = null!;
 
+    /// <inheritdoc/>
+    public override async void Run()
+    {
+        this.Execute();
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
+        base.Run();
+    }
+
     /// <summary>
     /// Execute the conversation encounter sequence.
     /// </summary>
@@ -93,13 +101,5 @@ public partial class ConversationEncounter : Interaction
 
             await this.ToSignal(dialogic, "timeline_ended");
         }
-    }
-
-    /// <inheritdoc/>
-    public override async void Run()
-    {
-        this.Execute();
-        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
-        base.Run();
     }
 }

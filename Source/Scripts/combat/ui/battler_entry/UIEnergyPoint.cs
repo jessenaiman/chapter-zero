@@ -11,11 +11,6 @@ using Godot;
 public partial class UIEnergyPoint : MarginContainer
 {
     /// <summary>
-    /// When highlighted, the point indicator will be offset by the following amount.
-    /// </summary>
-    private static readonly Vector2 SelectedOffset = new Vector2(0.0f, -6.0f);
-
-    /// <summary>
     /// The time required to move the point to or from <see cref="SelectedOffset"/>.
     /// </summary>
     private const float SelectTime = 0.2f;
@@ -25,10 +20,15 @@ public partial class UIEnergyPoint : MarginContainer
     /// </summary>
     private const float FadeTime = 0.3f;
 
-    private Tween colorTween;
-    private Tween offsetTween;
+    /// <summary>
+    /// When highlighted, the point indicator will be offset by the following amount.
+    /// </summary>
+    private static readonly Vector2 SelectedOffset = new Vector2(0.0f, -6.0f);
 
-    private TextureRect fill;
+    private Tween? colorTween;
+    private Tween? offsetTween;
+
+    private TextureRect? fill;
 
     // We store the start modulate value of the `Fill` node because it's semi-transparent.
     // This way, we can animate the color from and to this value.
@@ -38,7 +38,7 @@ public partial class UIEnergyPoint : MarginContainer
     public override void _Ready()
     {
         this.fill = this.GetNode<TextureRect>("EnergyPoint/Fill");
-        this.colorTransparent = this.fill.Modulate;
+        this.colorTransparent = this.fill?.Modulate ?? Colors.White;
     }
 
     /// <summary>
@@ -69,6 +69,9 @@ public partial class UIEnergyPoint : MarginContainer
         this.colorTween.TweenProperty(this.fill, "modulate", this.colorTransparent, FadeTime);
     }
 
+    /// <summary>
+    /// Animates the energy point to the selected offset position.
+    /// </summary>
     public void Select()
     {
         if (this.offsetTween != null)
@@ -80,6 +83,9 @@ public partial class UIEnergyPoint : MarginContainer
         this.offsetTween.TweenProperty(this.fill, "position", SelectedOffset, SelectTime);
     }
 
+    /// <summary>
+    /// Animates the energy point back to the default position.
+    /// </summary>
     public void Deselect()
     {
         if (this.offsetTween != null)

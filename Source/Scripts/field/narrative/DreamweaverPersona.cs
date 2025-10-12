@@ -2,15 +2,16 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+namespace OmegaSpiral.Source.Scripts;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Scripts.Field.Narrative;
-
-namespace OmegaSpiral.Source.Scripts;
 
 /// <summary>
 /// Represents an individual Dreamweaver persona that can generate dynamic narrative
@@ -19,26 +20,6 @@ namespace OmegaSpiral.Source.Scripts;
 /// </summary>
 public partial class DreamweaverPersona
 {
-    /// <summary>
-    /// Gets the unique identifier for this persona.
-    /// </summary>
-    public string PersonaId { get; private set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this persona is currently active.
-    /// </summary>
-    public bool IsActive { get; set; }
-
-    /// <summary>
-    /// Gets the display name of this persona.
-    /// </summary>
-    public string Name { get; private set; }
-
-    /// <summary>
-    /// Gets the archetype or personality type of this persona.
-    /// </summary>
-    public string Archetype { get; private set; }
-
     private PersonaConfig config;
     private GameState? gameState;
     private Random random = new ();
@@ -70,36 +51,29 @@ public partial class DreamweaverPersona
         this.InitializeLlmModel();
     }
 
-    private void InitializeLlmModel()
-    {
-        try
-        {
-            // Initialize NobodyWho model for this persona
-            this.llmModel = (GodotObject)ClassDB.Instantiate("NobodyWhoModel");
+    /// <summary>
+    /// Gets the unique identifier for this persona.
+    /// </summary>
+    public string PersonaId { get; private set; }
 
-            // Load the Qwen3-4B model
-            var modelPath = "res://models/qwen3-4b-instruct-2507-q4_k_m.gguf";
-            this.llmModel.Call("load_model", modelPath);
+    /// <summary>
+    /// Gets or sets a value indicating whether this persona is currently active.
+    /// </summary>
+    public bool IsActive { get; set; }
 
-            // Configure model parameters for narrative generation
-            this.llmModel.Set("temperature", 0.8f);  // Creative but not too random
-            this.llmModel.Set("max_tokens", 200);    // Keep responses concise
-            this.llmModel.Set("top_p", 0.9f);        // Balanced sampling
+    /// <summary>
+    /// Gets the display name of this persona.
+    /// </summary>
+    public string Name { get; private set; }
 
-            GD.Print($"Initialized NobodyWho LLM model for persona: {this.PersonaId}");
-        }
-        catch (InvalidCastException ex)
-        {
-            GD.PrintErr($"Failed to instantiate NobodyWho model for {this.PersonaId}: {ex.Message}");
-            this.llmModel = null;
-        }
-        catch (InvalidOperationException ex)
-        {
-            GD.PrintErr($"Failed to initialize NobodyWho LLM model for {this.PersonaId}: {ex.Message}");
-            this.llmModel = null;
-        }
-    }
+    /// <summary>
+    /// Gets the archetype or personality type of this persona.
+    /// </summary>
+    public string Archetype { get; private set; }
 
+    /// <summary>
+    /// Gets fallback choices when LLM generation fails.
+    /// </summary>
     /// <summary>
     /// Generates dynamic narrative text using the JSON foundation as prompts.
     /// </summary>
@@ -118,7 +92,7 @@ public partial class DreamweaverPersona
             // If LLM fails, fall back to JSON-based generation
             if (string.IsNullOrEmpty(generatedText))
             {
-                generatedText = this.GenerateFromJsonFallback(context);
+                generatedText = this.GenerateFromJsonFallback();
             }
 
             return generatedText;
@@ -126,12 +100,12 @@ public partial class DreamweaverPersona
         catch (InvalidOperationException ex)
         {
             GD.PrintErr($"Narrative generation failed for {this.PersonaId}: {ex.Message}");
-            return this.GenerateFromJsonFallback(context);
+            return this.GenerateFromJsonFallback();
         }
         catch (System.Text.Json.JsonException ex)
         {
             GD.PrintErr($"JSON parsing failed for {this.PersonaId}: {ex.Message}");
-            return this.GenerateFromJsonFallback(context);
+            return this.GenerateFromJsonFallback();
         }
     }
 
@@ -200,6 +174,100 @@ public partial class DreamweaverPersona
         }
     }
 
+    /// <summary>
+    /// Gets fallback choices when LLM generation fails.
+    /// </summary>
+    /// <returns>A list of fallback choice options.</returns>
+    private static List<ChoiceOption> GetFallbackChoices()
+    {
+        return new List<ChoiceOption>
+        {
+            new ChoiceOption { Id = "continue", Label = "CONTINUE", Description = "Continue the journey" },
+            new ChoiceOption { Id = "reflect", Label = "REFLECT", Description = "Take a moment to reflect" },
+            new ChoiceOption { Id = "question", Label = "QUESTION", Description = "Ask a question" },
+        };
+    }
+
+    /// <summary>
+    /// Parses choices from JSON response.
+    /// </summary>
+    /// <param name="jsonResponse">The JSON response string to parse.</param>
+    /// <returns>A list of parsed choice options.</returns>
+    private static List<ChoiceOption> ParseChoicesFromJson(string jsonResponse)
+    {
+        var choices = new List<ChoiceOption>();
+
+        try
+        {
+            // Clean up the response to extract JSON
+            var jsonStart = jsonResponse.IndexOf('[');
+            var jsonEnd = jsonResponse.LastIndexOf(']') + 1;
+            if (jsonStart >= 0 && jsonEnd > jsonStart)
+            {
+                var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, options);
+
+                if (parsedChoices != null)
+                {
+                    choices = parsedChoices;
+                }
+            }
+        }
+        catch (System.Text.Json.JsonException ex)
+        {
+            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            GD.PrintErr($"Invalid JSON response format: {ex.Message}");
+        }
+
+        return choices;
+    }
+
+    /// <summary>
+    /// Initializes the LLM model for this persona.
+    /// </summary>
+    private void InitializeLlmModel()
+    {
+        try
+        {
+            // Check if model file exists first
+            var modelPath = "res://models/qwen3-4b-instruct-2507-q4_k_m.gguf";
+            if (!Godot.FileAccess.FileExists(modelPath))
+            {
+                GD.Print($"LLM model file not found at {modelPath}, using YAML-based generation only");
+                this.llmModel = null;
+                return;
+            }
+
+            // Initialize NobodyWho model for this persona
+            this.llmModel = (GodotObject)ClassDB.Instantiate("NobodyWhoModel");
+
+            // Load the Qwen3-4B model
+            this.llmModel.Call("load_model", modelPath);
+
+            // Configure model parameters for narrative generation
+            this.llmModel.Set("temperature", 0.8f);  // Creative but not too random
+            this.llmModel.Set("max_tokens", 200);    // Keep responses concise
+            this.llmModel.Set("top_p", 0.9f);        // Balanced sampling
+
+            GD.Print($"Initialized NobodyWho LLM model for persona: {this.PersonaId}");
+        }
+        catch (InvalidCastException ex)
+        {
+            GD.PrintErr($"Failed to instantiate NobodyWho model for {this.PersonaId}: {ex.Message}");
+            this.llmModel = null;
+        }
+        catch (InvalidOperationException ex)
+        {
+            GD.PrintErr($"Failed to initialize NobodyWho LLM model for {this.PersonaId}: {ex.Message}");
+            this.llmModel = null;
+        }
+    }
+
+    // Private helper methods
     private string BuildNarrativePrompt(string context)
     {
         var sb = new StringBuilder();
@@ -234,7 +302,7 @@ public partial class DreamweaverPersona
         }
 
         sb.AppendLine("\nGenerate a compelling narrative continuation that fits this persona's voice and theme.");
-        sb.AppendLine("Keep it concise but impactful, under 200 words.");
+        sb.AppendLine("Keep it concise but impactful, under 20 words.");
 
         return sb.ToString();
     }
@@ -259,7 +327,7 @@ public partial class DreamweaverPersona
         sb.AppendLine("Base choices for inspiration:");
         foreach (var choice in baseChoices)
         {
-            sb.AppendLine(System.FormattableString.Invariant($"- {choice.Text}: {choice.Description}"));
+            sb.AppendLine(System.FormattableString.Invariant($"- {choice.Label}: {choice.Description}"));
         }
 
         return sb.ToString();
@@ -358,40 +426,7 @@ public partial class DreamweaverPersona
         }
     }
 
-    private static List<ChoiceOption> ParseChoicesFromJson(string jsonResponse)
-    {
-        var choices = new List<ChoiceOption>();
-
-        try
-        {
-            // Clean up the response to extract JSON
-            var jsonStart = jsonResponse.IndexOf('[', StringComparison.Ordinal);
-            var jsonEnd = jsonResponse.LastIndexOf(']', StringComparison.Ordinal) + 1;
-            if (jsonStart >= 0 && jsonEnd > jsonStart)
-            {
-                var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, options);
-
-                if (parsedChoices != null)
-                {
-                    choices = parsedChoices;
-                }
-            }
-        }
-        catch (System.Text.Json.JsonException ex)
-        {
-            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
-        }
-        catch (ArgumentOutOfRangeException ex)
-        {
-            GD.PrintErr($"Invalid JSON response format: {ex.Message}");
-        }
-
-        return choices;
-    }
-
-    private string GenerateFromJsonFallback(string context)
+    private string GenerateFromJsonFallback()
     {
         if (this.config.StoryBlocks.Count > 0)
         {
@@ -415,7 +450,7 @@ public partial class DreamweaverPersona
                     choices.Add(new ChoiceOption
                     {
                         Id = option.Id,
-                        Text = option.Label,
+                        Label = option.Label,
                         Description = option.Description,
                     });
                 }
@@ -454,15 +489,5 @@ public partial class DreamweaverPersona
             ["ambition"] = "Ambition drives progress, pushing boundaries and achieving the impossible.",
         };
         return fallbacks.GetValueOrDefault(this.PersonaId, "The narrative unfolds...");
-    }
-
-    private static List<ChoiceOption> GetFallbackChoices()
-    {
-        return new List<ChoiceOption>
-        {
-            new ChoiceOption { Id = "continue", Text = "CONTINUE", Description = "Continue the journey" },
-            new ChoiceOption { Id = "reflect", Text = "REFLECT", Description = "Take a moment to reflect" },
-            new ChoiceOption { Id = "question", Text = "QUESTION", Description = "Ask a question" },
-        };
     }
 }

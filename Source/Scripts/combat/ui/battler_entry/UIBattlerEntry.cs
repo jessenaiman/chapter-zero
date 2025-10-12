@@ -11,51 +11,78 @@ using Godot;
 /// </summary>
 public partial class UIBattlerEntry : TextureButton
 {
-    private UIBattlerEnergyBar energy;
-    private UIBattlerLifeBar life;
+    private UIBattlerEnergyBar? energy;
+    private UIBattlerLifeBar? life;
 
-    private Battler battler;
+    private Battler? battler;
 
     /// <summary>
     /// Gets or sets setup the entry UI values and connect to different changes in <see cref="BattlerStats"/> that the UI will
     /// measure.
     /// </summary>
-    public Battler Battler
+    public Battler? Battler
     {
         get => this.battler;
         set
         {
             this.battler = value;
 
-            if (!this.IsInsideTree())
+            if (!this.IsInsideTree() || this.battler == null || this.energy == null || this.life == null)
             {
                 // We'll set the value and wait for the node to be ready
                 this.battler = value;
                 return;
             }
 
-            this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
-            this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
-
-            this.battler.Stats.EnergyChanged += () => this.energy.Value = this.battler.Stats.Energy;
-            this.battler.Stats.HealthChanged += () =>
+            if (this.energy != null && this.battler.Stats != null)
             {
-                this.life.TargetValue = this.battler.Stats.Health;
-                this.Disabled = this.battler.Stats.Health <= 0;
+                this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
+            }
 
-                // If the Battler has been downed, it no longer has a cached action so the preview
-                // can be removed.
-                if (this.Disabled)
+            if (this.life != null && this.battler.Stats != null)
+            {
+                this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
+            }
+
+            if (this.battler.Stats != null)
+            {
+                this.battler.Stats.EnergyChanged += () =>
                 {
-                    this.life.SetActionIcon(null);
-                }
-            };
+                    if (this.energy != null)
+                    {
+                        this.energy.Value = this.battler.Stats.Energy;
+                    }
+                };
+            }
+
+            if (this.battler.Stats != null)
+            {
+                this.battler.Stats.HealthChanged += () =>
+                {
+                    if (this.life != null)
+                    {
+                        this.life.TargetValue = this.battler.Stats.Health;
+                    }
+
+                    this.Disabled = this.battler.Stats.Health <= 0;
+
+                    // If the Battler has been downed, it no longer has a cached action so the preview
+                    // can be removed.
+                    if (this.Disabled && this.life != null)
+                    {
+                        this.life.SetActionIcon(null);
+                    }
+                };
+            }
 
             // Once the player has started to act, remove the action preview icon. The icon only exists
             // to help the player with their battlefield strategy.
             this.battler.ReadyToAct += () =>
             {
-                this.life.SetActionIcon(null);
+                if (this.life != null)
+                {
+                    this.life.SetActionIcon(null);
+                }
             };
         }
     }
@@ -67,48 +94,79 @@ public partial class UIBattlerEntry : TextureButton
         this.life = this.GetNode<UIBattlerLifeBar>("VBoxContainer/LifeBar");
 
         // If Battler was set before the node was ready, apply it now
-        if (this.battler != null)
+        if (this.battler != null && this.energy != null && this.life != null)
         {
-            this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
-            this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
-
-            this.battler.Stats.EnergyChanged += () => this.energy.Value = this.battler.Stats.Energy;
-            this.battler.Stats.HealthChanged += () =>
+            if (this.energy != null && this.battler.Stats != null)
             {
-                this.life.TargetValue = this.battler.Stats.Health;
-                this.Disabled = this.battler.Stats.Health <= 0;
+                this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
+            }
 
-                // If the Battler has been downed, it no longer has a cached action so the preview
-                // can be removed.
-                if (this.Disabled)
+            if (this.life != null && this.battler.Stats != null)
+            {
+                this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
+            }
+
+            if (this.battler.Stats != null)
+            {
+                this.battler.Stats.EnergyChanged += () =>
                 {
-                    this.life.SetActionIcon(null);
-                }
-            };
+                    if (this.energy != null)
+                    {
+                        this.energy.Value = this.battler.Stats.Energy;
+                    }
+                };
+            }
+
+            if (this.battler.Stats != null)
+            {
+                this.battler.Stats.HealthChanged += () =>
+                {
+                    if (this.life != null)
+                    {
+                        this.life.TargetValue = this.battler.Stats.Health;
+                    }
+
+                    this.Disabled = this.battler.Stats.Health <= 0;
+
+                    // If the Battler has been downed, it no longer has a cached action so the preview
+                    // can be removed.
+                    if (this.Disabled && this.life != null)
+                    {
+                        this.life.SetActionIcon(null);
+                    }
+                };
+            }
 
             // Once the player has started to act, remove the action preview icon. The icon only exists
             // to help the player with their battlefield strategy.
             this.battler.ReadyToAct += () =>
             {
-                this.life.SetActionIcon(null);
+                if (this.life != null)
+                {
+                    this.life.SetActionIcon(null);
+                }
             };
         }
 
         // If the player queues an action for this Battler, display the queued action's icon next to the
         // Battler name and health points information.
-        CombatEvents.ActionSelected += (action, source, targets) =>
+        var combatEvents = this.GetNode("/root/CombatEvents");
+        if (combatEvents != null)
         {
-            if (source == this.battler)
+            combatEvents.Connect("action_selected", Callable.From((BattlerAction action, Battler source, Battler[] targets) =>
             {
-                if (action != null)
+                if (source == this.battler && this.life != null)
                 {
-                    this.life.SetActionIcon(action.Icon);
+                    if (action != null)
+                    {
+                        this.life.SetActionIcon(action.Icon);
+                    }
+                    else
+                    {
+                        this.life.SetActionIcon(null);
+                    }
                 }
-                else
-                {
-                    this.life.SetActionIcon(null);
-                }
-            }
-        };
+            }));
+        }
     }
 }

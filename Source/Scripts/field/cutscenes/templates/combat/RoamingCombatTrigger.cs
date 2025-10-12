@@ -7,18 +7,28 @@ using System.Threading.Tasks;
 using Godot;
 
 [Tool]
+/// <summary>
+/// Represents a roaming combat trigger that handles victory and loss cutscenes for roaming encounters.
+/// This trigger automatically removes itself after a victory and handles game-over scenarios on loss.
+/// </summary>
 public partial class RoamingCombatTrigger : CombatTrigger
 {
-    // If the player has defeated this 'roaming encounter', remove the encounter.
+    /// <summary>
+    /// If the player has defeated this 'roaming encounter', remove the encounter.
+    /// </summary>
     /// <inheritdoc/>
-    protected override async void RunVictoryCutscene()
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected override async Task RunVictoryCutsceneAsync()
     {
         this.QueueFree();
     }
 
-    // If the player has lost to this 'roaming encounter', play the game-over screen.
+    /// <summary>
+    /// If the player has lost to this 'roaming encounter', play the game-over screen.
+    /// </summary>
     /// <inheritdoc/>
-    protected override async void RunLossCutscene()
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected override async Task RunLossCutsceneAsync()
     {
         await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }

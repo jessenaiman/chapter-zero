@@ -48,7 +48,7 @@ public partial class BattlerAnim : Marker2D
     /// Gets or sets an icon that shows up on the turn bar.
     /// </summary>
     [Export]
-    public Texture2D BattlerIcon { get; set; }
+    public Texture2D? BattlerIcon { get; set; }
 
     private BattlerDirection direction = BattlerDirection.Right;
 
@@ -121,12 +121,15 @@ public partial class BattlerAnim : Marker2D
 
         battler.HealthDepleted += () =>
         {
-            this.anim.Play("die");
+            if (this.anim != null)
+            {
+                this.anim.Play("die");
+            }
         };
 
         battler.HitReceived += (int value) =>
         {
-            if (value > 0)
+            if (value > 0 && this.anim != null)
             {
                 this.anim.Play("hurt");
             }

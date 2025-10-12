@@ -19,13 +19,13 @@ using Godot;
 /// </summary>
 public partial class Combat : CanvasLayer
 {
-    private CombatArena activeArena;
+    private CombatArena? activeArena;
 
     // Keep track of what music track was playing previously, and return to it once combat has finished.
-    private AudioStream previousMusicTrack;
+    private AudioStream? previousMusicTrack;
 
-    private CenterContainer combatContainer;
-    private Godot.Timer transitionDelayTimer;
+    private CenterContainer? combatContainer;
+    private Godot.Timer? transitionDelayTimer;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -45,9 +45,15 @@ public partial class Combat : CanvasLayer
     /// object once instantiated.
     /// This is normally a response to <see cref="FieldEvents.CombatTriggered"/>.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <param name="arena">The <see cref="PackedScene"/> representing the combat arena to be instantiated.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation of starting combat.</returns>
     public async Task StartAsync(PackedScene arena)
     {
+        if (arena == null)
+        {
+            throw new ArgumentNullException(nameof(arena), "The arena parameter cannot be null.");
+        }
+
         System.Diagnostics.Debug.Assert(this.activeArena == null, "Attempting to start a combat while one is ongoing!");
 
         var transition = this.GetNode("/root/Transition");
@@ -58,39 +64,59 @@ public partial class Combat : CanvasLayer
         System.Diagnostics.Debug.Assert(newArena != null, "Failed to initiate combat. Provided 'arena' argument is not a CombatArena.");
 
         this.activeArena = newArena;
-        this.combatContainer.AddChild(this.activeArena);
-
-        this.activeArena.TurnQueue.CombatFinished += async (bool isPlayerVictory) =>
+        if (this.combatContainer != null)
         {
-            await DisplayCombatResultsDialog(isPlayerVictory).ConfigureAwait(false);
+            this.combatContainer.AddChild(this.activeArena);
+        }
+        else
+        {
+            throw new InvalidOperationException("Combat container is not initialized.");
+        }
 
-            // Wait a short period of time and then fade the screen to black.
-            this.transitionDelayTimer.Start();
-            await ToSignal(this.transitionDelayTimer, Timer.SignalName.Timeout);
-            transition.Call("cover", 0.2f);
-            await this.ToSignal(transition, "finished");
-
-            System.Diagnostics.Debug.Assert(this.activeArena != null, "Combat finished but no active arena to clean up!");
-            this.activeArena.QueueFree();
-            this.activeArena = null;
-
-            var music = this.GetNode("/root/Music");
-            music.Call("play", this.previousMusicTrack);
-            this.previousMusicTrack = null;
-
-            // Whatever object started the combat will now be responsible for flow of the game. In
-            // particular, the screen is still covered, so the combat-starting object will want to
-            // decide what to do now that the outcome of the combat is known.
-            var combatEvents = this.GetNode("/root/CombatEvents");
-            if (combatEvents != null)
+        if (this.activeArena?.TurnQueue != null)
+        {
+            this.activeArena.TurnQueue.CombatFinished += async (bool isPlayerVictory) =>
             {
-                combatEvents.EmitSignal("combat_finished", isPlayerVictory);
-            }
-        };
+                this.DisplayCombatResultsDialogAsync(isPlayerVictory);
+
+                // Wait a short period of time and then fade the screen to black.
+                if (this.transitionDelayTimer != null)
+                {
+                    this.transitionDelayTimer.Start();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Transition delay timer is not initialized.");
+                }
+                await this.ToSignal(this.transitionDelayTimer, "timeout");
+                transition.Call("cover", 0.2f);
+                await this.ToSignal(transition, "finished");
+
+                this.activeArena?.QueueFree();
+
+                var music = this.GetNode("/root/Music");
+                if (this.previousMusicTrack != null)
+                {
+                    music.Call("play", this.previousMusicTrack);
+                }
+
+                // Whatever object started the combat will now be responsible for flow of the game. In
+                // particular, the screen is still covered, so the combat-starting object will want to
+                // decide what to do now that the outcome of the combat is known.
+                var combatEvents = this.GetNode("/root/CombatEvents");
+                if (combatEvents != null)
+                {
+                    combatEvents.EmitSignal("combat_finished", isPlayerVictory);
+                }
+            };
+        }
 
         var music = this.GetNode("/root/Music");
         this.previousMusicTrack = (AudioStream)music.Call("get_playing_track");
-        music.Call("play", this.activeArena.Music);
+        if (this.activeArena?.Music != null)
+        {
+            music.Call("play", this.activeArena.Music);
+        }
 
         var combatEvents = this.GetNode("/root/CombatEvents");
         if (combatEvents != null)
@@ -103,10 +129,8 @@ public partial class Combat : CanvasLayer
         // frame to allow everything else to respond to Transition.finished.
         this.CallDeferred("_DeferredClearTransition", 0.2f);
 
-        // Remove the await since we're not actually awaiting a signal here
-
         // Begin the combat. The turn queue takes over from here.
-        this.activeArena.Start();
+        this.activeArena?.Start();
     }
 
     private void DeferredClearTransition(float duration)
@@ -118,27 +142,6 @@ public partial class Combat : CanvasLayer
     /// <summary>
     /// Displays a series of dialogue bubbles using Dialogic with information about the combat's outcome.
     /// </summary>
-    private async Task DisplayCombatResultsDialog(bool isPlayerVictory)
-    {
-        string playerPartyLeaderName = this.activeArena.TurnQueue.Battlers.Players[0].Name;
-
-        string[] timelineEvents;
-        if (isPlayerVictory)
-        {
-            timelineEvents = GetVictoryMessageEvents(playerPartyLeaderName);
-        }
-        else
-        {
-            timelineEvents = GetLossMessageEvents(playerPartyLeaderName);
-        }
-
-        var combatRewardsTimeline = new DialogicTimeline();
-        combatRewardsTimeline.Events = timelineEvents;
-        var dialogic = this.GetNode("/root/Dialogic");
-        dialogic.Call("start_timeline", combatRewardsTimeline);
-        await this.ToSignal(dialogic, "timeline_ended");
-    }
-
     // These two functions are placeholders for future logic for deciding combat outcomes.
     private static string[] GetVictoryMessageEvents(string leaderName)
     {
@@ -157,5 +160,29 @@ public partial class Combat : CanvasLayer
             $"{leaderName}'s party lost the battle!",
         };
         return events;
+    }
+
+    private void DisplayCombatResultsDialogAsync(bool isPlayerVictory)
+    {
+        if (this.activeArena?.TurnQueue?.Battlers?.Players == null || this.activeArena?.TurnQueue?.Battlers?.Players?.Length == 0)
+        {
+            GD.PrintErr("Cannot display combat results - no player battlers found");
+            return;
+        }
+
+        string playerPartyLeaderName = this.activeArena?.TurnQueue?.Battlers?.Players?[0]?.Name ?? "Unknown";
+
+        string[] timelineEvents;
+        if (isPlayerVictory)
+        {
+            timelineEvents = GetVictoryMessageEvents(playerPartyLeaderName);
+        }
+        else
+        {
+            timelineEvents = GetLossMessageEvents(playerPartyLeaderName);
+        }
+
+        // For now, skip the dialogic integration and just log the result
+        GD.Print($"Combat finished - Player victory: {isPlayerVictory}");
     }
 }

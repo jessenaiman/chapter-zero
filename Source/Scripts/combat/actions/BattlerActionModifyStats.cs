@@ -14,15 +14,26 @@ public partial class StatsBattlerAction : BattlerAction
     private const float JumpDistance = 250.0f;
 
     /// <summary>
-    /// Gets or sets a to-hit modifier for this attack that will be influenced by the target Battler's
-    /// <see cref="BattlerStats.Evasion"/>.
+    /// Gets or sets the value to add to the target battler's attack and hit chance stats.
     /// </summary>
     [Export]
     public int AddedValue { get; set; } = 10;
 
+    /// <summary>
+    /// Executes the stat modification action, jumping and applying stat bonuses to targets.
+    /// </summary>
+    /// <param name="source">The battler performing the stat modification.</param>
+    /// <param name="targets">The targets to receive the stat bonuses.</param>
+    /// <returns>A task representing the asynchronous stat modification execution.</returns>
+
     /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source), "Source battler cannot be null.");
+        }
+
         if (targets == null)
         {
             targets = Array.Empty<Battler>();
@@ -56,8 +67,8 @@ public partial class StatsBattlerAction : BattlerAction
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         foreach (Battler target in targets)
         {
-            target.Stats.AddModifier("attack", this.AddedValue);
-            target.Stats.AddModifier("hit_chance", this.AddedValue);
+            target.Stats?.AddModifier("attack", this.AddedValue);
+            target.Stats?.AddModifier("hit_chance", this.AddedValue);
         }
 
         timer = source.GetTree().CreateTimer(0.1f);

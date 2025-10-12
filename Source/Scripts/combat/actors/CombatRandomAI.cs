@@ -31,7 +31,7 @@ public partial class CombatRandomAI : CombatAI
     /// Choose an action for the controlled battler to take.
     /// This AI chooses actions randomly, with a preference for attacking.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A tuple containing the chosen action and list of targets for that action.</returns>
     public override async Task<(BattlerAction? action, List<Battler> targets)> ChooseAction()
     {
         if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
@@ -42,7 +42,7 @@ public partial class CombatRandomAI : CombatAI
         // Wait for the turn delay to make the AI feel more natural
         if (this.TurnDelay > 0)
         {
-            await Task.Delay(TimeSpan.FromSeconds(TurnDelay)).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(this.TurnDelay)).ConfigureAwait(false);
         }
 
         // Get all available actions
@@ -81,7 +81,8 @@ public partial class CombatRandomAI : CombatAI
         var chosenAction = filteredActions[(int)(GD.Randi() % filteredActions.Count)];
 
         // Choose targets for the action
-        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>()));
+        using var battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
+        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, battlerList);
         var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
@@ -116,7 +117,7 @@ public partial class CombatRandomAI : CombatAI
         }
 
         // For single-target actions, choose one target
-        if (chosenAction.TargetScope == ActionTargetScope.Single)
+        if (chosenAction.TargetScope == ActionTargetScope.One)
         {
             var target = filteredTargets[(int)(GD.Randi() % filteredTargets.Count)];
             return (chosenAction, new List<Battler> { target });
@@ -142,7 +143,7 @@ public partial class CombatRandomAI : CombatAI
     /// Evaluate the current combat situation.
     /// This random AI doesn't make strategic evaluations, so it returns a neutral score.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A float value representing the evaluation score (1.0 for neutral).</returns>
     public override float EvaluateSituation()
     {
         // Return a neutral score since this AI doesn't make strategic evaluations
@@ -153,7 +154,9 @@ public partial class CombatRandomAI : CombatAI
     /// Get the priority of a potential action.
     /// This random AI assigns equal priority to all actions.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="action">The action to evaluate.</param>
+    /// <param name="targets">The targets for the action.</param>
+    /// <returns>A float value representing the priority (1.0 for equal priority).</returns>
     public override float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
         // Return a neutral priority since this AI doesn't prioritize actions

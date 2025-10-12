@@ -20,6 +20,37 @@ public partial class BattlerStats : Resource
         "max_health", "max_energy", "attack", "defense", "speed", "hit_chance", "evasion",
     };
 
+    private int baseAttack = 10;
+    private int baseDefense = 10;
+    private int baseSpeed = 70;
+    private int baseHitChance = 100;
+    private int baseEvasion;
+    private int health;
+    private int energy;
+    private Dictionary<string, Dictionary<int, int>> modifiers = new Dictionary<string, Dictionary<int, int>>();
+    private Dictionary<string, Dictionary<int, float>> multipliers = new Dictionary<string, Dictionary<int, float>>();
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BattlerStats"/> class.
+    /// Sets up the initial calculated values and initializes modifier/multiplier dictionaries.
+    /// </summary>
+    public BattlerStats()
+    {
+        this.MaxHealth = this.BaseMaxHealth;
+        this.MaxEnergy = this.BaseMaxEnergy;
+        this.Attack = this.BaseAttack;
+        this.Defense = this.BaseDefense;
+        this.Speed = this.BaseSpeed;
+        this.HitChance = this.BaseHitChance;
+        this.Evasion = this.BaseEvasion;
+
+        foreach (string propName in ModifiableStats)
+        {
+            this.modifiers[propName] = new Dictionary<int, int>();
+            this.multipliers[propName] = new Dictionary<int, float>();
+        }
+    }
+
     /// <summary>
     /// Emitted when <see cref="Health"/> has reached 0.
     /// </summary>
@@ -38,23 +69,30 @@ public partial class BattlerStats : Resource
     [Signal]
     public delegate void EnergyChangedEventHandler();
 
-    [ExportCategory("Elements")]
     /// <summary>
-    /// The battler's elemental affinity. Determines which attacks are more or less effective against
+    /// Gets or sets the battler's elemental affinity. Determines which attacks are more or less effective against
     /// this battler.
     /// </summary>
+    [ExportCategory("Elements")]
     [Export]
     public Elements.Types Affinity { get; set; } = Elements.Types.None;
 
+    /// <summary>
+    /// Gets or sets the base maximum health value.
+    /// </summary>
     [ExportCategory("Stats")]
     [Export]
     public int BaseMaxHealth { get; set; } = 100;
 
+    /// <summary>
+    /// Gets or sets the base maximum energy value.
+    /// </summary>
     [Export]
     public int BaseMaxEnergy { get; set; } = 6;
 
-    private int baseAttack = 10;
-
+    /// <summary>
+    /// Gets or sets the base attack value.
+    /// </summary>
     [Export]
     public int BaseAttack
     {
@@ -66,8 +104,9 @@ public partial class BattlerStats : Resource
         }
     }
 
-    private int baseDefense = 10;
-
+    /// <summary>
+    /// Gets or sets the base defense value.
+    /// </summary>
     [Export]
     public int BaseDefense
     {
@@ -79,8 +118,9 @@ public partial class BattlerStats : Resource
         }
     }
 
-    private int baseSpeed = 70;
-
+    /// <summary>
+    /// Gets or sets the base speed value.
+    /// </summary>
     [Export]
     public int BaseSpeed
     {
@@ -92,8 +132,9 @@ public partial class BattlerStats : Resource
         }
     }
 
-    private int baseHitChance = 100;
-
+    /// <summary>
+    /// Gets or sets the base hit chance value.
+    /// </summary>
     [Export]
     public int BaseHitChance
     {
@@ -105,8 +146,9 @@ public partial class BattlerStats : Resource
         }
     }
 
-    private int baseEvasion;
-
+    /// <summary>
+    /// Gets or sets the base evasion value.
+    /// </summary>
     [Export]
     public int BaseEvasion
     {
@@ -118,22 +160,49 @@ public partial class BattlerStats : Resource
         }
     }
 
+    // The properties below store a list of modifiers for each property listed in MODIFIABLE_STATS.
+    // Dictionary keys are the name of the property (String).
+    // Dictionary values are another dictionary, with uid/modifier pairs.
+
+    /// <summary>
+    /// Gets the calculated maximum health value, including all modifiers and multipliers.
+    /// </summary>
     public int MaxHealth { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated maximum energy value, including all modifiers and multipliers.
+    /// </summary>
     public int MaxEnergy { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated attack value, including all modifiers and multipliers.
+    /// </summary>
     public int Attack { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated defense value, including all modifiers and multipliers.
+    /// </summary>
     public int Defense { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated speed value, including all modifiers and multipliers.
+    /// </summary>
     public int Speed { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated hit chance value, including all modifiers and multipliers.
+    /// </summary>
     public int HitChance { get; private set; }
 
+    /// <summary>
+    /// Gets the calculated evasion value, including all modifiers and multipliers.
+    /// </summary>
     public int Evasion { get; private set; }
 
-    private int health;
-
+    /// <summary>
+    /// Gets or sets the current health value. Setting this value clamps it between 0 and <see cref="MaxHealth"/>,
+    /// emits the <see cref="HealthChanged"/> signal, and emits the <see cref="HealthDepleted"/> signal if health reaches 0.
+    /// </summary>
     public int Health
     {
         get => this.health;
@@ -152,8 +221,10 @@ public partial class BattlerStats : Resource
         }
     }
 
-    private int energy;
-
+    /// <summary>
+    /// Gets or sets the current energy value. Setting this value clamps it between 0 and <see cref="MaxEnergy"/>
+    /// and emits the <see cref="EnergyChanged"/> signal.
+    /// </summary>
     public int Energy
     {
         get => this.energy;
@@ -167,29 +238,10 @@ public partial class BattlerStats : Resource
         }
     }
 
-    // The properties below store a list of modifiers for each property listed in MODIFIABLE_STATS.
-    // Dictionary keys are the name of the property (String).
-    // Dictionary values are another dictionary, with uid/modifier pairs.
-    private Dictionary<string, Dictionary<int, int>> modifiers = new Dictionary<string, Dictionary<int, int>>();
-    private Dictionary<string, Dictionary<int, float>> multipliers = new Dictionary<string, Dictionary<int, float>>();
-
-    public BattlerStats()
-    {
-        this.MaxHealth = this.BaseMaxHealth;
-        this.MaxEnergy = this.BaseMaxEnergy;
-        this.Attack = this.BaseAttack;
-        this.Defense = this.BaseDefense;
-        this.Speed = this.BaseSpeed;
-        this.HitChance = this.BaseHitChance;
-        this.Evasion = this.BaseEvasion;
-
-        foreach (string propName in ModifiableStats)
-        {
-            this.modifiers[propName] = new Dictionary<int, int>();
-            this.multipliers[propName] = new Dictionary<int, float>();
-        }
-    }
-
+    /// <summary>
+    /// Initializes the battler's current health to the maximum health value.
+    /// This should be called after the battler stats are fully set up.
+    /// </summary>
     public void Initialize()
     {
         this.Health = this.MaxHealth;
@@ -198,7 +250,9 @@ public partial class BattlerStats : Resource
     /// <summary>
     /// Adds a modifier that affects the stat with the given `statName` and returns its unique id.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="statName">The name of the stat to modify.</param>
+    /// <param name="value">The modifier value to add.</param>
+    /// <returns>The unique id of the added modifier.</returns>
     public int AddModifier(string statName, int value)
     {
         System.Diagnostics.Debug.Assert(ModifiableStats.Contains(statName), "Trying to add a modifier to a nonexistent stat.");
@@ -215,7 +269,9 @@ public partial class BattlerStats : Resource
     /// <summary>
     /// Adds a multiplier that affects the stat with the given `statName` and returns its unique id.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="statName">The name of the stat to multiply.</param>
+    /// <param name="value">The multiplier value to add.</param>
+    /// <returns>The unique id of the added multiplier.</returns>
     public int AddMultiplier(string statName, float value)
     {
         System.Diagnostics.Debug.Assert(ModifiableStats.Contains(statName), "Trying to add a modifier to a nonexistent stat.");
@@ -228,8 +284,10 @@ public partial class BattlerStats : Resource
     }
 
     /// <summary>
-    /// Removes a modifier associated with the given `statName`.
+    /// Removes a modifier associated with the given statName.
     /// </summary>
+    /// <param name="statName">The name of the stat to remove the modifier from.</param>
+    /// <param name="id">The unique id of the modifier to remove.</param>
     public void RemoveModifier(string statName, int id)
     {
         System.Diagnostics.Debug.Assert(this.modifiers.ContainsKey(statName) && this.modifiers[statName].ContainsKey(id), $"Stat {statName} does not have a modifier with ID '{id}'.");
@@ -238,6 +296,11 @@ public partial class BattlerStats : Resource
         this.RecalculateAndUpdate(statName);
     }
 
+    /// <summary>
+    /// Removes a multiplier associated with the given statName.
+    /// </summary>
+    /// <param name="statName">The name of the stat to remove the multiplier from.</param>
+    /// <param name="id">The unique id of the multiplier to remove.</param>
     public void RemoveMultiplier(string statName, int id)
     {
         System.Diagnostics.Debug.Assert(this.multipliers.ContainsKey(statName) && this.multipliers[statName].ContainsKey(id), $"Stat {statName} does not have a multiplier with ID '{id}'.");
@@ -258,7 +321,7 @@ public partial class BattlerStats : Resource
 
         // Get the base value using reflection
         var baseValue = this.GetType().GetProperty(basePropId)?.GetValue(this) ?? 0;
-        float value = Convert.ToSingle(baseValue);
+        float value = Convert.ToSingle(baseValue, System.Globalization.CultureInfo.InvariantCulture);
 
         // Multipliers apply to the stat multiplicatively.
         // They are first summed, with the sole restriction that they may not go below zero.
@@ -331,7 +394,9 @@ public partial class BattlerStats : Resource
     private int GenerateUniqueId(string statName, bool isModifier = true)
     {
         // Generate an ID for either modifiers or multipliers.
-        var dictionary = isModifier ? this.modifiers : this.multipliers;
+        Dictionary<string, Dictionary<int, object>> dictionary = isModifier
+            ? this.modifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object)mkvp.Value))
+            : this.multipliers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object)mkvp.Value));
 
         // If there are no keys, we return `0`, which is our first valid unique id. Without existing
         // keys, calling methods like `Array.back()` will trigger an error.

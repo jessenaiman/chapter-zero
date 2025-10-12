@@ -13,6 +13,9 @@ using Godot;
 [GlobalClass]
 public partial class GameEndTrigger : Trigger
 {
+    private Gamepiece? gamepiece;
+    private Godot.Timer? timer;
+
     /// <summary>
     /// Gets or sets the Dialogic timeline to play during the ending sequence.
     /// </summary>
@@ -24,9 +27,6 @@ public partial class GameEndTrigger : Trigger
     /// </summary>
     [Export]
     public AnimationPlayer GhostAnimationPlayer { get; set; } = null!;
-
-    private Gamepiece? gamepiece;
-    private Godot.Timer? timer;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -42,7 +42,8 @@ public partial class GameEndTrigger : Trigger
     /// <summary>
     /// Execute the game ending sequence.
     /// </summary>
-    protected override async void Execute()
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected override async Task ExecuteAsync()
     {
         if (this.gamepiece == null)
         {
@@ -94,14 +95,17 @@ public partial class GameEndTrigger : Trigger
     /// <summary>
     /// Called when an area enters the trigger.
     /// </summary>
-    protected new void OnAreaEntered(Area2D area)
+    /// <param name="area">The area that entered the trigger.</param>
+    protected void OnAreaEntered(Area2D area)
     {
+        if (area == null)
+        {
+            return;
+        }
+
         if (!Engine.IsEditorHint())
         {
             this.gamepiece = area.Owner as Gamepiece;
         }
-
-        // Call the base class method to handle the trigger logic
-        base.OnAreaEntered(area);
     }
 }

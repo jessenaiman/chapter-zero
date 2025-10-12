@@ -16,10 +16,13 @@ public partial class PlayerPathDestinationMarker : Sprite2D
     /// <inheritdoc/>
     public override void _Ready()
     {
+        GD.Print("PlayerPathDestinationMarker: _Ready() called");
         base._Ready();
 
         // Get the Player singleton and connect to its signal
+        GD.Print($"PlayerPathDestinationMarker: Looking for Player singleton at /root/Player");
         var player = this.GetNode("/root/Player");
+        GD.Print($"PlayerPathDestinationMarker: Player node found: {player != null}");
         if (player != null)
         {
             player.Connect("player_path_set", Callable.From((Gamepiece gamepiece, Vector2I destinationCell) =>

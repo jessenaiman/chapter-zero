@@ -10,22 +10,22 @@ using Godot;
 /// </summary>
 public partial class UIActionButton : TextureButton
 {
-    private TextureRect icon;
-    private Label nameLabel;
+    private TextureRect? icon;
+    private Label? nameLabel;
 
-    private BattlerAction action;
+    private BattlerAction? action;
 
     /// <summary>
-    /// Gets or sets setup the button's icon and label to match a given <see cref="BattlerAction"/>.
+    /// Gets or sets the action associated with this button, which determines the button's icon and label.
     /// </summary>
-    public BattlerAction Action
+    public BattlerAction? Action
     {
         get => this.action;
         set
         {
             this.action = value;
 
-            if (!this.IsInsideTree())
+            if (!this.IsInsideTree() || this.action == null)
             {
                 // In C#, we need to wait for the node to be ready before accessing child nodes
                 // We'll call the setup method when the node is ready instead
@@ -33,11 +33,19 @@ public partial class UIActionButton : TextureButton
                 return;
             }
 
-            this.icon.Texture = this.action.Icon;
-            this.nameLabel.Text = this.action.Label;
+            if (this.icon != null)
+            {
+                this.icon.Texture = this.action.Icon;
+            }
+
+            if (this.nameLabel != null)
+            {
+                this.nameLabel.Text = this.action.Label;
+            }
 
             // In C# Godot, we can call this directly since it's not async
-            this.CustomMinimumSize = GetNode < "MarginContainer" > "MarginContainer".Size;
+            var marginContainer = this.GetNode<Control>("MarginContainer");
+            this.CustomMinimumSize = marginContainer?.Size ?? Vector2.Zero;
         }
     }
 
@@ -52,7 +60,8 @@ public partial class UIActionButton : TextureButton
         {
             this.icon.Texture = this.action.Icon;
             this.nameLabel.Text = this.action.Label;
-            this.CustomMinimumSize = GetNode < "MarginContainer" > "MarginContainer".Size;
+            var marginContainer = this.GetNode<Control>("MarginContainer");
+            this.CustomMinimumSize = marginContainer?.Size ?? Vector2.Zero;
         }
 
         this.Pressed += () =>

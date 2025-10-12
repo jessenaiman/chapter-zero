@@ -8,6 +8,20 @@
 public class DialogueChoice
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="DialogueChoice"/> class.
+    /// Creates a new dialogue choice.
+    /// </summary>
+    /// <param name="text">The choice text.</param>
+    /// <param name="response">The response text.</param>
+    /// <param name="nextNodeId">The next node ID.</param>
+    public DialogueChoice(string text, string response, string nextNodeId)
+    {
+        this.Text = text;
+        this.Response = response;
+        this.NextNodeId = nextNodeId;
+    }
+
+    /// <summary>
     /// Gets or sets the text displayed for this choice.
     /// </summary>
     public string Text { get; set; }
@@ -26,18 +40,4 @@ public class DialogueChoice
     /// Gets or sets the next dialogue node to go to when this choice is selected.
     /// </summary>
     public string NextNodeId { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DialogueChoice"/> class.
-    /// Creates a new dialogue choice.
-    /// </summary>
-    /// <param name="text">The choice text.</param>
-    /// <param name="response">The response text.</param>
-    /// <param name="nextNodeId">The next node ID.</param>
-    public DialogueChoice(string text, string response, string nextNodeId)
-    {
-        this.Text = text;
-        this.Response = response;
-        this.NextNodeId = nextNodeId;
-    }
 }

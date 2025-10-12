@@ -12,32 +12,37 @@ using Godot;
 /// </summary>
 public partial class UIActionMenu : UIListMenu
 {
+    private Battler? battler;
+
+    // Refer to the BattlerList to check whether or not an action is valid when it is selected.
+    // This allows us to prevent the player from selecting an invalid action.
+    private BattlerList? battlerList;
+
     /// <summary>
     /// Emitted when a player has selected an action and the menu has faded to transparent.
     /// </summary>
+    /// <param name="action">The selected battler action.</param>
     [Signal]
     public delegate void ActionSelectedEventHandler(BattlerAction action);
 
     /// <summary>
     /// Emitted whenever a new action is focused on the menu.
     /// </summary>
+    /// <param name="action">The focused battler action.</param>
     [Signal]
     public delegate void ActionFocusedEventHandler(BattlerAction action);
 
-    // The menu tracks the <see cref="BattlerAction"/>s available to a single <see cref="Battler"/>, depending on Battler state
-    // (energy costs, for example).
-    // The action menu also needs to respond to Battler state, such as a change in energy points or the
-    // Battler's health.
-    private Battler battler;
-
-    public Battler Battler
+    /// <summary>
+    /// Gets or sets the battler associated with this action menu.
+    /// </summary>
+    public Battler? Battler
     {
         get => this.battler;
         set
         {
             this.battler = value;
 
-            if (!this.IsInsideTree())
+            if (!this.IsInsideTree() || this.battler == null)
             {
                 // We'll set the value and wait for the node to be ready
                 this.battler = value;
@@ -47,25 +52,20 @@ public partial class UIActionMenu : UIListMenu
             // If the battler currently choosing the action dies, close and free the menu.
             this.battler.HealthDepleted += async () =>
             {
-                await this.Close();
-                CombatEvents.PlayerBattlerSelected?.Invoke(null);
+                await this.CloseAsync().ConfigureAwait(false);
             };
 
             // If the battler's energy levels changed, re-evaluate which actions are available.
-            this.battler.Stats.EnergyChanged += () =>
+            this.battler.Stats?.EnergyChanged += () =>
             {
                 foreach (var entry in this.entries.OfType<UIActionButton>())
                 {
-                    bool canUseAction = this.battler.Stats.Energy >= entry.Action.EnergyCost;
+                    bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
                     entry.Disabled = !canUseAction || this.IsDisabled;
                 }
             };
         }
     }
-
-    // Refer to the BattlerList to check whether or not an action is valid when it is selected.
-    // This allows us to prevent the player from selecting an invalid action.
-    private BattlerList battlerList;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -76,10 +76,11 @@ public partial class UIActionMenu : UIListMenu
 
     // Capture any input events that will signal going "back" in the menu hierarchy.
     // This includes mouse or touch input outside of a menu or pressing the back button/key.
+
     /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (this.IsDisabled)
+        if (this.IsDisabled || @event == null)
         {
             return;
         }
@@ -90,12 +91,6 @@ public partial class UIActionMenu : UIListMenu
             // We'll use a helper method that calls the async close method
             this.HandleClose();
         }
-    }
-
-    private async void HandleClose()
-    {
-        await this.Close();
-        CombatEvents.PlayerBattlerSelected?.Invoke(null);
     }
 
     /// <summary>
@@ -115,52 +110,40 @@ public partial class UIActionMenu : UIListMenu
         this.FadeIn();
     }
 
-    public new async void FadeIn()
+    /// <summary>
+    /// Fades in the action menu.
+    /// </summary>
+    public new void FadeIn()
     {
-        await base.FadeIn();
-        this.SetProcessUnhandledInput(true);
+        _ = this.FadeInAsync();
     }
 
-    public async void Close()
+    /// <summary>
+    /// Closes the action menu.
+    /// </summary>
+    public void Close()
     {
-        this.SetProcessUnhandledInput(false);
-        await this.FadeOut();
-        this.QueueFree();
+        _ = this.CloseAsync();
     }
 
-    // Populate the menu with a list of actions.
-    private void BuildActionMenu()
-    {
-        foreach (var action in this.battler.Actions)
-        {
-            bool canUseAction = this.battler.Stats.Energy >= action.EnergyCost;
-
-            var newEntry = this.CreateEntry() as UIActionButton;
-            newEntry.Action = action;
-            newEntry.Disabled = !canUseAction || this.IsDisabled;
-            newEntry.FocusNeighborRight = "."; // Don't allow input to jump to the player battler list.
-
-            newEntry.FocusEntered += () =>
-            {
-                if (!this.IsDisabled)
-                {
-                    this.EmitSignal(SignalName.ActionFocused, newEntry.Action);
-                }
-            };
-        }
-
-        this.LoopFirstAndLastEntries();
-    }
-
-    // Allow the player to select an action for the specified Battler.
+    /// <summary>
+    /// Handles when an entry is pressed.
+    /// </summary>
+    /// <param name="entry">The pressed button entry.</param>
     protected override void OnEntryPressed(BaseButton entry)
     {
         var actionEntry = entry as UIActionButton;
+        if (actionEntry?.Action == null || this.battler == null || this.battlerList == null)
+        {
+            return;
+        }
+
         var action = actionEntry.Action;
 
         // First of all, check to make sure that the action has valid targets. If it does
         // not, do not allow selection of the action.
-        if (action.GetPossibleTargets(this.battler, this.battlerList).Count == 0)
+        var possibleTargets = action.GetPossibleTargets(this.battler, this.battlerList);
+        if (possibleTargets == null || possibleTargets.Length == 0)
         {
             // Normally, the button gives up focus when selected (to stop cycling menu during animation).
             // However, the action is invalid and so the menu needs to keep focus for the player to
@@ -174,9 +157,100 @@ public partial class UIActionMenu : UIListMenu
         this.HandleActionSelected(action);
     }
 
+    /// <summary>
+    /// Disposes the UIActionMenu and its disposable fields.
+    /// </summary>
+    /// <param name="disposing">True if disposing managed resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            this.battler?.Dispose();
+            this.battlerList?.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
+
+    private async void HandleClose()
+    {
+        await this.CloseAsync().ConfigureAwait(false);
+    }
+
+    private async Task CloseAsync()
+    {
+        this.SetProcessUnhandledInput(false);
+        this.FadeOut();
+
+        // Wait for the fade out animation to complete
+        var anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        if (anim != null)
+        {
+            await this.ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+        }
+        else
+        {
+            // If no animation player, just wait a frame
+            await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        this.QueueFree();
+    }
+
+    private async Task FadeInAsync()
+    {
+        base.FadeIn();
+
+        // Wait for the fade in animation to complete
+        var anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        if (anim != null)
+        {
+            await this.ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+        }
+        else
+        {
+            // If no animation player, just wait a frame
+            await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        this.SetProcessUnhandledInput(true);
+    }
+
+    // Populate the menu with a list of actions.
+    private void BuildActionMenu()
+    {
+        if (this.battler == null)
+        {
+            return;
+        }
+
+        foreach (var action in this.battler.Actions)
+        {
+            bool canUseAction = this.battler.Stats?.Energy >= action.EnergyCost;
+
+            var newEntry = this.CreateEntry() as UIActionButton;
+            if (newEntry != null)
+            {
+                newEntry.Action = action;
+                newEntry.Disabled = !canUseAction || this.IsDisabled;
+                newEntry.FocusNeighborRight = "."; // Don't allow input to jump to the player battler list.
+
+                newEntry.FocusEntered += () =>
+                {
+                    if (!this.IsDisabled)
+                    {
+                        this.EmitSignal(SignalName.ActionFocused, newEntry.Action);
+                    }
+                };
+            }
+        }
+
+        this.LoopFirstAndLastEntries();
+    }
+
     private async void HandleActionSelected(BattlerAction action)
     {
-        await this.Close();
+        await this.CloseAsync().ConfigureAwait(false);
         this.EmitSignal(SignalName.ActionSelected, action);
     }
 }

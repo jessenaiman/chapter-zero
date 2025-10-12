@@ -17,6 +17,21 @@ using Godot;
 public partial class GamepieceController : Node
 {
     /// <summary>
+    /// The Gamepiece that this controller manages.
+    /// </summary>
+    private Gamepiece? gamepiece;
+
+    /// <summary>
+    /// Whether this controller is currently active.
+    /// </summary>
+    private bool isActive = true;
+
+    /// <summary>
+    /// The path the gamepiece is following.
+    /// </summary>
+    private List<Vector2I> movePath = new List<Vector2I>();
+
+    /// <summary>
     /// Emitted when the controller starts moving the gamepiece.
     /// </summary>
     [Signal]
@@ -31,12 +46,14 @@ public partial class GamepieceController : Node
     /// <summary>
     /// Emitted when the gamepiece reaches a waypoint.
     /// </summary>
+    /// <param name="newWaypoint">The waypoint cell position that was reached.</param>
     [Signal]
     public delegate void WaypointReachedEventHandler(Vector2I newWaypoint);
 
     /// <summary>
     /// Emitted when the gamepiece's waypoint changes.
     /// </summary>
+    /// <param name="newWaypoint">The new waypoint cell position.</param>
     [Signal]
     public delegate void WaypointChangedEventHandler(Vector2I newWaypoint);
 
@@ -52,7 +69,7 @@ public partial class GamepieceController : Node
                 this.gamepiece = this.GetParent<Gamepiece>();
             }
 
-            return this.gamepiece;
+            return this.gamepiece!;
         }
 
         set
@@ -119,38 +136,15 @@ public partial class GamepieceController : Node
     public Vector2I TargetCell { get; private set; } = Gameboard.InvalidCell;
 
     /// <summary>
-    /// Gets or sets the path the gamepiece is following.
-    /// </summary>
-    public List<Vector2I> MovePath
-    {
-        get => this.movePath;
-        set
-        {
-            this.movePath = value ?? new List<Vector2I>();
-            this.OnMovePathChanged();
-        }
-    }
-
-    /// <summary>
     /// Gets or sets a value indicating whether whether this controller is controlled by the player.
     /// </summary>
     [Export]
     public bool IsPlayerControlled { get; set; } = false;
 
     /// <summary>
-    /// The Gamepiece that this controller manages.
+    /// Gets the path the gamepiece is following.
     /// </summary>
-    private Gamepiece gamepiece;
-
-    /// <summary>
-    /// Whether this controller is currently active.
-    /// </summary>
-    private bool isActive = true;
-
-    /// <summary>
-    /// The path the gamepiece is following.
-    /// </summary>
-    private List<Vector2I> movePath = new List<Vector2I>();
+    public List<Vector2I> MovePath => this.movePath;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -173,28 +167,10 @@ public partial class GamepieceController : Node
         }
     }
 
-    /// <inheritdoc/>
-    public override void _Process(double delta)
-    {
-        if (!Engine.IsEditorHint() && this.IsActive)
-        {
-            this.ProcessController((float)delta);
-        }
-    }
-
-    /// <summary>
-    /// Process the controller's logic.
-    /// Override this method to implement custom controller behavior.
-    /// </summary>
-    protected virtual void ProcessController(float delta)
-    {
-        // Default implementation does nothing
-        // Override in subclasses to add custom behavior
-    }
-
     /// <summary>
     /// Move the gamepiece along a path.
     /// </summary>
+    /// <param name="path">The list of cell positions representing the path to follow.</param>
     public virtual void MoveAlongPath(List<Vector2I> path)
     {
         if (path == null || path.Count == 0)
@@ -202,12 +178,12 @@ public partial class GamepieceController : Node
             return;
         }
 
-        this.MovePath = new List<Vector2I>(path);
+        this.SetMovePath(new List<Vector2I>(path));
         this.IsMoving = true;
 
         // Move the gamepiece to the first waypoint
         var firstWaypoint = this.MovePath[0];
-        this.MovePath.RemoveAt(0);
+        this.RemoveFirstWaypoint();
         this.Gamepiece.MoveToCell(firstWaypoint);
 
         this.EmitSignal(SignalName.MovementStarted);
@@ -219,7 +195,7 @@ public partial class GamepieceController : Node
     public virtual void StopMoving()
     {
         this.IsMoving = false;
-        this.MovePath.Clear();
+        this.ClearMovePath();
 
         if (this.Gamepiece != null)
         {
@@ -229,9 +205,19 @@ public partial class GamepieceController : Node
         this.EmitSignal(SignalName.MovementStopped);
     }
 
+    /// <inheritdoc/>
+    public override void _Process(double delta)
+    {
+        if (!Engine.IsEditorHint() && this.IsActive)
+        {
+            this.ProcessController((float)delta);
+        }
+    }
+
     /// <summary>
     /// Move the gamepiece to a specific cell.
     /// </summary>
+    /// <param name="cell">The target cell position to move to.</param>
     public virtual void MoveToCell(Vector2I cell)
     {
         if (this.Gamepiece != null)
@@ -243,6 +229,7 @@ public partial class GamepieceController : Node
     /// <summary>
     /// Move the gamepiece towards a pressed key direction.
     /// </summary>
+    /// <param name="direction">The direction vector of the key press.</param>
     public virtual void MoveToPressedKey(Vector2 direction)
     {
         if (this.Gamepiece == null || !this.IsActive)
@@ -254,7 +241,8 @@ public partial class GamepieceController : Node
         var targetCell = sourceCell + new Vector2I((int)direction.X, (int)direction.Y);
 
         // Try to get a path to the destination (will fail if cell is occupied)
-        var newPath = Gameboard.Pathfinder.GetPathToCell(sourceCell, targetCell);
+        var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
+        var newPath = gameboard?.PathFinder?.GetPathToCell(sourceCell, targetCell) ?? new List<Vector2I>();
 
         // Path is invalid. Bump animation?
         if (newPath.Count < 1)
@@ -263,8 +251,19 @@ public partial class GamepieceController : Node
         }
         else
         {
-            this.MovePath = new List<Vector2I>(newPath);
+            this.SetMovePath(new List<Vector2I>(newPath));
         }
+    }
+
+    /// <summary>
+    /// Process the controller's logic.
+    /// Override this method to implement custom controller behavior.
+    /// </summary>
+    /// <param name="delta">The time elapsed since the last frame in seconds.</param>
+    protected virtual void ProcessController(float delta)
+    {
+        // Default implementation does nothing
+        // Override in subclasses to add custom behavior
     }
 
     /// <summary>
@@ -291,6 +290,7 @@ public partial class GamepieceController : Node
     /// Callback when the gamepiece reaches a waypoint.
     /// Override this method to implement custom behavior when the gamepiece reaches a waypoint.
     /// </summary>
+    /// <param name="newWaypoint">The waypoint cell position that was reached.</param>
     protected virtual void OnGamepieceWaypointReached(Vector2I newWaypoint)
     {
         // Update the cell position
@@ -300,7 +300,7 @@ public partial class GamepieceController : Node
         if (this.MovePath.Count > 0)
         {
             var nextWaypoint = this.MovePath[0];
-            this.MovePath.RemoveAt(0);
+            this.RemoveFirstWaypoint();
             this.Gamepiece.MoveToCell(nextWaypoint);
         }
         else
@@ -315,6 +315,7 @@ public partial class GamepieceController : Node
     /// <summary>
     /// Callback when the gamepiece's waypoint changes.
     /// </summary>
+    /// <param name="newWaypoint">The new waypoint cell position.</param>
     private void OnGamepieceWaypointChanged(Vector2I newWaypoint)
     {
         this.CellPosition = newWaypoint;
@@ -343,6 +344,7 @@ public partial class GamepieceController : Node
     /// Callback when the gamepiece is arriving at a waypoint.
     /// Override this method to implement custom behavior when the gamepiece is arriving.
     /// </summary>
+    /// <param name="excessDistance">The excess distance beyond the waypoint.</param>
     protected virtual void OnGamepieceArriving(float excessDistance)
     {
         // Default implementation does nothing
@@ -357,5 +359,34 @@ public partial class GamepieceController : Node
     {
         // Default implementation does nothing
         // Override in subclasses to add custom behavior
+    }
+
+    /// <summary>
+    /// Sets the move path for the gamepiece.
+    /// </summary>
+    /// <param name="path">The list of cell positions representing the path to follow.</param>
+    private void SetMovePath(List<Vector2I> path)
+    {
+        this.movePath = path ?? new List<Vector2I>();
+        this.OnMovePathChanged();
+    }
+
+    /// <summary>
+    /// Removes the first waypoint from the move path.
+    /// </summary>
+    private void RemoveFirstWaypoint()
+    {
+        if (this.movePath.Count > 0)
+        {
+            this.movePath.RemoveAt(0);
+        }
+    }
+
+    /// <summary>
+    /// Clears the move path.
+    /// </summary>
+    private void ClearMovePath()
+    {
+        this.movePath.Clear();
     }
 }

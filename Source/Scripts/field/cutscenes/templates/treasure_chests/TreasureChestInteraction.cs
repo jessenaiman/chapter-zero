@@ -12,17 +12,20 @@ using Godot;
 [GlobalClass]
 public partial class TreasureChestInteraction : Interaction
 {
+    private bool isOpen;
+    private bool itemReceived;
+
     /// <summary>
     /// Gets or sets the animation player for the chest animation.
     /// </summary>
     [Export]
-    public AnimationPlayer Anim { get; set; }
+    public AnimationPlayer? Anim { get; set; }
 
     /// <summary>
     /// Gets or sets the popup that displays when an item is received.
     /// </summary>
     [Export]
-    public Node Popup { get; set; } // InteractionPopup
+    public Node? Popup { get; set; } // InteractionPopup
 
     /// <summary>
     /// Gets or sets the type of item in the chest.
@@ -33,9 +36,6 @@ public partial class TreasureChestInteraction : Interaction
     /// Gets or sets the amount of the item in the chest.
     /// </summary>
     public int Amount { get; set; } = 1;
-
-    private bool isOpen;
-    private bool itemReceived;
 
     /// <summary>
     /// Gets or sets a value indicating whether whether the item has been received from this chest.
@@ -51,6 +51,14 @@ public partial class TreasureChestInteraction : Interaction
                 this.Popup.Call("hide_and_free");
             }
         }
+    }
+
+    /// <inheritdoc/>
+    public override async void Run()
+    {
+        this.Execute();
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
+        base.Run();
     }
 
     /// <summary>
@@ -91,13 +99,5 @@ public partial class TreasureChestInteraction : Interaction
 
             this.isOpen = true;
         }
-    }
-
-    /// <inheritdoc/>
-    public override async void Run()
-    {
-        this.Execute();
-        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
-        base.Run();
     }
 }

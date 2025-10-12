@@ -56,6 +56,15 @@ public partial class ConversationTemplate : Interaction
     }
 
     /// <summary>
+    /// Override the Run method to execute the conversation.
+    /// </summary>
+    public override async void Run()
+    {
+        await this.Execute();
+        base.Run();
+    }
+
+    /// <summary>
     /// Handle Dialogic signal events.
     /// Override this method to respond to specific Dialogic signals.
     /// </summary>
@@ -65,14 +74,5 @@ public partial class ConversationTemplate : Interaction
         // Default implementation does nothing
         // Override in subclasses to handle specific signals
         GD.Print($"Received Dialogic signal: {argument}");
-    }
-
-    /// <summary>
-    /// Override the Run method to execute the conversation.
-    /// </summary>
-    public override async void Run()
-    {
-        await this.Execute();
-        base.Run();
     }
 }

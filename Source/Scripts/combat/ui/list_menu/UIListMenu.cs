@@ -48,8 +48,8 @@ public partial class UIListMenu : VBoxContainer
     // Track all battler list entries in the following array.
     protected List<BaseButton> entries = new List<BaseButton>();
 
-    private AnimationPlayer anim;
-    private UIMenuCursor menuCursor;
+    private AnimationPlayer? anim;
+    private UIMenuCursor? menuCursor;
 
     /// <inheritdoc/>
     public override void _Ready()

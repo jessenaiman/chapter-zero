@@ -13,8 +13,15 @@ using Godot;
 [GlobalClass]
 public partial class UIBattlerLifeBar : TextureProgressBar
 {
+    private float targetValue;
+    private Tween? tween;
+    private AnimationPlayer? anim;
+    private Label? nameLabel;
+    private TextureRect? queuedActionIcon;
+    private Label? valueLabel;
+
     /// <summary>
-    /// Gets or sets rate of the animation relative to <see cref="TextureProgressBar.MaxValue"/>.
+    /// Gets or sets rate of the animation relative to the maximum value.
     /// A value of 1.0 means the animation fills the entire bar in one second.
     /// </summary>
     [Export]
@@ -25,8 +32,6 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// </summary>
     [Export(PropertyHint.Range, "0,1.0")]
     public float DangerCutoff { get; set; } = 0.2f;
-
-    private float targetValue;
 
     /// <summary>
     /// Gets or sets when this value changes, the bar smoothly animates towards it using a tween.
@@ -59,12 +64,6 @@ public partial class UIBattlerLifeBar : TextureProgressBar
         }
     }
 
-    private Tween tween;
-    private AnimationPlayer anim;
-    private Label nameLabel;
-    private TextureRect queuedActionIcon;
-    private Label valueLabel;
-
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -86,7 +85,7 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="startHp">The starting hit points.</param>
     public void Setup(string battlerName, int maxHp, int startHp)
     {
-        this.nameLabel.Text = battlerName;
+        this.nameLabel?.Text = battlerName;
         this.MaxValue = maxHp;
         this.Value = startHp;
     }
@@ -95,9 +94,9 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// Set the action icon texture to display the queued action.
     /// </summary>
     /// <param name="texture">The texture to display.</param>
-    public void SetActionIcon(Texture2D texture)
+    public void SetActionIcon(Texture2D? texture)
     {
-        this.queuedActionIcon.Texture = texture;
+        this.queuedActionIcon?.Texture = texture;
     }
 
     /// <summary>
@@ -105,6 +104,6 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// </summary>
     private void OnValueChanged(double newValue)
     {
-        this.valueLabel.Text = ((int)newValue).ToString();
+        this.valueLabel?.Text = ((int)newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
 }

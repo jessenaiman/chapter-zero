@@ -30,24 +30,29 @@ public partial class GameState : Node
     public string PlayerName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the list of story shards collected by the player.
+    /// Gets or sets the player's secret response from Scene1.
     /// </summary>
-    public List<string> Shards { get; set; } = new ();
+    public string PlayerSecret { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets scene-specific data stored as key-value pairs.
+    /// Gets the list of story shards collected by the player.
     /// </summary>
-    public Dictionary<string, object> SceneData { get; set; } = new ();
+    public List<string> Shards { get; } = new ();
 
     /// <summary>
-    /// Gets or sets the queue of narrator messages to be displayed.
+    /// Gets scene-specific data stored as key-value pairs.
     /// </summary>
-    public List<string> NarratorQueue { get; set; } = new ();
+    public Dictionary<string, object> SceneData { get; } = new ();
 
     /// <summary>
-    /// Gets or sets the player's Dreamweaver alignment scores.
+    /// Gets the queue of narrator messages to be displayed.
     /// </summary>
-    public Dictionary<DreamweaverType, int> DreamweaverScores { get; set; } = new ()
+    public List<string> NarratorQueue { get; } = new ();
+
+    /// <summary>
+    /// Gets the player's Dreamweaver alignment scores.
+    /// </summary>
+    public Dictionary<DreamweaverType, int> DreamweaverScores { get; } = new ()
     {
         [DreamweaverType.Light] = 0,
         [DreamweaverType.Mischief] = 0,
@@ -73,23 +78,6 @@ public partial class GameState : Node
     /// Gets or sets the player's party data including characters and inventory.
     /// </summary>
     public PartyData PlayerParty { get; set; } = new ();
-
-    // FUTURE: LLM_INTEGRATION - Dreamweaver consultation history
-    // Will store LLM responses for replay/analysis and state persistence
-    // public List<DreamweaverConsultation> ConsultationHistory { get; set; } = new();
-    //
-    // public class DreamweaverConsultation
-    // {
-    //     public DateTime Timestamp { get; set; }
-    //     public string Situation { get; set; } = string.Empty;
-    //     public string HeroResponse { get; set; } = string.Empty;
-    //     public string ShadowResponse { get; set; } = string.Empty;
-    //     public string AmbitionResponse { get; set; } = string.Empty;
-    //     public string OmegaResponse { get; set; } = string.Empty;
-    //     public string PlayerChoice { get; set; } = string.Empty;
-    // }
-
-    // Initialize the GameState
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -128,6 +116,22 @@ public partial class GameState : Node
 
         this.PlayerParty = new PartyData();
     }
+
+    // FUTURE: LLM_INTEGRATION - Dreamweaver consultation history
+    // Will store LLM responses for replay/analysis and state persistence
+    // public List<DreamweaverConsultation> ConsultationHistory { get; set; } = new();
+    //
+    // public class DreamweaverConsultation
+    // {
+    //     public DateTime Timestamp { get; set; }
+    //     public string Situation { get; set; } = string.Empty;
+    //     public string HeroResponse { get; set; } = string.Empty;
+    //     public string ShadowResponse { get; set; } = string.Empty;
+    //     public string AmbitionResponse { get; set; } = string.Empty;
+    //     public string OmegaResponse { get; set; } = string.Empty;
+    //     public string PlayerChoice { get; set; } = string.Empty;
+    // }
+    // Initialize the GameState
 
     /// <summary>
     /// Updates the score for the specified dreamweaver type.
@@ -248,6 +252,33 @@ public partial class GameState : Node
         }
     }
 
+    private static void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)
+    {
+        if (gameStateData.ContainsKey("sceneProgress"))
+        {
+            var progressVar = gameStateData["sceneProgress"];
+            if (progressVar.VariantType == Variant.Type.Dictionary)
+            {
+                var progressDict = progressVar.AsGodotDictionary<string, Variant>();
+                LoadSceneProgress(progressDict);
+            }
+        }
+    }
+
+    private static void LoadSceneProgress(Godot.Collections.Dictionary<string, Variant> progressDict)
+    {
+        // Scene progress loading logic would go here
+        // For now, just log that it's being loaded
+        _ = progressDict;
+        GD.Print("Loading scene progress data");
+    }
+
+    private static string SanitizePlayerName(string name)
+    {
+        // Basic sanitization - remove potentially harmful characters
+        return name.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
+    }
+
     private void LoadCoreState(Godot.Collections.Dictionary<string, Variant> gameStateData)
     {
         if (gameStateData.ContainsKey("currentScene") && gameStateData["currentScene"].VariantType == Variant.Type.Int)
@@ -314,19 +345,6 @@ public partial class GameState : Node
         }
     }
 
-    private static void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)
-    {
-        if (gameStateData.ContainsKey("sceneProgress"))
-        {
-            var progressVar = gameStateData["sceneProgress"];
-            if (progressVar.VariantType == Variant.Type.Dictionary)
-            {
-                var progressDict = progressVar.AsGodotDictionary<string, Variant>();
-                LoadSceneProgress(progressDict);
-            }
-        }
-    }
-
     private void LoadDreamweaverScores(Godot.Collections.Dictionary<string, Variant> scoresDict)
     {
         foreach (var kvp in scoresDict)
@@ -352,19 +370,5 @@ public partial class GameState : Node
                 this.Shards.Add(shardName);
             }
         }
-    }
-
-    private static void LoadSceneProgress(Godot.Collections.Dictionary<string, Variant> progressDict)
-    {
-        // Scene progress loading logic would go here
-        // For now, just log that it's being loaded
-        _ = progressDict;
-        GD.Print("Loading scene progress data");
-    }
-
-    private static string SanitizePlayerName(string name)
-    {
-        // Basic sanitization - remove potentially harmful characters
-        return name.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
     }
 }

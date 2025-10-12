@@ -29,14 +29,14 @@ public partial class GamepieceAnimation : Marker2D
     private const string ResetSequenceKey = "RESET";
 
     /// <summary>
-    /// Mapping that pairs cardinal Directions.Points with a string suffix.
+    /// Mapping that pairs cardinal Directions.Point with a string suffix.
     /// </summary>
-    private static readonly Dictionary<Directions.Points, string> DirectionSuffixes = new Dictionary<Directions.Points, string>
+    private static readonly Dictionary<Directions.Point, string> DirectionSuffixes = new Dictionary<Directions.Point, string>
     {
-        { Directions.Points.North, "_n" },
-        { Directions.Points.East, "_e" },
-        { Directions.Points.South, "_s" },
-        { Directions.Points.West, "_w" },
+        { Directions.Point.North, "_n" },
+        { Directions.Point.East, "_e" },
+        { Directions.Point.South, "_s" },
+        { Directions.Point.West, "_w" },
     };
 
     /// <summary>
@@ -50,7 +50,7 @@ public partial class GamepieceAnimation : Marker2D
     /// directional animations if they are available; otherwise non-directional
     /// animations will be used.
     /// </summary>
-    private Directions.Points direction = Directions.Points.South;
+    private Directions.Point direction = Directions.Point.South;
 
     /// <summary>
     /// Animation player for handling animations.
@@ -69,7 +69,7 @@ public partial class GamepieceAnimation : Marker2D
     /// <summary>
     /// Gets or sets the direction faced by the gamepiece.
     /// </summary>
-    public Directions.Points Direction
+    public Directions.Point Direction
     {
         get => this.direction;
         set => this.SetDirection(value);
@@ -78,7 +78,7 @@ public partial class GamepieceAnimation : Marker2D
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer")!;
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ public partial class GamepieceAnimation : Marker2D
     /// play.
     /// </summary>
     /// <param name="value">The new direction.</param>
-    public async void SetDirection(Directions.Points value)
+    public async void SetDirection(Directions.Point value)
     {
         if (value == this.direction)
         {
@@ -167,7 +167,7 @@ public partial class GamepieceAnimation : Marker2D
             var currentPositionRatio = 0f;
             if (keepPosition)
             {
-                currentPositionRatio = this.anim.CurrentAnimationPosition / this.anim.CurrentAnimationLength;
+                currentPositionRatio = (float)(this.anim.CurrentAnimationPosition / this.anim.CurrentAnimationLength);
             }
 
             // RESET the animation immediately to its default reset state before the next sequence.

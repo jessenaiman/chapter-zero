@@ -16,13 +16,13 @@ public partial class UIPlayerBattlerList : UIListMenu
     private List<Battler> battlers = new List<Battler>();
 
     /// <summary>
-    /// Gets or sets the battler list will create individual entries for each <see cref="Battler"/> contained in this array.
+    /// Gets the battler list will create individual entries for each <see cref="Battler"/> contained in this array.
     /// The entries are created when the member is assigned and the list is <see cref="Node.Ready"/>.
     /// </summary>
     public List<Battler> Battlers
     {
         get => this.battlers;
-        set
+        private set
         {
             this.battlers = value;
 
@@ -34,6 +34,47 @@ public partial class UIPlayerBattlerList : UIListMenu
             }
 
             this.ProcessBattlers();
+        }
+    }
+
+    /// <summary>
+    /// Create all menu entries needed to track player battlers throughout the combat.
+    /// </summary>
+    /// <param name="battlerData">The battler list data.</param>
+    public void Setup(BattlerList battlerData)
+    {
+        if (battlerData == null)
+        {
+            throw new ArgumentNullException(nameof(battlerData));
+        }
+
+        this.Battlers = battlerData.Players.ToList();
+    }
+
+    /// <summary>
+    /// Handles when a battler entry is pressed, emitting the selected battler if it's player-controlled.
+    /// </summary>
+    /// <param name="entry">The button entry that was pressed.</param>
+    protected override void OnEntryPressed(BaseButton entry)
+    {
+        if (entry == null)
+        {
+            throw new ArgumentNullException(nameof(entry));
+        }
+
+        if (!this.IsDisabled)
+        {
+            var battlerEntry = entry as UIBattlerEntry;
+
+            // Prevent the player from issuing orders to AI-controlled Battlers.
+            if (battlerEntry?.Battler?.AiScene == null)
+            {
+                var combatEvents = this.GetNode("/root/CombatEvents");
+                if (combatEvents != null && battlerEntry != null && battlerEntry.Battler != null)
+                {
+                    combatEvents.EmitSignal("player_battler_selected", battlerEntry.Battler);
+                }
+            }
         }
     }
 
@@ -51,62 +92,15 @@ public partial class UIPlayerBattlerList : UIListMenu
         // Create a UI entry for each battler in the party.
         foreach (var battler in this.battlers)
         {
-            var newEntry = _CreateEntry() as UIBattlerEntry;
-            newEntry.Battler = battler;
+            var newEntry = this.CreateEntry() as UIBattlerEntry;
+            if (newEntry != null)
+            {
+                newEntry.Battler = battler;
+            }
         }
 
-        _LoopFirstAndLastEntries();
+        this.LoopFirstAndLastEntries();
 
         this.FadeIn();
-    }
-
-    /// <inheritdoc/>
-    public override void _Ready()
-    {
-        base._Ready();
-
-        // If the player has selected a battler, prevent input from reaching the battler list.
-        // This is relevant with mouse/touchscreen input.
-        // If the player has finished navigating the menu, restore input to the battler list.
-        CombatEvents.PlayerBattlerSelected += (battler) =>
-        {
-            this.IsDisabled = battler != null;
-
-            // Don't re-enable entries that have dead Battlers.
-            if (!this.IsDisabled)
-            {
-                foreach (var entry in this.entries.OfType<UIBattlerEntry>())
-                {
-                    if (entry.Battler.Stats.Health <= 0)
-                    {
-                        entry.Disabled = true;
-                    }
-                }
-            }
-        };
-    }
-
-    /// <summary>
-    /// Create all menu entries needed to track player battlers throughout the combat.
-    /// </summary>
-    /// <param name="battlerData">The battler list data.</param>
-    public void Setup(BattlerList battlerData)
-    {
-        this.Battlers = battlerData.Players.ToList();
-    }
-
-    // Let the combat know which battler was selected.
-    protected override void OnEntryPressed(BaseButton entry)
-    {
-        if (!this.IsDisabled)
-        {
-            var battlerEntry = entry as UIBattlerEntry;
-
-            // Prevent the player from issuing orders to AI-controlled Battlers.
-            if (battlerEntry.Battler.AiScene == null)
-            {
-                CombatEvents.PlayerBattlerSelected?.Invoke(battlerEntry.Battler);
-            }
-        }
     }
 }

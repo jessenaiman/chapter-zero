@@ -12,11 +12,15 @@ using Godot;
 [Tool]
 public partial class Pickup : Trigger
 {
+    private Inventory.ItemType itemType;
+    private AnimationPlayer? anim;
+    private Sprite2D? sprite;
+
     /// <summary>
     /// Gets or sets the type of item this pickup grants.
     /// </summary>
     [Export]
-    public Inventory.ItemTypes ItemType
+    public Inventory.ItemType ItemType
     {
         get => this.itemType;
         set
@@ -43,10 +47,6 @@ public partial class Pickup : Trigger
     [Export]
     public int Amount { get; set; } = 1;
 
-    private Inventory.ItemTypes itemType;
-    private AnimationPlayer anim;
-    private Sprite2D sprite;
-
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -56,10 +56,36 @@ public partial class Pickup : Trigger
         this.sprite = this.GetNode<Sprite2D>("Sprite2D");
 
         // Update the sprite texture if ItemType was set before _Ready
-        if (this.itemType != default(Inventory.ItemTypes))
+        if (this.itemType != default(Inventory.ItemType))
         {
             this.UpdateSpriteTexture();
         }
+    }
+
+        /// <summary>
+    /// Execute the pickup logic when triggered.
+    /// Plays the pickup animation and adds the item to the player's inventory.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    protected override async Task ExecuteAsync()
+    {
+        if (this.anim != null)
+        {
+            this.anim.Play("PickupAnimations/obtain");
+            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        }
+
+        // Add the item to the player's inventory
+        using (var inventory = Inventory.Restore())
+        {
+            if (inventory != null)
+            {
+                inventory.Add(this.itemType, this.Amount);
+            }
+        }
+
+        // Remove the pickup from the scene
+        this.QueueFree();
     }
 
     /// <summary>
@@ -71,30 +97,5 @@ public partial class Pickup : Trigger
         {
             this.sprite.Texture = Inventory.GetItemIcon(this.itemType);
         }
-    }
-
-    /// <summary>
-    /// Execute the pickup logic when triggered.
-    /// Plays the pickup animation and adds the item to the player's inventory.
-    /// </summary>
-    protected override async void Execute()
-    {
-        base.Execute();
-
-        if (this.anim != null)
-        {
-            this.anim.Play("PickupAnimations/obtain");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
-        }
-
-        // Add the item to the player's inventory
-        var inventory = Inventory.Restore();
-        if (inventory != null)
-        {
-            inventory.Add(this.itemType, this.Amount);
-        }
-
-        // Remove the pickup from the scene
-        this.QueueFree();
     }
 }

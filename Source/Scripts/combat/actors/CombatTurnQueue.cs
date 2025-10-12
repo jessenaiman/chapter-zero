@@ -6,12 +6,19 @@ using System;
 using System.Linq;
 using Godot;
 
+/// <summary>
+/// Manages the turn-based combat system, coordinating the sequence of actions between all combat participants.
+/// Handles round progression, actor initiative ordering, and battle end conditions.
+/// </summary>
 [Icon("res://src/combat/actors/icon_turn_queue.png")]
 public partial class CombatTurnQueue : Node
 {
+    private int roundCount = 1;
+
     /// <summary>
     /// Emitted whenever the combat logic has finished, including all animation details.
     /// </summary>
+    /// <param name="hasPlayerWon">Indicates whether the player won the combat encounter.</param>
     [Signal]
     public delegate void FinishedEventHandler(bool hasPlayerWon);
 
@@ -20,8 +27,6 @@ public partial class CombatTurnQueue : Node
     /// queue from children <see cref="Battler"/>s and then made available to other combat systems.
     /// </summary>
     public BattlerRoster BattlerRoster { get; private set; } = null!;
-
-    private int roundCount = 1;
 
     /// <summary>
     /// Gets or sets tracks which combat round is currently being played. Every round, all active Actors will get a
@@ -43,12 +48,19 @@ public partial class CombatTurnQueue : Node
         this.BattlerRoster = new BattlerRoster(this.GetTree());
     }
 
+    /// <summary>
+    /// Initializes and starts the combat turn queue, resetting the round count and beginning the first turn.
+    /// </summary>
     public void Start()
     {
         this.RoundCount = 1;
         this.CallDeferred("_NextTurn");
     }
 
+    /// <summary>
+    /// Retrieves all combat actors currently in the scene that belong to the combat actor group.
+    /// </summary>
+    /// <returns>An array of all combat actors in the scene.</returns>
     public CombatActor[] GetActors()
     {
         var actorList = this.GetTree().GetNodesInGroup(CombatActor.Group);
@@ -59,6 +71,21 @@ public partial class CombatTurnQueue : Node
         }
 
         return combatActors;
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        CombatActor[] actors = this.GetActors();
+        var sortedActors = actors.OrderByDescending(actor => actor.Initiative).ToArray();
+
+        string msg = $"\n{this.Name} (CombatTurnQueue) - round {this.RoundCount}";
+        foreach (CombatActor actor in sortedActors)
+        {
+            msg += $"\n\t{actor}";
+        }
+
+        return msg;
     }
 
     private async void NextTurn()
@@ -135,20 +162,5 @@ public partial class CombatTurnQueue : Node
         {
             actor.HasActedThisRound = false;
         }
-    }
-
-    /// <inheritdoc/>
-    public override string ToString()
-    {
-        CombatActor[] actors = this.GetActors();
-        var sortedActors = actors.OrderByDescending(actor => actor.Initiative).ToArray();
-
-        string msg = $"\n{this.Name} (CombatTurnQueue) - round {this.RoundCount}";
-        foreach (CombatActor actor in sortedActors)
-        {
-            msg += $"\n\t{actor}";
-        }
-
-        return msg;
     }
 }

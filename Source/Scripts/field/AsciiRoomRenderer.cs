@@ -41,6 +41,44 @@ public partial class AsciiRoomRenderer : Node2D
         this.RenderDungeon();
     }
 
+     /// <inheritdoc/>
+    public override void _Input(InputEvent @event)
+    {
+        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        {
+            return;
+        }
+
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            Vector2I newPosition = this.playerPosition;
+
+            if (keyEvent.Keycode == Key.W || keyEvent.Keycode == Key.Up)
+            {
+                newPosition.Y--;
+            }
+            else if (keyEvent.Keycode == Key.S || keyEvent.Keycode == Key.Down)
+            {
+                newPosition.Y++;
+            }
+            else if (keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.Left)
+            {
+                newPosition.X--;
+            }
+            else if (keyEvent.Keycode == Key.D || keyEvent.Keycode == Key.Right)
+            {
+                newPosition.X++;
+            }
+
+            if (this.IsValidMove(newPosition))
+            {
+                this.playerPosition = newPosition;
+                this.CheckObjectInteraction();
+                this.RenderDungeon();
+            }
+        }
+    }
+
     private void LoadDungeonData()
     {
         try
@@ -113,44 +151,6 @@ public partial class AsciiRoomRenderer : Node2D
         }
 
         this.asciiDisplay.Text = string.Join("\n", map);
-    }
-
-    /// <inheritdoc/>
-    public override void _Input(InputEvent @event)
-    {
-        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
-        {
-            return;
-        }
-
-        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
-        {
-            Vector2I newPosition = this.playerPosition;
-
-            if (keyEvent.Keycode == Key.W || keyEvent.Keycode == Key.Up)
-            {
-                newPosition.Y--;
-            }
-            else if (keyEvent.Keycode == Key.S || keyEvent.Keycode == Key.Down)
-            {
-                newPosition.Y++;
-            }
-            else if (keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.Left)
-            {
-                newPosition.X--;
-            }
-            else if (keyEvent.Keycode == Key.D || keyEvent.Keycode == Key.Right)
-            {
-                newPosition.X++;
-            }
-
-            if (this.IsValidMove(newPosition))
-            {
-                this.playerPosition = newPosition;
-                this.CheckObjectInteraction();
-                this.RenderDungeon();
-            }
-        }
     }
 
     private bool IsValidMove(Vector2I position)

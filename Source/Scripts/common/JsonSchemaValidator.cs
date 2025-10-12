@@ -9,8 +9,17 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
 
+/// <summary>
+/// Provides functionality to validate JSON data against a specified schema.
+/// </summary>
 public partial class JsonSchemaValidator : Node
 {
+    /// <summary>
+    /// Validates the provided JSON data against the schema at the specified path.
+    /// </summary>
+    /// <param name="jsonData">The JSON data to validate.</param>
+    /// <param name="schemaPath">The file path to the JSON schema.</param>
+    /// <returns>True if the data is valid according to the schema, false otherwise.</returns>
     public static bool ValidateSchema(JsonNode? jsonData, string schemaPath)
     {
         try
@@ -54,10 +63,14 @@ public partial class JsonSchemaValidator : Node
         catch (Exception ex)
         {
             GD.PrintErr($"Schema validation error: {ex.Message}");
-            return false;
+            throw;
         }
     }
 
+    /// <summary>
+    /// Gets the last error message from the validation process.
+    /// </summary>
+    /// <returns>A string containing the last error message.</returns>
     public static string GetLastErrorMessage()
     {
         // This is a basic implementation - in a more complete version, we'd store the actual error

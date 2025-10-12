@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.
@@ -180,6 +181,7 @@ public partial class PartyCreator : Node2D
             var label = new Label();
             label.Text = $"{member.Name} - {member.Class} {member.Race}";
             this.partyList.AddChild(label);
+            label.Dispose();
         }
 
         this.UpdateUI();

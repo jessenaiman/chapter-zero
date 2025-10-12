@@ -5,7 +5,6 @@
 using System;
 using Godot;
 
-[Tool]
 /// <summary>
 /// An <see cref="InteractionPopup"/> that follows a moving <see cref="Gamepiece"/>.
 ///
@@ -14,9 +13,10 @@ using Godot;
 /// Note that other popup types will jump to the occupied cell of the ancestor <see cref="Gamepiece"/>, whereas
 /// MovingInteractionPopups sync their position to that of the gamepiece's graphical representation.
 /// </summary>
+[Tool]
 public partial class MovingInteractionPopup : InteractionPopup
 {
-    private Gamepiece gp;
+    private Gamepiece? gp;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -30,6 +30,10 @@ public partial class MovingInteractionPopup : InteractionPopup
         }
     }
 
+    /// <summary>
+    /// Gets configuration warnings for this popup.
+    /// </summary>
+    /// <returns>An array of warning messages, or an empty array if there are no warnings.</returns>
     public string[] GetConfigurationWarnings()
     {
         if (this.gp == null)

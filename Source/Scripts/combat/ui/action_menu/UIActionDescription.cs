@@ -13,7 +13,7 @@ using Godot;
 /// </summary>
 public partial class UIActionDescription : MarginContainer
 {
-    private Label descriptionLabel;
+    private Label? descriptionLabel;
 
     private string description = string.Empty;
 
@@ -35,7 +35,7 @@ public partial class UIActionDescription : MarginContainer
                 return;
             }
 
-            this.descriptionLabel.Text = this.description;
+            this.descriptionLabel?.Text = this.description;
             if (string.IsNullOrEmpty(this.description))
             {
                 this.Hide();

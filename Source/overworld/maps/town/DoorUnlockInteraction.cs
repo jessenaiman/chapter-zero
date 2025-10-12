@@ -42,9 +42,9 @@ public partial class DoorUnlockInteraction : Interaction
         if (this.Door.IsLocked)
         {
             var inventory = Inventory.Restore();
-            if (inventory != null && inventory.GetItemCount(Inventory.ItemTypes.Key) > 0)
+            if (inventory != null && inventory.GetItemCount(Inventory.ItemType.Key) > 0)
             {
-                inventory.Remove(Inventory.ItemTypes.Key, 1);
+                inventory.Remove(Inventory.ItemType.Key, 1);
                 this.Door.IsLocked = false;
                 this.IsActive = false;
                 this.popup.IsActive = false;

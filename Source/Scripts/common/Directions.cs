@@ -10,48 +10,63 @@ using Godot;
 public partial class Directions : RefCounted
 {
     /// <summary>
-    /// The cardinal points, in clockwise order starting from North.
-    /// </summary>
-    public enum Points
-    {
-        North,
-        East,
-        South,
-        West,
-    }
-
-    /// <summary>
     /// The direction corresponding to a cardinal point as a Vector2I value. NORTH is Vector2I(0, -1), etc.
     /// </summary>
-    public static readonly System.Collections.Generic.Dictionary<Points, Vector2I> Mappings = new System.Collections.Generic.Dictionary<Points, Vector2I>
+    public static readonly System.Collections.Generic.Dictionary<Point, Vector2I> Mappings = new System.Collections.Generic.Dictionary<Point, Vector2I>
     {
-        { Points.North, Vector2I.Up },
-        { Points.East, Vector2I.Right },
-        { Points.South, Vector2I.Down },
-        { Points.West, Vector2I.Left },
+        { Point.North, Vector2I.Up },
+        { Point.East, Vector2I.Right },
+        { Point.South, Vector2I.Down },
+        { Point.West, Vector2I.Left },
     };
+
+    /// <summary>
+    /// The cardinal points, in clockwise order starting from North.
+    /// </summary>
+    public enum Point
+    {
+        /// <summary>
+        /// The north cardinal direction.
+        /// </summary>
+        North,
+
+        /// <summary>
+        /// The east cardinal direction.
+        /// </summary>
+        East,
+
+        /// <summary>
+        /// The south cardinal direction.
+        /// </summary>
+        South,
+
+        /// <summary>
+        /// The west cardinal direction.
+        /// </summary>
+        West,
+    }
 
     /// <summary>
     /// Convert an angle, such as from Vector2.Angle, to a Points value.
     /// </summary>
     /// <param name="angle">The angle to convert.</param>
     /// <returns>The corresponding cardinal direction.</returns>
-    public static Points AngleToDirection(float angle)
+    public static Point AngleToDirection(float angle)
     {
         if (angle <= -System.Math.PI / 4.0 && angle > -3.0 * System.Math.PI / 4.0)
         {
-            return Points.North;
+            return Point.North;
         }
         else if (angle <= System.Math.PI / 4.0 && angle > -System.Math.PI / 4.0)
         {
-            return Points.East;
+            return Point.East;
         }
         else if (angle <= 3.0 * System.Math.PI / 4.0 && angle > System.Math.PI / 4.0)
         {
-            return Points.South;
+            return Point.South;
         }
 
-        return Points.West;
+        return Point.West;
     }
 
     /// <summary>
@@ -59,7 +74,7 @@ public partial class Directions : RefCounted
     /// </summary>
     /// <param name="vector">The vector to convert.</param>
     /// <returns>The corresponding cardinal direction.</returns>
-    public static Points VectorToDirection(Vector2 vector)
+    public static Point VectorToDirection(Vector2 vector)
     {
         return AngleToDirection(vector.Angle());
     }

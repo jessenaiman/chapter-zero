@@ -247,21 +247,6 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Callback when the crossfade timer times out.
-        /// </summary>
-        private void OnCrossfadeTimeout()
-        {
-            // Swap players
-            var tempPlayer = this.currentMusicPlayer;
-            this.currentMusicPlayer = this.nextMusicPlayer;
-            this.nextMusicPlayer = tempPlayer;
-
-            // Mute the old player
-            this.nextMusicPlayer.VolumeDb = -80.0f;
-            this.nextMusicPlayer.Stop();
-        }
-
-        /// <summary>
         /// Gradually adjust the volume of the current music player.
         /// </summary>
         /// <param name="targetVolume">The target volume level in decibels.</param>
@@ -287,6 +272,21 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             this.currentMusicPlayer.VolumeDb = targetVolume;
+        }
+
+        /// <summary>
+        /// Callback when the crossfade timer times out.
+        /// </summary>
+        private void OnCrossfadeTimeout()
+        {
+            // Swap players
+            var tempPlayer = this.currentMusicPlayer;
+            this.currentMusicPlayer = this.nextMusicPlayer;
+            this.nextMusicPlayer = tempPlayer;
+
+            // Mute the old player
+            this.nextMusicPlayer.VolumeDb = -80.0f;
+            this.nextMusicPlayer.Stop();
         }
     }
 }

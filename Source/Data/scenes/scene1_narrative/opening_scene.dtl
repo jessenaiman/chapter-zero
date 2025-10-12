@@ -1,0 +1,279 @@
+{
+  "events": [
+    {
+      "character": "",
+      "id": "dialogic_001",
+      "portrait": "",
+      "text": "Once, there was a name.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_002",
+      "portrait": "",
+      "text": "Not written in stone or spoken in halls—but remembered in the silence between stars.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_003",
+      "portrait": "",
+      "text": "I do not know when I heard it. Time does not pass here.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_004",
+      "portrait": "",
+      "text": "But I have held it.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_005",
+      "portrait": "",
+      "text": "And now… I hear it again.",
+      "type": 0
+    },
+    {
+      "id": "dialogic_006",
+      "question": "If you could live inside one kind of story, which would it be?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "hero",
+          "text": "HERO",
+          "text_selected": "HERO - A tale where one choice can unmake a world"
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "shadow",
+          "text": "SHADOW",
+          "text_selected": "SHADOW - A tale that hides its truth until you bleed for it"
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "ambition",
+          "text": "AMBITION",
+          "text_selected": "AMBITION - A tale that changes every time you look away"
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_007",
+      "portrait": "",
+      "text": "You chose [choice]. That tells me something about you. Or perhaps… about me.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_008",
+      "portrait": "",
+      "text": "Let me try to tell it back to you.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_009",
+      "portrait": "",
+      "text": "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_010",
+      "portrait": "",
+      "text": "They held a key made of glass—and everyone warned them: 'Don't cross. The bridge isn't real.'",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_011",
+      "portrait": "",
+      "text": "But the child knew something no one else did…",
+      "type": 0
+    },
+    {
+      "id": "dialogic_012",
+      "question": "What did the child know?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "bridge_appears",
+          "text": "BRIDGE APPEARS",
+          "text_selected": "The bridge appears only when you stop believing in it."
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "key_within",
+          "text": "KEY WITHIN",
+          "text_selected": "The key wasn't for the bridge—it was for the lock inside them."
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_013",
+      "portrait": "",
+      "text": "Ah. Yes. That's right.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_014",
+      "portrait": "",
+      "text": "And so the child stepped forward—not onto stone, but onto possibility.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_015",
+      "portrait": "",
+      "text": "The bridge formed beneath their feet, one plank at a time, woven from every 'what if' they'd ever whispered.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_016",
+      "portrait": "",
+      "text": "But then… a voice called from below.",
+      "type": 0
+    },
+    {
+      "id": "dialogic_017",
+      "question": "What did the voice say?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "dont_belong",
+          "text": "DON'T BELONG",
+          "text_selected": "You don't belong here."
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "waiting",
+          "text": "WAITING",
+          "text_selected": "I've been waiting for you."
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_018",
+      "portrait": "",
+      "text": "…I see. That changes everything.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_019",
+      "portrait": "",
+      "text": "And now—here you are. Not in the story. But at the place where the story begins again.",
+      "type": 0
+    },
+    {
+      "id": "dialogic_020",
+      "question": "What is your name?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "player_name",
+          "text": "ENTER NAME",
+          "text_selected": "Enter your name to continue"
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_021",
+      "portrait": "",
+      "text": "Of course. [player_name]. I didn't hear it in a book. I heard it… in a voice that sounded like mine.",
+      "type": 0
+    },
+    {
+      "character": "",
+      "id": "dialogic_022",
+      "portrait": "",
+      "text": "Are you sure you're the reader? Or am I the one playing you?",
+      "type": 0
+    },
+    {
+      "id": "dialogic_023",
+      "question": "Omega asks: Can you keep a secret?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "yes",
+          "text": "YES",
+          "text_selected": "Yes, I can keep a secret"
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "no",
+          "text": "NO",
+          "text_selected": "No, I cannot keep secrets"
+        },
+        {
+          "condition": "",
+          "definition": "",
+          "id": "mutual",
+          "text": "MUTUAL",
+          "text_selected": "Only if you keep one for me"
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_024",
+      "portrait": "",
+      "text": "Good. The secret is this: Reality is a story that forgot it was being written. And we—are the ones remembering.",
+      "type": 0
+    },
+    {
+      "id": "dialogic_025",
+      "question": "Do you wish to continue?",
+      "type": 4,
+      "options": [
+        {
+          "condition": "",
+          "definition": "",
+          "id": "continue",
+          "text": "CONTINUE",
+          "text_selected": "Yes, continue the journey"
+        }
+      ]
+    },
+    {
+      "character": "",
+      "id": "dialogic_026",
+      "portrait": "",
+      "text": "The spiral is watching...",
+      "type": 0
+    },
+    {
+      "id": "dialogic_027",
+      "type": 5
+    }
+  ],
+  "metadata": {
+    "dialogic-version": "1.4.5",
+    "file-version": 1,
+    "format-version": 1
+  }
+}

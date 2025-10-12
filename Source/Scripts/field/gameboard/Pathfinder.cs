@@ -22,23 +22,10 @@ public partial class Pathfinder : RefCounted
     private Dictionary<int, List<int>> connections = new Dictionary<int, List<int>>();
 
     /// <summary>
-    /// Point data structure.
-    /// </summary>
-    private class PointData
-    {
-        public Vector2I Position { get; set; }
-
-        public float GScore { get; set; } = float.PositiveInfinity;
-
-        public float FScore { get; set; } = float.PositiveInfinity;
-
-        public bool Disabled { get; set; }
-    }
-
-    /// <summary>
     /// Check if the pathfinder has a specific cell.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="cell">The cell position to check for.</param>
+    /// <returns>True if the cell exists in the pathfinder, false otherwise.</returns>
     public bool HasCell(Vector2I cell)
     {
         return this.points.Values.Any(p => p.Position == cell);
@@ -47,7 +34,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Check if the pathfinder has a point with the given ID.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="pointId">The point ID to check for.</param>
+    /// <returns>True if the point exists in the pathfinder, false otherwise.</returns>
     public bool HasPoint(int pointId)
     {
         return this.points.ContainsKey(pointId);
@@ -56,6 +44,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Add a point to the pathfinder.
     /// </summary>
+    /// <param name="pointId">The unique identifier for the point.</param>
+    /// <param name="position">The position of the point in the grid.</param>
     public void AddPoint(int pointId, Vector2I position)
     {
         if (!this.points.ContainsKey(pointId))
@@ -68,6 +58,7 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Remove a point from the pathfinder.
     /// </summary>
+    /// <param name="pointId">The unique identifier of the point to remove.</param>
     public void RemovePoint(int pointId)
     {
         if (this.points.ContainsKey(pointId))
@@ -90,6 +81,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Connect two points in the pathfinder.
     /// </summary>
+    /// <param name="pointId1">The unique identifier of the first point.</param>
+    /// <param name="pointId2">The unique identifier of the second point.</param>
     public void ConnectPoints(int pointId1, int pointId2)
     {
         if (this.points.ContainsKey(pointId1) && this.points.ContainsKey(pointId2))
@@ -109,6 +102,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Disconnect two points in the pathfinder.
     /// </summary>
+    /// <param name="pointId1">The unique identifier of the first point.</param>
+    /// <param name="pointId2">The unique identifier of the second point.</param>
     public void DisconnectPoints(int pointId1, int pointId2)
     {
         if (this.connections.ContainsKey(pointId1))
@@ -125,6 +120,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Set whether a point is disabled.
     /// </summary>
+    /// <param name="pointId">The unique identifier of the point.</param>
+    /// <param name="disabled">True to disable the point, false to enable it. Default is true.</param>
     public void SetPointDisabled(int pointId, bool disabled = true)
     {
         if (this.points.ContainsKey(pointId))
@@ -136,7 +133,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Get whether a point is disabled.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="pointId">The unique identifier of the point.</param>
+    /// <returns>True if the point is disabled, false otherwise.</returns>
     public bool IsPointDisabled(int pointId)
     {
         if (this.points.ContainsKey(pointId))
@@ -150,7 +148,9 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Get path to a cell using A* algorithm.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="startCell">The starting cell position.</param>
+    /// <param name="endCell">The target cell position.</param>
+    /// <returns>A list of cell positions representing the path from start to end cell, or empty list if no path found.</returns>
     public List<Vector2I> GetPathToCell(Vector2I startCell, Vector2I endCell)
     {
         var startPoint = this.points.Values.FirstOrDefault(p => p.Position == startCell);
@@ -170,7 +170,9 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Get path between two points using A* algorithm.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="startId">The unique identifier of the starting point.</param>
+    /// <param name="endId">The unique identifier of the target point.</param>
+    /// <returns>A list of cell positions representing the path from start to end point, or empty list if no path found.</returns>
     public List<Vector2I> GetPath(int startId, int endId)
     {
         // Reset scores
@@ -248,34 +250,11 @@ public partial class Pathfinder : RefCounted
     }
 
     /// <summary>
-    /// Heuristic cost estimate between two positions (Manhattan distance).
-    /// </summary>
-    private static float HeuristicCostEstimate(Vector2I a, Vector2I b)
-    {
-        return Mathf.Abs(a.X - b.X) + Mathf.Abs(a.Y - b.Y);
-    }
-
-    /// <summary>
-    /// Reconstruct path from cameFrom dictionary.
-    /// </summary>
-    private List<Vector2I> ReconstructPath(Dictionary<int, int> cameFrom, int currentId)
-    {
-        var path = new List<Vector2I> { this.points[currentId].Position };
-
-        while (cameFrom.ContainsKey(currentId))
-        {
-            currentId = cameFrom[currentId];
-            path.Add(this.points[currentId].Position);
-        }
-
-        path.Reverse();
-        return path;
-    }
-
-    /// <summary>
     /// Get cells to adjacent cell.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="sourceCell">The source cell position.</param>
+    /// <param name="targetCell">The target cell position to find adjacent cells for.</param>
+    /// <returns>A list of cell positions representing the shortest path from source to an adjacent cell of the target, or empty list if no path found.</returns>
     public List<Vector2I> GetPathCellsToAdjacentCell(Vector2I sourceCell, Vector2I targetCell)
     {
         // Find adjacent cells to the target
@@ -302,6 +281,14 @@ public partial class Pathfinder : RefCounted
     }
 
     /// <summary>
+    /// Heuristic cost estimate between two positions (Manhattan distance).
+    /// </summary>
+    private static float HeuristicCostEstimate(Vector2I a, Vector2I b)
+    {
+        return Mathf.Abs(a.X - b.X) + Mathf.Abs(a.Y - b.Y);
+    }
+
+    /// <summary>
     /// Get adjacent cells to a given cell.
     /// </summary>
     private List<Vector2I> GetAdjacentCells(Vector2I cell)
@@ -323,5 +310,36 @@ public partial class Pathfinder : RefCounted
         }
 
         return neighbors;
+    }
+
+    /// <summary>
+    /// Reconstruct path from cameFrom dictionary.
+    /// </summary>
+    private List<Vector2I> ReconstructPath(Dictionary<int, int> cameFrom, int currentId)
+    {
+        var path = new List<Vector2I> { this.points[currentId].Position };
+
+        while (cameFrom.ContainsKey(currentId))
+        {
+            currentId = cameFrom[currentId];
+            path.Add(this.points[currentId].Position);
+        }
+
+        path.Reverse();
+        return path;
+    }
+
+    /// <summary>
+    /// Point data structure.
+    /// </summary>
+    private class PointData
+    {
+        public Vector2I Position { get; set; }
+
+        public float GScore { get; set; } = float.PositiveInfinity;
+
+        public float FScore { get; set; } = float.PositiveInfinity;
+
+        public bool Disabled { get; set; }
     }
 }

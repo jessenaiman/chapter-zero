@@ -26,7 +26,7 @@ namespace OmegaSpiral.Tests
             bool exists = ResourceLoader.Exists(scenePath);
 
             // Assert
-            Assert.IsTrue(exists, $"Scene1Narrative.tscn should exist at {scenePath}");
+            Assert.That(exists, Is.True, $"Scene1Narrative.tscn should exist at {scenePath}");
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace OmegaSpiral.Tests
             bool exists = GodotFileAccess.FileExists(dataPath);
 
             // Assert
-            Assert.IsTrue(exists, $"Hero narrative data should exist at {dataPath}");
+            Assert.That(exists, Is.True, $"Hero narrative data should exist at {dataPath}");
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace OmegaSpiral.Tests
             bool exists = GodotFileAccess.FileExists(dataPath);
 
             // Assert
-            Assert.IsTrue(exists, $"Shadow narrative data should exist at {dataPath}");
+            Assert.That(exists, Is.True, $"Shadow narrative data should exist at {dataPath}");
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace OmegaSpiral.Tests
             bool exists = GodotFileAccess.FileExists(dataPath);
 
             // Assert
-            Assert.IsTrue(exists, $"Ambition narrative data should exist at {dataPath}");
+            Assert.That(exists, Is.True, $"Ambition narrative data should exist at {dataPath}");
         }
 
         [Test]
@@ -89,8 +89,8 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.IsNull(parseException, $"Hero JSON should parse without errors: {parseException?.Message}");
-            Assert.IsNotNull(doc, "Parsed JSON document should not be null");
+            Assert.That(parseException, Is.Null, $"Hero JSON should parse without errors: {parseException?.Message}");
+            Assert.That(doc, Is.Not.Null, "Parsed JSON document should not be null");
 
             // Verify required fields exist
             if (doc != null)
@@ -116,8 +116,8 @@ namespace OmegaSpiral.Tests
             PackedScene? packedScene = sceneResource as PackedScene;
 
             // Assert
-            Assert.IsNotNull(sceneResource, "Scene resource should load successfully");
-            Assert.IsNotNull(packedScene, "Scene resource should be a PackedScene");
+            Assert.That(sceneResource, Is.Not.Null, "Scene resource should load successfully");
+            Assert.That(packedScene, Is.Not.Null, "Scene resource should be a PackedScene");
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace OmegaSpiral.Tests
             // Arrange
             string scenePath = "res://Source/Scenes/Scene1Narrative.tscn";
             PackedScene? packedScene = ResourceLoader.Load<PackedScene>(scenePath);
-            Assert.IsNotNull(packedScene, "PackedScene should load successfully");
+            Assert.That(packedScene, Is.Not.Null, "PackedScene should load successfully");
 
             // Act
             Node? instance = null;
@@ -145,12 +145,12 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.IsNull(instantiateException, $"Scene should instantiate without errors: {instantiateException?.Message}");
-            Assert.IsNotNull(instance, "Scene instance should not be null");
+            Assert.That(instantiateException, Is.Null, $"Scene should instantiate without errors: {instantiateException?.Message}");
+            Assert.That(instance, Is.Not.Null, "Scene instance should not be null");
 
             if (instance != null)
             {
-                Assert.AreEqual("Scene1Narrative", instance.Name, "Scene root node should be named 'Scene1Narrative'");
+                Assert.That(instance.Name, Is.EqualTo("Scene1Narrative"), "Scene root node should be named 'Scene1Narrative'");
             }
 
             // Cleanup
@@ -167,7 +167,7 @@ namespace OmegaSpiral.Tests
             bool exists = ResourceLoader.Exists(scriptPath);
 
             // Assert
-            Assert.IsTrue(exists, $"NarrativeTerminal.cs script should exist at {scriptPath}");
+            Assert.That(exists, Is.True, $"NarrativeTerminal.cs script should exist at {scriptPath}");
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace OmegaSpiral.Tests
             }
 
             // Assert
-            Assert.IsTrue(foundScene1, "Manifest should contain Scene1 with id=1");
+            Assert.That(foundScene1, Is.True, "Manifest should contain Scene1 with id=1");
 
             doc.Dispose();
         }
@@ -234,17 +234,20 @@ namespace OmegaSpiral.Tests
                     openingLines.GetArrayLength() > 0, Is.True,
                     $"{thread}.json should have at least one opening line");
 
-                Assert.IsTrue(
+                Assert.That(
                     doc.RootElement.TryGetProperty("initialChoice", out var initialChoice),
                     $"{thread}.json should have 'initialChoice' object");
-                Assert.IsTrue(
+                Assert.That(
                     initialChoice.TryGetProperty("prompt", out _),
+                    Is.True,
                     $"{thread}.json initialChoice should have 'prompt'");
-                Assert.IsTrue(
+                Assert.That(
                     initialChoice.TryGetProperty("options", out var options),
+                    Is.True,
                     $"{thread}.json initialChoice should have 'options' array");
-                Assert.IsTrue(
+                Assert.That(
                     options.GetArrayLength() > 0,
+                    Is.True,
                     $"{thread}.json should have at least one choice option");
 
                 doc.Dispose();

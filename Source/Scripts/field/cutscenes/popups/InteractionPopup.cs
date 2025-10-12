@@ -6,44 +6,63 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-[Tool]
 /// <summary>
 /// A <see cref="UIPopup"/> used specifically to mark <see cref="Interaction"/>s and other points of interest for the player.
 ///
 /// InteractionPopups may be added as children to a variety of objects. They respond to the player's
 /// physics layer and show up as an emote bubble when the player is nearby.
 /// </summary>
+[Tool]
 public partial class InteractionPopup : UIPopup
 {
     /// <summary>
-    /// The different emote types that may be selected.
-    /// </summary>
-    public enum EmoteTypes
-    {
-        Combat,
-        Empty,
-        Exclamation,
-        Question,
-    }
-
-    /// <summary>
     /// The emote textures that may appear over a point of interest.
     /// </summary>
-    private static readonly Dictionary<EmoteTypes, Texture2D> Emotes = new Dictionary<EmoteTypes, Texture2D>
+    private static readonly Dictionary<EmoteType, Texture2D> Emotes = new Dictionary<EmoteType, Texture2D>
     {
-        { EmoteTypes.Combat, GD.Load<Texture2D>("res://assets/gui/emotes/emote_combat.png") },
-        { EmoteTypes.Empty, GD.Load<Texture2D>("res://assets/gui/emotes/emote__.png") },
-        { EmoteTypes.Exclamation, GD.Load<Texture2D>("res://assets/gui/emotes/emote_exclamations.png") },
-        { EmoteTypes.Question, GD.Load<Texture2D>("res://assets/gui/emotes/emote_question.png") },
+        { EmoteType.Combat, GD.Load<Texture2D>("res://assets/gui/emotes/emote_combat.png") },
+        { EmoteType.Empty, GD.Load<Texture2D>("res://assets/gui/emotes/emote__.png") },
+        { EmoteType.Exclamation, GD.Load<Texture2D>("res://assets/gui/emotes/emote_exclamations.png") },
+        { EmoteType.Question, GD.Load<Texture2D>("res://assets/gui/emotes/emote_question.png") },
     };
 
-    private EmoteTypes emote = EmoteTypes.Empty;
+    private EmoteType emote = EmoteType.Empty;
+    private int radius = 32;
+    private bool isActive = true;
+    private Area2D? area;
+    private CollisionShape2D? collisionShape;
+
+    /// <summary>
+    /// The different emote types that may be selected.
+    /// </summary>
+    public enum EmoteType
+    {
+        /// <summary>
+        /// The combat emote type.
+        /// </summary>
+        Combat,
+
+        /// <summary>
+        /// The empty emote type.
+        /// </summary>
+        Empty,
+
+        /// <summary>
+        /// The exclamation emote type.
+        /// </summary>
+        Exclamation,
+
+        /// <summary>
+        /// The question emote type.
+        /// </summary>
+        Question,
+    }
 
     /// <summary>
     /// Gets or sets the emote bubble that will be displayed when the character is nearby.
     /// </summary>
     [Export]
-    public EmoteTypes Emote
+    public EmoteType Emote
     {
         get => this.emote;
         set
@@ -57,11 +76,9 @@ public partial class InteractionPopup : UIPopup
                 return;
             }
 
-            this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteTypes.Empty];
+            this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteType.Empty];
         }
     }
-
-    private int radius = 32;
 
     /// <summary>
     /// Gets or sets how close the player must be to the emote before it will display.
@@ -81,11 +98,12 @@ public partial class InteractionPopup : UIPopup
                 return;
             }
 
-            (this.collisionShape.Shape as CircleShape2D).Radius = this.radius;
+            if (this.collisionShape != null && this.collisionShape.Shape is CircleShape2D circleShape)
+            {
+                circleShape.Radius = this.radius;
+            }
         }
     }
-
-    private bool isActive = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether is true if the InteractionPopup should respond to the player's presence. Otherwise, the popup
@@ -108,14 +126,18 @@ public partial class InteractionPopup : UIPopup
                     return;
                 }
 
-                this.area.Monitoring = this.isActive;
-                this.collisionShape.Disabled = !this.isActive;
+                if (this.area != null)
+                {
+                    this.area.Monitoring = this.isActive;
+                }
+
+                if (this.collisionShape != null)
+                {
+                    this.collisionShape.Disabled = !this.isActive;
+                }
             }
         }
     }
-
-    private Area2D area;
-    private CollisionShape2D collisionShape;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -126,6 +148,18 @@ public partial class InteractionPopup : UIPopup
         {
             // FieldEvents.input_paused.connect(_on_input_paused) - we'll need to implement this when FieldEvents is available
         }
+    }
+
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+
+        this.area = this.GetNode<Area2D>("Area2D");
+        this.collisionShape = this.GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
+
+        this.area.AreaEntered += this.OnAreaEntered;
+        this.area.AreaExited += this.OnAreaExited;
     }
 
     private void OnAreaEntered(Area2D enteredArea)
@@ -141,18 +175,9 @@ public partial class InteractionPopup : UIPopup
     // Be sure to hide input when the player is not able to do anything (e.g. cutscenes).
     private void OnInputPaused(bool paused)
     {
-        this.area.Monitoring = !paused;
-    }
-
-    /// <inheritdoc/>
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-
-        this.area = this.GetNode<Area2D>("Area2D");
-        this.collisionShape = this.GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
-
-        this.area.AreaEntered += this.OnAreaEntered;
-        this.area.AreaExited += this.OnAreaExited;
+        if (this.area != null)
+        {
+            this.area.Monitoring = !paused;
+        }
     }
 }

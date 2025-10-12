@@ -19,7 +19,7 @@ public partial class GangOfFourConversation : Interaction
     {
         if (argument == "coin_received")
         {
-            Inventory.Restore()?.Add(Inventory.ItemTypes.Coin);
+            Inventory.Restore()?.Add(Inventory.ItemType.Coin);
         }
     }
 

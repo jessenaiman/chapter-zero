@@ -20,7 +20,7 @@ public partial class Gamepiece : Node2D
     /// Emitted when the gamepiece's direction changes.
     /// </summary>
     [Signal]
-    public delegate void DirectionChangedEventHandler(Directions.Points newDirection);
+    public delegate void DirectionChangedEventHandler(Directions.Point newDirection);
 
     /// <summary>
     /// Emitted when the gamepiece starts moving.
@@ -55,7 +55,7 @@ public partial class Gamepiece : Node2D
     /// Gets or sets the direction the gamepiece is facing.
     /// </summary>
     [Export]
-    public Directions.Points Direction
+    public Directions.Point Direction
     {
         get => this.direction;
         set
@@ -103,7 +103,7 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// The direction the gamepiece is facing.
     /// </summary>
-    private Directions.Points direction = Directions.Points.Down;
+    private Directions.Point direction = Directions.Point.Down;
 
     /// <summary>
     /// The remaining distance to the target position.
@@ -309,7 +309,7 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// Rotate the gamepiece to face a specific direction.
     /// </summary>
-    public void FaceDirection(Directions.Points newDirection)
+    public void FaceDirection(Directions.Point newDirection)
     {
         this.Direction = newDirection;
     }

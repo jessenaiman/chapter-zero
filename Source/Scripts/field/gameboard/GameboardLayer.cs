@@ -33,8 +33,10 @@ public partial class GameboardLayer : TileMapLayer
     /// Compare the changed cells with those already in the pathfinder. Any changes will cause the
     /// Pathfinder to be updated.
     /// </summary>
+    /// <param name="clearedCells">The cells that are now clear for movement.</param>
+    /// <param name="blockedCells">The cells that are now blocked from movement.</param>
     [Signal]
-    public delegate void CellsChangedEventHandler(Godot.Collections.Array<Vector2I> clearedCells, Godot.Collections.Array<Vector2I> blockedCells);
+    public delegate void CellsChangedEventHandler(Godot.Collections.Array clearedCells, Godot.Collections.Array blockedCells);
 
     /// <summary>
     /// Gets a list of cells that can be moved to. Only cells that exist in the layer and are not blocked
@@ -72,7 +74,8 @@ public partial class GameboardLayer : TileMapLayer
     /// BlockedCellDataLayer custom data layer (see
     /// TileData.GetCustomData).
     /// </summary>
-    /// <returns></returns>
+    /// <param name="coord">The coordinate to check.</param>
+    /// <returns>True if the cell is clear for movement, false otherwise.</returns>
     public bool IsCellClear(Vector2I coord)
     {
         // Check to make sure that cell exists.
@@ -104,7 +107,8 @@ public partial class GameboardLayer : TileMapLayer
     /// <summary>
     /// Check if a cell is blocked by this layer.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="coord">The coordinate to check.</param>
+    /// <returns>True if the cell is blocked, false otherwise.</returns>
     public bool IsCellBlocked(Vector2I coord)
     {
         // Get the tile data at the specified coordinate
@@ -146,7 +150,19 @@ public partial class GameboardLayer : TileMapLayer
         // If there are changes, emit the signal
         if (addedCells.Count > 0 || removedCells.Count > 0)
         {
-            EmitSignal(SignalName.CellsChanged, addedCells, removedCells);
+            var clearedArray = new Godot.Collections.Array();
+            foreach (var cell in addedCells)
+            {
+                clearedArray.Add(cell);
+            }
+
+            var blockedArray = new Godot.Collections.Array();
+            foreach (var cell in removedCells)
+            {
+                blockedArray.Add(cell);
+            }
+
+            this.EmitSignal(SignalName.CellsChanged, clearedArray, blockedArray);
         }
     }
 
@@ -170,7 +186,19 @@ public partial class GameboardLayer : TileMapLayer
             }
         }
 
-        EmitSignal(SignalName.CellsChanged, clearedCells, blockedCells);
+        var clearedArray = new Godot.Collections.Array();
+        foreach (var cell in clearedCells)
+        {
+            clearedArray.Add(cell);
+        }
+
+        var blockedArray = new Godot.Collections.Array();
+        foreach (var cell in blockedCells)
+        {
+            blockedArray.Add(cell);
+        }
+
+        this.EmitSignal(SignalName.CellsChanged, clearedArray, blockedArray);
     }
 
     /// <summary>
@@ -182,7 +210,19 @@ public partial class GameboardLayer : TileMapLayer
         var clearedCells = new List<Vector2I>();
         var blockedCells = this.GetUsedCells().ToList();
 
-        EmitSignal(SignalName.CellsChanged, clearedCells, blockedCells);
+        var clearedArray = new Godot.Collections.Array();
+        foreach (var cell in clearedCells)
+        {
+            clearedArray.Add(cell);
+        }
+
+        var blockedArray = new Godot.Collections.Array();
+        foreach (var cell in blockedCells)
+        {
+            blockedArray.Add(cell);
+        }
+
+        this.EmitSignal(SignalName.CellsChanged, clearedArray, blockedArray);
     }
 
     /// <summary>

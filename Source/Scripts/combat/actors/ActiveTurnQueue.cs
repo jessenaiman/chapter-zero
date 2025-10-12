@@ -172,7 +172,7 @@ public partial class ActiveTurnQueue : Node2D
         // Filter targets to only include those that can be targeted by the action
         var validTargets = targets.Where(t => action.CanTargetBattler(t)).ToList();
 
-        if (action.CanExecute(battler, validTargets))
+        if (action.CanExecute(battler, validTargets.ToArray()))
         {
             this.cachedActions.Remove(battler);
             this.activeAction = action;

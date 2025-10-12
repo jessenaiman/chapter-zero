@@ -19,7 +19,7 @@ public partial class UIInventory : HBoxContainer
     /// <summary>
     /// Keep track of the inventory item packed scene to easily instantiate new items.
     /// </summary>
-    private PackedScene itemScene;
+    private PackedScene? itemScene;
 
     /// <inheritdoc/>
     public override void _Ready()

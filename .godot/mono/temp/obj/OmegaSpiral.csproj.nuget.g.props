@@ -12,6 +12,16 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="/home/adam/.nuget/packages/" />
   </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net9.0/LICENSE" Condition="Exists('$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net9.0/LICENSE')">
+      <NuGetPackageId>gdUnit4.api</NuGetPackageId>
+      <NuGetPackageVersion>5.0.0</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>LICENSE</Link>
+    </Content>
+  </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Platform.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Platform.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.testing.platform.msbuild/1.9.0/buildTransitive/Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.platform.msbuild/1.9.0/buildTransitive/Microsoft.Testing.Platform.MSBuild.props')" />
@@ -21,15 +31,18 @@
     <Import Project="$(NuGetPackageRoot)microsoft.netframework.analyzers/3.3.2/build/Microsoft.NetFramework.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.netframework.analyzers/3.3.2/build/Microsoft.NetFramework.Analyzers.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.netcore.analyzers/3.3.2/build/Microsoft.NetCore.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.netcore.analyzers/3.3.2/build/Microsoft.NetCore.Analyzers.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codequality.analyzers/3.3.2/build/Microsoft.CodeQuality.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codequality.analyzers/3.3.2/build/Microsoft.CodeQuality.Analyzers.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.versioncheckanalyzer/3.3.2/build/Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.versioncheckanalyzer/3.3.2/build/Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.fxcopanalyzers/3.3.2/build/Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.fxcopanalyzers/3.3.2/build/Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
     <Import Project="$(NuGetPackageRoot)godot.sourcegenerators/4.5.0/build/Godot.SourceGenerators.props" Condition="Exists('$(NuGetPackageRoot)godot.sourcegenerators/4.5.0/build/Godot.SourceGenerators.props')" />
+    <Import Project="$(NuGetPackageRoot)gdunit4.api/5.0.0/buildTransitive/gdUnit4.api.props" Condition="Exists('$(NuGetPackageRoot)gdunit4.api/5.0.0/buildTransitive/gdUnit4.api.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgStyleCop_Analyzers Condition=" '$(PkgStyleCop_Analyzers)' == '' ">/home/adam/.nuget/packages/stylecop.analyzers/1.1.118</PkgStyleCop_Analyzers>
     <PkgMicrosoft_NetFramework_Analyzers Condition=" '$(PkgMicrosoft_NetFramework_Analyzers)' == '' ">/home/adam/.nuget/packages/microsoft.netframework.analyzers/3.3.2</PkgMicrosoft_NetFramework_Analyzers>
     <PkgMicrosoft_NetCore_Analyzers Condition=" '$(PkgMicrosoft_NetCore_Analyzers)' == '' ">/home/adam/.nuget/packages/microsoft.netcore.analyzers/3.3.2</PkgMicrosoft_NetCore_Analyzers>
     <PkgMicrosoft_CodeQuality_Analyzers Condition=" '$(PkgMicrosoft_CodeQuality_Analyzers)' == '' ">/home/adam/.nuget/packages/microsoft.codequality.analyzers/3.3.2</PkgMicrosoft_CodeQuality_Analyzers>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">/home/adam/.nuget/packages/microsoft.codeanalysis.analyzers/3.11.0</PkgMicrosoft_CodeAnalysis_Analyzers>
     <PkgMicrosoft_CodeAnalysis_VersionCheckAnalyzer Condition=" '$(PkgMicrosoft_CodeAnalysis_VersionCheckAnalyzer)' == '' ">/home/adam/.nuget/packages/microsoft.codeanalysis.versioncheckanalyzer/3.3.2</PkgMicrosoft_CodeAnalysis_VersionCheckAnalyzer>
     <PkgMicrosoft_CodeAnalysis_FxCopAnalyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_FxCopAnalyzers)' == '' ">/home/adam/.nuget/packages/microsoft.codeanalysis.fxcopanalyzers/3.3.2</PkgMicrosoft_CodeAnalysis_FxCopAnalyzers>
   </PropertyGroup>

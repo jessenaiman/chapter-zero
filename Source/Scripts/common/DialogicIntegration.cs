@@ -40,7 +40,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// </summary>
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <param name="labelOrIndex">Optional label or index to start from.</param>
-        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartTimelineAsync(string timelinePath, Variant labelOrIndex = default)
         {
             GD.Print($"Starting Dialogic timeline: {timelinePath}");
@@ -57,16 +57,21 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// </summary>
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <param name="variables">Dictionary of variables to set before starting.</param>
-        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartTimelineWithVariablesAsync(string timelinePath, Godot.Collections.Dictionary variables)
         {
+            if (variables == null)
+            {
+                throw new ArgumentNullException(nameof(variables));
+            }
+
             // Set variables in Dialogic before starting timeline
             foreach (var kvp in variables)
             {
                 this.SetDialogicVariable(kvp.Key.ToString(), kvp.Value);
             }
 
-            await StartTimelineAsync(timelinePath).ConfigureAwait(false);
+            await this.StartTimelineAsync(timelinePath).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -76,7 +81,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <param name="value">Value to set.</param>
         public void SetDialogicVariable(string variableName, Variant value)
         {
-            var variablesSubsystem = this.dialogic.Call("get_subsystem", "VAR");
+            var variablesSubsystem = (GodotObject)this.dialogic.Call("get_subsystem", "VAR");
             if (variablesSubsystem != null)
             {
                 variablesSubsystem.Call("set_variable", variableName, value);
@@ -90,10 +95,10 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <returns>The variable value.</returns>
         public Variant GetDialogicVariable(string variableName)
         {
-            var variablesSubsystem = this.dialogic.Call("get_subsystem", "VAR");
+            var variablesSubsystem = (GodotObject)this.dialogic.Call("get_subsystem", "VAR");
             if (variablesSubsystem != null)
             {
-                return variablesSubsystem.Call("get_variable", variableName);
+                return variablesSubsystem.Call("get_variable", variableName).As<Variant>();
             }
 
             return default;
@@ -113,6 +118,37 @@ namespace OmegaSpiral.Source.Scripts.Common
         public void ResumeTimeline()
         {
             this.dialogic.Call("resume");
+        }
+
+        /// <summary>
+        /// Example method showing how to integrate Dialogic with existing C# narrative.
+        /// This could replace or augment parts of NarrativeTerminal.cs.
+        /// </summary>
+        /// <param name="choices">Array of choice options to present to the player.</param>
+        /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task PresentChoiceWithDialogicAsync(string[] choices, string timelinePath)
+        {
+            if (choices == null)
+            {
+                throw new ArgumentNullException(nameof(choices));
+            }
+
+            // Set choices as Dialogic variables
+            using var choiceDict = new Godot.Collections.Dictionary();
+            for (int i = 0; i < choices.Length; i++)
+            {
+                choiceDict[$"choice_{i}"] = choices[i];
+            }
+
+            await this.StartTimelineWithVariablesAsync(timelinePath, choiceDict).ConfigureAwait(false);
+
+            // Get the selected choice from Dialogic variables
+            var selectedChoice = (int)this.GetDialogicVariable("selected_choice");
+            GD.Print($"Player selected choice: {selectedChoice}");
+
+            // Continue with C# narrative logic based on choice
+            await HandleChoiceResultAsync(selectedChoice).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -144,30 +180,6 @@ namespace OmegaSpiral.Source.Scripts.Common
             // Handle specific Dialogic events in C#
             // This could be used to trigger C# game logic based on dialogue events
             GD.Print($"Dialogic event handled: {eventData}");
-        }
-
-        /// <summary>
-        /// Example method showing how to integrate Dialogic with existing C# narrative.
-        /// This could replace or augment parts of NarrativeTerminal.cs.
-        /// </summary>
-        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
-        public async Task PresentChoiceWithDialogicAsync(string[] choices, string timelinePath)
-        {
-            // Set choices as Dialogic variables
-            var choiceDict = new Godot.Collections.Dictionary();
-            for (int i = 0; i < choices.Length; i++)
-            {
-                choiceDict[$"choice_{i}"] = choices[i];
-            }
-
-            await StartTimelineWithVariablesAsync(timelinePath, choiceDict).ConfigureAwait(false);
-
-            // Get the selected choice from Dialogic variables
-            var selectedChoice = (int)this.GetDialogicVariable("selected_choice");
-            GD.Print($"Player selected choice: {selectedChoice}");
-
-            // Continue with C# narrative logic based on choice
-            await HandleChoiceResultAsync(selectedChoice).ConfigureAwait(false);
         }
 
         /// <summary>

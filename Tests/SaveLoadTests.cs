@@ -74,7 +74,7 @@ public class SaveLoadTests : IDisposable
         this.gameState.SaveGame();
 
         // Assert
-        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should be created");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json"), Is.True, "Save file should be created");
     }
 
     [Test]
@@ -90,7 +90,7 @@ public class SaveLoadTests : IDisposable
         this.gameState.SaveGame();
 
         // Assert
-        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should exist");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json"), Is.True, "Save file should exist");
 
         using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Read);
         var jsonString = file.GetAsText();

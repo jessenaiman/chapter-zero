@@ -117,6 +117,31 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         private Godot.Timer typewriterTimer;
 
+        /// <summary>
+        /// Show an effect label (like emotion indicators or emphasis).
+        /// </summary>
+        /// <param name="text">The text to show.</param>
+        /// <param name="position">The position to show the text at.</param>
+        /// <param name="color">The color of the text.</param>
+        public static void ShowEffectLabel(string text, Vector2 position, Color color)
+        {
+            // Show a floating label at the specified position
+            // This would typically involve creating a temporary label that floats upward and fades out
+
+            // For example:
+            // var label = new Label();
+            // label.Text = text;
+            // label.AddThemeColorOverride("font_color", color);
+            // label.Position = position;
+            // AddChild(label);
+
+            // Create a tween to animate the label
+            // var tween = CreateTween();
+            // tween.TweenProperty(label, "position:y", position.Y - 50, 1.0f);
+            // tween.Parallel().TweenProperty(label, "modulate:a", 0.0f, 1.0f);
+            // tween.TweenCallback(new Callable(label, "queue_free"));
+        }
+
         /// <inheritdoc/>
         public override void _Ready()
         {
@@ -138,17 +163,6 @@ namespace OmegaSpiral.Source.Scripts
 
             // Connect to any necessary signals
             ConnectSignals();
-        }
-
-        /// <summary>
-        /// Connect to necessary signals.
-        /// </summary>
-        private static void ConnectSignals()
-        {
-            // Connect to dialogue events
-            // DialogueEvents.DialogueStarted += OnDialogueStarted;
-            // DialogueEvents.DialogueEnded += OnDialogueEnded;
-            // DialogueEvents.ChoiceSelected += OnChoiceSelected;
         }
 
         /// <summary>
@@ -259,6 +273,17 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
+        /// Connect to necessary signals.
+        /// </summary>
+        private static void ConnectSignals()
+        {
+            // Connect to dialogue events
+            // DialogueEvents.DialogueStarted += OnDialogueStarted;
+            // DialogueEvents.DialogueEnded += OnDialogueEnded;
+            // DialogueEvents.ChoiceSelected += OnChoiceSelected;
+        }
+
+        /// <summary>
         /// Skip the current typewriter effect and display the full text immediately.
         /// </summary>
         public void SkipTypewriter()
@@ -289,6 +314,62 @@ namespace OmegaSpiral.Source.Scripts
             {
                 this.continueIndicator.Show();
             }
+        }
+
+        /// <summary>
+        /// Callback when input is received.
+        /// </summary>
+        /// <param name="inputEvent">The input event.</param>
+        public override void _Input(InputEvent inputEvent)
+        {
+            if (!this.IsActive || !this.Visible)
+            {
+                return;
+            }
+
+            // Check for continue input (e.g., spacebar or enter)
+            if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
+            {
+                if (keyEvent.Keycode == Key.Space || keyEvent.Keycode == Key.Enter)
+                {
+                    this.OnContinueInput();
+                }
+            }
+            else if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+            {
+                if (mouseEvent.ButtonIndex == MouseButton.Left)
+                {
+                    this.OnContinueInput();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Show a message in the dialogue system.
+        /// </summary>
+        /// <param name="message">The message to show.</param>
+        /// <param name="duration">The duration to show the message for.</param>
+        public async void ShowMessage(string message, float duration = 2.0f)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
+            // Show the message in the dialogue text
+            if (this.dialogueText != null)
+            {
+                this.dialogueText.Text = message;
+            }
+
+            // Show the dialogue system
+            this.Visible = true;
+
+            // Wait for the specified duration
+            await Task.Delay(TimeSpan.FromSeconds(duration)).ConfigureAwait(false);
+
+            // Hide the dialogue system
+            this.HideDialogue();
         }
 
         /// <summary>
@@ -457,34 +538,6 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Callback when input is received.
-        /// </summary>
-        /// <param name="inputEvent">The input event.</param>
-        public override void _Input(InputEvent inputEvent)
-        {
-            if (!this.IsActive || !this.Visible)
-            {
-                return;
-            }
-
-            // Check for continue input (e.g., spacebar or enter)
-            if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
-            {
-                if (keyEvent.Keycode == Key.Space || keyEvent.Keycode == Key.Enter)
-                {
-                    this.OnContinueInput();
-                }
-            }
-            else if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
-            {
-                if (mouseEvent.ButtonIndex == MouseButton.Left)
-                {
-                    this.OnContinueInput();
-                }
-            }
-        }
-
-        /// <summary>
         /// Callback when continue input is received.
         /// </summary>
         private void OnContinueInput()
@@ -503,59 +556,6 @@ namespace OmegaSpiral.Source.Scripts
                 // For now, we'll just hide the dialogue
                 this.HideDialogue();
             }
-        }
-
-        /// <summary>
-        /// Show a message in the dialogue system.
-        /// </summary>
-        /// <param name="message">The message to show.</param>
-        /// <param name="duration">The duration to show the message for.</param>
-        public async void ShowMessage(string message, float duration = 2.0f)
-        {
-            if (string.IsNullOrEmpty(message))
-            {
-                return;
-            }
-
-            // Show the message in the dialogue text
-            if (this.dialogueText != null)
-            {
-                this.dialogueText.Text = message;
-            }
-
-            // Show the dialogue system
-            this.Visible = true;
-
-            // Wait for the specified duration
-            await Task.Delay(TimeSpan.FromSeconds(duration)).ConfigureAwait(false);
-
-            // Hide the dialogue system
-            this.HideDialogue();
-        }
-
-        /// <summary>
-        /// Show an effect label (like emotion indicators or emphasis).
-        /// </summary>
-        /// <param name="text">The text to show.</param>
-        /// <param name="position">The position to show the text at.</param>
-        /// <param name="color">The color of the text.</param>
-        public static void ShowEffectLabel(string text, Vector2 position, Color color)
-        {
-            // Show a floating label at the specified position
-            // This would typically involve creating a temporary label that floats upward and fades out
-
-            // For example:
-            // var label = new Label();
-            // label.Text = text;
-            // label.AddThemeColorOverride("font_color", color);
-            // label.Position = position;
-            // AddChild(label);
-
-            // Create a tween to animate the label
-            // var tween = CreateTween();
-            // tween.TweenProperty(label, "position:y", position.Y - 50, 1.0f);
-            // tween.Parallel().TweenProperty(label, "modulate:a", 0.0f, 1.0f);
-            // tween.TweenCallback(new Callable(label, "queue_free"));
         }
 
         /// <summary>

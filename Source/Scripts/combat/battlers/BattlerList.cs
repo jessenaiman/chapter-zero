@@ -37,7 +37,7 @@ public partial class BattlerList : RefCounted
                 {
                     foreach (Battler player in this.players)
                     {
-                        if (player.Stats.Health > 0)
+                        if (player.Stats?.Health > 0)
                         {
                             return;
                         }
@@ -69,7 +69,7 @@ public partial class BattlerList : RefCounted
                 {
                     foreach (Battler enemy in this.enemies)
                     {
-                        if (enemy.Stats.Health > 0)
+                        if (enemy.Stats?.Health > 0)
                         {
                             return;
                         }
@@ -112,6 +112,6 @@ public partial class BattlerList : RefCounted
     /// <returns></returns>
     public static Battler[] GetLiveBattlers(Battler[] battlers)
     {
-        return battlers.Where(battler => battler.Stats.Health > 0).ToArray();
+        return battlers.Where(battler => battler.Stats?.Health > 0).ToArray();
     }
 }

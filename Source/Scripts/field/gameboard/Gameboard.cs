@@ -17,6 +17,18 @@ using Godot;
 public partial class Gameboard : Node
 {
     /// <summary>
+    /// An invalid index is not part of the gameboard.
+    /// </summary>
+    public const int InvalidIndex = -1;
+
+    /// <summary>
+    /// An invalid cell is not part of the gameboard. Note that this requires positive boundaries.
+    /// </summary>
+    public static readonly Vector2I InvalidCell = new Vector2I(-1, -1);
+
+    private GameboardProperties? properties;
+
+    /// <summary>
     /// Emitted whenever properties is set. This is used in case a Gamepiece is added to the
     /// board before the board properties are ready.
     /// </summary>
@@ -31,18 +43,13 @@ public partial class Gameboard : Node
     /// changes. GameboardLayers may change their cells without actually changing the pathfinder's
     /// state (i.e. a visual update only), in which case this signal is not emitted.
     /// </summary>
+    /// <param name="addedCells">The cells that were added to the pathfinder.</param>
+    /// <param name="removedCells">The cells that were removed from the pathfinder.</param>
     [Signal]
-    public delegate void PathfinderChangedEventHandler(Godot.Collections.Array<Vector2I> addedCells, Godot.Collections.Array<Vector2I> removedCells);
+    public delegate void PathfinderChangedEventHandler(Godot.Collections.Array addedCells, Godot.Collections.Array removedCells);
 
     /// <summary>
-    /// An invalid cell is not part of the gameboard. Note that this requires positive boundaries.
-    /// </summary>
-    public static readonly Vector2I InvalidCell = new Vector2I(-1, -1);
-
-    public const int InvalidIndex = -1;
-
-    /// <summary>
-    /// Gets or sets determines the extents of the Gameboard, among other details.
+    /// Gets or sets the extents of the Gameboard, among other details.
     /// </summary>
     public GameboardProperties Properties
     {
@@ -56,8 +63,6 @@ public partial class Gameboard : Node
             }
         }
     }
-
-    private GameboardProperties properties;
 
     /// <summary>
     /// Gets a reference to the Pathfinder for the current playable area.
@@ -74,37 +79,53 @@ public partial class Gameboard : Node
     /// <summary>
     /// Convert cell coordinates to pixel coordinates.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="cellCoordinates">The cell coordinates to convert.</param>
+    /// <returns>The pixel coordinates corresponding to the cell.</returns>
     public Vector2 CellToPixel(Vector2I cellCoordinates)
     {
+        if (this.Properties == null)
+        {
+            return Vector2.Zero;
+        }
         return new Vector2(cellCoordinates.X * this.Properties.CellSize.X, cellCoordinates.Y * this.Properties.CellSize.Y) + this.Properties.HalfCellSize;
     }
 
     /// <summary>
-    /// Convert pixel coordinates to cell coordinates.
+    /// Converts pixel coordinates to cell coordinates.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="pixelCoordinates">The pixel coordinates to convert.</param>
+    /// <returns>The cell coordinates corresponding to the pixel.</returns>
     public Vector2I PixelToCell(Vector2 pixelCoordinates)
     {
+        if (this.Properties == null)
+        {
+            return Vector2I.Zero;
+        }
         return new Vector2I(
             Mathf.FloorToInt(pixelCoordinates.X / this.Properties.CellSize.X),
             Mathf.FloorToInt(pixelCoordinates.Y / this.Properties.CellSize.Y));
     }
 
     /// <summary>
-    /// Get the cell under a node.
+    /// Gets the cell under a node.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="node">The node to check.</param>
+    /// <returns>The cell under the node.</returns>
     public Vector2I GetCellUnderNode(Node2D node)
     {
+        if (node == null)
+        {
+            throw new ArgumentNullException(nameof(node));
+        }
         return this.PixelToCell(node.GlobalPosition / node.GlobalScale);
     }
 
     /// <summary>
-    /// Convert cell coordinates to an index unique to those coordinates.
+    /// Converts cell coordinates to a unique index.
     /// Note: cell coordinates outside the extents will return InvalidIndex.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="cellCoordinates">The cell coordinates to convert.</param>
+    /// <returns>The unique index for the cell, or <see cref="InvalidIndex"/> if out of bounds.</returns>
     public int CellToIndex(Vector2I cellCoordinates)
     {
         if (this.Properties.Extents.HasPoint(cellCoordinates))
@@ -119,16 +140,16 @@ public partial class Gameboard : Node
     }
 
     /// <summary>
-    /// Convert a unique index to cell coordinates.
+    /// Converts a unique index to cell coordinates.
     /// Note: indices outside the gameboard extents will return InvalidCell.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="index">The index to convert.</param>
+    /// <returns>The cell coordinates for the index, or <see cref="InvalidCell"/> if out of bounds.</returns>
     public Vector2I IndexToCell(int index)
     {
         var cell = new Vector2I(
             (index % this.Properties.Extents.Size.X) + this.Properties.Extents.Position.X,
             (index / this.Properties.Extents.Size.X) + this.Properties.Extents.Position.Y);
-
         if (this.Properties.Extents.HasPoint(cell))
         {
             return cell;
@@ -138,12 +159,14 @@ public partial class Gameboard : Node
     }
 
     /// <summary>
-    /// Find a neighbouring cell, if it exists. Otherwise, returns InvalidCell.
+    /// Finds a neighbouring cell, if it exists. Otherwise, returns <see cref="InvalidCell"/>.
     /// </summary>
-    /// <returns></returns>
-    public Vector2I GetAdjacentCell(Vector2I cell, int direction)
+    /// <param name="cell">The cell to check.</param>
+    /// <param name="direction">The direction to check.</param>
+    /// <returns>The adjacent cell, or <see cref="InvalidCell"/> if none exists.</returns>
+    public Vector2I GetAdjacentCell(Vector2I cell, Vector2I direction)
     {
-        var neighbour = cell + Directions.Mappings.GetValueOrDefault(direction, Vector2I.Zero);
+        var neighbour = cell + direction;
         if (this.Properties.Extents.HasPoint(neighbour))
         {
             return neighbour;
@@ -153,15 +176,17 @@ public partial class Gameboard : Node
     }
 
     /// <summary>
-    /// Find all cells adjacent to a given cell. Only existing cells will be included.
+    /// Finds all cells adjacent to a given cell. Only existing cells will be included.
     /// </summary>
-    /// <returns></returns>
-    public static List<Vector2I> GetAdjacentCells(Vector2I cell)
+    /// <param name="cell">The cell to check.</param>
+    /// <returns>A list of adjacent cells.</returns>
+    public List<Vector2I> GetAdjacentCells(Vector2I cell)
     {
         var neighbours = new List<Vector2I>();
-        foreach (var direction in Directions.Points.Values)
+        foreach (var direction in System.Enum.GetValues<Directions.Point>())
         {
-            var neighbour = GetAdjacentCell(cell, direction);
+            var directionVector = Directions.Mappings[direction];
+            var neighbour = this.GetAdjacentCell(cell, directionVector);
             if (neighbour != InvalidCell && neighbour != cell)
             {
                 neighbours.Add(neighbour);
@@ -172,34 +197,38 @@ public partial class Gameboard : Node
     }
 
     /// <summary>
-    /// The Gameboard's state (where Gamepieces may or may not move) is composed from a number of
-    /// GameboardLayers. These layers determine which cells are blocked or clear.
-    /// The layers register themselves to the Gameboard in _Ready.
+    /// Registers a GameboardLayer to the Gameboard.
     /// </summary>
+    /// <param name="boardMap">The GameboardLayer to register.</param>
     public void RegisterGameboardLayer(GameboardLayer boardMap)
     {
-        // We want to know whenever the board_map changes the gameboard state. This occurs when the map
-        // is added or removed from the scene tree, or when its list of moveable cells changes.
-        // Compare the changed cells with those already in the pathfinder. Any changes will cause the
-        // Pathfinder to be updated.
-        boardMap.CellsChanged += OnGameboardLayerCellsChanged;
+        if (boardMap == null)
+        {
+            throw new ArgumentNullException(nameof(boardMap));
+        }
+
+        boardMap.CellsChanged += this.OnGameboardLayerCellsChanged;
     }
 
     /// <summary>
     /// Callback when gameboard layer cells change.
     /// </summary>
-    private void OnGameboardLayerCellsChanged(List<Vector2I> clearedCells, List<Vector2I> blockedCells)
+    /// <param name="addedCells">Cells added to the pathfinder.</param>
+    /// <param name="removedCells">Cells removed from the pathfinder.</param>
+    private void OnGameboardLayerCellsChanged(Godot.Collections.Array<Vector2I> addedCells, Godot.Collections.Array<Vector2I> removedCells)
     {
-        var addedCells = this.AddCellsToPathfinder(clearedCells);
-        var removedCells = this.RemoveCellsFromPathfinder(blockedCells);
+        // Convert Godot arrays to dictionaries for internal processing
+        var addedCellsDict = new Dictionary<int, Vector2I>();
+        for (int i = 0; i < addedCells.Count; i++)
+        {
+            var cell = addedCells[i];
+            addedCellsDict[this.CellToIndex(cell)] = cell;
+        }
 
-        this.ConnectNewPathfinderCells(addedCells);
+        this.ConnectNewPathfinderCells(addedCellsDict);
         if (addedCells.Count > 0 || removedCells.Count > 0)
         {
-            // Convert to Godot arrays for the signal
-            var addedArray = new Array<Vector2I>(addedCells.Values.ToArray());
-            var removedArray = new Array<Vector2I>(removedCells.ToArray());
-            EmitSignal(SignalName.PathfinderChanged, addedArray, removedArray);
+            this.EmitSignal(SignalName.PathfinderChanged, addedCells, removedCells);
         }
     }
 
@@ -226,12 +255,13 @@ public partial class Gameboard : Node
                 addedCells[uid] = cell;
 
                 // Flag the cell as disabled if it is occupied.
-                if (GamepieceRegistry.GetGamepiece(cell) != null)
+                if (GamepieceRegistry.Instance?.GetGamepiece(cell) != null)
                 {
                     this.PathFinder.SetPointDisabled(uid);
                 }
             }
         }
+
 
         return addedCells;
     }
@@ -270,13 +300,17 @@ public partial class Gameboard : Node
         {
             if (this.PathFinder.HasPoint(uid))
             {
-                foreach (var neighbor in GetAdjacentCells(addedCells[uid]))
+                foreach (var neighbor in this.GetAdjacentCells(addedCells[uid]))
                 {
                     var neighborId = this.CellToIndex(neighbor);
                     if (this.PathFinder.HasPoint(neighborId))
                     {
                         this.PathFinder.ConnectPoints(uid, neighborId);
                     }
+                }
+                if (GamepieceRegistry.Instance?.GetGamepiece(addedCells[uid]) != null)
+                {
+                    this.PathFinder.SetPointDisabled(uid);
                 }
             }
         }

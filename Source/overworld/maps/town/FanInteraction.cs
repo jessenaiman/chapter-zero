@@ -11,14 +11,14 @@ using Godot;
 [Tool]
 public partial class FanInteraction : ConversationTemplate
 {
+    private Gamepiece? adoringFan;
+    private InteractionPopup? popup;
+
     /// <summary>
     /// Gets or sets the gamepiece controller for the fan's movement.
     /// </summary>
     [Export]
     public GamepieceController? Controller { get; set; }
-
-    private Gamepiece? adoringFan;
-    private InteractionPopup? popup;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -56,11 +56,20 @@ public partial class FanInteraction : ConversationTemplate
         {
             var varNode = dialogic.GetNode("VAR");
             var tokenQuestStatus = varNode?.Call("get_variable", "TokenQuestStatus");
-            if (tokenQuestStatus != null && tokenQuestStatus.AsInt32() == 1)
+            if (tokenQuestStatus != null && (int)tokenQuestStatus == 1)
             {
-                await OnInitialConversationFinished().ConfigureAwait(false);
+                await this.OnInitialConversationFinished().ConfigureAwait(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Override the Run method to execute the fan interaction.
+    /// </summary>
+    public override void Run()
+    {
+        this.ExecuteFanInteraction();
+        base.Run();
     }
 
     /// <summary>
@@ -98,6 +107,9 @@ public partial class FanInteraction : ConversationTemplate
     /// <param name="argument">The signal argument from Dialogic.</param>
     private void OnDialogicSignalEvent(string argument)
     {
+        // Parameter is intentionally unused - Dialogic signal structure requires it
+        _ = argument;
+
         // The popup should be deactivated after the conversation
         if (this.popup != null)
         {
@@ -108,17 +120,8 @@ public partial class FanInteraction : ConversationTemplate
         var inventory = Inventory.Restore();
         if (inventory != null)
         {
-            inventory.Remove(Inventory.ItemTypes.Coin, 4);
-            inventory.Add(Inventory.ItemTypes.BlueWand);
+            inventory.Remove(Inventory.ItemType.Coin, 4);
+            inventory.Add(Inventory.ItemType.BlueWand);
         }
-    }
-
-    /// <summary>
-    /// Override the Run method to execute the fan interaction.
-    /// </summary>
-    public override void Run()
-    {
-        this.ExecuteFanInteraction();
-        base.Run();
     }
 }

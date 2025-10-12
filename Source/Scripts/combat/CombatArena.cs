@@ -15,16 +15,21 @@ public partial class CombatArena : Control
     /// Gets or sets the music that will be automatically played during this combat instance.
     /// </summary>
     [Export]
-    public AudioStream Music { get; set; }
+    public AudioStream? Music { get; set; }
+
+    /// <summary>
+    /// Gets the turn queue that handles combat logic including combat start and end.
+    /// </summary>
+    public ActiveTurnQueue? TurnQueue => this.turnQueue;
 
     // Keep a reference to the turn queue, which handles combat logic including combat start and end.
-    private ActiveTurnQueue turnQueue;
+    private ActiveTurnQueue? turnQueue;
 
     // UI elements
-    private AnimationPlayer uiAnimation;
-    private UITurnBar uiTurnBar;
-    private UIEffectLabelBuilder uiEffectLabelBuilder;
-    private UICombatMenus uiPlayerMenus;
+    private AnimationPlayer? uiAnimation;
+    private UITurnBar? uiTurnBar;
+    private UIEffectLabelBuilder? uiEffectLabelBuilder;
+    private UICombatMenus? uiPlayerMenus;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -37,6 +42,14 @@ public partial class CombatArena : Control
         this.uiEffectLabelBuilder = this.GetNode<UIEffectLabelBuilder>("UI/EffectLabelBuilder");
         this.uiPlayerMenus = this.GetNode<UICombatMenus>("UI/PlayerMenus");
 
+        // Validate that all required nodes were found
+        if (this.turnQueue == null || this.uiAnimation == null || this.uiTurnBar == null ||
+            this.uiEffectLabelBuilder == null || this.uiPlayerMenus == null)
+        {
+            GD.PrintErr("CombatArena: Failed to find all required UI nodes");
+            return;
+        }
+
         // Setup the different combat UI elements, beginning with the player battler list.
         BattlerList combatParticipantData = this.turnQueue.Battlers;
         this.uiEffectLabelBuilder.Setup(combatParticipantData);
@@ -47,7 +60,7 @@ public partial class CombatArena : Control
         combatParticipantData.BattlersDowned += () =>
         {
             this.uiPlayerMenus.Visible = false;
-            this.uiTurnBar.FadeOut();
+            this.uiTurnBar?.FadeOut();
         };
     }
 
@@ -56,6 +69,12 @@ public partial class CombatArena : Control
     /// </summary>
     public async void Start()
     {
+        if (this.uiAnimation == null || this.turnQueue == null)
+        {
+            GD.PrintErr("CombatArena: Cannot start combat - required components are null");
+            return;
+        }
+
         // Smoothly fade in the UI elements.
         this.uiAnimation.Play("fade_in");
         await this.ToSignal(this.uiAnimation, AnimationPlayer.SignalName.AnimationFinished);

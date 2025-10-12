@@ -41,6 +41,8 @@ public partial class CombatAI : Node
     /// Setup the AI with its controlled battler and the list of all battlers.
     /// This method is called by the ActiveTurnQueue when the combat begins.
     /// </summary>
+    /// <param name="controlledBattler">The <see cref="Battler"/> that this AI will control.</param>
+    /// <param name="battlers">The list of all <see cref="Battler"/>s in the current combat.</param>
     public virtual void Setup(Battler controlledBattler, BattlerList battlers)
     {
         this.ControlledBattler = controlledBattler;
@@ -52,7 +54,7 @@ public partial class CombatAI : Node
     /// This method is called when the battler is ready to act.
     /// Override this method to implement custom AI behavior.
     /// </summary>
-    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    /// <returns>A tuple containing the chosen <see cref="BattlerAction"/> and a list of target <see cref="Battler"/>s.</returns>
     public virtual async Task<(BattlerAction? action, List<Battler> targets)> ChooseAction()
     {
         if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
@@ -63,12 +65,12 @@ public partial class CombatAI : Node
         // Wait for the turn delay to make the AI feel more natural
         if (this.TurnDelay > 0)
         {
-            await Task.Delay(TimeSpan.FromSeconds(TurnDelay)).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(this.TurnDelay)).ConfigureAwait(false);
         }
 
         // Get all available actions
         var availableActions = this.ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(this.ControlledBattler, new Battler[] { })).ToList();
+            action != null && action.CanExecute(this.ControlledBattler, Array.Empty<Battler>())).ToList();
 
         if (availableActions.Count == 0)
         {
@@ -79,7 +81,8 @@ public partial class CombatAI : Node
         var chosenAction = availableActions[(int)(GD.Randi() % availableActions.Count)];
 
         // Choose targets for the action
-        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>()));
+        using BattlerList battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
+        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, battlerList);
         var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
@@ -88,7 +91,7 @@ public partial class CombatAI : Node
         }
 
         // For single-target actions, choose one target
-        if (chosenAction.TargetScope == ActionTargetScope.Single)
+        if (chosenAction.TargetScope == ActionTargetScope.One)
         {
             var target = validTargets[(int)(GD.Randi() % validTargets.Count)];
             return (chosenAction, new List<Battler> { target });
@@ -115,7 +118,7 @@ public partial class CombatAI : Node
     /// Higher scores indicate better situations for the AI's team.
     /// This can be used to make more strategic decisions.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A score representing the favorability of the current combat situation for the AI's team.</returns>
     public virtual float EvaluateSituation()
     {
         if (this.ControlledBattler == null || this.Battlers == null)
@@ -157,7 +160,9 @@ public partial class CombatAI : Node
     /// Higher priority actions are more likely to be chosen.
     /// Override this method to implement custom priority logic.
     /// </summary>
-    /// <returns></returns>
+    /// <param name="action">The <see cref="BattlerAction"/> to evaluate.</param>
+    /// <param name="targets">The list of target <see cref="Battler"/>s for the action.</param>
+    /// <returns>A priority score for the action, where higher values indicate higher priority.</returns>
     public virtual float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
         if (action == null || targets == null)

@@ -26,7 +26,7 @@ namespace OmegaSpiral.Tests
         [Test]
         public void ValidateNarrativeTerminalSchema_ValidData_ReturnsTrue()
         {
-            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+            Assert.That(this.schemaPath, Is.Not.Null, "Schema path should be initialized");
 
             // Arrange
             var validData = new JsonObject
@@ -66,13 +66,13 @@ namespace OmegaSpiral.Tests
             bool result = JsonSchemaValidator.ValidateSchema(validData, this.schemaPath!);
 
             // Assert
-            Assert.IsTrue(result, "Valid narrative terminal data should pass schema validation");
+            Assert.That(result, Is.True, "Valid narrative terminal data should pass schema validation");
         }
 
         [Test]
         public void ValidateNarrativeTerminalSchema_MissingRequiredField_ReturnsFalse()
         {
-            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+            Assert.That(this.schemaPath, Is.Not.Null, "Schema path should be initialized");
 
             // Arrange
             var invalidData = new JsonObject
@@ -86,13 +86,13 @@ namespace OmegaSpiral.Tests
             bool result = JsonSchemaValidator.ValidateSchema(invalidData, this.schemaPath!);
 
             // Assert
-            Assert.IsFalse(result, "Data missing required fields should fail schema validation");
+            Assert.That(result, Is.False, "Data missing required fields should fail schema validation");
         }
 
         [Test]
         public void ValidateNarrativeTerminalSchema_WrongType_ReturnsFalse()
         {
-            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+            Assert.That(this.schemaPath, Is.Not.Null, "Schema path should be initialized");
 
             // Arrange
             var invalidData = new JsonObject
@@ -110,13 +110,13 @@ namespace OmegaSpiral.Tests
             bool result = JsonSchemaValidator.ValidateSchema(invalidData, this.schemaPath!);
 
             // Assert
-            Assert.IsFalse(result, "Data with wrong type should fail schema validation");
+            Assert.That(result, Is.False, "Data with wrong type should fail schema validation");
         }
 
         [Test]
         public void ValidateNarrativeTerminalSchema_EmptyData_ReturnsFalse()
         {
-            Assert.IsNotNull(this.schemaPath, "Schema path should be initialized");
+            Assert.That(this.schemaPath, Is.Not.Null, "Schema path should be initialized");
 
             // Arrange
             var emptyData = new JsonObject();
@@ -125,7 +125,7 @@ namespace OmegaSpiral.Tests
             bool result = JsonSchemaValidator.ValidateSchema(emptyData, this.schemaPath!);
 
             // Assert
-            Assert.IsFalse(result, "Empty data should fail schema validation");
+            Assert.That(result, Is.False, "Empty data should fail schema validation");
         }
 
         /// <inheritdoc/>

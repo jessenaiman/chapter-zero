@@ -12,20 +12,23 @@ using Godot;
 /// </summary>
 public partial class FieldCursor : TileMapLayer
 {
+    private Vector2I focus = Gameboard.InvalidCell;
+
     /// <summary>
     /// Emitted when the highlighted cell changes to a new value. An invalid cell is indicated by a value
     /// of <see cref="Gameboard.InvalidCell"/>.
     /// </summary>
+    /// <param name="oldFocus">The previous focused cell.</param>
+    /// <param name="newFocus">The new focused cell.</param>
     [Signal]
     public delegate void FocusChangedEventHandler(Vector2I oldFocus, Vector2I newFocus);
 
     /// <summary>
     /// Emitted when a cell is selected via input event.
     /// </summary>
+    /// <param name="selectedCell">The selected cell.</param>
     [Signal]
     public delegate void SelectedEventHandler(Vector2I selectedCell);
-
-    private Vector2I focus = Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets or sets the cell currently highlighted by the cursor.
@@ -49,6 +52,11 @@ public partial class FieldCursor : TileMapLayer
     /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (@event == null)
+        {
+            return;
+        }
+
         if (@event is InputEventMouseMotion)
         {
             this.GetViewport().SetInputAsHandled();
@@ -100,9 +108,17 @@ public partial class FieldCursor : TileMapLayer
     {
         // The mouse coordinates need to be corrected for any scale or position changes in the scene.
         var mousePosition = (this.GetGlobalMousePosition() - this.GlobalPosition) / this.GlobalScale;
-        var cellUnderMouse = Gameboard.PixelToCell(mousePosition);
 
-        if (!Gameboard.Pathfinder.HasCell(cellUnderMouse))
+        // Get the Gameboard instance from the scene tree
+        var gameboard = this.GetTree().Root.GetNode<Gameboard>("Gameboard");
+        if (gameboard == null)
+        {
+            return Gameboard.InvalidCell;
+        }
+
+        var cellUnderMouse = gameboard.PixelToCell(mousePosition);
+
+        if (gameboard.PathFinder == null || !gameboard.PathFinder.HasCell(cellUnderMouse))
         {
             cellUnderMouse = Gameboard.InvalidCell;
         }

@@ -11,6 +11,8 @@ using Godot;
 [GlobalClass]
 public partial class TreasureChest : Gamepiece
 {
+    private Interaction? interaction;
+
     /// <summary>
     /// Gets or sets the type of item contained in the chest.
     /// </summary>
@@ -22,8 +24,6 @@ public partial class TreasureChest : Gamepiece
     /// </summary>
     [Export]
     public int Amount { get; set; } = 1;
-
-    private Interaction interaction;
 
     /// <inheritdoc/>
     public override void _Ready()

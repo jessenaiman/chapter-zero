@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System.Globalization;
 using System.Linq;
 using Godot;
 using Godot.Collections;
@@ -33,6 +34,18 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     private static System.Collections.Generic.Dictionary<WandPedestalInteraction, bool> correctPedestals = new System.Collections.Generic.Dictionary<WandPedestalInteraction, bool>();
 
     /// <summary>
+    /// Keep track of the id of the item currently placed on the pedestal, from Inventory.ItemTypes enum.
+    /// </summary>
+    private int currentItemId = -1;
+
+    /// <summary>
+    /// The timeline to run when no item is on the pedestal.
+    /// </summary>
+    private Resource unoccupiedTimeline = null!; // Renamed from timeline in InteractionTemplateConversation
+
+    private Sprite2D sprite = null!;
+
+    /// <summary>
     /// Gets or sets link the obstacle's animation player to this object for when the puzzle is solved.
     /// </summary>
     [Export]
@@ -49,18 +62,6 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// </summary>
     [Export(PropertyHint.Enum, "Red,Blue,Green")]
     public string PedestalRequirement { get; set; } = "Red";
-
-    /// <summary>
-    /// Keep track of the id of the item currently placed on the pedestal, from Inventory.ItemTypes enum.
-    /// </summary>
-    private int currentItemId = -1;
-
-    /// <summary>
-    /// The timeline to run when no item is on the pedestal.
-    /// </summary>
-    private Resource unoccupiedTimeline = null!; // Renamed from timeline in InteractionTemplateConversation
-
-    private Sprite2D sprite = null!;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -154,9 +155,9 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         // Convert the argument into an item id
         var itemTypes = (Godot.Collections.Dictionary)inventory.Get("ItemTypes");
         int itemId = -1;
-        if (itemTypes != null && itemTypes.ContainsKey(argument.ToUpper()))
+        if (itemTypes != null && itemTypes.ContainsKey(argument.ToUpper(CultureInfo.InvariantCulture)))
         {
-            itemId = (int)itemTypes[argument.ToUpper()];
+            itemId = (int)itemTypes[argument.ToUpper(CultureInfo.InvariantCulture)];
         }
 
         if (!ValidItems.Contains(itemId))
@@ -165,7 +166,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         }
 
         // Convert the pedestal requirement to an item id
-        string expectedWand = this.PedestalRequirement.ToUpper() + "_WAND";
+        string expectedWand = this.PedestalRequirement.ToUpper(CultureInfo.InvariantCulture) + "_WAND";
         int expectedWandId = -1;
         if (itemTypes != null && itemTypes.ContainsKey(expectedWand))
         {

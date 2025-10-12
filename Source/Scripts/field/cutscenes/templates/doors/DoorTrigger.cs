@@ -16,7 +16,7 @@ public partial class DoorTrigger : Trigger
     /// Gets or sets the AnimationPlayer node that handles the door opening/closing animations.
     /// </summary>
     [Export]
-    public AnimationPlayer Anim { get; set; }
+    public AnimationPlayer? Anim { get; set; }
 
     /// <inheritdoc/>
     public override void _Ready()
