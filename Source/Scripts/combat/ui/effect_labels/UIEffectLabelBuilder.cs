@@ -14,10 +14,10 @@ using Godot;
 public partial class UIEffectLabelBuilder : Node2D
 {
     [Export]
-    public PackedScene DamageLabelScene { get; set; }
+    public PackedScene DamageLabelScene { get; set; } = null!;
 
     [Export]
-    public PackedScene MissedLabelScene { get; set; }
+    public PackedScene MissedLabelScene { get; set; } = null!;
 
     /// <summary>
     /// Setup the effect label builder with battler data.
@@ -38,7 +38,10 @@ public partial class UIEffectLabelBuilder : Node2D
             {
                 var label = this.DamageLabelScene.Instantiate() as UIDamageLabel;
                 this.AddChild(label);
-                label.Setup(battler.Anim.Top.GlobalPosition, amount);
+                if (label != null && battler.Anim != null)
+                {
+                    label.Setup(battler.Anim.Top.GlobalPosition, amount);
+                }
             };
         }
     }
