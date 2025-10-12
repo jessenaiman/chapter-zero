@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using YamlDotNet.Serialization;
 using OmegaSpiral.Source.Scripts;
+using YamlDotNet.Serialization;
 
 public partial class PixelCombatController : Node2D
 {

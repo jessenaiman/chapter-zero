@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="ConversationEncounter.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// An interaction that triggers a pre-combat dialogue, initiates combat,
@@ -10,25 +14,25 @@ using System.Threading.Tasks;
 public partial class ConversationEncounter : Interaction
 {
     /// <summary>
-    /// The timeline to play before combat begins.
+    /// Gets or sets the timeline to play before combat begins.
     /// </summary>
     [Export]
     public Resource PreCombatTimeline { get; set; } = null!; // DialogicTimeline
 
     /// <summary>
-    /// The timeline to play if the player wins the combat.
+    /// Gets or sets the timeline to play if the player wins the combat.
     /// </summary>
     [Export]
     public Resource VictoryTimeline { get; set; } = null!; // DialogicTimeline
 
     /// <summary>
-    /// The timeline to play if the player loses the combat.
+    /// Gets or sets the timeline to play if the player loses the combat.
     /// </summary>
     [Export]
     public Resource LossTimeline { get; set; } = null!; // DialogicTimeline
 
     /// <summary>
-    /// The combat arena scene to load for the battle.
+    /// Gets or sets the combat arena scene to load for the battle.
     /// </summary>
     [Export]
     public PackedScene CombatArena { get; set; } = null!;
@@ -38,29 +42,29 @@ public partial class ConversationEncounter : Interaction
     /// </summary>
     protected async void Execute()
     {
-        var dialogic = GetNode("/root/Dialogic");
-        if (dialogic != null && PreCombatTimeline != null)
+        var dialogic = this.GetNode("/root/Dialogic");
+        if (dialogic != null && this.PreCombatTimeline != null)
         {
             // Start the pre-combat timeline
-            dialogic.Call("start_timeline", PreCombatTimeline);
+            dialogic.Call("start_timeline", this.PreCombatTimeline);
 
             // Wait for the timeline to finish
-            await ToSignal(dialogic, "timeline_ended");
+            await this.ToSignal(dialogic, "timeline_ended");
         }
 
         // Let other systems know that combat has been triggered
-        var fieldEvents = GetNode("/root/FieldEvents");
-        if (fieldEvents != null && CombatArena != null)
+        var fieldEvents = this.GetNode("/root/FieldEvents");
+        if (fieldEvents != null && this.CombatArena != null)
         {
-            fieldEvents.EmitSignal("combat_triggered", CombatArena);
+            fieldEvents.EmitSignal("combat_triggered", this.CombatArena);
         }
 
         // Wait for combat to finish
         bool didPlayerWin = false;
-        var combatEvents = GetNode("/root/CombatEvents");
+        var combatEvents = this.GetNode("/root/CombatEvents");
         if (combatEvents != null)
         {
-            var result = await ToSignal(combatEvents, "combat_finished");
+            var result = await this.ToSignal(combatEvents, "combat_finished");
             if (result.Length > 0 && result[0].AsBool())
             {
                 didPlayerWin = true;
@@ -68,33 +72,34 @@ public partial class ConversationEncounter : Interaction
         }
 
         // The combat ends with a covered screen, so we fix that here
-        var transition = GetNode("/root/Transition");
+        var transition = this.GetNode("/root/Transition");
         if (transition != null)
         {
             transition.CallDeferred("clear", 0.2);
-            await ToSignal(transition, "finished");
+            await this.ToSignal(transition, "finished");
         }
 
         // Run post-combat events
         if (dialogic != null)
         {
-            if (didPlayerWin && VictoryTimeline != null)
+            if (didPlayerWin && this.VictoryTimeline != null)
             {
-                dialogic.Call("start_timeline", VictoryTimeline);
+                dialogic.Call("start_timeline", this.VictoryTimeline);
             }
-            else if (!didPlayerWin && LossTimeline != null)
+            else if (!didPlayerWin && this.LossTimeline != null)
             {
-                dialogic.Call("start_timeline", LossTimeline);
+                dialogic.Call("start_timeline", this.LossTimeline);
             }
 
-            await ToSignal(dialogic, "timeline_ended");
+            await this.ToSignal(dialogic, "timeline_ended");
         }
     }
 
+    /// <inheritdoc/>
     public override async void Run()
     {
-        Execute();
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        this.Execute();
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
         base.Run();
     }
 }

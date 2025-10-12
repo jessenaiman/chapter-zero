@@ -1,3 +1,7 @@
+// <copyright file="TreasureChest.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -8,30 +12,31 @@ using Godot;
 public partial class TreasureChest : Gamepiece
 {
     /// <summary>
-    /// The type of item contained in the chest.
+    /// Gets or sets the type of item contained in the chest.
     /// </summary>
     [Export]
     public int ItemType { get; set; } // Inventory.ItemTypes enum value
 
     /// <summary>
-    /// The amount of the item in the chest.
+    /// Gets or sets the amount of the item in the chest.
     /// </summary>
     [Export]
     public int Amount { get; set; } = 1;
 
-    private Interaction _interaction;
+    private Interaction interaction;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         if (!Engine.IsEditorHint())
         {
-            _interaction = GetNode<Interaction>("Interaction");
-            if (_interaction != null)
+            this.interaction = this.GetNode<Interaction>("Interaction");
+            if (this.interaction != null)
             {
-                _interaction.Set("item_type", ItemType);
-                _interaction.Set("amount", Amount);
+                this.interaction.Set("item_type", this.ItemType);
+                this.interaction.Set("amount", this.Amount);
             }
         }
     }

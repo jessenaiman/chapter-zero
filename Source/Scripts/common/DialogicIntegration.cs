@@ -40,6 +40,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// </summary>
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <param name="labelOrIndex">Optional label or index to start from.</param>
+        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
         public async Task StartTimelineAsync(string timelinePath, Variant labelOrIndex = default)
         {
             GD.Print($"Starting Dialogic timeline: {timelinePath}");
@@ -56,6 +57,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// </summary>
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <param name="variables">Dictionary of variables to set before starting.</param>
+        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
         public async Task StartTimelineWithVariablesAsync(string timelinePath, Godot.Collections.Dictionary variables)
         {
             // Set variables in Dialogic before starting timeline
@@ -64,7 +66,7 @@ namespace OmegaSpiral.Source.Scripts.Common
                 this.SetDialogicVariable(kvp.Key.ToString(), kvp.Value);
             }
 
-            await this.StartTimelineAsync(timelinePath);
+            await StartTimelineAsync(timelinePath).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -116,18 +118,20 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <summary>
         /// Handles timeline started signal from Dialogic.
         /// </summary>
-        private void OnTimelineStarted()
+        private static void OnTimelineStarted()
         {
             GD.Print("Dialogic timeline started");
+
             // Add any C# logic that should run when a timeline starts
         }
 
         /// <summary>
         /// Handles timeline ended signal from Dialogic.
         /// </summary>
-        private void OnTimelineEnded()
+        private static void OnTimelineEnded()
         {
             GD.Print("Dialogic timeline ended");
+
             // Add any C# logic that should run when a timeline ends
         }
 
@@ -135,7 +139,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// Handles event handled signal from Dialogic.
         /// </summary>
         /// <param name="eventData">Data about the handled event.</param>
-        private void OnEventHandled(Variant eventData)
+        private static void OnEventHandled(Variant eventData)
         {
             // Handle specific Dialogic events in C#
             // This could be used to trigger C# game logic based on dialogue events
@@ -144,8 +148,9 @@ namespace OmegaSpiral.Source.Scripts.Common
 
         /// <summary>
         /// Example method showing how to integrate Dialogic with existing C# narrative.
-        /// This could replace or augment parts of NarrativeTerminal.cs
+        /// This could replace or augment parts of NarrativeTerminal.cs.
         /// </summary>
+        /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
         public async Task PresentChoiceWithDialogicAsync(string[] choices, string timelinePath)
         {
             // Set choices as Dialogic variables
@@ -155,21 +160,21 @@ namespace OmegaSpiral.Source.Scripts.Common
                 choiceDict[$"choice_{i}"] = choices[i];
             }
 
-            await this.StartTimelineWithVariablesAsync(timelinePath, choiceDict);
+            await StartTimelineWithVariablesAsync(timelinePath, choiceDict).ConfigureAwait(false);
 
             // Get the selected choice from Dialogic variables
             var selectedChoice = (int)this.GetDialogicVariable("selected_choice");
             GD.Print($"Player selected choice: {selectedChoice}");
 
             // Continue with C# narrative logic based on choice
-            await this.HandleChoiceResultAsync(selectedChoice);
+            await HandleChoiceResultAsync(selectedChoice).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Handles the result of a Dialogic choice in C#.
         /// </summary>
         /// <param name="choiceIndex">The index of the selected choice.</param>
-        private async Task HandleChoiceResultAsync(int choiceIndex)
+        private static async Task HandleChoiceResultAsync(int choiceIndex)
         {
             // Your existing C# narrative logic here
             switch (choiceIndex)

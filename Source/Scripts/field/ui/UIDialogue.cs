@@ -1,11 +1,15 @@
-using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+// <copyright file="UIDialogue.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Source.Scripts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Godot;
+
     /// <summary>
     /// Container for the dialogue system display.
     /// The UIDialogue manages the presentation of character dialogue, narrative text,
@@ -34,17 +38,17 @@ namespace OmegaSpiral.Source.Scripts
         public delegate void DialogueStartedEventHandler();
 
         /// <summary>
-        /// Whether the dialogue system is currently active.
+        /// Gets a value indicating whether whether the dialogue system is currently active.
         /// </summary>
-        public bool IsActive { get; private set; } = false;
+        public bool IsActive { get; private set; }
 
         /// <summary>
-        /// Whether the dialogue is currently visible.
+        /// Gets or sets a value indicating whether whether the dialogue is currently visible.
         /// </summary>
         public bool DialogueVisible
         {
-            get => Visible;
-            set => Visible = value;
+            get => this.Visible;
+            set => this.Visible = value;
         }
 
         /// <summary>
@@ -75,7 +79,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// The current dialogue text being displayed.
         /// </summary>
-        private string currentText = "";
+        private string currentText = string.Empty;
 
         /// <summary>
         /// The current character speaking.
@@ -90,15 +94,15 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Whether the dialogue text is currently being typed out.
         /// </summary>
-        private bool isTyping = false;
+        private bool isTyping;
 
         /// <summary>
         /// The current position in the dialogue text.
         /// </summary>
-        private int textPosition = 0;
+        private int textPosition;
 
         /// <summary>
-        /// The typewriter effect speed (characters per second).
+        /// Gets or sets the typewriter effect speed (characters per second).
         /// </summary>
         [Export]
         public float TypewriterSpeed { get; set; } = 50.0f;
@@ -106,30 +110,31 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// The time between each character in the typewriter effect.
         /// </summary>
-        private float characterDelay = 0.0f;
+        private float characterDelay;
 
         /// <summary>
         /// Timer for typewriter effect.
         /// </summary>
         private Godot.Timer typewriterTimer;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             // Get references to child UI elements
-            dialogueText = GetNode<RichTextLabel>("DialogueText");
-            characterNameLabel = GetNode<Label>("CharacterName");
-            characterPortrait = GetNode<TextureRect>("CharacterPortrait");
-            choicesContainer = GetNode<VBoxContainer>("ChoicesContainer");
-            continueIndicator = GetNode<Control>("ContinueIndicator");
+            this.dialogueText = this.GetNode<RichTextLabel>("DialogueText");
+            this.characterNameLabel = this.GetNode<Label>("CharacterName");
+            this.characterPortrait = this.GetNode<TextureRect>("CharacterPortrait");
+            this.choicesContainer = this.GetNode<VBoxContainer>("ChoicesContainer");
+            this.continueIndicator = this.GetNode<Control>("ContinueIndicator");
 
             // Initially hide the dialogue system
-            Visible = false;
+            this.Visible = false;
 
             // Set up the typewriter timer
-            typewriterTimer = new Timer();
-            typewriterTimer.OneShot = true;
-            typewriterTimer.Timeout += OnTypewriterTimeout;
-            AddChild(typewriterTimer);
+            this.typewriterTimer = new Timer();
+            this.typewriterTimer.OneShot = true;
+            this.typewriterTimer.Timeout += this.OnTypewriterTimeout;
+            this.AddChild(this.typewriterTimer);
 
             // Connect to any necessary signals
             ConnectSignals();
@@ -138,7 +143,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Connect to necessary signals.
         /// </summary>
-        private void ConnectSignals()
+        private static void ConnectSignals()
         {
             // Connect to dialogue events
             // DialogueEvents.DialogueStarted += OnDialogueStarted;
@@ -149,8 +154,8 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Start displaying dialogue.
         /// </summary>
-        /// <param name="text">The dialogue text to display</param>
-        /// <param name="speaker">The character speaking (optional)</param>
+        /// <param name="text">The dialogue text to display.</param>
+        /// <param name="speaker">The character speaking (optional).</param>
         public async void StartDialogue(string text, Character? speaker = null)
         {
             if (string.IsNullOrEmpty(text))
@@ -159,38 +164,38 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Set the current dialogue state
-            IsActive = true;
-            currentText = text;
-            currentSpeaker = speaker;
-            textPosition = 0;
-            isTyping = true;
+            this.IsActive = true;
+            this.currentText = text;
+            this.currentSpeaker = speaker;
+            this.textPosition = 0;
+            this.isTyping = true;
 
             // Show the dialogue system
-            Visible = true;
+            this.Visible = true;
 
             // Update the speaker information
-            UpdateSpeakerDisplay(speaker);
+            this.UpdateSpeakerDisplay(speaker);
 
             // Clear any existing choices
-            ClearChoices();
+            this.ClearChoices();
 
             // Hide the continue indicator while typing
-            if (continueIndicator != null)
+            if (this.continueIndicator != null)
             {
-                continueIndicator.Hide();
+                this.continueIndicator.Hide();
             }
 
             // Emit the dialogue started signal
-            EmitSignal(SignalName.DialogueStarted);
+            this.EmitSignal(SignalName.DialogueStarted);
 
             // Start the typewriter effect
-            await TypeText(text);
+            await TypeText(text).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Display dialogue choices.
         /// </summary>
-        /// <param name="choices">The dialogue choices to display</param>
+        /// <param name="choices">The dialogue choices to display.</param>
         public void ShowChoices(List<DialogueChoice> choices)
         {
             if (choices == null || choices.Count == 0)
@@ -199,32 +204,32 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Store the current choices
-            currentChoices = new List<DialogueChoice>(choices);
+            this.currentChoices = new List<DialogueChoice>(choices);
 
             // Clear any existing choices
-            ClearChoices();
+            this.ClearChoices();
 
             // Create choice buttons for each choice
             foreach (var choice in choices)
             {
-                CreateChoiceButton(choice);
+                this.CreateChoiceButton(choice);
             }
 
             // Show the choices container
-            if (choicesContainer != null)
+            if (this.choicesContainer != null)
             {
-                choicesContainer.Show();
+                this.choicesContainer.Show();
             }
 
             // Hide the dialogue text and continue indicator
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Hide();
+                this.dialogueText.Hide();
             }
 
-            if (continueIndicator != null)
+            if (this.continueIndicator != null)
             {
-                continueIndicator.Hide();
+                this.continueIndicator.Hide();
             }
         }
 
@@ -233,24 +238,24 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void HideDialogue()
         {
-            Visible = false;
-            IsActive = false;
-            isTyping = false;
-            currentText = "";
-            currentSpeaker = null;
-            textPosition = 0;
+            this.Visible = false;
+            this.IsActive = false;
+            this.isTyping = false;
+            this.currentText = string.Empty;
+            this.currentSpeaker = null;
+            this.textPosition = 0;
 
             // Clear any existing choices
-            ClearChoices();
+            this.ClearChoices();
 
             // Stop the typewriter timer
-            if (typewriterTimer != null)
+            if (this.typewriterTimer != null)
             {
-                typewriterTimer.Stop();
+                this.typewriterTimer.Stop();
             }
 
             // Emit the dialogue finished signal
-            EmitSignal(SignalName.DialogueFinished);
+            this.EmitSignal(SignalName.DialogueFinished);
         }
 
         /// <summary>
@@ -258,71 +263,71 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void SkipTypewriter()
         {
-            if (!isTyping || string.IsNullOrEmpty(currentText))
+            if (!this.isTyping || string.IsNullOrEmpty(this.currentText))
             {
                 return;
             }
 
             // Stop the typewriter timer
-            if (typewriterTimer != null)
+            if (this.typewriterTimer != null)
             {
-                typewriterTimer.Stop();
+                this.typewriterTimer.Stop();
             }
 
             // Display the full text immediately
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Text = currentText;
+                this.dialogueText.Text = this.currentText;
             }
 
             // Set the typing state to false
-            isTyping = false;
-            textPosition = currentText.Length;
+            this.isTyping = false;
+            this.textPosition = this.currentText.Length;
 
             // Show the continue indicator
-            if (continueIndicator != null)
+            if (this.continueIndicator != null)
             {
-                continueIndicator.Show();
+                this.continueIndicator.Show();
             }
         }
 
         /// <summary>
         /// Type out text with a typewriter effect.
         /// </summary>
-        /// <param name="text">The text to type out</param>
+        /// <param name="text">The text to type out.</param>
         private async Task TypeText(string text)
         {
-            if (string.IsNullOrEmpty(text) || dialogueText == null)
+            if (string.IsNullOrEmpty(text) || this.dialogueText == null)
             {
                 return;
             }
 
             // Calculate the character delay based on the typewriter speed
-            characterDelay = 1.0f / TypewriterSpeed;
+            this.characterDelay = 1.0f / this.TypewriterSpeed;
 
             // Type out each character
-            while (textPosition < text.Length && isTyping)
+            while (this.textPosition < text.Length && this.isTyping)
             {
                 // Add the next character to the displayed text
-                if (dialogueText != null)
+                if (this.dialogueText != null)
                 {
-                    dialogueText.Text = text.Substring(0, textPosition + 1);
+                    this.dialogueText.Text = text.Substring(0, this.textPosition + 1);
                 }
 
-                textPosition++;
+                this.textPosition++;
 
                 // Wait for the character delay
-                typewriterTimer.Start(characterDelay);
-                await ToSignal(typewriterTimer, Timer.SignalName.Timeout);
+                this.typewriterTimer.Start(this.characterDelay);
+                await this.ToSignal(this.typewriterTimer, Timer.SignalName.Timeout);
             }
 
             // If we've finished typing, show the continue indicator
-            if (textPosition >= text.Length && isTyping)
+            if (this.textPosition >= text.Length && this.isTyping)
             {
-                isTyping = false;
-                if (continueIndicator != null)
+                this.isTyping = false;
+                if (this.continueIndicator != null)
                 {
-                    continueIndicator.Show();
+                    this.continueIndicator.Show();
                 }
             }
         }
@@ -330,39 +335,39 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Update the speaker display with the current speaker's information.
         /// </summary>
-        /// <param name="speaker">The character speaking</param>
+        /// <param name="speaker">The character speaking.</param>
         private void UpdateSpeakerDisplay(Character speaker)
         {
             if (speaker == null)
             {
                 // Hide speaker information if no speaker
-                if (characterNameLabel != null)
+                if (this.characterNameLabel != null)
                 {
-                    characterNameLabel.Hide();
+                    this.characterNameLabel.Hide();
                 }
 
-                if (characterPortrait != null)
+                if (this.characterPortrait != null)
                 {
-                    characterPortrait.Hide();
+                    this.characterPortrait.Hide();
                 }
             }
             else
             {
                 // Show speaker information
-                if (characterNameLabel != null)
+                if (this.characterNameLabel != null)
                 {
-                    characterNameLabel.Text = speaker.Name;
-                    characterNameLabel.Show();
+                    this.characterNameLabel.Text = speaker.Name;
+                    this.characterNameLabel.Show();
                 }
 
-                if (characterPortrait != null && speaker.Portrait != null)
+                if (this.characterPortrait != null && speaker.Portrait != null)
                 {
-                    characterPortrait.Texture = speaker.Portrait;
-                    characterPortrait.Show();
+                    this.characterPortrait.Texture = speaker.Portrait;
+                    this.characterPortrait.Show();
                 }
-                else if (characterPortrait != null)
+                else if (this.characterPortrait != null)
                 {
-                    characterPortrait.Hide();
+                    this.characterPortrait.Hide();
                 }
             }
         }
@@ -370,10 +375,10 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Create a choice button for a dialogue choice.
         /// </summary>
-        /// <param name="choice">The dialogue choice to create a button for</param>
+        /// <param name="choice">The dialogue choice to create a button for.</param>
         private void CreateChoiceButton(DialogueChoice choice)
         {
-            if (choice == null || choicesContainer == null)
+            if (choice == null || this.choicesContainer == null)
             {
                 return;
             }
@@ -384,10 +389,10 @@ namespace OmegaSpiral.Source.Scripts
             button.FocusMode = FocusModeEnum.None;
 
             // Connect the button's pressed signal to handle choice selection
-            button.Pressed += () => OnChoiceButtonPressed(choice);
+            button.Pressed += () => this.OnChoiceButtonPressed(choice);
 
             // Add the button to the choices container
-            choicesContainer.AddChild(button);
+            this.choicesContainer.AddChild(button);
         }
 
         /// <summary>
@@ -395,13 +400,13 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         private void ClearChoices()
         {
-            if (choicesContainer == null)
+            if (this.choicesContainer == null)
             {
                 return;
             }
 
             // Remove all existing choice buttons
-            foreach (var child in choicesContainer.GetChildren())
+            foreach (var child in this.choicesContainer.GetChildren())
             {
                 if (child is Button button)
                 {
@@ -411,12 +416,12 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Hide the choices container
-            choicesContainer.Hide();
+            this.choicesContainer.Hide();
 
             // Show the dialogue text again
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Show();
+                this.dialogueText.Show();
             }
         }
 
@@ -431,33 +436,33 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Callback when a choice button is pressed.
         /// </summary>
-        /// <param name="choice">The selected dialogue choice</param>
+        /// <param name="choice">The selected dialogue choice.</param>
         private void OnChoiceButtonPressed(DialogueChoice choice)
         {
-            if (choice == null || !IsActive)
+            if (choice == null || !this.IsActive)
             {
                 return;
             }
 
             // Find the index of the selected choice
-            var choiceIndex = currentChoices.IndexOf(choice);
+            var choiceIndex = this.currentChoices.IndexOf(choice);
             if (choiceIndex >= 0)
             {
                 // Emit the choice selected signal
-                EmitSignal(SignalName.ChoiceSelected, choiceIndex);
+                this.EmitSignal(SignalName.ChoiceSelected, choiceIndex);
 
                 // Hide the choices
-                ClearChoices();
+                this.ClearChoices();
             }
         }
 
         /// <summary>
         /// Callback when input is received.
         /// </summary>
-        /// <param name="inputEvent">The input event</param>
+        /// <param name="inputEvent">The input event.</param>
         public override void _Input(InputEvent inputEvent)
         {
-            if (!IsActive || !Visible)
+            if (!this.IsActive || !this.Visible)
             {
                 return;
             }
@@ -467,14 +472,14 @@ namespace OmegaSpiral.Source.Scripts
             {
                 if (keyEvent.Keycode == Key.Space || keyEvent.Keycode == Key.Enter)
                 {
-                    OnContinueInput();
+                    this.OnContinueInput();
                 }
             }
             else if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
             {
                 if (mouseEvent.ButtonIndex == MouseButton.Left)
                 {
-                    OnContinueInput();
+                    this.OnContinueInput();
                 }
             }
         }
@@ -484,27 +489,27 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         private void OnContinueInput()
         {
-            if (isTyping)
+            if (this.isTyping)
             {
                 // Skip the typewriter effect
-                SkipTypewriter();
+                this.SkipTypewriter();
             }
-            else if (choicesContainer != null && !choicesContainer.Visible)
+            else if (this.choicesContainer != null && !this.choicesContainer.Visible)
             {
                 // Continue to the next dialogue line or end dialogue
                 // This would typically involve checking if there's more dialogue to display
                 // or emitting a signal to indicate the player wants to continue
 
                 // For now, we'll just hide the dialogue
-                HideDialogue();
+                this.HideDialogue();
             }
         }
 
         /// <summary>
         /// Show a message in the dialogue system.
         /// </summary>
-        /// <param name="message">The message to show</param>
-        /// <param name="duration">The duration to show the message for</param>
+        /// <param name="message">The message to show.</param>
+        /// <param name="duration">The duration to show the message for.</param>
         public async void ShowMessage(string message, float duration = 2.0f)
         {
             if (string.IsNullOrEmpty(message))
@@ -513,28 +518,28 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Show the message in the dialogue text
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Text = message;
+                this.dialogueText.Text = message;
             }
 
             // Show the dialogue system
-            Visible = true;
+            this.Visible = true;
 
             // Wait for the specified duration
-            await Task.Delay(TimeSpan.FromSeconds(duration));
+            await Task.Delay(TimeSpan.FromSeconds(duration)).ConfigureAwait(false);
 
             // Hide the dialogue system
-            HideDialogue();
+            this.HideDialogue();
         }
 
         /// <summary>
         /// Show an effect label (like emotion indicators or emphasis).
         /// </summary>
-        /// <param name="text">The text to show</param>
-        /// <param name="position">The position to show the text at</param>
-        /// <param name="color">The color of the text</param>
-        public void ShowEffectLabel(string text, Vector2 position, Color color)
+        /// <param name="text">The text to show.</param>
+        /// <param name="position">The position to show the text at.</param>
+        /// <param name="color">The color of the text.</param>
+        public static void ShowEffectLabel(string text, Vector2 position, Color color)
         {
             // Show a floating label at the specified position
             // This would typically involve creating a temporary label that floats upward and fades out
@@ -556,52 +561,52 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Update the dialogue text display.
         /// </summary>
-        /// <param name="text">The new dialogue text</param>
+        /// <param name="text">The new dialogue text.</param>
         public void UpdateDialogueText(string text)
         {
-            if (string.IsNullOrEmpty(text) || dialogueText == null)
+            if (string.IsNullOrEmpty(text) || this.dialogueText == null)
             {
                 return;
             }
 
             // Update the dialogue text
-            dialogueText.Text = text;
+            this.dialogueText.Text = text;
         }
 
         /// <summary>
         /// Update the character name display.
         /// </summary>
-        /// <param name="name">The new character name</param>
+        /// <param name="name">The new character name.</param>
         public void UpdateCharacterName(string name)
         {
-            if (string.IsNullOrEmpty(name) || characterNameLabel == null)
+            if (string.IsNullOrEmpty(name) || this.characterNameLabel == null)
             {
                 return;
             }
 
             // Update the character name
-            characterNameLabel.Text = name;
+            this.characterNameLabel.Text = name;
         }
 
         /// <summary>
         /// Update the character portrait display.
         /// </summary>
-        /// <param name="portrait">The new character portrait</param>
+        /// <param name="portrait">The new character portrait.</param>
         public void UpdateCharacterPortrait(Texture2D portrait)
         {
-            if (portrait == null || characterPortrait == null)
+            if (portrait == null || this.characterPortrait == null)
             {
                 return;
             }
 
             // Update the character portrait
-            characterPortrait.Texture = portrait;
+            this.characterPortrait.Texture = portrait;
         }
 
         /// <summary>
         /// Add a dialogue choice.
         /// </summary>
-        /// <param name="choice">The dialogue choice to add</param>
+        /// <param name="choice">The dialogue choice to add.</param>
         public void AddChoice(DialogueChoice choice)
         {
             if (choice == null)
@@ -610,16 +615,16 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Add the choice to the current choices list
-            currentChoices.Add(choice);
+            this.currentChoices.Add(choice);
 
             // Create a button for the choice
-            CreateChoiceButton(choice);
+            this.CreateChoiceButton(choice);
         }
 
         /// <summary>
         /// Remove a dialogue choice.
         /// </summary>
-        /// <param name="choice">The dialogue choice to remove</param>
+        /// <param name="choice">The dialogue choice to remove.</param>
         public void RemoveChoice(DialogueChoice choice)
         {
             if (choice == null)
@@ -628,12 +633,12 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Remove the choice from the current choices list
-            currentChoices.Remove(choice);
+            this.currentChoices.Remove(choice);
 
             // Remove the corresponding button
-            if (choicesContainer != null)
+            if (this.choicesContainer != null)
             {
-                foreach (var child in choicesContainer.GetChildren())
+                foreach (var child in this.choicesContainer.GetChildren())
                 {
                     if (child is Button button && button.Text == choice.Text)
                     {
@@ -650,14 +655,14 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void ClearAllChoices()
         {
-            currentChoices.Clear();
-            ClearChoices();
+            this.currentChoices.Clear();
+            this.ClearChoices();
         }
 
         /// <summary>
         /// Set the typewriter speed.
         /// </summary>
-        /// <param name="speed">The new typewriter speed (characters per second)</param>
+        /// <param name="speed">The new typewriter speed (characters per second).</param>
         public void SetTypewriterSpeed(float speed)
         {
             if (speed <= 0)
@@ -665,53 +670,53 @@ namespace OmegaSpiral.Source.Scripts
                 return;
             }
 
-            TypewriterSpeed = speed;
-            characterDelay = 1.0f / TypewriterSpeed;
+            this.TypewriterSpeed = speed;
+            this.characterDelay = 1.0f / this.TypewriterSpeed;
         }
 
         /// <summary>
         /// Get the current dialogue text.
         /// </summary>
-        /// <returns>The current dialogue text</returns>
+        /// <returns>The current dialogue text.</returns>
         public string GetDialogueText()
         {
-            return currentText;
+            return this.currentText;
         }
 
         /// <summary>
         /// Get the current character speaker.
         /// </summary>
-        /// <returns>The current character speaker</returns>
+        /// <returns>The current character speaker.</returns>
         public Character GetSpeaker()
         {
-            return currentSpeaker;
+            return this.currentSpeaker;
         }
 
         /// <summary>
         /// Get the current dialogue choices.
         /// </summary>
-        /// <returns>The current dialogue choices</returns>
+        /// <returns>The current dialogue choices.</returns>
         public List<DialogueChoice> GetChoices()
         {
-            return new List<DialogueChoice>(currentChoices);
+            return new List<DialogueChoice>(this.currentChoices);
         }
 
         /// <summary>
         /// Check if the dialogue system is currently typing text.
         /// </summary>
-        /// <returns>True if the dialogue system is currently typing text, false otherwise</returns>
+        /// <returns>True if the dialogue system is currently typing text, false otherwise.</returns>
         public bool IsTypingText()
         {
-            return isTyping;
+            return this.isTyping;
         }
 
         /// <summary>
         /// Check if the dialogue system is currently showing choices.
         /// </summary>
-        /// <returns>True if the dialogue system is currently showing choices, false otherwise</returns>
+        /// <returns>True if the dialogue system is currently showing choices, false otherwise.</returns>
         public bool IsShowingChoices()
         {
-            return choicesContainer != null && choicesContainer.Visible;
+            return this.choicesContainer != null && this.choicesContainer.Visible;
         }
 
         /// <summary>
@@ -720,31 +725,31 @@ namespace OmegaSpiral.Source.Scripts
         public void Refresh()
         {
             // Update the speaker display
-            UpdateSpeakerDisplay(currentSpeaker);
+            this.UpdateSpeakerDisplay(this.currentSpeaker);
 
             // Update the dialogue text
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Text = currentText;
+                this.dialogueText.Text = this.currentText;
             }
 
             // Update the choices display
-            ClearChoices();
-            foreach (var choice in currentChoices)
+            this.ClearChoices();
+            foreach (var choice in this.currentChoices)
             {
-                CreateChoiceButton(choice);
+                this.CreateChoiceButton(choice);
             }
 
             // Show/hide the continue indicator based on typing state
-            if (continueIndicator != null)
+            if (this.continueIndicator != null)
             {
-                if (isTyping)
+                if (this.isTyping)
                 {
-                    continueIndicator.Hide();
+                    this.continueIndicator.Hide();
                 }
                 else
                 {
-                    continueIndicator.Show();
+                    this.continueIndicator.Show();
                 }
             }
         }
@@ -754,40 +759,40 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void Reset()
         {
-            HideDialogue();
-            currentText = "";
-            currentSpeaker = null;
-            currentChoices.Clear();
-            textPosition = 0;
-            isTyping = false;
+            this.HideDialogue();
+            this.currentText = string.Empty;
+            this.currentSpeaker = null;
+            this.currentChoices.Clear();
+            this.textPosition = 0;
+            this.isTyping = false;
 
             // Reset the typewriter speed to default
-            TypewriterSpeed = 50.0f;
-            characterDelay = 1.0f / TypewriterSpeed;
+            this.TypewriterSpeed = 50.0f;
+            this.characterDelay = 1.0f / this.TypewriterSpeed;
 
             // Clear all displays
-            if (dialogueText != null)
+            if (this.dialogueText != null)
             {
-                dialogueText.Text = "";
+                this.dialogueText.Text = string.Empty;
             }
 
-            if (characterNameLabel != null)
+            if (this.characterNameLabel != null)
             {
-                characterNameLabel.Text = "";
-                characterNameLabel.Hide();
+                this.characterNameLabel.Text = string.Empty;
+                this.characterNameLabel.Hide();
             }
 
-            if (characterPortrait != null)
+            if (this.characterPortrait != null)
             {
-                characterPortrait.Texture = null;
-                characterPortrait.Hide();
+                this.characterPortrait.Texture = null;
+                this.characterPortrait.Hide();
             }
 
-            ClearChoices();
+            this.ClearChoices();
 
-            if (continueIndicator != null)
+            if (this.continueIndicator != null)
             {
-                continueIndicator.Hide();
+                this.continueIndicator.Hide();
             }
         }
     }

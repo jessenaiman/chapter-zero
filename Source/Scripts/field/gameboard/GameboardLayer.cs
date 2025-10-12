@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="GameboardLayer.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 /// <summary>
 /// A single layer of the gameboard that determines which cells are blocked or clear.
@@ -33,26 +37,27 @@ public partial class GameboardLayer : TileMapLayer
     public delegate void CellsChangedEventHandler(Godot.Collections.Array<Vector2I> clearedCells, Godot.Collections.Array<Vector2I> blockedCells);
 
     /// <summary>
-    /// A list of cells that can be moved to. Only cells that exist in the layer and are not blocked
+    /// Gets a list of cells that can be moved to. Only cells that exist in the layer and are not blocked
     /// will be included.
     /// </summary>
     public List<Vector2I> MoveableCells { get; private set; } = new List<Vector2I>();
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         if (!Engine.IsEditorHint())
         {
-            AddToGroup(Group);
+            this.AddToGroup(Group);
 
             // When the GameboardLayer enters or exits the tree, update the Gameboard with the cells
             // that have been added or removed.
-            TreeEntered += OnTreeEntered;
-            TreeExited += OnTreeExited;
+            this.TreeEntered += this.OnTreeEntered;
+            this.TreeExited += this.OnTreeExited;
 
             // Update the list of moveable cells whenever the layer's tiles change.
-            Changed += OnChanged;
+            this.Changed += this.OnChanged;
         }
     }
 
@@ -65,14 +70,15 @@ public partial class GameboardLayer : TileMapLayer
     /// - Exists in at least one of the GameboardLayers.
     /// - None of the layers block movement at this cell, as defined by the
     /// BlockedCellDataLayer custom data layer (see
-    /// TileData.GetCustomData)
+    /// TileData.GetCustomData).
     /// </summary>
+    /// <returns></returns>
     public bool IsCellClear(Vector2I coord)
     {
         // Check to make sure that cell exists.
         var cellExists = false;
 
-        var tilemaps = GetTree().GetNodesInGroup(Group);
+        var tilemaps = this.GetTree().GetNodesInGroup(Group);
         foreach (var node in tilemaps)
         {
             if (node is GameboardLayer tilemap)
@@ -80,6 +86,7 @@ public partial class GameboardLayer : TileMapLayer
                 if (tilemap != null && tilemap.GetUsedCells().Contains(coord))
                 {
                     cellExists = true;
+
                     // Check if this layer blocks movement at this cell
                     if (tilemap.IsCellBlocked(coord))
                     {
@@ -95,12 +102,13 @@ public partial class GameboardLayer : TileMapLayer
     }
 
     /// <summary>
-    /// Check if a cell is blocked by this layer
+    /// Check if a cell is blocked by this layer.
     /// </summary>
+    /// <returns></returns>
     public bool IsCellBlocked(Vector2I coord)
     {
         // Get the tile data at the specified coordinate
-        var tileData = GetCellTileData(coord);
+        var tileData = this.GetCellTileData(coord);
         if (tileData != null)
         {
             // Check if the tile has the "blocked" custom data set to true
@@ -109,30 +117,31 @@ public partial class GameboardLayer : TileMapLayer
                 return true;
             }
         }
+
         return false;
     }
 
     /// <summary>
-    /// Update the list of moveable cells
+    /// Update the list of moveable cells.
     /// </summary>
     private void UpdateMoveableCells()
     {
-        var oldMoveableCells = new List<Vector2I>(MoveableCells);
-        MoveableCells.Clear();
+        var oldMoveableCells = new List<Vector2I>(this.MoveableCells);
+        this.MoveableCells.Clear();
 
         // Go through each cell in the layer
-        foreach (var cell in GetUsedCells())
+        foreach (var cell in this.GetUsedCells())
         {
             // A cell is moveable if it exists and is not blocked
-            if (IsCellClear(cell))
+            if (this.IsCellClear(cell))
             {
-                MoveableCells.Add(cell);
+                this.MoveableCells.Add(cell);
             }
         }
 
         // Determine which cells have been added or removed
-        var addedCells = MoveableCells.Except(oldMoveableCells).ToList();
-        var removedCells = oldMoveableCells.Except(MoveableCells).ToList();
+        var addedCells = this.MoveableCells.Except(oldMoveableCells).ToList();
+        var removedCells = oldMoveableCells.Except(this.MoveableCells).ToList();
 
         // If there are changes, emit the signal
         if (addedCells.Count > 0 || removedCells.Count > 0)
@@ -142,19 +151,19 @@ public partial class GameboardLayer : TileMapLayer
     }
 
     /// <summary>
-    /// Callback when the node enters the tree
+    /// Callback when the node enters the tree.
     /// </summary>
     private void OnTreeEntered()
     {
         // When entering the tree, all cells become "cleared" (available for movement)
-        var clearedCells = GetUsedCells().ToList();
+        var clearedCells = this.GetUsedCells().ToList();
         var blockedCells = new List<Vector2I>();
 
         // Separate cleared and blocked cells
         for (int i = clearedCells.Count - 1; i >= 0; i--)
         {
             var cell = clearedCells[i];
-            if (IsCellBlocked(cell))
+            if (this.IsCellBlocked(cell))
             {
                 blockedCells.Add(cell);
                 clearedCells.RemoveAt(i);
@@ -165,22 +174,22 @@ public partial class GameboardLayer : TileMapLayer
     }
 
     /// <summary>
-    /// Callback when the node exits the tree
+    /// Callback when the node exits the tree.
     /// </summary>
     private void OnTreeExited()
     {
         // When exiting the tree, all cells become "blocked" (no longer available for movement)
         var clearedCells = new List<Vector2I>();
-        var blockedCells = GetUsedCells().ToList();
+        var blockedCells = this.GetUsedCells().ToList();
 
         EmitSignal(SignalName.CellsChanged, clearedCells, blockedCells);
     }
 
     /// <summary>
-    /// Callback when the layer changes
+    /// Callback when the layer changes.
     /// </summary>
     private void OnChanged()
     {
-        UpdateMoveableCells();
+        this.UpdateMoveableCells();
     }
 }

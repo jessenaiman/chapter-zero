@@ -1,3 +1,7 @@
+// <copyright file="GangOfFourConversation.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -10,8 +14,8 @@ public partial class GangOfFourConversation : Interaction
     /// <summary>
     /// Handle Dialogic signal events for this conversation.
     /// </summary>
-    /// <param name="argument">The signal argument from Dialogic</param>
-    public void OnDialogicSignalEvent(string argument)
+    /// <param name="argument">The signal argument from Dialogic.</param>
+    public static void OnDialogicSignalEvent(string argument)
     {
         if (argument == "coin_received")
         {

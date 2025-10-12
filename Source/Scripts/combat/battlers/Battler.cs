@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="Battler.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A playable combatant that carries out <see cref="BattlerAction"/>s as its <see cref="Readiness"/> charges.
@@ -65,357 +69,372 @@ public partial class Battler : Node2D
     public const string Group = "_COMBAT_BATTLER_GROUP";
 
     /// <summary>
-    /// A Battler must have <see cref="BattlerStats"/> to act and receive actions.
+    /// Gets or sets a Battler must have <see cref="BattlerStats"/> to act and receive actions.
     /// </summary>
     [Export]
     public BattlerStats Stats { get; set; } = null!;
 
     /// <summary>
-    /// Each action's data stored in this array represents an action the battler can perform.
+    /// Gets or sets each action's data stored in this array represents an action the battler can perform.
     /// These can be anything: attacks, healing spells, etc.
     /// </summary>
     [Export]
-    public BattlerAction[] Actions { get; set; } = new BattlerAction[0];
+    public BattlerAction[] Actions { get; set; } = Array.Empty<BattlerAction>();
 
-    private PackedScene _battlerAnimScene;
+    private PackedScene battlerAnimScene;
+
     /// <summary>
-    /// Each Battler is shown on the screen by a <see cref="BattlerAnim"/> object. The object is created dynamically
+    /// Gets or sets each Battler is shown on the screen by a <see cref="BattlerAnim"/> object. The object is created dynamically
     /// from a PackedScene, which must yield a <see cref="BattlerAnim"/> object when instantiated.
     /// </summary>
     [Export]
     public PackedScene BattlerAnimScene
     {
-        get => _battlerAnimScene;
+        get => this.battlerAnimScene;
         set
         {
-            _battlerAnimScene = value;
+            this.battlerAnimScene = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // In Godot 4.x, we can't await in a property setter, so we'll defer the initialization
-                CallDeferred("_InitializeBattlerAnim");
+                this.CallDeferred("_InitializeBattlerAnim");
                 return;
             }
 
-            _InitializeBattlerAnim();
+            this.InitializeBattlerAnim();
         }
     }
 
-    private void _InitializeBattlerAnim()
+    private void InitializeBattlerAnim()
     {
         // Free an already existing BattlerAnim.
-        if (Anim != null)
+        if (this.Anim != null)
         {
-            Anim.QueueFree();
-            Anim = null;
+            this.Anim.QueueFree();
+            this.Anim = null;
         }
 
         // Add the new BattlerAnim class as a child and link it to this Battler instance.
-        if (BattlerAnimScene != null)
+        if (this.BattlerAnimScene != null)
         {
             // Normally we could wrap a check for battler_anim_scene's type (should be BattlerAnim)
             // in a call to assert, but we want the following code to run in the editor and clean up
             // dynamically if the user drops an incorrect PackedScene (i.e. not a BattlerAnim) into
             // the battler_anim_scene slot.
-            var newScene = BattlerAnimScene.Instantiate();
-            Anim = newScene as BattlerAnim;
-            if (Anim == null)
+            var newScene = this.BattlerAnimScene.Instantiate();
+            this.Anim = newScene as BattlerAnim;
+            if (this.Anim == null)
             {
-                GD.PushWarning($"Battler '{Name}' cannot accept '{newScene.Name}' as " +
+                GD.PushWarning($"Battler '{this.Name}' cannot accept '{newScene.Name}' as " +
                     $"battler_anim_scene. '{newScene.Name}' is not a BattlerAnim!");
                 newScene.Free();
-                BattlerAnimScene = null;
+                this.BattlerAnimScene = null;
                 return;
             }
 
-            AddChild(Anim);
-            var facing = IsPlayer ? BattlerDirection.Left : BattlerDirection.Right;
-            Anim.Setup(this, facing);
+            this.AddChild(this.Anim);
+            var facing = this.IsPlayer ? BattlerDirection.Left : BattlerDirection.Right;
+            this.Anim.Setup(this, facing);
         }
     }
 
-    private PackedScene _aiScene;
+    private PackedScene aiScene;
+
     /// <summary>
-    /// A CombatAI object that will determine the Battler's combat behaviour.
+    /// Gets or sets a CombatAI object that will determine the Battler's combat behaviour.
     /// If the battler has an `ai_scene`, we will instantiate it and let the AI make decisions.
     /// If not, the player controls this battler. The system should allow for ally AIs.
     /// </summary>
     [Export]
     public PackedScene AiScene
     {
-        get => _aiScene;
+        get => this.aiScene;
         set
         {
-            _aiScene = value;
+            this.aiScene = value;
 
-            if (_aiScene != null)
+            if (this.aiScene != null)
             {
                 // In the editor, check to make sure that the value set to ai_scene is actually a
                 // CombatAI object.
-                var newInstance = _aiScene.Instantiate();
+                var newInstance = this.aiScene.Instantiate();
                 if (Engine.IsEditorHint())
                 {
                     if (newInstance is not CombatAI)
                     {
-                        GD.PrintErr($"Cannot assign '{newInstance.Name}' to Battler '{Name}'" +
+                        GD.PrintErr($"Cannot assign '{newInstance.Name}' to Battler '{this.Name}'" +
                             " as ai_scene property. Assigned PackedScene is not a CombatAI type!");
-                        _aiScene = null;
+                        this.aiScene = null;
                     }
+
                     newInstance.Free();
                 }
                 else
                 {
-                    Ai = newInstance as CombatAI;
-                    if (Ai != null)
+                    this.Ai = newInstance as CombatAI;
+                    if (this.Ai != null)
                     {
-                        AddChild(Ai);
+                        this.AddChild(this.Ai);
                     }
                 }
             }
         }
     }
 
-    private PackedScene _actorScene;
+    private PackedScene actorScene;
+
     /// <summary>
-    /// The <see cref="CombatActor"/> object that will determine the Battler's combat behavior. A Battler without an CombatActor
+    /// Gets or sets the <see cref="CombatActor"/> object that will determine the Battler's combat behavior. A Battler without an CombatActor
     /// is just a dummy object that will not take turns or perform actions.
     /// </summary>
     [Export]
     public PackedScene ActorScene
     {
-        get => _actorScene;
+        get => this.actorScene;
         set
         {
-            if (value == _actorScene)
+            if (value == this.actorScene)
             {
                 return;
             }
 
-            _actorScene = value;
+            this.actorScene = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // In Godot 4.x, we can't await in a property setter, so we'll defer the initialization
-                CallDeferred("_InitializeActor");
+                this.CallDeferred("_InitializeActor");
                 return;
             }
 
-            _InitializeActor();
+            this.InitializeActor();
         }
     }
 
-    private void _InitializeActor()
+    private void InitializeActor()
     {
-        if (Actor != null)
+        if (this.Actor != null)
         {
-            Actor.QueueFree();
-            Actor = null;
+            this.Actor.QueueFree();
+            this.Actor = null;
         }
 
-        if (ActorScene != null)
+        if (this.ActorScene != null)
         {
-            var newInstance = ActorScene.Instantiate();
-            Actor = newInstance as CombatActor;
-            if (Actor != null)
+            var newInstance = this.ActorScene.Instantiate();
+            this.Actor = newInstance as CombatActor;
+            if (this.Actor != null)
             {
-                AddChild(Actor);
+                this.AddChild(this.Actor);
             }
         }
     }
 
-    //TODO: Battler.is_player is redundant. Use that defined by CombatActor instead.
-    private bool _isPlayer = false;
+    // TODO: Battler.is_player is redundant. Use that defined by CombatActor instead.
+    private bool isPlayer;
+
     /// <summary>
-    /// Player battlers are controlled by the player.
+    /// Gets or sets a value indicating whether player battlers are controlled by the player.
     /// </summary>
     [Export]
     public bool IsPlayer
     {
-        get => _isPlayer;
+        get => this.isPlayer;
         set
         {
-            _isPlayer = value;
-            if (Anim != null)
+            this.isPlayer = value;
+            if (this.Anim != null)
             {
-                var facing = _isPlayer ? BattlerDirection.Left : BattlerDirection.Right;
-                Anim.Direction = facing;
+                var facing = this.isPlayer ? BattlerDirection.Left : BattlerDirection.Right;
+                this.Anim.Direction = facing;
             }
         }
     }
 
     /// <summary>
-    /// Reference to the Battler's child <see cref="CombatActor"/>, which controls it's combat behaviour.
+    /// Gets reference to the Battler's child <see cref="CombatActor"/>, which controls it's combat behaviour.
     /// Note that this value is assigned automatically with reference to <see cref="ActorScene"/>.
     /// </summary>
-    public CombatActor? Actor { get; private set; } = null;
+    public CombatActor? Actor { get; private set; }
 
     /// <summary>
-    /// Reference to this Battler's child <see cref="CombatAI"/> node, if applicable.
+    /// Gets reference to this Battler's child <see cref="CombatAI"/> node, if applicable.
     /// </summary>
-    public CombatAI? Ai { get; private set; } = null;
+    public CombatAI? Ai { get; private set; }
 
     /// <summary>
-    /// Reference to this Battler's child <see cref="BattlerAnim"/> node.
+    /// Gets reference to this Battler's child <see cref="BattlerAnim"/> node.
     /// </summary>
-    public BattlerAnim? Anim { get; private set; } = null;
+    public BattlerAnim? Anim { get; private set; }
 
     // TODO: this property belongs with the CombatActor.
-    private bool _isActive = true;
+    private bool isActive = true;
+
     /// <summary>
-    /// If `false`, the battler will not be able to act.
+    /// Gets or sets a value indicating whether if `false`, the battler will not be able to act.
     /// </summary>
     public bool IsActive
     {
-        get => _isActive;
+        get => this.isActive;
         set
         {
-            _isActive = value;
-            SetProcess(_isActive);
+            this.isActive = value;
+            this.SetProcess(this.isActive);
         }
     }
 
-    private float _timeScale = 1.0f;
+    private float timeScale = 1.0f;
+
     /// <summary>
-    /// The turn queue will change this property when another battler is acting.
+    /// Gets or sets the turn queue will change this property when another battler is acting.
     /// </summary>
     public float TimeScale
     {
-        get => _timeScale;
-        set => _timeScale = value;
+        get => this.timeScale;
+        set => this.timeScale = value;
     }
 
-    private bool _isSelected = false;
+    private bool isSelected;
+
     /// <summary>
-    /// If `true`, the battler is selected, which makes it move forward.
+    /// Gets or sets a value indicating whether if `true`, the battler is selected, which makes it move forward.
     /// </summary>
     public bool IsSelected
     {
-        get => _isSelected;
+        get => this.isSelected;
         set
         {
             if (value)
             {
-                System.Diagnostics.Debug.Assert(IsSelectable);
+                System.Diagnostics.Debug.Assert(this.IsSelectable);
             }
 
-            _isSelected = value;
-            EmitSignal(SignalName.SelectionToggled, _isSelected);
+            this.isSelected = value;
+            this.EmitSignal(SignalName.SelectionToggled, this.isSelected);
         }
     }
 
-    private bool _isSelectable = true;
+    private bool isSelectable = true;
+
     /// <summary>
-    /// If `false`, the battler cannot be targeted by any action.
+    /// Gets or sets a value indicating whether if `false`, the battler cannot be targeted by any action.
     /// </summary>
     public bool IsSelectable
     {
-        get => _isSelectable;
+        get => this.isSelectable;
         set
         {
-            _isSelectable = value;
-            if (!_isSelectable)
+            this.isSelectable = value;
+            if (!this.isSelectable)
             {
-                IsSelected = false;
+                this.IsSelected = false;
             }
         }
     }
 
-    private float _readiness = 0.0f;
+    private float readiness;
+
     /// <summary>
-    /// When this value reaches `100.0`, the battler is ready to take their turn.
+    /// Gets or sets when this value reaches `100.0`, the battler is ready to take their turn.
     /// </summary>
     public float Readiness
     {
-        get => _readiness;
+        get => this.readiness;
         set
         {
-            _readiness = value;
-            EmitSignal(SignalName.ReadinessChanged, _readiness);
+            this.readiness = value;
+            this.EmitSignal(SignalName.ReadinessChanged, this.readiness);
 
-            if (_readiness >= 100.0f)
+            if (this.readiness >= 100.0f)
             {
-                _readiness = 100.0f;
-                Stats.Energy += 1;
+                this.readiness = 100.0f;
+                this.Stats.Energy += 1;
 
-                EmitSignal(SignalName.ReadyToAct);
-                SetProcess(false);
+                this.EmitSignal(SignalName.ReadyToAct);
+                this.SetProcess(false);
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         if (Engine.IsEditorHint())
         {
-            SetProcess(false);
+            this.SetProcess(false);
         }
         else
         {
-            System.Diagnostics.Debug.Assert(Stats != null, $"Battler {Name} does not have stats assigned!");
+            System.Diagnostics.Debug.Assert(this.Stats != null, $"Battler {this.Name} does not have stats assigned!");
 
-            AddToGroup(Group);
+            this.AddToGroup(Group);
 
             // Resources are NOT unique, so treat the currently assigned BattlerStats as a prototype.
             // That is, copy what it is now and use the copy, so that the original remains unaltered.
-            Stats = (BattlerStats)Stats.Duplicate();
-            Stats.Initialize();
-            Stats.HealthDepleted += () =>
+            this.Stats = (BattlerStats)this.Stats.Duplicate();
+            this.Stats.Initialize();
+            this.Stats.HealthDepleted += () =>
             {
-                IsActive = false;
-                IsSelectable = false;
-                EmitSignal(SignalName.HealthDepleted);
+                this.IsActive = false;
+                this.IsSelectable = false;
+                this.EmitSignal(SignalName.HealthDepleted);
             };
         }
     }
 
+    /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        Readiness += Stats.Speed * (float)delta * TimeScale;
+        this.Readiness += this.Stats.Speed * (float)delta * this.TimeScale;
     }
 
     public async Task ActAsync(BattlerAction action, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
-        SetProcess(false);
+        this.SetProcess(false);
 
-        Stats.Energy -= action.EnergyCost;
+        this.Stats.Energy -= action.EnergyCost;
 
         // action.Execute() almost certainly is a coroutine.
-        await action.Execute(this, targets);
-        if (Stats.Health > 0)
+        await action.Execute(this, targets).ConfigureAwait(false);
+        if (this.Stats.Health > 0)
         {
-            Readiness = action.ReadinessSaved;
+            this.Readiness = action.ReadinessSaved;
 
-            if (IsActive)
+            if (this.IsActive)
             {
-                SetProcess(true);
+                this.SetProcess(true);
             }
         }
 
-        CallDeferred("EmitActionFinished");
+        this.CallDeferred("EmitActionFinished");
     }
 
     private void EmitActionFinished()
     {
-        EmitSignal(SignalName.ActionFinished);
+        this.EmitSignal(SignalName.ActionFinished);
     }
 
     public void TakeHit(BattlerHit hit)
     {
         if (hit.IsSuccessful())
         {
-            EmitSignal(SignalName.HitReceived, hit.Damage);
-            Stats.Health -= hit.Damage;
+            this.EmitSignal(SignalName.HitReceived, hit.Damage);
+            this.Stats.Health -= hit.Damage;
         }
         else
         {
-            EmitSignal(SignalName.HitMissed);
+            this.EmitSignal(SignalName.HitMissed);
         }
     }
 
     public bool IsReadyToAct()
     {
-        return Readiness >= 100.0f;
+        return this.Readiness >= 100.0f;
     }
 }

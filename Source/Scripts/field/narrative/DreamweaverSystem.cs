@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using YamlDotNet.Serialization;
 using OmegaSpiral.Scripts.Field.Narrative;
+using YamlDotNet.Serialization;
 
 namespace OmegaSpiral.Source.Scripts;
 

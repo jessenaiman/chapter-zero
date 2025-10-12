@@ -1,4 +1,4 @@
- // <copyright file="DungeonSequenceData.cs" company="PlaceholderCompany">
+// <copyright file="DungeonSequenceData.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -75,6 +75,7 @@ public partial class DungeonRoom
                     result[kvp.Key[0]] = kvp.Value;
                 }
             }
+
             return result;
         }
     }
@@ -102,6 +103,7 @@ public partial class DungeonRoom
                     result[kvp.Key[0]] = kvp.Value;
                 }
             }
+
             return result;
         }
     }

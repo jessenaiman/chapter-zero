@@ -1,3 +1,7 @@
+// <copyright file="Directions.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -13,7 +17,7 @@ public partial class Directions : RefCounted
         North,
         East,
         South,
-        West
+        West,
     }
 
     /// <summary>
@@ -24,14 +28,14 @@ public partial class Directions : RefCounted
         { Points.North, Vector2I.Up },
         { Points.East, Vector2I.Right },
         { Points.South, Vector2I.Down },
-        { Points.West, Vector2I.Left }
+        { Points.West, Vector2I.Left },
     };
 
     /// <summary>
     /// Convert an angle, such as from Vector2.Angle, to a Points value.
     /// </summary>
-    /// <param name="angle">The angle to convert</param>
-    /// <returns>The corresponding cardinal direction</returns>
+    /// <param name="angle">The angle to convert.</param>
+    /// <returns>The corresponding cardinal direction.</returns>
     public static Points AngleToDirection(float angle)
     {
         if (angle <= -System.Math.PI / 4.0 && angle > -3.0 * System.Math.PI / 4.0)
@@ -53,8 +57,8 @@ public partial class Directions : RefCounted
     /// <summary>
     /// Convert a vector to a direction.
     /// </summary>
-    /// <param name="vector">The vector to convert</param>
-    /// <returns>The corresponding cardinal direction</returns>
+    /// <param name="vector">The vector to convert.</param>
+    /// <returns>The corresponding cardinal direction.</returns>
     public static Points VectorToDirection(Vector2 vector)
     {
         return AngleToDirection(vector.Angle());

@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="BattlerActionProjectile.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a ranged attack, such as a fireball.
@@ -17,7 +21,7 @@ public partial class RangedBattlerAction : BattlerAction
     public float ReturnTime { get; set; } = 0.25f;
 
     /// <summary>
-    /// A to-hit modifier for this attack that will be influenced by the target Battler's
+    /// Gets or sets a to-hit modifier for this attack that will be influenced by the target Battler's
     /// <see cref="BattlerStats.Evasion"/>.
     /// </summary>
     [Export]
@@ -26,15 +30,20 @@ public partial class RangedBattlerAction : BattlerAction
     [Export]
     public int BaseDamage { get; set; } = 50;
 
+    /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         if (targets.Length == 0)
         {
             GD.PrintErr("A ranged attack action requires a target.");
             return;
         }
+
         Battler firstTarget = targets[0];
 
         var timer = source.GetTree().CreateTimer(0.1f);
@@ -43,11 +52,11 @@ public partial class RangedBattlerAction : BattlerAction
         // Calculate where the acting Battler will move from and to.
         Vector2 origin = source.Position;
         float attackDirection = Math.Sign(firstTarget.Position.X - source.Position.X);
-        Vector2 destination = origin + new Vector2(AttackDistance * attackDirection, 0);
+        Vector2 destination = origin + new Vector2(this.AttackDistance * attackDirection, 0);
 
         // Quickly animate the attacker to the attack position, pretending to lob a fireball or smth.
         Tween tween = source.CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Back);
-        tween.TweenProperty(source, "position", destination, AttackTime);
+        tween.TweenProperty(source, "position", destination, this.AttackTime);
         await source.ToSignal(tween, Tween.SignalName.Finished);
 
         // No attack animations yet, so wait for a short delay and then apply damage to the target.
@@ -57,7 +66,7 @@ public partial class RangedBattlerAction : BattlerAction
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         foreach (Battler target in targets)
         {
-            BattlerHit hit = new BattlerHit(BaseDamage, HitChance);
+            BattlerHit hit = new BattlerHit(this.BaseDamage, this.HitChance);
             target.TakeHit(hit);
             timer = source.GetTree().CreateTimer(0.1f);
             await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
@@ -68,7 +77,7 @@ public partial class RangedBattlerAction : BattlerAction
 
         // Animate movement back to the attacker's original position.
         tween = source.CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
-        tween.TweenProperty(source, "position", origin, ReturnTime);
+        tween.TweenProperty(source, "position", origin, this.ReturnTime);
         await source.ToSignal(tween, Tween.SignalName.Finished);
 
         timer = source.GetTree().CreateTimer(0.1f);

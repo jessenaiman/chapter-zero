@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="UIBattlerIcon.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 
 [Tool]
 /// <summary>
@@ -18,97 +22,102 @@ public partial class UIBattlerIcon : TextureRect
     {
         Ally,
         Player,
-        Enemy
+        Enemy,
     }
 
     private static readonly Dictionary<Types, Texture2D> PortraitBacks = new Dictionary<Types, Texture2D>
     {
         { Types.Ally, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_ally.png") },
         { Types.Player, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_player.png") },
-        { Types.Enemy, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_enemy.png") }
+        { Types.Enemy, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_enemy.png") },
     };
 
-    private Types _battlerType;
+    private Types battlerType;
+
     /// <summary>
-    /// The type of battler represented by the icon
+    /// Gets or sets the type of battler represented by the icon.
     /// </summary>
     [Export]
     public Types BattlerType
     {
-        get => _battlerType;
+        get => this.battlerType;
         set
         {
-            _battlerType = value;
-            Texture = PortraitBacks[_battlerType];
+            this.battlerType = value;
+            this.Texture = PortraitBacks[this.battlerType];
         }
     }
 
-    private Texture2D _iconTexture;
+    private Texture2D iconTexture;
+
     /// <summary>
-    /// The icon texture to display
+    /// Gets or sets the icon texture to display.
     /// </summary>
     [Export]
     public Texture2D IconTexture
     {
-        get => _iconTexture;
+        get => this.iconTexture;
         set
         {
-            _iconTexture = value;
+            this.iconTexture = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                _iconTexture = value;
+                this.iconTexture = value;
                 return;
             }
-            _icon.Texture = _iconTexture;
+
+            this.icon.Texture = this.iconTexture;
         }
     }
 
     /// <summary>
-    /// The upper and lower bounds describing the UIBattlerIcon's movement along the x-axis.
+    /// Gets or sets the upper and lower bounds describing the UIBattlerIcon's movement along the x-axis.
     /// The icon moves along the turn bar, whose size is used to determine where and how far the icon
     /// may move.
     /// </summary>
     [Export]
     public Vector2 PositionRange { get; set; } = Vector2.Zero;
 
-    private float _progress = 0.0f;
+    private float progress;
+
     /// <summary>
-    /// Determines where on the turn bar the icon is currently located. The value is clamped between 0
+    /// Gets or sets determines where on the turn bar the icon is currently located. The value is clamped between 0
     /// and 1.
     /// </summary>
     [Export]
     public float Progress
     {
-        get => _progress;
+        get => this.progress;
         set
         {
-            _progress = Mathf.Clamp(value, 0.0f, 1.0f);
-            Position = new Vector2(Mathf.Lerp(PositionRange.X, PositionRange.Y, _progress), Position.Y);
+            this.progress = Mathf.Clamp(value, 0.0f, 1.0f);
+            this.Position = new Vector2(Mathf.Lerp(this.PositionRange.X, this.PositionRange.Y, this.progress), this.Position.Y);
         }
     }
 
-    private AnimationPlayer _anim;
-    private TextureRect _icon;
+    private AnimationPlayer anim;
+    private TextureRect icon;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        _icon = GetNode<TextureRect>("Icon");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.icon = this.GetNode<TextureRect>("Icon");
 
         // If IconTexture was set before the node was ready, apply it now
-        if (_iconTexture != null)
+        if (this.iconTexture != null)
         {
-            _icon.Texture = _iconTexture;
+            this.icon.Texture = this.iconTexture;
         }
     }
 
     /// <summary>
-    /// Fade out the battler icon
+    /// Fade out the battler icon.
     /// </summary>
     public void FadeOut()
     {
-        _anim.Play("fade_out");
+        this.anim.Play("fade_out");
     }
 }

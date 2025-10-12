@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIDamageLabel.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// An animated combat UI element emphasizing damage done (or healed) to a battler.
@@ -7,19 +11,19 @@ using System;
 public partial class UIDamageLabel : Marker2D
 {
     /// <summary>
-    /// Determines how far the label will move upwards.
+    /// Gets or sets determines how far the label will move upwards.
     /// </summary>
     [Export]
     public float MoveDistance { get; set; } = 96.0f;
 
     /// <summary>
-    /// Determines how long the label will be moving upwards.
+    /// Gets or sets determines how long the label will be moving upwards.
     /// </summary>
     [Export]
     public float MoveTime { get; set; } = 0.6f;
 
     /// <summary>
-    /// Determines how long it will take for the label to fade to transparent. This occurs at the end of
+    /// Gets or sets determines how long it will take for the label to fade to transparent. This occurs at the end of
     /// the upwards movement.
     /// <br/><br/><b>Note:</b> fade_time must be less than <see cref="MoveTime"/>.
     /// </summary>
@@ -27,123 +31,123 @@ public partial class UIDamageLabel : Marker2D
     public float FadeTime { get; set; } = 0.2f;
 
     /// <summary>
-    /// Label color when <see cref="Amount"/> is >= 0.
+    /// Gets or sets label color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
     public Color ColorDamage { get; set; } = new Color("#b0305c");
 
     /// <summary>
-    /// Label outline color when <see cref="Amount"/> is >= 0.
+    /// Gets or sets label outline color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
     public Color ColorDamageOutline { get; set; } = new Color("#b0305c");
 
     /// <summary>
-    /// Label color when <see cref="Amount"/> is &lt; 0.
+    /// Gets or sets label color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
     public Color ColorHeal { get; set; } = new Color("#3ca370");
 
     /// <summary>
-    /// Label outline color when <see cref="Amount"/> is &lt; 0.
+    /// Gets or sets label outline color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
     public Color ColorHealOutline { get; set; } = new Color("#3ca370");
 
-    private int _amount = 0;
+    private int amount;
+
     /// <summary>
-    /// Consistent with <see cref="BattlerHit"/>, damage values greater than 0 incur damage whereas those less than 0
+    /// Gets or sets consistent with <see cref="BattlerHit"/>, damage values greater than 0 incur damage whereas those less than 0
     /// are for healing.
     /// </summary>
     public int Amount
     {
-        get => _amount;
+        get => this.amount;
         set
         {
-            _amount = value;
+            this.amount = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                _amount = value;
+                this.amount = value;
                 return;
             }
 
-            _label.Text = _amount.ToString();
+            this.label.Text = this.amount.ToString();
 
-            if (_amount >= 0)
+            if (this.amount >= 0)
             {
-                _label.Modulate = ColorDamage;
-                _label.AddThemeColorOverride("font_outline_color", ColorDamageOutline);
+                this.label.Modulate = this.ColorDamage;
+                this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
             }
             else
             {
-                _label.Modulate = ColorHeal;
-                _label.AddThemeColorOverride("font_outline_color", ColorHealOutline);
+                this.label.Modulate = this.ColorHeal;
+                this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
             }
         }
     }
 
-    private Tween _tween = null;
+    private Tween tween;
 
-    private Label _label;
+    private Label label;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _label = GetNode<Label>("Label");
+        this.label = this.GetNode<Label>("Label");
 
         // If Amount was set before the node was ready, apply it now
-        if (_label != null)
+        if (this.label != null)
         {
-            _label.Text = _amount.ToString();
+            this.label.Text = this.amount.ToString();
 
-            if (_amount >= 0)
+            if (this.amount >= 0)
             {
-                _label.Modulate = ColorDamage;
-                _label.AddThemeColorOverride("font_outline_color", ColorDamageOutline);
+                this.label.Modulate = this.ColorDamage;
+                this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
             }
             else
             {
-                _label.Modulate = ColorHeal;
-                _label.AddThemeColorOverride("font_outline_color", ColorHealOutline);
+                this.label.Modulate = this.ColorHeal;
+                this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
             }
         }
 
-        System.Diagnostics.Debug.Assert(FadeTime < MoveTime, $"{nameof(UIDamageLabel)}'s FadeTime must be less than its MoveTime!");
+        System.Diagnostics.Debug.Assert(this.FadeTime < this.MoveTime, $"{nameof(UIDamageLabel)}'s FadeTime must be less than its MoveTime!");
     }
 
     /// <summary>
-    /// Setup the damage label with origin position and damage amount
+    /// Setup the damage label with origin position and damage amount.
     /// </summary>
-    /// <param name="origin">The origin position</param>
-    /// <param name="damageAmount">The damage amount (positive for damage, negative for healing)</param>
+    /// <param name="origin">The origin position.</param>
+    /// <param name="damageAmount">The damage amount (positive for damage, negative for healing).</param>
     public void Setup(Vector2 origin, int damageAmount)
     {
-        GlobalPosition = origin;
-        Amount = damageAmount;
+        this.GlobalPosition = origin;
+        this.Amount = damageAmount;
 
         // Animate the label, moving it in an upwards direction.
         // We define a range of 60 degrees for the labels movement.
         var angle = GD.RandfRange(-Mathf.Pi / 6.0f, Mathf.Pi / 6.0f);
-        var target = Vector2.Up.Rotated(angle) * MoveDistance + _label.Position;
+        var target = (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position;
 
-        _tween = CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
-        _tween.TweenProperty(
-            _label,
+        this.tween = this.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
+        this.tween.TweenProperty(
+            this.label,
             "position",
             target,
-            MoveTime
-        );
+            this.MoveTime);
 
         // Fade out the label at the end of it's movement upwards.
-        _tween.Parallel().TweenProperty(
+        this.tween.Parallel().TweenProperty(
             this,
             "modulate",
             Colors.Transparent,
-            FadeTime
-        ).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Linear).SetDelay(MoveTime - FadeTime);
+            this.FadeTime).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Linear).SetDelay(this.MoveTime - this.FadeTime);
 
         // Finally, after everything prior has finished, free the label.
-        _tween.TweenCallback(QueueFree);
+        this.tween.TweenCallback(QueueFree);
     }
 }

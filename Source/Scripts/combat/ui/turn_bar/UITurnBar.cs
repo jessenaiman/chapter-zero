@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UITurnBar.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// Displays the timeline representing the turn order of all battlers in the arena.
@@ -7,17 +11,18 @@ using System;
 /// </summary>
 public partial class UITurnBar : Control
 {
-    private readonly PackedScene IconScene = GD.Load<PackedScene>("res://src/combat/ui/turn_bar/ui_battler_icon.tscn");
+    private readonly PackedScene iconScene = GD.Load<PackedScene>("res://src/combat/ui/turn_bar/ui_battler_icon.tscn");
 
-    private AnimationPlayer _anim;
-    private TextureRect _background;
-    private Control _icons;
+    private AnimationPlayer anim;
+    private TextureRect background;
+    private Control icons;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        _background = GetNode<TextureRect>("Background");
-        _icons = GetNode<Control>("Background/Icons");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.background = this.GetNode<TextureRect>("Background");
+        this.icons = this.GetNode<Control>("Background/Icons");
     }
 
     /// <summary>
@@ -25,7 +30,7 @@ public partial class UITurnBar : Control
     /// </summary>
     public void FadeIn()
     {
-        _anim.Play("fade_in");
+        this.anim.Play("fade_in");
     }
 
     /// <summary>
@@ -33,26 +38,25 @@ public partial class UITurnBar : Control
     /// </summary>
     public void FadeOut()
     {
-        _anim.Play("fade_out");
+        this.anim.Play("fade_out");
     }
 
     /// <summary>
     /// Initialize the turn bar, passing in all the battlers that we want to display.
     /// </summary>
-    /// <param name="battlerData">The battler list to display</param>
+    /// <param name="battlerData">The battler list to display.</param>
     public void Setup(BattlerList battlerData)
     {
         foreach (var battler in battlerData.GetAllBattlers())
         {
             // Connect a handful of signals to the icon so that it may respond to changes in the
             // Battler's readiness and fade out if the Battler falls in combat.
-            var icon = IconScene.Instantiate() as UIBattlerIcon;
+            var icon = this.iconScene.Instantiate() as UIBattlerIcon;
             icon.IconTexture = battler.Anim.BattlerIcon;
             icon.BattlerType = battler.IsPlayer ? UIBattlerIcon.Types.Player : UIBattlerIcon.Types.Enemy;
             icon.PositionRange = new Vector2(
                 -icon.Size.X / 2.0f,
-                _background.Size.X - icon.Size.X / 2.0f
-            );
+                this.background.Size.X - (icon.Size.X / 2.0f));
 
             battler.HealthDepleted += () => icon.FadeOut();
             battler.ReadinessChanged += (readiness) =>
@@ -67,7 +71,7 @@ public partial class UITurnBar : Control
                 }
             };
 
-            _icons.AddChild(icon);
+            this.icons.AddChild(icon);
         }
     }
 }

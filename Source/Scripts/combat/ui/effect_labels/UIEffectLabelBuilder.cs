@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIEffectLabelBuilder.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A builder class responsible for adding visual feedback to <see cref="BattlerAction"/>s.
@@ -16,24 +20,24 @@ public partial class UIEffectLabelBuilder : Node2D
     public PackedScene MissedLabelScene { get; set; }
 
     /// <summary>
-    /// Setup the effect label builder with battler data
+    /// Setup the effect label builder with battler data.
     /// </summary>
-    /// <param name="battlerData">The battler list to connect to</param>
+    /// <param name="battlerData">The battler list to connect to.</param>
     public void Setup(BattlerList battlerData)
     {
         foreach (var battler in battlerData.GetAllBattlers())
         {
             battler.HitMissed += () =>
             {
-                var label = MissedLabelScene.Instantiate();
-                AddChild(label);
+                var label = this.MissedLabelScene.Instantiate();
+                this.AddChild(label);
                 label.GlobalPosition = battler.Anim.Top.GlobalPosition;
             };
 
             battler.HitReceived += (amount) =>
             {
-                var label = DamageLabelScene.Instantiate() as UIDamageLabel;
-                AddChild(label);
+                var label = this.DamageLabelScene.Instantiate() as UIDamageLabel;
+                this.AddChild(label);
                 label.Setup(battler.Anim.Top.GlobalPosition, amount);
             };
         }

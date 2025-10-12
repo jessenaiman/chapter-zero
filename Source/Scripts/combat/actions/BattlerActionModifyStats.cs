@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="BattlerActionModifyStats.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a ranged attack, such as a fireball.
@@ -10,15 +14,19 @@ public partial class StatsBattlerAction : BattlerAction
     private const float JumpDistance = 250.0f;
 
     /// <summary>
-    /// A to-hit modifier for this attack that will be influenced by the target Battler's
+    /// Gets or sets a to-hit modifier for this attack that will be influenced by the target Battler's
     /// <see cref="BattlerStats.Evasion"/>.
     /// </summary>
     [Export]
     public int AddedValue { get; set; } = 10;
 
+    /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         if (targets.Length == 0)
         {
@@ -48,8 +56,8 @@ public partial class StatsBattlerAction : BattlerAction
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         foreach (Battler target in targets)
         {
-            target.Stats.AddModifier("attack", AddedValue);
-            target.Stats.AddModifier("hit_chance", AddedValue);
+            target.Stats.AddModifier("attack", this.AddedValue);
+            target.Stats.AddModifier("hit_chance", this.AddedValue);
         }
 
         timer = source.GetTree().CreateTimer(0.1f);

@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIActionDescription.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A text bar that displays the <see cref="BattlerAction.Description"/> of a <see cref="BattlerAction"/>.
@@ -9,57 +13,59 @@ using System;
 /// </summary>
 public partial class UIActionDescription : MarginContainer
 {
-    private Label _descriptionLabel;
+    private Label descriptionLabel;
 
-    private string _description = "";
+    private string description = string.Empty;
+
     /// <summary>
-    /// The description text to display
+    /// Gets or sets the description text to display.
     /// </summary>
     public string Description
     {
-        get => _description;
+        get => this.description;
         set
         {
-            _description = value;
+            this.description = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // In C#, we need to wait for the node to be ready before accessing child nodes
                 // We'll call the setup method when the node is ready instead
-                _description = value;
+                this.description = value;
                 return;
             }
 
-            _descriptionLabel.Text = _description;
-            if (string.IsNullOrEmpty(_description))
+            this.descriptionLabel.Text = this.description;
+            if (string.IsNullOrEmpty(this.description))
             {
-                Hide();
+                this.Hide();
             }
             else
             {
-                Show();
+                this.Show();
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _descriptionLabel = GetNode<Label>("CenterContainer/MarginContainer/Description");
+        this.descriptionLabel = this.GetNode<Label>("CenterContainer/MarginContainer/Description");
 
         // If Description was set before the node was ready, apply it now
-        if (!string.IsNullOrEmpty(_description))
+        if (!string.IsNullOrEmpty(this.description))
         {
-            _descriptionLabel.Text = _description;
-            Show();
+            this.descriptionLabel.Text = this.description;
+            this.Show();
         }
         else
         {
-            Hide();
+            this.Hide();
         }
 
         if (!Engine.IsEditorHint())
         {
-            Hide();
+            this.Hide();
         }
     }
 }

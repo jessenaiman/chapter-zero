@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="FieldEvents.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A signal bus to connect distant scenes to various field-exclusive events.
@@ -16,21 +20,21 @@ public partial class FieldEvents : Node
     /// Emitted when the cursor moves to a new position on the field gameboard.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellHighlightedEventHandler(Vector2I cell);
 
     /// <summary>
     /// Emitted when the player selects a cell on the field gameboard via the <see cref="FieldCursor"/>.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellSelectedEventHandler(Vector2I cell);
 
     /// <summary>
     /// Emitted when the player selects a cell that is covered by an <see cref="Interaction"/>.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InteractionSelectedEventHandler(Interaction interaction);
 
     /// <summary>
@@ -38,7 +42,7 @@ public partial class FieldEvents : Node
     /// a combat 'state'.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CombatTriggeredEventHandler(PackedScene arena);
 
     /// <summary>
@@ -46,14 +50,14 @@ public partial class FieldEvents : Node
     /// character to the cutscene code.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CutsceneBeganEventHandler();
 
     /// <summary>
     /// Emitted when a <see cref="Cutscene"/> ends, restoring normal mode of play.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CutsceneEndedEventHandler();
 
     /// <summary>
@@ -61,9 +65,10 @@ public partial class FieldEvents : Node
     /// Typically emitted by combat, dialogues, etc.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InputPausedEventHandler(bool isPaused);
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         // Set this object's process priority to a very high number.

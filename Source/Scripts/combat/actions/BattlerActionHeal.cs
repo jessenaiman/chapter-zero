@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="BattlerActionHeal.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a direct melee hit.
@@ -12,9 +16,13 @@ public partial class HealBattlerAction : BattlerAction
     [Export]
     public int HealAmount { get; set; } = 50;
 
+    /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         if (targets.Length == 0)
         {
@@ -40,7 +48,7 @@ public partial class HealBattlerAction : BattlerAction
         // Wait for a short delay and then apply healing to the targets.
         timer = source.GetTree().CreateTimer(0.1f);
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        BattlerHit hit = new BattlerHit(-HealAmount, 100.0f);
+        BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f);
         foreach (Battler target in targets)
         {
             target.TakeHit(hit);

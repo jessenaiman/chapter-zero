@@ -1,6 +1,10 @@
+// <copyright file="WandPedestalInteraction.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using System.Linq;
 using Godot;
 using Godot.Collections;
-using System.Linq;
 
 /// <summary>
 /// A puzzle interaction where the player must place the correct colored wand on each pedestal.
@@ -19,29 +23,29 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         // Inventory.ItemTypes.RED_WAND,
         // Inventory.ItemTypes.BLUE_WAND,
         // Inventory.ItemTypes.GREEN_WAND,
-        -1
+        -1,
     };
 
     /// <summary>
     /// A list of ALL pedestals in the current scene that have the correct wand placed on them.
     /// The keys will be the pedestal itself, and the values whether or not a given pedestal is correct.
     /// </summary>
-    private static System.Collections.Generic.Dictionary<WandPedestalInteraction, bool> _correctPedestals = new System.Collections.Generic.Dictionary<WandPedestalInteraction, bool>();
+    private static System.Collections.Generic.Dictionary<WandPedestalInteraction, bool> correctPedestals = new System.Collections.Generic.Dictionary<WandPedestalInteraction, bool>();
 
     /// <summary>
-    /// Link the obstacle's animation player to this object for when the puzzle is solved.
+    /// Gets or sets link the obstacle's animation player to this object for when the puzzle is solved.
     /// </summary>
     [Export]
     public AnimationPlayer SolvedAnimation { get; set; } = null!;
 
     /// <summary>
-    /// Specify a timeline that should be run if an item is already placed on the pedestal.
+    /// Gets or sets specify a timeline that should be run if an item is already placed on the pedestal.
     /// </summary>
     [Export]
     public Resource WandPlacedTimeline { get; set; } = null!; // DialogicTimeline
 
     /// <summary>
-    /// Specify which wand color this pedestal expects.
+    /// Gets or sets specify which wand color this pedestal expects.
     /// </summary>
     [Export(PropertyHint.Enum, "Red,Blue,Green")]
     public string PedestalRequirement { get; set; } = "Red";
@@ -49,15 +53,16 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// <summary>
     /// Keep track of the id of the item currently placed on the pedestal, from Inventory.ItemTypes enum.
     /// </summary>
-    private int _currentItemId = -1;
+    private int currentItemId = -1;
 
     /// <summary>
     /// The timeline to run when no item is on the pedestal.
     /// </summary>
-    private Resource _unoccupiedTimeline = null!; // Renamed from timeline in InteractionTemplateConversation
+    private Resource unoccupiedTimeline = null!; // Renamed from timeline in InteractionTemplateConversation
 
-    private Sprite2D _sprite = null!;
+    private Sprite2D sprite = null!;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
@@ -65,20 +70,21 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         if (!Engine.IsEditorHint())
         {
             GD.PushError("WandPedestalInteraction requires implementation: SolvedAnimation assertion");
+
             // assert(SolvedAnimation, "This interaction requires the obstacle's animation player!");
 
             // Setup the static variable to account for this pedestal
-            _correctPedestals[this] = false;
+            correctPedestals[this] = false;
 
-            _sprite = GetNode<Sprite2D>("Sprite2D");
+            this.sprite = this.GetNode<Sprite2D>("Sprite2D");
 
             // Connect to inventory signals
-            var inventory = GetNode("/root/Inventory");
+            var inventory = this.GetNode("/root/Inventory");
             if (inventory != null)
             {
                 inventory.Connect("item_changed", Callable.From((int itemType) =>
                 {
-                    OnInventoryItemChanged(itemType, inventory);
+                    this.OnInventoryItemChanged(itemType, inventory);
                 }));
             }
         }
@@ -90,34 +96,34 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     protected async void Execute()
     {
         // Run the default timeline unless there is already something on this pedestal
-        Resource timelineToRun = _unoccupiedTimeline;
-        if (_sprite?.Texture != null)
+        Resource timelineToRun = this.unoccupiedTimeline;
+        if (this.sprite?.Texture != null)
         {
-            timelineToRun = WandPlacedTimeline;
+            timelineToRun = this.WandPlacedTimeline;
         }
 
         // Start the timeline
-        var dialogic = GetNode("/root/Dialogic");
+        var dialogic = this.GetNode("/root/Dialogic");
         if (dialogic != null && timelineToRun != null)
         {
             dialogic.Call("start_timeline", timelineToRun);
-            await ToSignal(dialogic, "timeline_ended");
+            await this.ToSignal(dialogic, "timeline_ended");
         }
 
         // Check to see if the puzzle has been solved
         if (IsPuzzleSolved())
         {
             // Deactivate the pedestal interactions so they cannot be interacted with
-            foreach (var pedestal in _correctPedestals.Keys)
+            foreach (var pedestal in correctPedestals.Keys)
             {
                 pedestal.Set("is_active", false);
             }
 
             // The referenced animation player will resolve the puzzle
-            if (SolvedAnimation != null)
+            if (this.SolvedAnimation != null)
             {
-                SolvedAnimation.Play("solve");
-                await ToSignal(SolvedAnimation, AnimationPlayer.SignalName.AnimationFinished);
+                this.SolvedAnimation.Play("solve");
+                await this.ToSignal(this.SolvedAnimation, AnimationPlayer.SignalName.AnimationFinished);
             }
         }
     }
@@ -125,9 +131,9 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// <summary>
     /// Check to see if ALL pedestals have the correct wand placed on them.
     /// </summary>
-    private bool IsPuzzleSolved()
+    private static bool IsPuzzleSolved()
     {
-        return _correctPedestals.Values.All(value => value);
+        return correctPedestals.Values.All(value => value);
     }
 
     /// <summary>
@@ -139,7 +145,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     private void OnDialogicSignalEvent(string argument)
     {
         // Get the Inventory singleton
-        var inventory = GetNode("/root/Inventory");
+        var inventory = this.GetNode("/root/Inventory");
         if (inventory == null)
         {
             return;
@@ -159,7 +165,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         }
 
         // Convert the pedestal requirement to an item id
-        string expectedWand = PedestalRequirement.ToUpper() + "_WAND";
+        string expectedWand = this.PedestalRequirement.ToUpper() + "_WAND";
         int expectedWandId = -1;
         if (itemTypes != null && itemTypes.ContainsKey(expectedWand))
         {
@@ -169,9 +175,9 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         // Handle item placement/removal
         if (itemId < 0)
         {
-            if (_currentItemId >= 0)
+            if (this.currentItemId >= 0)
             {
-                inventory.Call("add", _currentItemId);
+                inventory.Call("add", this.currentItemId);
             }
         }
         else
@@ -180,11 +186,11 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         }
 
         // Update the sprite texture
-        _currentItemId = itemId;
-        _sprite.Texture = (Texture2D)inventory.Call("get_item_icon", itemId);
+        this.currentItemId = itemId;
+        this.sprite.Texture = (Texture2D)inventory.Call("get_item_icon", itemId);
 
         // Flag whether or not this pedestal has the correct wand placed on it
-        _correctPedestals[this] = _currentItemId == expectedWandId;
+        correctPedestals[this] = this.currentItemId == expectedWandId;
     }
 
     /// <summary>
@@ -192,7 +198,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// </summary>
     private void OnInventoryItemChanged(int itemType, Node inventory)
     {
-        var dialogic = GetNode("/root/Dialogic");
+        var dialogic = this.GetNode("/root/Dialogic");
         if (dialogic == null)
         {
             return;

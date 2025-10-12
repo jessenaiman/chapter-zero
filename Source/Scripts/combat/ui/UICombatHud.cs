@@ -1,8 +1,12 @@
-using Godot;
+// <copyright file="UICombatHud.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Container for the player combat HUD.
@@ -19,33 +23,33 @@ public partial class UICombatHud : Control
     public delegate void BattlerSelectedEventHandler(Battler battler);
 
     /// <summary>
-    /// The list of combat participants.
+    /// Gets the list of combat participants.
     /// </summary>
     public BattlerList Battlers { get; private set; }
 
     /// <summary>
-    /// The currently selected battler.
+    /// Gets or sets the currently selected battler.
     /// </summary>
     public Battler SelectedBattler
     {
-        get => selectedBattler;
+        get => this.selectedBattler;
         set
         {
-            if (selectedBattler != value)
+            if (this.selectedBattler != value)
             {
-                selectedBattler = value;
-                OnSelectedBattlerChanged();
+                this.selectedBattler = value;
+                this.OnSelectedBattlerChanged();
             }
         }
     }
 
     /// <summary>
-    /// Whether the HUD is currently visible.
+    /// Gets or sets a value indicating whether whether the HUD is currently visible.
     /// </summary>
     public bool HudVisible
     {
-        get => Visible;
-        set => Visible = value;
+        get => this.Visible;
+        set => this.Visible = value;
     }
 
     /// <summary>
@@ -73,15 +77,16 @@ public partial class UICombatHud : Control
     /// </summary>
     private Battler selectedBattler;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         // Get references to child UI elements
-        playerBattlersContainer = GetNode<Control>("PlayerBattlers");
-        enemyBattlersContainer = GetNode<Control>("EnemyBattlers");
-        battlerInfoPanel = GetNode<Control>("BattlerInfo");
+        this.playerBattlersContainer = this.GetNode<Control>("PlayerBattlers");
+        this.enemyBattlersContainer = this.GetNode<Control>("EnemyBattlers");
+        this.battlerInfoPanel = this.GetNode<Control>("BattlerInfo");
 
         // Initially hide the HUD
-        Visible = false;
+        this.Visible = false;
 
         // Connect to any necessary signals
         ConnectSignals();
@@ -90,7 +95,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Connect to necessary signals.
     /// </summary>
-    private void ConnectSignals()
+    private static void ConnectSignals()
     {
         // Connect to combat events
         // CombatEvents.BattlerSelected += OnBattlerSelected;
@@ -100,33 +105,33 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Setup the UI combat HUD with the given battler list.
     /// </summary>
-    /// <param name="battlers">The list of combat participants</param>
+    /// <param name="battlers">The list of combat participants.</param>
     public void Setup(BattlerList battlers)
     {
-        Battlers = battlers;
+        this.Battlers = battlers;
 
         // Clear any existing battler displays
-        ClearBattlerDisplays();
+        this.ClearBattlerDisplays();
 
         // Create displays for all battlers
-        if (Battlers.Players != null)
+        if (this.Battlers.Players != null)
         {
-            foreach (var player in Battlers.Players)
+            foreach (var player in this.Battlers.Players)
             {
-                CreateBattlerDisplay(player, playerBattlersContainer);
+                this.CreateBattlerDisplay(player, this.playerBattlersContainer);
             }
         }
 
-        if (Battlers.Enemies != null)
+        if (this.Battlers.Enemies != null)
         {
-            foreach (var enemy in Battlers.Enemies)
+            foreach (var enemy in this.Battlers.Enemies)
             {
-                CreateBattlerDisplay(enemy, enemyBattlersContainer);
+                this.CreateBattlerDisplay(enemy, this.enemyBattlersContainer);
             }
         }
 
         // Show the HUD
-        Visible = true;
+        this.Visible = true;
     }
 
     /// <summary>
@@ -135,25 +140,25 @@ public partial class UICombatHud : Control
     private void ClearBattlerDisplays()
     {
         // Remove all existing battler displays
-        foreach (var display in battlerDisplays.Values)
+        foreach (var display in this.battlerDisplays.Values)
         {
             display.QueueFree();
         }
 
-        battlerDisplays.Clear();
+        this.battlerDisplays.Clear();
 
         // Clear containers
-        if (playerBattlersContainer != null)
+        if (this.playerBattlersContainer != null)
         {
-            foreach (var child in playerBattlersContainer.GetChildren())
+            foreach (var child in this.playerBattlersContainer.GetChildren())
             {
                 child.QueueFree();
             }
         }
 
-        if (enemyBattlersContainer != null)
+        if (this.enemyBattlersContainer != null)
         {
-            foreach (var child in enemyBattlersContainer.GetChildren())
+            foreach (var child in this.enemyBattlersContainer.GetChildren())
             {
                 child.QueueFree();
             }
@@ -163,8 +168,8 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Create a display for a battler.
     /// </summary>
-    /// <param name="battler">The battler to create a display for</param>
-    /// <param name="container">The container to add the display to</param>
+    /// <param name="battler">The battler to create a display for.</param>
+    /// <param name="container">The container to add the display to.</param>
     private void CreateBattlerDisplay(Battler battler, Control container)
     {
         if (battler == null || container == null)
@@ -180,28 +185,28 @@ public partial class UICombatHud : Control
         container.AddChild(display);
 
         // Store the display in the dictionary
-        battlerDisplays[battler] = display;
+        this.battlerDisplays[battler] = display;
 
         // Connect to the battler's signals
         if (battler.Stats != null)
         {
-            battler.Stats.HealthChanged += () => OnBattlerHealthChanged(battler);
-            battler.Stats.EnergyChanged += () => OnBattlerEnergyChanged(battler);
+            battler.Stats.HealthChanged += () => this.OnBattlerHealthChanged(battler);
+            battler.Stats.EnergyChanged += () => this.OnBattlerEnergyChanged(battler);
         }
 
         // Set up the display with initial values
         UpdateBattlerDisplay(battler, display);
 
         // Connect input events to allow selecting the battler
-        display.GuiInput += (inputEvent) => OnBattlerDisplayInput(battler, inputEvent);
+        display.GuiInput += (inputEvent) => this.OnBattlerDisplayInput(battler, inputEvent);
     }
 
     /// <summary>
     /// Update a battler display with current values.
     /// </summary>
-    /// <param name="battler">The battler to update the display for</param>
-    /// <param name="display">The display to update</param>
-    private void UpdateBattlerDisplay(Battler battler, Control display)
+    /// <param name="battler">The battler to update the display for.</param>
+    /// <param name="display">The display to update.</param>
+    private static void UpdateBattlerDisplay(Battler battler, Control display)
     {
         if (battler == null || display == null || battler.Stats == null)
         {
@@ -228,10 +233,10 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Update the detailed battler info panel.
     /// </summary>
-    /// <param name="battler">The battler to display info for</param>
+    /// <param name="battler">The battler to display info for.</param>
     private void UpdateBattlerInfoPanel(Battler battler)
     {
-        if (battler == null || battlerInfoPanel == null || battler.Stats == null)
+        if (battler == null || this.battlerInfoPanel == null || battler.Stats == null)
         {
             return;
         }
@@ -257,51 +262,51 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Callback when a battler's health changes.
     /// </summary>
-    /// <param name="battler">The battler whose health changed</param>
+    /// <param name="battler">The battler whose health changed.</param>
     private void OnBattlerHealthChanged(Battler battler)
     {
-        if (battlerDisplays.ContainsKey(battler))
+        if (this.battlerDisplays.ContainsKey(battler))
         {
-            UpdateBattlerDisplay(battler, battlerDisplays[battler]);
+            UpdateBattlerDisplay(battler, this.battlerDisplays[battler]);
         }
 
         // If this is the selected battler, also update the info panel
-        if (battler == SelectedBattler)
+        if (battler == this.SelectedBattler)
         {
-            UpdateBattlerInfoPanel(battler);
+            this.UpdateBattlerInfoPanel(battler);
         }
     }
 
     /// <summary>
     /// Callback when a battler's energy changes.
     /// </summary>
-    /// <param name="battler">The battler whose energy changed</param>
+    /// <param name="battler">The battler whose energy changed.</param>
     private void OnBattlerEnergyChanged(Battler battler)
     {
-        if (battlerDisplays.ContainsKey(battler))
+        if (this.battlerDisplays.ContainsKey(battler))
         {
-            UpdateBattlerDisplay(battler, battlerDisplays[battler]);
+            UpdateBattlerDisplay(battler, this.battlerDisplays[battler]);
         }
 
         // If this is the selected battler, also update the info panel
-        if (battler == SelectedBattler)
+        if (battler == this.SelectedBattler)
         {
-            UpdateBattlerInfoPanel(battler);
+            this.UpdateBattlerInfoPanel(battler);
         }
     }
 
     /// <summary>
     /// Callback when input is received on a battler display.
     /// </summary>
-    /// <param name="battler">The battler associated with the display</param>
-    /// <param name="inputEvent">The input event</param>
+    /// <param name="battler">The battler associated with the display.</param>
+    /// <param name="inputEvent">The input event.</param>
     private void OnBattlerDisplayInput(Battler battler, InputEvent inputEvent)
     {
         if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
         {
             // Select the battler when clicked
-            SelectedBattler = battler;
-            EmitSignal(SignalName.BattlerSelected, battler);
+            this.SelectedBattler = battler;
+            this.EmitSignal(SignalName.BattlerSelected, battler);
         }
     }
 
@@ -311,10 +316,10 @@ public partial class UICombatHud : Control
     private void OnSelectedBattlerChanged()
     {
         // Update the battler info panel with the selected battler's details
-        UpdateBattlerInfoPanel(SelectedBattler);
+        this.UpdateBattlerInfoPanel(this.SelectedBattler);
 
         // Highlight the selected battler's display
-        HighlightSelectedBattler();
+        this.HighlightSelectedBattler();
     }
 
     /// <summary>
@@ -323,16 +328,17 @@ public partial class UICombatHud : Control
     private void HighlightSelectedBattler()
     {
         // Remove highlight from all battler displays
-        foreach (var display in battlerDisplays.Values)
+        foreach (var display in this.battlerDisplays.Values)
         {
             // Remove highlight styling
             // display.Modulate = Colors.White;
         }
 
         // Add highlight to the selected battler's display
-        if (SelectedBattler != null && battlerDisplays.ContainsKey(SelectedBattler))
+        if (this.SelectedBattler != null && this.battlerDisplays.ContainsKey(this.SelectedBattler))
         {
-            var display = battlerDisplays[SelectedBattler];
+            var display = this.battlerDisplays[this.SelectedBattler];
+
             // Add highlight styling
             // display.Modulate = Colors.Yellow;
         }
@@ -343,7 +349,7 @@ public partial class UICombatHud : Control
     /// </summary>
     public void HideHUD()
     {
-        Visible = false;
+        this.Visible = false;
     }
 
     /// <summary>
@@ -351,7 +357,7 @@ public partial class UICombatHud : Control
     /// </summary>
     public void ShowHUD()
     {
-        Visible = true;
+        this.Visible = true;
     }
 
     /// <summary>
@@ -359,23 +365,23 @@ public partial class UICombatHud : Control
     /// </summary>
     public void UpdateAllDisplays()
     {
-        foreach (var kvp in battlerDisplays)
+        foreach (var kvp in this.battlerDisplays)
         {
             UpdateBattlerDisplay(kvp.Key, kvp.Value);
         }
 
         // If there's a selected battler, update the info panel
-        if (SelectedBattler != null)
+        if (this.SelectedBattler != null)
         {
-            UpdateBattlerInfoPanel(SelectedBattler);
+            this.UpdateBattlerInfoPanel(this.SelectedBattler);
         }
     }
 
     /// <summary>
     /// Get the display for a specific battler.
     /// </summary>
-    /// <param name="battler">The battler to get the display for</param>
-    /// <returns>The display control for the battler, or null if not found</returns>
+    /// <param name="battler">The battler to get the display for.</param>
+    /// <returns>The display control for the battler, or null if not found.</returns>
     public Control GetBattlerDisplay(Battler battler)
     {
         if (battler == null)
@@ -383,7 +389,7 @@ public partial class UICombatHud : Control
             return null;
         }
 
-        return battlerDisplays.GetValueOrDefault(battler, null);
+        return this.battlerDisplays.GetValueOrDefault(battler, null);
     }
 
     /// <summary>
@@ -392,36 +398,36 @@ public partial class UICombatHud : Control
     public void Refresh()
     {
         // Clear and recreate all battler displays
-        ClearBattlerDisplays();
+        this.ClearBattlerDisplays();
 
-        if (Battlers != null)
+        if (this.Battlers != null)
         {
-            if (Battlers.Players != null)
+            if (this.Battlers.Players != null)
             {
-                foreach (var player in Battlers.Players)
+                foreach (var player in this.Battlers.Players)
                 {
-                    CreateBattlerDisplay(player, playerBattlersContainer);
+                    this.CreateBattlerDisplay(player, this.playerBattlersContainer);
                 }
             }
 
-            if (Battlers.Enemies != null)
+            if (this.Battlers.Enemies != null)
             {
-                foreach (var enemy in Battlers.Enemies)
+                foreach (var enemy in this.Battlers.Enemies)
                 {
-                    CreateBattlerDisplay(enemy, enemyBattlersContainer);
+                    this.CreateBattlerDisplay(enemy, this.enemyBattlersContainer);
                 }
             }
         }
 
         // Update all displays
-        UpdateAllDisplays();
+        this.UpdateAllDisplays();
     }
 
     /// <summary>
     /// Show a message in the HUD.
     /// </summary>
-    /// <param name="message">The message to show</param>
-    /// <param name="duration">The duration to show the message for</param>
+    /// <param name="message">The message to show.</param>
+    /// <param name="duration">The duration to show the message for.</param>
     public async void ShowMessage(string message, float duration = 2.0f)
     {
         // Show a temporary message in the HUD
@@ -433,7 +439,7 @@ public partial class UICombatHud : Control
         // messageLabel.Show();
 
         // Wait for the specified duration
-        await ToSignal(GetTree().CreateTimer(duration), Timer.SignalName.Timeout);
+        await ToSignal(this.GetTree().CreateTimer(duration), Timer.SignalName.Timeout);
 
         // Hide the message
         // messageLabel.Hide();
@@ -442,10 +448,10 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Show an effect label (like damage numbers or healing amounts).
     /// </summary>
-    /// <param name="text">The text to show</param>
-    /// <param name="position">The position to show the text at</param>
-    /// <param name="color">The color of the text</param>
-    public void ShowEffectLabel(string text, Vector2 position, Color color)
+    /// <param name="text">The text to show.</param>
+    /// <param name="position">The position to show the text at.</param>
+    /// <param name="color">The color of the text.</param>
+    public static void ShowEffectLabel(string text, Vector2 position, Color color)
     {
         // Show a floating label at the specified position
         // This would typically involve creating a temporary label that floats upward and fades out
@@ -467,8 +473,8 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Update the turn order display.
     /// </summary>
-    /// <param name="turnOrder">The current turn order</param>
-    public void UpdateTurnOrder(List<Battler> turnOrder)
+    /// <param name="turnOrder">The current turn order.</param>
+    public static void UpdateTurnOrder(List<Battler> turnOrder)
     {
         // Update the display showing the turn order
         // This would typically involve updating icons or names showing who is next to act

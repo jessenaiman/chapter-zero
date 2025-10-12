@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="UIListMenu.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 /// <summary>
 /// A list menu is a template menu that provides common functionality for the combat menus.
@@ -13,43 +17,45 @@ using System.Linq;
 public partial class UIListMenu : VBoxContainer
 {
     /// <summary>
-    /// The scene representing the different menu entries. The scene must be some derivation of
+    /// Gets or sets the scene representing the different menu entries. The scene must be some derivation of
     /// <see cref="BaseButton"/>.
     /// </summary>
     [Export]
     public PackedScene EntryScene { get; set; }
 
-    private bool _isDisabled = true;
+    private bool isDisabled = true;
+
     /// <summary>
-    /// Disables or enables clicking on/navigating to the various entries.
+    /// Gets or sets a value indicating whether disables or enables clicking on/navigating to the various entries.
     /// Defaults to true, as most menus will animate into existence before being interactable.
     /// </summary>
     public bool IsDisabled
     {
-        get => _isDisabled;
+        get => this.isDisabled;
         set
         {
-            _isDisabled = value;
-            foreach (var entry in _entries)
+            this.isDisabled = value;
+            foreach (var entry in this.entries)
             {
-                entry.Disabled = _isDisabled;
+                entry.Disabled = this.isDisabled;
             }
 
-            FocusFirstEntry();
-            _menuCursor.Visible = !_isDisabled;
+            this.FocusFirstEntry();
+            this.menuCursor.Visible = !this.isDisabled;
         }
     }
 
     // Track all battler list entries in the following array.
-    protected List<BaseButton> _entries = new List<BaseButton>();
+    protected List<BaseButton> entries = new List<BaseButton>();
 
-    private AnimationPlayer _anim;
-    private UIMenuCursor _menuCursor;
+    private AnimationPlayer anim;
+    private UIMenuCursor menuCursor;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        _menuCursor = GetNode<UIMenuCursor>("MenuCursor");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.menuCursor = this.GetNode<UIMenuCursor>("MenuCursor");
     }
 
     /// <summary>
@@ -57,10 +63,10 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public void FocusFirstEntry()
     {
-        if (_entries.Count > 0)
+        if (this.entries.Count > 0)
         {
-            _entries[0].GrabFocus();
-            _menuCursor.Position = _entries[0].GlobalPosition + new Vector2(0.0f, _entries[0].Size.Y / 2.0f);
+            this.entries[0].GrabFocus();
+            this.menuCursor.Position = this.entries[0].GlobalPosition + new Vector2(0.0f, this.entries[0].Size.Y / 2.0f);
         }
     }
 
@@ -70,11 +76,11 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public async void FadeIn()
     {
-        _anim.Play("fade_in");
-        await ToSignal(_anim, AnimationPlayer.SignalName.AnimationFinished);
-        IsDisabled = false;
+        this.anim.Play("fade_in");
+        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        this.IsDisabled = false;
 
-        FocusFirstEntry();
+        this.FocusFirstEntry();
     }
 
     /// <summary>
@@ -82,9 +88,9 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public async void FadeOut()
     {
-        IsDisabled = true;
-        _anim.Play("fade_out");
-        await ToSignal(_anim, AnimationPlayer.SignalName.AnimationFinished);
+        this.IsDisabled = true;
+        this.anim.Play("fade_out");
+        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
     }
 
     /// <summary>
@@ -92,42 +98,43 @@ public partial class UIListMenu : VBoxContainer
     /// button's signals that may be modified depending on the specific menu.
     /// Returns the created entry so that a menu may add additional functionality to the entry.
     /// </summary>
-    /// <returns>The created entry</returns>
+    /// <returns>The created entry.</returns>
     protected BaseButton CreateEntry()
     {
-        var newEntry = EntryScene.Instantiate();
+        var newEntry = this.EntryScene.Instantiate();
         System.Diagnostics.Debug.Assert(newEntry is BaseButton, "Entries to a UIMenuList must be derived from BaseButton!" +
             " A non-BaseButton entry_scene has been specified.");
 
         var buttonEntry = newEntry as BaseButton;
-        AddChild(buttonEntry);
+        this.AddChild(buttonEntry);
 
         // We're going to keep these as independent functions rather than inline lambdas, since each menu
         // will probably respond to these events differently. For example, a target menu will want to
         // highlight a specific battler when a new entry is focused and an action menu will want to
         // forward which action was selected.
-        buttonEntry.FocusEntered += () => _onEntryFocused(buttonEntry);
-        buttonEntry.MouseEntered += () => _onEntryFocused(buttonEntry);
-        buttonEntry.Pressed += () => _onEntryPressed(buttonEntry);
+        buttonEntry.FocusEntered += () => this.OnEntryFocused(buttonEntry);
+        buttonEntry.MouseEntered += () => this.OnEntryFocused(buttonEntry);
+        buttonEntry.Pressed += () => this.OnEntryPressed(buttonEntry);
 
-        _entries.Add(buttonEntry);
+        this.entries.Add(buttonEntry);
 
-        if (IsDisabled)
+        if (this.IsDisabled)
         {
             buttonEntry.Disabled = true;
         }
+
         return buttonEntry;
     }
 
     protected void LoopFirstAndLastEntries()
     {
-        System.Diagnostics.Debug.Assert(_entries.Count > 0, "No action entries for the menu to connect!");
+        System.Diagnostics.Debug.Assert(this.entries.Count > 0, "No action entries for the menu to connect!");
 
-        var lastEntryIndex = _entries.Count - 1;
-        var firstEntry = _entries[0];
+        var lastEntryIndex = this.entries.Count - 1;
+        var firstEntry = this.entries[0];
         if (lastEntryIndex > 0)
         {
-            var lastEntry = _entries[lastEntryIndex];
+            var lastEntry = this.entries[lastEntryIndex];
             firstEntry.FocusNeighborTop = firstEntry.GetPathTo(lastEntry);
             lastEntry.FocusNeighborBottom = lastEntry.GetPathTo(firstEntry);
         }
@@ -142,21 +149,21 @@ public partial class UIListMenu : VBoxContainer
     /// Moves the <see cref="UIMenuCursor"/> to the focused entry. Derivative menus may want to add additional
     /// behaviour.
     /// </summary>
-    /// <param name="entry">The entry that was focused</param>
-    protected void _onEntryFocused(BaseButton entry)
+    /// <param name="entry">The entry that was focused.</param>
+    protected void OnEntryFocused(BaseButton entry)
     {
-        _menuCursor.MoveTo(entry.GlobalPosition + new Vector2(0.0f, entry.Size.Y / 2.0f));
+        this.menuCursor.MoveTo(entry.GlobalPosition + new Vector2(0.0f, entry.Size.Y / 2.0f));
     }
 
     /// <summary>
     /// Hides (and disables) the menu. Derivative menus may want to add additional behaviour.
     /// </summary>
-    /// <param name="entry">The entry that was pressed</param>
-    protected virtual void _onEntryPressed(BaseButton entry)
+    /// <param name="entry">The entry that was pressed.</param>
+    protected virtual void OnEntryPressed(BaseButton entry)
     {
-        if (!IsDisabled)
+        if (!this.IsDisabled)
         {
-            FadeOut();
+            this.FadeOut();
         }
     }
 }

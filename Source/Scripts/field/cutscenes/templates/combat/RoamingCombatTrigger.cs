@@ -1,19 +1,25 @@
-using Godot;
+// <copyright file="RoamingCombatTrigger.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 [Tool]
 public partial class RoamingCombatTrigger : CombatTrigger
 {
     // If the player has defeated this 'roaming encounter', remove the encounter.
-    protected override async void _RunVictoryCutscene()
+    /// <inheritdoc/>
+    protected override async void RunVictoryCutscene()
     {
-        QueueFree();
+        this.QueueFree();
     }
 
     // If the player has lost to this 'roaming encounter', play the game-over screen.
-    protected override async void _RunLossCutscene()
+    /// <inheritdoc/>
+    protected override async void RunLossCutscene()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 }

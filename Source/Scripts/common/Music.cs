@@ -1,9 +1,13 @@
-using Godot;
-using System;
-using System.Collections.Generic;
+// <copyright file="Music.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Source.Scripts
 {
+    using System;
+    using System.Collections.Generic;
+    using Godot;
+
     /// <summary>
     /// Centralized music and audio management system.
     /// The Music class provides a centralized way to manage and play background music
@@ -13,36 +17,36 @@ namespace OmegaSpiral.Source.Scripts
     public partial class Music : Node
     {
         /// <summary>
-        /// Singleton instance of Music
+        /// Gets singleton instance of Music.
         /// </summary>
         public static Music Instance { get; private set; }
 
         /// <summary>
-        /// The default bus name for music playback.
+        /// Gets or sets the default bus name for music playback.
         /// </summary>
         [Export]
         public string MusicBusName { get; set; } = "Music";
 
         /// <summary>
-        /// The default bus name for sound effects playback.
+        /// Gets or sets the default bus name for sound effects playback.
         /// </summary>
         [Export]
         public string SfxBusName { get; set; } = "SFX";
 
         /// <summary>
-        /// The default volume for music playback.
+        /// Gets or sets the default volume for music playback.
         /// </summary>
         [Export]
         public float DefaultMusicVolume { get; set; } = 0.0f; // In dB
 
         /// <summary>
-        /// The default volume for sound effects playback.
+        /// Gets or sets the default volume for sound effects playback.
         /// </summary>
         [Export]
         public float DefaultSfxVolume { get; set; } = 0.0f; // In dB
 
         /// <summary>
-        /// The duration of crossfade between music tracks in seconds.
+        /// Gets or sets the duration of crossfade between music tracks in seconds.
         /// </summary>
         [Export]
         public float CrossfadeDuration { get; set; } = 2.0f;

@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="CombatTrigger.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 [Tool]
 public partial class CombatTrigger : Trigger
@@ -8,7 +12,8 @@ public partial class CombatTrigger : Trigger
     [Export]
     public PackedScene CombatArena { get; set; }
 
-    protected override async void _Execute()
+    /// <inheritdoc/>
+    protected override async void Execute()
     {
         // Let other systems know that a combat has been triggered and then wait for its outcome.
         // FieldEvents.combat_triggered.emit(combat_arena);
@@ -17,6 +22,7 @@ public partial class CombatTrigger : Trigger
         // For now, we'll simulate the await of CombatEvents.combat_finished
         // This would typically be replaced with actual event handling when the combat system is implemented
         var tcs = new TaskCompletionSource<bool>();
+
         // In a real implementation, this would be connected to CombatEvents.CombatFinished
         // For now, we'll just simulate a result after a short delay
         var timer = new Timer();
@@ -24,7 +30,7 @@ public partial class CombatTrigger : Trigger
         AddChild(timer);
         timer.Start(0.1f); // Short delay to simulate combat
 
-        bool didPlayerWin = await tcs.Task;
+        bool didPlayerWin = await tcs.Task.ConfigureAwait(false);
 
         // The combat ends with a covered screen, and so we fix that here.
         // Transition.clear.call_deferred(0.2)
@@ -37,11 +43,11 @@ public partial class CombatTrigger : Trigger
         // example, the player lost a difficult but non-essential battle.
         if (didPlayerWin)
         {
-            await _RunVictoryCutscene();
+            await this.RunVictoryCutscene();
         }
         else
         {
-            await _RunLossCutscene();
+            await this.RunLossCutscene();
         }
     }
 
@@ -50,9 +56,9 @@ public partial class CombatTrigger : Trigger
     /// Examples include adding an item to the player's inventory, running a dialogue, removing an enemy
     /// <see cref="Gamepiece"/>, etc.
     /// </summary>
-    protected virtual async void _RunVictoryCutscene()
+    protected virtual async void RunVictoryCutscene()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 
     /// <summary>
@@ -60,8 +66,8 @@ public partial class CombatTrigger : Trigger
     /// In most cases this may result in a gameover, but in others it may run a cutscene, change some
     /// sort of event flag, etc.
     /// </summary>
-    protected virtual async void _RunLossCutscene()
+    protected virtual async void RunLossCutscene()
     {
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 }

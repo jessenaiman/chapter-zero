@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="CombatActor.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A battle actor is any character or object that performs actions during combat.
@@ -33,7 +37,7 @@ public abstract partial class CombatActor : Node2D
     public const string Group = "combat_actors";
 
     /// <summary>
-    /// Influences when this actor takes their turn in combat. This is a speed rating:
+    /// Gets or sets influences when this actor takes their turn in combat. This is a speed rating:
     /// actors with higher initiative values (closer to 1.0) will act earlier in the turn order,
     /// while lower values (closer to 0.0) make them act later.
     /// </summary>
@@ -41,44 +45,47 @@ public abstract partial class CombatActor : Node2D
     public float Initiative { get; set; } = 1.0f;
 
     /// <summary>
-    /// If this is <b>true</b>, this actor takes part in the battle. Inactive actors won't take turns.
+    /// Gets or sets a value indicating whether if this is <b>true</b>, this actor takes part in the battle. Inactive actors won't take turns.
     /// </summary>
     [Export]
     public bool IsActive { get; set; } = false;
 
     /// <summary>
-    /// If this is <b>true</b>, this actor is controlled by the player. Use this to
+    /// Gets or sets a value indicating whether if this is <b>true</b>, this actor is controlled by the player. Use this to
     /// differentiate between player-controlled actors and AI-controlled ones.
     /// </summary>
     [Export]
     public bool IsPlayer { get; set; } = false;
 
     /// <summary>
-    /// Describes whether or not the CombatActor has taken a turn during this combat round.
+    /// Gets or sets a value indicating whether describes whether or not the CombatActor has taken a turn during this combat round.
     /// </summary>
-    public bool HasActedThisRound { get; set; } = false;
+    public bool HasActedThisRound { get; set; }
 
     public static bool Sort(CombatActor a, CombatActor b)
     {
         return a.Initiative > b.Initiative;
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        AddToGroup(Group);
+        this.AddToGroup(Group);
     }
 
+    /// <inheritdoc/>
     public override string ToString()
     {
-        string msg = $"{Name} (CombatActor)";
-        if (!IsActive)
+        string msg = $"{this.Name} (CombatActor)";
+        if (!this.IsActive)
         {
             msg += " - INACTIVE";
         }
-        else if (HasActedThisRound)
+        else if (this.HasActedThisRound)
         {
             msg += " - HAS ACTED";
         }
+
         return msg;
     }
 
@@ -89,10 +96,10 @@ public abstract partial class CombatActor : Node2D
 
     public virtual async Task StartTurnAsync()
     {
-        GD.Print(GetParent().Name, " starts their turn!");
+        GD.Print(this.GetParent().Name, " starts their turn!");
 
-        var timer = GetTree().CreateTimer(1.5f);
-        await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        EmitSignal(SignalName.TurnFinished);
+        var timer = this.GetTree().CreateTimer(1.5f);
+        await this.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+        this.EmitSignal(SignalName.TurnFinished);
     }
 }

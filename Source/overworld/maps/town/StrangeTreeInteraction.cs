@@ -1,3 +1,7 @@
+// <copyright file="StrangeTreeInteraction.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -10,12 +14,13 @@ public partial class StrangeTreeInteraction : ConversationTemplate
     private AnimationPlayer anim = null!;
     private InteractionPopup popup = null!;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
-        anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        popup = GetNode<InteractionPopup>("InteractionPopup");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.popup = this.GetNode<InteractionPopup>("InteractionPopup");
     }
 
     /// <summary>
@@ -30,41 +35,42 @@ public partial class StrangeTreeInteraction : ConversationTemplate
         // Note that this connection only occurs when this particular dialogue occurs. Since this
         // interaction only really happens once, we don't care what signal argument is passed, only that
         // the signal itself is emitted.
-        Execute();
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        this.Execute();
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 
     /// <summary>
     /// Handle Dialogic signal events for the secret path reveal.
     /// </summary>
-    /// <param name="argument">The signal argument from Dialogic</param>
+    /// <param name="argument">The signal argument from Dialogic.</param>
     private void OnDialogicSignalEvent(string argument)
     {
         // Once the secret path is cleared, we'll want to deactivate the interaction to
         // prevent the user from running it again.
-        IsActive = false;
+        this.IsActive = false;
 
-        if (popup != null)
+        if (this.popup != null)
         {
-            popup.Hide();
-            popup.QueueFree();
+            this.popup.Hide();
+            this.popup.QueueFree();
         }
 
         // Clearing the secret path is controlled exclusively by the animation player.
-        if (anim != null)
+        if (this.anim != null)
         {
-            anim.Play("disappear");
+            this.anim.Play("disappear");
         }
     }
 
     /// <summary>
     /// Wait for the disappear animation to finish.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public async Task WaitForAnimationFinish()
     {
-        if (anim != null)
+        if (this.anim != null)
         {
-            await ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
         }
     }
 
@@ -73,7 +79,7 @@ public partial class StrangeTreeInteraction : ConversationTemplate
     /// </summary>
     public override void Run()
     {
-        ExecuteTreeInteraction();
+        this.ExecuteTreeInteraction();
         base.Run();
     }
 }

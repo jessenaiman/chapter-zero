@@ -1,3 +1,7 @@
+// <copyright file="Pickup.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -9,32 +13,32 @@ using Godot;
 public partial class Pickup : Trigger
 {
     /// <summary>
-    /// The type of item this pickup grants.
+    /// Gets or sets the type of item this pickup grants.
     /// </summary>
     [Export]
     public Inventory.ItemTypes ItemType
     {
-        get => itemType;
+        get => this.itemType;
         set
         {
-            itemType = value;
+            this.itemType = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // Wait for the node to be ready before accessing children
                 // In C# we would typically use a callback or await pattern
                 // For now, we'll defer the texture update
-                CallDeferred(nameof(UpdateSpriteTexture));
+                this.CallDeferred(nameof(this.UpdateSpriteTexture));
             }
             else
             {
-                UpdateSpriteTexture();
+                this.UpdateSpriteTexture();
             }
         }
     }
 
     /// <summary>
-    /// The amount of the item to grant when picked up.
+    /// Gets or sets the amount of the item to grant when picked up.
     /// </summary>
     [Export]
     public int Amount { get; set; } = 1;
@@ -43,17 +47,18 @@ public partial class Pickup : Trigger
     private AnimationPlayer anim;
     private Sprite2D sprite;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
-        anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        sprite = GetNode<Sprite2D>("Sprite2D");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.sprite = this.GetNode<Sprite2D>("Sprite2D");
 
         // Update the sprite texture if ItemType was set before _Ready
-        if (itemType != default(Inventory.ItemTypes))
+        if (this.itemType != default(Inventory.ItemTypes))
         {
-            UpdateSpriteTexture();
+            this.UpdateSpriteTexture();
         }
     }
 
@@ -62,9 +67,9 @@ public partial class Pickup : Trigger
     /// </summary>
     private void UpdateSpriteTexture()
     {
-        if (sprite != null)
+        if (this.sprite != null)
         {
-            sprite.Texture = Inventory.GetItemIcon(itemType);
+            this.sprite.Texture = Inventory.GetItemIcon(this.itemType);
         }
     }
 
@@ -72,24 +77,24 @@ public partial class Pickup : Trigger
     /// Execute the pickup logic when triggered.
     /// Plays the pickup animation and adds the item to the player's inventory.
     /// </summary>
-    protected override async void _Execute()
+    protected override async void Execute()
     {
-        base._Execute();
+        base.Execute();
 
-        if (anim != null)
+        if (this.anim != null)
         {
-            anim.Play("PickupAnimations/obtain");
-            await ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+            this.anim.Play("PickupAnimations/obtain");
+            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
         }
 
         // Add the item to the player's inventory
         var inventory = Inventory.Restore();
         if (inventory != null)
         {
-            inventory.Add(itemType, Amount);
+            inventory.Add(this.itemType, this.Amount);
         }
 
         // Remove the pickup from the scene
-        QueueFree();
+        this.QueueFree();
     }
 }

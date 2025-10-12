@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="Inventory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 /// <summary>
 /// A simple inventory implementation that includes all item types and data within the class.
@@ -19,12 +23,13 @@ public partial class Inventory : Resource
         Bomb,
         RedWand,
         BlueWand,
-        GreenWand
+        GreenWand,
     }
 
-    //TODO: I expect we'll want to have a proper inventory definition somewhere. Some folks advocate for
+    // TODO: I expect we'll want to have a proper inventory definition somewhere. Some folks advocate for
     // spreadsheets, but whatever it is should probably integrate with the editor so that level designers
     // can easily pick from items from a dropdown list, or something similar.
+
     /// <summary>
     /// Icons associated with the <see cref="ItemTypes"/>.
     /// </summary>
@@ -35,7 +40,7 @@ public partial class Inventory : Resource
         { ItemTypes.Bomb, GD.Load<AtlasTexture>("res://assets/items/bomb.atlastex") },
         { ItemTypes.RedWand, GD.Load<AtlasTexture>("res://assets/items/wand_red.atlastex") },
         { ItemTypes.BlueWand, GD.Load<AtlasTexture>("res://assets/items/wand_blue.atlastex") },
-        { ItemTypes.GreenWand, GD.Load<AtlasTexture>("res://assets/items/wand_green.atlastex") }
+        { ItemTypes.GreenWand, GD.Load<AtlasTexture>("res://assets/items/wand_green.atlastex") },
     };
 
     private const string InventoryPath = "user://inventory.tres";
@@ -47,13 +52,13 @@ public partial class Inventory : Resource
     public delegate void ItemChangedEventHandler(ItemTypes type);
 
     // Keep track of what is in the inventory. Dictionary keys are an ItemType, values are the amount.
-    private Dictionary<ItemTypes, int> _items = new Dictionary<ItemTypes, int>();
+    private Dictionary<ItemTypes, int> items = new Dictionary<ItemTypes, int>();
 
     public Inventory()
     {
         foreach (ItemTypes itemType in Enum.GetValues(typeof(ItemTypes)))
         {
-            _items[itemType] = 0;
+            this.items[itemType] = 0;
         }
     }
 
@@ -61,6 +66,7 @@ public partial class Inventory : Resource
     /// Load the <see cref="Inventory"/> from file or create a new resource, if it was missing. Godot caches calls,
     /// so this can be used every time needed.
     /// </summary>
+    /// <returns></returns>
     public static Inventory Restore()
     {
         if (Engine.IsEditorHint())
@@ -91,8 +97,8 @@ public partial class Inventory : Resource
     {
         // Note that adding negative numbers is possible. Prevent having a total of negative items.
         // NPC: "You cannot have negative potatoes."
-        int oldAmount = _items.GetValueOrDefault(itemType, 0);
-        _items[itemType] = Math.Max(oldAmount + amount, 0);
+        int oldAmount = this.items.GetValueOrDefault(itemType, 0);
+        this.items[itemType] = Math.Max(oldAmount + amount, 0);
 
         EmitSignal(SignalName.ItemChanged, itemType);
     }
@@ -104,20 +110,22 @@ public partial class Inventory : Resource
     /// </summary>
     public void Remove(ItemTypes itemType, int amount = 1)
     {
-        Add(itemType, -amount);
+        this.Add(itemType, -amount);
     }
 
     /// <summary>
     /// Returns the number of a certain item type possessed by the player.
     /// </summary>
+    /// <returns></returns>
     public int GetItemCount(ItemTypes itemType)
     {
-        return _items.GetValueOrDefault(itemType, 0);
+        return this.items.GetValueOrDefault(itemType, 0);
     }
 
     /// <summary>
     /// Returns the icon associated with a given item type.
     /// </summary>
+    /// <returns></returns>
     public static Texture2D GetItemIcon(ItemTypes itemType)
     {
         return Icons.GetValueOrDefault(itemType, null);

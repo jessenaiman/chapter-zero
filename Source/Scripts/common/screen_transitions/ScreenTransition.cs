@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="ScreenTransition.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A transition (usually between gameplay scenes) in which the screen is hidden behind an opaque
@@ -34,9 +38,10 @@ public partial class ScreenTransition : CanvasLayer
     /// </summary>
     private static readonly Color Covered = Colors.White;
 
-    private Tween _tween;
-    private ColorRect _colorRect;
+    private Tween tween;
+    private ColorRect colorRect;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         // The screen transitions need to run over the gameplay, which is instantiated below all
@@ -44,89 +49,93 @@ public partial class ScreenTransition : CanvasLayer
         // the very bottom of the SceneTree's child list.
         // We cannot do so during ready, in which this node's parents are not yet ready. Therefore the
         // call to move_child must be deferred a frame.
-        GetParent().CallDeferred("move_child", this, GetParent().GetChildCount() - 1);
+        this.GetParent().CallDeferred("move_child", this, this.GetParent().GetChildCount() - 1);
 
-        _colorRect = GetNode<ColorRect>("ColorRect");
+        this.colorRect = this.GetNode<ColorRect>("ColorRect");
 
         // Allow the mouse through the transition GUI elements.
-        _colorRect.MouseFilter = Control.MouseFilterEnum.Ignore;
+        this.colorRect.MouseFilter = Control.MouseFilterEnum.Ignore;
 
         // By default, do NOT have the ColorRect covering the screen.
-        Show();
-        ClearScreen();
+        this.Show();
+        this.ClearScreen();
     }
 
     /// <summary>
     /// Hide the ColorRect instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been cleared.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public async Task ClearScreen(float duration = 0.0f)
     {
-        if (_tween != null)
+        if (this.tween != null)
         {
-            _tween.Kill();
-            _tween = null;
-            EmitSignal(SignalName.Finished);
+            this.tween.Kill();
+            this.tween = null;
+            this.EmitSignal(SignalName.Finished);
         }
 
-        if (Mathf.IsEqualApprox(duration, 0.0f) || _colorRect.Modulate.IsEqualApprox(Clear))
+        if (Mathf.IsEqualApprox(duration, 0.0f) || this.colorRect.Modulate.IsEqualApprox(Clear))
         {
-            _colorRect.Modulate = Clear;
-            CallDeferred("emit_signal", "finished");
+            this.colorRect.Modulate = Clear;
+            this.CallDeferred("emit_signal", "finished");
         }
         else
         {
-            _TweenTransition(duration, Clear);
+            this.TweenTransition(duration, Clear);
         }
 
-        await ToSignal(this, SignalName.Finished);
+        await this.ToSignal(this, SignalName.Finished);
     }
 
     /// <summary>
     /// Cover the screen instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been covered.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public async Task Cover(float duration = 0.0f)
     {
-        if (_tween != null)
+        if (this.tween != null)
         {
-            if (_tween.IsRunning())
+            if (this.tween.IsRunning())
             {
-                EmitSignal(SignalName.Finished);
+                this.EmitSignal(SignalName.Finished);
             }
-            _tween.Kill();
-            _tween = null;
+
+            this.tween.Kill();
+            this.tween = null;
         }
 
-        if (Mathf.IsEqualApprox(duration, 0.0f) || _colorRect.Modulate.IsEqualApprox(Covered))
+        if (Mathf.IsEqualApprox(duration, 0.0f) || this.colorRect.Modulate.IsEqualApprox(Covered))
         {
-            _colorRect.Modulate = Covered;
-            CallDeferred("emit_signal", "finished");
+            this.colorRect.Modulate = Covered;
+            this.CallDeferred("emit_signal", "finished");
         }
         else
         {
-            _TweenTransition(duration, Covered);
+            this.TweenTransition(duration, Covered);
         }
 
-        await ToSignal(this, SignalName.Finished);
+        await this.ToSignal(this, SignalName.Finished);
     }
 
     /// <summary>
     /// Relegate the tween creation to a method so that derived classes can easily change transition type.
     /// </summary>
-    private void _TweenTransition(float duration, Color targetColor)
+    private void TweenTransition(float duration, Color targetColor)
     {
-        _tween = CreateTween();
-        _tween.TweenProperty(_colorRect, "modulate", targetColor, duration);
-        _tween.TweenCallback(Callable.From(() => CallDeferred("emit_signal", "finished")));
+        this.tween = this.CreateTween();
+        this.tween.TweenProperty(this.colorRect, "modulate", targetColor, duration);
+        this.tween.TweenCallback(Callable.From(() => this.CallDeferred("emit_signal", "finished")));
     }
 
     /// <summary>
     /// Reveal the screen instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been revealed.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public async Task Reveal(float duration = 0.0f)
     {
-        await ClearScreen(duration);
+        await ClearScreen(duration).ConfigureAwait(false);
     }
 }

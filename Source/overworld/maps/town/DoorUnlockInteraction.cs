@@ -1,3 +1,7 @@
+// <copyright file="DoorUnlockInteraction.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -9,20 +13,21 @@ using Godot;
 public partial class DoorUnlockInteraction : Interaction
 {
     /// <summary>
-    /// The door that this interaction controls.
+    /// Gets or sets the door that this interaction controls.
     /// </summary>
     [Export]
     public Door Door { get; set; } = null!;
 
-    private InteractionPopup _popup = null!;
+    private InteractionPopup popup = null!;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Get references to child nodes
-        Door = GetParent<Door>();
-        _popup = GetNode<InteractionPopup>("InteractionPopup");
+        this.Door = this.GetParent<Door>();
+        this.popup = this.GetNode<InteractionPopup>("InteractionPopup");
     }
 
     /// <summary>
@@ -34,18 +39,18 @@ public partial class DoorUnlockInteraction : Interaction
     {
         base.Run();
 
-        if (Door.IsLocked)
+        if (this.Door.IsLocked)
         {
             var inventory = Inventory.Restore();
             if (inventory != null && inventory.GetItemCount(Inventory.ItemTypes.Key) > 0)
             {
                 inventory.Remove(Inventory.ItemTypes.Key, 1);
-                Door.IsLocked = false;
-                IsActive = false;
-                _popup.IsActive = false;
+                this.Door.IsLocked = false;
+                this.IsActive = false;
+                this.popup.IsActive = false;
             }
         }
 
-        Door.Open();
+        this.Door.Open();
     }
 }

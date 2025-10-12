@@ -1,3 +1,7 @@
+// <copyright file="DialogueWindow.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -7,12 +11,13 @@ using Godot;
 [GlobalClass]
 public partial class DialogueWindow : Node
 {
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Get the Dialogic singleton
-        var dialogic = GetNode("/root/Dialogic");
+        var dialogic = this.GetNode("/root/Dialogic");
         if (dialogic != null)
         {
             // Connect to timeline signals

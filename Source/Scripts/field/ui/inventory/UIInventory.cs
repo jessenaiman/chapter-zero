@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIInventory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System.Collections.Generic;
+using Godot;
 
 /// <summary>
 /// An exceptionally simple item inventory that tracks which items the player has picked up.
@@ -15,16 +19,17 @@ public partial class UIInventory : HBoxContainer
     /// <summary>
     /// Keep track of the inventory item packed scene to easily instantiate new items.
     /// </summary>
-    private PackedScene _itemScene;
+    private PackedScene itemScene;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
-        _itemScene = GD.Load<PackedScene>("res://src/field/ui/inventory/ui_inventory_item.tscn");
+        this.itemScene = GD.Load<PackedScene>("res://src/field/ui/inventory/ui_inventory_item.tscn");
 
         // Get the Inventory singleton
-        var inventory = GetNode("/root/Inventory");
+        var inventory = this.GetNode("/root/Inventory");
         if (inventory != null)
         {
             // Initialize UI with current inventory state
@@ -34,14 +39,14 @@ public partial class UIInventory : HBoxContainer
                 foreach (var itemName in itemTypes.Keys)
                 {
                     var itemId = (int)itemTypes[itemName];
-                    UpdateItem(itemId, inventory);
+                    this.UpdateItem(itemId, inventory);
                 }
             }
 
             // Connect to item changed signal
             inventory.Connect("item_changed", Callable.From((int itemType) =>
             {
-                OnInventoryItemChanged(itemType, inventory);
+                this.OnInventoryItemChanged(itemType, inventory);
             }));
         }
     }
@@ -53,13 +58,14 @@ public partial class UIInventory : HBoxContainer
     /// <returns>The UI item node, or <see langword="null"/> if not found.</returns>
     private UIInventoryItem GetUIItem(int itemId)
     {
-        foreach (Node child in GetChildren())
+        foreach (Node child in this.GetChildren())
         {
             if (child is UIInventoryItem item && item.ID == itemId)
             {
                 return item;
             }
         }
+
         return null;
     }
 
@@ -71,16 +77,16 @@ public partial class UIInventory : HBoxContainer
     private void UpdateItem(int itemId, Node inventory)
     {
         var amount = (int)inventory.Call("get_item_count", itemId);
-        var item = GetUIItem(itemId);
+        var item = this.GetUIItem(itemId);
 
         if (amount > 0)
         {
             if (item == null)
             {
-                item = _itemScene.Instantiate<UIInventoryItem>();
+                item = this.itemScene.Instantiate<UIInventoryItem>();
                 item.ID = itemId;
                 item.Texture = (Texture2D)inventory.Call("get_item_icon", itemId);
-                AddChild(item);
+                this.AddChild(item);
             }
 
             item.Count = amount;
@@ -98,6 +104,6 @@ public partial class UIInventory : HBoxContainer
     /// <param name="inventory">The inventory singleton node.</param>
     private void OnInventoryItemChanged(int itemType, Node inventory)
     {
-        UpdateItem(itemType, inventory);
+        this.UpdateItem(itemType, inventory);
     }
 }

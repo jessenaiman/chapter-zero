@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="Player.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// An autoload that provides easy access to the player's state, including both Combat and Field
@@ -22,20 +26,20 @@ public partial class Player : Node
     [Signal]
     public delegate void PlayerPathSetEventHandler(Gamepiece gamepiece, Vector2I destinationCell);
 
-    private Gamepiece _gamepiece = null;
+    private Gamepiece gamepiece;
 
     /// <summary>
-    /// The gamepiece that the player is currently controlling. This is a read-only property.
+    /// Gets or sets the gamepiece that the player is currently controlling. This is a read-only property.
     /// </summary>
     public Gamepiece Gamepiece
     {
-        get => _gamepiece;
+        get => this.gamepiece;
         set
         {
-            if (value != _gamepiece)
+            if (value != this.gamepiece)
             {
-                _gamepiece = value;
-                EmitSignal(SignalName.GamepieceChanged);
+                this.gamepiece = value;
+                this.EmitSignal(SignalName.GamepieceChanged);
             }
         }
     }

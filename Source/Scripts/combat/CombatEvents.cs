@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="CombatEvents.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A signal bus to connect distant scenes to various combat-exclusive events.

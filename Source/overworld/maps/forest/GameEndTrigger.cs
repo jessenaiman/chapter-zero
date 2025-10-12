@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="GameEndTrigger.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A trigger that plays the game ending sequence when the player reaches the end of the forest.
@@ -10,27 +14,28 @@ using System.Threading.Tasks;
 public partial class GameEndTrigger : Trigger
 {
     /// <summary>
-    /// The Dialogic timeline to play during the ending sequence.
+    /// Gets or sets the Dialogic timeline to play during the ending sequence.
     /// </summary>
     [Export]
     public Resource Timeline { get; set; } = null!; // DialogicTimeline
 
     /// <summary>
-    /// The animation player for the ghost lunge animation.
+    /// Gets or sets the animation player for the ghost lunge animation.
     /// </summary>
     [Export]
     public AnimationPlayer GhostAnimationPlayer { get; set; } = null!;
 
-    private Gamepiece? _gamepiece;
-    private Godot.Timer? _timer;
+    private Gamepiece? gamepiece;
+    private Godot.Timer? timer;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         if (!Engine.IsEditorHint())
         {
-            _timer = GetNode<Godot.Timer>("Timer");
+            this.timer = this.GetNode<Godot.Timer>("Timer");
         }
     }
 
@@ -39,51 +44,51 @@ public partial class GameEndTrigger : Trigger
     /// </summary>
     protected async void Execute()
     {
-        if (_gamepiece == null)
+        if (this.gamepiece == null)
         {
             return;
         }
 
         // Get the Gameboard singleton
-        var gameboard = GetNode("/root/Gameboard");
+        var gameboard = this.GetNode("/root/Gameboard");
         if (gameboard != null)
         {
             var destinationPixel = (Vector2)gameboard.Call("cell_to_pixel", new Vector2I(53, 30));
-            _gamepiece.Call("move_to", destinationPixel);
-            await ToSignal(_gamepiece, "arrived");
+            this.gamepiece.Call("move_to", destinationPixel);
+            await this.ToSignal(this.gamepiece, "arrived");
         }
 
         // Wait for a moment
-        if (_timer != null)
+        if (this.timer != null)
         {
-            _timer.Start();
-            await ToSignal(_timer, Godot.Timer.SignalName.Timeout);
+            this.timer.Start();
+            await this.ToSignal(this.timer, Godot.Timer.SignalName.Timeout);
         }
 
         // Start the Dialogic timeline
-        var dialogic = GetNode("/root/Dialogic");
-        if (dialogic != null && Timeline != null)
+        var dialogic = this.GetNode("/root/Dialogic");
+        if (dialogic != null && this.Timeline != null)
         {
-            dialogic.Call("start_timeline", Timeline);
-            await ToSignal(dialogic, "timeline_ended");
+            dialogic.Call("start_timeline", this.Timeline);
+            await this.ToSignal(dialogic, "timeline_ended");
         }
 
         // Wait for another moment
-        if (_timer != null)
+        if (this.timer != null)
         {
-            _timer.Start();
-            await ToSignal(_timer, Godot.Timer.SignalName.Timeout);
+            this.timer.Start();
+            await this.ToSignal(this.timer, Godot.Timer.SignalName.Timeout);
         }
 
         // Note that the lunge animation also includes a screen transition and some text
-        if (GhostAnimationPlayer != null)
+        if (this.GhostAnimationPlayer != null)
         {
-            GhostAnimationPlayer.Play("lunge");
-            await ToSignal(GhostAnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+            this.GhostAnimationPlayer.Play("lunge");
+            await this.ToSignal(this.GhostAnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
         }
 
         // Lock input by waiting forever (infinite wait)
-        await ToSignal(GetTree(), SceneTree.SignalName.TreeChanged);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.TreeChanged);
     }
 
     /// <summary>
@@ -93,10 +98,10 @@ public partial class GameEndTrigger : Trigger
     {
         if (!Engine.IsEditorHint())
         {
-            _gamepiece = area.Owner as Gamepiece;
+            this.gamepiece = area.Owner as Gamepiece;
         }
 
         // Call the base class method to handle the trigger logic
-        base._OnAreaEntered(area);
+        base.OnAreaEntered(area);
     }
 }

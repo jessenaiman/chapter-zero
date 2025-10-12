@@ -1,3 +1,7 @@
+// <copyright file="FieldCursor.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -21,39 +25,42 @@ public partial class FieldCursor : TileMapLayer
     [Signal]
     public delegate void SelectedEventHandler(Vector2I selectedCell);
 
-    private Vector2I _focus = Gameboard.InvalidCell;
+    private Vector2I focus = Gameboard.InvalidCell;
 
     /// <summary>
-    /// The cell currently highlighted by the cursor.
+    /// Gets or sets the cell currently highlighted by the cursor.
     ///
     /// A focus of <see cref="Gameboard.InvalidCell"/> indicates that there is no highlight.
     /// </summary>
     [Export]
     public Vector2I Focus
     {
-        get => _focus;
-        set => SetFocus(value);
+        get => this.focus;
+        set => this.SetFocus(value);
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         // Connect to field events for input pause handling
         // FieldEvents.InputPaused += OnInputPaused;
     }
 
+    /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event is InputEventMouseMotion)
         {
-            GetViewport().SetInputAsHandled();
-            SetFocus(GetCellUnderMouse());
+            this.GetViewport().SetInputAsHandled();
+            this.SetFocus(this.GetCellUnderMouse());
         }
         else if (@event.IsActionReleased("select"))
         {
-            GetViewport().SetInputAsHandled();
+            this.GetViewport().SetInputAsHandled();
 
-            var cellUnderMouse = GetCellUnderMouse();
-            EmitSignal(SignalName.Selected, cellUnderMouse);
+            var cellUnderMouse = this.GetCellUnderMouse();
+            this.EmitSignal(SignalName.Selected, cellUnderMouse);
+
             // FieldEvents.EmitCellSelected(cellUnderMouse);
         }
     }
@@ -62,36 +69,37 @@ public partial class FieldCursor : TileMapLayer
     /// Change the highlighted cell to a new value. A value of <see cref="Gameboard.InvalidCell"/> will
     /// indicate that there is no highlighted cell.
     /// </summary>
-    /// <param name="value">The new focus cell</param>
+    /// <param name="value">The new focus cell.</param>
     private void SetFocus(Vector2I value)
     {
-        if (value == _focus)
+        if (value == this.focus)
         {
             return;
         }
 
-        var oldFocus = _focus;
-        _focus = value;
+        var oldFocus = this.focus;
+        this.focus = value;
 
-        Clear();
+        this.Clear();
 
-        if (_focus != Gameboard.InvalidCell)
+        if (this.focus != Gameboard.InvalidCell)
         {
-            SetCell(_focus, 0, new Vector2I(1, 5), 0);
+            this.SetCell(this.focus, 0, new Vector2I(1, 5), 0);
         }
 
-        EmitSignal(SignalName.FocusChanged, oldFocus, _focus);
+        this.EmitSignal(SignalName.FocusChanged, oldFocus, this.focus);
+
         // FieldEvents.EmitCellHighlighted(_focus);
     }
 
     /// <summary>
     /// Convert mouse/touch coordinates to a gameboard cell.
     /// </summary>
-    /// <returns>The cell under the mouse cursor, or InvalidCell if none</returns>
+    /// <returns>The cell under the mouse cursor, or InvalidCell if none.</returns>
     private Vector2I GetCellUnderMouse()
     {
         // The mouse coordinates need to be corrected for any scale or position changes in the scene.
-        var mousePosition = (GetGlobalMousePosition() - GlobalPosition) / GlobalScale;
+        var mousePosition = (this.GetGlobalMousePosition() - this.GlobalPosition) / this.GlobalScale;
         var cellUnderMouse = Gameboard.PixelToCell(mousePosition);
 
         if (!Gameboard.Pathfinder.HasCell(cellUnderMouse))
@@ -105,14 +113,14 @@ public partial class FieldCursor : TileMapLayer
     /// <summary>
     /// Handle input pause events.
     /// </summary>
-    /// <param name="isPaused">Whether input is paused</param>
+    /// <param name="isPaused">Whether input is paused.</param>
     private void OnInputPaused(bool isPaused)
     {
-        SetProcessUnhandledInput(!isPaused);
+        this.SetProcessUnhandledInput(!isPaused);
 
         if (isPaused)
         {
-            SetFocus(Gameboard.InvalidCell);
+            this.SetFocus(Gameboard.InvalidCell);
         }
     }
 }

@@ -1,100 +1,108 @@
-using Godot;
+// <copyright file="UIEnergyBar.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// Bar representing a <see cref="Battler"/>'s energy points. Each point is a <see cref="UIEnergyPoint"/>.
 /// </summary>
 public partial class UIBattlerEnergyBar : Node
 {
-    private readonly PackedScene EnergyPointScene = GD.Load<PackedScene>("res://src/combat/ui/battler_entry/ui_energy_point.tscn");
+    private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://src/combat/ui/battler_entry/ui_energy_point.tscn");
 
-    private int _maxValue = 0;
+    private int maxValue;
+
     /// <summary>
-    /// The maximum number of energy points that a <see cref="Battler"/> may accumulate.
+    /// Gets or sets the maximum number of energy points that a <see cref="Battler"/> may accumulate.
     /// </summary>
     public int MaxValue
     {
-        get => _maxValue;
+        get => this.maxValue;
         set
         {
-            _maxValue = value;
+            this.maxValue = value;
 
-            for (int i = 0; i < _maxValue; i++)
+            for (int i = 0; i < this.maxValue; i++)
             {
-                var newPoint = EnergyPointScene.Instantiate() as UIEnergyPoint;
-                AddChild(newPoint);
+                var newPoint = this.energyPointScene.Instantiate() as UIEnergyPoint;
+                this.AddChild(newPoint);
             }
         }
     }
 
-    private int _value = 0;
+    private int value;
+
     /// <summary>
-    /// The number of energy points currently available to a given <see cref="Battler"/>.
+    /// Gets or sets the number of energy points currently available to a given <see cref="Battler"/>.
     /// </summary>
     public int Value
     {
-        get => _value;
+        get => this.value;
         set
         {
-            int oldValue = _value;
-            _value = Mathf.Clamp(value, 0, _maxValue);
+            int oldValue = this.value;
+            this.value = Mathf.Clamp(value, 0, this.maxValue);
 
             // If we have more points, we need to play the "appear" animation on the added points only.
             // That's why we generate a range of indices from `oldValue` to `value`.
-            if (_value > oldValue)
+            if (this.value > oldValue)
             {
-                for (int i = oldValue; i < _value; i++)
+                for (int i = oldValue; i < this.value; i++)
                 {
-                    GetChild<UIEnergyPoint>(i).Appear();
+                    this.GetChild<UIEnergyPoint>(i).Appear();
                 }
             }
+
             // Otherwise, flag which points need to "disappear".
             else
             {
-                for (int i = oldValue; i > _value; i--)
+                for (int i = oldValue; i > this.value; i--)
                 {
-                    GetChild<UIEnergyPoint>(i - 1).Disappear();
+                    this.GetChild<UIEnergyPoint>(i - 1).Disappear();
                 }
             }
         }
     }
 
-    private int _selectedPointCount = 0;
+    private int selectedPointCount;
+
     /// <summary>
-    /// The number of points currently selected, often shown when previewing an action.
+    /// Gets or sets the number of points currently selected, often shown when previewing an action.
     /// </summary>
     public int SelectedPointCount
     {
-        get => _selectedPointCount;
+        get => this.selectedPointCount;
         set
         {
-            int oldValue = _selectedPointCount;
-            _selectedPointCount = Mathf.Clamp(value, 0, _maxValue);
-            if (_selectedPointCount > oldValue)
+            int oldValue = this.selectedPointCount;
+            this.selectedPointCount = Mathf.Clamp(value, 0, this.maxValue);
+            if (this.selectedPointCount > oldValue)
             {
-                for (int i = oldValue; i < _selectedPointCount; i++)
+                for (int i = oldValue; i < this.selectedPointCount; i++)
                 {
-                    GetChild<UIEnergyPoint>(i).Select();
+                    this.GetChild<UIEnergyPoint>(i).Select();
                 }
             }
             else
             {
-                for (int i = oldValue; i > _selectedPointCount; i--)
+                for (int i = oldValue; i > this.selectedPointCount; i--)
                 {
-                    GetChild<UIEnergyPoint>(i - 1).Deselect();
+                    this.GetChild<UIEnergyPoint>(i - 1).Deselect();
                 }
             }
         }
     }
 
     /// <summary>
-    /// Setup the energy bar with max energy and starting energy
+    /// Setup the energy bar with max energy and starting energy.
     /// </summary>
-    /// <param name="maxEnergy">The maximum energy</param>
-    /// <param name="startEnergy">The starting energy</param>
+    /// <param name="maxEnergy">The maximum energy.</param>
+    /// <param name="startEnergy">The starting energy.</param>
     public void Setup(int maxEnergy, int startEnergy)
     {
-        MaxValue = maxEnergy;
-        Value = startEnergy;
+        this.MaxValue = maxEnergy;
+        this.Value = startEnergy;
     }
 }

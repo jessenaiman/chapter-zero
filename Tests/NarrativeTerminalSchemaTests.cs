@@ -47,7 +47,7 @@ namespace OmegaSpiral.Tests
                             {
                                 ["light"] = 2,
                                 ["mischief"] = 0,
-                                ["wrath"] = 0
+                                ["wrath"] = 0,
                             },
                         },
                     },

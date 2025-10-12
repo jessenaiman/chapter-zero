@@ -21,7 +21,7 @@ public partial class OpeningCutscene : Cutscene
     /// Shows the background, plays the dialogue timeline, transitions to the game,
     /// starts the background music, and cleans up the cutscene.
     /// </summary>
-    protected override async void _Execute()
+    protected override async void Execute()
     {
         // Show the background color rect
         var background = this.GetNode<Node2D>("Background");

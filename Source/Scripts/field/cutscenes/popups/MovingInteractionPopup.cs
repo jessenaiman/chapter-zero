@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="MovingInteractionPopup.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 [Tool]
 /// <summary>
@@ -12,35 +16,39 @@ using System;
 /// </summary>
 public partial class MovingInteractionPopup : InteractionPopup
 {
-    private Gamepiece _gp;
+    private Gamepiece gp;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Do not follow anything in editor or if this object's parent is not of the correct type.
-        if (Engine.IsEditorHint() || _gp == null)
+        if (Engine.IsEditorHint() || this.gp == null)
         {
-            SetProcess(false);
+            this.SetProcess(false);
         }
     }
 
     public string[] GetConfigurationWarnings()
     {
-        if (_gp == null)
+        if (this.gp == null)
         {
             return new string[] { "This popup must be a child of a Gamepiece node!" };
         }
-        return new string[0];
+
+        return Array.Empty<string>();
     }
 
+    /// <inheritdoc/>
     public override void _Notification(int what)
     {
         base._Notification(what);
 
         if (what == NotificationParented)
         {
-            _gp = GetParent() as Gamepiece;
+            this.gp = this.GetParent() as Gamepiece;
+
             // UpdateConfigurationWarnings() - Godot doesn't have a direct equivalent in C#
         }
     }
@@ -48,17 +56,19 @@ public partial class MovingInteractionPopup : InteractionPopup
     // Every process frame the popup sets its position to that of the graphical representation of the
     // gamepiece, appearing to follow the gamepiece around the field while still playing nicely with the
     // physics/interaction system.
+    /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        if (_gp != null)
+        if (this.gp != null)
         {
-            Position = _gp.Follower.Position;
+            this.Position = this.gp.Follower.Position;
         }
     }
 
+    /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
-        _gp = GetParent() as Gamepiece;
+        this.gp = this.GetParent() as Gamepiece;
     }
 }

@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="GamepieceController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Base class for controllers that manage Gamepiece movement and interaction.
@@ -37,96 +41,98 @@ public partial class GamepieceController : Node
     public delegate void WaypointChangedEventHandler(Vector2I newWaypoint);
 
     /// <summary>
-    /// The Gamepiece that this controller manages.
+    /// Gets or sets the Gamepiece that this controller manages.
     /// </summary>
     public Gamepiece Gamepiece
     {
         get
         {
-            if (gamepiece == null && !Engine.IsEditorHint())
+            if (this.gamepiece == null && !Engine.IsEditorHint())
             {
-                gamepiece = GetParent<Gamepiece>();
+                this.gamepiece = this.GetParent<Gamepiece>();
             }
-            return gamepiece;
+
+            return this.gamepiece;
         }
+
         set
         {
-            if (gamepiece != value)
+            if (this.gamepiece != value)
             {
                 // Disconnect from the old gamepiece
-                if (gamepiece != null)
+                if (this.gamepiece != null)
                 {
-                    gamepiece.WaypointChanged -= OnGamepieceWaypointChanged;
-                    gamepiece.MovementStarted -= OnGamepieceMovementStarted;
-                    gamepiece.MovementStopped -= OnGamepieceMovementStopped;
+                    this.gamepiece.WaypointChanged -= this.OnGamepieceWaypointChanged;
+                    this.gamepiece.MovementStarted -= this.OnGamepieceMovementStarted;
+                    this.gamepiece.MovementStopped -= this.OnGamepieceMovementStopped;
                 }
 
-                gamepiece = value;
+                this.gamepiece = value;
 
                 // Connect to the new gamepiece
-                if (gamepiece != null)
+                if (this.gamepiece != null)
                 {
-                    gamepiece.WaypointChanged += OnGamepieceWaypointChanged;
-                    gamepiece.MovementStarted += OnGamepieceMovementStarted;
-                    gamepiece.MovementStopped += OnGamepieceMovementStopped;
+                    this.gamepiece.WaypointChanged += this.OnGamepieceWaypointChanged;
+                    this.gamepiece.MovementStarted += this.OnGamepieceMovementStarted;
+                    this.gamepiece.MovementStopped += this.OnGamepieceMovementStopped;
                 }
             }
         }
     }
 
     /// <summary>
-    /// Whether this controller is currently active and controlling the gamepiece.
+    /// Gets or sets a value indicating whether whether this controller is currently active and controlling the gamepiece.
     /// </summary>
     [Export]
     public bool IsActive
     {
-        get => isActive;
+        get => this.isActive;
         set
         {
-            if (value != isActive)
+            if (value != this.isActive)
             {
-                isActive = value;
-                OnActiveStateChanged();
+                this.isActive = value;
+                this.OnActiveStateChanged();
             }
         }
     }
 
     /// <summary>
-    /// The movement speed of the gamepiece, in pixels per second.
+    /// Gets or sets the movement speed of the gamepiece, in pixels per second.
     /// </summary>
     [Export]
     public float MovementSpeed { get; set; } = 100.0f;
 
     /// <summary>
-    /// Whether the gamepiece is currently moving.
+    /// Gets a value indicating whether whether the gamepiece is currently moving.
     /// </summary>
-    public bool IsMoving { get; private set; } = false;
+    public bool IsMoving { get; private set; }
 
     /// <summary>
-    /// The current cell position of the gamepiece.
+    /// Gets the current cell position of the gamepiece.
     /// </summary>
     public Vector2I CellPosition { get; private set; } = Gameboard.InvalidCell;
 
     /// <summary>
-    /// The target cell position the gamepiece is moving towards.
+    /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
     public Vector2I TargetCell { get; private set; } = Gameboard.InvalidCell;
 
     /// <summary>
-    /// The path the gamepiece is following.
+    /// Gets or sets the path the gamepiece is following.
     /// </summary>
     public List<Vector2I> MovePath
     {
-        get => movePath;
+        get => this.movePath;
         set
         {
-            movePath = value ?? new List<Vector2I>();
-            OnMovePathChanged();
+            this.movePath = value ?? new List<Vector2I>();
+            this.OnMovePathChanged();
         }
     }
 
     /// <summary>
-    /// Whether this controller is controlled by the player.
+    /// Gets or sets a value indicating whether whether this controller is controlled by the player.
     /// </summary>
     [Export]
     public bool IsPlayerControlled { get; set; } = false;
@@ -146,31 +152,33 @@ public partial class GamepieceController : Node
     /// </summary>
     private List<Vector2I> movePath = new List<Vector2I>();
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         if (!Engine.IsEditorHint())
         {
             // Get the gamepiece from the parent node
-            Gamepiece = GetParent<Gamepiece>();
+            this.Gamepiece = this.GetParent<Gamepiece>();
 
-            if (Gamepiece != null)
+            if (this.Gamepiece != null)
             {
                 // Initialize the cell position
-                CellPosition = Gamepiece.CellPosition;
+                this.CellPosition = this.Gamepiece.CellPosition;
 
                 // Connect to gamepiece signals
-                Gamepiece.WaypointChanged += OnGamepieceWaypointChanged;
-                Gamepiece.MovementStarted += OnGamepieceMovementStarted;
-                Gamepiece.MovementStopped += OnGamepieceMovementStopped;
+                this.Gamepiece.WaypointChanged += this.OnGamepieceWaypointChanged;
+                this.Gamepiece.MovementStarted += this.OnGamepieceMovementStarted;
+                this.Gamepiece.MovementStopped += this.OnGamepieceMovementStopped;
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        if (!Engine.IsEditorHint() && IsActive)
+        if (!Engine.IsEditorHint() && this.IsActive)
         {
-            ProcessController((float)delta);
+            this.ProcessController((float)delta);
         }
     }
 
@@ -194,15 +202,15 @@ public partial class GamepieceController : Node
             return;
         }
 
-        MovePath = new List<Vector2I>(path);
-        IsMoving = true;
+        this.MovePath = new List<Vector2I>(path);
+        this.IsMoving = true;
 
         // Move the gamepiece to the first waypoint
-        var firstWaypoint = MovePath[0];
-        MovePath.RemoveAt(0);
-        Gamepiece.MoveToCell(firstWaypoint);
+        var firstWaypoint = this.MovePath[0];
+        this.MovePath.RemoveAt(0);
+        this.Gamepiece.MoveToCell(firstWaypoint);
 
-        EmitSignal(SignalName.MovementStarted);
+        this.EmitSignal(SignalName.MovementStarted);
     }
 
     /// <summary>
@@ -210,15 +218,15 @@ public partial class GamepieceController : Node
     /// </summary>
     public virtual void StopMoving()
     {
-        IsMoving = false;
-        MovePath.Clear();
+        this.IsMoving = false;
+        this.MovePath.Clear();
 
-        if (Gamepiece != null)
+        if (this.Gamepiece != null)
         {
-            Gamepiece.StopMoving();
+            this.Gamepiece.StopMoving();
         }
 
-        EmitSignal(SignalName.MovementStopped);
+        this.EmitSignal(SignalName.MovementStopped);
     }
 
     /// <summary>
@@ -226,9 +234,9 @@ public partial class GamepieceController : Node
     /// </summary>
     public virtual void MoveToCell(Vector2I cell)
     {
-        if (Gamepiece != null)
+        if (this.Gamepiece != null)
         {
-            Gamepiece.MoveToCell(cell);
+            this.Gamepiece.MoveToCell(cell);
         }
     }
 
@@ -237,12 +245,12 @@ public partial class GamepieceController : Node
     /// </summary>
     public virtual void MoveToPressedKey(Vector2 direction)
     {
-        if (Gamepiece == null || !IsActive)
+        if (this.Gamepiece == null || !this.IsActive)
         {
             return;
         }
 
-        var sourceCell = Gamepiece.CellPosition;
+        var sourceCell = this.Gamepiece.CellPosition;
         var targetCell = sourceCell + new Vector2I((int)direction.X, (int)direction.Y);
 
         // Try to get a path to the destination (will fail if cell is occupied)
@@ -251,11 +259,11 @@ public partial class GamepieceController : Node
         // Path is invalid. Bump animation?
         if (newPath.Count < 1)
         {
-            Gamepiece.Direction = Directions.AngleToDirection(direction.Angle());
+            this.Gamepiece.Direction = Directions.AngleToDirection(direction.Angle());
         }
         else
         {
-            MovePath = new List<Vector2I>(newPath);
+            this.MovePath = new List<Vector2I>(newPath);
         }
     }
 
@@ -286,22 +294,22 @@ public partial class GamepieceController : Node
     protected virtual void OnGamepieceWaypointReached(Vector2I newWaypoint)
     {
         // Update the cell position
-        CellPosition = newWaypoint;
+        this.CellPosition = newWaypoint;
 
         // If there are more waypoints in the path, move to the next one
-        if (MovePath.Count > 0)
+        if (this.MovePath.Count > 0)
         {
-            var nextWaypoint = MovePath[0];
-            MovePath.RemoveAt(0);
-            Gamepiece.MoveToCell(nextWaypoint);
+            var nextWaypoint = this.MovePath[0];
+            this.MovePath.RemoveAt(0);
+            this.Gamepiece.MoveToCell(nextWaypoint);
         }
         else
         {
             // No more waypoints, stop moving
-            IsMoving = false;
+            this.IsMoving = false;
         }
 
-        EmitSignal(SignalName.WaypointReached, newWaypoint);
+        this.EmitSignal(SignalName.WaypointReached, newWaypoint);
     }
 
     /// <summary>
@@ -309,8 +317,8 @@ public partial class GamepieceController : Node
     /// </summary>
     private void OnGamepieceWaypointChanged(Vector2I newWaypoint)
     {
-        CellPosition = newWaypoint;
-        EmitSignal(SignalName.WaypointChanged, newWaypoint);
+        this.CellPosition = newWaypoint;
+        this.EmitSignal(SignalName.WaypointChanged, newWaypoint);
     }
 
     /// <summary>
@@ -318,8 +326,8 @@ public partial class GamepieceController : Node
     /// </summary>
     private void OnGamepieceMovementStarted()
     {
-        IsMoving = true;
-        EmitSignal(SignalName.MovementStarted);
+        this.IsMoving = true;
+        this.EmitSignal(SignalName.MovementStarted);
     }
 
     /// <summary>
@@ -327,8 +335,8 @@ public partial class GamepieceController : Node
     /// </summary>
     private void OnGamepieceMovementStopped()
     {
-        IsMoving = false;
-        EmitSignal(SignalName.MovementStopped);
+        this.IsMoving = false;
+        this.EmitSignal(SignalName.MovementStopped);
     }
 
     /// <summary>

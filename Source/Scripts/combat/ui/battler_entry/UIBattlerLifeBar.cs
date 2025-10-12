@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIBattlerLifeBar.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// An element of the <see cref="UIBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
@@ -10,67 +14,68 @@ using System;
 public partial class UIBattlerLifeBar : TextureProgressBar
 {
     /// <summary>
-    /// Rate of the animation relative to <see cref="TextureProgressBar.MaxValue"/>.
+    /// Gets or sets rate of the animation relative to <see cref="TextureProgressBar.MaxValue"/>.
     /// A value of 1.0 means the animation fills the entire bar in one second.
     /// </summary>
     [Export]
     public float FillRate { get; set; } = 0.5f;
 
     /// <summary>
-    /// The health percentage below which the danger animation plays.
+    /// Gets or sets the health percentage below which the danger animation plays.
     /// </summary>
     [Export(PropertyHint.Range, "0,1.0")]
     public float DangerCutoff { get; set; } = 0.2f;
 
-    private float _targetValue = 0.0f;
+    private float targetValue;
 
     /// <summary>
-    /// When this value changes, the bar smoothly animates towards it using a tween.
+    /// Gets or sets when this value changes, the bar smoothly animates towards it using a tween.
     /// </summary>
     public float TargetValue
     {
-        get => _targetValue;
+        get => this.targetValue;
         set
         {
             // If the amount is lower than the current TargetValue, it means the battler lost health.
-            if (_targetValue > value)
+            if (this.targetValue > value)
             {
-                _anim?.Play("damage");
+                this.anim?.Play("damage");
             }
 
-            _targetValue = value;
+            this.targetValue = value;
 
-            _tween?.Kill();
+            this.tween?.Kill();
 
-            var duration = Math.Abs(_targetValue - Value) / MaxValue * FillRate;
-            _tween = CreateTween().SetTrans(Tween.TransitionType.Quad);
-            _tween.TweenProperty(this, "value", _targetValue, duration);
-            _tween.TweenCallback(Callable.From(() =>
+            var duration = Math.Abs(this.targetValue - this.Value) / this.MaxValue * this.FillRate;
+            this.tween = this.CreateTween().SetTrans(Tween.TransitionType.Quad);
+            this.tween.TweenProperty(this, "value", this.targetValue, duration);
+            this.tween.TweenCallback(Callable.From(() =>
             {
-                if (Value < DangerCutoff * MaxValue)
+                if (this.Value < this.DangerCutoff * this.MaxValue)
                 {
-                    _anim?.Play("danger");
+                    this.anim?.Play("danger");
                 }
             }));
         }
     }
 
-    private Tween _tween;
-    private AnimationPlayer _anim;
-    private Label _nameLabel;
-    private TextureRect _queuedActionIcon;
-    private Label _valueLabel;
+    private Tween tween;
+    private AnimationPlayer anim;
+    private Label nameLabel;
+    private TextureRect queuedActionIcon;
+    private Label valueLabel;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
-        _anim = GetNode<AnimationPlayer>("AnimationPlayer");
-        _nameLabel = GetNode<Label>("MarginContainer/HBoxContainer/Name");
-        _queuedActionIcon = GetNode<TextureRect>("MarginContainer/HBoxContainer/QueuedActionIcon");
-        _valueLabel = GetNode<Label>("MarginContainer/HBoxContainer/Value");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.nameLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Name");
+        this.queuedActionIcon = this.GetNode<TextureRect>("MarginContainer/HBoxContainer/QueuedActionIcon");
+        this.valueLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Value");
 
-        ValueChanged += OnValueChanged;
+        this.ValueChanged += this.OnValueChanged;
     }
 
     /// <summary>
@@ -81,9 +86,9 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="startHp">The starting hit points.</param>
     public void Setup(string battlerName, int maxHp, int startHp)
     {
-        _nameLabel.Text = battlerName;
-        MaxValue = maxHp;
-        Value = startHp;
+        this.nameLabel.Text = battlerName;
+        this.MaxValue = maxHp;
+        this.Value = startHp;
     }
 
     /// <summary>
@@ -92,7 +97,7 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="texture">The texture to display.</param>
     public void SetActionIcon(Texture2D texture)
     {
-        _queuedActionIcon.Texture = texture;
+        this.queuedActionIcon.Texture = texture;
     }
 
     /// <summary>
@@ -100,6 +105,6 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// </summary>
     private void OnValueChanged(double newValue)
     {
-        _valueLabel.Text = ((int)newValue).ToString();
+        this.valueLabel.Text = ((int)newValue).ToString();
     }
 }

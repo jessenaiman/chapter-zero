@@ -1,90 +1,96 @@
-using Godot;
+// <copyright file="UIBattlerEntry.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 
 /// <summary>
 /// An entry in the <see cref="UIPlayerBattlerList"/> for one of the player's <see cref="Battler"/>s.
 /// </summary>
 public partial class UIBattlerEntry : TextureButton
 {
-    private UIBattlerEnergyBar _energy;
-    private UIBattlerLifeBar _life;
+    private UIBattlerEnergyBar energy;
+    private UIBattlerLifeBar life;
 
-    private Battler _battler;
+    private Battler battler;
+
     /// <summary>
-    /// Setup the entry UI values and connect to different changes in <see cref="BattlerStats"/> that the UI will
+    /// Gets or sets setup the entry UI values and connect to different changes in <see cref="BattlerStats"/> that the UI will
     /// measure.
     /// </summary>
     public Battler Battler
     {
-        get => _battler;
+        get => this.battler;
         set
         {
-            _battler = value;
+            this.battler = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                _battler = value;
+                this.battler = value;
                 return;
             }
 
-            _energy.Setup(_battler.Stats.MaxEnergy, _battler.Stats.Energy);
-            _life.Setup(_battler.Name, _battler.Stats.MaxHealth, _battler.Stats.Health);
+            this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
+            this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
 
-            _battler.Stats.EnergyChanged += () => _energy.Value = _battler.Stats.Energy;
-            _battler.Stats.HealthChanged += () =>
+            this.battler.Stats.EnergyChanged += () => this.energy.Value = this.battler.Stats.Energy;
+            this.battler.Stats.HealthChanged += () =>
             {
-                _life.TargetValue = _battler.Stats.Health;
-                Disabled = _battler.Stats.Health <= 0;
+                this.life.TargetValue = this.battler.Stats.Health;
+                this.Disabled = this.battler.Stats.Health <= 0;
 
                 // If the Battler has been downed, it no longer has a cached action so the preview
                 // can be removed.
-                if (Disabled)
+                if (this.Disabled)
                 {
-                    _life.SetActionIcon(null);
+                    this.life.SetActionIcon(null);
                 }
             };
 
             // Once the player has started to act, remove the action preview icon. The icon only exists
             // to help the player with their battlefield strategy.
-            _battler.ReadyToAct += () =>
+            this.battler.ReadyToAct += () =>
             {
-                _life.SetActionIcon(null);
+                this.life.SetActionIcon(null);
             };
         }
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _energy = GetNode<UIBattlerEnergyBar>("VBoxContainer/CenterContainer/EnergyBar");
-        _life = GetNode<UIBattlerLifeBar>("VBoxContainer/LifeBar");
+        this.energy = this.GetNode<UIBattlerEnergyBar>("VBoxContainer/CenterContainer/EnergyBar");
+        this.life = this.GetNode<UIBattlerLifeBar>("VBoxContainer/LifeBar");
 
         // If Battler was set before the node was ready, apply it now
-        if (_battler != null)
+        if (this.battler != null)
         {
-            _energy.Setup(_battler.Stats.MaxEnergy, _battler.Stats.Energy);
-            _life.Setup(_battler.Name, _battler.Stats.MaxHealth, _battler.Stats.Health);
+            this.energy.Setup(this.battler.Stats.MaxEnergy, this.battler.Stats.Energy);
+            this.life.Setup(this.battler.Name, this.battler.Stats.MaxHealth, this.battler.Stats.Health);
 
-            _battler.Stats.EnergyChanged += () => _energy.Value = _battler.Stats.Energy;
-            _battler.Stats.HealthChanged += () =>
+            this.battler.Stats.EnergyChanged += () => this.energy.Value = this.battler.Stats.Energy;
+            this.battler.Stats.HealthChanged += () =>
             {
-                _life.TargetValue = _battler.Stats.Health;
-                Disabled = _battler.Stats.Health <= 0;
+                this.life.TargetValue = this.battler.Stats.Health;
+                this.Disabled = this.battler.Stats.Health <= 0;
 
                 // If the Battler has been downed, it no longer has a cached action so the preview
                 // can be removed.
-                if (Disabled)
+                if (this.Disabled)
                 {
-                    _life.SetActionIcon(null);
+                    this.life.SetActionIcon(null);
                 }
             };
 
             // Once the player has started to act, remove the action preview icon. The icon only exists
             // to help the player with their battlefield strategy.
-            _battler.ReadyToAct += () =>
+            this.battler.ReadyToAct += () =>
             {
-                _life.SetActionIcon(null);
+                this.life.SetActionIcon(null);
             };
         }
 
@@ -92,15 +98,15 @@ public partial class UIBattlerEntry : TextureButton
         // Battler name and health points information.
         CombatEvents.ActionSelected += (action, source, targets) =>
         {
-            if (source == _battler)
+            if (source == this.battler)
             {
                 if (action != null)
                 {
-                    _life.SetActionIcon(action.Icon);
+                    this.life.SetActionIcon(action.Icon);
                 }
                 else
                 {
-                    _life.SetActionIcon(null);
+                    this.life.SetActionIcon(null);
                 }
             }
         };

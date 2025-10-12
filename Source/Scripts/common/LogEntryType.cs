@@ -1,3 +1,7 @@
+// <copyright file="LogEntryType.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 /// <summary>
 /// Types of log entries for the combat log.
 /// </summary>
@@ -51,5 +55,5 @@ public enum LogEntryType
     /// <summary>
     /// System message entry.
     /// </summary>
-    System
+    System,
 }

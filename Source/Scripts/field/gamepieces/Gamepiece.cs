@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="Gamepiece.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Base class for movable objects in the game world.
@@ -48,50 +52,50 @@ public partial class Gamepiece : Node2D
     public const string Group = "_GAMEPIECE_GROUP";
 
     /// <summary>
-    /// The direction the gamepiece is facing.
+    /// Gets or sets the direction the gamepiece is facing.
     /// </summary>
     [Export]
     public Directions.Points Direction
     {
-        get => direction;
+        get => this.direction;
         set
         {
-            if (value != direction)
+            if (value != this.direction)
             {
-                direction = value;
-                EmitSignal(SignalName.DirectionChanged, direction);
+                this.direction = value;
+                EmitSignal(SignalName.DirectionChanged, this.direction);
             }
         }
     }
 
     /// <summary>
-    /// The speed at which the gamepiece moves, in pixels per second.
+    /// Gets or sets the speed at which the gamepiece moves, in pixels per second.
     /// </summary>
     [Export]
     public float MovementSpeed { get; set; } = 100.0f;
 
     /// <summary>
-    /// Whether the gamepiece is currently moving.
+    /// Gets a value indicating whether whether the gamepiece is currently moving.
     /// </summary>
-    public bool IsMoving { get; private set; } = false;
+    public bool IsMoving { get; private set; }
 
     /// <summary>
-    /// The current cell position of the gamepiece.
+    /// Gets the current cell position of the gamepiece.
     /// </summary>
     public Vector2I CellPosition { get; private set; } = Gameboard.InvalidCell;
 
     /// <summary>
-    /// The target cell position the gamepiece is moving towards.
+    /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
     public Vector2I TargetCell { get; private set; } = Gameboard.InvalidCell;
 
     /// <summary>
-    /// The path the gamepiece is following.
+    /// Gets the path the gamepiece is following.
     /// </summary>
     public List<Vector2I> MovePath { get; private set; } = new List<Vector2I>();
 
     /// <summary>
-    /// Whether this gamepiece is controlled by the player.
+    /// Gets or sets a value indicating whether whether this gamepiece is controlled by the player.
     /// </summary>
     [Export]
     public bool IsPlayerControlled { get; set; } = false;
@@ -104,29 +108,31 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// The remaining distance to the target position.
     /// </summary>
-    private float remainingDistance = 0.0f;
+    private float remainingDistance;
 
     /// <summary>
     /// The target position the gamepiece is moving towards.
     /// </summary>
     private Vector2 targetPosition = Vector2.Zero;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         if (!Engine.IsEditorHint())
         {
-            AddToGroup(Group);
+            this.AddToGroup(Group);
 
             // Initialize the cell position
-            CellPosition = Gameboard.PixelToCell(Position);
+            this.CellPosition = Gameboard.PixelToCell(this.Position);
         }
     }
 
+    /// <inheritdoc/>
     public override void _Process(double delta)
     {
-        if (IsMoving)
+        if (this.IsMoving)
         {
-            ProcessMovement((float)delta);
+            this.ProcessMovement((float)delta);
         }
     }
 
@@ -136,39 +142,39 @@ public partial class Gamepiece : Node2D
     private void ProcessMovement(float delta)
     {
         // Calculate the distance to move this frame
-        var distanceThisFrame = MovementSpeed * delta;
+        var distanceThisFrame = this.MovementSpeed * delta;
 
         // Move towards the target position
-        if (distanceThisFrame >= remainingDistance)
+        if (distanceThisFrame >= this.remainingDistance)
         {
             // We've reached the target
-            Position = targetPosition;
-            remainingDistance = 0.0f;
-            IsMoving = false;
+            this.Position = this.targetPosition;
+            this.remainingDistance = 0.0f;
+            this.IsMoving = false;
 
             // Update the cell position
-            CellPosition = Gameboard.PixelToCell(Position);
+            this.CellPosition = Gameboard.PixelToCell(this.Position);
 
             // Emit the waypoint reached signal
-            EmitSignal(SignalName.WaypointReached, CellPosition);
+            this.EmitSignal(SignalName.WaypointReached, this.CellPosition);
 
             // If there's a path, move to the next waypoint
-            if (MovePath.Count > 0)
+            if (this.MovePath.Count > 0)
             {
-                MoveToNextWaypoint();
+                this.MoveToNextWaypoint();
             }
             else
             {
                 // No more waypoints, emit movement stopped
-                EmitSignal(SignalName.MovementStopped);
+                this.EmitSignal(SignalName.MovementStopped);
             }
         }
         else
         {
             // Move partway to the target
-            var direction = (targetPosition - Position).Normalized();
-            Position += direction * distanceThisFrame;
-            remainingDistance -= distanceThisFrame;
+            var direction = (this.targetPosition - this.Position).Normalized();
+            this.Position += direction * distanceThisFrame;
+            this.remainingDistance -= distanceThisFrame;
         }
     }
 
@@ -177,17 +183,17 @@ public partial class Gamepiece : Node2D
     /// </summary>
     private void MoveToNextWaypoint()
     {
-        if (MovePath.Count == 0)
+        if (this.MovePath.Count == 0)
         {
             return;
         }
 
         // Get the next waypoint
-        var nextWaypoint = MovePath[0];
-        MovePath.RemoveAt(0);
+        var nextWaypoint = this.MovePath[0];
+        this.MovePath.RemoveAt(0);
 
         // Set the target position
-        MoveToCell(nextWaypoint);
+        this.MoveToCell(nextWaypoint);
     }
 
     /// <summary>
@@ -196,27 +202,27 @@ public partial class Gamepiece : Node2D
     public void MoveToCell(Vector2I cell)
     {
         // Convert cell to pixel position
-        targetPosition = Gameboard.CellToPixel(cell);
-        remainingDistance = Position.DistanceTo(targetPosition);
+        this.targetPosition = Gameboard.CellToPixel(cell);
+        this.remainingDistance = this.Position.DistanceTo(this.targetPosition);
 
         // Update the direction based on movement
-        var movementVector = targetPosition - Position;
+        var movementVector = this.targetPosition - this.Position;
         if (!movementVector.IsEqualApprox(Vector2.Zero))
         {
-            Direction = Directions.VectorToDirection(movementVector);
+            this.Direction = Directions.VectorToDirection(movementVector);
         }
 
         // Update the target cell
-        TargetCell = cell;
+        this.TargetCell = cell;
 
         // Start moving
-        IsMoving = true;
+        this.IsMoving = true;
 
         // Emit the movement started signal
-        EmitSignal(SignalName.MovementStarted);
+        this.EmitSignal(SignalName.MovementStarted);
 
         // Emit the waypoint changed signal
-        EmitSignal(SignalName.WaypointChanged, cell);
+        this.EmitSignal(SignalName.WaypointChanged, cell);
     }
 
     /// <summary>
@@ -226,17 +232,17 @@ public partial class Gamepiece : Node2D
     {
         if (path == null)
         {
-            MovePath.Clear();
+            this.MovePath.Clear();
         }
         else
         {
-            MovePath = new List<Vector2I>(path);
+            this.MovePath = new List<Vector2I>(path);
         }
 
         // If we're not already moving, start moving to the first waypoint
-        if (!IsMoving && MovePath.Count > 0)
+        if (!this.IsMoving && this.MovePath.Count > 0)
         {
-            MoveToNextWaypoint();
+            this.MoveToNextWaypoint();
         }
     }
 
@@ -245,18 +251,19 @@ public partial class Gamepiece : Node2D
     /// </summary>
     public void StopMoving()
     {
-        IsMoving = false;
-        MovePath.Clear();
-        remainingDistance = 0.0f;
+        this.IsMoving = false;
+        this.MovePath.Clear();
+        this.remainingDistance = 0.0f;
 
         // Emit the movement stopped signal
-        EmitSignal(SignalName.MovementStopped);
+        this.EmitSignal(SignalName.MovementStopped);
     }
 
     /// <summary>
     /// Check if the gamepiece can move to a specific cell.
     /// </summary>
-    public bool CanMoveToCell(Vector2I cell)
+    /// <returns></returns>
+    public static bool CanMoveToCell(Vector2I cell)
     {
         // Check if the cell is within the gameboard bounds
         if (!Gameboard.Properties.Extents.HasPoint(cell))
@@ -282,9 +289,10 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// Get the adjacent cells that this gamepiece can move to.
     /// </summary>
+    /// <returns></returns>
     public List<Vector2I> GetMoveableAdjacentCells()
     {
-        var adjacentCells = Gameboard.GetAdjacentCells(CellPosition);
+        var adjacentCells = Gameboard.GetAdjacentCells(this.CellPosition);
         var moveableCells = new List<Vector2I>();
 
         foreach (var cell in adjacentCells)
@@ -303,7 +311,7 @@ public partial class Gamepiece : Node2D
     /// </summary>
     public void FaceDirection(Directions.Points newDirection)
     {
-        Direction = newDirection;
+        this.Direction = newDirection;
     }
 
     /// <summary>
@@ -311,7 +319,7 @@ public partial class Gamepiece : Node2D
     /// </summary>
     public void FacePosition(Vector2 position)
     {
-        var directionVector = position - Position;
-        Direction = Directions.VectorToDirection(directionVector);
+        var directionVector = position - this.Position;
+        this.Direction = Directions.VectorToDirection(directionVector);
     }
 }

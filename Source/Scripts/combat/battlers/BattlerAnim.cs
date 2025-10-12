@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="BattlerAnim.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// Determines which direction a battler faces on the screen.
@@ -7,7 +11,7 @@ using System;
 public enum BattlerDirection
 {
     Left,
-    Right
+    Right,
 }
 
 /// <summary>
@@ -17,7 +21,7 @@ public enum BattlerDirection
 /// moving to a position. These animations often represent a single character or a class of enemies
 /// and are added as children to a given Battler.
 ///
-/// <br/><br/>Note: BattlerAnims must be children of a Battler object to function correctly!
+/// <br/><br/>Note: BattlerAnims must be children of a Battler object to function correctly!.
 /// </summary>
 [Tool]
 public partial class BattlerAnim : Marker2D
@@ -41,59 +45,60 @@ public partial class BattlerAnim : Marker2D
     public delegate void AnimationFinishedEventHandler(string name);
 
     /// <summary>
-    /// An icon that shows up on the turn bar.
+    /// Gets or sets an icon that shows up on the turn bar.
     /// </summary>
     [Export]
     public Texture2D BattlerIcon { get; set; }
 
-    private BattlerDirection _direction = BattlerDirection.Right;
+    private BattlerDirection direction = BattlerDirection.Right;
 
     /// <summary>
-    /// Determines which direction the <see cref="BattlerAnim"/> faces. This is generally set by whichever "side"
+    /// Gets or sets determines which direction the <see cref="BattlerAnim"/> faces. This is generally set by whichever "side"
     /// the battler is on, player or enemy.
     /// </summary>
     [Export]
     public BattlerDirection Direction
     {
-        get => _direction;
+        get => this.direction;
         set
         {
-            _direction = value;
+            this.direction = value;
 
-            Scale = new Vector2(1, Scale.Y);
-            if (_direction == BattlerDirection.Left)
+            this.Scale = new Vector2(1, this.Scale.Y);
+            if (this.direction == BattlerDirection.Left)
             {
-                Scale = new Vector2(-1, Scale.Y);
+                this.Scale = new Vector2(-1, this.Scale.Y);
             }
         }
     }
 
     /// <summary>
-    /// Determines the time it takes for the <see cref="BattlerAnim"/> to slide forward or backward when its turn
+    /// Gets or sets determines the time it takes for the <see cref="BattlerAnim"/> to slide forward or backward when its turn
     /// comes up.
     /// </summary>
     [Export]
     public float SelectMoveTime { get; set; } = 0.3f;
 
-    private Tween? _moveTween = null;
-    private Vector2 _restPosition = Vector2.Zero;
+    private Tween? moveTween;
+    private Vector2 restPosition = Vector2.Zero;
 
-    private Marker2D? _front;
-    private Marker2D? _top;
-    private AnimationPlayer? _anim;
+    private Marker2D? front;
+    private Marker2D? top;
+    private AnimationPlayer? anim;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _anim = GetNode<AnimationPlayer>("Pivot/AnimationPlayer");
-        _front = GetNode<Marker2D>("FrontAnchor");
-        _top = GetNode<Marker2D>("TopAnchor");
+        this.anim = this.GetNode<AnimationPlayer>("Pivot/AnimationPlayer");
+        this.front = this.GetNode<Marker2D>("FrontAnchor");
+        this.top = this.GetNode<Marker2D>("TopAnchor");
 
-        _anim.AnimationFinished += (StringName animName) =>
+        this.anim.AnimationFinished += (StringName animName) =>
         {
-            EmitSignal(SignalName.AnimationFinished, animName.ToString());
+            this.EmitSignal(SignalName.AnimationFinished, animName.ToString());
         };
 
-        _restPosition = Position;
+        this.restPosition = this.Position;
     }
 
     /// <summary>
@@ -109,25 +114,34 @@ public partial class BattlerAnim : Marker2D
         // before ending combat, for example.
         if (!Engine.IsEditorHint())
         {
-            Owner = battler;
+            this.Owner = battler;
         }
 
-        Direction = facing;
+        this.Direction = facing;
 
         battler.HealthDepleted += () =>
         {
-            _anim.Play("die");
+            this.anim.Play("die");
         };
 
         battler.HitReceived += (int value) =>
         {
-            if (value > 0) _anim.Play("hurt");
+            if (value > 0)
+            {
+                this.anim.Play("hurt");
+            }
         };
 
         battler.SelectionToggled += (bool value) =>
         {
-            if (value) MoveForward(SelectMoveTime);
-            else MoveToRest(SelectMoveTime);
+            if (value)
+            {
+                this.MoveForward(this.SelectMoveTime);
+            }
+            else
+            {
+                this.MoveToRest(this.SelectMoveTime);
+            }
         };
     }
 
@@ -137,17 +151,18 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     public void Play(string animName)
     {
-        System.Diagnostics.Debug.Assert(_anim != null && _anim.HasAnimation(animName), $"Battler animation '{Name}' does not have animation '{animName}'!");
+        System.Diagnostics.Debug.Assert(this.anim != null && this.anim.HasAnimation(animName), $"Battler animation '{this.Name}' does not have animation '{animName}'!");
 
-        _anim.Play(animName);
+        this.anim.Play(animName);
     }
 
     /// <summary>
     /// Returns true if an animation is currently playing, otherwise returns false.
     /// </summary>
+    /// <returns></returns>
     public bool IsPlaying()
     {
-        return _anim != null && _anim.IsPlaying();
+        return this.anim != null && this.anim.IsPlaying();
     }
 
     /// <summary>
@@ -155,12 +170,12 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     public void QueueAnimation(string animName)
     {
-        System.Diagnostics.Debug.Assert(_anim != null && _anim.HasAnimation(animName), $"Battler animation '{Name}' does not have animation '{animName}'!");
+        System.Diagnostics.Debug.Assert(this.anim != null && this.anim.HasAnimation(animName), $"Battler animation '{this.Name}' does not have animation '{animName}'!");
 
-        _anim.Queue(animName);
-        if (_anim != null && !_anim.IsPlaying())
+        this.anim.Queue(animName);
+        if (this.anim != null && !this.anim.IsPlaying())
         {
-            _anim.Play();
+            this.anim.Play();
         }
     }
 
@@ -169,18 +184,17 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     public void MoveForward(float duration)
     {
-        if (_moveTween != null)
+        if (this.moveTween != null)
         {
-            _moveTween.Kill();
+            this.moveTween.Kill();
         }
 
-        _moveTween = CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Quart);
-        _moveTween.TweenProperty(
+        this.moveTween = this.CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Quart);
+        this.moveTween.TweenProperty(
             this,
             "position",
-            _restPosition + Vector2.Left * Scale.X * MoveOffset,
-            duration
-        );
+            this.restPosition + (Vector2.Left * this.Scale.X * MoveOffset),
+            duration);
     }
 
     /// <summary>
@@ -188,17 +202,16 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     public void MoveToRest(float duration)
     {
-        if (_moveTween != null)
+        if (this.moveTween != null)
         {
-            _moveTween.Kill();
+            this.moveTween.Kill();
         }
 
-        _moveTween = CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Quart);
-        _moveTween.TweenProperty(
+        this.moveTween = this.CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Quart);
+        this.moveTween.TweenProperty(
             this,
             "position",
-            _restPosition,
-            duration
-        );
+            this.restPosition,
+            duration);
     }
 }

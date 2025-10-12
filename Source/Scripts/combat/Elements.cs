@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="Elements.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 
 /// <summary>
 /// Represents combat elements and their relationships in terms of advantages/disadvantages.
@@ -15,7 +19,7 @@ public partial class Elements : RefCounted
         None,
         Bug,
         Break,
-        Seek
+        Seek,
     }
 
     /// <summary>
@@ -26,9 +30,9 @@ public partial class Elements : RefCounted
     /// </summary>
     public static readonly Dictionary<Types, Types[]> Advantages = new Dictionary<Types, Types[]>
     {
-        { Types.None, new Types[0] },
+        { Types.None, Array.Empty<Types>() },
         { Types.Bug, new Types[] { Types.Break } },
         { Types.Break, new Types[] { Types.None, Types.Seek } },
-        { Types.Seek, new Types[] { Types.Bug } }
+        { Types.Seek, new Types[] { Types.Bug } },
     };
 }

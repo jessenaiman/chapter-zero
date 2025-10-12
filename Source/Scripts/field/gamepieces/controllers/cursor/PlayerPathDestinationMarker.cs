@@ -1,3 +1,7 @@
+// <copyright file="PlayerPathDestinationMarker.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -7,19 +11,20 @@ using Godot;
 [GlobalClass]
 public partial class PlayerPathDestinationMarker : Sprite2D
 {
-    private Gamepiece _trackedGamepiece;
+    private Gamepiece trackedGamepiece;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Get the Player singleton and connect to its signal
-        var player = GetNode("/root/Player");
+        var player = this.GetNode("/root/Player");
         if (player != null)
         {
             player.Connect("player_path_set", Callable.From((Gamepiece gamepiece, Vector2I destinationCell) =>
             {
-                OnPlayerPathSet(gamepiece, destinationCell);
+                this.OnPlayerPathSet(gamepiece, destinationCell);
             }));
         }
     }
@@ -32,27 +37,27 @@ public partial class PlayerPathDestinationMarker : Sprite2D
     private void OnPlayerPathSet(Gamepiece gamepiece, Vector2I destinationCell)
     {
         // Disconnect from previous gamepiece if any
-        if (_trackedGamepiece != null && _trackedGamepiece.IsConnected("arrived", Callable.From(OnGamepieceArrived)))
+        if (this.trackedGamepiece != null && this.trackedGamepiece.IsConnected("arrived", Callable.From(this.OnGamepieceArrived)))
         {
-            _trackedGamepiece.Disconnect("arrived", Callable.From(OnGamepieceArrived));
+            this.trackedGamepiece.Disconnect("arrived", Callable.From(this.OnGamepieceArrived));
         }
 
-        _trackedGamepiece = gamepiece;
+        this.trackedGamepiece = gamepiece;
 
         // Connect to the arrived signal with one-shot flag
-        if (!gamepiece.IsConnected("arrived", Callable.From(OnGamepieceArrived)))
+        if (!gamepiece.IsConnected("arrived", Callable.From(this.OnGamepieceArrived)))
         {
-            gamepiece.Connect("arrived", Callable.From(OnGamepieceArrived), (uint)ConnectFlags.OneShot);
+            gamepiece.Connect("arrived", Callable.From(this.OnGamepieceArrived), (uint)ConnectFlags.OneShot);
         }
 
         // Get the Gameboard singleton to convert cell to pixel
-        var gameboard = GetNode("/root/Gameboard");
+        var gameboard = this.GetNode("/root/Gameboard");
         if (gameboard != null)
         {
-            Position = (Vector2)gameboard.Call("cell_to_pixel", destinationCell);
+            this.Position = (Vector2)gameboard.Call("cell_to_pixel", destinationCell);
         }
 
-        Show();
+        this.Show();
     }
 
     /// <summary>
@@ -60,7 +65,7 @@ public partial class PlayerPathDestinationMarker : Sprite2D
     /// </summary>
     private void OnGamepieceArrived()
     {
-        Hide();
-        _trackedGamepiece = null;
+        this.Hide();
+        this.trackedGamepiece = null;
     }
 }

@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="Cutscene.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A cutscene stops field gameplay to run a scripted event.
@@ -16,7 +20,7 @@ using System;
 /// <see cref="GamepieceController.IsPaused"/> or <see cref="FieldCursor.OnInputPaused(bool)"/>.
 ///
 /// Cutscenes are inherently custom and must be derived to do anything useful. They may be run via
-/// the <see cref="Run"/> method and derived cutscenes will override the <see cref="_Execute"/> method to
+/// the <see cref="Run"/> method and derived cutscenes will override the <see cref="Execute"/> method to
 /// provide custom functionality.
 ///
 /// Cutscenes are easily extensible, taking advantage of Godot's scene architecture. A variety of
@@ -29,15 +33,16 @@ using System;
 public partial class Cutscene : Node2D
 {
     // Indicates if a cutscene is currently running. <b>This member should not be set externally</b>.
-    private static bool _isCutsceneInProgress = false;
-    protected static bool _is_cutscene_in_progress
+    private static bool isCutsceneInProgress;
+
+    protected static bool Is_cutscene_in_progress
     {
-        get => _isCutsceneInProgress;
+        get => isCutsceneInProgress;
         set
         {
-            if (_isCutsceneInProgress != value)
+            if (isCutsceneInProgress != value)
             {
-                _isCutsceneInProgress = value;
+                isCutsceneInProgress = value;
 
                 // FieldEvents.input_paused.emit(value) - we'll need to implement this when FieldEvents is available
             }
@@ -47,9 +52,10 @@ public partial class Cutscene : Node2D
     /// <summary>
     /// Returns true if a cutscene is currently running.
     /// </summary>
+    /// <returns></returns>
     public static bool IsCutsceneInProgress()
     {
-        return _isCutsceneInProgress;
+        return isCutsceneInProgress;
     }
 
     /// <summary>
@@ -58,12 +64,12 @@ public partial class Cutscene : Node2D
     /// </summary>
     public async void Run()
     {
-        _is_cutscene_in_progress = true;
+        Is_cutscene_in_progress = true;
 
         // The _execute method may or may not be asynchronous, depending on the particular cutscene.
-        await _Execute();
+        await this.Execute();
 
-        _is_cutscene_in_progress = false;
+        Is_cutscene_in_progress = false;
     }
 
     /// <summary>
@@ -71,9 +77,9 @@ public partial class Cutscene : Node2D
     /// This method is intended to be overridden by derived cutscene types.
     /// May or may not be asynchronous.
     /// </summary>
-    protected virtual async void _Execute()
+    protected virtual async void Execute()
     {
         // Default implementation does nothing
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 }

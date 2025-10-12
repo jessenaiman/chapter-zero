@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="DoorTrigger.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A trigger that plays an animation when an area enters its trigger zone.
@@ -9,19 +13,20 @@ using System;
 public partial class DoorTrigger : Trigger
 {
     /// <summary>
-    /// The AnimationPlayer node that handles the door opening/closing animations.
+    /// Gets or sets the AnimationPlayer node that handles the door opening/closing animations.
     /// </summary>
     [Export]
     public AnimationPlayer Anim { get; set; }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Validate that the AnimationPlayer reference is set
-        if (Anim == null)
+        if (this.Anim == null)
         {
-            GD.PrintErr($"{Name} error: AnimationPlayer reference is not set!");
+            GD.PrintErr($"{this.Name} error: AnimationPlayer reference is not set!");
         }
     }
 
@@ -29,14 +34,13 @@ public partial class DoorTrigger : Trigger
     /// Activate the door trigger's logic.
     /// Plays the "open" animation when triggered.
     /// </summary>
-    /// <param name="triggeringObject">The object that triggered this door</param>
+    /// <param name="triggeringObject">The object that triggered this door.</param>
     public async void Activate(Node2D triggeringObject)
     {
-
         // Play the open animation if the animation player is set
-        if (Anim != null)
+        if (this.Anim != null)
         {
-            Anim.Play("open");
+            this.Anim.Play("open");
         }
     }
 }

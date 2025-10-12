@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="InteractionPopup.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
+using Godot;
 
 [Tool]
 /// <summary>
@@ -19,7 +23,7 @@ public partial class InteractionPopup : UIPopup
         Combat,
         Empty,
         Exclamation,
-        Question
+        Question,
     }
 
     /// <summary>
@@ -30,86 +34,90 @@ public partial class InteractionPopup : UIPopup
         { EmoteTypes.Combat, GD.Load<Texture2D>("res://assets/gui/emotes/emote_combat.png") },
         { EmoteTypes.Empty, GD.Load<Texture2D>("res://assets/gui/emotes/emote__.png") },
         { EmoteTypes.Exclamation, GD.Load<Texture2D>("res://assets/gui/emotes/emote_exclamations.png") },
-        { EmoteTypes.Question, GD.Load<Texture2D>("res://assets/gui/emotes/emote_question.png") }
+        { EmoteTypes.Question, GD.Load<Texture2D>("res://assets/gui/emotes/emote_question.png") },
     };
 
-    private EmoteTypes _emote = EmoteTypes.Empty;
+    private EmoteTypes emote = EmoteTypes.Empty;
+
     /// <summary>
-    /// The emote bubble that will be displayed when the character is nearby.
+    /// Gets or sets the emote bubble that will be displayed when the character is nearby.
     /// </summary>
     [Export]
     public EmoteTypes Emote
     {
-        get => _emote;
+        get => this.emote;
         set
         {
-            _emote = value;
+            this.emote = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                _emote = value;
+                this.emote = value;
                 return;
             }
 
-            _sprite.Texture = Emotes.ContainsKey(_emote) ? Emotes[_emote] : Emotes[EmoteTypes.Empty];
+            this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteTypes.Empty];
         }
     }
 
-    private int _radius = 32;
+    private int radius = 32;
+
     /// <summary>
-    /// How close the player must be to the emote before it will display.
+    /// Gets or sets how close the player must be to the emote before it will display.
     /// </summary>
     [Export]
     public int Radius
     {
-        get => _radius;
+        get => this.radius;
         set
         {
-            _radius = value;
+            this.radius = value;
 
-            if (!IsInsideTree())
+            if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                _radius = value;
+                this.radius = value;
                 return;
             }
 
-            (_collisionShape.Shape as CircleShape2D).Radius = _radius;
+            (this.collisionShape.Shape as CircleShape2D).Radius = this.radius;
         }
     }
 
-    private bool _isActive = true;
+    private bool isActive = true;
+
     /// <summary>
-    /// Is true if the InteractionPopup should respond to the player's presence. Otherwise, the popup
+    /// Gets or sets a value indicating whether is true if the InteractionPopup should respond to the player's presence. Otherwise, the popup
     /// will not be triggered.
     /// </summary>
     [Export]
     public bool IsActive
     {
-        get => _isActive;
+        get => this.isActive;
         set
         {
-            _isActive = value;
+            this.isActive = value;
 
             if (!Engine.IsEditorHint())
             {
-                if (!IsInsideTree())
+                if (!this.IsInsideTree())
                 {
                     // We'll set the value and wait for the node to be ready
-                    _isActive = value;
+                    this.isActive = value;
                     return;
                 }
 
-                _area.Monitoring = _isActive;
-                _collisionShape.Disabled = !_isActive;
+                this.area.Monitoring = this.isActive;
+                this.collisionShape.Disabled = !this.isActive;
             }
         }
     }
 
-    private Area2D _area;
-    private CollisionShape2D _collisionShape;
+    private Area2D area;
+    private CollisionShape2D collisionShape;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
@@ -122,28 +130,29 @@ public partial class InteractionPopup : UIPopup
 
     private void OnAreaEntered(Area2D enteredArea)
     {
-        _is_shown = true;
+        this.Is_shown = true;
     }
 
     private void OnAreaExited(Area2D exitedArea)
     {
-        _is_shown = false;
+        this.Is_shown = false;
     }
 
     // Be sure to hide input when the player is not able to do anything (e.g. cutscenes).
     private void OnInputPaused(bool paused)
     {
-        _area.Monitoring = !paused;
+        this.area.Monitoring = !paused;
     }
 
+    /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
 
-        _area = GetNode<Area2D>("Area2D");
-        _collisionShape = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
+        this.area = this.GetNode<Area2D>("Area2D");
+        this.collisionShape = this.GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
 
-        _area.AreaEntered += OnAreaEntered;
-        _area.AreaExited += OnAreaExited;
+        this.area.AreaEntered += this.OnAreaEntered;
+        this.area.AreaExited += this.OnAreaExited;
     }
 }

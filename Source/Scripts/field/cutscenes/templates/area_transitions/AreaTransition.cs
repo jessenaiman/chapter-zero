@@ -1,7 +1,11 @@
-using Godot;
+// <copyright file="AreaTransition.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Godot;
 using Timer = Godot.Timer; // Resolve ambiguity between Godot.Timer and System.Threading.Timer
 
 /// <summary>
@@ -13,32 +17,32 @@ using Timer = Godot.Timer; // Resolve ambiguity between Godot.Timer and System.T
 public partial class AreaTransition : Trigger
 {
     /// <summary>
-    /// The coordinates where the player will arrive after the transition.
+    /// Gets or sets the coordinates where the player will arrive after the transition.
     /// </summary>
     [Export]
     public Vector2 ArrivalCoordinates
     {
-        get => arrivalCoordinates;
+        get => this.arrivalCoordinates;
         set
         {
-            arrivalCoordinates = value;
+            this.arrivalCoordinates = value;
 
             // Update destination position in editor
             if (Engine.IsEditorHint())
             {
-                if (!IsInsideTree())
+                if (!this.IsInsideTree())
                 {
-                    CallDeferred(nameof(UpdateDestinationPosition));
+                    this.CallDeferred(nameof(this.UpdateDestinationPosition));
                     return;
                 }
 
-                UpdateDestinationPosition();
+                this.UpdateDestinationPosition();
             }
         }
     }
 
     /// <summary>
-    /// The audio stream to play when entering this area.
+    /// Gets or sets the audio stream to play when entering this area.
     /// </summary>
     [Export]
     public AudioStream NewMusic { get; set; }
@@ -47,24 +51,25 @@ public partial class AreaTransition : Trigger
     /// The blackout timer used to wait between fade-out and fade-in during transitions.
     /// No delay looks odd, so this provides a brief pause in darkness.
     /// </summary>
-    private Timer _blackoutTimer;
+    private Timer blackoutTimer;
 
     /// <summary>
     /// The coordinates where the player will arrive after the transition.
     /// </summary>
     private Vector2 arrivalCoordinates = Vector2.Zero;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
 
         // Get reference to the blackout timer
-        _blackoutTimer = GetNode<Timer>("BlackoutTimer");
+        this.blackoutTimer = this.GetNode<Timer>("BlackoutTimer");
 
         if (!Engine.IsEditorHint())
         {
             // Remove the destination marker in game (only for editor preview)
-            var destination = GetNode<Node2D>("Destination");
+            var destination = this.GetNode<Node2D>("Destination");
             if (destination != null)
             {
                 destination.QueueFree();
@@ -77,10 +82,10 @@ public partial class AreaTransition : Trigger
     /// </summary>
     private void UpdateDestinationPosition()
     {
-        var destination = GetNode<Node2D>("Destination");
+        var destination = this.GetNode<Node2D>("Destination");
         if (destination != null)
         {
-            destination.Position = ArrivalCoordinates - Position;
+            destination.Position = this.ArrivalCoordinates - this.Position;
         }
     }
 
@@ -89,17 +94,19 @@ public partial class AreaTransition : Trigger
     /// Handles the transition process including screen covering, moving the player,
     /// and revealing the screen again.
     /// </summary>
-    /// <param name="triggeringObject">The object that triggered this transition</param>
+    /// <param name="triggeringObject">The object that triggered this transition.</param>
     public virtual async void Activate(Node2D triggeringObject)
     {
-
         // Convert the triggering object to an Area2D to get the gamepiece
         var area = triggeringObject as Area2D;
-        if (area == null) return;
+        if (area == null)
+        {
+            return;
+        }
 
         // Pausing the field immediately will deactivate physics objects, which are in the middle of
         // processing (hence _on_area_entered). We need to wait a frame before pausing anything.
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
 
         // Cover the screen to hide the area transition.
         await Transition.Instance.Cover(0.25f);
@@ -109,10 +116,10 @@ public partial class AreaTransition : Trigger
         if (gamepiece != null)
         {
             gamepiece.StopMoving(); // Assuming Gamepiece has a StopMoving method
-            gamepiece.Position = ArrivalCoordinates;
+            gamepiece.Position = this.ArrivalCoordinates;
 
             // Update the gamepiece registry with the new cell position
-            var newCell = Gameboard.PixelToCell(ArrivalCoordinates);
+            var newCell = Gameboard.PixelToCell(this.ArrivalCoordinates);
             GamepieceRegistry.Instance.MoveGamepiece(gamepiece, newCell);
 
             // Reset the camera position
@@ -121,12 +128,12 @@ public partial class AreaTransition : Trigger
 
         // Let the screen rest in darkness for a little while. Revealing the screen immediately with no
         // delay looks 'off'.
-        _blackoutTimer.Start();
-        await ToSignal(_blackoutTimer, Timer.SignalName.Timeout);
+        this.blackoutTimer.Start();
+        await this.ToSignal(this.blackoutTimer, Timer.SignalName.Timeout);
 
         // All kinds of shenanigans could happen once the screen blacks out. It may be asynchronous, so
         // give the opportunity for the designer to run a lengthy event.
-        await _OnBlackout();
+        await OnBlackout().ConfigureAwait(false);
 
         // Reveal the screen and unpause the field gamestate.
         await Transition.Instance.Clear(0.10f);
@@ -136,12 +143,13 @@ public partial class AreaTransition : Trigger
     /// Callback that occurs during the blackout phase of the transition.
     /// Override this method to add custom behavior during the transition blackout.
     /// </summary>
-    protected virtual async Task _OnBlackout()
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
+    protected virtual async Task OnBlackout()
     {
         // Play new music if specified
-        if (NewMusic != null)
+        if (this.NewMusic != null)
         {
-            Music.Instance?.Play(NewMusic);
+            Music.Instance?.Play(this.NewMusic);
         }
     }
 }

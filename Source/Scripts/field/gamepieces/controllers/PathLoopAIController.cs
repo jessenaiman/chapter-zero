@@ -1,8 +1,12 @@
-using Godot;
+// <copyright file="PathLoopAIController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// AI controller that moves a gamepiece along a looping path defined by a Line2D.
@@ -12,16 +16,16 @@ using System.Threading.Tasks;
 public partial class PathLoopAIController : GamepieceController
 {
     /// <summary>
-    /// The Line2D that defines the path points for the gamepiece to follow.
+    /// Gets or sets the Line2D that defines the path points for the gamepiece to follow.
     /// </summary>
     [Export]
     public Line2D PathToFollow
     {
-        get => pathToFollow;
+        get => this.pathToFollow;
         set
         {
-            pathToFollow = value;
-            UpdateConfigurationWarnings();
+            this.pathToFollow = value;
+            this.UpdateConfigurationWarnings();
         }
     }
 
@@ -36,34 +40,35 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     private Godot.Timer timer;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         if (!Engine.IsEditorHint())
         {
-            if (PathToFollow != null)
+            if (this.PathToFollow != null)
             {
-                PathToFollow.Hide();
+                this.PathToFollow.Hide();
             }
 
-            pathOrigin = Gamepiece?.Position ?? Vector2.Zero;
+            this.pathOrigin = this.Gamepiece?.Position ?? Vector2.Zero;
 
             // Connect to pathfinder changes to update path when needed
             // Gameboard.PathfinderChanged += OnPathfinderChanged;
 
             // Initialize timer
-            timer = new Timer();
-            timer.OneShot = true;
-            timer.Timeout += MoveToNextWaypoint;
-            AddChild(timer);
+            this.timer = new Timer();
+            this.timer.OneShot = true;
+            this.timer.Timeout += MoveToNextWaypoint;
+            this.AddChild(this.timer);
 
-            timer.Start();
+            this.timer.Start();
         }
 
         base._Ready();
     }
 
     /// <summary>
-    /// Override the active state setter to handle timer pausing.
+    /// Gets or sets a value indicating whether override the active state setter to handle timer pausing.
     /// </summary>
     public bool IsControllerActive
     {
@@ -75,15 +80,15 @@ public partial class PathLoopAIController : GamepieceController
                 isActive = value;
 
                 // Pause/unpause the timer when controller state changes
-                if (timer != null)
+                if (this.timer != null)
                 {
-                    timer.Paused = !isActive;
+                    this.timer.Paused = !isActive;
                 }
 
                 // If not paused and timer is stopped, continue movement
-                if (isActive && timer?.IsStopped() == true)
+                if (isActive && this.timer?.IsStopped() == true)
                 {
-                    MoveToNextWaypoint();
+                    this.MoveToNextWaypoint();
                 }
             }
         }
@@ -92,11 +97,12 @@ public partial class PathLoopAIController : GamepieceController
     /// <summary>
     /// Get configuration warnings for the editor.
     /// </summary>
+    /// <returns></returns>
     public override string[] _GetConfigurationWarnings()
     {
         var warnings = new List<string>();
 
-        if (PathToFollow == null)
+        if (this.PathToFollow == null)
         {
             warnings.Add("The path loop controller needs a valid Line2D to follow!");
         }
@@ -108,45 +114,44 @@ public partial class PathLoopAIController : GamepieceController
     /// Convert the Line2D path into a series of cells for the gamepiece to move to.
     /// Creates a looping path from the points specified by PathToFollow.
     /// </summary>
-    /// <returns>True if a valid path was found, false otherwise</returns>
+    /// <returns>True if a valid path was found, false otherwise.</returns>
     private bool FindMovePath()
     {
-        MovePath.Clear();
+        this.MovePath.Clear();
 
         // A path needs at least two points
-        if (PathToFollow?.GetPointCount() <= 1)
+        if (this.PathToFollow?.GetPointCount() <= 1)
         {
             return false;
         }
 
         // Add the first cell to the path
-        startCell = Gameboard.PixelToCell(PathToFollow.GetPointPosition(0) + pathOrigin);
+        this.startCell = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(0) + this.pathOrigin);
 
         // Create a looping path from the points specified by PathToFollow
-        for (int i = 1; i < PathToFollow.GetPointCount(); i++)
+        for (int i = 1; i < this.PathToFollow.GetPointCount(); i++)
         {
-            var source = Gameboard.PixelToCell(PathToFollow.GetPointPosition(i - 1) + pathOrigin);
-            var target = Gameboard.PixelToCell(PathToFollow.GetPointPosition(i) + pathOrigin);
+            var source = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(i - 1) + this.pathOrigin);
+            var target = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(i) + this.pathOrigin);
 
             var pathSegment = Gameboard.Pathfinder.GetPathToCell(
                 source,
                 target,
-                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant
-            );
+                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant);
 
             if (!pathSegment.Any())
             {
-                GD.PushError($"{Name}: Failed to find path between cells {source} and {target}");
+                GD.PushError($"{this.Name}: Failed to find path between cells {source} and {target}");
                 return false;
             }
 
-            MovePath.AddRange(pathSegment);
+            this.MovePath.AddRange(pathSegment);
         }
 
         // Connect the ending and starting cells to complete the loop
-        var lastPos = PathToFollow.GetPointPosition(PathToFollow.GetPointCount() - 1) + pathOrigin;
+        var lastPos = this.PathToFollow.GetPointPosition(this.PathToFollow.GetPointCount() - 1) + this.pathOrigin;
         var lastCell = Gameboard.PixelToCell(lastPos);
-        var firstCell = Gameboard.PixelToCell(PathToFollow.GetPointPosition(0) + pathOrigin);
+        var firstCell = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(0) + this.pathOrigin);
 
         // If we've made it this far there must be a path between the first and last cell
         if (lastCell != firstCell)
@@ -154,9 +159,8 @@ public partial class PathLoopAIController : GamepieceController
             var closingPath = Gameboard.Pathfinder.GetPathToCell(
                 lastCell,
                 firstCell,
-                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant
-            );
-            MovePath.AddRange(closingPath);
+                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant);
+            this.MovePath.AddRange(closingPath);
         }
 
         return true;
@@ -167,40 +171,41 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     private int GetNextWaypointIndex()
     {
-        var nextIndex = currentWaypointIndex + 1;
-        if (nextIndex >= MovePath.Count)
+        var nextIndex = this.currentWaypointIndex + 1;
+        if (nextIndex >= this.MovePath.Count)
         {
             nextIndex = 0;
         }
+
         return nextIndex;
     }
 
     /// <summary>
     /// Move to the next waypoint in the path.
     /// </summary>
-    /// <returns>The distance to the waypoint</returns>
+    /// <returns>The distance to the waypoint.</returns>
     private float MoveToNextWaypoint()
     {
         float distanceToPoint = 0.0f;
 
-        if (IsActive && MovePath.Any())
+        if (this.IsActive && this.MovePath.Any())
         {
-            var nextIndex = GetNextWaypointIndex();
+            var nextIndex = this.GetNextWaypointIndex();
 
             // If the next waypoint is blocked, restart the timer and try again later
-            if (Gameboard.Pathfinder.CanMoveTo(MovePath[nextIndex]))
+            if (Gameboard.Pathfinder.CanMoveTo(this.MovePath[nextIndex]))
             {
-                currentWaypointIndex = nextIndex;
+                this.currentWaypointIndex = nextIndex;
 
-                var destination = Gameboard.CellToPixel(MovePath[currentWaypointIndex]);
-                distanceToPoint = Gamepiece.Position.DistanceTo(destination);
-                Gamepiece.MoveTo(destination);
+                var destination = Gameboard.CellToPixel(this.MovePath[this.currentWaypointIndex]);
+                distanceToPoint = this.Gamepiece.Position.DistanceTo(destination);
+                this.Gamepiece.MoveTo(destination);
 
                 // GamepieceRegistry.MoveGamepiece(Gamepiece, MovePath[currentWaypointIndex]);
             }
             else
             {
-                timer.Start();
+                this.timer.Start();
             }
         }
 
@@ -212,18 +217,18 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     protected override void OnGamepieceArriving(float excessDistance)
     {
-        if (MovePath.Any() && IsActive)
+        if (this.MovePath.Any() && this.IsActive)
         {
             // Fast gamepieces could jump several waypoints at once, so check which waypoint is next
-            while (MovePath.Any() && excessDistance > 0.0f)
+            while (this.MovePath.Any() && excessDistance > 0.0f)
             {
-                if (MovePath[currentWaypointIndex] == startCell ||
-                    !Gameboard.Pathfinder.CanMoveTo(MovePath[GetNextWaypointIndex()]))
+                if (this.MovePath[this.currentWaypointIndex] == this.startCell ||
+                    !Gameboard.Pathfinder.CanMoveTo(this.MovePath[this.GetNextWaypointIndex()]))
                 {
                     return;
                 }
 
-                var distanceToWaypoint = MoveToNextWaypoint();
+                var distanceToWaypoint = this.MoveToNextWaypoint();
                 excessDistance -= distanceToWaypoint;
             }
         }
@@ -234,7 +239,7 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     protected override void OnGamepieceArrived()
     {
-        timer.Start();
+        this.timer.Start();
     }
 
     /// <summary>
@@ -243,9 +248,9 @@ public partial class PathLoopAIController : GamepieceController
     private void OnPathfinderChanged(List<Vector2I> added, List<Vector2I> removed)
     {
         // Log an error if the path described by PathToFollow cannot be traversed
-        if (!FindMovePath())
+        if (!this.FindMovePath())
         {
-            GD.PrintErr($"Failed to find a path to follow for '{Gamepiece?.Name}'!");
+            GD.PrintErr($"Failed to find a path to follow for '{this.Gamepiece?.Name}'!");
             return;
         }
     }
@@ -258,15 +263,15 @@ public partial class PathLoopAIController : GamepieceController
         base.OnActiveStateChanged();
 
         // Pause/unpause the timer when controller state changes
-        if (timer != null)
+        if (this.timer != null)
         {
-            timer.Paused = !IsActive;
+            this.timer.Paused = !this.IsActive;
         }
 
         // If not paused and timer is stopped, continue movement
-        if (IsActive && timer?.IsStopped() == true)
+        if (this.IsActive && this.timer?.IsStopped() == true)
         {
-            MoveToNextWaypoint();
+            this.MoveToNextWaypoint();
         }
     }
 }

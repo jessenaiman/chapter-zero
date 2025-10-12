@@ -1,8 +1,12 @@
-using Godot;
+// <copyright file="CombatAI.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Base class for combat artificial intelligence.
@@ -12,24 +16,24 @@ using System.Threading.Tasks;
 public partial class CombatAI : Node
 {
     /// <summary>
-    /// The Battler that this AI controls.
+    /// Gets the Battler that this AI controls.
     /// </summary>
     public Battler? ControlledBattler { get; private set; }
 
     /// <summary>
-    /// The list of all battlers in combat, used for target selection.
+    /// Gets the list of all battlers in combat, used for target selection.
     /// </summary>
     public BattlerList? Battlers { get; private set; }
 
     /// <summary>
-    /// The delay in seconds before the AI takes its turn.
+    /// Gets or sets the delay in seconds before the AI takes its turn.
     /// This can be used to make the AI feel more natural and give the player time to react.
     /// </summary>
     [Export]
     public float TurnDelay { get; set; } = 1.0f;
 
     /// <summary>
-    /// Whether this AI is currently active and making decisions.
+    /// Gets or sets a value indicating whether whether this AI is currently active and making decisions.
     /// </summary>
     public bool IsActive { get; set; } = true;
 
@@ -39,8 +43,8 @@ public partial class CombatAI : Node
     /// </summary>
     public virtual void Setup(Battler controlledBattler, BattlerList battlers)
     {
-        ControlledBattler = controlledBattler;
-        Battlers = battlers;
+        this.ControlledBattler = controlledBattler;
+        this.Battlers = battlers;
     }
 
     /// <summary>
@@ -48,22 +52,23 @@ public partial class CombatAI : Node
     /// This method is called when the battler is ready to act.
     /// Override this method to implement custom AI behavior.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public virtual async Task<(BattlerAction? action, List<Battler> targets)> ChooseAction()
     {
-        if (!IsActive || ControlledBattler == null || ControlledBattler.Actions == null)
+        if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
         {
             return (null, new List<Battler>());
         }
 
         // Wait for the turn delay to make the AI feel more natural
-        if (TurnDelay > 0)
+        if (this.TurnDelay > 0)
         {
-            await Task.Delay(TimeSpan.FromSeconds(TurnDelay));
+            await Task.Delay(TimeSpan.FromSeconds(TurnDelay)).ConfigureAwait(false);
         }
 
         // Get all available actions
-        var availableActions = ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(ControlledBattler, new List<Battler>())).ToList();
+        var availableActions = this.ControlledBattler.Actions.Where(action =>
+            action != null && action.CanExecute(this.ControlledBattler, new List<Battler>())).ToList();
 
         if (availableActions.Count == 0)
         {
@@ -74,7 +79,7 @@ public partial class CombatAI : Node
         var chosenAction = availableActions[GD.Randi() % availableActions.Count];
 
         // Choose targets for the action
-        var possibleTargets = chosenAction.GetPossibleTargets(ControlledBattler, Battlers);
+        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers);
         var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
@@ -98,7 +103,7 @@ public partial class CombatAI : Node
         // For self-target actions, target the controlled battler
         if (chosenAction.TargetScope == ActionTargetScope.Self)
         {
-            return (chosenAction, new List<Battler> { ControlledBattler });
+            return (chosenAction, new List<Battler> { this.ControlledBattler });
         }
 
         // Default: return the chosen action with no targets
@@ -110,9 +115,10 @@ public partial class CombatAI : Node
     /// Higher scores indicate better situations for the AI's team.
     /// This can be used to make more strategic decisions.
     /// </summary>
+    /// <returns></returns>
     public virtual float EvaluateSituation()
     {
-        if (ControlledBattler == null || Battlers == null)
+        if (this.ControlledBattler == null || this.Battlers == null)
         {
             return 0.0f;
         }
@@ -121,7 +127,7 @@ public partial class CombatAI : Node
         var aiTeamHealth = 0.0f;
         var playerTeamHealth = 0.0f;
 
-        foreach (var battler in Battlers.Enemies)
+        foreach (var battler in this.Battlers.Enemies)
         {
             if (battler != null && battler.Stats != null)
             {
@@ -129,7 +135,7 @@ public partial class CombatAI : Node
             }
         }
 
-        foreach (var battler in Battlers.Players)
+        foreach (var battler in this.Battlers.Players)
         {
             if (battler != null && battler.Stats != null)
             {
@@ -151,6 +157,7 @@ public partial class CombatAI : Node
     /// Higher priority actions are more likely to be chosen.
     /// Override this method to implement custom priority logic.
     /// </summary>
+    /// <returns></returns>
     public virtual float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
         if (action == null || targets == null)
@@ -182,7 +189,7 @@ public partial class CombatAI : Node
     /// </summary>
     public virtual void OnDefeat()
     {
-        IsActive = false;
+        this.IsActive = false;
     }
 
     /// <summary>
@@ -191,6 +198,6 @@ public partial class CombatAI : Node
     /// </summary>
     public virtual void OnVictory()
     {
-        IsActive = false;
+        this.IsActive = false;
     }
 }

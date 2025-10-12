@@ -41,8 +41,10 @@ public partial class TileDungeonData
             {
                 result[kvp.Key.ToString()] = kvp.Value;
             }
+
             return result;
         }
+
         set
         {
             this.Legend.Clear();

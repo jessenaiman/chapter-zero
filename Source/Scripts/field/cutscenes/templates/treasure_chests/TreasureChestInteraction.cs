@@ -1,3 +1,7 @@
+// <copyright file="TreasureChestInteraction.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -9,42 +13,42 @@ using Godot;
 public partial class TreasureChestInteraction : Interaction
 {
     /// <summary>
-    /// The animation player for the chest animation.
+    /// Gets or sets the animation player for the chest animation.
     /// </summary>
     [Export]
     public AnimationPlayer Anim { get; set; }
 
     /// <summary>
-    /// The popup that displays when an item is received.
+    /// Gets or sets the popup that displays when an item is received.
     /// </summary>
     [Export]
     public Node Popup { get; set; } // InteractionPopup
 
     /// <summary>
-    /// The type of item in the chest.
+    /// Gets or sets the type of item in the chest.
     /// </summary>
     public int ItemType { get; set; } // Inventory.ItemTypes enum value
 
     /// <summary>
-    /// The amount of the item in the chest.
+    /// Gets or sets the amount of the item in the chest.
     /// </summary>
     public int Amount { get; set; } = 1;
 
-    private bool _isOpen = false;
-    private bool _itemReceived = false;
+    private bool isOpen;
+    private bool itemReceived;
 
     /// <summary>
-    /// Whether the item has been received from this chest.
+    /// Gets or sets a value indicating whether whether the item has been received from this chest.
     /// </summary>
     public bool ItemReceived
     {
-        get => _itemReceived;
+        get => this.itemReceived;
         set
         {
-            _itemReceived = value;
-            if (_itemReceived && Popup != null)
+            this.itemReceived = value;
+            if (this.itemReceived && this.Popup != null)
             {
-                Popup.Call("hide_and_free");
+                this.Popup.Call("hide_and_free");
             }
         }
     }
@@ -55,42 +59,45 @@ public partial class TreasureChestInteraction : Interaction
     /// </summary>
     protected async void Execute()
     {
-        if (_isOpen)
+        if (this.isOpen)
         {
-            Anim?.Play("close");
-            if (Anim != null)
+            this.Anim?.Play("close");
+            if (this.Anim != null)
             {
-                await ToSignal(Anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.Anim, AnimationPlayer.SignalName.AnimationFinished);
             }
-            _isOpen = false;
+
+            this.isOpen = false;
         }
         else
         {
-            Anim?.Play("open");
-            if (Anim != null)
+            this.Anim?.Play("open");
+            if (this.Anim != null)
             {
-                await ToSignal(Anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.Anim, AnimationPlayer.SignalName.AnimationFinished);
             }
 
-            if (!_itemReceived)
+            if (!this.itemReceived)
             {
                 // Get the Inventory singleton and add the item
-                var inventory = GetNode("/root/Inventory");
+                var inventory = this.GetNode("/root/Inventory");
                 if (inventory != null)
                 {
-                    inventory.Call("add", ItemType, Amount);
+                    inventory.Call("add", this.ItemType, this.Amount);
                 }
-                ItemReceived = true;
+
+                this.ItemReceived = true;
             }
 
-            _isOpen = true;
+            this.isOpen = true;
         }
     }
 
+    /// <inheritdoc/>
     public override async void Run()
     {
-        Execute();
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        this.Execute();
+        await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
         base.Run();
     }
 }

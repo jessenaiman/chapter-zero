@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="GamepieceAnimation.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Encapsulates Gamepiece animation as an optional component.
@@ -32,13 +36,13 @@ public partial class GamepieceAnimation : Marker2D
         { Directions.Points.North, "_n" },
         { Directions.Points.East, "_e" },
         { Directions.Points.South, "_s" },
-        { Directions.Points.West, "_w" }
+        { Directions.Points.West, "_w" },
     };
 
     /// <summary>
     /// The animation currently being played.
     /// </summary>
-    private string currentSequenceId = "";
+    private string currentSequenceId = string.Empty;
 
     /// <summary>
     /// The direction faced by the gamepiece.
@@ -51,29 +55,30 @@ public partial class GamepieceAnimation : Marker2D
     /// <summary>
     /// Animation player for handling animations.
     /// </summary>
-    private AnimationPlayer _anim;
+    private AnimationPlayer anim;
 
     /// <summary>
-    /// The animation currently being played.
+    /// Gets or sets the animation currently being played.
     /// </summary>
     public string CurrentSequenceId
     {
-        get => currentSequenceId;
-        set => Play(value);
+        get => this.currentSequenceId;
+        set => this.Play(value);
     }
 
     /// <summary>
-    /// The direction faced by the gamepiece.
+    /// Gets or sets the direction faced by the gamepiece.
     /// </summary>
     public Directions.Points Direction
     {
-        get => direction;
-        set => SetDirection(value);
+        get => this.direction;
+        set => this.SetDirection(value);
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _anim = GetNode<AnimationPlayer>("AnimationPlayer");
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     /// <summary>
@@ -82,33 +87,33 @@ public partial class GamepieceAnimation : Marker2D
     /// north/up). Directional animations will be preferred with direction-less
     /// animations as a fallback.
     /// </summary>
-    /// <param name="value">The animation sequence to play</param>
+    /// <param name="value">The animation sequence to play.</param>
     public async void Play(string value)
     {
-        if (value == currentSequenceId)
+        if (value == this.currentSequenceId)
         {
             return;
         }
 
-        if (!IsInsideTree())
+        if (!this.IsInsideTree())
         {
-            await ToSignal(this, Node.SignalName.Ready);
+            await this.ToSignal(this, Node.SignalName.Ready);
         }
 
         // We need to check to see if the animation is valid. First of all, look for
         // a directional equivalent - e.g. idle_n. If that fails, look for the new
         // sequence id itself.
-        var sequenceSuffix = DirectionSuffixes.ContainsKey(direction) ? DirectionSuffixes[direction] : "";
+        var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
 
-        if (_anim.HasAnimation(value + sequenceSuffix))
+        if (this.anim.HasAnimation(value + sequenceSuffix))
         {
-            currentSequenceId = value;
-            _SwapAnimation(value + sequenceSuffix, false);
+            this.currentSequenceId = value;
+            this.SwapAnimation(value + sequenceSuffix, false);
         }
-        else if (_anim.HasAnimation(value))
+        else if (this.anim.HasAnimation(value))
         {
-            currentSequenceId = value;
-            _SwapAnimation(value, false);
+            this.currentSequenceId = value;
+            this.SwapAnimation(value, false);
         }
     }
 
@@ -118,30 +123,30 @@ public partial class GamepieceAnimation : Marker2D
     /// direction it will be played. Otherwise the direction-less animation will
     /// play.
     /// </summary>
-    /// <param name="value">The new direction</param>
+    /// <param name="value">The new direction.</param>
     public async void SetDirection(Directions.Points value)
     {
-        if (value == direction)
+        if (value == this.direction)
         {
             return;
         }
 
-        direction = value;
+        this.direction = value;
 
-        if (!IsInsideTree())
+        if (!this.IsInsideTree())
         {
-            await ToSignal(this, Node.SignalName.Ready);
+            await this.ToSignal(this, Node.SignalName.Ready);
         }
 
-        var sequenceSuffix = DirectionSuffixes.ContainsKey(direction) ? DirectionSuffixes[direction] : "";
+        var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
 
-        if (_anim.HasAnimation(currentSequenceId + sequenceSuffix))
+        if (this.anim.HasAnimation(this.currentSequenceId + sequenceSuffix))
         {
-            _SwapAnimation(currentSequenceId + sequenceSuffix, true);
+            this.SwapAnimation(this.currentSequenceId + sequenceSuffix, true);
         }
-        else if (_anim.HasAnimation(currentSequenceId))
+        else if (this.anim.HasAnimation(this.currentSequenceId))
         {
-            _SwapAnimation(currentSequenceId, true);
+            this.SwapAnimation(this.currentSequenceId, true);
         }
     }
 
@@ -149,11 +154,11 @@ public partial class GamepieceAnimation : Marker2D
     /// Transition to the next animation sequence, accounting for the RESET track and
     /// current animation elapsed time.
     /// </summary>
-    /// <param name="nextSequence">The next animation sequence to play</param>
-    /// <param name="keepPosition">Whether to keep the current animation position</param>
-    private void _SwapAnimation(string nextSequence, bool keepPosition)
+    /// <param name="nextSequence">The next animation sequence to play.</param>
+    /// <param name="keepPosition">Whether to keep the current animation position.</param>
+    private void SwapAnimation(string nextSequence, bool keepPosition)
     {
-        var nextAnim = _anim.GetAnimation(nextSequence);
+        var nextAnim = this.anim.GetAnimation(nextSequence);
 
         if (nextAnim != null)
         {
@@ -162,19 +167,19 @@ public partial class GamepieceAnimation : Marker2D
             var currentPositionRatio = 0f;
             if (keepPosition)
             {
-                currentPositionRatio = _anim.CurrentAnimationPosition / _anim.CurrentAnimationLength;
+                currentPositionRatio = this.anim.CurrentAnimationPosition / this.anim.CurrentAnimationLength;
             }
 
             // RESET the animation immediately to its default reset state before the next sequence.
             // Take advantage of the default RESET animation to clear uncommon changes (i.e. flip_h).
-            if (_anim.HasAnimation(ResetSequenceKey))
+            if (this.anim.HasAnimation(ResetSequenceKey))
             {
-                _anim.Play(ResetSequenceKey);
-                _anim.Advance(0);
+                this.anim.Play(ResetSequenceKey);
+                this.anim.Advance(0);
             }
 
-            _anim.Play(nextSequence);
-            _anim.Advance(currentPositionRatio * nextAnim.GetLength());
+            this.anim.Play(nextSequence);
+            this.anim.Advance(currentPositionRatio * nextAnim.GetLength());
         }
     }
 }

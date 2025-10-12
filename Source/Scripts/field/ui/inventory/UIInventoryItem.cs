@@ -1,3 +1,7 @@
+// <copyright file="UIInventoryItem.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Godot;
 
 /// <summary>
@@ -9,42 +13,43 @@ using Godot;
 public partial class UIInventoryItem : TextureRect
 {
     /// <summary>
-    /// The item type ID from the Inventory.ItemTypes enum.
+    /// Gets or sets the item type ID from the Inventory.ItemTypes enum.
     /// </summary>
-    public int ID { get; set; } = 0; // Inventory.ItemTypes.KEY
+    public int ID { get; set; } // Inventory.ItemTypes.KEY
 
-    private int _count = 0;
-    private Label _countLabel;
+    private int count;
+    private Label countLabel;
 
     /// <summary>
-    /// The number of this item in the inventory.
+    /// Gets or sets the number of this item in the inventory.
     /// </summary>
     public int Count
     {
-        get => _count;
+        get => this.count;
         set
         {
-            _count = Mathf.Max(value, 0);
+            this.count = Mathf.Max(value, 0);
 
-            if (_count == 0)
+            if (this.count == 0)
             {
-                QueueFree();
+                this.QueueFree();
             }
-            else if (_count > 1 && _countLabel != null)
+            else if (this.count > 1 && this.countLabel != null)
             {
-                _countLabel.Show();
-                _countLabel.Text = _count.ToString();
+                this.countLabel.Show();
+                this.countLabel.Text = this.count.ToString();
             }
-            else if (_countLabel != null)
+            else if (this.countLabel != null)
             {
-                _countLabel.Hide();
+                this.countLabel.Hide();
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         base._Ready();
-        _countLabel = GetNode<Label>("Count");
+        this.countLabel = this.GetNode<Label>("Count");
     }
 }

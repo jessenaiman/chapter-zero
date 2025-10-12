@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="FieldCamera.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// Specialized camera that is constrained to the <see cref="Gameboard"/>'s boundaries.
@@ -11,49 +15,52 @@ using System;
 /// </summary>
 public partial class FieldCamera : Camera2D
 {
-    private GameboardProperties _gameboardProperties;
+    private GameboardProperties gameboardProperties;
+
     /// <summary>
-    /// The gameboard properties that define the boundaries for the camera.
+    /// Gets or sets the gameboard properties that define the boundaries for the camera.
     /// </summary>
     [Export]
     public GameboardProperties GameboardProperties
     {
-        get => _gameboardProperties;
+        get => this.gameboardProperties;
         set
         {
-            _gameboardProperties = value;
-            _OnViewportResized();
+            this.gameboardProperties = value;
+            this.OnViewportResized();
         }
     }
 
-    private Gamepiece _gamepiece;
+    private Gamepiece gamepiece;
+
     /// <summary>
-    /// The gamepiece that the camera will follow.
+    /// Gets or sets the gamepiece that the camera will follow.
     /// </summary>
     [Export]
     public Gamepiece Gamepiece
     {
-        get => _gamepiece;
+        get => this.gamepiece;
         set
         {
-            if (_gamepiece != null)
+            if (this.gamepiece != null)
             {
-                _gamepiece.AnimationTransform.RemotePath = "";
+                this.gamepiece.AnimationTransform.RemotePath = string.Empty;
             }
 
-            _gamepiece = value;
-            if (_gamepiece != null)
+            this.gamepiece = value;
+            if (this.gamepiece != null)
             {
-                _gamepiece.AnimationTransform.RemotePath =
-                    _gamepiece.AnimationTransform.GetPathTo(this);
+                this.gamepiece.AnimationTransform.RemotePath =
+                    this.gamepiece.AnimationTransform.GetPathTo(this);
             }
         }
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        GetViewport().SizeChanged += _OnViewportResized;
-        _OnViewportResized();
+        this.GetViewport().SizeChanged += this.OnViewportResized;
+        this.OnViewportResized();
     }
 
     /// <summary>
@@ -61,32 +68,32 @@ public partial class FieldCamera : Camera2D
     /// </summary>
     public void ResetPosition()
     {
-        if (_gamepiece != null)
+        if (this.gamepiece != null)
         {
-            Position = _gamepiece.Position * Scale;
+            this.Position = this.gamepiece.Position * this.Scale;
         }
 
-        ResetSmoothing();
+        this.ResetSmoothing();
     }
 
     /// <summary>
     /// Called when the viewport is resized to update the camera boundaries.
     /// </summary>
-    private void _OnViewportResized()
+    private void OnViewportResized()
     {
-        if (_gameboardProperties == null)
+        if (this.gameboardProperties == null)
         {
             return;
         }
 
         // Calculate tentative camera boundaries based on the gameboard.
-        float boundaryLeft = _gameboardProperties.Extents.Position.X * _gameboardProperties.CellSize.X;
-        float boundaryTop = _gameboardProperties.Extents.Position.Y * _gameboardProperties.CellSize.Y;
-        float boundaryRight = _gameboardProperties.Extents.End.X * _gameboardProperties.CellSize.X;
-        float boundaryBottom = _gameboardProperties.Extents.End.Y * _gameboardProperties.CellSize.Y;
+        float boundaryLeft = this.gameboardProperties.Extents.Position.X * this.gameboardProperties.CellSize.X;
+        float boundaryTop = this.gameboardProperties.Extents.Position.Y * this.gameboardProperties.CellSize.Y;
+        float boundaryRight = this.gameboardProperties.Extents.End.X * this.gameboardProperties.CellSize.X;
+        float boundaryBottom = this.gameboardProperties.Extents.End.Y * this.gameboardProperties.CellSize.Y;
 
         // We'll also want the current viewport boundary sizes.
-        Vector2 vpSize = GetViewportRect().Size / GlobalScale;
+        Vector2 vpSize = this.GetViewportRect().Size / this.GlobalScale;
         float boundaryWidth = boundaryRight - boundaryLeft;
         float boundaryHeight = boundaryBottom - boundaryTop;
 
@@ -100,38 +107,37 @@ public partial class FieldCamera : Camera2D
         if (boundaryWidth < vpSize.X)
         {
             // Set the camera position to the centre of the gameboard.
-            Position = new Vector2(
-                (_gameboardProperties.Extents.Position.X + _gameboardProperties.Extents.Size.X / 2.0f) * _gameboardProperties.CellSize.X,
-                Position.Y
-            );
+            this.Position = new Vector2(
+                (this.gameboardProperties.Extents.Position.X + (this.gameboardProperties.Extents.Size.X / 2.0f)) * this.gameboardProperties.CellSize.X,
+                this.Position.Y);
 
             // And add/subtract half the viewport dimension to come up with the limits. This will fix the
             // camera with the gameboard centred.
-            LimitLeft = (int)((Position.X - vpSize.X / 2.0f) * GlobalScale.X);
-            LimitRight = (int)((Position.X + vpSize.X / 2.0f) * GlobalScale.X);
+            this.LimitLeft = (int)((this.Position.X - (vpSize.X / 2.0f)) * this.GlobalScale.X);
+            this.LimitRight = (int)((this.Position.X + (vpSize.X / 2.0f)) * this.GlobalScale.X);
         }
+
         // If, however, the viewport is smaller than the gameplay area, the camera can be free to move
         // as needed.
         else
         {
-            LimitLeft = (int)(boundaryLeft * GlobalScale.X);
-            LimitRight = (int)(boundaryRight * GlobalScale.X);
+            this.LimitLeft = (int)(boundaryLeft * this.GlobalScale.X);
+            this.LimitRight = (int)(boundaryRight * this.GlobalScale.X);
         }
 
         // Perform the same checks as above for the y-axis.
         if (boundaryHeight < vpSize.Y)
         {
-            Position = new Vector2(
-                Position.X,
-                (_gameboardProperties.Extents.Position.Y + _gameboardProperties.Extents.Size.Y / 2.0f) * _gameboardProperties.CellSize.Y
-            );
-            LimitTop = (int)((Position.Y - vpSize.Y / 2.0f) * GlobalScale.Y);
-            LimitBottom = (int)((Position.Y + vpSize.Y / 2.0f) * GlobalScale.Y);
+            this.Position = new Vector2(
+                this.Position.X,
+                (this.gameboardProperties.Extents.Position.Y + (this.gameboardProperties.Extents.Size.Y / 2.0f)) * this.gameboardProperties.CellSize.Y);
+            this.LimitTop = (int)((this.Position.Y - (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
+            this.LimitBottom = (int)((this.Position.Y + (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
         }
         else
         {
-            LimitTop = (int)(boundaryTop * GlobalScale.Y);
-            LimitBottom = (int)(boundaryBottom * GlobalScale.Y);
+            this.LimitTop = (int)(boundaryTop * this.GlobalScale.Y);
+            this.LimitBottom = (int)(boundaryBottom * this.GlobalScale.Y);
         }
     }
 }

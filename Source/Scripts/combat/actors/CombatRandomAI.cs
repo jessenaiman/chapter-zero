@@ -1,8 +1,12 @@
-using Godot;
+// <copyright file="CombatRandomAI.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A simple combat AI that chooses actions randomly.
@@ -12,13 +16,13 @@ using System.Threading.Tasks;
 public partial class CombatRandomAI : CombatAI
 {
     /// <summary>
-    /// The probability (0.0 to 1.0) that the AI will choose to attack instead of using a skill.
+    /// Gets or sets the probability (0.0 to 1.0) that the AI will choose to attack instead of using a skill.
     /// </summary>
     [Export]
     public float AttackProbability { get; set; } = 0.7f;
 
     /// <summary>
-    /// The probability (0.0 to 1.0) that the AI will target enemies instead of allies.
+    /// Gets or sets the probability (0.0 to 1.0) that the AI will target enemies instead of allies.
     /// </summary>
     [Export]
     public float TargetEnemyProbability { get; set; } = 0.8f;
@@ -27,22 +31,23 @@ public partial class CombatRandomAI : CombatAI
     /// Choose an action for the controlled battler to take.
     /// This AI chooses actions randomly, with a preference for attacking.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public override async Task<(BattlerAction action, List<Battler> targets)> ChooseAction()
     {
-        if (!IsActive || ControlledBattler == null || ControlledBattler.Actions == null)
+        if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
         {
             return (null, new List<Battler>());
         }
 
         // Wait for the turn delay to make the AI feel more natural
-        if (TurnDelay > 0)
+        if (this.TurnDelay > 0)
         {
-            await Task.Delay(TimeSpan.FromSeconds(TurnDelay));
+            await Task.Delay(TimeSpan.FromSeconds(TurnDelay)).ConfigureAwait(false);
         }
 
         // Get all available actions
-        var availableActions = ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(ControlledBattler, new List<Battler>())).ToList();
+        var availableActions = this.ControlledBattler.Actions.Where(action =>
+            action != null && action.CanExecute(this.ControlledBattler, new List<Battler>())).ToList();
 
         if (availableActions.Count == 0)
         {
@@ -54,12 +59,13 @@ public partial class CombatRandomAI : CombatAI
         foreach (var action in availableActions)
         {
             // If it's an attack action and we're within the attack probability, include it
-            if (action is AttackBattlerAction && GD.Randf() <= AttackProbability)
+            if (action is AttackBattlerAction && GD.Randf() <= this.AttackProbability)
             {
                 filteredActions.Add(action);
             }
+
             // If it's not an attack action and we're outside the attack probability, include it
-            else if (!(action is AttackBattlerAction) && GD.Randf() > AttackProbability)
+            else if (!(action is AttackBattlerAction) && GD.Randf() > this.AttackProbability)
             {
                 filteredActions.Add(action);
             }
@@ -75,7 +81,7 @@ public partial class CombatRandomAI : CombatAI
         var chosenAction = filteredActions[GD.Randi() % filteredActions.Count];
 
         // Choose targets for the action
-        var possibleTargets = chosenAction.GetPossibleTargets(ControlledBattler, Battlers);
+        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers);
         var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
@@ -88,15 +94,16 @@ public partial class CombatRandomAI : CombatAI
         foreach (var target in validTargets)
         {
             // Check if the target is an enemy
-            var isEnemy = Battlers.Enemies.Contains(target);
+            var isEnemy = this.Battlers.Enemies.Contains(target);
 
             // If it's an enemy and we're within the target enemy probability, include it
-            if (isEnemy && GD.Randf() <= TargetEnemyProbability)
+            if (isEnemy && GD.Randf() <= this.TargetEnemyProbability)
             {
                 filteredTargets.Add(target);
             }
+
             // If it's not an enemy and we're outside the target enemy probability, include it
-            else if (!isEnemy && GD.Randf() > TargetEnemyProbability)
+            else if (!isEnemy && GD.Randf() > this.TargetEnemyProbability)
             {
                 filteredTargets.Add(target);
             }
@@ -124,7 +131,7 @@ public partial class CombatRandomAI : CombatAI
         // For self-target actions, target the controlled battler
         if (chosenAction.TargetScope == ActionTargetScope.Self)
         {
-            return (chosenAction, new List<Battler> { ControlledBattler });
+            return (chosenAction, new List<Battler> { this.ControlledBattler });
         }
 
         // Default: return the chosen action with no targets
@@ -135,6 +142,7 @@ public partial class CombatRandomAI : CombatAI
     /// Evaluate the current combat situation.
     /// This random AI doesn't make strategic evaluations, so it returns a neutral score.
     /// </summary>
+    /// <returns></returns>
     public override float EvaluateSituation()
     {
         // Return a neutral score since this AI doesn't make strategic evaluations
@@ -145,6 +153,7 @@ public partial class CombatRandomAI : CombatAI
     /// Get the priority of a potential action.
     /// This random AI assigns equal priority to all actions.
     /// </summary>
+    /// <returns></returns>
     public override float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
         // Return a neutral priority since this AI doesn't prioritize actions

@@ -1,5 +1,9 @@
-using Godot;
+// <copyright file="UIEnergyPoint.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
+using Godot;
 
 /// <summary>
 /// A single energy point UI element, animating smoothly as a player Battler gains and spends energy.
@@ -21,19 +25,20 @@ public partial class UIEnergyPoint : MarginContainer
     /// </summary>
     private const float FadeTime = 0.3f;
 
-    private Tween _colorTween = null;
-    private Tween _offsetTween = null;
+    private Tween colorTween;
+    private Tween offsetTween;
 
-    private TextureRect _fill;
+    private TextureRect fill;
 
     // We store the start modulate value of the `Fill` node because it's semi-transparent.
     // This way, we can animate the color from and to this value.
-    private Color _colorTransparent;
+    private Color colorTransparent;
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
-        _fill = GetNode<TextureRect>("EnergyPoint/Fill");
-        _colorTransparent = _fill.Modulate;
+        this.fill = this.GetNode<TextureRect>("EnergyPoint/Fill");
+        this.colorTransparent = this.fill.Modulate;
     }
 
     /// <summary>
@@ -41,12 +46,13 @@ public partial class UIEnergyPoint : MarginContainer
     /// </summary>
     public void Appear()
     {
-        if (_colorTween != null)
+        if (this.colorTween != null)
         {
-            _colorTween.Kill();
+            this.colorTween.Kill();
         }
-        _colorTween = CreateTween();
-        _colorTween.TweenProperty(_fill, "modulate", Colors.White, FadeTime);
+
+        this.colorTween = this.CreateTween();
+        this.colorTween.TweenProperty(this.fill, "modulate", Colors.White, FadeTime);
     }
 
     /// <summary>
@@ -54,31 +60,34 @@ public partial class UIEnergyPoint : MarginContainer
     /// </summary>
     public void Disappear()
     {
-        if (_colorTween != null)
+        if (this.colorTween != null)
         {
-            _colorTween.Kill();
+            this.colorTween.Kill();
         }
-        _colorTween = CreateTween();
-        _colorTween.TweenProperty(_fill, "modulate", _colorTransparent, FadeTime);
+
+        this.colorTween = this.CreateTween();
+        this.colorTween.TweenProperty(this.fill, "modulate", this.colorTransparent, FadeTime);
     }
 
     public void Select()
     {
-        if (_offsetTween != null)
+        if (this.offsetTween != null)
         {
-            _offsetTween.Kill();
+            this.offsetTween.Kill();
         }
-        _offsetTween = CreateTween();
-        _offsetTween.TweenProperty(_fill, "position", SelectedOffset, SelectTime);
+
+        this.offsetTween = this.CreateTween();
+        this.offsetTween.TweenProperty(this.fill, "position", SelectedOffset, SelectTime);
     }
 
     public void Deselect()
     {
-        if (_offsetTween != null)
+        if (this.offsetTween != null)
         {
-            _offsetTween.Kill();
+            this.offsetTween.Kill();
         }
-        _offsetTween = CreateTween();
-        _offsetTween.TweenProperty(_fill, "position", Vector2.Zero, SelectTime);
+
+        this.offsetTween = this.CreateTween();
+        this.offsetTween.TweenProperty(this.fill, "position", Vector2.Zero, SelectTime);
     }
 }

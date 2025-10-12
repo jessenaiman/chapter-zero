@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="BattlerActionAttack.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a direct melee hit.
@@ -10,7 +14,7 @@ public partial class AttackBattlerAction : BattlerAction
     private const float AttackDistance = 350.0f;
 
     /// <summary>
-    /// A to-hit modifier for this attack that will be influenced by the target Battler's
+    /// Gets or sets a to-hit modifier for this attack that will be influenced by the target Battler's
     /// <see cref="BattlerStats.Evasion"/>.
     /// </summary>
     [Export]
@@ -19,15 +23,20 @@ public partial class AttackBattlerAction : BattlerAction
     [Export]
     public int BaseDamage { get; set; } = 50;
 
+    /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         if (targets.Length == 0)
         {
             GD.PrintErr("An attack action requires a target.");
             return;
         }
+
         Battler firstTarget = targets[0];
 
         var timer = source.GetTree().CreateTimer(0.1f);
@@ -51,12 +60,12 @@ public partial class AttackBattlerAction : BattlerAction
         foreach (Battler target in targets)
         {
             // Incorporate Battler attack and a random variation (10% +- potential damage) to damage.
-            int modifiedDamage = BaseDamage + source.Stats.Attack;
-            double damageDealt = modifiedDamage + (GD.Randf() - 0.5) * 0.2 * modifiedDamage;
+            int modifiedDamage = this.BaseDamage + source.Stats.Attack;
+            double damageDealt = modifiedDamage + ((GD.Randf() - 0.5) * 0.2 * modifiedDamage);
 
             // To hit is modified by a Battler's accuracy. That is, a Battler with 90 accuracy will have
             // 90% of the action's base to_hit chance.
-            float toHit = HitChance * (source.Stats.HitChance / 100.0f);
+            float toHit = this.HitChance * (source.Stats.HitChance / 100.0f);
 
             BattlerHit hit = new BattlerHit((int)damageDealt, toHit);
             target.TakeHit(hit);

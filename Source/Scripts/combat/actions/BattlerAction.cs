@@ -1,6 +1,10 @@
-using Godot;
+// <copyright file="BattlerAction.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using System.Threading.Tasks;
+using Godot;
 
 /// <summary>
 /// Specifies how many targets an action can affect.
@@ -9,7 +13,7 @@ public enum ActionTargetScope
 {
     Self,
     Single,
-    All
+    All,
 }
 
 /// <summary>
@@ -21,7 +25,6 @@ public enum ActionTargetScope
 /// </summary>
 public partial class BattlerAction : Resource
 {
-
     [ExportGroup("UI")]
     /// <summary>
     /// An action-specific icon. Shown primarily in menus.
@@ -30,13 +33,13 @@ public partial class BattlerAction : Resource
     public Texture2D Icon { get; set; }
 
     /// <summary>
-    /// The 'name' of the action. Shown primarily in menus.
+    /// Gets or sets the 'name' of the action. Shown primarily in menus.
     /// </summary>
     [Export]
     public string Label { get; set; } = "Base combat action";
 
     /// <summary>
-    /// Tells the player exactly what an action does. Shown primarily in menus.
+    /// Gets or sets tells the player exactly what an action does. Shown primarily in menus.
     /// </summary>
     [Export]
     public string Description { get; set; } = "A combat action.";
@@ -51,14 +54,14 @@ public partial class BattlerAction : Resource
     public ActionTargetScope TargetScope { get; set; } = ActionTargetScope.Single;
 
     /// <summary>
-    /// Can this action target friendly <see cref="Battler"/>s? Has no effect if <see cref="TargetScope"/> is
+    /// Gets or sets a value indicating whether can this action target friendly <see cref="Battler"/>s? Has no effect if <see cref="TargetScope"/> is
     /// <see cref="ActionTargetScope.Self"/>.
     /// </summary>
     [Export]
     public bool TargetsFriendlies { get; set; } = false;
 
     /// <summary>
-    /// Can this action target enemy <see cref="Battler"/>s? Has no effect if <see cref="TargetScope"/> is
+    /// Gets or sets a value indicating whether can this action target enemy <see cref="Battler"/>s? Has no effect if <see cref="TargetScope"/> is
     /// <see cref="ActionTargetScope.Self"/>.
     /// </summary>
     [Export]
@@ -73,13 +76,13 @@ public partial class BattlerAction : Resource
     public Elements.Types Element { get; set; } = Elements.Types.None;
 
     /// <summary>
-    /// Amount of energy required to perform the action.
+    /// Gets or sets amount of energy required to perform the action.
     /// </summary>
     [Export]
     public int EnergyCost { get; set; } = 0;
 
     /// <summary>
-    /// The amount of <see cref="Battler.Readiness"/> left to the Battler after acting. This can be used to
+    /// Gets or sets the amount of <see cref="Battler.Readiness"/> left to the Battler after acting. This can be used to
     /// design weak attacks that allow the Battler to take fast turns.
     /// </summary>
     [Export]
@@ -89,13 +92,17 @@ public partial class BattlerAction : Resource
     /// Verifies that an action can be run. This can be dependent on any number of details regarding the
     /// source and target <see cref="Battler"/>s.
     /// </summary>
+    /// <returns></returns>
     public virtual bool CanExecute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         if (source == null
             || source.Stats.Health <= 0
-            || source.Stats.Energy < EnergyCost)
+            || source.Stats.Energy < this.EnergyCost)
         {
             return false;
         }
@@ -110,12 +117,14 @@ public partial class BattlerAction : Resource
     /// with <see cref="BattlerStats.Health"/> that is not greater than zero. Most actions, on the other
     /// hand, will want targets that are selectable and have health points greater than zero.
     /// </summary>
+    /// <returns></returns>
     public virtual bool IsTargetValid(Battler target)
     {
         if (target.IsSelectable && target.Stats.Health > 0)
         {
             return true;
         }
+
         return false;
     }
 
@@ -125,9 +134,13 @@ public partial class BattlerAction : Resource
     /// execution to finish.
     /// <br/><br/>Note: The base action class does nothing, but must be overridden to do anything.
     /// </summary>
+    /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
     public virtual async Task Execute(Battler source, Battler[] targets = null!)
     {
-        if (targets == null) targets = new Battler[0];
+        if (targets == null)
+        {
+            targets = Array.Empty<Battler>();
+        }
 
         await source.ToSignal(source.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
@@ -137,42 +150,43 @@ public partial class BattlerAction : Resource
     /// This includes most cases, accounting for parameters such as <see cref="TargetsSelf"/>. Specific
     /// actions may wish to override GetPossibleTargets (to target only mushrooms, for example).
     /// </summary>
+    /// <returns></returns>
     public virtual Battler[] GetPossibleTargets(Battler source, BattlerList battlers)
     {
         var possibleTargets = new System.Collections.Generic.List<Battler>();
 
         // Normally, actions can pick from battlers of the opposing team. However, actions may be
         // specified to target the source battler only or to target ALL battlers instead.
-        if (TargetScope == ActionTargetScope.Self)
+        if (this.TargetScope == ActionTargetScope.Self)
         {
             possibleTargets.Add(source);
         }
         else if (source.IsPlayer)
         {
-            if (TargetsFriendlies)
+            if (this.TargetsFriendlies)
             {
                 possibleTargets.AddRange(battlers.Players);
             }
 
-            if (TargetsEnemies)
+            if (this.TargetsEnemies)
             {
                 possibleTargets.AddRange(battlers.Enemies);
             }
         }
         else
         {
-            if (TargetsFriendlies)
+            if (this.TargetsFriendlies)
             {
                 possibleTargets.AddRange(battlers.Enemies);
             }
-            else if (TargetsEnemies)
+            else if (this.TargetsEnemies)
             {
                 possibleTargets.AddRange(battlers.Players);
             }
         }
 
         // Filter the targets to only include live Battlers.
-        return battlers.GetLiveBattlers(possibleTargets.ToArray());
+        return BattlerList.GetLiveBattlers(possibleTargets.ToArray());
     }
 
     public virtual bool CanTargetBattler(Battler target)
@@ -181,11 +195,12 @@ public partial class BattlerAction : Resource
         {
             return true;
         }
+
         return false;
     }
 
     public virtual bool TargetsAll()
     {
-        return TargetScope == ActionTargetScope.All;
+        return this.TargetScope == ActionTargetScope.All;
     }
 }
