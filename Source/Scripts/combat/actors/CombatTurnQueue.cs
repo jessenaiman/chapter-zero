@@ -113,7 +113,7 @@ public partial class CombatTurnQueue : Node
         this.EmitSignal(SignalName.Finished, hasPlayerWon);
     }
 
-    private CombatActor GetNextActor()
+    private CombatActor? GetNextActor()
     {
         CombatActor[] actors = this.GetActors();
 

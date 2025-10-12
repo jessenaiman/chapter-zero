@@ -15,10 +15,10 @@ public partial class FanInteraction : ConversationTemplate
     /// Gets or sets the gamepiece controller for the fan's movement.
     /// </summary>
     [Export]
-    public GamepieceController Controller { get; set; }
+    public GamepieceController? Controller { get; set; }
 
-    private Gamepiece adoringFan;
-    private InteractionPopup popup;
+    private Gamepiece? adoringFan;
+    private InteractionPopup? popup;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -45,7 +45,8 @@ public partial class FanInteraction : ConversationTemplate
     /// </summary>
     public async void ExecuteFanInteraction()
     {
-        await this.Execute();
+        // Call Execute without await since it's async void
+        this.Execute();
 
         // The quest's state is tracked by a Dialogic variable.
         // After speaking with the character for the first time, he should run to a new position so that
@@ -53,7 +54,8 @@ public partial class FanInteraction : ConversationTemplate
         var dialogic = this.GetNode("/root/Dialogic");
         if (dialogic != null)
         {
-            var tokenQuestStatus = dialogic.Get("VAR").Call("get_variable", "TokenQuestStatus");
+            var varNode = dialogic.GetNode("VAR");
+            var tokenQuestStatus = varNode?.Call("get_variable", "TokenQuestStatus");
             if (tokenQuestStatus.AsInt32() == 1)
             {
                 await OnInitialConversationFinished().ConfigureAwait(false);
@@ -66,14 +68,16 @@ public partial class FanInteraction : ConversationTemplate
     /// </summary>
     private async Task OnInitialConversationFinished()
     {
-        var sourceCell = Gameboard.PixelToCell(this.adoringFan.Position);
+        var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
+        var sourceCell = gameboard?.PixelToCell(this.adoringFan.Position) ?? Vector2I.Zero;
 
         // Everything is paused at the moment, so activate the fan's controller so that he can move on a
         // path during the cutscene.
         if (this.Controller != null)
         {
             this.Controller.IsActive = true;
-            var path = Gameboard.Pathfinder.GetPathToCell(sourceCell, new Vector2I(23, 13));
+            var pathfinder = gameboard?.GetNode<Pathfinder>("Pathfinder");
+            var path = pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13)) ?? new Godot.Collections.Array<Vector2I>();
             this.Controller.MovePath = new System.Collections.Generic.List<Vector2I>(path);
 
             // Wait for the fan to arrive at destination
@@ -110,7 +114,7 @@ public partial class FanInteraction : ConversationTemplate
     /// </summary>
     public override async void Run()
     {
-        await this.ExecuteFanInteraction();
+        this.ExecuteFanInteraction();
         base.Run();
     }
 }

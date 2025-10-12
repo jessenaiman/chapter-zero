@@ -42,7 +42,7 @@ public partial class GameEndTrigger : Trigger
     /// <summary>
     /// Execute the game ending sequence.
     /// </summary>
-    protected async void Execute()
+    protected override async void Execute()
     {
         if (this.gamepiece == null)
         {
@@ -94,7 +94,7 @@ public partial class GameEndTrigger : Trigger
     /// <summary>
     /// Called when an area enters the trigger.
     /// </summary>
-    protected void OnAreaEntered(Area2D area)
+    protected new void OnAreaEntered(Area2D area)
     {
         if (!Engine.IsEditorHint())
         {

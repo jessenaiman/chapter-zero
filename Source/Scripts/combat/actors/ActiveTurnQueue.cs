@@ -62,7 +62,7 @@ public partial class ActiveTurnQueue : Node2D
     // Private fields
     private bool isActive = true;
     private float timeScale = 1.0f;
-    private BattlerAction activeAction;
+    private BattlerAction? activeAction;
     private bool isPlayerMenuOpen;
 
     // Battlers may select their action at any point, where they will be cached in this dictionary.
@@ -187,7 +187,7 @@ public partial class ActiveTurnQueue : Node2D
     /// </summary>
     private async Task ExecuteActionAsync(Battler battler, BattlerAction action, List<Battler> targets)
     {
-        await battler.ActAsync(action, targets.ToArray()).ConfigureAwait(false);
+        await battler.ActAsync(action, targets.ToArray<Battler>()).ConfigureAwait(false);
         this.activeAction = null;
     }
 

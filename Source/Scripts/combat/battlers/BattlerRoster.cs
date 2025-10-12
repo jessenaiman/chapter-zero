@@ -41,7 +41,7 @@ public partial class BattlerRoster : RefCounted
     {
         foreach (Battler battler in battlers)
         {
-            if (battler.Actor.IsActive)
+            if (battler.Actor != null && battler.Actor.IsActive)
             {
                 return false;
             }

@@ -32,7 +32,7 @@ public partial class CombatRandomAI : CombatAI
     /// This AI chooses actions randomly, with a preference for attacking.
     /// </summary>
     /// <returns><placeholder>A <see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
-    public override async Task<(BattlerAction action, List<Battler> targets)> ChooseAction()
+    public override async Task<(BattlerAction? action, List<Battler> targets)> ChooseAction()
     {
         if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
         {
@@ -47,7 +47,7 @@ public partial class CombatRandomAI : CombatAI
 
         // Get all available actions
         var availableActions = this.ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(this.ControlledBattler, new List<Battler>())).ToList();
+            action != null && action.CanExecute(this.ControlledBattler, Array.Empty<Battler>())).ToList();
 
         if (availableActions.Count == 0)
         {
@@ -78,10 +78,10 @@ public partial class CombatRandomAI : CombatAI
         }
 
         // Choose a random action
-        var chosenAction = filteredActions[GD.Randi() % filteredActions.Count];
+        var chosenAction = filteredActions[(int)(GD.Randi() % filteredActions.Count)];
 
         // Choose targets for the action
-        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers);
+        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>()));
         var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
@@ -94,7 +94,7 @@ public partial class CombatRandomAI : CombatAI
         foreach (var target in validTargets)
         {
             // Check if the target is an enemy
-            var isEnemy = this.Battlers.Enemies.Contains(target);
+            var isEnemy = this.Battlers?.Enemies.Contains(target) ?? false;
 
             // If it's an enemy and we're within the target enemy probability, include it
             if (isEnemy && GD.Randf() <= this.TargetEnemyProbability)
@@ -118,7 +118,7 @@ public partial class CombatRandomAI : CombatAI
         // For single-target actions, choose one target
         if (chosenAction.TargetScope == ActionTargetScope.Single)
         {
-            var target = filteredTargets[GD.Randi() % filteredTargets.Count];
+            var target = filteredTargets[(int)(GD.Randi() % filteredTargets.Count)];
             return (chosenAction, new List<Battler> { target });
         }
 

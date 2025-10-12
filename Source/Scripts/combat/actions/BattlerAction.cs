@@ -30,7 +30,7 @@ public partial class BattlerAction : Resource
     /// An action-specific icon. Shown primarily in menus.
     /// </summary>
     [Export]
-    public Texture2D Icon { get; set; }
+    public Texture2D? Icon { get; set; }
 
     /// <summary>
     /// Gets or sets the 'name' of the action. Shown primarily in menus.

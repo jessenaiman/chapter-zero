@@ -96,7 +96,7 @@ public partial class UIPlayerBattlerList : UIListMenu
     }
 
     // Let the combat know which battler was selected.
-    protected void OnEntryPressed(BaseButton entry)
+    protected override void OnEntryPressed(BaseButton entry)
     {
         if (!this.IsDisabled)
         {

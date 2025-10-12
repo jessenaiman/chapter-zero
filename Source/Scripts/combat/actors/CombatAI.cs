@@ -68,7 +68,7 @@ public partial class CombatAI : Node
 
         // Get all available actions
         var availableActions = this.ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(this.ControlledBattler, new List<Battler>())).ToList();
+            action != null && action.CanExecute(this.ControlledBattler, new Battler[] { })).ToList();
 
         if (availableActions.Count == 0)
         {

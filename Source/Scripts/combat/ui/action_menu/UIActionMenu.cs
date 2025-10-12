@@ -153,7 +153,7 @@ public partial class UIActionMenu : UIListMenu
     }
 
     // Allow the player to select an action for the specified Battler.
-    protected void OnEntryPressed(BaseButton entry)
+    protected override void OnEntryPressed(BaseButton entry)
     {
         var actionEntry = entry as UIActionButton;
         var action = actionEntry.Action;

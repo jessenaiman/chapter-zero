@@ -177,6 +177,10 @@ public partial class Battler : Node2D
                     {
                         this.AddChild(this.Ai);
                     }
+                    else
+                    {
+                        newInstance.Free();
+                    }
                 }
             }
         }
@@ -216,7 +220,7 @@ public partial class Battler : Node2D
     {
         if (this.Actor != null)
         {
-            this.Actor.QueueFree();
+            this.Actor?.QueueFree();
             this.Actor = null;
         }
 
