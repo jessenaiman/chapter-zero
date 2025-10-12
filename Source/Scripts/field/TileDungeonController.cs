@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using YamlDotNet.Serialization;
 
 public partial class TileDungeonController : Node2D
 {
