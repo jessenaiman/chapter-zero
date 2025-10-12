@@ -1,0 +1,61 @@
+---
+# Codacy Configuration File
+# https://docs.codacy.com/repositories-configure/codacy-configuration-file/
+
+# Exclude patterns - files and directories to ignore
+exclude_paths:
+  # Git and GitHub directories
+  - '.git/**'
+  - '.github/**'
+  
+  # Test and spec directories (if not needed for analysis)
+  - '.specify/**'
+  - 'specs/**'
+  - 'test/**'
+  - 'Tests/**'
+  
+  # Build output directories
+  - 'bin/**'
+  - 'obj/**'
+  - 'coverage/**'
+  
+  # Dependencies and packages
+  - 'models/**'
+  - 'addons/**'
+  
+  # Documentation and markdown files
+  - 'docs/**'
+  - '*.md'
+  
+  # YAML configuration files
+  - 'yaml/**'
+  - '*.yml'
+  - '*.yaml'
+  
+  # Asset files
+  - '*.png'
+  - '*.jpg'
+  - '*.jpeg'
+  - '*.gif'
+  - '*.mp3'
+  - '*.wav'
+  - '*.ogg'
+  - '*.tres'
+  - '*.tscn'
+  - '*.import'
+  - '*.uid'
+  
+  # Generated or temporary files
+  - '*.csproj.old'
+  - 'Copilot-Processing.md'
+  - 'build_output.txt'
+
+# Engine configuration
+engines:
+  # Enable StyleCop analyzer
+  stylecop:
+    enabled: true
+  
+  # Enable Roslyn analyzers for C#
+  roslyn:
+    enabled: true
