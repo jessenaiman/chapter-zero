@@ -1,0 +1,109 @@
+name: CI/CD with Coverage
+
+on:
+  push:
+    branches: [ main, develop, '004-implement-omega-spiral' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-and-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for SonarCloud analysis
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build project
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Run tests with coverage
+      run: |
+        dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --results-directory ./coverage/test-results --verbosity normal
+
+    - name: Generate coverage reports
+      run: |
+        # Create coverage directory if it doesn't exist
+        mkdir -p coverage
+
+        # Merge coverage results and generate reports in multiple formats
+        if [ -d "coverage/test-results" ] && [ "$(ls -A coverage/test-results)" ]; then
+          # Use dotnet-coverage to merge and convert coverage reports
+          dotnet tool install --global dotnet-coverage --version 17.12.6
+
+          # Merge coverage files
+          dotnet-coverage merge coverage/test-results/*.xml -o coverage/merged.coverage.xml -f cobertura
+
+          # Convert to different formats for various tools
+          dotnet-coverage merge coverage/test-results/*.xml -o coverage/coverage.opencover.xml -f opencover
+          dotnet-coverage merge coverage/test-results/*.xml -o coverage/coverage.lcov.info -f lcov
+
+          echo "Coverage reports generated successfully"
+          ls -la coverage/
+        else
+          echo "No coverage results found"
+          exit 1
+        fi
+
+    - name: Upload coverage to Codacy
+      if: github.event_name == 'push'
+      uses: codacy/codacy-coverage-reporter-action@v1
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: coverage/coverage.cobertura.xml
+
+    - name: Upload coverage artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-reports
+        path: coverage/
+        retention-days: 30
+
+    - name: SonarCloud Scan
+      if: github.event_name == 'push' && github.ref == 'refs/heads/004-implement-omega-spiral'
+      uses: sonarsource/sonarcloud-github-action@v2.1.1
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=chapter-zero
+          -Dsonar.organization=your-organization  # Update this with your SonarCloud organization
+          -Dsonar.cs.opencover.reportsPaths=coverage/coverage.opencover.xml
+          -Dsonar.cs.vstest.reportsPaths=coverage/test-results/*.trx
+          -Dsonar.exclusions=**/*.Generated.cs,**/*.Designer.cs,**/*.g.cs,**/*.g.i.cs
+          -Dsonar.test.inclusions=**/*.Test.cs,**/*Tests.cs
+
+    - name: Test Results Summary
+      if: always()
+      run: |
+        echo "## Test and Coverage Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Test Results" >> $GITHUB_STEP_SUMMARY
+
+        if [ -d "coverage/test-results" ]; then
+          echo "✅ Tests executed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Coverage Reports Generated" >> $GITHUB_STEP_SUMMARY
+          echo "- **OpenCover**: coverage/coverage.opencover.xml (for SonarQube)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cobertura**: coverage/coverage.cobertura.xml (for Codacy)" >> $GITHUB_STEP_SUMMARY
+          echo "- **LCOV**: coverage/coverage.lcov.info (for other tools)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "- View Codacy coverage at: https://app.codacy.com/gh/your-org/your-repo/coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- View SonarCloud results at: https://sonarcloud.io/dashboard?id=chapter-zero" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ No test results found" >> $GITHUB_STEP_SUMMARY
+        fi

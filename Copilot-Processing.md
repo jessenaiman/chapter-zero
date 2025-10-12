@@ -2,10 +2,10 @@
 
 ## User Request Details
 
-- **Date**: October 10, 2025
-- **User Instruction**: That's good. We need to fix all the issues. Creates a todos checklist for the categories and work through them until we can push the code with a process that is effective and gives us the code quality we need
-- **Primary Goal**: Fix all 319 code analysis errors blocking commits, categorized by type, to enable clean commits and pushes with enforced quality gates.
-- **Additional Context**: Build shows 319 errors including nullability, style, code quality, culture, async, and other issues across multiple files. Pre-commit hook successfully blocks commits with errors, now need to systematically fix all issues.
+- **Date**: October 11, 2025
+- **User Instruction**: Follow instructions in speckit.implement.prompt.md
+- **Primary Goal**: Execute the Speckit implementation workflow end-to-end for the current feature, adhering to all checklist, planning, and execution requirements.
+- **Additional Context**: Must comply with repository instruction files, Speckit prompt steps, and Codacy analysis rules while operating within existing branch tasks and documentation standards.
 
 ## Action Plan
 
@@ -66,95 +66,88 @@
 - [ ] Fix CA9998: Update deprecated FxCopAnalyzers
 - [ ] Fix CA1016: Add assembly version
 - [ ] Fix SA0001: Enable XML comment analysis
-- [ ] Affected files: SceneManager.cs, DreamweaverPersona.cs, OmegaSpiral.csproj
-- [ ] Run dotnet build after fixes
-
-### Phase G – Final Validation and Commit
 - [ ] Run dotnet build to ensure zero errors
-- [ ] Run dotnet test to ensure tests pass
 - [ ] Attempt commit to verify pre-commit hook allows clean code
-- [ ] Push code if commit succeeds
+## Current Action Plan – Speckit Implementation
+
+### Phase 1 – Speckit Initialization
+- [x] Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` and capture FEATURE_DIR plus AVAILABLE_DOCS (dependency: repo root shell access).
+- [x] Normalize parsed paths to absolute values and record in workspace notes (dependency: script output).
+
+### Phase 2 – Checklist Assessment
+- [x] Inspect `FEATURE_DIR/checklists/` for checklist markdown files (dependency: Phase 1 FEATURE_DIR).
+- [x] Compute completion stats per checklist and render status table in response (dependency: checklist scan).
+- [x] If any incomplete items exist, pause execution pending user approval (dependency: status table).
+
+### Phase 3 – Context Loading
+
+- [x] Read `tasks.md` for full task inventory (dependency: Phase 1 paths).
+- [x] Read `plan.md` for architecture and tech stack expectations.
+- [x] Optionally read `data-model.md`, `contracts/`, `research.md`, `quickstart.md` if present.
+
+### Phase 4 – File Verification
+- [x] Determine project tooling signals (git repo, Docker, ESLint, Prettier, npm, Terraform, Helm) per Speckit rules.
+- [x] Create or update ignore files with required patterns; append only missing essentials (dependency: detection results).
+- [x] Document modifications for Codacy analysis triggers (dependency: file edits).
+
+### Phase 5 – Task Structure Extraction
+- [x] Parse `tasks.md` into phases (Setup, Tests, Core, Integration, Polish) noting sequential/parallel markers.
+- [x] Capture task IDs, descriptions, target files, dependency relationships for execution tracking.
+
+### Phase 6 – Execution Workflow
+- [ ] Follow tasks phase-by-phase respecting dependencies, prioritizing test tasks before implementation.
+- [ ] Update `tasks.md` checkboxes upon task completion with supporting evidence references.
+- [ ] Maintain progress notes in Copilot log for each completed task grouping.
+
+### Phase 7 – Validation & Reporting
+- [ ] Run mandated tests/build commands verifying changes meet specs.
+- [ ] Execute Codacy analysis per modified file immediately after each edit.
+- [ ] Produce final summary with validation results and next steps.
+
+### Current Session Notes – October 11, 2025
+- **FEATURE_DIR**: `/home/adam/Dev/omega-spiral/chapter-zero/specs/004-implement-omega-spiral`
+- **AVAILABLE_DOCS**: `research.md`, `data-model.md`, `contracts/`, `quickstart.md`, `tasks.md`
+- **User Approval**: Continue implementation despite incomplete checklists (confirmed October 11, 2025).
+- **Context Loaded**: `tasks.md`, `plan.md`, `data-model.md`, `research.md`, `quickstart.md` reviewed.
+- **Build Attempt 2025-10-11 (Initial)**: `dotnet build` failed with 83 errors (duplicate partial class members, unsupported exported types, missing types like `SceneManager`).
+- **Build Attempt 2025-10-11 (After GDScript Conversion)**: Converted all `.gd` files in Source directory to C#, removed duplicates (DialogueWindow, Trigger). Errors reduced to 67. Remaining issues: missing enum types (CharacterClass, CharacterRace, DreamweaverType, TileType, ObjectType), SceneManager references, ambiguous Timer/Range references.
+
+| Checklist | Total | Completed | Incomplete | Status |
+|-----------|-------|-----------|------------|--------|
+| csharp-architecture-review.md | 22 | 0 | 22 | ✗ FAIL |
+| csharp-code-quality.md | 59 | 31 | 28 | ✗ FAIL |
+| game-design-quality.md | 59 | 59 | 0 | ✓ PASS |
+| godot-implementation.md | 72 | 72 | 0 | ✓ PASS |
+| godot-integration-review.md | 21 | 0 | 21 | ✗ FAIL |
+| player-experience-review.md | 23 | 0 | 23 | ✗ FAIL |
+| requirements.md | 16 | 16 | 0 | ✓ PASS |
+| technical-requirements.md | 47 | 45 | 2 | ✗ FAIL |
+
+Overall checklist status: **FAIL** – user approval required to continue Speckit workflow.
+
+## Legacy Action Plan
 - [ ] Update todo list and Copilot-Processing.md with completion
-
-#### Context Highlights
-
-- Implementation plan template remains uncustomized—must infer architecture from other docs and actual code.
 - Data model defines GameState-driven persistence, Dreamweaver scoring, and JSON-backed scenes with schema validation via contracts directory.
 - Research confirms stack (Godot 4.5 Mono, C# 14, .NET 10 RC) and performance targets (60 FPS, transitions <500ms, JSON loads <100ms).
-- Quickstart reiterates five-scene flow (Narrative → ASCII Dungeon → Party Creation → Tile Dungeon → Pixel Combat) and testing expectations (NUnit, Godot integration).
-
-### Phase C – Task Structure Analysis
-
 - [X] Extract phases (Setup, Tests, Core, Integration, Polish) and any foundational sequencing
 - [X] Map dependencies and identify sequential vs parallel markers
-- [X] List each task with ID, description, target files, and current checkbox state
-
----
-
-## NobodyWho LLM Integration Research & Planning
-
 ### Date: October 9, 2025
 
-### Research Summary
-
-**Objective**: Investigate [nobodywho-ooo/nobodywho](https://github.com/nobodywho-ooo/nobodywho) for implementing dynamic, LLM-powered Dreamweaver personas.
-
-**Key Findings**:
-
-1. **NobodyWho Framework**:
-   - Godot 4.x native plugin for local LLM integration
    - Supports GGUF model format (llama.cpp backend)
    - GPU-accelerated inference (Vulkan/Metal)
-   - Provides `NobodyWhoChat`, `NobodyWhoModel`, `NobodyWhoEmbedding` nodes
-   - Tool calling support for game system integration
-   - Structured output (JSON) via grammar enforcement
-
-2. **Architecture Alignment**:
-   - Fits perfectly with existing `NarrativeTerminal.cs` system
-   - Can wrap three Dreamweaver personas + Omega narrator
-   - Each persona = separate `NobodyWhoChat` node with unique system prompt
-   - Shared `NobodyWhoModel` node for memory efficiency
-   - JSON response parsing aligns with current data-driven design
-
 3. **Recommended Model**: Qwen3-4B-Q4_K_M.gguf (~2.5GB)
    - Supports tool calling (needed for game state queries)
-   - Good quality/performance balance
-   - Alternative: Qwen3-0.6B for faster performance, Qwen3-14B for quality
-
-4. **Integration Strategy**:
-   - Create `DreamweaverSystem.cs` to orchestrate three personas + Omega
-   - Create `DreamweaverPersona.cs` wrapper for C#/GDScript bridge
    - Enhance `NarrativeTerminal.cs` with LLM consultation flow
    - Maintain hybrid mode: LLM + static JSON fallback
-
-### Deliverables Created
-
-- **ADR-0003**: `docs/adr/adr-0003-nobodywho-llm-integration.md`
-  - Status: Proposed
-  - Complete integration plan with:
-    - Architecture overview (3 Dreamweavers + Omega)
     - Phase-by-phase implementation (4 weeks)
     - Complete C# wrapper classes
-    - System prompt templates for each persona
-    - Tool calling integration
-    - Performance optimization strategies
-    - Risk mitigation matrix
-    - Testing plan and success metrics
 
 ### Next Steps (Post-Current Implementation)
 
-1. **Phase 1** (Week 1): Install nobodywho, download Qwen3-4B model
-2. **Phase 2** (Week 1-2): Create `DreamweaverSystem.cs` and persona wrappers
-3. **Phase 3** (Week 2-3): Integrate tool calling and embeddings
-4. **Phase 4** (Week 3-4): Testing, optimization, QA
 
 ### Memory Recording
 
-- **Serena Memory**: `nobodywho-llm-integration-plan.md`
-  - Complete technical reference with code patterns
-  - Implementation phases and timelines
   - Success metrics and risk mitigations
-  - Benefits, challenges, and architectural decisions
 
 - **ADR-0003**: `docs/adr/adr-0003-nobodywho-llm-integration.md`
   - Formal architecture decision record
@@ -194,7 +187,6 @@ Comprehensive research and planning completed for integrating the nobodywho fram
 
 ---
 - [X] Highlight tasks already marked complete that require verification
-
 Key findings:
 
 - Phases 1–8 (Setup through Cross-Scene State) are fully checkboxed, implying prior completion; Phase 9 (Polish) still has several unchecked tasks (T099, T100, T092, T093, T094, T101).
@@ -211,19 +203,34 @@ Key findings:
 - [ ] D5 – Re-run relevant .NET unit/integration tests for narrative flow and persistence
 - [ ] D6 – Update `tasks.md` checkboxes for any newly completed work (with evidence)
 - [ ] D7 – Revisit incomplete checklists items touched by work and record outcomes/questions
+- [X] D8 – Execute automated build and launch opening scene to confirm current project state (67 build errors remaining - blocked on missing enum types and SceneManager)
 
 ### Phase E – Validation & Documentation
 
 - [ ] Perform comprehensive test suite run and capture results
-- [ ] Conduct quality gates: build, lint/typecheck, targeted smoke test for first-scene load if feasible
 - [ ] Finalize documentation updates (notes, ADRs) if required by tasks
 - [ ] Record progress and completion summary for user handoff
 - [ ] Prepare final response with requirements coverage and next steps
 
 ## Current Status
-
 Phase 1: Initialization - Completed
 Phase 2: Planning - Completed
+
+## Error Remediation Todo List (Updated October 11, 2025)
+
+- [ ] Address SA1101 (4570 occurrences): prefix member accesses with `this.` where required; target files include `Source/Scripts/combat/ui/UICombatLog.cs`, `Source/Scripts/common/Music.cs`, `Source/Scripts/common/DialogicIntegration.cs`, and remaining classes flagged by StyleCop.
+- [ ] Address SA1027/SA1028 (718 combined occurrences): normalize whitespace and tabs in chained method calls and generic type constraints.
+- [ ] Address SA1600/SA1611/SA1615/SA1614 (884 occurrences): add XML documentation summaries and parameter tags for public members across combat UI, music, dreamweaver, character, and test assemblies.
+- [ ] Address SA1629/SA1623 (756 occurrences): ensure documentation text ends with periods and `<summary>` sections exist with valid structure.
+- [ ] Address SA1200/SA1201/SA1202/SA1203/SA1204 (344 occurrences): relocate `using` directives inside namespaces and reorder members according to StyleCop rules.
+- [ ] Address SA1300/SA1306/SA1309 (332 occurrences): enforce PascalCase/Naming rules for delegates, constants, and fields.
+- [ ] Address analyzer CA1062/CA1031/CA2000/CA2007/CA1822/CA1801 (240 occurrences): add guard clauses, dispose patterns, `ConfigureAwait(false)`, static modifiers, and remove unused parameters.
+- [ ] Address globalization analyzers CA1304/CA1305/CA1310/CA1308 (40 occurrences): update culture-specific string operations within `DreamweaverSystem` and `DreamweaverPersona`.
+- [ ] Address nullability warnings CS8618/CS8625/CS8600-8604 (364 occurrences): initialize non-nullable members and guard against null arguments.
+- [ ] Address API/compile errors CS0117/CS0103/CS0120/CS1061/CS0246/CS1503 (518 occurrences): resolve missing members/namespaces in `PathLoopAIController`, `Combat`, `UICombatMenus`, and related scripts.
+- [ ] Address testing/documentation analyzers CA1063/CA1816/CA1065/CA1707 (96 occurrences): correct dispose implementations and rename tests to approved patterns.
+- [ ] Re-run `dotnet build` and Codacy analysis after completing each category.
+
 
 ---
 
@@ -257,40 +264,21 @@ Phase 2: Planning - Completed
    - Updated PresentInitialChoice to generate dynamic choices
    - Maintains hybrid mode: LLM-enhanced vs static JSON fallback
    - Added UseDynamicNarrative export property for toggling
-
-4. **DreamweaverCore.tscn Scene**
    - Created scene structure for LLM integration
    - Placeholder nodes for NobodyWhoModel and ChatInterface
    - Ready for actual LLM model loading and inference
-
-5. **Type System Alignment**
-   - Fixed ChoiceOption inheritance and compatibility
-   - Resolved namespace and compilation issues
    - Ensured proper type casting between dynamic and static choices
 
 ### Technical Achievements
 
-- **Build Success**: Project compiles successfully with 91 warnings (0 errors)
-- **Hybrid Architecture**: Seamless fallback from LLM to JSON when needed
-- **JSON Foundation**: Uses existing narrative text as prompt foundation
-- **Signal-Based Communication**: Proper Godot signal integration
-- **Async/Await Pattern**: Modern C# async implementation
-- **Game State Integration**: Incorporates current party and thread information
-
 ### Files Created/Modified
 
-1. `Source/Scripts/DreamweaverSystem.cs` (240 lines) - Main orchestrator
-2. `Source/Scripts/DreamweaverPersona.cs` (180 lines) - Persona wrapper  
-3. `Source/Scripts/NarrativeTerminal.cs` - Integration hooks added
-4. `Source/Resources/Scenes/DreamweaverCore.tscn` - Scene structure
-5. `project.godot` - Added DreamweaverSystem to autoload
 
 ### Current State
 
 - **LLM Integration**: Ready for NobodyWho plugin installation
 - **Fallback System**: Static JSON narrative works immediately
 - **Hybrid Mode**: Toggle between dynamic and static via UseDynamicNarrative property
-- **Persona Management**: Three personas loaded and accessible
 - **Signal System**: Proper event handling for narrative generation
 
 ### Next Steps

@@ -1,0 +1,101 @@
+type: ascii_dungeon_sequence
+dungeons:
+  - owner: Light
+    map:
+      - "#########"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#########"
+    legend:
+      "#": wall
+      ".": floor
+      "@": player
+      "D": door
+      "M": monster
+      "C": chest
+    objects:
+      "D":
+        type: Door
+        text: "You open the door and feel a sense of wisdom."
+        alignedTo: Light
+        position: [4, 2]
+      "M":
+        type: Monster
+        text: "You defeat the monster with courage."
+        alignedTo: Light
+        position: [2, 3]
+      "C":
+        type: Chest
+        text: "You find a chest filled with light."
+        alignedTo: Light
+        position: [6, 4]
+    playerStartPosition: [4, 3]
+  - owner: Mischief
+    map:
+      - "#########"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#########"
+    legend:
+      "#": wall
+      ".": floor
+      "@": player
+      "D": door
+      "M": monster
+      "C": chest
+    objects:
+      "D":
+        type: Door
+        text: "The door leads to chaos and transformation."
+        alignedTo: Mischief
+        position: [1, 1]
+      "M":
+        type: Monster
+        text: "The monster tricks you, but you adapt."
+        alignedTo: Mischief
+        position: [7, 2]
+      "C":
+        type: Chest
+        text: "The chest contains unpredictable magic."
+        alignedTo: Mischief
+        position: [3, 5]
+    playerStartPosition: [4, 3]
+  - owner: Wrath
+    map:
+      - "#########"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#.......#"
+      - "#########"
+    legend:
+      "#": wall
+      ".": floor
+      "@": player
+      "D": door
+      "M": monster
+      "C": chest
+    objects:
+      "D":
+        type: Door
+        text: "The door demands power and consequence."
+        alignedTo: Wrath
+        position: [0, 3]
+      "M":
+        type: Monster
+        text: "You confront the monster with fury."
+        alignedTo: Wrath
+        position: [8, 3]
+      "C":
+        type: Chest
+        text: "The chest holds dark power."
+        alignedTo: Wrath
+        position: [4, 1]
+    playerStartPosition: [4, 3]

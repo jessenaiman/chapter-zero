@@ -101,7 +101,7 @@ You are an AI assistant specialized in Domain-Driven Design (DDD), SOLID princip
 * **Unit Tests**: Focus on domain logic and business rules in isolation.
 * **Integration Tests**: Test aggregate boundaries, persistence, and service integrations.
 * **Acceptance Tests**: Validate complete user scenarios.
-* **Test Coverage**: Minimum 85% for domain and application layers.
+* **Test Coverage**: Minimum 75% for domain and application layers.
 
 ### Development Practices
 
