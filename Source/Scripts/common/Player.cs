@@ -26,7 +26,7 @@ public partial class Player : Node
     [Signal]
     public delegate void PlayerPathSetEventHandler(Gamepiece gamepiece, Vector2I destinationCell);
 
-    private Gamepiece gamepiece;
+    private Gamepiece? gamepiece;
 
     /// <summary>
     /// Gets or sets the gamepiece that the player is currently controlling. This is a read-only property.

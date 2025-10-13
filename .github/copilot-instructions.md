@@ -1,12 +1,15 @@
-# C# Documentation Rules
+# C# Rules
 
-**MUST USE SERANA TO FIND AND REPLACE, and FOR PROJECT MEMORIES**
+**MUST USE SERANA FOR PROJECT MEMORIES**
+**use the problems tool to see the problems in the file and ide**
 **ALWAYS CHECK THE BUILD AFTER EVERY NEW FILE AND CHANGE**
 **USE CODACY TO CHECK FOR ISSUES AND FIXES**
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE BUILD IS CLEAN**
 **MUST ENFORCE XML Documentation Comments**
 
-- Public members should be documented with XML comments.
+## Documentation Rules
+
+- Public members should be documented with relevant XML comments.
 - It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
 - Use `<summary>` for method descriptions. This should be a brief overview of what the method does.
 - Use `<param>` for method parameters.

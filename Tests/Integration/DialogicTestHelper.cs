@@ -15,8 +15,8 @@ namespace OmegaSpiral.Tests.Integration
     public class DialogicTestHelper
     {
         private readonly Node testScene;
-        private readonly List<string> capturedSignals = new();
-        private readonly Dictionary<string, object> dialogicState = new();
+        private readonly List<string> capturedSignals = new ();
+        private readonly Dictionary<string, object> dialogicState = new ();
         private bool timelineActive;
         private string? currentTimeline;
 

@@ -11,11 +11,11 @@ public partial class MusicPlayer : Node
     /// <summary>
     /// The animation player used for crossfading between tracks.
     /// </summary>
-    private AnimationPlayer anim;
+    private AnimationPlayer? anim;
     /// <summary>
     /// The audio stream player that plays the music tracks.
     /// </summary>
-    private AudioStreamPlayer track;
+    private AudioStreamPlayer? track;
 
     /// <inheritdoc/>
     public override void _Ready()

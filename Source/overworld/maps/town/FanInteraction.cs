@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using System.Reflection;
 
 /// <summary>
 /// Interaction with the adoring fan NPC.
@@ -88,7 +89,23 @@ public partial class FanInteraction : ConversationTemplate
             var pathfinder = gameboard?.GetNode<Pathfinder>("Pathfinder");
             var path = pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13));
             var pathList = path != null ? new System.Collections.Generic.List<Vector2I>(path) : new System.Collections.Generic.List<Vector2I>();
-            this.Controller.MovePath = pathList;
+
+            // Use reflection to access the private SetMovePath method or clear/add to the list
+            var movePathField = typeof(GamepieceController).GetField("movePath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (movePathField != null)
+            {
+                movePathField.SetValue(this.Controller, pathList);
+            }
+            else
+            {
+                // Fallback: try to use the MovePath property to clear and add items
+                var currentPath = this.Controller.MovePath;
+                currentPath.Clear();
+                foreach (var cell in pathList)
+                {
+                    currentPath.Add(cell);
+                }
+            }
 
             // Wait for the fan to arrive at destination
             if (this.adoringFan != null)

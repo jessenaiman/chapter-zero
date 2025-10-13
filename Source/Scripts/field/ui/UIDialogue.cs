@@ -1,15 +1,15 @@
-// <copyright file="UIDialogue.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIDialogue.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Godot;
 
 namespace OmegaSpiral.Source.Scripts
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Godot;
-
     /// <summary>
     /// Container for the dialogue system display.
     /// The UIDialogue manages the presentation of character dialogue, narrative text,
@@ -19,6 +19,20 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public partial class UIDialogue : Control
     {
+        // Private fields
+        private RichTextLabel? dialogueText;
+        private Label? characterNameLabel;
+        private TextureRect? characterPortrait;
+        private VBoxContainer? choicesContainer;
+        private Control? continueIndicator;
+        private string currentText = string.Empty;
+        private Character? currentSpeaker;
+        private List<DialogueChoice> currentChoices = new List<DialogueChoice>();
+        private bool isTyping;
+        private int textPosition;
+        private float characterDelay;
+        private Godot.Timer? typewriterTimer;
+
         /// <summary>
         /// Emitted when dialogue is finished displaying.
         /// </summary>
@@ -52,87 +66,28 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// The container for dialogue text.
-        /// </summary>
-        private RichTextLabel dialogueText;
-
-        /// <summary>
-        /// The container for character name display.
-        /// </summary>
-        private Label characterNameLabel;
-
-        /// <summary>
-        /// The container for character portrait.
-        /// </summary>
-        private TextureRect characterPortrait;
-
-        /// <summary>
-        /// The container for dialogue choices.
-        /// </summary>
-        private VBoxContainer choicesContainer;
-
-        /// <summary>
-        /// The continue indicator (e.g., blinking cursor).
-        /// </summary>
-        private Control continueIndicator;
-
-        /// <summary>
-        /// The current dialogue text being displayed.
-        /// </summary>
-        private string currentText = string.Empty;
-
-        /// <summary>
-        /// The current character speaking.
-        /// </summary>
-        private Character currentSpeaker;
-
-        /// <summary>
-        /// The current dialogue choices.
-        /// </summary>
-        private List<DialogueChoice> currentChoices = new List<DialogueChoice>();
-
-        /// <summary>
-        /// Whether the dialogue text is currently being typed out.
-        /// </summary>
-        private bool isTyping;
-
-        /// <summary>
-        /// The current position in the dialogue text.
-        /// </summary>
-        private int textPosition;
-
-        /// <summary>
         /// Gets or sets the typewriter effect speed (characters per second).
         /// </summary>
         [Export]
         public float TypewriterSpeed { get; set; } = 50.0f;
 
         /// <summary>
-        /// The time between each character in the typewriter effect.
-        /// </summary>
-        private float characterDelay;
-
-        /// <summary>
-        /// Timer for typewriter effect.
-        /// </summary>
-        private Godot.Timer typewriterTimer;
-
-        /// <summary>
         /// Show an effect label (like emotion indicators or emphasis).
         /// </summary>
         /// <param name="text">The text to show.</param>
-        /// <param name="position">The position to show the text at.</param>
-        /// <param name="color">The color of the text.</param>
-        public static void ShowEffectLabel(string text, Vector2 position, Color color)
+        public static void ShowEffectLabel(string text)
         {
+            if (text == null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             // Show a floating label at the specified position
             // This would typically involve creating a temporary label that floats upward and fades out
 
             // For example:
             // var label = new Label();
             // label.Text = text;
-            // label.AddThemeColorOverride("font_color", color);
-            // label.Position = position;
             // AddChild(label);
 
             // Create a tween to animate the label
@@ -156,7 +111,7 @@ namespace OmegaSpiral.Source.Scripts
             this.Visible = false;
 
             // Set up the typewriter timer
-            this.typewriterTimer = new Timer();
+            this.typewriterTimer = new Godot.Timer();
             this.typewriterTimer.OneShot = true;
             this.typewriterTimer.Timeout += this.OnTypewriterTimeout;
             this.AddChild(this.typewriterTimer);
@@ -203,7 +158,7 @@ namespace OmegaSpiral.Source.Scripts
             this.EmitSignal(SignalName.DialogueStarted);
 
             // Start the typewriter effect
-            await TypeText(text).ConfigureAwait(false);
+            await this.TypeText(text).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -273,17 +228,6 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Connect to necessary signals.
-        /// </summary>
-        private static void ConnectSignals()
-        {
-            // Connect to dialogue events
-            // DialogueEvents.DialogueStarted += OnDialogueStarted;
-            // DialogueEvents.DialogueEnded += OnDialogueEnded;
-            // DialogueEvents.ChoiceSelected += OnChoiceSelected;
-        }
-
-        /// <summary>
         /// Skip the current typewriter effect and display the full text immediately.
         /// </summary>
         public void SkipTypewriter()
@@ -345,6 +289,17 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
+        /// Connect to necessary signals.
+        /// </summary>
+        private static void ConnectSignals()
+        {
+            // Connect to dialogue events
+            // DialogueEvents.DialogueStarted += OnDialogueStarted;
+            // DialogueEvents.DialogueEnded += OnDialogueEnded;
+            // DialogueEvents.ChoiceSelected += OnChoiceSelected;
+        }
+
+        /// <summary>
         /// Show a message in the dialogue system.
         /// </summary>
         /// <param name="message">The message to show.</param>
@@ -376,7 +331,7 @@ namespace OmegaSpiral.Source.Scripts
         /// Type out text with a typewriter effect.
         /// </summary>
         /// <param name="text">The text to type out.</param>
-        private async Task TypeText(string text)
+        public async Task TypeText(string text)
         {
             if (string.IsNullOrEmpty(text) || this.dialogueText == null)
             {
@@ -398,8 +353,11 @@ namespace OmegaSpiral.Source.Scripts
                 this.textPosition++;
 
                 // Wait for the character delay
-                this.typewriterTimer.Start(this.characterDelay);
-                await this.ToSignal(this.typewriterTimer, Timer.SignalName.Timeout);
+                if (this.typewriterTimer != null)
+                {
+                    this.typewriterTimer.Start(this.characterDelay);
+                    await this.ToSignal(this.typewriterTimer, Godot.Timer.SignalName.Timeout);
+                }
             }
 
             // If we've finished typing, show the continue indicator
@@ -411,166 +369,6 @@ namespace OmegaSpiral.Source.Scripts
                     this.continueIndicator.Show();
                 }
             }
-        }
-
-        /// <summary>
-        /// Update the speaker display with the current speaker's information.
-        /// </summary>
-        /// <param name="speaker">The character speaking.</param>
-        private void UpdateSpeakerDisplay(Character speaker)
-        {
-            if (speaker == null)
-            {
-                // Hide speaker information if no speaker
-                if (this.characterNameLabel != null)
-                {
-                    this.characterNameLabel.Hide();
-                }
-
-                if (this.characterPortrait != null)
-                {
-                    this.characterPortrait.Hide();
-                }
-            }
-            else
-            {
-                // Show speaker information
-                if (this.characterNameLabel != null)
-                {
-                    this.characterNameLabel.Text = speaker.Name;
-                    this.characterNameLabel.Show();
-                }
-
-                if (this.characterPortrait != null && speaker.Portrait != null)
-                {
-                    this.characterPortrait.Texture = speaker.Portrait;
-                    this.characterPortrait.Show();
-                }
-                else if (this.characterPortrait != null)
-                {
-                    this.characterPortrait.Hide();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Create a choice button for a dialogue choice.
-        /// </summary>
-        /// <param name="choice">The dialogue choice to create a button for.</param>
-        private void CreateChoiceButton(DialogueChoice choice)
-        {
-            if (choice == null || this.choicesContainer == null)
-            {
-                return;
-            }
-
-            // Create a new button for the choice
-            var button = new Button();
-            button.Text = choice.Text;
-            button.FocusMode = FocusModeEnum.None;
-
-            // Connect the button's pressed signal to handle choice selection
-            button.Pressed += () => this.OnChoiceButtonPressed(choice);
-
-            // Add the button to the choices container
-            this.choicesContainer.AddChild(button);
-        }
-
-        /// <summary>
-        /// Clear all dialogue choices.
-        /// </summary>
-        private void ClearChoices()
-        {
-            if (this.choicesContainer == null)
-            {
-                return;
-            }
-
-            // Remove all existing choice buttons
-            foreach (var child in this.choicesContainer.GetChildren())
-            {
-                if (child is Button button)
-                {
-                    button.Pressed -= OnChoiceButtonPressed;
-                    button.QueueFree();
-                }
-            }
-
-            // Hide the choices container
-            this.choicesContainer.Hide();
-
-            // Show the dialogue text again
-            if (this.dialogueText != null)
-            {
-                this.dialogueText.Show();
-            }
-        }
-
-        /// <summary>
-        /// Callback when the typewriter timer times out.
-        /// </summary>
-        private void OnTypewriterTimeout()
-        {
-            // This is handled in the TypeText method
-        }
-
-        /// <summary>
-        /// Callback when a choice button is pressed.
-        /// </summary>
-        /// <param name="choice">The selected dialogue choice.</param>
-        private void OnChoiceButtonPressed(DialogueChoice choice)
-        {
-            if (choice == null || !this.IsActive)
-            {
-                return;
-            }
-
-            // Find the index of the selected choice
-            var choiceIndex = this.currentChoices.IndexOf(choice);
-            if (choiceIndex >= 0)
-            {
-                // Emit the choice selected signal
-                this.EmitSignal(SignalName.ChoiceSelected, choiceIndex);
-
-                // Hide the choices
-                this.ClearChoices();
-            }
-        }
-
-        /// <summary>
-        /// Callback when continue input is received.
-        /// </summary>
-        private void OnContinueInput()
-        {
-            if (this.isTyping)
-            {
-                // Skip the typewriter effect
-                this.SkipTypewriter();
-            }
-            else if (this.choicesContainer != null && !this.choicesContainer.Visible)
-            {
-                // Continue to the next dialogue line or end dialogue
-                // This would typically involve checking if there's more dialogue to display
-                // or emitting a signal to indicate the player wants to continue
-
-                // For now, we'll just hide the dialogue
-                this.HideDialogue();
-            }
-        }
-
-        /// <summary>
-        /// Update the dialogue text display.
-        /// </summary>
-        /// <param name="text">The new dialogue text.</param>
-        public void UpdateDialogueText(string text)
-        {
-            if (string.IsNullOrEmpty(text) || this.dialogueText == null)
-            {
-                return;
-            }
-
-            // Update the dialogue text
-            this.dialogueText.Text = text;
         }
 
         /// <summary>
@@ -642,7 +440,8 @@ namespace OmegaSpiral.Source.Scripts
                 {
                     if (child is Button button && button.Text == choice.Text)
                     {
-                        button.Pressed -= OnChoiceButtonPressed;
+                        // Note: We can't remove the lambda event handler easily in Godot,
+                        // but since we're freeing the button immediately, it's not necessary
                         button.QueueFree();
                         break;
                     }
@@ -686,8 +485,8 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Get the current character speaker.
         /// </summary>
-        /// <returns>The current character speaker.</returns>
-        public Character GetSpeaker()
+        /// <returns>The current character speaker, or null if none.</returns>
+        public Character? GetSpeaker()
         {
             return this.currentSpeaker;
         }
@@ -793,6 +592,160 @@ namespace OmegaSpiral.Source.Scripts
             if (this.continueIndicator != null)
             {
                 this.continueIndicator.Hide();
+            }
+        }
+
+        /// <summary>
+        /// Update the speaker display with the current speaker's information.
+        /// </summary>
+        /// <param name="speaker">The character speaking, or null to clear.</param>
+        private void UpdateSpeakerDisplay(Character? speaker)
+        {
+            if (speaker == null)
+            {
+                // Hide speaker information if no speaker
+                if (this.characterNameLabel != null)
+                {
+                    this.characterNameLabel.Hide();
+                }
+
+                if (this.characterPortrait != null)
+                {
+                    this.characterPortrait.Hide();
+                }
+            }
+            else
+            {
+                // Show speaker information
+                if (this.characterNameLabel != null)
+                {
+                    this.characterNameLabel.Text = speaker.Name ?? string.Empty;
+                    this.characterNameLabel.Show();
+                }
+
+                // TODO: Add Portrait property to Character class
+                // if (this.characterPortrait != null && speaker.Portrait != null)
+                // {
+                //     this.characterPortrait.Texture = speaker.Portrait;
+                //     this.characterPortrait.Show();
+                // }
+                // else if (this.characterPortrait != null)
+                // {
+                //     this.characterPortrait.Hide();
+                // }
+            }
+        }
+
+        /// <summary>
+        /// Create a choice button for a dialogue choice.
+        /// </summary>
+        /// <param name="choice">The dialogue choice to create a button for.</param>
+        private void CreateChoiceButton(DialogueChoice choice)
+        {
+            if (choice == null || this.choicesContainer == null)
+            {
+                return;
+            }
+
+            // Create a new button for the choice
+            var button = new Button();
+            button.Text = choice.Text;
+            button.FocusMode = FocusModeEnum.None;
+
+            // Connect the button's pressed signal to handle choice selection
+            void OnPressed() => this.OnChoiceButtonPressed(choice);
+            button.Pressed += OnPressed;
+
+            // Add the button to the choices container
+            this.choicesContainer.AddChild(button);
+
+            // Properly dispose the button after use
+            button.Dispose();
+
+            // Dispose the button after it is no longer needed
+            button.QueueFree();
+        }
+
+        /// <summary>
+        /// Clear all dialogue choices.
+        /// </summary>
+        private void ClearChoices()
+        {
+            if (this.choicesContainer == null)
+            {
+                return;
+            }
+
+            // Remove all existing choice buttons
+            foreach (var child in this.choicesContainer.GetChildren())
+            {
+                if (child is Button button)
+                {
+                    // Note: We can't remove the lambda event handler easily in Godot,
+                    // but since we're freeing the button immediately, it's not necessary
+                    button.QueueFree();
+                }
+            }
+
+            // Hide the choices container
+            this.choicesContainer.Hide();
+
+            // Show the dialogue text again
+            if (this.dialogueText != null)
+            {
+                this.dialogueText.Show();
+            }
+        }
+
+        /// <summary>
+        /// Callback when the typewriter timer times out.
+        /// </summary>
+        private void OnTypewriterTimeout()
+        {
+            // This is handled in the TypeText method
+        }
+
+        /// <summary>
+        /// Callback when a choice button is pressed.
+        /// </summary>
+        /// <param name="choice">The selected dialogue choice.</param>
+        private void OnChoiceButtonPressed(DialogueChoice choice)
+        {
+            if (choice == null || !this.IsActive)
+            {
+                return;
+            }
+
+            // Find the index of the selected choice
+            var choiceIndex = this.currentChoices.IndexOf(choice);
+            if (choiceIndex >= 0)
+            {
+                // Emit the choice selected signal
+                this.EmitSignal(SignalName.ChoiceSelected, choiceIndex);
+
+                // Hide the choices
+                this.ClearChoices();
+            }
+        }
+
+        /// <summary>
+        /// Callback when continue input is received.
+        /// </summary>
+        private void OnContinueInput()
+        {
+            if (this.isTyping)
+            {
+                // Skip the typewriter effect
+                this.SkipTypewriter();
+            }
+            else if (this.choicesContainer != null && !this.choicesContainer.Visible)
+            {
+                // Continue to the next dialogue line or end dialogue
+                // This would typically involve checking if there's more dialogue to display
+                // or emitting a signal to indicate the player wants to continue
+
+                // For now, we'll just hide the dialogue
+                this.HideDialogue();
             }
         }
     }

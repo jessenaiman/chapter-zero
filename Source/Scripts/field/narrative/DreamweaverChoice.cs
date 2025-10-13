@@ -39,8 +39,8 @@ public partial class DreamweaverChoice : ChoiceOption
     public DreamweaverThread Thread { get; set; }
 
     /// <summary>
-    /// Gets or sets the alignment bonuses awarded when this choice is selected.
+    /// Gets the alignment bonuses awarded when this choice is selected.
     /// Maps each Dreamweaver type to the score increase it receives.
     /// </summary>
-    public Dictionary<DreamweaverType, int> AlignmentBonus { get; set; } = new ();
+    public Dictionary<DreamweaverType, int> AlignmentBonus { get; } = new ();
 }

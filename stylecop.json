@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
-    "documentationRules": {
-      "companyName": "PlaceholderCompany",
-      "copyrightText": "Copyright (c) PlaceholderCompany. All rights reserved.",
+  "documentationRules": {
+  "companyName": "Ωmega Spiral",
+  "copyrightText": "Copyright (c) Ωmega Spiral. All rights reserved.",
       "variables": {
         "licenseHeaderFileName": "stylecop.json"
       },
@@ -45,5 +45,15 @@
     "readabilityRules": {
       "allowBuiltInTypeAliases": true
     }
+  },
+  "rules": {
+    "SA1503": "none",
+    "SA1201": "warning",
+    "SA1633": "error"
+  },
+  "files": {
+    "exclude": [
+      "addons/**/*"
+    ]
   }
 }

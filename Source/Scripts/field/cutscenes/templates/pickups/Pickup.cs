@@ -62,7 +62,7 @@ public partial class Pickup : Trigger
         }
     }
 
-        /// <summary>
+    /// <summary>
     /// Execute the pickup logic when triggered.
     /// Plays the pickup animation and adds the item to the player's inventory.
     /// </summary>

@@ -55,7 +55,7 @@ public partial class GamepieceAnimation : Marker2D
     /// <summary>
     /// Animation player for handling animations.
     /// </summary>
-    private AnimationPlayer anim;
+    private AnimationPlayer? anim;
 
     /// <summary>
     /// Gets or sets the animation currently being played.

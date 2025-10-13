@@ -48,128 +48,128 @@ namespace OmegaSpiral.Source.Scripts
         /// <inheritdoc/>
         public override void _Ready()
         {
-        this.gameState = this.GetNode<GameState>("/root/GameState");
+            this.gameState = this.GetNode<GameState>("/root/GameState");
 
-        // Initialize the three Dreamweaver personas
-        this.InitializePersonas();
+            // Initialize the three Dreamweaver personas
+            this.InitializePersonas();
 
-        GD.Print("Dreamweaver System initialized with 3 personas");
-    }
+            GD.Print("Dreamweaver System initialized with 3 personas");
+        }
 
-    /// <summary>
-    /// Generates dynamic narrative for a specific persona using LLM.
-    /// Uses the JSON text as a foundation for the prompt.
-    /// </summary>
-    /// <param name="personaId">The identifier of the persona to use for generation.</param>
-    /// <param name="context">Additional context for narrative generation.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <summary>
+        /// Generates dynamic narrative for a specific persona using LLM.
+        /// Uses the JSON text as a foundation for the prompt.
+        /// </summary>
+        /// <param name="personaId">The identifier of the persona to use for generation.</param>
+        /// <param name="context">Additional context for narrative generation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<string> GenerateNarrativeAsync(string personaId, string context = "")
         {
-        if (!this.personas.ContainsKey(personaId))
-        {
-            GD.PrintErr($"Unknown persona: {personaId}");
-            this.EmitSignal(SignalName.GenerationError, personaId, "Unknown persona");
-            return GetFallbackNarrative(personaId);
+            if (!this.personas.ContainsKey(personaId))
+            {
+                GD.PrintErr($"Unknown persona: {personaId}");
+                this.EmitSignal(SignalName.GenerationError, personaId, "Unknown persona");
+                return GetFallbackNarrative(personaId);
+            }
+
+            try
+            {
+                var persona = this.personas[personaId];
+                var generatedText = await persona.GenerateNarrativeAsync(context).ConfigureAwait(false);
+
+                this.EmitSignal(SignalName.NarrativeGenerated, personaId, generatedText);
+                return generatedText;
+            }
+            catch (InvalidOperationException ex)
+            {
+                GD.PrintErr($"Failed to generate narrative for {personaId}: {ex.Message}");
+                this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
+                return GetFallbackNarrative(personaId);
+            }
+            catch (System.Text.Json.JsonException ex)
+            {
+                GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
+                this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
+                return GetFallbackNarrative(personaId);
+            }
         }
 
-        try
-        {
-            var persona = this.personas[personaId];
-            var generatedText = await persona.GenerateNarrativeAsync(context).ConfigureAwait(false);
-
-            this.EmitSignal(SignalName.NarrativeGenerated, personaId, generatedText);
-            return generatedText;
-        }
-        catch (InvalidOperationException ex)
-        {
-            GD.PrintErr($"Failed to generate narrative for {personaId}: {ex.Message}");
-            this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
-            return GetFallbackNarrative(personaId);
-        }
-        catch (System.Text.Json.JsonException ex)
-        {
-            GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
-            this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
-            return GetFallbackNarrative(personaId);
-        }
-    }
-
-    /// <summary>
-    /// Gets a random opening line for a persona, enhanced by LLM if available.
-    /// </summary>
-    /// <param name="personaId">The identifier of the persona to get the opening line for.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <summary>
+        /// Gets a random opening line for a persona, enhanced by LLM if available.
+        /// </summary>
+        /// <param name="personaId">The identifier of the persona to get the opening line for.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<string> GetOpeningLineAsync(string personaId)
         {
-        if (!this.personas.ContainsKey(personaId))
-        {
-            return GetFallbackOpeningLine(personaId);
+            if (!this.personas.ContainsKey(personaId))
+            {
+                return GetFallbackOpeningLine(personaId);
+            }
+
+            try
+            {
+                var persona = this.personas[personaId];
+                return await persona.GetOpeningLineAsync().ConfigureAwait(false);
+            }
+            catch (InvalidOperationException ex)
+            {
+                GD.PrintErr($"Failed to get opening line for {personaId}: {ex.Message}");
+                return GetFallbackOpeningLine(personaId);
+            }
         }
 
-        try
-        {
-            var persona = this.personas[personaId];
-            return await persona.GetOpeningLineAsync().ConfigureAwait(false);
-        }
-        catch (InvalidOperationException ex)
-        {
-            GD.PrintErr($"Failed to get opening line for {personaId}: {ex.Message}");
-            return GetFallbackOpeningLine(personaId);
-        }
-    }
-
-    /// <summary>
-    /// Generates dynamic choices for a persona based on current game state.
-    /// </summary>
-    /// <param name="personaId">The identifier of the persona to generate choices for.</param>
-    /// <param name="context">Additional context for choice generation.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <summary>
+        /// Generates dynamic choices for a persona based on current game state.
+        /// </summary>
+        /// <param name="personaId">The identifier of the persona to generate choices for.</param>
+        /// <param name="context">Additional context for choice generation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<List<global::ChoiceOption>> GenerateChoicesAsync(string personaId, string context = "")
         {
-        if (!this.personas.ContainsKey(personaId))
-        {
-            return GetFallbackChoices();
+            if (!this.personas.ContainsKey(personaId))
+            {
+                return GetFallbackChoices();
+            }
+
+            try
+            {
+                var persona = this.personas[personaId];
+                var choices = await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
+                return choices.Select(c => new global::ChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
+            }
+            catch (InvalidOperationException ex)
+            {
+                GD.PrintErr($"Failed to generate choices for {personaId}: {ex.Message}");
+                return GetFallbackChoices();
+            }
+            catch (System.Text.Json.JsonException ex)
+            {
+                GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
+                return GetFallbackChoices();
+            }
         }
 
-        try
-        {
-            var persona = this.personas[personaId];
-            var choices = await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
-            return choices.Select(c => new global::ChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
-        }
-        catch (InvalidOperationException ex)
-        {
-            GD.PrintErr($"Failed to generate choices for {personaId}: {ex.Message}");
-            return GetFallbackChoices();
-        }
-        catch (System.Text.Json.JsonException ex)
-        {
-            GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
-            return GetFallbackChoices();
-        }
-    }
-
-    /// <summary>
-    /// Activates a persona, making it the primary narrative voice.
-    /// </summary>
-    /// <param name="personaId">The identifier of the persona to activate.</param>
+        /// <summary>
+        /// Activates a persona, making it the primary narrative voice.
+        /// </summary>
+        /// <param name="personaId">The identifier of the persona to activate.</param>
         public void ActivatePersona(string personaId)
         {
-        if (!this.personas.ContainsKey(personaId))
-        {
-            GD.PrintErr($"Cannot activate unknown persona: {personaId}");
-            return;
-        }
+            if (!this.personas.ContainsKey(personaId))
+            {
+                GD.PrintErr($"Cannot activate unknown persona: {personaId}");
+                return;
+            }
 
-        // Deactivate all other personas
-        foreach (var kvp in this.personas)
-        {
-            kvp.Value.IsActive = kvp.Key == personaId;
-        }
+            // Deactivate all other personas
+            foreach (var kvp in this.personas)
+            {
+                kvp.Value.IsActive = kvp.Key == personaId;
+            }
 
-        this.EmitSignal(SignalName.PersonaActivated, personaId);
-        GD.Print($"Activated Dreamweaver persona: {personaId}");
-    }
+            this.EmitSignal(SignalName.PersonaActivated, personaId);
+            GD.Print($"Activated Dreamweaver persona: {personaId}");
+        }
 
         /// <summary>
         /// Gets the currently active persona.
@@ -216,68 +216,68 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-    // Fallback methods for when LLM generation fails
+        // Fallback methods for when LLM generation fails
         private static string GetFallbackNarrative(string personaId)
         {
-        var fallbacks = new Dictionary<string, string>
-        {
-            ["hero"] = "The hero's path calls to you, filled with light and shadow.",
-            ["shadow"] = "The shadows whisper secrets that only you can hear.",
-            ["ambition"] = "Ambition drives you forward, carving new paths through reality.",
-        };
+            var fallbacks = new Dictionary<string, string>
+            {
+                ["hero"] = "The hero's path calls to you, filled with light and shadow.",
+                ["shadow"] = "The shadows whisper secrets that only you can hear.",
+                ["ambition"] = "Ambition drives you forward, carving new paths through reality.",
+            };
 
-        return fallbacks.GetValueOrDefault(personaId, "The narrative continues...");
-    }
+            return fallbacks.GetValueOrDefault(personaId, "The narrative continues...");
+        }
 
         private static string GetFallbackOpeningLine(string personaId)
         {
-        var fallbacks = new Dictionary<string, string>
-        {
-            ["hero"] = "A hero emerges from the darkness.",
-            ["shadow"] = "The shadows remember what you forget.",
-            ["ambition"] = "Ambition flows upward, defying gravity.",
-        };
+            var fallbacks = new Dictionary<string, string>
+            {
+                ["hero"] = "A hero emerges from the darkness.",
+                ["shadow"] = "The shadows remember what you forget.",
+                ["ambition"] = "Ambition flows upward, defying gravity.",
+            };
 
-        return fallbacks.GetValueOrDefault(personaId, "Welcome to the spiral.");
-    }
+            return fallbacks.GetValueOrDefault(personaId, "Welcome to the spiral.");
+        }
 
         private static List<global::ChoiceOption> GetFallbackChoices()
         {
-        return new List<global::ChoiceOption>
+            return new List<global::ChoiceOption>
         {
             new global::ChoiceOption { Id = "continue", Text = "Continue", Description = "Continue the journey" },
             new global::ChoiceOption { Id = "reflect", Text = "Reflect", Description = "Take a moment to reflect" },
             new global::ChoiceOption { Id = "question", Text = "Question", Description = "Ask a question" },
         };
-    }
+        }
 
         private void InitializePersonas()
         {
-        // Load persona configurations from YAML files
-        var heroConfig = LoadPersonaConfig("hero");
-        var shadowConfig = LoadPersonaConfig("shadow");
-        var ambitionConfig = LoadPersonaConfig("ambition");
+            // Load persona configurations from YAML files
+            var heroConfig = LoadPersonaConfig("hero");
+            var shadowConfig = LoadPersonaConfig("shadow");
+            var ambitionConfig = LoadPersonaConfig("ambition");
 
-        if (this.gameState == null)
-        {
-            GD.PrintErr("GameState not found, cannot initialize personas");
-            return;
-        }
+            if (this.gameState == null)
+            {
+                GD.PrintErr("GameState not found, cannot initialize personas");
+                return;
+            }
 
-        if (heroConfig != null)
-        {
-            this.personas["hero"] = new DreamweaverPersona("hero", heroConfig, this.gameState);
-        }
+            if (heroConfig != null)
+            {
+                this.personas["hero"] = new DreamweaverPersona("hero", heroConfig, this.gameState);
+            }
 
-        if (shadowConfig != null)
-        {
-            this.personas["shadow"] = new DreamweaverPersona("shadow", shadowConfig, this.gameState);
-        }
+            if (shadowConfig != null)
+            {
+                this.personas["shadow"] = new DreamweaverPersona("shadow", shadowConfig, this.gameState);
+            }
 
-        if (ambitionConfig != null)
-        {
-            this.personas["ambition"] = new DreamweaverPersona("ambition", ambitionConfig, this.gameState);
+            if (ambitionConfig != null)
+            {
+                this.personas["ambition"] = new DreamweaverPersona("ambition", ambitionConfig, this.gameState);
+            }
         }
     }
-}
 }

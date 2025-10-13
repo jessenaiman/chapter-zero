@@ -41,6 +41,11 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns><see langword="true"/> if character was added, <see langword="false"/> if party is full.</returns>
         public bool AddMember(Character character)
         {
+            if (character == null)
+            {
+                throw new ArgumentNullException(nameof(character));
+            }
+
             if (this.Members.Count >= 3)
             {
                 GD.Print("Party is full (maximum 3 members)");
@@ -236,6 +241,11 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>A new <see cref="PartyData"/> instance populated from the dictionary.</returns>
         public static PartyData FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
+            if (dict == null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             var party = new PartyData();
 
             if (dict.ContainsKey("gold"))

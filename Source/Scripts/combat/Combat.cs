@@ -1,6 +1,4 @@
-// <copyright file="Combat.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+// Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using System.Threading.Tasks;
@@ -27,6 +25,10 @@ public partial class Combat : CanvasLayer
     private CenterContainer? combatContainer;
     private Godot.Timer? transitionDelayTimer;
 
+    /// <summary>
+    /// Initializes the combat system when the node is ready.
+    /// Sets up UI references, connects to field events, and prepares for combat initiation.
+    /// </summary>
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -88,6 +90,7 @@ public partial class Combat : CanvasLayer
                 {
                     throw new InvalidOperationException("Transition delay timer is not initialized.");
                 }
+
                 await this.ToSignal(this.transitionDelayTimer, "timeout");
                 transition.Call("cover", 0.2f);
                 await this.ToSignal(transition, "finished");

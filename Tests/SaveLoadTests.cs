@@ -6,13 +6,22 @@ using System.IO;
 using Godot;
 using NUnit.Framework;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Common;
 
-[TestFixture]
-public class SaveLoadTests : IDisposable
+namespace Tests
+{
+    /// <summary>
+    /// Test class for save and load functionality.
+    /// </summary>
+    [TestFixture]
+    public class SaveLoadTests : IDisposable
 {
     private GameState? gameState;
     private string? testSavePath;
 
+    /// <summary>
+    /// Sets up the test environment before each test.
+    /// </summary>
     [SetUp]
     public void Setup()
     {
@@ -51,6 +60,9 @@ public class SaveLoadTests : IDisposable
         this.gameState.PlayerParty = partyData;
     }
 
+    /// <summary>
+    /// Cleans up the test environment after each test.
+    /// </summary>
     [TearDown]
     public void TearDown()
     {
@@ -61,6 +73,9 @@ public class SaveLoadTests : IDisposable
         }
     }
 
+    /// <summary>
+    /// Tests that saving a game creates a save file.
+    /// </summary>
     [Test]
     public void TestSaveGameCreatesFile()
     {
@@ -77,6 +92,9 @@ public class SaveLoadTests : IDisposable
         Assert.That(Godot.FileAccess.FileExists("user://savegame.json"), Is.True, "Save file should be created");
     }
 
+    /// <summary>
+    /// Tests that the saved game contains the correct data.
+    /// </summary>
     [Test]
     public void TestSaveGameContainsCorrectData()
     {
@@ -96,7 +114,7 @@ public class SaveLoadTests : IDisposable
         var jsonString = file.GetAsText();
         var jsonNode = Json.ParseString(jsonString);
 
-        Assert.IsNotNull(jsonNode, "JSON should parse successfully");
+        Assert.That(jsonNode, Is.Not.Null, "JSON should parse successfully");
         Assert.That(jsonNode, Is.InstanceOf<Godot.Collections.Dictionary>(), "Root should be a dictionary");
 
         var saveData = jsonNode.AsGodotDictionary();
@@ -108,6 +126,9 @@ public class SaveLoadTests : IDisposable
         Assert.That((string)gameStateData["dreamweaverThread"], Is.EqualTo(this.gameState.DreamweaverThread.ToString()), "Dreamweaver thread should match");
     }
 
+    /// <summary>
+    /// Tests that loading a game returns false when no save file exists.
+    /// </summary>
     [Test]
     public void TestLoadGameReturnsFalseWhenNoSaveExists()
     {
@@ -121,9 +142,12 @@ public class SaveLoadTests : IDisposable
         var result = this.gameState.LoadGame();
 
         // Assert
-        Assert.IsFalse(result, "Load should return false when no save file exists");
+        Assert.That(result, Is.False, "Load should return false when no save file exists");
     }
 
+    /// <summary>
+    /// Tests that a save-load cycle preserves the game data.
+    /// </summary>
     [Test]
     public void TestSaveLoadCyclePreservesData()
     {
@@ -135,7 +159,7 @@ public class SaveLoadTests : IDisposable
 
         // Arrange - Save the game
         this.gameState.SaveGame();
-        Assert.That(Godot.FileAccess.FileExists("user://savegame.json", Is.True), "Save file should exist");
+        Assert.That(Godot.FileAccess.FileExists("user://savegame.json"), Is.True, "Save file should exist");
 
         // Create a new GameState instance to simulate loading into a fresh state
         var loadedGameState = new GameState();
@@ -144,14 +168,17 @@ public class SaveLoadTests : IDisposable
         var loadResult = loadedGameState.LoadGame();
 
         // Assert
-        Assert.IsTrue(loadResult, "Load should succeed");
-        Assert.AreEqual(this.gameState.CurrentScene, loadedGameState.CurrentScene, "Current scene should be preserved");
-        Assert.AreEqual(this.gameState.PlayerName, loadedGameState.PlayerName, "Player name should be preserved");
-        Assert.AreEqual(this.gameState.DreamweaverThread, loadedGameState.DreamweaverThread, "Dreamweaver thread should be preserved");
-        Assert.AreEqual(this.gameState.Shards.Count, loadedGameState.Shards.Count, "Shard count should be preserved");
-        Assert.AreEqual(this.gameState.SelectedDreamweaver, loadedGameState.SelectedDreamweaver, "Selected dreamweaver should be preserved");
+        Assert.That(loadResult, Is.True, "Load should succeed");
+        Assert.That(this.gameState.CurrentScene, Is.EqualTo(loadedGameState.CurrentScene), "Current scene should be preserved");
+        Assert.That(this.gameState.PlayerName, Is.EqualTo(loadedGameState.PlayerName), "Player name should be preserved");
+        Assert.That(this.gameState.DreamweaverThread, Is.EqualTo(loadedGameState.DreamweaverThread), "Dreamweaver thread should be preserved");
+        Assert.That(this.gameState.Shards.Count, Is.EqualTo(loadedGameState.Shards.Count), "Shard count should be preserved");
+        Assert.That(this.gameState.SelectedDreamweaver, Is.EqualTo(loadedGameState.SelectedDreamweaver), "Selected dreamweaver should be preserved");
     }
 
+    /// <summary>
+    /// Tests that loading a game handles corrupted data gracefully.
+    /// </summary>
     [Test]
     public void TestLoadGameHandlesCorruptedData()
     {
@@ -169,9 +196,12 @@ public class SaveLoadTests : IDisposable
         var result = this.gameState.LoadGame();
 
         // Assert
-        Assert.IsFalse(result, "Load should return false for corrupted data");
+        Assert.That(result, Is.False, "Load should return false for corrupted data");
     }
 
+    /// <summary>
+    /// Tests that saving a game updates the timestamp.
+    /// </summary>
     [Test]
     public void TestSaveGameUpdatesTimestamp()
     {
@@ -189,9 +219,12 @@ public class SaveLoadTests : IDisposable
         this.gameState.SaveGame();
 
         // Assert
-        Assert.Greater(this.gameState.LastSaveTime, initialTime, "Last save time should be updated");
+        Assert.That(this.gameState.LastSaveTime, Is.GreaterThan(initialTime), "Last save time should be updated");
     }
 
+    /// <summary>
+    /// Tests that loading a game restores Dreamweaver scores.
+    /// </summary>
     [Test]
     public void TestLoadGameRestoresDreamweaverScores()
     {
@@ -209,20 +242,23 @@ public class SaveLoadTests : IDisposable
         loadedGameState.LoadGame();
 
         // Assert
-        Assert.AreEqual(
+        Assert.That(
             this.gameState.DreamweaverScores[DreamweaverType.Light],
-            loadedGameState.DreamweaverScores[DreamweaverType.Light],
+            Is.EqualTo(loadedGameState.DreamweaverScores[DreamweaverType.Light]),
             "Light dreamweaver score should be preserved");
-        Assert.AreEqual(
+        Assert.That(
             this.gameState.DreamweaverScores[DreamweaverType.Mischief],
-            loadedGameState.DreamweaverScores[DreamweaverType.Mischief],
+            Is.EqualTo(loadedGameState.DreamweaverScores[DreamweaverType.Mischief]),
             "Mischief dreamweaver score should be preserved");
-        Assert.AreEqual(
+        Assert.That(
             this.gameState.DreamweaverScores[DreamweaverType.Wrath],
-            loadedGameState.DreamweaverScores[DreamweaverType.Wrath],
+            Is.EqualTo(loadedGameState.DreamweaverScores[DreamweaverType.Wrath]),
             "Wrath dreamweaver score should be preserved");
     }
 
+    /// <summary>
+    /// Tests that loading a game restores scene data.
+    /// </summary>
     [Test]
     public void TestLoadGameRestoresSceneData()
     {
@@ -240,13 +276,14 @@ public class SaveLoadTests : IDisposable
         loadedGameState.LoadGame();
 
         // Assert
-        Assert.AreEqual(this.gameState.SceneData["progress"], loadedGameState.SceneData["progress"], "Scene progress should be preserved");
-        Assert.AreEqual(this.gameState.SceneData["completed_rooms"], loadedGameState.SceneData["completed_rooms"], "Completed rooms should be preserved");
+        Assert.That(this.gameState.SceneData["progress"], Is.EqualTo(loadedGameState.SceneData["progress"]), "Scene progress should be preserved");
+        Assert.That(this.gameState.SceneData["completed_rooms"], Is.EqualTo(loadedGameState.SceneData["completed_rooms"]), "Completed rooms should be preserved");
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        throw new NotImplementedException();
+        // Cleanup code if needed
     }
+}
 }

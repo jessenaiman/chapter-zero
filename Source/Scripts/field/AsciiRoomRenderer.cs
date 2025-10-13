@@ -41,7 +41,7 @@ public partial class AsciiRoomRenderer : Node2D
         this.RenderDungeon();
     }
 
-     /// <inheritdoc/>
+    /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
         if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)

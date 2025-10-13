@@ -16,9 +16,9 @@ public partial class UIMenuCursor : Marker2D
     private const float SlideTime = 0.1f;
 
     // The tween used to move the cursor between menu entries.
-    private Tween slideTween;
+    private Tween? slideTween;
 
-    private AnimationPlayer anim;
+    private AnimationPlayer? anim;
 
     /// <inheritdoc/>
     public override void _Ready()

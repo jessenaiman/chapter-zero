@@ -1,18 +1,7 @@
-// <copyright file="BattlerAnim.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+// Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using Godot;
-
-/// <summary>
-/// Determines which direction a battler faces on the screen.
-/// </summary>
-public enum BattlerDirection
-{
-    Left,
-    Right,
-}
 
 /// <summary>
 /// The visual representation of a <see cref="Battler"/>.
@@ -30,6 +19,14 @@ public partial class BattlerAnim : Marker2D
     /// Dictates how far the battler moves forwards and backwards at the beginning/end of its turn.
     /// </summary>
     private const float MoveOffset = 40.0f;
+
+    // Private fields
+    private BattlerDirection direction = BattlerDirection.Right;
+    private Tween? moveTween;
+    private Vector2 restPosition = Vector2.Zero;
+    private Marker2D? front;
+    private Marker2D? top;
+    private AnimationPlayer? anim;
 
     /// <summary>
     /// Emitted whenever an action-based animation wants to apply an effect. May be triggered multiple
@@ -49,8 +46,6 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     [Export]
     public Texture2D? BattlerIcon { get; set; }
-
-    private BattlerDirection direction = BattlerDirection.Right;
 
     /// <summary>
     /// Gets or sets determines which direction the <see cref="BattlerAnim"/> faces. This is generally set by whichever "side"
@@ -79,13 +74,6 @@ public partial class BattlerAnim : Marker2D
     [Export]
     public float SelectMoveTime { get; set; } = 0.3f;
 
-    private Tween? moveTween;
-    private Vector2 restPosition = Vector2.Zero;
-
-    private Marker2D? front;
-    private Marker2D? top;
-    private AnimationPlayer? anim;
-
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -102,10 +90,17 @@ public partial class BattlerAnim : Marker2D
     }
 
     /// <summary>
-    /// Setup the BattlerAnim object to respond to gameplay signals from a <see cref="Battler"/> class.
+    /// Setup the BattlerAnim object to respond to gameplay signals from a <see cref="Battler"/> instance.
     /// </summary>
+    /// <param name="battler">The battler to associate with this animation.</param>
+    /// <param name="facing">The initial direction the battler is facing.</param>
     public void Setup(Battler battler, BattlerDirection facing)
     {
+        if (battler == null)
+        {
+            throw new ArgumentNullException(nameof(battler));
+        }
+
         // BattlerAnim objects are assigned in-editor and created dynamically both in-game and in-editor.
         // We do not want the BattlerAnim objects to be saved with the CombatArena scenes, since they are
         // instantiated at runtime, so they should not be assigned an owner when in the editor.
@@ -146,26 +141,6 @@ public partial class BattlerAnim : Marker2D
                 this.MoveToRest(this.SelectMoveTime);
             }
         };
-    }
-
-    /// <summary>
-    /// A function that wraps around the animation players' `play()` function, delegating the work to the
-    /// `AnimationPlayerDamage` node when necessary.
-    /// </summary>
-    public void Play(string animName)
-    {
-        System.Diagnostics.Debug.Assert(this.anim != null && this.anim.HasAnimation(animName), $"Battler animation '{this.Name}' does not have animation '{animName}'!");
-
-        this.anim.Play(animName);
-    }
-
-    /// <summary>
-    /// Returns true if an animation is currently playing, otherwise returns false.
-    /// </summary>
-    /// <returns></returns>
-    public bool IsPlaying()
-    {
-        return this.anim != null && this.anim.IsPlaying();
     }
 
     /// <summary>

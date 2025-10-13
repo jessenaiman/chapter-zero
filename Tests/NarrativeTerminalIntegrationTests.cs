@@ -8,13 +8,27 @@ namespace OmegaSpiral.Tests
     using Godot;
     using NUnit.Framework;
     using OmegaSpiral.Source.Scripts;
+    using OmegaSpiral.Source.Scripts.Common;
 
+    /// <summary>
+    /// Integration tests for the narrative terminal functionality, testing the interaction between narrative choices and game state updates.
+    /// </summary>
     [TestFixture]
     public class NarrativeTerminalIntegrationTests : IDisposable
     {
         private GameState gameState = new ();
         private NarrativeTerminal narrativeTerminal = new ();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NarrativeTerminalIntegrationTests"/> class.
+        /// </summary>
+        public NarrativeTerminalIntegrationTests()
+        {
+        }
+
+        /// <summary>
+        /// Sets up the test environment before each test method.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -25,6 +39,9 @@ namespace OmegaSpiral.Tests
             // For now, we'll test the logic independently
         }
 
+        /// <summary>
+        /// Tests that processing a hero dreamweaver choice correctly updates the game state.
+        /// </summary>
         [Test]
         public void ProcessDreamweaverChoice_HeroChoice_UpdatesGameStateCorrectly()
         {
@@ -34,13 +51,10 @@ namespace OmegaSpiral.Tests
                 Id = "hero_choice",
                 Text = "The path of light",
                 Thread = DreamweaverThread.Hero,
-                AlignmentBonus = new Dictionary<DreamweaverType, int>
-                {
-                    [DreamweaverType.Light] = 2,
-                    [DreamweaverType.Mischief] = 0,
-                    [DreamweaverType.Wrath] = 0,
-                },
             };
+            choice.AlignmentBonus.Add(DreamweaverType.Light, 2);
+            choice.AlignmentBonus.Add(DreamweaverType.Mischief, 0);
+            choice.AlignmentBonus.Add(DreamweaverType.Wrath, 0);
 
             // Act
             this.gameState.DreamweaverThread = choice.Thread;
@@ -56,8 +70,11 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that processing a shadow dreamweaver choice correctly updates the game state.
+        /// </summary>
         [Test]
-        public void ProcessDreamweaverChoice_ShadowChoice_UpdatesGameStateCorrectly()
+        public void ProcessDreamweaverChoiceShadowChoiceUpdatesGameStateCorrectly()
         {
             // Arrange
             var choice = new DreamweaverChoice
@@ -65,13 +82,10 @@ namespace OmegaSpiral.Tests
                 Id = "shadow_choice",
                 Text = "The path of wrath",
                 Thread = DreamweaverThread.Shadow,
-                AlignmentBonus = new Dictionary<DreamweaverType, int>
-                {
-                    [DreamweaverType.Light] = 0,
-                    [DreamweaverType.Mischief] = 0,
-                    [DreamweaverType.Wrath] = 2,
-                },
             };
+            choice.AlignmentBonus.Add(DreamweaverType.Light, 0);
+            choice.AlignmentBonus.Add(DreamweaverType.Mischief, 0);
+            choice.AlignmentBonus.Add(DreamweaverType.Wrath, 2);
 
             // Act
             this.gameState.DreamweaverThread = choice.Thread;
@@ -87,6 +101,9 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(2));
         }
 
+        /// <summary>
+        /// Tests that processing an ambition dreamweaver choice correctly updates the game state.
+        /// </summary>
         [Test]
         public void ProcessDreamweaverChoice_AmbitionChoice_UpdatesGameStateCorrectly()
         {
@@ -96,13 +113,10 @@ namespace OmegaSpiral.Tests
                 Id = "ambition_choice",
                 Text = "The path of mischief",
                 Thread = DreamweaverThread.Ambition,
-                AlignmentBonus = new Dictionary<DreamweaverType, int>
-                {
-                    [DreamweaverType.Light] = 0,
-                    [DreamweaverType.Mischief] = 2,
-                    [DreamweaverType.Wrath] = 0,
-                },
             };
+            choice.AlignmentBonus.Add(DreamweaverType.Light, 0);
+            choice.AlignmentBonus.Add(DreamweaverType.Mischief, 2);
+            choice.AlignmentBonus.Add(DreamweaverType.Wrath, 0);
 
             // Act
             this.gameState.DreamweaverThread = choice.Thread;
@@ -118,6 +132,9 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that providing a valid player name correctly updates the game state.
+        /// </summary>
         [Test]
         public void PlayerNameInput_ValidName_UpdatesGameState()
         {
@@ -131,6 +148,9 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.PlayerName, Is.EqualTo(playerName));
         }
 
+        /// <summary>
+        /// Tests that scene progression correctly increments the current scene after a choice.
+        /// </summary>
         [Test]
         public void SceneProgression_AfterChoice_IncrementsScene()
         {
@@ -144,29 +164,22 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.CurrentScene, Is.EqualTo(initialScene + 1));
         }
 
+        /// <summary>
+        /// Tests that dreamweaver scoring correctly accumulates values from multiple choices.
+        /// </summary>
         [Test]
         public void DreamweaverScoring_MultipleChoices_AccumulatesCorrectly()
         {
             // Arrange
-            var choice1 = new DreamweaverChoice
-            {
-                AlignmentBonus = new Dictionary<DreamweaverType, int>
-                {
-                    [DreamweaverType.Light] = 1,
-                    [DreamweaverType.Mischief] = 0,
-                    [DreamweaverType.Wrath] = 0,
-                },
-            };
+            var choice1 = new DreamweaverChoice();
+            choice1.AlignmentBonus.Add(DreamweaverType.Light, 1);
+            choice1.AlignmentBonus.Add(DreamweaverType.Mischief, 0);
+            choice1.AlignmentBonus.Add(DreamweaverType.Wrath, 0);
 
-            var choice2 = new DreamweaverChoice
-            {
-                AlignmentBonus = new Dictionary<DreamweaverType, int>
-                {
-                    [DreamweaverType.Light] = 1,
-                    [DreamweaverType.Mischief] = 1,
-                    [DreamweaverType.Wrath] = 0,
-                },
-            };
+            var choice2 = new DreamweaverChoice();
+            choice2.AlignmentBonus.Add(DreamweaverType.Light, 1);
+            choice2.AlignmentBonus.Add(DreamweaverType.Mischief, 1);
+            choice2.AlignmentBonus.Add(DreamweaverType.Wrath, 0);
 
             // Act
             foreach (var bonus in choice1.AlignmentBonus)
@@ -185,10 +198,13 @@ namespace OmegaSpiral.Tests
             Assert.That(this.gameState.DreamweaverScores[DreamweaverType.Wrath], Is.EqualTo(0));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Disposes of the test resources.
+        /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            // Dispose of managed resources if any
+            // In this test class, there are no managed resources to dispose
         }
     }
 }

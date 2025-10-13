@@ -48,7 +48,7 @@ public partial class UIBattlerIcon : TextureRect
         }
     }
 
-    private Texture2D iconTexture;
+    private Texture2D? iconTexture;
 
     /// <summary>
     /// Gets or sets the icon texture to display.
@@ -97,8 +97,8 @@ public partial class UIBattlerIcon : TextureRect
         }
     }
 
-    private AnimationPlayer anim;
-    private TextureRect icon;
+    private AnimationPlayer? anim;
+    private TextureRect? icon;
 
     /// <inheritdoc/>
     public override void _Ready()

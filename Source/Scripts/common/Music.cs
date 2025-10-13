@@ -19,7 +19,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Gets singleton instance of Music.
         /// </summary>
-        public static Music Instance { get; private set; }
+        public static Music? Instance { get; private set; }
 
         /// <summary>
         /// Gets or sets the default bus name for music playback.
@@ -54,17 +54,17 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// The currently playing audio stream player.
         /// </summary>
-        private AudioStreamPlayer currentMusicPlayer;
+        private AudioStreamPlayer? currentMusicPlayer;
 
         /// <summary>
         /// The next audio stream player for crossfading.
         /// </summary>
-        private AudioStreamPlayer nextMusicPlayer;
+        private AudioStreamPlayer? nextMusicPlayer;
 
         /// <summary>
         /// The audio stream player for sound effects.
         /// </summary>
-        private AudioStreamPlayer sfxPlayer;
+        private AudioStreamPlayer? sfxPlayer;
 
         /// <summary>
         /// The history of played music tracks.
@@ -74,7 +74,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Timer for crossfade operations.
         /// </summary>
-        private Godot.Timer crossfadeTimer;
+        private Godot.Timer? crossfadeTimer;
 
         /// <summary>
         /// Called when the node enters the scene tree for the first time.

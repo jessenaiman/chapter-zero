@@ -11,7 +11,7 @@ using Godot;
 [GlobalClass]
 public partial class PlayerPathDestinationMarker : Sprite2D
 {
-    private Gamepiece trackedGamepiece;
+    private Gamepiece? trackedGamepiece;
 
     /// <inheritdoc/>
     public override void _Ready()

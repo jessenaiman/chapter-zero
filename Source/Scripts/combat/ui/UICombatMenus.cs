@@ -28,24 +28,24 @@ public partial class UICombatMenus : Control
     /// Gets or sets the action menu scene that will be created whenever the player needs to select an action.
     /// </summary>
     [Export]
-    public PackedScene ActionMenuScene { get; set; }
+    public PackedScene? ActionMenuScene { get; set; }
 
     /// <summary>
     /// Gets or sets the targeting cursor scene that will be created whenever the player needs to choose targets.
     /// </summary>
     [Export]
-    public PackedScene TargetCursorScene { get; set; }
+    public PackedScene? TargetCursorScene { get; set; }
 
     // The action menu/targeting cursor are created/freed dynamically. We'll track the combat participant
     // data so that it can be fed into the action menu and targeting cursor on creation.
-    private BattlerList battlers;
+    private BattlerList? battlers;
 
     // The UI is responsible for relaying player input to the combat systems. In this case, we want to
     // track which battler and action are currently selected, so that we may queue orders for player
     // battlers once the player has selected an action and targets.
     // One caveat is that the selected battler may die while the player is setting up an action, in which
     // case we want the menus to close immediately.
-    private Battler selectedBattler;
+    private Battler? selectedBattler;
 
     public Battler SelectedBattler
     {
@@ -62,15 +62,15 @@ public partial class UICombatMenus : Control
 
     // Keep track of which action the player is currently building. This is relevant whenever the player
     // is choosing targets.
-    private BattlerAction selectedAction;
+    private BattlerAction? selectedAction;
 
     // Keep reference to the active targeting cursor. If no cursor is active, the value is null.
     // This allows the cursor targets to be updated in real-time as Battler states change.
-    private UIBattlerTargetingCursor cursor;
+    private UIBattlerTargetingCursor? cursor;
 
-    private UIActionDescription actionDescription;
-    private Control actionMenuAnchor;
-    private UIPlayerBattlerList battlerList;
+    private UIActionDescription? actionDescription;
+    private Control? actionMenuAnchor;
+    private UIPlayerBattlerList? battlerList;
 
     /// <inheritdoc/>
     public override void _Ready()

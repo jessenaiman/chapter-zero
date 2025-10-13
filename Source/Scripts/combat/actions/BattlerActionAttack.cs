@@ -32,7 +32,6 @@ public partial class AttackBattlerAction : BattlerAction
     /// <param name="source">The battler performing the attack.</param>
     /// <param name="targets">The targets of the attack.</param>
     /// <returns>A task representing the asynchronous attack execution.</returns>
-
     /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {

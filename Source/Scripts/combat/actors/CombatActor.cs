@@ -25,16 +25,16 @@ using Godot;
 public abstract partial class CombatActor : Node2D
 {
     /// <summary>
+    /// The name of the node group that will contain all combat Actors.
+    /// </summary>
+    public const string Group = "combat_actors";
+
+    /// <summary>
     /// Emitted whenever the actor's turn is finished. You should emit this only
     /// after all actions and animations are complete.
     /// </summary>
     [Signal]
     public delegate void TurnFinishedEventHandler();
-
-    /// <summary>
-    /// The name of the node group that will contain all combat Actors.
-    /// </summary>
-    public const string Group = "combat_actors";
 
     /// <summary>
     /// Gets or sets influences when this actor takes their turn in combat. This is a speed rating:
@@ -62,8 +62,24 @@ public abstract partial class CombatActor : Node2D
     /// </summary>
     public bool HasActedThisRound { get; set; }
 
+    /// <summary>
+    /// Compares two combat actors by their initiative values for sorting purposes.
+    /// </summary>
+    /// <param name="a">The first combat actor to compare.</param>
+    /// <param name="b">The second combat actor to compare.</param>
+    /// <returns><see langword="true"/> if actor a has higher initiative than actor b; otherwise, <see langword="false"/>.</returns>
     public static bool Sort(CombatActor a, CombatActor b)
     {
+        if (a == null)
+        {
+            throw new ArgumentNullException(nameof(a));
+        }
+
+        if (b == null)
+        {
+            throw new ArgumentNullException(nameof(b));
+        }
+
         return a.Initiative > b.Initiative;
     }
 
@@ -89,11 +105,18 @@ public abstract partial class CombatActor : Node2D
         return msg;
     }
 
+    /// <summary>
+    /// Performs a melee attack action.
+    /// </summary>
     public virtual void MeleeAttack()
     {
         GD.Print("Attack!");
     }
 
+    /// <summary>
+    /// Starts the actor's turn asynchronously.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public virtual async Task StartTurnAsync()
     {
         GD.Print(this.GetParent().Name, " starts their turn!");

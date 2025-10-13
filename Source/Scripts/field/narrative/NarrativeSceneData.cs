@@ -22,7 +22,7 @@ public partial class NarrativeSceneData
     /// Gets or sets the introductory text lines displayed at the start of the scene.
     /// Sets the narrative context before player choices begin.
     /// </summary>
-    public List<string> OpeningLines { get; set; } = new ();
+    public List<string> OpeningLines { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the initial choice presented to the player.
@@ -34,7 +34,7 @@ public partial class NarrativeSceneData
     /// Gets or sets the collection of story blocks that make up the narrative.
     /// Each block represents a segment of story with choices and progression.
     /// </summary>
-    public List<StoryBlock> StoryBlocks { get; set; } = new ();
+    public List<StoryBlock> StoryBlocks { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the prompt asking for the player's name.
@@ -72,7 +72,7 @@ public partial class NarrativeChoice
     /// Gets or sets the collection of Dreamweaver-aligned choice options.
     /// Each option represents a different Dreamweaver perspective on the situation.
     /// </summary>
-    public List<DreamweaverChoice> Options { get; set; } = new ();
+    public List<DreamweaverChoice> Options { get; set; } = new();
 }
 
 /// <summary>
@@ -86,7 +86,7 @@ public partial class StoryBlock
     /// Gets or sets the collection of text paragraphs that make up this story block.
     /// Each paragraph is displayed sequentially with typewriter effects.
     /// </summary>
-    public List<string> Paragraphs { get; set; } = new ();
+    public List<string> Paragraphs { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the question or prompt presented after the story text.
@@ -98,7 +98,7 @@ public partial class StoryBlock
     /// Gets or sets the collection of choice options available after this story block.
     /// Each option leads to a different story path or outcome.
     /// </summary>
-    public List<ChoiceOption> Choices { get; set; } = new ();
+    public List<ChoiceOption> Choices { get; set; } = new();
 }
 
 /// <summary>
@@ -150,5 +150,5 @@ public partial class SecretQuestion
     /// Gets the collection of possible answers to the secret question.
     /// Each answer corresponds to a different Dreamweaver alignment.
     /// </summary>
-    public List<string> Options { get; init; } = new ();
+    public List<string> Options { get; init; } = new();
 }

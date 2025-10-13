@@ -28,7 +28,6 @@
       ],
       "alwaysAllow": [
         "get_debug_output",
-        "run_project",
         "get_godot_version",
         "get_project_info",
         "stop_project",

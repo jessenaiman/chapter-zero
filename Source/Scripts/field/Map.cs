@@ -13,7 +13,7 @@ using Godot;
 [Tool]
 public partial class Map : Node2D
 {
-    private GameboardProperties gameboardProperties;
+    private GameboardProperties? gameboardProperties;
 
     /// <summary>
     /// Gets or sets the map defines the properties of the playable grid, which will be applied on _ready to the

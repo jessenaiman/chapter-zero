@@ -28,7 +28,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// In either case, the cursor will call QueueFree() after emitting this signal.
     /// </summary>
     [Signal]
-    public delegate void TargetsSelectedEventHandler(Godot.Collections.Array<Battler> selection);
+    public delegate void TargetsSelectedEventHandler(Godot.Collections.Array selection);
 
     /// <summary>
     /// Gets or sets a value indicating whether whether the selected action should target all <see cref="Targets"/>, or only one from the array.
@@ -109,7 +109,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     }
 
     // One of the entries specified by _targets, at which the cursor is located.
-    private Battler currentTarget;
+    private Battler? currentTarget;
 
     public Battler CurrentTarget
     {
@@ -130,7 +130,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     }
 
     // The primary cursor instance, which is moved from target to target whenever TargetsAll is false.
-    private UIMenuCursor cursor;
+    private UIMenuCursor? cursor;
 
     // Secondary cursors, which are created whenever TargetsAll is true.
     // They are children of the UIBattlerTargetingCursor. Dictionary keys are a Battler instance that

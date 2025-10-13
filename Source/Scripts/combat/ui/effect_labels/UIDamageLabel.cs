@@ -89,9 +89,9 @@ public partial class UIDamageLabel : Marker2D
         }
     }
 
-    private Tween tween;
+    private Tween? tween;
 
-    private Label label;
+    private Label? label;
 
     /// <inheritdoc/>
     public override void _Ready()

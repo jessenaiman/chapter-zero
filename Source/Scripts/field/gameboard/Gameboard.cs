@@ -53,7 +53,7 @@ public partial class Gameboard : Node
     /// </summary>
     public GameboardProperties Properties
     {
-        get => this.properties;
+        get => this.properties ?? throw new InvalidOperationException("Properties not initialized");
         set
         {
             if (value != this.properties)
@@ -87,6 +87,7 @@ public partial class Gameboard : Node
         {
             return Vector2.Zero;
         }
+
         return new Vector2(cellCoordinates.X * this.Properties.CellSize.X, cellCoordinates.Y * this.Properties.CellSize.Y) + this.Properties.HalfCellSize;
     }
 
@@ -101,6 +102,7 @@ public partial class Gameboard : Node
         {
             return Vector2I.Zero;
         }
+
         return new Vector2I(
             Mathf.FloorToInt(pixelCoordinates.X / this.Properties.CellSize.X),
             Mathf.FloorToInt(pixelCoordinates.Y / this.Properties.CellSize.Y));
@@ -117,6 +119,7 @@ public partial class Gameboard : Node
         {
             throw new ArgumentNullException(nameof(node));
         }
+
         return this.PixelToCell(node.GlobalPosition / node.GlobalScale);
     }
 
@@ -215,13 +218,13 @@ public partial class Gameboard : Node
     /// </summary>
     /// <param name="addedCells">Cells added to the pathfinder.</param>
     /// <param name="removedCells">Cells removed from the pathfinder.</param>
-    private void OnGameboardLayerCellsChanged(Godot.Collections.Array<Vector2I> addedCells, Godot.Collections.Array<Vector2I> removedCells)
+    private void OnGameboardLayerCellsChanged(Godot.Collections.Array addedCells, Godot.Collections.Array removedCells)
     {
         // Convert Godot arrays to dictionaries for internal processing
         var addedCellsDict = new Dictionary<int, Vector2I>();
         for (int i = 0; i < addedCells.Count; i++)
         {
-            var cell = addedCells[i];
+            var cell = (Vector2I)addedCells[i];
             addedCellsDict[this.CellToIndex(cell)] = cell;
         }
 
@@ -261,7 +264,6 @@ public partial class Gameboard : Node
                 }
             }
         }
-
 
         return addedCells;
     }
@@ -308,6 +310,8 @@ public partial class Gameboard : Node
                         this.PathFinder.ConnectPoints(uid, neighborId);
                     }
                 }
+
+                // Flag the cell as disabled if it is occupied.
                 if (GamepieceRegistry.Instance?.GetGamepiece(addedCells[uid]) != null)
                 {
                     this.PathFinder.SetPointDisabled(uid);

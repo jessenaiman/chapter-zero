@@ -1,6 +1,4 @@
-// <copyright file="UICombatHud.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+// Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -25,7 +23,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Gets the list of combat participants.
     /// </summary>
-    public BattlerList Battlers { get; private set; }
+    public BattlerList? Battlers { get; private set; }
 
     /// <summary>
     /// Gets or sets the currently selected battler.
@@ -55,17 +53,17 @@ public partial class UICombatHud : Control
     /// <summary>
     /// The container for player battler displays.
     /// </summary>
-    private Control playerBattlersContainer;
+    private Control? playerBattlersContainer;
 
     /// <summary>
     /// The container for enemy battler displays.
     /// </summary>
-    private Control enemyBattlersContainer;
+    private Control? enemyBattlersContainer;
 
     /// <summary>
     /// The detailed battler info panel.
     /// </summary>
-    private Control battlerInfoPanel;
+    private Control? battlerInfoPanel;
 
     /// <summary>
     /// Dictionary mapping battlers to their UI displays.
@@ -75,7 +73,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// The currently selected battler.
     /// </summary>
-    private Battler selectedBattler;
+    private Battler? selectedBattler;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -423,6 +421,7 @@ public partial class UICombatHud : Control
         this.UpdateAllDisplays();
     }
 
+
     /// <summary>
     /// Show a message in the HUD.
     /// </summary>
@@ -430,6 +429,7 @@ public partial class UICombatHud : Control
     /// <param name="duration">The duration to show the message for.</param>
     public async void ShowMessage(string message, float duration = 2.0f)
     {
+#pragma warning disable CA1801 // Parameter is never used
         // Show a temporary message in the HUD
         // This would typically involve showing a label or panel with the message
 
@@ -439,10 +439,11 @@ public partial class UICombatHud : Control
         // messageLabel.Show();
 
         // Wait for the specified duration
-        await ToSignal(this.GetTree().CreateTimer(duration), Timer.SignalName.Timeout);
+        await this.ToSignal(this.GetTree().CreateTimer(duration), Godot.Timer.SignalName.Timeout);
 
         // Hide the message
         // messageLabel.Hide();
+#pragma warning restore CA1801 // Parameter is never used
     }
 
     /// <summary>
@@ -453,6 +454,7 @@ public partial class UICombatHud : Control
     /// <param name="color">The color of the text.</param>
     public static void ShowEffectLabel(string text, Vector2 position, Color color)
     {
+#pragma warning disable CA1801 // Parameters are never used
         // Show a floating label at the specified position
         // This would typically involve creating a temporary label that floats upward and fades out
 
@@ -468,6 +470,7 @@ public partial class UICombatHud : Control
         // tween.TweenProperty(label, "position:y", position.Y - 50, 1.0f);
         // tween.Parallel().TweenProperty(label, "modulate:a", 0.0f, 1.0f);
         // tween.TweenCallback(new Callable(label, "queue_free"));
+#pragma warning restore CA1801 // Parameters are never used
     }
 
     /// <summary>
@@ -476,6 +479,7 @@ public partial class UICombatHud : Control
     /// <param name="turnOrder">The current turn order.</param>
     public static void UpdateTurnOrder(List<Battler> turnOrder)
     {
+#pragma warning disable CA1801 // Parameter is never used
         // Update the display showing the turn order
         // This would typically involve updating icons or names showing who is next to act
 
@@ -485,12 +489,12 @@ public partial class UICombatHud : Control
         // {
         //     child.QueueFree();
         // }
-
-        // foreach (var battler in turnOrder.Take(5)) // Show next 5 battlers
+        // foreach (var battler in turnOrder)
         // {
         //     var icon = new TextureRect();
-        //     // Set icon texture based on battler
+        //     icon.Texture = battler.Icon;
         //     turnOrderContainer.AddChild(icon);
         // }
+#pragma warning restore CA1801 // Parameter is never used
     }
 }

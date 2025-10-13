@@ -15,7 +15,7 @@ using Godot;
 /// </summary>
 public partial class FieldCamera : Camera2D
 {
-    private GameboardProperties gameboardProperties;
+    private GameboardProperties? gameboardProperties;
 
     /// <summary>
     /// Gets or sets the gameboard properties that define the boundaries for the camera.
@@ -31,7 +31,7 @@ public partial class FieldCamera : Camera2D
         }
     }
 
-    private Gamepiece gamepiece;
+    private Gamepiece? gamepiece;
 
     /// <summary>
     /// Gets or sets the gamepiece that the camera will follow.

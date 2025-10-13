@@ -27,6 +27,41 @@ NarratorEngine="*res://Source/Scripts/field/narrative/NarratorEngine.cs"
 DreamweaverSystem="*res://Source/Scripts/field/narrative/DreamweaverSystem.cs"
 Dialogic="*res://addons/dialogic/plugin.gd"
 
+[dialogic]
+
+directories/dch_directory={
+"enemy_ghost": "res://Source/overworld/maps/town/enemy_ghost.dch",
+"fan_of_four": "res://Source/overworld/maps/town/fan_of_four.dch",
+"ghost": "res://Source/overworld/maps/forest/ghost.dch",
+"monk": "res://Source/overworld/maps/town/monk.dch",
+"runner": "res://Source/overworld/maps/town/runner.dch",
+"smith": "res://Source/overworld/maps/town/smith.dch",
+"thief": "res://Source/overworld/maps/town/thief.dch",
+"unit_test_character": "res://addons/dialogic-2.0-alpha-18/Tests/Resources/unit_test_character.dch",
+"warrior": "res://Source/overworld/maps/town/warrior.dch",
+"wizard": "res://Source/overworld/maps/town/wizard.dch"
+}
+directories/dtl_directory={
+"encounter_before_combat": "res://Source/overworld/maps/town/encounter_before_combat.dtl",
+"encounter_on_loss": "res://Source/overworld/maps/town/encounter_on_loss.dtl",
+"encounter_on_victory": "res://Source/overworld/maps/town/encounter_on_victory.dtl",
+"fan_of_four": "res://Source/overworld/maps/town/fan_of_four.dtl",
+"ghost": "res://Source/overworld/maps/forest/ghost.dtl",
+"monk": "res://Source/overworld/maps/town/monk.dtl",
+"opening_cutscene": "res://Source/overworld/maps/opening_cutscene.dtl",
+"opening_scene": "res://Source/Data/scenes/scene1_narrative/opening_scene.dtl",
+"runner": "res://Source/overworld/maps/town/runner.dtl",
+"sign": "res://Source/overworld/maps/town/sign.dtl",
+"smith": "res://Source/overworld/maps/town/smith.dtl",
+"strange_tree": "res://Source/overworld/maps/town/strange_tree.dtl",
+"thief": "res://Source/overworld/maps/town/thief.dtl",
+"wand_pedestal": "res://Source/overworld/maps/house/wand_pedestal.dtl",
+"wand_pedestal_occupied": "res://Source/overworld/maps/house/wand_pedestal_occupied.dtl",
+"warrior": "res://Source/overworld/maps/town/warrior.dtl",
+"wizard": "res://Source/overworld/maps/town/wizard.dtl"
+}
+layout/style_directory={}
+
 [display]
 
 window/size/viewport_width=1024
@@ -46,7 +81,6 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 [gui]
 
 theme/custom="res://theme.tres"
-
 
 [rendering]
 

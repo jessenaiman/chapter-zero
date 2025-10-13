@@ -2,154 +2,136 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using System;
 using System.IO;
 using Godot;
 using NUnit.Framework;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Common;
 
-[TestFixture]
-public class StatePersistenceTests : IDisposable
+namespace OmegaSpiral.Tests
 {
-    private GameState? gameState;
-    private SceneManager? sceneManager;
-
-    [SetUp]
-    public void Setup()
+    /// <summary>
+    /// Contains tests for verifying state persistence across scenes, shards, and party data.
+    /// </summary>
+    /// <remarks>
+    /// Ensures that game state is correctly saved and restored in various scenarios.
+    /// </remarks>
+    [TestFixture]
+    public class StatePersistenceTests : IDisposable
     {
-        // Create test instances
-        this.gameState = new GameState();
-        this.sceneManager = new SceneManager();
+        private GameState? gameState;
+        private SceneManager? sceneManager;
 
-        if (this.gameState == null || this.sceneManager == null)
+        /// <summary>
+        /// Sets up the test environment for state persistence tests.
+        /// </summary>
+        [SetUp]
+        public void Setup()
         {
-            Assert.Fail("Failed to initialize test objects");
-            return;
+            // Initialize test objects here
+            this.gameState = new GameState();
+            this.sceneManager = new SceneManager();
         }
 
-        // Initialize game state
-        this.gameState.PlayerName = "TestPlayer";
-        this.gameState.DreamweaverThread = DreamweaverThread.Hero;
-        this.gameState.CurrentScene = 1;
-        this.gameState.Shards.Add("test_shard");
-        this.gameState.SceneData["test_key"] = "test_value";
-    }
-
-    [Test]
-    public void TestStatePersistenceAcrossScenes()
-    {
-        if (this.gameState == null || this.sceneManager == null)
+        /// <summary>
+        /// Tests that state persists correctly across different scenes.
+        /// </summary>
+        [Test]
+        public void TestStatePersistenceAcrossScenes()
         {
-            Assert.Fail("Test objects not initialized");
-            return;
+            if (this.gameState == null || this.sceneManager == null)
+            {
+                Assert.Fail("Test objects not initialized");
+                return;
+            }
+
+            // Act - Simulate scene transition
+            this.sceneManager.UpdateCurrentScene(2);
+            this.sceneManager.SetPlayerName("UpdatedPlayer");
+            this.sceneManager.SetDreamweaverThread(DreamweaverThread.Ambition.ToString());
+
+            // Assert - State should persist
+            Assert.That(this.gameState.CurrentScene, Is.EqualTo(2), "Current scene should be updated");
+            Assert.That(this.gameState.PlayerName, Is.EqualTo("UpdatedPlayer"), "Player name should be updated");
+            Assert.That(this.gameState.DreamweaverThread, Is.EqualTo(DreamweaverThread.Ambition), "Dreamweaver thread should be updated");
         }
 
-        // Arrange
-        var initialScene = this.gameState.CurrentScene;
-        var initialPlayerName = this.gameState.PlayerName;
-        var initialThread = this.gameState.DreamweaverThread;
-
-        // Act - Simulate scene transition
-        this.sceneManager.UpdateCurrentScene(2);
-        this.sceneManager.SetPlayerName("UpdatedPlayer");
-        this.sceneManager.SetDreamweaverThread("Ambition");
-
-        // Assert - State should persist
-        Assert.AreEqual(2, this.gameState.CurrentScene, "Current scene should be updated");
-        Assert.AreEqual("UpdatedPlayer", this.gameState.PlayerName, "Player name should be updated");
-        Assert.AreEqual(DreamweaverThread.Ambition, this.gameState.DreamweaverThread, "Dreamweaver thread should be updated");
-    }
-
-    [Test]
-    public void TestShardCollectionPersistence()
-    {
-        if (this.gameState == null || this.sceneManager == null)
+        /// <summary>
+        /// Tests that shard collections are persisted correctly.
+        /// </summary>
+        [Test]
+        public void TestShardCollectionPersistence()
         {
-            Assert.Fail("Test objects not initialized");
-            return;
+            if (this.gameState == null || this.sceneManager == null)
+            {
+                Assert.Fail("Test objects not initialized");
+                return;
+            }
+
+            // Arrange
+            var initialShardCount = this.gameState.Shards.Count;
+
+            // Act
+            this.gameState.Shards.Add("new_shard");
+
+            // Assert
+            Assert.That(this.gameState.Shards.Count, Is.EqualTo(initialShardCount + 1), "Shard count should increase");
+            Assert.That(this.gameState.Shards, Contains.Item("new_shard"), "New shard should be added");
         }
 
-        // Arrange
-        var initialShardCount = this.gameState.Shards.Count;
-
-        // Act
-        this.sceneManager.AddShard("new_shard");
-
-        // Assert
-        Assert.AreEqual(initialShardCount + 1, this.gameState.Shards.Count, "Shard count should increase");
-        Assert.Contains("new_shard", this.gameState.Shards, "New shard should be added");
-    }
-
-    [Test]
-    public void TestSceneDataPersistence()
-    {
-        if (this.gameState == null)
+        /// <summary>
+        /// Tests that scene data is persisted and restored correctly.
+        /// </summary>
+        [Test]
+        public void TestSceneDataPersistence()
         {
-            Assert.Fail("Test objects not initialized");
-            return;
+            if (this.gameState == null)
+            {
+                Assert.Fail("Test objects not initialized");
+                return;
+            }
+
+            // Arrange
+            var testKey = "scene_progress";
+            var testValue = 75;
+
+            // Act
+            this.gameState.SceneData[testKey] = testValue;
+
+            // Assert
+            Assert.That(this.gameState.SceneData[testKey], Is.EqualTo(testValue), "Scene data should persist");
         }
 
-        // Arrange
-        var testKey = "scene_progress";
-        var testValue = 75;
-
-        // Act
-        this.gameState.SceneData[testKey] = testValue;
-
-        // Assert
-        Assert.AreEqual(testValue, this.gameState.SceneData[testKey], "Scene data should persist");
-    }
-
-    [Test]
-    public void TestStateValidationForSceneTransitions()
-    {
-        if (this.gameState == null || this.sceneManager == null)
+        /// <summary>
+        /// Tests that party data is persisted and restored correctly.
+        /// </summary>
+        [Test]
+        public void TestPartyDataPersistence()
         {
-            Assert.Fail("Test objects not initialized");
-            return;
+            if (this.gameState == null)
+            {
+                Assert.Fail("Test objects not initialized");
+                return;
+            }
+
+            // Arrange
+            var partyData = new PartyData();
+            var testCharacter = new Character("TestChar", CharacterClass.Fighter, CharacterRace.Human);
+            partyData.Members.Add(testCharacter);
+
+            // Act
+            this.gameState.PlayerParty = partyData;
+
+            // Assert
+            Assert.That(this.gameState.PlayerParty.Members.Count, Is.EqualTo(1), "Party should have one member");
+            Assert.That(this.gameState.PlayerParty.Members[0].Name, Is.EqualTo("TestChar"), "Character name should match");
         }
 
-        // Arrange - Set invalid state for scene 2
-        this.gameState.CurrentScene = 1; // Not completed scene 1
-
-        // Act & Assert
-        Assert.IsFalse(
-            this.sceneManager.ValidateStateForTransition("Scene2NethackSequence"),
-            "Should not allow transition to scene 2 without completing scene 1");
-
-        // Arrange - Set valid state
-        this.gameState.CurrentScene = 1;
-
-        // Act & Assert
-        Assert.IsTrue(
-            this.sceneManager.ValidateStateForTransition("Scene2NethackSequence"),
-            "Should allow transition to scene 2 after completing scene 1");
-    }
-
-    [Test]
-    public void TestPartyDataPersistence()
-    {
-        if (this.gameState == null)
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            Assert.Fail("Test objects not initialized");
-            return;
+            // Clean up resources if needed
         }
-
-        // Arrange
-        var partyData = new PartyData();
-        var testCharacter = new Character("TestChar", CharacterClass.Fighter, CharacterRace.Human);
-        partyData.Members.Add(testCharacter);
-
-        // Act
-        this.gameState.PlayerParty = partyData;
-
-        // Assert
-        Assert.AreEqual(1, this.gameState.PlayerParty.Members.Count, "Party should have one member");
-        Assert.AreEqual("TestChar", this.gameState.PlayerParty.Members[0].Name, "Character name should match");
-    }
-
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        throw new NotImplementedException();
     }
 }

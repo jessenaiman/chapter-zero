@@ -76,8 +76,8 @@ public partial class UIPopup : Node2D
     // Track what is currently happening to the popup.
     private States state = States.Hidden;
 
-    protected AnimationPlayer anim;
-    protected Sprite2D sprite;
+    protected AnimationPlayer? anim;
+    protected Sprite2D? sprite;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -113,8 +113,18 @@ public partial class UIPopup : Node2D
     //
     // Therefore, the bounce animation will check, via the following method, for whether or not the wait
     // portion of the animation should be played or if the popup should disappear beforehand.
+    //
+
+    /// <summary>
+    /// Called when the bounce animation finishes to determine the next animation state.
+    /// </summary>
     protected void OnBounceFinished()
     {
+        if (this.anim == null)
+        {
+            return;
+        }
+
         if (this.Is_shown)
         {
             this.anim.Play("bounce_wait");
@@ -126,10 +136,22 @@ public partial class UIPopup : Node2D
         }
     }
 
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.sprite = this.GetNode<Sprite2D>("Sprite2D");
+    }
+
     // An animation has finished, so we may want to change the popup's behaviour depending on whether or
     // not it has been flagged for a state change through _is_shown.
     private void OnAnimationFinished(StringName animName)
     {
+        if (this.anim == null)
+        {
+            return;
+        }
+
         if (this.state == States.Hiding)
         {
             this.EmitSignal(SignalName.Disappeared);
@@ -169,12 +191,5 @@ public partial class UIPopup : Node2D
                     break;
             }
         }
-    }
-
-    /// <inheritdoc/>
-    public override void _EnterTree()
-    {
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.sprite = this.GetNode<Sprite2D>("Sprite2D");
     }
 }

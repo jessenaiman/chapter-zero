@@ -11,12 +11,21 @@ using Godot;
 /// </summary>
 public partial class RangedBattlerAction : BattlerAction
 {
+    /// <summary>
+    /// Gets or sets the distance the battler moves during the attack animation.
+    /// </summary>
     [Export]
     public float AttackDistance { get; set; } = 350.0f;
 
+    /// <summary>
+    /// Gets or sets the time it takes for the battler to move to the attack position.
+    /// </summary>
     [Export]
     public float AttackTime { get; set; } = 0.25f;
 
+    /// <summary>
+    /// Gets or sets the time it takes for the battler to return to the original position.
+    /// </summary>
     [Export]
     public float ReturnTime { get; set; } = 0.25f;
 
@@ -27,12 +36,20 @@ public partial class RangedBattlerAction : BattlerAction
     [Export]
     public float HitChance { get; set; } = 100.0f;
 
+    /// <summary>
+    /// Gets or sets the base damage dealt by this attack.
+    /// </summary>
     [Export]
     public int BaseDamage { get; set; } = 50;
 
     /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
         if (targets == null)
         {
             targets = Array.Empty<Battler>();
@@ -66,8 +83,11 @@ public partial class RangedBattlerAction : BattlerAction
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         foreach (Battler target in targets)
         {
-            BattlerHit hit = new BattlerHit(this.BaseDamage, this.HitChance);
-            target.TakeHit(hit);
+            using (BattlerHit hit = new BattlerHit(this.BaseDamage, this.HitChance))
+            {
+                target.TakeHit(hit);
+            }
+
             timer = source.GetTree().CreateTimer(0.1f);
             await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         }

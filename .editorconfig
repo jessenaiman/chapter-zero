@@ -31,3 +31,73 @@ csharp_style_prefer_simple_using_statement = true
 csharp_style_prefer_local_over_anonymous_function = true
 csharp_style_prefer_conditional_expression_over_assignment = true
 csharp_style_prefer_conditional_expression_over_return = true
+
+# Roslynator Analyzers Configuration
+# Documentation Rules (align with mandatory XML docs requirement)
+dotnet_diagnostic.RCS1138.severity = error    # Add summary to documentation comment
+dotnet_diagnostic.RCS1139.severity = error    # Add summary element to documentation comment
+dotnet_diagnostic.RCS1140.severity = error    # Add exception documentation to method
+dotnet_diagnostic.RCS1154.severity = error    # Sort modifiers
+dotnet_diagnostic.RCS1155.severity = error    # Use StringComparison when comparing strings
+
+# Code Quality Rules (align with DDD/SOLID principles)
+dotnet_diagnostic.RCS1001.severity = error    # Add braces (when statement spans over multiple lines)
+dotnet_diagnostic.RCS1003.severity = error    # Add braces to if-else
+dotnet_diagnostic.RCS1018.severity = error    # Add accessibility modifiers
+dotnet_diagnostic.RCS1021.severity = error    # Simplify lazy initialization
+dotnet_diagnostic.RCS1036.severity = error    # Remove redundant empty line
+dotnet_diagnostic.RCS1046.severity = none     # Method name should not match parameter name (disable for flexibility)
+dotnet_diagnostic.RCS1051.severity = error    # Parentheses should not be used
+dotnet_diagnostic.RCS1073.severity = error    # Convert if to return statement
+dotnet_diagnostic.RCS1085.severity = error    # Use auto-implemented property
+dotnet_diagnostic.RCS1090.severity = error    # Call 'ConfigureAwait(false)'
+dotnet_diagnostic.RCS1102.severity = error    # Make class static
+dotnet_diagnostic.RCS1110.severity = error    # Declare type inside namespace
+dotnet_diagnostic.RCS1123.severity = error    # Add parentheses when necessary
+dotnet_diagnostic.RCS1128.severity = error    # Use coalesce expression
+dotnet_diagnostic.RCS1132.severity = error    # Remove redundant overriding member
+dotnet_diagnostic.RCS1141.severity = error    # Add parameter name to parameter
+dotnet_diagnostic.RCS1158.severity = error    # Static member should not use generic type parameter
+dotnet_diagnostic.RCS1163.severity = error    # Unused parameter
+dotnet_diagnostic.RCS1164.severity = error    # Unused type parameter
+dotnet_diagnostic.RCS1170.severity = error    # Use read-only auto-implemented property
+dotnet_diagnostic.RCS1175.severity = error    # Unused 'this' parameter
+dotnet_diagnostic.RCS1181.severity = error    # Convert comment to documentation comment
+dotnet_diagnostic.RCS1187.severity = error    # Use constant instead of field
+dotnet_diagnostic.RCS1192.severity = error    # Unnecessary usage of verbatim string literal
+dotnet_diagnostic.RCS1194.severity = error    # Implement exception constructors
+dotnet_diagnostic.RCS1202.severity = error    # Avoid NullReferenceException
+dotnet_diagnostic.RCS1207.severity = error    # Use method chaining
+dotnet_diagnostic.RCS1210.severity = error    # Return completed task instead of null
+dotnet_diagnostic.RCS1212.severity = error    # Remove redundant assignment
+dotnet_diagnostic.RCS1214.severity = error    # Unnecessary interpolated string
+dotnet_diagnostic.RCS1215.severity = error    # Expression is always equal to true/false
+dotnet_diagnostic.RCS1221.severity = error    # Use pattern matching instead of 'is' and cast
+dotnet_diagnostic.RCS1225.severity = error    # Make class sealed
+dotnet_diagnostic.RCS1229.severity = error    # Use async/await when necessary
+dotnet_diagnostic.RCS1233.severity = error    # Use short-circuiting operator
+dotnet_diagnostic.RCS1242.severity = error    # Do not pass non-read-only struct by read-only reference
+dotnet_diagnostic.RCS1246.severity = error    # Use element access
+
+# Disable overly strict or conflicting rules
+dotnet_diagnostic.RCS1037.severity = none     # Remove trailing white-space (handled by editorconfig)
+dotnet_diagnostic.RCS1050.severity = none     # Add empty line after embedded statement (conflicts with style)
+dotnet_diagnostic.RCS1118.severity = none     # Mark local variable as const (too restrictive)
+dotnet_diagnostic.RCS1169.severity = none     # Make field read-only (may conflict with patterns)
+dotnet_diagnostic.RCS1174.severity = none     # Remove redundant async/await (may be needed for patterns)
+dotnet_diagnostic.RCS1197.severity = none     # Optimize StringBuilder usage (performance micro-optimization)
+dotnet_diagnostic.RCS1201.severity = none     # Use pattern matching (already enabled via csharp_style)
+dotnet_diagnostic.RCS1217.severity = none     # Convert interpolated string to concatenation (style preference)
+dotnet_diagnostic.RCS1220.severity = none     # Use pattern matching to check for null (style preference)
+dotnet_diagnostic.RCS1239.severity = warning  # Use 'for' statement instead of 'foreach' (performance vs readability)
+dotnet_diagnostic.RCS1243.severity = none     # Duplicate word in comment (may be intentional)
+
+# Async and Performance Rules (align with .NET guidelines)
+dotnet_diagnostic.RCS1090.severity = warning  # Call 'ConfigureAwait(false)' - warning to allow flexibility
+dotnet_diagnostic.RCS1229.severity = warning  # Use async/await when necessary - warning for review
+
+# Naming Rules (disable to allow flexibility, enforce via code reviews)
+dotnet_diagnostic.RCS1046.severity = none     # Method name should not match parameter name
+dotnet_diagnostic.RCS1047.severity = none     # Non-asynchronous method name should not end with 'Async'
+dotnet_diagnostic.RCS1048.severity = none     # Asynchronous method name should end with 'Async'
+dotnet_diagnostic.RCS1049.severity = none     # Asynchronous method name with suffix 'Async'

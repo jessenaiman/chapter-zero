@@ -1,2 +1,2 @@
-﻿42575
+﻿38947
 /home/adam/bin/godot

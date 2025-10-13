@@ -13,12 +13,20 @@ public partial class HealBattlerAction : BattlerAction
 {
     private const float JumpDistance = 250.0f;
 
+    /// <summary>
+    /// Gets or sets the amount of healing to apply.
+    /// </summary>
     [Export]
     public int HealAmount { get; set; } = 50;
 
     /// <inheritdoc/>
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
         if (targets == null)
         {
             targets = Array.Empty<Battler>();
@@ -48,14 +56,16 @@ public partial class HealBattlerAction : BattlerAction
         // Wait for a short delay and then apply healing to the targets.
         timer = source.GetTree().CreateTimer(0.1f);
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f);
-        foreach (Battler target in targets)
+        using (BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f))
         {
-            target.TakeHit(hit);
+            foreach (Battler target in targets)
+            {
+                target.TakeHit(hit);
 
-            // Pause slightly between heals.
-            timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+                // Pause slightly between heals.
+                timer = source.GetTree().CreateTimer(0.1f);
+                await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+            }
         }
 
         // Pause slightly before resuming combat.

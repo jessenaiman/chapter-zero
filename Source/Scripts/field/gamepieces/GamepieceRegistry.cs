@@ -36,7 +36,7 @@ public partial class GamepieceRegistry : Node
     /// <summary>
     /// Gets singleton instance of the GamepieceRegistry.
     /// </summary>
-    public static GamepieceRegistry Instance { get; private set; }
+    public static GamepieceRegistry? Instance { get; private set; }
 
     /// <summary>
     /// Dictionary mapping Gamepieces to their current cell positions

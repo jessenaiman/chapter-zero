@@ -21,7 +21,7 @@ public partial class UIListMenu : VBoxContainer
     /// <see cref="BaseButton"/>.
     /// </summary>
     [Export]
-    public PackedScene EntryScene { get; set; }
+    public PackedScene? EntryScene { get; set; }
 
     private bool isDisabled = true;
 

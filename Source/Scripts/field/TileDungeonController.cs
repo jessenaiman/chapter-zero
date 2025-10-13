@@ -6,8 +6,13 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Field;
+using OmegaSpiral.Source.Scripts.Common;
 using YamlDotNet.Serialization;
 
+/// <summary>
+/// Controls the tile-based dungeon functionality, handling player movement, tile interactions, and dungeon state.
+/// </summary>
 public partial class TileDungeonController : Node2D
 {
     private TileMapLayer? tileMapLayer;

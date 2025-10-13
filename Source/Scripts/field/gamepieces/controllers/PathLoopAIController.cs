@@ -29,7 +29,7 @@ public partial class PathLoopAIController : GamepieceController
         }
     }
 
-    private Line2D pathToFollow;
+    private Line2D? pathToFollow;
 
     private int currentWaypointIndex = -1;
     private Vector2 pathOrigin = Vector2.Zero;
@@ -38,7 +38,7 @@ public partial class PathLoopAIController : GamepieceController
     /// <summary>
     /// Timer that controls waiting between path loops and when paths are blocked.
     /// </summary>
-    private Godot.Timer timer;
+    private Godot.Timer? timer;
 
     /// <inheritdoc/>
     public override void _Ready()

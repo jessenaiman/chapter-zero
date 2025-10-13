@@ -96,7 +96,7 @@ public partial class GameEndTrigger : Trigger
     /// Called when an area enters the trigger.
     /// </summary>
     /// <param name="area">The area that entered the trigger.</param>
-    protected void OnAreaEntered(Area2D area)
+    protected new void OnAreaEntered(Area2D area)
     {
         if (area == null)
         {

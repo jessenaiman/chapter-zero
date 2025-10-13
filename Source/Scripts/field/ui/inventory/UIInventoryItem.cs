@@ -18,7 +18,7 @@ public partial class UIInventoryItem : TextureRect
     public int ID { get; set; } // Inventory.ItemTypes.KEY
 
     private int count;
-    private Label countLabel;
+    private Label? countLabel;
 
     /// <summary>
     /// Gets or sets the number of this item in the inventory.

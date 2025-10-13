@@ -13,9 +13,9 @@ public partial class UITurnBar : Control
 {
     private readonly PackedScene iconScene = GD.Load<PackedScene>("res://src/combat/ui/turn_bar/ui_battler_icon.tscn");
 
-    private AnimationPlayer anim;
-    private TextureRect background;
-    private Control icons;
+    private AnimationPlayer? anim;
+    private TextureRect? background;
+    private Control? icons;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -47,6 +47,11 @@ public partial class UITurnBar : Control
     /// <param name="battlerData">The battler list to display.</param>
     public void Setup(BattlerList battlerData)
     {
+        if (battlerData == null)
+        {
+            throw new ArgumentNullException(nameof(battlerData));
+        }
+
         foreach (var battler in battlerData.GetAllBattlers())
         {
             // Connect a handful of signals to the icon so that it may respond to changes in the
