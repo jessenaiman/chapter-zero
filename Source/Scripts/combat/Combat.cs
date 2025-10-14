@@ -19,7 +19,9 @@ public partial class Combat : CanvasLayer
 {
     private CombatArena? activeArena;
 
-    // Keep track of what music track was playing previously, and return to it once combat has finished.
+    /// <summary>
+    /// Keep track of what music track was playing previously, and return to it once combat has finished.
+    /// </summary>
     private AudioStream? previousMusicTrack;
 
     private CenterContainer? combatContainer;
@@ -49,6 +51,8 @@ public partial class Combat : CanvasLayer
     /// </summary>
     /// <param name="arena">The <see cref="PackedScene"/> representing the combat arena to be instantiated.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation of starting combat.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="arena"/> is <c>null</c>.</exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task StartAsync(PackedScene arena)
     {
         if (arena == null)
@@ -62,7 +66,7 @@ public partial class Combat : CanvasLayer
         transition.Call("cover", 0.2f);
         await this.ToSignal(transition, "finished");
 
-        var newArena = (CombatArena)arena.Instantiate();
+        var newArena = (CombatArena) arena.Instantiate();
         System.Diagnostics.Debug.Assert(newArena != null, "Failed to initiate combat. Provided 'arena' argument is not a CombatArena.");
 
         this.activeArena = newArena;
@@ -115,7 +119,7 @@ public partial class Combat : CanvasLayer
         }
 
         var music = this.GetNode("/root/Music");
-        this.previousMusicTrack = (AudioStream)music.Call("get_playing_track");
+        this.previousMusicTrack = (AudioStream) music.Call("get_playing_track");
         if (this.activeArena?.Music != null)
         {
             music.Call("play", this.activeArena.Music);
@@ -145,15 +149,12 @@ public partial class Combat : CanvasLayer
     /// <summary>
     /// Displays a series of dialogue bubbles using Dialogic with information about the combat's outcome.
     /// </summary>
-    // These two functions are placeholders for future logic for deciding combat outcomes.
+    /// <param name="leaderName">The name of the party leader.</param>
+    /// <returns>An array of strings representing the victory message events.</returns>
+    /// <remarks>These two functions are placeholders for future logic for deciding combat outcomes.</remarks>
     private static string[] GetVictoryMessageEvents(string leaderName)
     {
-        string[] events =
-        {
-            $"{leaderName}'s party won the battle!",
-        };
-        events = events.Append("You wanted to find some coins, but animals have no pockets to carry them.").ToArray();
-        return events;
+        return new[] { $"{leaderName}'s party won the battle!", "You wanted to find some coins, but animals have no pockets to carry them." };
     }
 
     private static string[] GetLossMessageEvents(string leaderName)

@@ -1,5 +1,5 @@
-// <copyright file="StrangeTreeInteraction.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="StrangeTreeInteraction.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -35,7 +35,7 @@ public partial class StrangeTreeInteraction : ConversationTemplate
         // Note that this connection only occurs when this particular dialogue occurs. Since this
         // interaction only really happens once, we don't care what signal argument is passed, only that
         // the signal itself is emitted.
-        this.Execute();
+        await this.Execute();
         await this.ToSignal(this.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 

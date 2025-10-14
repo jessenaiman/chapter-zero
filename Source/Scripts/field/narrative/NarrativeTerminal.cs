@@ -1,5 +1,5 @@
-// <copyright file="NarrativeTerminal.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="NarrativeTerminal.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -13,6 +13,7 @@ namespace OmegaSpiral.Source.Scripts
     using OmegaSpiral;
     using OmegaSpiral.Source.Scripts;
     using OmegaSpiral.Source.Scripts.Common;
+    using OmegaSpiral.Source.Scripts.Field.Narrative;
 
     /// <summary>
     /// Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
@@ -21,7 +22,7 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public partial class NarrativeTerminal : Control
     {
-        private readonly JsonSerializerOptions jsonOptions = new ()
+        private readonly JsonSerializerOptions jsonOptions = new()
         {
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
@@ -43,19 +44,18 @@ namespace OmegaSpiral.Source.Scripts
         private GameState gameState = default!;
         private NarratorEngine? narratorEngine;
 
-        // FUTURE: LLM_INTEGRATION - DreamweaverSystem connection
-        // Will be set via GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem")
-        // See ADR-0003 for complete integration architecture
         private DreamweaverSystem? dreamweaverSystem;
 
-        private NarrativeSceneData sceneData = new ();
+        private NarrativeSceneData sceneData = new();
         private PromptKind currentPrompt = PromptKind.None;
         private IReadOnlyList<DreamweaverChoice> threadChoices = Array.Empty<DreamweaverChoice>();
         private IReadOnlyList<ChoiceOption> activeChoices = Array.Empty<ChoiceOption>();
         private bool awaitingInput;
         private int currentBlockIndex;
 
-        // Dynamic narrative state
+        /// <summary>
+        /// Dynamic narrative state
+        /// </summary>
         private bool useDynamicNarrative;
         private string lastGeneratedNarrative = string.Empty;
 
@@ -107,7 +107,11 @@ namespace OmegaSpiral.Source.Scripts
             this.CallDeferred(nameof(this.InitializeNarrativeAsync));
         }
 
-        // Signal handlers for DreamweaverSystem
+        /// <summary>
+        /// Signal handlers for DreamweaverSystem
+        /// </summary>
+        /// <param name="personaId">The ID of the persona that generated the narrative.</param>
+        /// <param name="generatedText">The generated narrative text.</param>
         private void OnNarrativeGenerated(string personaId, string generatedText)
         {
             GD.Print($"Dreamweaver narrative generated for {personaId}: {generatedText}");
@@ -193,7 +197,7 @@ namespace OmegaSpiral.Source.Scripts
 
             if (data.InitialChoice != null)
             {
-                data.InitialChoice.Options ??= new List<DreamweaverChoice>();
+                data.InitialChoice.Options = new List<DreamweaverChoice>();
                 foreach (DreamweaverChoice option in data.InitialChoice.Options)
                 {
                     if (!Enum.TryParse(option.Id, true, out DreamweaverThread parsedThread))
@@ -305,7 +309,7 @@ namespace OmegaSpiral.Source.Scripts
 
                 if (block.Choices.Count > 0)
                 {
-                    this.activeChoices = (IReadOnlyList<ChoiceOption>)block.Choices;
+                    this.activeChoices = (IReadOnlyList<ChoiceOption>) block.Choices;
                     for (int i = 0; i < block.Choices.Count; i++)
                     {
                         this.DisplayImmediate($"  {i + 1}. {block.Choices[i].Text}");
@@ -405,7 +409,7 @@ namespace OmegaSpiral.Source.Scripts
         private void HandleThreadSelection(string input)
         {
             DreamweaverChoice? choice = this.ResolveThreadChoice(input);
-            if (choice == null)
+            if (choice is null)
             {
                 this.DisplayImmediate("[color=#ffae42]Please choose a valid thread (number or hero/shadow/ambition).[/color]");
                 return;

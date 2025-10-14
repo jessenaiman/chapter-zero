@@ -1,5 +1,5 @@
-// <copyright file="Elements.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Elements.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -16,9 +16,24 @@ public partial class Elements : RefCounted
     /// </summary>
     public enum Types
     {
+        /// <summary>
+        /// No element type.
+        /// </summary>
         None,
+
+        /// <summary>
+        /// Bug element type.
+        /// </summary>
         Bug,
+
+        /// <summary>
+        /// Break element type.
+        /// </summary>
         Break,
+
+        /// <summary>
+        /// Seek element type.
+        /// </summary>
         Seek,
     }
 

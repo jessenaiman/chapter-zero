@@ -1,5 +1,5 @@
-// <copyright file="CombatArena.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatArena.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;

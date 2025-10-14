@@ -1,5 +1,5 @@
-// <copyright file="Enums.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Enums.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts.Common

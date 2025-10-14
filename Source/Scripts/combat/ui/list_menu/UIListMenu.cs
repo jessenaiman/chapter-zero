@@ -1,5 +1,5 @@
-// <copyright file="UIListMenu.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIListMenu.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -37,15 +37,23 @@ public partial class UIListMenu : VBoxContainer
             this.isDisabled = value;
             foreach (var entry in this.entries)
             {
-                entry.Disabled = this.isDisabled;
+                if (entry != null)
+                {
+                    entry.Disabled = this.isDisabled;
+                }
             }
 
             this.FocusFirstEntry();
-            this.menuCursor.Visible = !this.isDisabled;
+            if (this.menuCursor != null)
+            {
+                this.menuCursor.Visible = !this.isDisabled;
+            }
         }
     }
 
-    // Track all battler list entries in the following array.
+    /// <summary>
+    /// Track all battler list entries in the following array.
+    /// </summary>
     protected List<BaseButton> entries = new List<BaseButton>();
 
     private AnimationPlayer? anim;
@@ -54,8 +62,8 @@ public partial class UIListMenu : VBoxContainer
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.menuCursor = this.GetNode<UIMenuCursor>("MenuCursor");
+        this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+        this.menuCursor = this.GetNodeOrNull<UIMenuCursor>("MenuCursor");
     }
 
     /// <summary>
@@ -63,10 +71,12 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public void FocusFirstEntry()
     {
-        if (this.entries.Count > 0)
+        if (this.entries.Count > 0 && this.entries[0] != null && this.menuCursor != null)
         {
             this.entries[0].GrabFocus();
-            this.menuCursor.Position = this.entries[0].GlobalPosition + new Vector2(0.0f, this.entries[0].Size.Y / 2.0f);
+            var entryPosition = this.entries[0].GlobalPosition;
+            var entrySize = this.entries[0].Size;
+            this.menuCursor.Position = entryPosition + new Vector2(0.0f, entrySize.Y / 2.0f);
         }
     }
 
@@ -76,11 +86,14 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public async void FadeIn()
     {
-        this.anim.Play("fade_in");
-        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
-        this.IsDisabled = false;
+        if (this.anim != null)
+        {
+            this.anim.Play("fade_in");
+            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            this.IsDisabled = false;
 
-        this.FocusFirstEntry();
+            this.FocusFirstEntry();
+        }
     }
 
     /// <summary>
@@ -89,8 +102,11 @@ public partial class UIListMenu : VBoxContainer
     public async void FadeOut()
     {
         this.IsDisabled = true;
-        this.anim.Play("fade_out");
-        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        if (this.anim != null)
+        {
+            this.anim.Play("fade_out");
+            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        }
     }
 
     /// <summary>
@@ -99,33 +115,51 @@ public partial class UIListMenu : VBoxContainer
     /// Returns the created entry so that a menu may add additional functionality to the entry.
     /// </summary>
     /// <returns>The created entry.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     protected BaseButton CreateEntry()
     {
+        if (this.EntryScene == null)
+        {
+            throw new InvalidOperationException("EntryScene must be set before creating entries!");
+        }
+
         var newEntry = this.EntryScene.Instantiate();
         System.Diagnostics.Debug.Assert(newEntry is BaseButton, "Entries to a UIMenuList must be derived from BaseButton!" +
             " A non-BaseButton entry_scene has been specified.");
 
         var buttonEntry = newEntry as BaseButton;
-        this.AddChild(buttonEntry);
-
-        // We're going to keep these as independent functions rather than inline lambdas, since each menu
-        // will probably respond to these events differently. For example, a target menu will want to
-        // highlight a specific battler when a new entry is focused and an action menu will want to
-        // forward which action was selected.
-        buttonEntry.FocusEntered += () => this.OnEntryFocused(buttonEntry);
-        buttonEntry.MouseEntered += () => this.OnEntryFocused(buttonEntry);
-        buttonEntry.Pressed += () => this.OnEntryPressed(buttonEntry);
-
-        this.entries.Add(buttonEntry);
-
-        if (this.IsDisabled)
+        if (buttonEntry != null)
         {
-            buttonEntry.Disabled = true;
+            this.AddChild(buttonEntry);
+
+            // We're going to keep these as independent functions rather than inline lambdas, since each menu
+            // will probably respond to these events differently. For example, a target menu will want to
+            // highlight a specific battler when a new entry is focused and an action menu will want to
+            // forward which action was selected.
+            buttonEntry.FocusEntered += () => this.OnEntryFocused(buttonEntry);
+            buttonEntry.MouseEntered += () => this.OnEntryFocused(buttonEntry);
+            buttonEntry.Pressed += () => this.OnEntryPressed(buttonEntry);
+
+            this.entries.Add(buttonEntry);
+
+            if (this.IsDisabled)
+            {
+                buttonEntry.Disabled = true;
+            }
+
+            return buttonEntry;
         }
 
-        return buttonEntry;
+        throw new InvalidOperationException("Failed to instantiate BaseButton from EntryScene!");
     }
 
+    /// <summary>
+    /// Loops the focus navigation between the first and last entries in the menu, allowing seamless navigation.
+    /// If there is only one entry, its neighbors are set to itself.
+    /// </summary>
+    /// <remarks>
+    /// This method ensures that pressing up on the first entry focuses the last entry, and pressing down on the last entry focuses the first entry.
+    /// </remarks>
     protected void LoopFirstAndLastEntries()
     {
         System.Diagnostics.Debug.Assert(this.entries.Count > 0, "No action entries for the menu to connect!");
@@ -152,7 +186,10 @@ public partial class UIListMenu : VBoxContainer
     /// <param name="entry">The entry that was focused.</param>
     protected void OnEntryFocused(BaseButton entry)
     {
-        this.menuCursor.MoveTo(entry.GlobalPosition + new Vector2(0.0f, entry.Size.Y / 2.0f));
+        if (this.menuCursor != null && entry != null)
+        {
+            this.menuCursor.MoveTo(entry.GlobalPosition + new Vector2(0.0f, entry.Size.Y / 2.0f));
+        }
     }
 
     /// <summary>

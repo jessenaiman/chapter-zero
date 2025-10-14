@@ -1,5 +1,5 @@
-// <copyright file="UIMenuCursor.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIMenuCursor.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -68,6 +68,6 @@ public partial class UIMenuCursor : Marker2D
     /// <returns>The current animation position in seconds.</returns>
     public float GetAnimationPosition()
     {
-        return this.anim != null ? (float)this.anim.GetCurrentAnimationPosition() : 0f;
+        return this.anim != null ? (float) this.anim.GetCurrentAnimationPosition() : 0f;
     }
 }

@@ -1,5 +1,5 @@
-// <copyright file="BattlerStats.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="BattlerStats.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -313,6 +313,7 @@ public partial class BattlerStats : Resource
     /// Calculates the final value of a single stat. That is, its base value with all modifiers applied.
     /// We reference a stat property name using a string here and update it with reflection.
     /// </summary>
+    /// <param name="propName"></param>
     private void RecalculateAndUpdate(string propName)
     {
         // All our property names follow a pattern: the base stat has the same identifier as the final
@@ -364,25 +365,25 @@ public partial class BattlerStats : Resource
         switch (propName)
         {
             case "max_health":
-                this.MaxHealth = (int)value;
+                this.MaxHealth = (int) value;
                 break;
             case "max_energy":
-                this.MaxEnergy = (int)value;
+                this.MaxEnergy = (int) value;
                 break;
             case "attack":
-                this.Attack = (int)value;
+                this.Attack = (int) value;
                 break;
             case "defense":
-                this.Defense = (int)value;
+                this.Defense = (int) value;
                 break;
             case "speed":
-                this.Speed = (int)value;
+                this.Speed = (int) value;
                 break;
             case "hit_chance":
-                this.HitChance = (int)value;
+                this.HitChance = (int) value;
                 break;
             case "evasion":
-                this.Evasion = (int)value;
+                this.Evasion = (int) value;
                 break;
         }
     }
@@ -391,12 +392,14 @@ public partial class BattlerStats : Resource
     /// Find the first unused integer in a stat's modifiers keys.
     /// isModifier determines whether the id is determined from the modifier or multiplier dictionary.
     /// </summary>
+    /// <param name="statName"></param>
+    /// <param name="isModifier"></param>
     private int GenerateUniqueId(string statName, bool isModifier = true)
     {
         // Generate an ID for either modifiers or multipliers.
         Dictionary<string, Dictionary<int, object>> dictionary = isModifier
-            ? this.modifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object)mkvp.Value))
-            : this.multipliers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object)mkvp.Value));
+            ? this.modifiers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object) mkvp.Value))
+            : this.multipliers.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToDictionary(mkvp => mkvp.Key, mkvp => (object) mkvp.Value));
 
         // If there are no keys, we return `0`, which is our first valid unique id. Without existing
         // keys, calling methods like `Array.back()` will trigger an error.

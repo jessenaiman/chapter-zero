@@ -1,5 +1,5 @@
-// <copyright file="Field.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Field.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -43,7 +43,7 @@ public partial class Field : Node2D
         // Assign proper controllers to player gamepieces whenever they change.
         player.GamepieceChanged += () =>
         {
-            Gamepiece newGp = player.Gamepiece;
+            Gamepiece? newGp = player.Gamepiece;
             camera.Gamepiece = newGp;
 
             // Free up any lingering controller(s).
@@ -61,7 +61,7 @@ public partial class Field : Node2D
                 System.Diagnostics.Debug.Assert(newController is PlayerController, "The Field game state requires a valid PlayerController set in the editor!");
 
                 newGp.AddChild(newController);
-                ((PlayerController)newController).IsActive = true;
+                ((PlayerController) newController).IsActive = true;
             }
         };
 
@@ -73,8 +73,8 @@ public partial class Field : Node2D
         // The field state must pause/unpause with combat accordingly.
         // Note that pausing/unpausing input is already wrapped up in triggers, which are what will
         // initiate combat.
-        combatEvents.CombatInitiated += (PackedScene arena) => this.Hide();
-        combatEvents.CombatFinished += (bool isVictory) => this.Show();
+        combatEvents.CombatInitiated += (_) => this.Hide();
+        combatEvents.CombatFinished += (_) => this.Show();
 
         camera.Scale = this.Scale;
         camera.MakeCurrent();

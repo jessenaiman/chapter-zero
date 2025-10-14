@@ -15,10 +15,10 @@ Build started 10/11/2025 10:13:55 PM.
          X.509 certificate chain validation will use the fallback certificate bundle at '/home/adam/.dotnet/sdk/10.0.100-rc.1.25451.107/trustedroots/timestampctl.pem'.
          Assets file has not changed. Skipping assets file writing. Path: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/project.assets.json
          Restored /home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj (in 61 ms).
-         
+
          NuGet Config files used:
              /home/adam/.nuget/NuGet/NuGet.Config
-         
+
          Feeds used:
              https://api.nuget.org/v3/index.json
          All projects are up-to-date for restore.
@@ -1299,7 +1299,7 @@ Build started 10/11/2025 10:13:55 PM.
 Build FAILED.
 
        "/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj" (default target) (1:7) ->
-       (CoreCompile target) -> 
+       (CoreCompile target) ->
          /home/adam/Dev/omega-spiral/chapter-zero/Source/overworld/maps/town/FanInteraction.cs(59,62): error CS1061: 'Variant?' does not contain a definition for 'AsInt32' and no accessible extension method 'AsInt32' accepting a first argument of type 'Variant?' could be found (are you missing a using directive or an assembly reference?) [/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj]
          /home/adam/Dev/omega-spiral/chapter-zero/Source/Scripts/combat/battlers/Battler.cs(132,41): error CS8625: Cannot convert null literal to non-nullable reference type. [/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj]
          /home/adam/Dev/omega-spiral/chapter-zero/Source/Scripts/combat/actors/ActiveTurnQueue.cs(175,40): error CS1503: Argument 2: cannot convert from 'System.Collections.Generic.List<Battler>' to 'Battler[]' [/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj]

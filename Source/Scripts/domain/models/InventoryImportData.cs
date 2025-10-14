@@ -1,5 +1,5 @@
-// <copyright file="InventoryImportData.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="InventoryImportData.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Domain.Models
@@ -35,7 +35,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets the quantities for each item in the inventory.
         /// </summary>
-        public Dictionary<string, int> ItemQuantities { get; } = new Dictionary<string, int>();
+        public Dictionary<string, int> ItemQuantities { get; private set; } = new Dictionary<string, int>();
 
         /// <summary>
         /// Gets or sets the equipped item IDs for this inventory.
@@ -256,7 +256,7 @@ namespace OmegaSpiral.Domain.Models
         /// </summary>
         /// <param name="itemId">The ID of the item.</param>
         /// <returns>The custom data dictionary for the item, or null if not found.</returns>
-        public Dictionary<string, object> GetItemCustomData(string itemId)
+        public Dictionary<string, object>? GetItemCustomData(string itemId)
         {
             return this.CustomItemData.ContainsKey(itemId) ? this.CustomItemData[itemId] : null;
         }

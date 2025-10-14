@@ -1,5 +1,5 @@
-// <copyright file="UIDamageLabel.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIDamageLabel.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -74,17 +74,20 @@ public partial class UIDamageLabel : Marker2D
                 return;
             }
 
-            this.label.Text = this.amount.ToString();
+            if (this.label != null)
+            {
+                this.label.Text = this.amount.ToString();
 
-            if (this.amount >= 0)
-            {
-                this.label.Modulate = this.ColorDamage;
-                this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
-            }
-            else
-            {
-                this.label.Modulate = this.ColorHeal;
-                this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
+                if (this.amount >= 0)
+                {
+                    this.label.Modulate = this.ColorDamage;
+                    this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
+                }
+                else
+                {
+                    this.label.Modulate = this.ColorHeal;
+                    this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
+                }
             }
         }
     }
@@ -130,8 +133,12 @@ public partial class UIDamageLabel : Marker2D
 
         // Animate the label, moving it in an upwards direction.
         // We define a range of 60 degrees for the labels movement.
-        var angle = GD.Randf() * (Mathf.Pi / 3.0f) - (Mathf.Pi / 6.0f); // Random angle between -π/6 and π/6
-        var target = this.label != null ? (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position : this.Position;
+        var angle = (GD.Randf() * (Mathf.Pi / 3.0f)) - (Mathf.Pi / 6.0f); // Random angle between -π/6 and π/6
+        var target = this.Position;
+        if (this.label != null)
+        {
+            target = (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position;
+        }
 
         this.tween = this.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
         if (this.label != null)

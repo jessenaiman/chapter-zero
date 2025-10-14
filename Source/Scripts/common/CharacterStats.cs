@@ -1,5 +1,5 @@
-// <copyright file="CharacterStats.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CharacterStats.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -119,6 +119,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="dict">The dictionary containing stat values.</param>
         /// <returns>A new CharacterStats instance created from the dictionary data.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static CharacterStats FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
             if (dict == null)
@@ -209,6 +210,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Roll 3 six-sided dice for stat generation.
         /// </summary>
+        /// <param name="random">The random number generator used for dice rolls.</param>
         private static int Roll3d6(Random random)
         {
             return random.Next(1, 7) + random.Next(1, 7) + random.Next(1, 7);

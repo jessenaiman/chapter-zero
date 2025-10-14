@@ -1,5 +1,5 @@
-// <copyright file="CombatRandomAI.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatRandomAI.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -8,19 +8,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 
+using OmegaSpiral.Source.Scripts.Combat.Actions;
+
 /// <summary>
-/// A simple combat AI that chooses actions randomly.
-/// This AI makes decisions by randomly selecting from available actions and targets.
-/// It's useful for testing and for enemies that should behave unpredictably.
+/// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.
 /// </summary>
 public partial class CombatRandomAI : CombatAI
 {
-    /// <summary>
-    /// Gets or sets the probability (0.0 to 1.0) that the AI will choose to attack instead of using a skill.
-    /// </summary>
-    [Export]
-    public float AttackProbability { get; set; } = 0.7f;
-
     /// <summary>
     /// Gets or sets the probability (0.0 to 1.0) that the AI will target enemies instead of allies.
     /// </summary>
@@ -59,13 +53,13 @@ public partial class CombatRandomAI : CombatAI
         foreach (var action in availableActions)
         {
             // If it's an attack action and we're within the attack probability, include it
-            if (action is AttackBattlerAction && GD.Randf() <= this.AttackProbability)
+            if (GD.Randf() <= this.TargetEnemyProbability)
             {
                 filteredActions.Add(action);
             }
 
             // If it's not an attack action and we're outside the attack probability, include it
-            else if (!(action is AttackBattlerAction) && GD.Randf() > this.AttackProbability)
+            else if (GD.Randf() > this.TargetEnemyProbability)
             {
                 filteredActions.Add(action);
             }
@@ -78,7 +72,7 @@ public partial class CombatRandomAI : CombatAI
         }
 
         // Choose a random action
-        var chosenAction = filteredActions[(int)(GD.Randi() % filteredActions.Count)];
+        var chosenAction = filteredActions[(int) (GD.Randi() % filteredActions.Count)];
 
         // Choose targets for the action
         using var battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
@@ -119,7 +113,7 @@ public partial class CombatRandomAI : CombatAI
         // For single-target actions, choose one target
         if (chosenAction.TargetScope == ActionTargetScope.One)
         {
-            var target = filteredTargets[(int)(GD.Randi() % filteredTargets.Count)];
+            var target = filteredTargets[(int) (GD.Randi() % filteredTargets.Count)];
             return (chosenAction, new List<Battler> { target });
         }
 
@@ -151,14 +145,15 @@ public partial class CombatRandomAI : CombatAI
     }
 
     /// <summary>
-    /// Get the priority of a potential action.
-    /// This random AI assigns equal priority to all actions.
+    /// Gets the priority of an action for the AI. Parameters are unused in this implementation.
     /// </summary>
-    /// <param name="action">The action to evaluate.</param>
-    /// <param name="targets">The targets for the action.</param>
-    /// <returns>A float value representing the priority (1.0 for equal priority).</returns>
-    public override float GetActionPriority(BattlerAction action, List<Battler> targets)
+    /// <param name="_action">The action to evaluate.</param>
+    /// <param name="_targets">The targets for the action.</param>
+    /// <returns>The priority value for the action.</returns>
+    public override float GetActionPriority(BattlerAction _action, List<Battler> _targets)
     {
+        _ = _action;
+        _ = _targets;
         // Return a neutral priority since this AI doesn't prioritize actions
         return 1.0f;
     }

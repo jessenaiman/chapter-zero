@@ -1,0 +1,35 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        exclude: ^(addons/yaml/examples/data/.*\.yaml|\.godot/.*)$
+      - id: end-of-file-fixer
+        exclude: ^\.godot/.*$
+      - id: trailing-whitespace
+        exclude: ^\.godot/.*$
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
+  # .NET 10 formatting with system-installed dotnet CLI
+  - repo: local
+    hooks:
+      - id: dotnet-format
+        name: .NET Format (dotnet format)
+        entry: dotnet format chapter-zero.sln
+        args: ['--verify-no-changes', '--no-restore']
+        language: system
+        types: [c#]
+        pass_filenames: false
+
+  # Godot GDScript validation
+  - repo: local
+    hooks:
+      - id: gdscript-check
+        name: GDScript Syntax Check
+        entry: bash -c 'echo "GDScript validation placeholder - install gdlint or gdformat for real validation"'
+        language: system
+        files: \.gd$
+        pass_filenames: false

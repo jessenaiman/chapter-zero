@@ -135,7 +135,7 @@ private void OnDreamweaversConsultation(Dictionary consultations)
     var shadow = ParseShadowResponse(consultations["shadow"]);
     var ambition = ParseAmbitionResponse(consultations["ambition"]);
     var omega = ParseOmegaResponse(consultations["omega"]);
-    
+
     DisplayInTerminal(hero, shadow, ambition, omega);
 }
 ```
@@ -144,7 +144,7 @@ private void OnDreamweaversConsultation(Dictionary consultations)
 
 ```csharp
 // Enable Dreamweavers to query game state
-chatNode.Call("add_tool", 
+chatNode.Call("add_tool",
     new Callable(this, nameof(CheckInventory)),
     "Check player's inventory",
     new Dictionary());

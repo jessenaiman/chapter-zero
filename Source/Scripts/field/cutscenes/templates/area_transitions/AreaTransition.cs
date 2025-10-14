@@ -1,5 +1,5 @@
-// <copyright file="AreaTransition.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="AreaTransition.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -86,8 +86,7 @@ public partial class AreaTransition : Trigger
     public virtual async void Activate(Node2D triggeringObject)
     {
         // Convert the triggering object to an Area2D to get the gamepiece
-        var area = triggeringObject as Area2D;
-        if (area == null)
+        if (triggeringObject is not Area2D area)
         {
             return;
         }
@@ -150,7 +149,7 @@ public partial class AreaTransition : Trigger
     /// Override this method to add custom behavior during the transition blackout.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    protected virtual async Task OnBlackout()
+    protected virtual Task OnBlackout()
     {
         // Play new music if specified
         if (this.NewMusic != null)
@@ -161,6 +160,8 @@ public partial class AreaTransition : Trigger
                 music.Call("play", this.NewMusic);
             }
         }
+
+        return Task.CompletedTask;
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
-// <copyright file="UIPlayerBattlerList.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIPlayerBattlerList.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -41,6 +41,7 @@ public partial class UIPlayerBattlerList : UIListMenu
     /// Create all menu entries needed to track player battlers throughout the combat.
     /// </summary>
     /// <param name="battlerData">The battler list data.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="battlerData"/> is <c>null</c>.</exception>
     public void Setup(BattlerList battlerData)
     {
         if (battlerData == null)
@@ -55,6 +56,7 @@ public partial class UIPlayerBattlerList : UIListMenu
     /// Handles when a battler entry is pressed, emitting the selected battler if it's player-controlled.
     /// </summary>
     /// <param name="entry">The button entry that was pressed.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="entry"/> is <c>null</c>.</exception>
     protected override void OnEntryPressed(BaseButton entry)
     {
         if (entry == null)

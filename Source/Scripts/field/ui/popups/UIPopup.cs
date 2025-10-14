@@ -1,15 +1,15 @@
-// <copyright file="UIPopup.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIPopup.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
 
-[Tool]
 /// <summary>
 /// An animated pop-up graphic. These are often found, for example, in dialogue bubbles to
 /// demonstrate the need for player input.
 /// </summary>
+[Tool]
 public partial class UIPopup : Node2D
 {
     /// <summary>
@@ -23,35 +23,49 @@ public partial class UIPopup : Node2D
     /// </summary>
     public enum States
     {
+        /// <summary>
+        /// The popup is not visible.
+        /// </summary>
         Hidden,
+        /// <summary>
+        /// The popup is fully visible and idle.
+        /// </summary>
         Shown,
+        /// <summary>
+        /// The popup is in the process of disappearing.
+        /// </summary>
         Hiding,
+        /// <summary>
+        /// The popup is in the process of appearing.
+        /// </summary>
         Showing,
     }
 
-    // The target state of the popup. Setting it to true or false will cause a change in behaviour.
-    // True if the popup should be shown or false if the popup should be hidden.
-    // Note that this shows the TARGET state of the popup, so _is_shown may be false even while the
-    // popup is appearing.
-    private bool isShown;
-
-    protected bool Is_shown
+    /// <summary>
+    /// Gets or sets a value indicating whether the popup is currently shown.
+    /// Setting this property triggers the appropriate animation and state transitions.
+    /// </summary>
+    /// <remarks>
+    /// When set to <see langword="true"/>, the popup will appear if it is hidden.
+    /// When set to <see langword="false"/>, the popup will disappear if it is shown or in the bounce wait state.
+    /// </remarks>
+    protected bool IsShown
     {
-        get => this.isShown;
+        get;
         set
         {
-            this.isShown = value;
+            field = value;
 
             if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                this.isShown = value;
+                field = value;
                 return;
             }
 
-            if (this.isShown && this.state == States.Hidden)
+            if (field && this.state == States.Hidden)
             {
-                this.anim.Play("appear");
+                this.anim?.Play("appear");
                 this.state = States.Showing;
             }
 
@@ -65,7 +79,7 @@ public partial class UIPopup : Node2D
             //
             // So, we check here to see if the popup is sitting in this 'wait' window, where it can be
             // immediately hidden and still look smooth as butter.
-            else if (!this.isShown && this.anim.CurrentAnimation == "bounce_wait")
+            else if (!field && anim != null && anim.CurrentAnimation == "bounce_wait")
             {
                 this.anim.Play("disappear");
                 this.state = States.Hiding;
@@ -73,10 +87,18 @@ public partial class UIPopup : Node2D
         }
     }
 
-    // Track what is currently happening to the popup.
+    /// <summary>
+    /// Track what is currently happening to the popup.
+    /// </summary>
     private States state = States.Hidden;
 
+    /// <summary>
+    /// The animation player used for controlling popup animations.
+    /// </summary>
     protected AnimationPlayer? anim;
+    /// <summary>
+    /// The sprite used to visually represent the popup.
+    /// </summary>
     protected Sprite2D? sprite;
 
     /// <inheritdoc/>
@@ -84,8 +106,14 @@ public partial class UIPopup : Node2D
     {
         if (!Engine.IsEditorHint())
         {
-            this.sprite.Scale = Vector2.Zero;
-            this.anim.AnimationFinished += this.OnAnimationFinished;
+            if (this.sprite != null)
+            {
+                this.sprite.Scale = Vector2.Zero;
+            }
+            if (this.anim != null)
+            {
+                this.anim.AnimationFinished += this.OnAnimationFinished;
+            }
         }
     }
 
@@ -98,7 +126,7 @@ public partial class UIPopup : Node2D
     {
         if (this.state != States.Hidden)
         {
-            this.Is_shown = false;
+            this.IsShown = false;
             await this.ToSignal(this, SignalName.Disappeared);
         }
 
@@ -125,7 +153,7 @@ public partial class UIPopup : Node2D
             return;
         }
 
-        if (this.Is_shown)
+        if (this.IsShown)
         {
             this.anim.Play("bounce_wait");
         }
@@ -143,8 +171,11 @@ public partial class UIPopup : Node2D
         this.sprite = this.GetNode<Sprite2D>("Sprite2D");
     }
 
-    // An animation has finished, so we may want to change the popup's behaviour depending on whether or
-    // not it has been flagged for a state change through _is_shown.
+    /// <summary>
+    /// An animation has finished, so we may want to change the popup's behaviour depending on whether or
+    /// not it has been flagged for a state change through _is_shown.
+    /// </summary>
+    /// <param name="animName"></param>
     private void OnAnimationFinished(StringName animName)
     {
         if (this.anim == null)
@@ -159,7 +190,7 @@ public partial class UIPopup : Node2D
 
         // The popup has should be shown. If the popup is hiding or is hidden, go ahead and have it
         // appear. Otherwise, the popup can play a default bouncy animation to draw the player's eye.
-        if (this.Is_shown)
+        if (this.IsShown)
         {
             switch (this.state)
             {

@@ -1,5 +1,5 @@
-// <copyright file="InteractionPopup.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="InteractionPopup.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -76,7 +76,10 @@ public partial class InteractionPopup : UIPopup
                 return;
             }
 
-            this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteType.Empty];
+            if (this.sprite != null)
+            {
+                this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteType.Empty];
+            }
         }
     }
 
@@ -164,15 +167,18 @@ public partial class InteractionPopup : UIPopup
 
     private void OnAreaEntered(Area2D enteredArea)
     {
-        this.Is_shown = true;
+        this.IsShown = true;
     }
 
     private void OnAreaExited(Area2D exitedArea)
     {
-        this.Is_shown = false;
+        this.IsShown = false;
     }
 
-    // Be sure to hide input when the player is not able to do anything (e.g. cutscenes).
+    /// <summary>
+    /// Be sure to hide input when the player is not able to do anything (e.g. cutscenes).
+    /// </summary>
+    /// <param name="paused"></param>
     private void OnInputPaused(bool paused)
     {
         if (this.area != null)

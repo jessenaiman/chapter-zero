@@ -1,5 +1,5 @@
-// <copyright file="WandPedestalInteraction.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="WandPedestalInteraction.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Globalization;
@@ -83,10 +83,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
             var inventory = this.GetNode("/root/Inventory");
             if (inventory != null)
             {
-                inventory.Connect("item_changed", Callable.From((int itemType) =>
-                {
-                    this.OnInventoryItemChanged(itemType, inventory);
-                }));
+                inventory.Connect("item_changed", Callable.From((int itemType) => this.OnInventoryItemChanged(itemType, inventory)));
             }
         }
     }
@@ -143,6 +140,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// and either adds a wand to the pedestal or pulls one off.
     /// Argument is expected to be the key (item type) of the Inventory.ItemTypes enum.
     /// </summary>
+    /// <param name="argument"></param>
     private void OnDialogicSignalEvent(string argument)
     {
         // Get the Inventory singleton
@@ -153,11 +151,11 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         }
 
         // Convert the argument into an item id
-        var itemTypes = (Godot.Collections.Dictionary)inventory.Get("ItemTypes");
+        var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
         int itemId = -1;
         if (itemTypes != null && itemTypes.ContainsKey(argument.ToUpper(CultureInfo.InvariantCulture)))
         {
-            itemId = (int)itemTypes[argument.ToUpper(CultureInfo.InvariantCulture)];
+            itemId = (int) itemTypes[argument.ToUpper(CultureInfo.InvariantCulture)];
         }
 
         if (!ValidItems.Contains(itemId))
@@ -170,7 +168,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
         int expectedWandId = -1;
         if (itemTypes != null && itemTypes.ContainsKey(expectedWand))
         {
-            expectedWandId = (int)itemTypes[expectedWand];
+            expectedWandId = (int) itemTypes[expectedWand];
         }
 
         // Handle item placement/removal
@@ -188,7 +186,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
 
         // Update the sprite texture
         this.currentItemId = itemId;
-        this.sprite.Texture = (Texture2D)inventory.Call("get_item_icon", itemId);
+        this.sprite.Texture = (Texture2D) inventory.Call("get_item_icon", itemId);
 
         // Flag whether or not this pedestal has the correct wand placed on it
         correctPedestals[this] = this.currentItemId == expectedWandId;
@@ -197,6 +195,8 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// <summary>
     /// Match puzzle-specific variables to the player's inventory.
     /// </summary>
+    /// <param name="itemType"></param>
+    /// <param name="inventory"></param>
     private void OnInventoryItemChanged(int itemType, Node inventory)
     {
         var dialogic = this.GetNode("/root/Dialogic");
@@ -207,7 +207,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
 
         // TODO: Map itemType to appropriate Dialogic variable
         // This would need the Inventory.ItemTypes enum values
-        int itemCount = (int)inventory.Call("get_item_count", itemType);
+        int itemCount = (int) inventory.Call("get_item_count", itemType);
 
         // Set Dialogic variables based on item type
         // dialogic.Call("VAR.set_variable", "RedWandCount", itemCount);

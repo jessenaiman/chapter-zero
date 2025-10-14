@@ -1,5 +1,5 @@
-// <copyright file="DialogicTestHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DialogicTestHelper.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests.Integration
@@ -15,8 +15,7 @@ namespace OmegaSpiral.Tests.Integration
     public class DialogicTestHelper
     {
         private readonly Node testScene;
-        private readonly List<string> capturedSignals = new ();
-        private readonly Dictionary<string, object> dialogicState = new ();
+        private readonly Dictionary<string, object> dialogicState = new();
         private bool timelineActive;
         private string? currentTimeline;
 
@@ -33,7 +32,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <summary>
         /// Gets the list of captured Dialogic signals during test execution.
         /// </summary>
-        public List<string> CapturedSignals => this.capturedSignals;
+        public List<string> CapturedSignals { get; } = new List<string>();
 
         /// <summary>
         /// Gets a value indicating whether a Dialogic timeline is currently active.
@@ -49,6 +48,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates starting a Dialogic timeline.
         /// </summary>
         /// <param name="timelinePath">The path to the timeline resource.</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SimulateStartTimeline(string timelinePath)
         {
             if (string.IsNullOrEmpty(timelinePath))
@@ -66,6 +66,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates a Dialogic text signal being emitted.
         /// </summary>
         /// <param name="text">The text content of the signal.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void SimulateTextSignal(string text)
         {
             if (!this.timelineActive)
@@ -82,6 +83,8 @@ namespace OmegaSpiral.Tests.Integration
         /// </summary>
         /// <param name="choiceIndex">The index of the choice (0-based).</param>
         /// <param name="choiceText">The text of the selected choice.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public void SimulateChoice(int choiceIndex, string choiceText)
         {
             if (!this.timelineActive)
@@ -102,6 +105,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates the player entering text input (e.g., name entry).
         /// </summary>
         /// <param name="input">The text entered by the player.</param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void SimulateTextInput(string input)
         {
             if (!this.timelineActive)
@@ -119,6 +123,7 @@ namespace OmegaSpiral.Tests.Integration
         /// </summary>
         /// <param name="signalName">The name of the signal.</param>
         /// <param name="parameters">Optional parameters for the signal.</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SimulateCustomSignal(string signalName, Dictionary<string, object>? parameters = null)
         {
             if (string.IsNullOrEmpty(signalName))
@@ -139,6 +144,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <summary>
         /// Simulates the end of a Dialogic timeline.
         /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
         public void SimulateTimelineEnd()
         {
             if (!this.timelineActive)
@@ -167,6 +173,7 @@ namespace OmegaSpiral.Tests.Integration
         /// </summary>
         /// <param name="variableName">The name of the variable.</param>
         /// <param name="value">The value to set.</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SetVariable(string variableName, object value)
         {
             if (string.IsNullOrEmpty(variableName))
@@ -183,7 +190,7 @@ namespace OmegaSpiral.Tests.Integration
         /// </summary>
         public void Reset()
         {
-            this.capturedSignals.Clear();
+            this.CapturedSignals.Clear();
             this.dialogicState.Clear();
             this.timelineActive = false;
             this.currentTimeline = null;
@@ -196,7 +203,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <param name="signalData">The signal data to capture.</param>
         private void CaptureSignal(string signalData)
         {
-            this.capturedSignals.Add(signalData);
+            this.CapturedSignals.Add(signalData);
         }
     }
 }

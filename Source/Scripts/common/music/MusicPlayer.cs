@@ -1,11 +1,14 @@
-// <copyright file="MusicPlayer.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="MusicPlayer.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Threading.Tasks;
 using Godot;
 
+/// <summary>
+/// Handles music playback with crossfading capabilities.
+/// </summary>
 public partial class MusicPlayer : Node
 {
     /// <summary>

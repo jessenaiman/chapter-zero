@@ -1,5 +1,5 @@
-// <copyright file="GamepieceController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="GamepieceController.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -210,7 +210,7 @@ public partial class GamepieceController : Node
     {
         if (!Engine.IsEditorHint() && this.IsActive)
         {
-            this.ProcessController((float)delta);
+            this.ProcessController((float) delta);
         }
     }
 
@@ -238,7 +238,7 @@ public partial class GamepieceController : Node
         }
 
         var sourceCell = this.Gamepiece.CellPosition;
-        var targetCell = sourceCell + new Vector2I((int)direction.X, (int)direction.Y);
+        var targetCell = sourceCell + new Vector2I((int) direction.X, (int) direction.Y);
 
         // Try to get a path to the destination (will fail if cell is occupied)
         var gameboard = this.GetNode<Gameboard>("/root/Gameboard");

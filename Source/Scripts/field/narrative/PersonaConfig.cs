@@ -1,5 +1,5 @@
-// <copyright file="PersonaConfig.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PersonaConfig.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Scripts.Field.Narrative;
@@ -20,22 +20,22 @@ public sealed class PersonaConfig
     public string Type { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the opening narrative lines.
+    /// Gets or sets the opening narrative lines.
     /// </summary>
     [YamlMember(Alias = "openingLines")]
-    public List<string> OpeningLines { get; } = new ();
+    public List<string> OpeningLines { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the initial choice presented to the player.
     /// </summary>
     [YamlMember(Alias = "initialChoice")]
-    public ChoiceBlock InitialChoice { get; set; } = new ();
+    public ChoiceBlock InitialChoice { get; set; } = new();
 
     /// <summary>
-    /// Gets the story blocks that make up the narrative.
+    /// Gets or sets the story blocks that make up the narrative.
     /// </summary>
     [YamlMember(Alias = "storyBlocks")]
-    public List<StoryBlock> StoryBlocks { get; } = new ();
+    public List<StoryBlock> StoryBlocks { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the prompt asking for the player's name.
@@ -47,7 +47,7 @@ public sealed class PersonaConfig
     /// Gets or sets the secret question block.
     /// </summary>
     [YamlMember(Alias = "secretQuestion")]
-    public SecretQuestionBlock SecretQuestion { get; set; } = new ();
+    public SecretQuestionBlock SecretQuestion { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the exit line shown when leaving the narrative.
@@ -68,10 +68,10 @@ public sealed class ChoiceBlock
     public string Prompt { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the available choice options.
+    /// Gets or sets the available choice options.
     /// </summary>
     [YamlMember(Alias = "options")]
-    public List<ChoiceOption> Options { get; } = new ();
+    public List<ChoiceOption> Options { get; set; } = new();
 }
 
 /// <summary>
@@ -104,10 +104,10 @@ public sealed class ChoiceOption
 public sealed class StoryBlock
 {
     /// <summary>
-    /// Gets the narrative paragraphs in this block.
+    /// Gets or sets the narrative paragraphs in this block.
     /// </summary>
     [YamlMember(Alias = "paragraphs")]
-    public List<string> Paragraphs { get; } = new ();
+    public List<string> Paragraphs { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the question asked at the end of this block.
@@ -116,10 +116,10 @@ public sealed class StoryBlock
     public string Question { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the available narrative choices.
+    /// Gets or sets the available narrative choices.
     /// </summary>
     [YamlMember(Alias = "choices")]
-    public List<NarrativeChoice> Choices { get; } = new ();
+    public List<NarrativeChoice> Choices { get; set; } = new();
 }
 
 /// <summary>
@@ -152,8 +152,8 @@ public sealed class SecretQuestionBlock
     public string Prompt { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets the available answer options.
+    /// Gets or sets the available answer options.
     /// </summary>
     [YamlMember(Alias = "options")]
-    public List<string> Options { get; } = new ();
+    public List<string> Options { get; set; } = new();
 }

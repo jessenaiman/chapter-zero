@@ -1,5 +1,5 @@
-// <copyright file="PlayerController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PlayerController.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -211,7 +211,7 @@ public partial class PlayerController : GamepieceController
 
             // Unless using 8-direction movement, one movement axis must be preferred.
             // Default to the x-axis.
-            targetCell = sourceCell + new Vector2I((int)inputDirection.X, (int)inputDirection.Y);
+            targetCell = sourceCell + new Vector2I((int) inputDirection.X, (int) inputDirection.Y);
 
             // Try to get a path to destination (will fail if cell is occupied)
             var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");

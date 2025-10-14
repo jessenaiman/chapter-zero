@@ -1,5 +1,5 @@
-// <copyright file="Character.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Character.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -71,6 +71,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="dict">The dictionary containing character data.</param>
         /// <returns>A new character instance created from the dictionary data.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static Character FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
             if (dict == null)
@@ -82,27 +83,27 @@ namespace OmegaSpiral.Source.Scripts
 
             if (dict.ContainsKey("name"))
             {
-                character.Name = (string)dict["name"];
+                character.Name = (string) dict["name"];
             }
 
             if (dict.ContainsKey("class"))
             {
-                character.Class = (CharacterClass)System.Enum.Parse(typeof(CharacterClass), (string)dict["class"]);
+                character.Class = (CharacterClass) System.Enum.Parse(typeof(CharacterClass), (string) dict["class"]);
             }
 
             if (dict.ContainsKey("race"))
             {
-                character.Race = (CharacterRace)System.Enum.Parse(typeof(CharacterRace), (string)dict["race"]);
+                character.Race = (CharacterRace) System.Enum.Parse(typeof(CharacterRace), (string) dict["race"]);
             }
 
             if (dict.ContainsKey("level"))
             {
-                character.Level = (int)dict["level"];
+                character.Level = (int) dict["level"];
             }
 
             if (dict.ContainsKey("experience"))
             {
-                character.Experience = (int)dict["experience"];
+                character.Experience = (int) dict["experience"];
             }
 
             if (dict.ContainsKey("stats"))

@@ -1,5 +1,5 @@
-// <copyright file="GameState.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="GameState.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -37,22 +37,22 @@ public partial class GameState : Node
     /// <summary>
     /// Gets the list of story shards collected by the player.
     /// </summary>
-    public List<string> Shards { get; } = new ();
+    public List<string> Shards { get; } = new();
 
     /// <summary>
     /// Gets scene-specific data stored as key-value pairs.
     /// </summary>
-    public Dictionary<string, object> SceneData { get; } = new ();
+    public Dictionary<string, object> SceneData { get; } = new();
 
     /// <summary>
     /// Gets the queue of narrator messages to be displayed.
     /// </summary>
-    public List<string> NarratorQueue { get; } = new ();
+    public List<string> NarratorQueue { get; } = new();
 
     /// <summary>
     /// Gets the player's Dreamweaver alignment scores.
     /// </summary>
-    public Dictionary<DreamweaverType, int> DreamweaverScores { get; } = new ()
+    public Dictionary<DreamweaverType, int> DreamweaverScores { get; } = new()
     {
         [DreamweaverType.Light] = 0,
         [DreamweaverType.Mischief] = 0,
@@ -77,7 +77,7 @@ public partial class GameState : Node
     /// <summary>
     /// Gets or sets the player's party data including characters and inventory.
     /// </summary>
-    public PartyData PlayerParty { get; set; } = new ();
+    public PartyData PlayerParty { get; set; } = new();
 
     /// <inheritdoc/>
     public override void _Ready()

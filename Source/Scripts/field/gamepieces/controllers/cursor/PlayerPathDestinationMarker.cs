@@ -1,5 +1,5 @@
-// <copyright file="PlayerPathDestinationMarker.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PlayerPathDestinationMarker.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -20,15 +20,12 @@ public partial class PlayerPathDestinationMarker : Sprite2D
         base._Ready();
 
         // Get the Player singleton and connect to its signal
-        GD.Print($"PlayerPathDestinationMarker: Looking for Player singleton at /root/Player");
+        GD.Print("PlayerPathDestinationMarker: Looking for Player singleton at /root/Player");
         var player = this.GetNode("/root/Player");
         GD.Print($"PlayerPathDestinationMarker: Player node found: {player != null}");
         if (player != null)
         {
-            player.Connect("player_path_set", Callable.From((Gamepiece gamepiece, Vector2I destinationCell) =>
-            {
-                this.OnPlayerPathSet(gamepiece, destinationCell);
-            }));
+            player.Connect("player_path_set", Callable.From((Gamepiece gamepiece, Vector2I destinationCell) => this.OnPlayerPathSet(gamepiece, destinationCell)));
         }
     }
 
@@ -50,14 +47,14 @@ public partial class PlayerPathDestinationMarker : Sprite2D
         // Connect to the arrived signal with one-shot flag
         if (!gamepiece.IsConnected("arrived", Callable.From(this.OnGamepieceArrived)))
         {
-            gamepiece.Connect("arrived", Callable.From(this.OnGamepieceArrived), (uint)ConnectFlags.OneShot);
+            gamepiece.Connect("arrived", Callable.From(this.OnGamepieceArrived), (uint) ConnectFlags.OneShot);
         }
 
         // Get the Gameboard singleton to convert cell to pixel
         var gameboard = this.GetNode("/root/Gameboard");
         if (gameboard != null)
         {
-            this.Position = (Vector2)gameboard.Call("cell_to_pixel", destinationCell);
+            this.Position = (Vector2) gameboard.Call("cell_to_pixel", destinationCell);
         }
 
         this.Show();

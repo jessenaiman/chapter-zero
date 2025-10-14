@@ -1,5 +1,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 /// <summary>
 /// Determines which direction a battler faces on the screen.
 /// </summary>

@@ -1,5 +1,5 @@
-// <copyright file="Trigger.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Trigger.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -69,10 +69,10 @@ public partial class Trigger : Cutscene
                 var connections = this.GetIncomingConnections();
                 foreach (var connection in connections)
                 {
-                    var callable = (Callable)connection["callable"];
+                    var callable = (Callable) connection["callable"];
                     if (callable.Method == "_on_area_entered")
                     {
-                        var callableDict = (Godot.Collections.Dictionary)connection["callable"];
+                        var callableDict = (Godot.Collections.Dictionary) connection["callable"];
                         if (callableDict.ContainsKey("object"))
                         {
                             var objectVariant = callableDict["object"];
@@ -114,7 +114,7 @@ public partial class Trigger : Cutscene
         var connections = this.GetIncomingConnections();
         foreach (var connection in connections)
         {
-            var callable = (Callable)connection["callable"];
+            var callable = (Callable) connection["callable"];
             if (callable.Method == "_on_area_entered")
             {
                 hasAreaEnteredBindings = true;

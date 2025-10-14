@@ -1,11 +1,10 @@
-// <copyright file="PathLoopAIController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PathLoopAIController.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
@@ -19,7 +18,7 @@ public partial class PathLoopAIController : GamepieceController
     /// Gets or sets the Line2D that defines the path points for the gamepiece to follow.
     /// </summary>
     [Export]
-    public Line2D PathToFollow
+    public Line2D? PathToFollow
     {
         get => this.pathToFollow;
         set
@@ -40,6 +39,18 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     private Godot.Timer? timer;
 
+    private Gameboard? gameboard;
+
+    private Gameboard? GetGameboard()
+    {
+        if (this.gameboard == null || !GodotObject.IsInstanceValid(this.gameboard))
+        {
+            this.gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+        }
+
+        return this.gameboard;
+    }
+
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -56,10 +67,15 @@ public partial class PathLoopAIController : GamepieceController
             // Gameboard.PathfinderChanged += OnPathfinderChanged;
 
             // Initialize timer
-            this.timer = new Timer();
+            this.timer = new Godot.Timer();
             this.timer.OneShot = true;
-            this.timer.Timeout += MoveToNextWaypoint;
+            this.timer.Timeout += this.OnTimerTimeout;
             this.AddChild(this.timer);
+
+            if (!this.FindMovePath())
+            {
+                GD.PushWarning($"{this.Name}: No valid loop path could be generated. The controller will remain idle until a path is available.");
+            }
 
             this.timer.Start();
         }
@@ -70,28 +86,38 @@ public partial class PathLoopAIController : GamepieceController
     /// <summary>
     /// Gets or sets a value indicating whether override the active state setter to handle timer pausing.
     /// </summary>
+    private bool _isControllerActive;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the controller is active, handling timer pausing.
+    /// </summary>
     public bool IsControllerActive
     {
-        get => isActive;
+        get => _isControllerActive;
         set
         {
-            if (value != isActive)
+            if (value != _isControllerActive)
             {
-                isActive = value;
+                _isControllerActive = value;
 
                 // Pause/unpause the timer when controller state changes
                 if (this.timer != null)
                 {
-                    this.timer.Paused = !isActive;
+                    this.timer.Paused = !_isControllerActive;
                 }
 
                 // If not paused and timer is stopped, continue movement
-                if (isActive && this.timer?.IsStopped() == true)
+                if (_isControllerActive && this.timer?.IsStopped() == true)
                 {
                     this.MoveToNextWaypoint();
                 }
             }
         }
+    }
+
+    private void OnTimerTimeout()
+    {
+        this.MoveToNextWaypoint();
     }
 
     /// <summary>
@@ -119,49 +145,70 @@ public partial class PathLoopAIController : GamepieceController
     {
         this.MovePath.Clear();
 
-        // A path needs at least two points
-        if (this.PathToFollow?.GetPointCount() <= 1)
+        var pathDefinition = this.PathToFollow;
+        if (pathDefinition == null || pathDefinition.GetPointCount() <= 1)
         {
             return false;
         }
 
+        var board = this.GetGameboard();
+        if (board == null)
+        {
+            GD.PushError($"{this.Name}: Unable to resolve Gameboard when finding move path.");
+            return false;
+        }
+
         // Add the first cell to the path
-        this.startCell = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(0) + this.pathOrigin);
+        this.startCell = board.PixelToCell(pathDefinition.GetPointPosition(0) + this.pathOrigin);
+        this.MovePath.Add(this.startCell);
 
         // Create a looping path from the points specified by PathToFollow
-        for (int i = 1; i < this.PathToFollow.GetPointCount(); i++)
+        for (int i = 1; i < pathDefinition.GetPointCount(); i++)
         {
-            var source = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(i - 1) + this.pathOrigin);
-            var target = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(i) + this.pathOrigin);
+            var source = board.PixelToCell(pathDefinition.GetPointPosition(i - 1) + this.pathOrigin);
+            var target = board.PixelToCell(pathDefinition.GetPointPosition(i) + this.pathOrigin);
 
-            var pathSegment = Gameboard.Pathfinder.GetPathToCell(
-                source,
-                target,
-                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant);
+            var pathSegment = board.PathFinder.GetPathToCell(source, target);
 
-            if (!pathSegment.Any())
+            if (pathSegment == null || !pathSegment.Any())
             {
                 GD.PushError($"{this.Name}: Failed to find path between cells {source} and {target}");
                 return false;
+            }
+
+            // Avoid duplicating the overlap cell between segments.
+            if (this.MovePath.Count > 0 && pathSegment.Count > 0 && pathSegment[0] == this.MovePath[^1])
+            {
+                pathSegment = pathSegment.Skip(1).ToList();
             }
 
             this.MovePath.AddRange(pathSegment);
         }
 
         // Connect the ending and starting cells to complete the loop
-        var lastPos = this.PathToFollow.GetPointPosition(this.PathToFollow.GetPointCount() - 1) + this.pathOrigin;
-        var lastCell = Gameboard.PixelToCell(lastPos);
-        var firstCell = Gameboard.PixelToCell(this.PathToFollow.GetPointPosition(0) + this.pathOrigin);
+        var lastPos = pathDefinition.GetPointPosition(pathDefinition.GetPointCount() - 1) + this.pathOrigin;
+        var lastCell = board.PixelToCell(lastPos);
+        var firstCell = board.PixelToCell(pathDefinition.GetPointPosition(0) + this.pathOrigin);
 
         // If we've made it this far there must be a path between the first and last cell
         if (lastCell != firstCell)
         {
-            var closingPath = Gameboard.Pathfinder.GetPathToCell(
-                lastCell,
-                firstCell,
-                Pathfinder.Flags.AllowSourceOccupant | Pathfinder.Flags.AllowTargetOccupant);
+            var closingPath = board.PathFinder.GetPathToCell(lastCell, firstCell);
+            if (closingPath == null || !closingPath.Any())
+            {
+                GD.PushError($"{this.Name}: Failed to close loop between {lastCell} and {firstCell}");
+                return false;
+            }
+
+            if (closingPath.Count > 0 && closingPath[0] == this.MovePath[^1])
+            {
+                closingPath = closingPath.Skip(1).ToList();
+            }
+
             this.MovePath.AddRange(closingPath);
         }
+
+        this.currentWaypointIndex = -1;
 
         return true;
     }
@@ -191,21 +238,27 @@ public partial class PathLoopAIController : GamepieceController
         if (this.IsActive && this.MovePath.Any())
         {
             var nextIndex = this.GetNextWaypointIndex();
+            var nextCell = this.MovePath[nextIndex];
 
             // If the next waypoint is blocked, restart the timer and try again later
-            if (Gameboard.Pathfinder.CanMoveTo(this.MovePath[nextIndex]))
+            if (this.Gamepiece.CanMoveToCell(nextCell))
             {
                 this.currentWaypointIndex = nextIndex;
 
-                var destination = Gameboard.CellToPixel(this.MovePath[this.currentWaypointIndex]);
-                distanceToPoint = this.Gamepiece.Position.DistanceTo(destination);
-                this.Gamepiece.MoveTo(destination);
+                var board = this.GetGameboard();
+                if (board != null)
+                {
+                    var destination = board.CellToPixel(this.MovePath[this.currentWaypointIndex]);
+                    distanceToPoint = this.Gamepiece.Position.DistanceTo(destination);
+                }
+
+                this.Gamepiece.MoveToCell(nextCell);
 
                 // GamepieceRegistry.MoveGamepiece(Gamepiece, MovePath[currentWaypointIndex]);
             }
             else
             {
-                this.timer.Start();
+                this.timer?.Start();
             }
         }
 
@@ -215,6 +268,7 @@ public partial class PathLoopAIController : GamepieceController
     /// <summary>
     /// Override the gamepiece arriving callback to handle path following.
     /// </summary>
+    /// <param name="excessDistance"></param>
     protected override void OnGamepieceArriving(float excessDistance)
     {
         if (this.MovePath.Any() && this.IsActive)
@@ -222,8 +276,9 @@ public partial class PathLoopAIController : GamepieceController
             // Fast gamepieces could jump several waypoints at once, so check which waypoint is next
             while (this.MovePath.Any() && excessDistance > 0.0f)
             {
-                if (this.MovePath[this.currentWaypointIndex] == this.startCell ||
-                    !Gameboard.Pathfinder.CanMoveTo(this.MovePath[this.GetNextWaypointIndex()]))
+                var nextIndex = this.GetNextWaypointIndex();
+                if ((this.currentWaypointIndex >= 0 && this.MovePath[this.currentWaypointIndex] == this.startCell) ||
+                    !this.Gamepiece.CanMoveToCell(this.MovePath[nextIndex]))
                 {
                     return;
                 }
@@ -239,14 +294,19 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     protected override void OnGamepieceArrived()
     {
-        this.timer.Start();
+        this.timer?.Start();
     }
 
     /// <summary>
     /// Called when the pathfinder changes (cells added/removed).
     /// </summary>
-    private void OnPathfinderChanged(List<Vector2I> added, List<Vector2I> removed)
+    /// <param name="added"></param>
+    /// <param name="removed"></param>
+    private void OnPathfinderChanged(Godot.Collections.Array added, Godot.Collections.Array removed)
     {
+        _ = added;
+        _ = removed;
+
         // Log an error if the path described by PathToFollow cannot be traversed
         if (!this.FindMovePath())
         {

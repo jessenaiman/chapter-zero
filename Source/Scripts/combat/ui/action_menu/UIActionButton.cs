@@ -1,12 +1,13 @@
-// <copyright file="UIActionButton.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIActionButton.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
-/// A button representing a single <see cref="BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
+/// A button representing a single <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
 /// </summary>
 public partial class UIActionButton : TextureButton
 {
@@ -25,7 +26,7 @@ public partial class UIActionButton : TextureButton
         {
             this.action = value;
 
-            if (!this.IsInsideTree() || this.action == null)
+            if (!this.IsInsideTree() || this.action is null)
             {
                 // In C#, we need to wait for the node to be ready before accessing child nodes
                 // We'll call the setup method when the node is ready instead
@@ -33,12 +34,12 @@ public partial class UIActionButton : TextureButton
                 return;
             }
 
-            if (this.icon != null)
+            if (this.icon != null && this.action is not null)
             {
                 this.icon.Texture = this.action.Icon;
             }
 
-            if (this.nameLabel != null)
+            if (this.nameLabel != null && this.action is not null)
             {
                 this.nameLabel.Text = this.action.Label;
             }
@@ -56,17 +57,16 @@ public partial class UIActionButton : TextureButton
         this.nameLabel = this.GetNode<Label>("MarginContainer/Items/Name");
 
         // If Action was set before the node was ready, apply it now
-        if (this.action != null)
+        if (this.action is not null)
         {
-            this.icon.Texture = this.action.Icon;
-            this.nameLabel.Text = this.action.Label;
+            if (this.icon != null)
+                this.icon.Texture = this.action.Icon;
+            if (this.nameLabel != null)
+                this.nameLabel.Text = this.action.Label;
             var marginContainer = this.GetNode<Control>("MarginContainer");
             this.CustomMinimumSize = marginContainer?.Size ?? Vector2.Zero;
         }
 
-        this.Pressed += () =>
-        {
-            this.ReleaseFocus();
-        };
+        this.Pressed += () => this.ReleaseFocus();
     }
 }

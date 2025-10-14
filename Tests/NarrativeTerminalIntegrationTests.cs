@@ -1,5 +1,5 @@
-// <copyright file="NarrativeTerminalIntegrationTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="NarrativeTerminalIntegrationTests.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests
@@ -9,6 +9,7 @@ namespace OmegaSpiral.Tests
     using NUnit.Framework;
     using OmegaSpiral.Source.Scripts;
     using OmegaSpiral.Source.Scripts.Common;
+    using OmegaSpiral.Source.Scripts.Field.Narrative;
 
     /// <summary>
     /// Integration tests for the narrative terminal functionality, testing the interaction between narrative choices and game state updates.
@@ -16,8 +17,8 @@ namespace OmegaSpiral.Tests
     [TestFixture]
     public class NarrativeTerminalIntegrationTests : IDisposable
     {
-        private GameState gameState = new ();
-        private NarrativeTerminal narrativeTerminal = new ();
+        private GameState gameState = new();
+        private NarrativeTerminal narrativeTerminal = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NarrativeTerminalIntegrationTests"/> class.

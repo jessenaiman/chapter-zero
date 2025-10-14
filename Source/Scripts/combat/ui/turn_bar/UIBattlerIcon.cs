@@ -1,15 +1,15 @@
-// <copyright file="UIBattlerIcon.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIBattlerIcon.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using Godot;
 
-[Tool]
 /// <summary>
 /// UI element representing a battler icon in the turn bar.
 /// </summary>
+[Tool]
 public partial class UIBattlerIcon : TextureRect
 {
     /// <summary>
@@ -20,12 +20,21 @@ public partial class UIBattlerIcon : TextureRect
     /// </summary>
     public enum Types
     {
+        /// <summary>
+        /// Represents a friendly battler that is not controlled by the player.
+        /// </summary>
         Ally,
+        /// <summary>
+        /// Represents a battler that is controlled by the player.
+        /// </summary>
         Player,
+        /// <summary>
+        /// Represents an enemy battler that acts against the player.
+        /// </summary>
         Enemy,
     }
 
-    private static readonly Dictionary<Types, Texture2D> PortraitBacks = new Dictionary<Types, Texture2D>
+    private static readonly Dictionary<Types, Texture2D?> PortraitBacks = new Dictionary<Types, Texture2D?>
     {
         { Types.Ally, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_ally.png") },
         { Types.Player, GD.Load<Texture2D>("res://combat/ui/turn_bar/portrait_bg_player.png") },
@@ -44,7 +53,10 @@ public partial class UIBattlerIcon : TextureRect
         set
         {
             this.battlerType = value;
-            this.Texture = PortraitBacks[this.battlerType];
+            if (PortraitBacks.TryGetValue(this.battlerType, out var texture) && texture != null)
+            {
+                this.Texture = texture;
+            }
         }
     }
 
@@ -54,7 +66,7 @@ public partial class UIBattlerIcon : TextureRect
     /// Gets or sets the icon texture to display.
     /// </summary>
     [Export]
-    public Texture2D IconTexture
+    public Texture2D? IconTexture
     {
         get => this.iconTexture;
         set
@@ -68,7 +80,10 @@ public partial class UIBattlerIcon : TextureRect
                 return;
             }
 
-            this.icon.Texture = this.iconTexture;
+            if (this.icon != null)
+            {
+                this.icon.Texture = this.iconTexture;
+            }
         }
     }
 
@@ -118,6 +133,9 @@ public partial class UIBattlerIcon : TextureRect
     /// </summary>
     public void FadeOut()
     {
-        this.anim.Play("fade_out");
+        if (this.anim != null)
+        {
+            this.anim.Play("fade_out");
+        }
     }
 }

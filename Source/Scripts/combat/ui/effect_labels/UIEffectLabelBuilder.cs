@@ -1,21 +1,27 @@
-// <copyright file="UIEffectLabelBuilder.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIEffectLabelBuilder.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
 
 /// <summary>
-/// A builder class responsible for adding visual feedback to <see cref="BattlerAction"/>s.
+/// A builder class responsible for adding visual feedback to <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction"/>s.
 ///
 /// This feedback takes the form of different UI elements (such as an animated label) that may
 /// demonstrate how much damage was done or if an action missed the target completely.
 /// </summary>
 public partial class UIEffectLabelBuilder : Node2D
 {
+    /// <summary>
+    /// Gets or sets the packed scene for the damage label.
+    /// </summary>
     [Export]
     public PackedScene DamageLabelScene { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the packed scene for the missed label.
+    /// </summary>
     [Export]
     public PackedScene MissedLabelScene { get; set; } = null!;
 
@@ -31,14 +37,17 @@ public partial class UIEffectLabelBuilder : Node2D
             {
                 var label = this.MissedLabelScene.Instantiate();
                 this.AddChild(label);
-                label.GlobalPosition = battler.Anim.Top.GlobalPosition;
+                if (label is Node2D label2D && battler?.Anim?.Top != null)
+                {
+                    label2D.GlobalPosition = battler.Anim.Top.GlobalPosition;
+                }
             };
 
             battler.HitReceived += (amount) =>
             {
                 var label = this.DamageLabelScene.Instantiate() as UIDamageLabel;
                 this.AddChild(label);
-                if (label != null && battler.Anim != null)
+                if (label != null && battler?.Anim?.Top != null)
                 {
                     label.Setup(battler.Anim.Top.GlobalPosition, amount);
                 }

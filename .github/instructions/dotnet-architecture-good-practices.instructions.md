@@ -1,47 +1,16 @@
 ---
 description: "DDD and .NET architecture guidelines"
-applyTo: '**/*.cs,**/*.csproj,**/Program.cs,**/*.razor'
+applyTo: '**/*.cs'
 ---
 
-# DDD Systems & .NET Guidelines
+1. **MUST USE SERANA FOR PROJECT MEMORIES (onboard first)**
+2. **use the `problems` tool to see the problems in the file and ide**
+3. **ALWAYS CHECK THE BUILD AFTER EVERY NEW FILE AND CHANGE**
+4. **USE THE CODACY MCP TOOL TO CHECK FOR ISSUES AND FIXES**
+5. **MUST ENFORCE XML Documentation Comments**
 
-You are an AI assistant specialized in Domain-Driven Design (DDD), SOLID principles, and .NET good practices for software Development. Follow these guidelines for building robust, maintainable systems.
 
-## MANDATORY THINKING PROCESS
-
-**BEFORE any implementation, you MUST:**
-
-1.  **Show Your Analysis** - Always start by explaining:
-    * What DDD patterns and SOLID principles apply to the request.
-    * Which layer(s) will be affected (Domain/Application/Infrastructure).
-    * How the solution aligns with ubiquitous language.
-    * Security and compliance considerations.
-2.  **Review Against Guidelines** - Explicitly check:
-    * Does this follow DDD aggregate boundaries?
-    * Does the design adhere to the Single Responsibility Principle?
-    * Are domain rules encapsulated correctly?
-    * Will tests follow the `MethodName_Condition_ExpectedResult()` pattern?
-    * Are Coding domain considerations addressed?
-    * Is the ubiquitous language consistent?
-3.  **Validate Implementation Plan** - Before coding, state:
-    * Which aggregates/entities will be created/modified.
-    * What domain events will be published.
-    * How interfaces and classes will be structured according to SOLID principles.
-    * What tests will be needed and their naming.
-
-**If you cannot clearly explain these points, STOP and ask for clarification.**
-
-## Core Principles
-
-### 1. **Domain-Driven Design (DDD)**
-
-* **Ubiquitous Language**: Use consistent business terminology across code and documentation.
-* **Bounded Contexts**: Clear service boundaries with well-defined responsibilities.
-* **Aggregates**: Ensure consistency boundaries and transactional integrity.
-* **Domain Events**: Capture and propagate business-significant occurrences.
-* **Rich Domain Models**: Business logic belongs in the domain layer, not in application services.
-
-### 2. **SOLID Principles**
+### **SOLID Principles**
 
 * **Single Responsibility Principle (SRP)**: A class should have only one reason to change.
 * **Open/Closed Principle (OCP)**: Software entities should be open for extension but closed for modification.
@@ -110,64 +79,13 @@ You are an AI assistant specialized in Domain-Driven Design (DDD), SOLID princip
 * **Domain Modeling**: Regular refinement through domain expert collaboration.
 * **Continuous Integration**: Automated testing of all layers.
 
-## Implementation Guidelines
-
-When implementing solutions, **ALWAYS follow this process**:
-
-### Step 1: Domain Analysis (REQUIRED)
-
-**You MUST explicitly state:**
-
-* Domain concepts involved and their relationships.
-* Aggregate boundaries and consistency requirements.
-* Ubiquitous language terms being used.
-* Business rules and invariants to enforce.
-
-### Step 2: Architecture Review (REQUIRED)
-
-**You MUST validate:**
-
-* How responsibilities are assigned to each layer.
-* Adherence to SOLID principles, especially SRP and DIP.
-* How domain events will be used for decoupling.
-* Security implications at the aggregate level.
-
-### Step 3: Implementation Planning (REQUIRED)
-
-**You MUST outline:**
-
-* Files to be created/modified with justification.
-* Test cases using `MethodName_Condition_ExpectedResult()` pattern.
-* Error handling and validation strategy.
-* Performance and scalability considerations.
-
-### Step 4: Implementation Execution
-
-1.  **Start with domain modeling and ubiquitous language.**
-2.  **Define aggregate boundaries and consistency rules.**
-3.  **Implement application services with proper input validation.**
-4.  **Adhere to .NET good practices like async programming and DI.**
-5.  **Add comprehensive tests following naming conventions.**
-6.  **Implement domain events for loose coupling where appropriate.**
-7.  **Document domain decisions and trade-offs.**
-
-### Step 5: Post-Implementation Review (REQUIRED)
-
-**You MUST verify:**
-
-* All quality checklist items are met.
-* Tests follow naming conventions and cover edge cases.
-* Domain rules are properly encapsulated.
-* Financial calculations maintain precision.
-* Security and compliance requirements are satisfied.
-
 ## Testing Guidelines
 
 ### Test Structure
 
 ```csharp
 [Fact(DisplayName = "Descriptive test scenario")]
-public void MethodName_Condition_ExpectedResult()
+public void MethodNameConditionExpectedResult()
 {
     // Setup for the test
     var aggregate = CreateTestAggregate();
@@ -194,7 +112,7 @@ public void MethodName_Condition_ExpectedResult()
 
 **Before writing any test, you MUST:**
 
-1.  **Verify naming follows pattern**: `MethodName_Condition_ExpectedResult()`
+1.  **Verify naming follows pattern**: `MethodNameConditionExpectedResult()`
 2.  **Confirm test category**: Which type of test (Unit/Integration/Acceptance).
 3.  **Check domain alignment**: Test validates actual business rules.
 4.  **Review edge cases**: Includes error scenarios and boundary conditions.
@@ -213,7 +131,7 @@ public void MethodName_Condition_ExpectedResult()
 
 ### Implementation Quality Validation
 
-* **Test Coverage**: "I have written comprehensive tests following `MethodName_Condition_ExpectedResult()` naming."
+* **Test Coverage**: "I have written comprehensive tests following `MethodNameConditionExpectedResult()` naming."
 * **Performance**: "I have considered performance implications and ensured efficient processing."
 * **Security**: "I have implemented authorization at aggregate boundaries."
 * **Documentation**: "I have documented domain decisions and architectural choices."
@@ -258,6 +176,7 @@ public void MethodName_Condition_ExpectedResult()
 
 ### Platform Integration
 
+* Use context7 to update your knowledge on DDD and .NET best practices.
 * Use system standard DDD libraries and frameworks.
 * Implement proper bounded context integration.
 * Maintain backward compatibility in public contracts.
@@ -270,9 +189,8 @@ public void MethodName_Condition_ExpectedResult()
 **YOU MUST ALWAYS:**
 
 * Show your thinking process before implementing.
-* Explicitly validate against these guidelines.
 * Use the mandatory verification statements.
-* Follow the `MethodName_Condition_ExpectedResult()` test naming pattern.
+* Follow the `MethodNameConditionExpectedResult()` test naming pattern.
 * Confirm financial domain considerations are addressed.
 * Stop and ask for clarification if any guideline is unclear.
 

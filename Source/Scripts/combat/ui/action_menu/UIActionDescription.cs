@@ -1,12 +1,12 @@
-// <copyright file="UIActionDescription.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIActionDescription.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
 
 /// <summary>
-/// A text bar that displays the <see cref="BattlerAction.Description"/> of a <see cref="BattlerAction"/>.
+/// A text bar that displays the <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction.Description"/> of a <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction"/>.
 ///
 /// This bar is shown to give the player information about actions as they select one from the
 /// <see cref="UIActionMenu"/>.

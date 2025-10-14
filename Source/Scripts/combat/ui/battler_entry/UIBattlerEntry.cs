@@ -1,10 +1,11 @@
-// <copyright file="UIBattlerEntry.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIBattlerEntry.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
 /// An entry in the <see cref="UIPlayerBattlerList"/> for one of the player's <see cref="Battler"/>s.
@@ -153,7 +154,7 @@ public partial class UIBattlerEntry : TextureButton
         var combatEvents = this.GetNode("/root/CombatEvents");
         if (combatEvents != null)
         {
-            combatEvents.Connect("action_selected", Callable.From((BattlerAction action, Battler source, Battler[] targets) =>
+            combatEvents.Connect("action_selected", Callable.From((BattlerAction action, Battler source, Battler[] _) =>
             {
                 if (source == this.battler && this.life != null)
                 {

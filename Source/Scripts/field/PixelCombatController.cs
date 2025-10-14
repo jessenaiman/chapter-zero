@@ -1,13 +1,20 @@
-// <copyright file="PixelCombatController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PixelCombatController.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Common;
 using YamlDotNet.Serialization;
 
+/// <summary>
+/// Controls the turn-based pixel combat scene, managing player and enemy actions, UI updates, and combat flow.
+/// </summary>
+/// <remarks>
+/// Handles loading combat data, initializing sprites and UI, processing player and enemy turns, and determining combat outcomes.
+/// </remarks>
 public partial class PixelCombatController : Node2D
 {
     private Sprite2D? playerSprite;
@@ -188,7 +195,7 @@ public partial class PixelCombatController : Node2D
     private static int CalculatePlayerDamage()
     {
         // TODO: Calculate based on party stats
-        return 10 + (int)(GD.Randf() * 10);
+        return 10 + (int) (GD.Randf() * 10);
     }
 
     private void EnemyTurn()

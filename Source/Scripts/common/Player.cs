@@ -1,5 +1,5 @@
-// <copyright file="Player.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Player.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -23,6 +23,8 @@ public partial class Player : Node
     /// Emitted when the player sets a movement path for their focused gamepiece.
     /// The destination is the last cell in the path.
     /// </summary>
+    /// <param name="gamepiece">The gamepiece that the player is controlling.</param>
+    /// <param name="destinationCell">The last cell in the path.</param>
     [Signal]
     public delegate void PlayerPathSetEventHandler(Gamepiece gamepiece, Vector2I destinationCell);
 
@@ -31,7 +33,7 @@ public partial class Player : Node
     /// <summary>
     /// Gets or sets the gamepiece that the player is currently controlling. This is a read-only property.
     /// </summary>
-    public Gamepiece Gamepiece
+    public Gamepiece? Gamepiece
     {
         get => this.gamepiece;
         set

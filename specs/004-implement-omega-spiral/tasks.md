@@ -12,11 +12,13 @@ description: "Task list for Ωmega Spiral Godot 4 Implementation"
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
 ## Format: `[ID] [P?] [Story] Description`
+
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
 - Include exact file paths in descriptions
 
 ## Path Conventions
+
 - **Godot Project**: `/Source/Scenes/`, `/Source/Scripts/`, `/Source/Data/`, `/Source/UI/`, `/Tests/`
 - Paths shown below follow the planned Godot project structure
 

@@ -1,5 +1,5 @@
-// <copyright file="Cutscene.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Cutscene.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -32,7 +32,9 @@ using Godot;
 [Tool]
 public partial class Cutscene : Node2D
 {
-    // Indicates if a cutscene is currently running. <b>This member should not be set externally</b>.
+    /// <summary>
+    /// Indicates if a cutscene is currently running. <b>This member should not be set externally</b>.
+    /// </summary>
     private static bool isCutsceneInProgress;
 
     /// <summary>

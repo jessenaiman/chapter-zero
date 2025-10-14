@@ -1,5 +1,5 @@
-// <copyright file="CombatSceneData.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatSceneData.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -34,7 +34,7 @@ namespace OmegaSpiral.Source.Scripts
         /// Gets or sets the list of available combat actions.
         /// </summary>
         [YamlMember(Alias = "actions")]
-        public List<string> Actions { get; set; } = new ();
+        public List<string> Actions { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the background music for the combat scene.
@@ -94,7 +94,7 @@ namespace OmegaSpiral.Source.Scripts
         /// Gets or sets the list of attack patterns this enemy can use.
         /// </summary>
         [YamlMember(Alias = "attackPatterns")]
-        public List<string> AttackPatterns { get; set; } = new ();
+        public List<string> AttackPatterns { get; set; } = new();
     }
 
     /// <summary>

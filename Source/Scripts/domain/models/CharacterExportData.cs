@@ -1,5 +1,5 @@
-// <copyright file="CharacterExportData.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CharacterExportData.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
@@ -624,7 +624,7 @@ namespace OmegaSpiral.Domain.Models
             var godotDict = new Godot.Collections.Dictionary();
             foreach (var kvp in dict)
             {
-                godotDict[kvp.Key] = (Variant)kvp.Value;
+                godotDict[kvp.Key] = (Variant) kvp.Value;
             }
 
             return godotDict;

@@ -1,5 +1,5 @@
-// <copyright file="FieldCamera.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="FieldCamera.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -9,7 +9,7 @@ using Godot;
 /// Specialized camera that is constrained to the <see cref="Gameboard"/>'s boundaries.
 ///
 /// The camera's limits are set dynamically according to the viewport's dimensions. Normally, the
-/// camera is limited to the <see cref="GameboardProperties.Boundaries"/>.
+/// camera is limited to the gameboard boundaries.
 /// <br/><br/>In some cases the gameboard is smaller than the viewport, in which case it will be
 /// snapped to the gameboard centre along the constrained axis/axes.
 /// </summary>
@@ -21,7 +21,7 @@ public partial class FieldCamera : Camera2D
     /// Gets or sets the gameboard properties that define the boundaries for the camera.
     /// </summary>
     [Export]
-    public GameboardProperties GameboardProperties
+    public GameboardProperties? GameboardProperties
     {
         get => this.gameboardProperties;
         set
@@ -37,21 +37,15 @@ public partial class FieldCamera : Camera2D
     /// Gets or sets the gamepiece that the camera will follow.
     /// </summary>
     [Export]
-    public Gamepiece Gamepiece
+    public Gamepiece? Gamepiece
     {
         get => this.gamepiece;
         set
         {
-            if (this.gamepiece != null)
-            {
-                this.gamepiece.AnimationTransform.RemotePath = string.Empty;
-            }
-
             this.gamepiece = value;
             if (this.gamepiece != null)
             {
-                this.gamepiece.AnimationTransform.RemotePath =
-                    this.gamepiece.AnimationTransform.GetPathTo(this);
+                this.Position = this.gamepiece.Position;
             }
         }
     }
@@ -113,16 +107,16 @@ public partial class FieldCamera : Camera2D
 
             // And add/subtract half the viewport dimension to come up with the limits. This will fix the
             // camera with the gameboard centred.
-            this.LimitLeft = (int)((this.Position.X - (vpSize.X / 2.0f)) * this.GlobalScale.X);
-            this.LimitRight = (int)((this.Position.X + (vpSize.X / 2.0f)) * this.GlobalScale.X);
+            this.LimitLeft = (int) ((this.Position.X - (vpSize.X / 2.0f)) * this.GlobalScale.X);
+            this.LimitRight = (int) ((this.Position.X + (vpSize.X / 2.0f)) * this.GlobalScale.X);
         }
 
         // If, however, the viewport is smaller than the gameplay area, the camera can be free to move
         // as needed.
         else
         {
-            this.LimitLeft = (int)(boundaryLeft * this.GlobalScale.X);
-            this.LimitRight = (int)(boundaryRight * this.GlobalScale.X);
+            this.LimitLeft = (int) (boundaryLeft * this.GlobalScale.X);
+            this.LimitRight = (int) (boundaryRight * this.GlobalScale.X);
         }
 
         // Perform the same checks as above for the y-axis.
@@ -131,13 +125,13 @@ public partial class FieldCamera : Camera2D
             this.Position = new Vector2(
                 this.Position.X,
                 (this.gameboardProperties.Extents.Position.Y + (this.gameboardProperties.Extents.Size.Y / 2.0f)) * this.gameboardProperties.CellSize.Y);
-            this.LimitTop = (int)((this.Position.Y - (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
-            this.LimitBottom = (int)((this.Position.Y + (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
+            this.LimitTop = (int) ((this.Position.Y - (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
+            this.LimitBottom = (int) ((this.Position.Y + (vpSize.Y / 2.0f)) * this.GlobalScale.Y);
         }
         else
         {
-            this.LimitTop = (int)(boundaryTop * this.GlobalScale.Y);
-            this.LimitBottom = (int)(boundaryBottom * this.GlobalScale.Y);
+            this.LimitTop = (int) (boundaryTop * this.GlobalScale.Y);
+            this.LimitBottom = (int) (boundaryBottom * this.GlobalScale.Y);
         }
     }
 }

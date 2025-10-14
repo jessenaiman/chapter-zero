@@ -1,5 +1,5 @@
-// <copyright file="Gamepiece.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Gamepiece.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -66,7 +66,7 @@ public partial class Gamepiece : Node2D
             if (value != this.direction)
             {
                 this.direction = value;
-                EmitSignal(SignalName.DirectionChanged, (int)this.direction);
+                EmitSignal(SignalName.DirectionChanged, (int) this.direction);
             }
         }
     }
@@ -136,7 +136,7 @@ public partial class Gamepiece : Node2D
     {
         if (this.IsMoving)
         {
-            this.ProcessMovement((float)delta);
+            this.ProcessMovement((float) delta);
         }
     }
 

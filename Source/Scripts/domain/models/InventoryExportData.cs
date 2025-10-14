@@ -590,7 +590,7 @@ namespace OmegaSpiral.Domain.Models
             var godotDict = new Godot.Collections.Dictionary();
             foreach (var kvp in dict)
             {
-                godotDict[kvp.Key] = (Variant)kvp.Value;
+                godotDict[kvp.Key] = (Variant) kvp.Value;
             }
 
             return godotDict;

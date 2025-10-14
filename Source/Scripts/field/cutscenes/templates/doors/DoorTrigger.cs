@@ -1,5 +1,5 @@
-// <copyright file="DoorTrigger.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DoorTrigger.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -34,8 +34,8 @@ public partial class DoorTrigger : Trigger
     /// Activate the door trigger's logic.
     /// Plays the "open" animation when triggered.
     /// </summary>
-    /// <param name="triggeringObject">The object that triggered this door.</param>
-    public async void Activate(Node2D triggeringObject)
+    /// <param name="_">The object that triggered this door (unused).</param>
+    public void Activate(Node2D _)
     {
         // Play the open animation if the animation player is set
         if (this.Anim != null)

@@ -1,5 +1,5 @@
-// <copyright file="PartyData.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PartyData.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Gets or sets the list of party members.
         /// </summary>
-        public List<Character> Members { get; set; } = new ();
+        public List<Character> Members { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the party's gold amount.
@@ -24,7 +24,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Gets or sets the party's inventory as a dictionary of item names to quantities.
         /// </summary>
-        public Godot.Collections.Dictionary<string, int> Inventory { get; set; } = new ();
+        public Godot.Collections.Dictionary<string, int> Inventory { get; set; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PartyData"/> class.
@@ -39,6 +39,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="character">The character to add.</param>
         /// <returns><see langword="true"/> if character was added, <see langword="false"/> if party is full.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="character"/> is <c>null</c>.</exception>
         public bool AddMember(Character character)
         {
             if (character == null)
@@ -126,7 +127,7 @@ namespace OmegaSpiral.Source.Scripts
                 return 0;
             }
 
-            return (double)this.GetTotalLevel() / this.Members.Count;
+            return (double) this.GetTotalLevel() / this.Members.Count;
         }
 
         /// <summary>
@@ -239,6 +240,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="dict">The dictionary containing serialized party data.</param>
         /// <returns>A new <see cref="PartyData"/> instance populated from the dictionary.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static PartyData FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
             if (dict == null)
@@ -250,7 +252,7 @@ namespace OmegaSpiral.Source.Scripts
 
             if (dict.ContainsKey("gold"))
             {
-                party.Gold = (int)dict["gold"];
+                party.Gold = (int) dict["gold"];
             }
 
             if (dict.ContainsKey("inventory"))

@@ -1,5 +1,5 @@
-// <copyright file="Scene1Narrative.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Scene1Narrative.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -16,7 +16,9 @@ using YamlDotNet.Serialization;
 /// </summary>
 public partial class Scene1Narrative : Node2D
 {
-    // UI components
+    /// <summary>
+    /// UI components
+    /// </summary>
     private RichTextLabel? outputLabel;
     private LineEdit? inputField;
     private Button? submitButton;
@@ -26,11 +28,13 @@ public partial class Scene1Narrative : Node2D
     private Godot.Timer? typewriterTimer;
     private ShaderMaterial? crtMaterial;
 
-    // Dreamweaver system integration
+    /// <summary>
+    /// Dreamweaver system integration
+    /// </summary>
     private DreamweaverSystem? dreamweaverSystem;
     private SceneManager? sceneManager;
     private string currentPersona = "hero";
-    private List<string> openingLines = new ();
+    private List<string> openingLines = new();
     private int currentLineIndex;
     private bool waitingForNameInput;
     private bool waitingForPersonaChoice;
@@ -42,29 +46,62 @@ public partial class Scene1Narrative : Node2D
     public float TypewriterSpeed { get; set; } = 0.05f; // seconds per character
 
     /// <inheritdoc/>
-    public override void _Ready()
+    /// <summary>
+    /// Called when the node enters the scene tree. Initializes UI components and narrative system.
+    /// </summary>
+    /// <inheritdoc/>
+    public override async void _Ready()
     {
-        this.outputLabel = this.GetNode<RichTextLabel>("OutputLabel");
-        this.inputField = this.GetNode<LineEdit>("InputField");
-        this.submitButton = this.GetNode<Button>("SubmitButton");
-        this.promptLabel = this.GetNode<Label>("PromptLabel");
+        GD.Print("Scene1Narrative _Ready() called");
 
+        this.outputLabel = this.GetNodeOrNull<RichTextLabel>("TerminalPanel/OutputLabel");
+        this.inputField = this.GetNodeOrNull<LineEdit>("InputField");
+        this.submitButton = this.GetNodeOrNull<Button>("SubmitButton");
+        this.promptLabel = this.GetNodeOrNull<Label>("PromptLabel");
+
+        if (this.outputLabel == null)
+        {
+            GD.PrintErr("OutputLabel node not found at path: TerminalPanel/OutputLabel");
+        }
+        if (this.inputField == null)
+        {
+            GD.PrintErr("InputField node not found at path: InputField");
+        }
+        if (this.submitButton == null)
+        {
+            GD.PrintErr("SubmitButton node not found at path: SubmitButton");
+        }
+        if (this.promptLabel == null)
+        {
+            GD.PrintErr("PromptLabel node not found at path: PromptLabel");
+        }
         if (this.outputLabel == null || this.inputField == null || this.submitButton == null || this.promptLabel == null)
         {
-            GD.PrintErr("Failed to find required UI nodes in Scene1Narrative");
+            GD.PrintErr("Failed to find one or more required UI nodes in Scene1Narrative. Initialization aborted.");
             return;
         }
 
-        this.crtMaterial = (ShaderMaterial)this.outputLabel.Material;
+        GD.Print("All UI nodes found successfully");
+
+        this.crtMaterial = (ShaderMaterial) this.outputLabel.Material;
 
         // Get autoload references
         this.dreamweaverSystem = this.GetNode<DreamweaverSystem>("/root/DreamweaverSystem");
         this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
 
+        GD.Print($"DreamweaverSystem instance: {this.dreamweaverSystem?.GetInstanceId() ?? 0}, SceneManager: {this.sceneManager != null}");
+
         this.submitButton.Pressed += this.OnSubmitPressed;
 
         // Initialize narrative system
+        if (this.dreamweaverSystem != null)
+        {
+            await this.dreamweaverSystem.InitializationComplete;
+        }
+
         this.InitializeNarrative();
+
+        GD.Print("Scene1Narrative initialization complete");
     }
 
     /// <inheritdoc/>
@@ -72,7 +109,7 @@ public partial class Scene1Narrative : Node2D
     {
         if (this.crtMaterial != null)
         {
-            this.crtMaterial.SetShaderParameter("time", (float)(Time.GetTicksMsec() / 1000.0));
+            this.crtMaterial.SetShaderParameter("time", (float) (Time.GetTicksMsec() / 1000.0));
         }
     }
 
@@ -146,7 +183,7 @@ public partial class Scene1Narrative : Node2D
         try
         {
             var timelinePath = "res://Source/Data/scenes/scene1_narrative/opening_scene.dtl";
-            var dialogicNode = (GodotObject)this.GetNode("/root/Dialogic");
+            var dialogicNode = (GodotObject) this.GetNode("/root/Dialogic");
 
             if (dialogicNode != null)
             {
@@ -184,6 +221,7 @@ public partial class Scene1Narrative : Node2D
     /// </summary>
     private void StartOriginalNarrative()
     {
+        GD.Print("Starting original narrative system (Dialogic fallback)");
         this.LoadOpeningLines();
         this.StartNarrativeSequence();
     }
@@ -213,31 +251,30 @@ public partial class Scene1Narrative : Node2D
         // This will be enhanced to use the selected persona later
         this.openingLines.Clear();
 
-        // Load opening lines from the hero persona configuration
-        var heroPersona = this.dreamweaverSystem.GetNode<DreamweaverPersona>("/root/DreamweaverSystem") as DreamweaverPersona;
+        // Get the current persona from the DreamweaverSystem
+        var heroPersona = this.dreamweaverSystem.GetPersona("hero");
+        GD.Print($"Hero persona found: {heroPersona != null}");
         if (heroPersona != null)
         {
-            // Use reflection to access the config since it's private
-            var configField = heroPersona.GetType().GetField("config", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (configField != null)
+            GD.Print($"Hero config OpeningLines count: {heroPersona.Config.OpeningLines.Count}");
+            if (heroPersona.Config.OpeningLines.Count > 0)
             {
-                var config = configField.GetValue(heroPersona) as PersonaConfig;
-                if (config != null && config.OpeningLines.Count > 0)
-                {
-                    this.openingLines.AddRange(config.OpeningLines);
-                }
-                else
-                {
-                    // Fallback to hardcoded lines if config is empty
-                    this.openingLines.Add("If you could hear only one story...");
-                    this.openingLines.Add("What would it be?");
-                    this.openingLines.Add("Choose your path:");
-                }
+                this.openingLines.AddRange(heroPersona.Config.OpeningLines);
+                GD.Print($"Loaded {this.openingLines.Count} opening lines from hero config");
+            }
+            else
+            {
+                GD.Print("Hero config has no opening lines, using fallback");
+                // Fallback to hardcoded lines if config is empty or persona not found
+                this.openingLines.Add("If you could hear only one story...");
+                this.openingLines.Add("What would it be?");
+                this.openingLines.Add("Choose your path:");
             }
         }
         else
         {
-            // Fallback if hero persona not found
+            GD.Print("Hero persona not found, using fallback");
+            // Fallback to hardcoded lines if config is empty or persona not found
             this.openingLines.Add("If you could hear only one story...");
             this.openingLines.Add("What would it be?");
             this.openingLines.Add("Choose your path:");
@@ -249,10 +286,16 @@ public partial class Scene1Narrative : Node2D
     /// </summary>
     private void StartNarrativeSequence()
     {
+        GD.Print($"StartNarrativeSequence called with {this.openingLines.Count} opening lines");
         this.currentLineIndex = 0;
         if (this.openingLines.Count > 0)
         {
+            GD.Print($"Displaying first line: {this.openingLines[0]}");
             this.DisplayTextWithTypewriter(this.openingLines[0]);
+        }
+        else
+        {
+            GD.PrintErr("No opening lines to display!");
         }
     }
 

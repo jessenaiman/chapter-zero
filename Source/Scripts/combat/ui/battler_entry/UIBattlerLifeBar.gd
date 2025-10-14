@@ -14,15 +14,15 @@ class_name UIBattlerLifeBar extends TextureProgressBar
 # See the setter function below for the details.
 var target_value := 0.0:
 	set(new_value):
-		# If the `amount` is lower than the current `target_value`, it means the battler lost 
+		# If the `amount` is lower than the current `target_value`, it means the battler lost
 		# health.
 		if target_value > new_value:
 			_anim.play("damage")
-		
+
 		target_value = new_value
 		if _tween:
 			_tween.kill()
-		
+
 		var duration: float = abs(target_value - value) / max_value * fill_rate
 		_tween = create_tween().set_trans(Tween.TRANS_QUAD)
 		_tween.tween_property(self, "value", target_value, duration)
@@ -49,7 +49,7 @@ func _ready() -> void:
 
 func setup(battler_name: String, max_hp: int, start_hp: int) -> void:
 	_name_label.text = battler_name
-	
+
 	max_value = max_hp
 	value = start_hp
 

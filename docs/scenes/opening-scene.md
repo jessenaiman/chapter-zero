@@ -34,21 +34,21 @@ Based on all details extracted from the chat export, here are comprehensive draf
       "description": "Epic tales of magic, heroes, and ancient powers"
     },
     {
-      "id": "mystery", 
+      "id": "mystery",
       "key": "2",
       "text": "A mystery — clues hidden in the silence",
       "description": "Puzzles, secrets, and hidden truths"
     },
     {
       "id": "horror",
-      "key": "3", 
+      "key": "3",
       "text": "A horror — that whispers your name in the dark",
       "description": "Dark tales that chill the soul"
     },
     {
       "id": "romance",
       "key": "4",
-      "text": "A romance — written in stardust and sacrifice", 
+      "text": "A romance — written in stardust and sacrifice",
       "description": "Love stories that transcend time"
     }
   ],

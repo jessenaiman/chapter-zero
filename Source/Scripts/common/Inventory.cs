@@ -1,5 +1,5 @@
-// <copyright file="Inventory.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Inventory.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -28,7 +28,9 @@ public partial class Inventory : Resource
         { ItemType.GreenWand, GD.Load<AtlasTexture>("res://assets/items/wand_green.atlastex") },
     };
 
-    // Keep track of what is in the inventory. Dictionary keys are an ItemType, values are the amount.
+    /// <summary>
+    /// Keep track of what is in the inventory. Dictionary keys are an ItemType, values are the amount.
+    /// </summary>
     private Dictionary<ItemType, int> items = new Dictionary<ItemType, int>();
 
     /// <summary>
@@ -138,7 +140,7 @@ public partial class Inventory : Resource
         int oldAmount = this.items.GetValueOrDefault(itemType, 0);
         this.items[itemType] = Math.Max(oldAmount + amount, 0);
 
-        this.EmitSignal(SignalName.ItemChanged, (int)itemType);
+        this.EmitSignal(SignalName.ItemChanged, (int) itemType);
     }
 
     /// <summary>

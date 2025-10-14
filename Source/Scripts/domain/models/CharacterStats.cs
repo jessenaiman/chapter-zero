@@ -407,7 +407,7 @@ namespace OmegaSpiral.Domain.Models
         private static int CalculateExperienceForLevel(int level)
         {
             // Exponential growth formula: base * (multiplier ^ level)
-            return 100 * (int)System.Math.Pow(1.5, level - 1);
+            return 100 * (int) System.Math.Pow(1.5, level - 1);
         }
 
         /// <summary>

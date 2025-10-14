@@ -1,5 +1,5 @@
-// <copyright file="FanInteraction.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="FanInteraction.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -44,10 +44,10 @@ public partial class FanInteraction : ConversationTemplate
     /// <summary>
     /// Execute the fan interaction with quest logic.
     /// </summary>
-    public async void ExecuteFanInteraction()
+    public async Task ExecuteFanInteraction()
     {
-        // Call Execute without await since it's async void
-        this.Execute();
+        // Await Execute to ensure proper async flow
+        await this.Execute();
 
         // The quest's state is tracked by a Dialogic variable.
         // After speaking with the character for the first time, he should run to a new position so that
@@ -57,7 +57,7 @@ public partial class FanInteraction : ConversationTemplate
         {
             var varNode = dialogic.GetNode("VAR");
             var tokenQuestStatus = varNode?.Call("get_variable", "TokenQuestStatus");
-            if (tokenQuestStatus != null && (int)tokenQuestStatus == 1)
+            if (tokenQuestStatus != null && (int) tokenQuestStatus == 1)
             {
                 await this.OnInitialConversationFinished().ConfigureAwait(false);
             }
@@ -67,9 +67,9 @@ public partial class FanInteraction : ConversationTemplate
     /// <summary>
     /// Override the Run method to execute the fan interaction.
     /// </summary>
-    public override void Run()
+    public override async void Run()
     {
-        this.ExecuteFanInteraction();
+        await this.ExecuteFanInteraction();
         base.Run();
     }
 

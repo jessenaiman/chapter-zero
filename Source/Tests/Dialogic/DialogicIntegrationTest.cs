@@ -1,5 +1,5 @@
-// <copyright file="DialogicIntegrationTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DialogicIntegrationTest.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -44,5 +44,7 @@ public partial class DialogicIntegrationTest : Node2D
         // Test starting a timeline (if we have one)
         // This would require a valid .dtl file to test with
         GD.Print("DialogicIntegration test completed successfully!");
+
+        await Task.CompletedTask;
     }
 }

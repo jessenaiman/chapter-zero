@@ -1,5 +1,5 @@
-// <copyright file="CombatActor.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatActor.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -68,6 +68,7 @@ public abstract partial class CombatActor : Node2D
     /// <param name="a">The first combat actor to compare.</param>
     /// <param name="b">The second combat actor to compare.</param>
     /// <returns><see langword="true"/> if actor a has higher initiative than actor b; otherwise, <see langword="false"/>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="a"/> is <c>null</c>.</exception>
     public static bool Sort(CombatActor a, CombatActor b)
     {
         if (a == null)

@@ -1,5 +1,5 @@
-// <copyright file="Scene1LoadTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Scene1LoadTests.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests
@@ -16,6 +16,12 @@ namespace OmegaSpiral.Tests
     [TestFixture]
     public partial class Scene1LoadTests : GodotObject
     {
+        /// <summary>
+        /// Verifies that the Scene1Narrative.tscn file exists in the expected location.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the narrative scene file is present for loading and testing.
+        /// </remarks>
         [Test]
         public void Scene1_SceneFileExists()
         {
@@ -29,6 +35,12 @@ namespace OmegaSpiral.Tests
             Assert.That(exists, Is.True, $"Scene1Narrative.tscn should exist at {scenePath}");
         }
 
+        /// <summary>
+        /// Checks that the hero.json data file exists for Scene1.
+        /// </summary>
+        /// <remarks>
+        /// Validates the presence of hero narrative data for Scene1.
+        /// </remarks>
         [Test]
         public void Scene1_HeroDataFileExists()
         {
@@ -42,6 +54,12 @@ namespace OmegaSpiral.Tests
             Assert.That(exists, Is.True, $"Hero narrative data should exist at {dataPath}");
         }
 
+        /// <summary>
+        /// Checks that the shadow.json data file exists for Scene1.
+        /// </summary>
+        /// <remarks>
+        /// Validates the presence of shadow narrative data for Scene1.
+        /// </remarks>
         [Test]
         public void Scene1_ShadowDataFileExists()
         {
@@ -55,6 +73,12 @@ namespace OmegaSpiral.Tests
             Assert.That(exists, Is.True, $"Shadow narrative data should exist at {dataPath}");
         }
 
+        /// <summary>
+        /// Checks that the ambition.json data file exists for Scene1.
+        /// </summary>
+        /// <remarks>
+        /// Validates the presence of ambition narrative data for Scene1.
+        /// </remarks>
         [Test]
         public void Scene1_AmbitionDataFileExists()
         {
@@ -68,6 +92,12 @@ namespace OmegaSpiral.Tests
             Assert.That(exists, Is.True, $"Ambition narrative data should exist at {dataPath}");
         }
 
+        /// <summary>
+        /// Verifies that the hero.json data file for Scene1 can be parsed as valid JSON.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the hero narrative data structure is correct and parseable.
+        /// </remarks>
         [Test]
         public void Scene1_HeroDataCanBeParsed()
         {
@@ -105,6 +135,12 @@ namespace OmegaSpiral.Tests
             doc?.Dispose();
         }
 
+        /// <summary>
+        /// Verifies that the Scene1Narrative.tscn file can be loaded as a PackedScene.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the scene resource loads successfully for further testing.
+        /// </remarks>
         [Test]
         public void Scene1_SceneCanBeLoaded()
         {
@@ -120,6 +156,12 @@ namespace OmegaSpiral.Tests
             Assert.That(packedScene, Is.Not.Null, "Scene resource should be a PackedScene");
         }
 
+        /// <summary>
+        /// Verifies that the Scene1Narrative.tscn file can be instantiated as a Node.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the scene can be instantiated and its root node is correct.
+        /// </remarks>
         [Test]
         public void Scene1_SceneCanBeInstantiated()
         {
@@ -157,6 +199,12 @@ namespace OmegaSpiral.Tests
             instance?.QueueFree();
         }
 
+        /// <summary>
+        /// Checks that the NarrativeTerminal.cs script exists for Scene1.
+        /// </summary>
+        /// <remarks>
+        /// Validates the presence of the narrative terminal script for Scene1.
+        /// </remarks>
         [Test]
         public void Scene1_NarrativeTerminalScriptExists()
         {
@@ -170,6 +218,12 @@ namespace OmegaSpiral.Tests
             Assert.That(exists, Is.True, $"NarrativeTerminal.cs script should exist at {scriptPath}");
         }
 
+        /// <summary>
+        /// Verifies that the manifest.json references Scene1 with the correct properties.
+        /// </summary>
+        /// <remarks>
+        /// Ensures Scene1 is present in the manifest and its properties are correct.
+        /// </remarks>
         [Test]
         public void Scene1_ManifestReferencesScene1()
         {
@@ -207,6 +261,12 @@ namespace OmegaSpiral.Tests
             doc.Dispose();
         }
 
+        /// <summary>
+        /// Verifies that all thread data files for Scene1 have valid JSON structure.
+        /// </summary>
+        /// <remarks>
+        /// Ensures hero, shadow, and ambition data files are correctly structured.
+        /// </remarks>
         [Test]
         public void Scene1_AllThreadDataFilesHaveValidStructure()
         {

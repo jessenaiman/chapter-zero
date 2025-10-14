@@ -1,4 +1,4 @@
-scare{
+{
     "chat.promptFilesRecommendations": {
         "speckit.constitution": true,
         "speckit.specify": true,
@@ -11,7 +11,13 @@ scare{
         ".specify/scripts/ps/": true
     },
     "files.exclude": {
-        "**/*.md": true,
         ".specify/": true
-    }
+    },
+    "files.include": {
+        ".godot/mono/temp/obj/Debug/Godot.SourceGenerators/**": true
+    },
+    "dotnet-test-explorer.testProjectPath": "chapter-zero.sln",
+    "dotnet-test-explorer.testAssemblyPath": "Tests",
+    "dotnet-test-explorer.showCodeLens": true,
+    "dotnet-test-explorer.showTestExplorer": true
 }

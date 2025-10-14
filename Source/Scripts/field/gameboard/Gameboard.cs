@@ -1,5 +1,5 @@
-// <copyright file="Gameboard.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Gameboard.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -51,6 +51,9 @@ public partial class Gameboard : Node
     /// <summary>
     /// Gets or sets the extents of the Gameboard, among other details.
     /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the properties have not been initialized.
+    /// </exception>
     public GameboardProperties Properties
     {
         get => this.properties ?? throw new InvalidOperationException("Properties not initialized");
@@ -113,6 +116,7 @@ public partial class Gameboard : Node
     /// </summary>
     /// <param name="node">The node to check.</param>
     /// <returns>The cell under the node.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="node"/> is <c>null</c>.</exception>
     public Vector2I GetCellUnderNode(Node2D node)
     {
         if (node == null)
@@ -203,6 +207,7 @@ public partial class Gameboard : Node
     /// Registers a GameboardLayer to the Gameboard.
     /// </summary>
     /// <param name="boardMap">The GameboardLayer to register.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="boardMap"/> is <c>null</c>.</exception>
     public void RegisterGameboardLayer(GameboardLayer boardMap)
     {
         if (boardMap == null)
@@ -224,7 +229,7 @@ public partial class Gameboard : Node
         var addedCellsDict = new Dictionary<int, Vector2I>();
         for (int i = 0; i < addedCells.Count; i++)
         {
-            var cell = (Vector2I)addedCells[i];
+            var cell = (Vector2I) addedCells[i];
             addedCellsDict[this.CellToIndex(cell)] = cell;
         }
 
@@ -240,6 +245,7 @@ public partial class Gameboard : Node
     /// Returns a dictionary representing the cells that are actually added to the pathfinder (may differ
     /// from clearedCells). Key = cell id (int, see CellToIndex), value = coordinate (Vector2I).
     /// </summary>
+    /// <param name="clearedCells"></param>
     private Dictionary<int, Vector2I> AddCellsToPathfinder(List<Vector2I> clearedCells)
     {
         var addedCells = new Dictionary<int, Vector2I>();
@@ -274,6 +280,7 @@ public partial class Gameboard : Node
     /// Returns an array of cell coordinates that have been blocked. Cells that were already not in the
     /// pathfinder will be excluded from this array.
     /// </summary>
+    /// <param name="blockedCells">A list of cells to be removed from the pathfinder.</param>
     private List<Vector2I> RemoveCellsFromPathfinder(List<Vector2I> blockedCells)
     {
         var removedCells = new List<Vector2I>();
@@ -296,6 +303,7 @@ public partial class Gameboard : Node
     /// Go through a list of cells added to the pathfinder (returned from AddCellsToPathfinder) and
     /// connect them to each other and existing pathfinder cells.
     /// </summary>
+    /// <param name="addedCells">A dictionary of cell indices and their coordinates that have been added to the pathfinder.</param>
     private void ConnectNewPathfinderCells(Dictionary<int, Vector2I> addedCells)
     {
         foreach (var uid in addedCells.Keys)
@@ -331,6 +339,7 @@ public partial class Gameboard : Node
     /// GameboardLayer.BlockedCellDataLayer custom data layer (see
     /// TileData.GetCustomData).
     /// </summary>
+    /// <param name="coord"></param>
     private bool IsCellClear(Vector2I coord)
     {
         // Check to make sure that cell exists.

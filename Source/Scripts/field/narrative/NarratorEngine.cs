@@ -1,5 +1,5 @@
-// <copyright file="NarratorEngine.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="NarratorEngine.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -7,9 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
+/// <summary>
+/// Provides narrative management and dialogue queueing for field scenes.
+/// </summary>
+/// <remarks>
+/// The <c>NarratorEngine</c> class manages dialogue lines, processes narrative blocks,
+/// and supports typewriter effects for text output in Ωmega Spiral's field scenes.
+/// </remarks>
 public partial class NarratorEngine : Node
 {
-    private Queue<string> dialogueQueue = new ();
+    private Queue<string> dialogueQueue = new();
     private bool isProcessing;
 
     /// <inheritdoc/>

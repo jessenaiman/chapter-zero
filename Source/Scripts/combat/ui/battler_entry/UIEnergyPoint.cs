@@ -1,5 +1,5 @@
-// <copyright file="UIEnergyPoint.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIEnergyPoint.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -30,8 +30,10 @@ public partial class UIEnergyPoint : MarginContainer
 
     private TextureRect? fill;
 
-    // We store the start modulate value of the `Fill` node because it's semi-transparent.
-    // This way, we can animate the color from and to this value.
+    /// <summary>
+    /// We store the start modulate value of the `Fill` node because it's semi-transparent.
+    /// This way, we can animate the color from and to this value.
+    /// </summary>
     private Color colorTransparent;
 
     /// <inheritdoc/>

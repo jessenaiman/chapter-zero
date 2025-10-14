@@ -1,5 +1,5 @@
-// <copyright file="CombatAI.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatAI.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
 /// Base class for combat artificial intelligence.
@@ -78,7 +79,7 @@ public partial class CombatAI : Node
         }
 
         // Choose a random action for now (simple AI)
-        var chosenAction = availableActions[(int)(GD.Randi() % availableActions.Count)];
+        var chosenAction = availableActions[(int) (GD.Randi() % availableActions.Count)];
 
         // Choose targets for the action
         using BattlerList battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
@@ -93,7 +94,7 @@ public partial class CombatAI : Node
         // For single-target actions, choose one target
         if (chosenAction.TargetScope == ActionTargetScope.One)
         {
-            var target = validTargets[(int)(GD.Randi() % validTargets.Count)];
+            var target = validTargets[(int) (GD.Randi() % validTargets.Count)];
             return (chosenAction, new List<Battler> { target });
         }
 

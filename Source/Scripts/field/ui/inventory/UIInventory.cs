@@ -1,5 +1,5 @@
-// <copyright file="UIInventory.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIInventory.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
@@ -33,21 +33,19 @@ public partial class UIInventory : HBoxContainer
         if (inventory != null)
         {
             // Initialize UI with current inventory state
-            var itemTypes = (Godot.Collections.Dictionary)inventory.Get("ItemTypes");
+            var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
             if (itemTypes != null)
             {
                 foreach (var itemName in itemTypes.Keys)
                 {
-                    var itemId = (int)itemTypes[itemName];
+                    var itemId = (int) itemTypes[itemName];
                     this.UpdateItem(itemId, inventory);
                 }
             }
 
             // Connect to item changed signal
-            inventory.Connect("item_changed", Callable.From((int itemType) =>
-            {
-                this.OnInventoryItemChanged(itemType, inventory);
-            }));
+            inventory.Connect("item_changed", Callable.From(
+                (int itemType) => this.OnInventoryItemChanged(itemType, inventory)));
         }
     }
 
@@ -56,7 +54,7 @@ public partial class UIInventory : HBoxContainer
     /// </summary>
     /// <param name="itemId">The item type ID.</param>
     /// <returns>The UI item node, or <see langword="null"/> if not found.</returns>
-    private UIInventoryItem GetUIItem(int itemId)
+    private UIInventoryItem? GetUIItem(int itemId)
     {
         foreach (Node child in this.GetChildren())
         {
@@ -76,20 +74,26 @@ public partial class UIInventory : HBoxContainer
     /// <param name="inventory">The inventory singleton node.</param>
     private void UpdateItem(int itemId, Node inventory)
     {
-        var amount = (int)inventory.Call("get_item_count", itemId);
+        var amount = (int) inventory.Call("get_item_count", itemId);
         var item = this.GetUIItem(itemId);
 
         if (amount > 0)
         {
             if (item == null)
             {
-                item = this.itemScene.Instantiate<UIInventoryItem>();
-                item.ID = itemId;
-                item.Texture = (Texture2D)inventory.Call("get_item_icon", itemId);
-                this.AddChild(item);
+                if (this.itemScene != null)
+                {
+                    item = this.itemScene.Instantiate<UIInventoryItem>();
+                    item.ID = itemId;
+                    item.Texture = (Texture2D) inventory.Call("get_item_icon", itemId);
+                    this.AddChild(item);
+                }
             }
 
-            item.Count = amount;
+            if (item != null)
+            {
+                item.Count = amount;
+            }
         }
         else if (item != null)
         {

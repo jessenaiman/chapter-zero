@@ -1,25 +1,20 @@
-// <copyright file="UICombatLog.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+using OmegaSpiral.Source.Scripts.Combat.Actions;
+// <copyright file="UICombatLog.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-/// <summary>
-/// Container for the combat log display.
-/// The UICombatLog displays a record of combat events, actions, and outcomes during battles.
-/// It provides players with a history of what has happened in combat, helping them understand
-/// the flow of battle and make informed decisions.
-/// </summary>
 namespace OmegaSpiral.Source.Scripts
 {
     using System.Collections.Generic;
     using Godot;
 
-/// <summary>
-/// Represents the UI component for displaying the combat log in Omega Spiral.
-/// The UICombatLog provides a visual record of combat events, actions, and outcomes,
-/// allowing players to review the flow of battle and make informed decisions.
-/// </summary>
-public partial class UICombatLog : Control
-{
+    /// <summary>
+    /// Represents the UI component for displaying the combat log in Omega Spiral.
+    /// The UICombatLog provides a visual record of combat events, actions, and outcomes,
+    /// allowing players to review the flow of battle and make informed decisions.
+    /// </summary>
+    public partial class UICombatLog : Control
+    {
         /// <summary>
         /// Gets or sets the maximum number of log entries to keep.
         /// </summary>
@@ -255,6 +250,7 @@ public partial class UICombatLog : Control
         /// </summary>
         /// <param name="battler">The battler that landed the critical hit.</param>
         /// <param name="damageAmount">The damage amount of the critical hit.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddCriticalHitEntry(Battler battler, int damageAmount)
         {
             if (battler == null)
@@ -271,6 +267,7 @@ public partial class UICombatLog : Control
         /// </summary>
         /// <param name="battler">The battler that received the buff.</param>
         /// <param name="buffName">The name of the buff.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddBuffEntry(Battler battler, string buffName)
         {
             if (battler == null)
@@ -331,6 +328,7 @@ public partial class UICombatLog : Control
         /// Add a turn end log entry.
         /// </summary>
         /// <param name="battler">The battler whose turn is ending.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddTurnEndEntry(Battler battler)
         {
             if (battler == null)
@@ -428,6 +426,7 @@ public partial class UICombatLog : Control
         /// <param name="battler">The battler using the special ability.</param>
         /// <param name="abilityName">The name of the ability.</param>
         /// <param name="targets">The targets of the ability.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddSpecialAbilityEntry(Battler battler, string abilityName, List<Battler> targets)
         {
             if (battler == null)
@@ -456,6 +455,7 @@ public partial class UICombatLog : Control
         /// <param name="battler">The battler using the item.</param>
         /// <param name="itemName">The name of the item.</param>
         /// <param name="targets">The targets of the item.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="targets"/> is <c>null</c>.</exception>
         public void AddItemUsageEntry(Battler battler, string itemName, List<Battler> targets)
         {
             if (battler == null)
@@ -483,6 +483,7 @@ public partial class UICombatLog : Control
         /// </summary>
         /// <param name="battler">The battler attempting to flee.</param>
         /// <param name="success">Whether the flee attempt was successful.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddFleeAttemptEntry(Battler battler, bool success)
         {
             if (battler == null)

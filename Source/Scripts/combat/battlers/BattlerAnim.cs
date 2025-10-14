@@ -2,6 +2,7 @@
 
 using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// The visual representation of a <see cref="Battler"/>.

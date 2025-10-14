@@ -1,8 +1,9 @@
-// <copyright file="CombatEvents.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatEvents.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 using Godot;
 
 /// <summary>
@@ -44,16 +45,33 @@ public partial class CombatEvents : Node
     [Signal]
     public delegate void ActionSelectedEventHandler(BattlerAction action, Battler source, Battler[] targets);
 
-        /// <summary>
-        /// Singleton instance for global access to CombatEvents.
-        /// </summary>
-        public static CombatEvents? Instance { get; private set; }
+    /// <summary>
+    /// Event for when an action is selected, allowing subscribers to react.
+    /// </summary>
+    public event ActionSelectedEventHandler? ActionSelectedEvent;
 
-        /// <summary>
-        /// Called when the node enters the scene tree. Sets the singleton instance for global access.
-        /// </summary>
-        public override void _Ready()
-        {
-            Instance = this;
-        }
+    /// <summary>
+    /// Raises the ActionSelected event and emits the signal for Godot.
+    /// </summary>
+    /// <param name="action">The action that was selected.</param>
+    /// <param name="source">The battler performing the action.</param>
+    /// <param name="targets">The battlers that are the targets of the action.</param>
+    public void RaiseActionSelected(BattlerAction action, Battler source, Battler[] targets)
+    {
+        ActionSelectedEvent?.Invoke(action, source, targets);
+        EmitSignal("ActionSelected", action, source, targets);
     }
+
+    /// <summary>
+    /// Singleton instance for global access to CombatEvents.
+    /// </summary>
+    public static CombatEvents? Instance { get; private set; }
+
+    /// <summary>
+    /// Called when the node enters the scene tree. Sets the singleton instance for global access.
+    /// </summary>
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+}

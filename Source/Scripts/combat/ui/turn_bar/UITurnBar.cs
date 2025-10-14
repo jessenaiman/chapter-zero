@@ -1,5 +1,5 @@
-// <copyright file="UITurnBar.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UITurnBar.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -11,7 +11,7 @@ using Godot;
 /// </summary>
 public partial class UITurnBar : Control
 {
-    private readonly PackedScene iconScene = GD.Load<PackedScene>("res://src/combat/ui/turn_bar/ui_battler_icon.tscn");
+    private PackedScene? iconScene;
 
     private AnimationPlayer? anim;
     private TextureRect? background;
@@ -23,6 +23,7 @@ public partial class UITurnBar : Control
         this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
         this.background = this.GetNode<TextureRect>("Background");
         this.icons = this.GetNode<Control>("Background/Icons");
+        this.iconScene = GD.Load<PackedScene>("res://src/combat/ui/turn_bar/ui_battler_icon.tscn");
     }
 
     /// <summary>
@@ -30,7 +31,10 @@ public partial class UITurnBar : Control
     /// </summary>
     public void FadeIn()
     {
-        this.anim.Play("fade_in");
+        if (this.anim != null)
+        {
+            this.anim.Play("fade_in");
+        }
     }
 
     /// <summary>
@@ -38,13 +42,17 @@ public partial class UITurnBar : Control
     /// </summary>
     public void FadeOut()
     {
-        this.anim.Play("fade_out");
+        if (this.anim != null)
+        {
+            this.anim.Play("fade_out");
+        }
     }
 
     /// <summary>
     /// Initialize the turn bar, passing in all the battlers that we want to display.
     /// </summary>
     /// <param name="battlerData">The battler list to display.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="battlerData"/> is <c>null</c>.</exception>
     public void Setup(BattlerList battlerData)
     {
         if (battlerData == null)
@@ -52,25 +60,48 @@ public partial class UITurnBar : Control
             throw new ArgumentNullException(nameof(battlerData));
         }
 
+        if (this.iconScene == null || this.icons == null || this.background == null)
+        {
+            GD.PrintErr("UITurnBar: Missing required components for Setup!");
+            return;
+        }
+
         foreach (var battler in battlerData.GetAllBattlers())
         {
             // Connect a handful of signals to the icon so that it may respond to changes in the
             // Battler's readiness and fade out if the Battler falls in combat.
-            var icon = this.iconScene.Instantiate() as UIBattlerIcon;
+            if (battler?.Anim?.BattlerIcon == null)
+            {
+                continue;
+            }
+
+            var instantiatedIcon = this.iconScene.Instantiate();
+            if (instantiatedIcon is not UIBattlerIcon icon)
+            {
+                continue;
+            }
+
             icon.IconTexture = battler.Anim.BattlerIcon;
             icon.BattlerType = battler.IsPlayer ? UIBattlerIcon.Types.Player : UIBattlerIcon.Types.Enemy;
             icon.PositionRange = new Vector2(
                 -icon.Size.X / 2.0f,
                 this.background.Size.X - (icon.Size.X / 2.0f));
 
-            battler.HealthDepleted += () => icon.FadeOut();
+            battler.HealthDepleted += () =>
+            {
+                if (GodotObject.IsInstanceValid(icon))
+                {
+                    icon.FadeOut();
+                }
+            };
+
             battler.ReadinessChanged += (readiness) =>
             {
                 // There is an edge case where a player Battler has managed to deplete their own hp.
                 // In this case, the UIBattlerIcon is probably already freed when the Battler's readiness
                 // changes after the action has finished.
                 // Thus, we need to make sure that the icon is valid before updating it.
-                if (IsInstanceValid(icon))
+                if (GodotObject.IsInstanceValid(icon))
                 {
                     icon.Progress = readiness / 100.0f;
                 }

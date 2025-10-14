@@ -158,9 +158,9 @@ namespace OmegaSpiral.Domain.Models
                 Id = this.Id,
                 Name = this.Name,
                 Description = this.Description,
-                Class = this.Class?.Clone(),
-                Appearance = this.Appearance?.Clone(),
-                Stats = this.Stats?.Clone(),
+                Class = this.Class.Clone(),
+                Appearance = this.Appearance.Clone(),
+                Stats = this.Stats.Clone(),
                 IsAvailable = this.IsAvailable,
                 UnlockCondition = this.UnlockCondition,
                 IconPath = this.IconPath,
@@ -281,7 +281,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (this.Stats?.MaxHealth > 0)
             {
-                return (float)this.CurrentHealth / this.Stats.MaxHealth;
+                return (float) this.CurrentHealth / this.Stats.MaxHealth;
             }
 
             return 0f;
@@ -295,7 +295,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (this.Stats?.MaxMana > 0)
             {
-                return (float)this.CurrentMana / this.Stats.MaxMana;
+                return (float) this.CurrentMana / this.Stats.MaxMana;
             }
 
             return 0f;

@@ -1,5 +1,5 @@
-// <copyright file="TileDungeonData.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="TileDungeonData.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -25,13 +25,13 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets or sets the tilemap as a list of strings.
         /// </summary>
         [YamlMember(Alias = "tilemap")]
-        public List<string> Tilemap { get; set; } = new ();
+        public List<string> Tilemap { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the legend mapping characters to tile definitions.
         /// </summary>
         [YamlIgnore]
-        public Dictionary<char, TileDefinition> Legend { get; set; } = new ();
+        public Dictionary<char, TileDefinition> Legend { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the legend as a dictionary with string keys for YAML serialization.
@@ -133,6 +133,6 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets or sets the list of stats to display in the UI.
         /// </summary>
         [YamlMember(Alias = "showStats")]
-        public List<string> ShowStats { get; set; } = new ();
+        public List<string> ShowStats { get; set; } = new();
     }
 }

@@ -1,5 +1,5 @@
-// <copyright file="PartyCreator.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="PartyCreator.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
@@ -18,7 +18,9 @@ public partial class PartyCreator : Node2D
     private GameState? gameState;
     private SceneManager? sceneManager;
 
-    // UI Elements
+    /// <summary>
+    /// UI Elements
+    /// </summary>
     private LineEdit? characterNameInput;
     private OptionButton? classSelector;
     private OptionButton? raceSelector;
@@ -121,8 +123,8 @@ public partial class PartyCreator : Node2D
             return;
         }
 
-        var selectedClass = (CharacterClass)this.classSelector.Selected;
-        var selectedRace = (CharacterRace)this.raceSelector.Selected;
+        var selectedClass = (CharacterClass) this.classSelector.Selected;
+        var selectedRace = (CharacterRace) this.raceSelector.Selected;
 
         var previewStats = CharacterStats.GenerateRandomStats();
         previewStats.ApplyRacialModifiers(selectedRace);
@@ -151,8 +153,8 @@ public partial class PartyCreator : Node2D
             return;
         }
 
-        var selectedClass = (CharacterClass)this.classSelector.Selected;
-        var selectedRace = (CharacterRace)this.raceSelector.Selected;
+        var selectedClass = (CharacterClass) this.classSelector.Selected;
+        var selectedRace = (CharacterRace) this.raceSelector.Selected;
 
         var character = new Character(name, selectedClass, selectedRace);
         if (this.partyData.AddMember(character))

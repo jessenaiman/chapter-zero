@@ -1,5 +1,5 @@
-// <copyright file="BattlerList.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="BattlerList.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -88,6 +88,11 @@ public partial class BattlerList : RefCounted
     /// </summary>
     public bool HasPlayerWon { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BattlerList"/> class with the specified player and enemy battlers.
+    /// </summary>
+    /// <param name="playerBattlers">An array of <see cref="Battler"/> objects representing the player's team.</param>
+    /// <param name="enemyBattlers">An array of <see cref="Battler"/> objects representing the enemy team.</param>
     public BattlerList(Battler[] playerBattlers, Battler[] enemyBattlers)
     {
         this.Players = playerBattlers;
@@ -109,6 +114,7 @@ public partial class BattlerList : RefCounted
     /// <summary>
     /// Returns an array containing only the live battlers from the provided array.
     /// </summary>
+    /// <param name="battlers"></param>
     /// <returns></returns>
     public static Battler[] GetLiveBattlers(Battler[] battlers)
     {

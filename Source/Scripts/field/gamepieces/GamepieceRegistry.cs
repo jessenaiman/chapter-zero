@@ -1,5 +1,5 @@
-// <copyright file="GamepieceRegistry.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="GamepieceRegistry.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -18,18 +18,23 @@ public partial class GamepieceRegistry : Node
     /// <summary>
     /// Emitted whenever a Gamepiece is added to the registry.
     /// </summary>
+    /// <param name="gamepiece"></param>
     [Signal]
     public delegate void GamepieceAddedEventHandler(Gamepiece gamepiece);
 
     /// <summary>
     /// Emitted whenever a Gamepiece is removed from the registry.
     /// </summary>
+    /// <param name="gamepiece"></param>
     [Signal]
     public delegate void GamepieceRemovedEventHandler(Gamepiece gamepiece);
 
     /// <summary>
     /// Emitted whenever a Gamepiece moves to a new cell.
     /// </summary>
+    /// <param name="gamepiece"></param>
+    /// <param name="oldCell"></param>
+    /// <param name="newCell"></param>
     [Signal]
     public delegate void GamepieceMovedEventHandler(Gamepiece gamepiece, Vector2I oldCell, Vector2I newCell);
 
@@ -126,10 +131,14 @@ public partial class GamepieceRegistry : Node
     /// Get the Gamepiece occupying a specific cell.
     /// </summary>
     /// <param name="cell">The cell position to check.</param>
-    /// <returns>The Gamepiece occupying the cell, or null if none.</returns>
-    public Gamepiece GetGamepiece(Vector2I cell)
+    /// <returns>The Gamepiece occupying the cell, or <see langword="null"/> if none.</returns>
+    public Gamepiece? GetGamepiece(Vector2I cell)
     {
-        return this.cellToGamepiece.GetValueOrDefault(cell, null);
+        if (this.cellToGamepiece.TryGetValue(cell, out var gamepiece))
+        {
+            return gamepiece;
+        }
+        return null;
     }
 
     /// <summary>
@@ -238,10 +247,15 @@ public partial class GamepieceRegistry : Node
     /// </summary>
     /// <param name="position">The position to find the nearest Gamepiece to.</param>
     /// <param name="maxDistance">The maximum distance to consider.</param>
-    /// <returns>The nearest Gamepiece, or null if none found within maxDistance.</returns>
-    public Gamepiece GetNearestGamepiece(Vector2 position, float maxDistance = float.MaxValue)
+    /// <returns>
+    /// The nearest Gamepiece, or <see langword="null"/> if none found within <paramref name="maxDistance"/>.
+    /// </returns>
+    /// <remarks>
+    /// This method may return <see langword="null"/> if no Gamepiece is found within the specified distance.
+    /// </remarks>
+    public Gamepiece? GetNearestGamepiece(Vector2 position, float maxDistance = float.MaxValue)
     {
-        Gamepiece nearest = null;
+        Gamepiece? nearest = null;
         var minDistanceSquared = maxDistance * maxDistance;
 
         foreach (var kvp in this.gamepieceToCell)
@@ -249,7 +263,8 @@ public partial class GamepieceRegistry : Node
             var gamepiece = kvp.Key;
             var cell = kvp.Value;
 
-            var gamepiecePosition = Gameboard.CellToPixel(cell);
+            var gameboard = this.GetTree().Root.GetNode<Gameboard>("Gameboard");
+            var gamepiecePosition = gameboard.CellToPixel(cell);
             var distanceSquared = position.DistanceSquaredTo(gamepiecePosition);
 
             if (distanceSquared < minDistanceSquared)

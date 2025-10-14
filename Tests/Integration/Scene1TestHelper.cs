@@ -1,5 +1,5 @@
-// <copyright file="Scene1TestHelper.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Scene1TestHelper.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests.Integration
@@ -50,7 +50,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <summary>
         /// Gets the expected opening lines for Scene1.
         /// </summary>
-        public static List<string> ExpectedOpeningLines => new ()
+        public static List<string> ExpectedOpeningLines => new()
         {
             "Once, there was a name.",
             "Not written in stone or spoken in halls—but remembered in the silence between stars.",
@@ -62,7 +62,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <summary>
         /// Gets the available secret question responses.
         /// </summary>
-        public static Dictionary<int, string> SecretQuestionResponses => new ()
+        public static Dictionary<int, string> SecretQuestionResponses => new()
         {
             { 1, "yes" },
             { 2, "no" },
@@ -72,7 +72,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <summary>
         /// Gets the available persona choices for Scene1.
         /// </summary>
-        internal static Dictionary<int, PersonaChoice> PersonaChoices => new ()
+        internal static Dictionary<int, PersonaChoice> PersonaChoices => new()
         {
             { 1, new PersonaChoice { Index = 1, Id = "hero", Name = "HERO", Description = "A tale where one choice can unmake a world" } },
             { 2, new PersonaChoice { Index = 2, Id = "shadow", Name = "SHADOW", Description = "A tale that hides its truth until you bleed for it" } },
@@ -99,6 +99,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates the player selecting a persona.
         /// </summary>
         /// <param name="personaIndex">The persona index (1=HERO, 2=SHADOW, 3=AMBITION).</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SimulatePersonaSelection(int personaIndex)
         {
             if (!PersonaChoices.ContainsKey(personaIndex))
@@ -124,6 +125,7 @@ namespace OmegaSpiral.Tests.Integration
         /// </summary>
         /// <param name="blockIndex">The story block index.</param>
         /// <param name="choiceIndex">The choice to make within the block.</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void SimulateStoryBlock(int blockIndex, int choiceIndex)
         {
             if (blockIndex < 0)
@@ -147,6 +149,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates the player entering their name.
         /// </summary>
         /// <param name="playerName">The name to enter.</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SimulateNameInput(string playerName)
         {
             if (string.IsNullOrEmpty(playerName))
@@ -171,6 +174,7 @@ namespace OmegaSpiral.Tests.Integration
         /// Simulates the player answering the secret question.
         /// </summary>
         /// <param name="responseIndex">The response index (1-3).</param>
+        /// <exception cref="ArgumentException"></exception>
         public void SimulateSecretQuestionResponse(int responseIndex)
         {
             if (!SecretQuestionResponses.ContainsKey(responseIndex))
@@ -199,6 +203,7 @@ namespace OmegaSpiral.Tests.Integration
         /// <param name="playerName">The player name to enter.</param>
         /// <param name="storyChoices">Dictionary mapping story block index to choice index.</param>
         /// <param name="secretResponseIndex">The secret question response (1-3).</param>
+        /// <exception cref="ArgumentNullException"><paramref name="storyChoices"/> is <c>null</c>.</exception>
         public void SimulateCompletePlaythrough(
             int personaIndex,
             string playerName,

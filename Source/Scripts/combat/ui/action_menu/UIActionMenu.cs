@@ -1,11 +1,12 @@
-// <copyright file="UIActionMenu.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIActionMenu.cs" company="PlaceholderCompanyompany">
+// CopyrighPlaceholderCompanyolderCompany. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
 /// A menu lists a <see cref="Battler"/>'s <see cref="Battler.Actions"/>, allowing the player to select one.
@@ -14,8 +15,10 @@ public partial class UIActionMenu : UIListMenu
 {
     private Battler? battler;
 
-    // Refer to the BattlerList to check whether or not an action is valid when it is selected.
-    // This allows us to prevent the player from selecting an invalid action.
+    /// <summary>
+    /// Reference to the <see cref="BattlerList"/> used to check whether an action is valid when selected,
+    /// preventing the player from selecting an invalid action.
+    /// </summary>
     private BattlerList? battlerList;
 
     /// <summary>
@@ -50,10 +53,7 @@ public partial class UIActionMenu : UIListMenu
             }
 
             // If the battler currently choosing the action dies, close and free the menu.
-            this.battler.HealthDepleted += async () =>
-            {
-                await this.CloseAsync().ConfigureAwait(false);
-            };
+            this.battler.HealthDepleted += async () => await this.CloseAsync().ConfigureAwait(false);
 
             // If the battler's energy levels changed, re-evaluate which actions are available.
             this.battler.Stats?.EnergyChanged += () =>
@@ -216,7 +216,9 @@ public partial class UIActionMenu : UIListMenu
         this.SetProcessUnhandledInput(true);
     }
 
-    // Populate the menu with a list of actions.
+    /// <summary>
+    /// Populates the menu with a list of actions.
+    /// </summary>
     private void BuildActionMenu()
     {
         if (this.battler == null)

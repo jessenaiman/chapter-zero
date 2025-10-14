@@ -1,5 +1,5 @@
-// <copyright file="FieldEvents.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="FieldEvents.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -19,6 +19,7 @@ public partial class FieldEvents : Node
     /// <summary>
     /// Emitted when the cursor moves to a new position on the field gameboard.
     /// </summary>
+    /// <param name="cell">The cell position that was highlighted.</param>
     [Signal]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellHighlightedEventHandler(Vector2I cell);
@@ -26,6 +27,7 @@ public partial class FieldEvents : Node
     /// <summary>
     /// Emitted when the player selects a cell on the field gameboard via the <see cref="FieldCursor"/>.
     /// </summary>
+    /// <param name="cell">The cell position that was selected.</param>
     [Signal]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellSelectedEventHandler(Vector2I cell);
@@ -33,6 +35,7 @@ public partial class FieldEvents : Node
     /// <summary>
     /// Emitted when the player selects a cell that is covered by an <see cref="Interaction"/>.
     /// </summary>
+    /// <param name="interaction">The interaction that was selected.</param>
     [Signal]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InteractionSelectedEventHandler(Interaction interaction);
@@ -41,6 +44,7 @@ public partial class FieldEvents : Node
     /// Emitted whenever a combat is triggered. This will lead to a transition from the field 'state' to
     /// a combat 'state'.
     /// </summary>
+    /// <param name="arena">The packed scene for the combat arena.</param>
     [Signal]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CombatTriggeredEventHandler(PackedScene arena);
@@ -64,6 +68,7 @@ public partial class FieldEvents : Node
     /// Emitted whenever ALL input within the field state is to be paused or resumed.
     /// Typically emitted by combat, dialogues, etc.
     /// </summary>
+    /// <param name="isPaused">Whether input is paused (<see langword="true"/>) or resumed (<see langword="false"/>).</param>
     [Signal]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InputPausedEventHandler(bool isPaused);

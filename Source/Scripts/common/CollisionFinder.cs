@@ -1,5 +1,5 @@
-// <copyright file="CollisionFinder.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CollisionFinder.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
@@ -20,7 +20,9 @@ using Godot;
 /// </summary>
 public partial class CollisionFinder : RefCounted
 {
-    // Cache the space state that will be queried.
+    /// <summary>
+    /// Cache the space state that will be queried.
+    /// </summary>
     private PhysicsDirectSpaceState2D spaceState;
 
     /// <summary>
@@ -39,7 +41,7 @@ public partial class CollisionFinder : RefCounted
 
         this.QueryParameters = new PhysicsShapeQueryParameters2D();
         this.QueryParameters.Shape = queryShape;
-        this.QueryParameters.CollisionMask = (uint)collisionMask;
+        this.QueryParameters.CollisionMask = (uint) collisionMask;
         this.QueryParameters.CollideWithAreas = findAreas;
     }
 

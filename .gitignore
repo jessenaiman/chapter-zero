@@ -24,7 +24,9 @@ obj/
 
 # Godot generated files
 .godot/
+!.godot/mono/temp/obj/Debug/
 .mono/
+!.mono/temp/obj/Debug/
 
 # IDE and OS clutter
 .vscode/

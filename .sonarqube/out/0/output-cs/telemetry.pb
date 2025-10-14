@@ -1,1 +1,0 @@
-QR;/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj¢net10.0òPreview

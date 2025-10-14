@@ -1,19 +1,21 @@
-// <copyright file="Battler.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Battler.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
-/// A playable combatant that carries out <see cref="BattlerAction"/>s as its <see cref="Readiness"/> charges.
-///
-/// Battlers are the playable characters or enemies that show up in battle. They have <see cref="BattlerStats"/>,
-/// a list of <see cref="BattlerAction"/>s to choose from, and respond to a variety of stimuli such as status
-/// effects and <see cref="BattlerHit"/>s, which typically deal damage or heal the Battler.
-///
-/// <br/><br/>Battlers have <see cref="BattlerAnim"/>ation children which play out the Battler's actions.
+/// Represents a playable combatant or enemy in battle. Carries out <see cref="BattlerAction"/>s as its <see cref="Readiness"/> charges.
+/// <para>
+/// Battlers have <see cref="BattlerStats"/>, a list of <see cref="BattlerAction"/>s to choose from, and respond to stimuli such as status effects and <see cref="BattlerHit"/>s.
+/// </para>
+/// <para>
+/// Battlers have <see cref="BattlerAnim"/>ation children which play out the Battler's actions.
+/// </para>
 /// </summary>
 [Tool]
 public partial class Battler : Node2D
@@ -23,7 +25,9 @@ public partial class Battler : Node2D
     /// </summary>
     public const string Group = "_COMBAT_BATTLER_GROUP";
 
-    // Private fields
+    /// <summary>
+    /// Private fields
+    /// </summary>
     private PackedScene? battlerAnimScene;
     private PackedScene? aiScene;
     private PackedScene? actorScene;
@@ -333,7 +337,7 @@ public partial class Battler : Node2D
             // That is, copy what it is now and use the copy, so that the original remains unaltered.
             if (this.Stats != null)
             {
-                this.Stats = (BattlerStats)this.Stats.Duplicate();
+                this.Stats = (BattlerStats) this.Stats.Duplicate();
                 this.Stats.Initialize();
                 this.Stats.HealthDepleted += () =>
                 {
@@ -350,7 +354,7 @@ public partial class Battler : Node2D
     {
         if (this.Stats != null)
         {
-            this.Readiness += this.Stats.Speed * (float)delta * this.TimeScale;
+            this.Readiness += this.Stats.Speed * (float) delta * this.TimeScale;
         }
     }
 

@@ -1,5 +1,5 @@
-// <copyright file="DreamweaverPersona.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DreamweaverPersona.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts;
@@ -22,9 +22,11 @@ public partial class DreamweaverPersona
 {
     private PersonaConfig config;
     private GameState? gameState;
-    private Random random = new ();
+    private Random random = new();
 
-    // NobodyWho integration
+    /// <summary>
+    /// NobodyWho integration
+    /// </summary>
     private GodotObject? llmModel;
 
     /// <summary>
@@ -70,6 +72,11 @@ public partial class DreamweaverPersona
     /// Gets the archetype or personality type of this persona.
     /// </summary>
     public string Archetype { get; private set; }
+
+    /// <summary>
+    /// Gets the configuration for this persona.
+    /// </summary>
+    public PersonaConfig Config => this.config;
 
     /// <summary>
     /// Gets fallback choices when LLM generation fails.
@@ -243,7 +250,7 @@ public partial class DreamweaverPersona
             }
 
             // Initialize NobodyWho model for this persona
-            this.llmModel = (GodotObject)ClassDB.Instantiate("NobodyWhoModel");
+            this.llmModel = (GodotObject) ClassDB.Instantiate("NobodyWhoModel");
 
             // Load the Qwen3-4B model
             this.llmModel.Call("load_model", modelPath);
@@ -267,7 +274,11 @@ public partial class DreamweaverPersona
         }
     }
 
-    // Private helper methods
+    /// <summary>
+    /// Private helper methods
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     private string BuildNarrativePrompt(string context)
     {
         var sb = new StringBuilder();
@@ -346,7 +357,7 @@ public partial class DreamweaverPersona
         try
         {
             // Create a chat interface for structured conversation
-            var chat = (GodotObject)ClassDB.Instantiate("NobodyWhoChat");
+            var chat = (GodotObject) ClassDB.Instantiate("NobodyWhoChat");
             chat.Call("set_model", this.llmModel);
 
             // Add system message to establish persona
@@ -357,7 +368,7 @@ public partial class DreamweaverPersona
             chat.Call("add_message", "user", prompt);
 
             // Generate response (synchronous call for now - Godot GDExtension async is complex)
-            var result = (string)chat.Call("generate");
+            var result = (string) chat.Call("generate");
 
             // Clean up chat instance
             chat.Call("queue_free");
@@ -388,7 +399,7 @@ public partial class DreamweaverPersona
         try
         {
             // Create a chat interface for structured conversation
-            var chat = (GodotObject)ClassDB.Instantiate("NobodyWhoChat");
+            var chat = (GodotObject) ClassDB.Instantiate("NobodyWhoChat");
             chat.Call("set_model", this.llmModel);
 
             // Add system message for structured output
@@ -404,7 +415,7 @@ public partial class DreamweaverPersona
             chat.Call("add_message", "user", prompt);
 
             // Generate response (synchronous call for now - Godot GDExtension async is complex)
-            var result = (string)chat.Call("generate");
+            var result = (string) chat.Call("generate");
 
             // Parse JSON response
             var choices = ParseChoicesFromJson(result);
@@ -468,7 +479,10 @@ public partial class DreamweaverPersona
         return choices;
     }
 
-    // Fallback methods
+    /// <summary>
+    /// Fallback methods
+    /// </summary>
+    /// <returns></returns>
     private string GetFallbackOpeningLine()
     {
         var fallbacks = new Dictionary<string, string>

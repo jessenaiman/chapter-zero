@@ -1,4 +1,5 @@
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
 /// Responsible for Battlers, managing their turns, action order, and lifespans.
@@ -69,7 +70,7 @@ public partial class ActiveTurnQueue : Node2D
         if (CombatEvents.Instance != null)
         {
             CombatEvents.Instance.PlayerBattlerSelected += OnPlayerBattlerSelected;
-            CombatEvents.Instance.ActionSelected += OnActionSelected;
+            CombatEvents.Instance.ActionSelectedEvent += OnActionSelected;
         }
 
         // Combat participants are children of the ActiveTurnQueue. Create the data structure that will
@@ -216,8 +217,8 @@ public partial class ActiveTurnQueue : Node2D
         if (!_cachedActions.TryGetValue(battler, out var actionData))
             return;
 
-        var action = (BattlerAction)actionData["action"];
-        var targets = ((Battler[])actionData["targets"]).Where(target => action.CanTargetBattler(target)).ToArray();
+        var action = (BattlerAction) actionData["action"];
+        var targets = ((Battler[]) actionData["targets"]).Where(target => action.CanTargetBattler(target)).ToArray();
 
         if (action.CanExecute(battler, targets))
         {

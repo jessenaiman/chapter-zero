@@ -1,5 +1,5 @@
-// <copyright file="UIBattlerLifeBar.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="UIBattlerLifeBar.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -102,8 +102,9 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <summary>
     /// Callback when the value changes to update the label.
     /// </summary>
+    /// <param name="newValue">The new value of the life bar.</param>
     private void OnValueChanged(double newValue)
     {
-        this.valueLabel?.Text = ((int)newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        this.valueLabel?.Text = ((int) newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
 }

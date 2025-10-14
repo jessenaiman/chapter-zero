@@ -29,7 +29,7 @@
     <Import Project="$(NuGetPackageRoot)nunit3testadapter/5.2.0/build/netcoreapp3.1/NUnit3TestAdapter.props" Condition="Exists('$(NuGetPackageRoot)nunit3testadapter/5.2.0/build/netcoreapp3.1/NUnit3TestAdapter.props')" />
     <Import Project="$(NuGetPackageRoot)nunit/4.4.0/build/NUnit.props" Condition="Exists('$(NuGetPackageRoot)nunit/4.4.0/build/NUnit.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props')" />
-    <Import Project="$(NuGetPackageRoot)godot.sourcegenerators/4.5.0/build/Godot.SourceGenerators.props" Condition="Exists('$(NuGetPackageRoot)godot.sourcegenerators/4.5.0/build/Godot.SourceGenerators.props')" />
+    <Import Project="$(NuGetPackageRoot)godot.sourcegenerators/4.5.1-rc.2/build/Godot.SourceGenerators.props" Condition="Exists('$(NuGetPackageRoot)godot.sourcegenerators/4.5.1-rc.2/build/Godot.SourceGenerators.props')" />
     <Import Project="$(NuGetPackageRoot)gdunit4.api/5.0.0/buildTransitive/gdUnit4.api.props" Condition="Exists('$(NuGetPackageRoot)gdunit4.api/5.0.0/buildTransitive/gdUnit4.api.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">

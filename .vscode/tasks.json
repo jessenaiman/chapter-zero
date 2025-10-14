@@ -1,27 +1,27 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		{
-			"label": "Create docs/adr directory",
-			"type": "shell",
-			"command": "mkdir -p docs/adr"
-		},
-        // ...existing code...
         {
             "label": "build",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/OmegaSpiral.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+                "${workspaceFolder}/OmegaSpiral.csproj"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "presentation": {
+          "echo": true,
+          "reveal": "silent",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": true,
+          "clear": false
+        }
         },
         {
             "label": "test",
@@ -38,18 +38,6 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/OmegaSpiral.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "watch",
             "command": "dotnet",
             "type": "process",
@@ -59,6 +47,18 @@
                 "--project",
                 "${workspaceFolder}/OmegaSpiral.csproj"
             ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "launch godot editor",
+            "command": "/home/adam/Godot_v4.5.1-rc2_mono_linux_x86_64/Godot_v4.5.1-rc2_mono_linux.x86_64",
+            "type": "process",
+            "args": [
+                "--path",
+                "${workspaceFolder}",
+                "--editor"
+            ],
+            "group": "build",
             "problemMatcher": "$msCompile"
         }
 	]

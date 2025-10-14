@@ -159,7 +159,7 @@ This constitution supersedes all other development practices and guidelines.
 - Constitution changes require ADR documenting rationale and impact
 - Version increments follow semantic versioning:
   - **MAJOR**: Backward incompatible principle removals or redefinitions
-  - **MINOR**: New principles added or materially expanded guidance  
+  - **MINOR**: New principles added or materially expanded guidance
   - **PATCH**: Clarifications, wording fixes, non-semantic refinements
 - All amendments MUST update Sync Impact Report (HTML comment at top of file)
 - Template files MUST be updated to reflect principle changes

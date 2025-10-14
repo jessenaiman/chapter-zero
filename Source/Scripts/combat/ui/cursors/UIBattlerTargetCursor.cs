@@ -1,5 +1,6 @@
-// <copyright file="UIBattlerTargetCursor.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+using OmegaSpiral.Source.Scripts.Combat.Actions;
+// <copyright file="UIBattlerTargetCursor.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -27,6 +28,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// If the player has pressed 'back' instead, <see cref="InvalidTargets"/> will be returned.
     /// In either case, the cursor will call QueueFree() after emitting this signal.
     /// </summary>
+    /// <param name="selection">The array of selected <see cref="Battler"/> targets, or <see cref="InvalidTargets"/> if no target is selected.</param>
     [Signal]
     public delegate void TargetsSelectedEventHandler(Godot.Collections.Array selection);
 
@@ -86,12 +88,16 @@ public partial class UIBattlerTargetingCursor : Node2D
                         if (!this.secondaryCursors.ContainsKey(battler) && battler != this.currentTarget)
                         {
                             var newCursor = this.CreateCursorOverBattler(battler);
-                            if (this.cursor != null)
+                            if (this.cursor != null && newCursor != null)
                             {
-                                newCursor.AdvanceAnimation(this.cursor.GetAnimationPosition());
+                                var animationPosition = this.cursor.GetAnimationPosition();
+                                newCursor.AdvanceAnimation(animationPosition);
                             }
 
-                            this.secondaryCursors[battler] = newCursor;
+                            if (newCursor != null)
+                            {
+                                this.secondaryCursors[battler] = newCursor;
+                            }
                         }
                     }
                 }
@@ -113,6 +119,12 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// </summary>
     private Battler? currentTarget;
 
+    /// <summary>
+    /// Gets or sets the currently selected <see cref="Battler"/> target for the cursor.
+    /// </summary>
+    /// <remarks>
+    /// When set, moves the cursor to the new target's position. If set to <see langword="null"/>, hides the cursor.
+    /// </remarks>
     public Battler? CurrentTarget
     {
         get => this.currentTarget;
@@ -126,7 +138,8 @@ public partial class UIBattlerTargetingCursor : Node2D
             }
             else if (this.cursor != null && this.currentTarget.Anim?.Top != null)
             {
-                this.cursor.MoveTo(this.currentTarget.Anim.Top.GlobalPosition);
+                var topPosition = this.currentTarget.Anim.Top.GlobalPosition;
+                this.cursor.MoveTo(topPosition);
             }
         }
     }
@@ -163,7 +176,7 @@ public partial class UIBattlerTargetingCursor : Node2D
         // If the Battler that is currently selecting targets is downed, close the cursor immediately.
         if (CombatEvents.Instance != null)
         {
-            CombatEvents.Instance.PlayerBattlerSelected += (battler) =>
+            CombatEvents.Instance.PlayerBattlerSelected += (_) =>
             {
                 this.SetProcessUnhandledInput(false);
                 this.QueueFree();
@@ -248,14 +261,15 @@ public partial class UIBattlerTargetingCursor : Node2D
         {
             return null;
         }
-        
+
         var newCursor = this.cursorScene.Instantiate() as UIMenuCursor;
-        if (newCursor != null)
+        if (newCursor != null && target?.Anim?.Top != null)
         {
             this.AddChild(newCursor);
 
             newCursor.Rotation = Mathf.Pi / 2;
-            newCursor.GlobalPosition = target.Anim.Top.GlobalPosition;
+            var topPosition = target.Anim.Top.GlobalPosition;
+            newCursor.GlobalPosition = topPosition;
         }
         return newCursor;
     }
@@ -266,7 +280,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// </summary>
     /// <param name="direction">The direction to search in.</param>
     /// <returns>The closest battler in the given direction, or null if none found.</returns>
-    private Battler FindClosestTarget(Vector2 direction)
+    private Battler? FindClosestTarget(Vector2 direction)
     {
         if (this.currentTarget == null)
         {
@@ -275,7 +289,7 @@ public partial class UIBattlerTargetingCursor : Node2D
             return null;
         }
 
-        Battler newTarget = null;
+        Battler? newTarget = null;
         float distanceToNewTarget = float.PositiveInfinity;
 
         // First, we find all targetable battlers in a given direction.
@@ -291,7 +305,9 @@ public partial class UIBattlerTargetingCursor : Node2D
             // We're going to search within a 90-degree triangle (matching the direction vector +/- 45
             // degrees) for battlers. Anything outside is excluded, as it is found in a different
             // direction.
-            var vectorToBattler = battler.GlobalPosition - this.currentTarget.GlobalPosition;
+            var currentTargetPosition = this.currentTarget.GlobalPosition;
+            var battlerPosition = battler.GlobalPosition;
+            var vectorToBattler = battlerPosition - currentTargetPosition;
             if (Mathf.Abs(direction.AngleTo(vectorToBattler)) <= Mathf.Pi / 2.0f)
             {
                 candidates.Add(battler);
@@ -302,7 +318,8 @@ public partial class UIBattlerTargetingCursor : Node2D
         // That is our new target.
         foreach (var battler in candidates)
         {
-            var distanceToBattler = this.GlobalPosition.DistanceTo(battler.GlobalPosition);
+            var battlerPosition = battler.GlobalPosition;
+            var distanceToBattler = this.GlobalPosition.DistanceTo(battlerPosition);
             if (distanceToBattler < distanceToNewTarget)
             {
                 distanceToNewTarget = distanceToBattler;

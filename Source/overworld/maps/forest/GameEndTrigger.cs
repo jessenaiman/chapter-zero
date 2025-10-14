@@ -1,5 +1,5 @@
-// <copyright file="GameEndTrigger.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="GameEndTrigger.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Threading.Tasks;
@@ -54,7 +54,7 @@ public partial class GameEndTrigger : Trigger
         var gameboard = this.GetNode("/root/Gameboard");
         if (gameboard != null)
         {
-            var destinationPixel = (Vector2)gameboard.Call("cell_to_pixel", new Vector2I(53, 30));
+            var destinationPixel = (Vector2) gameboard.Call("cell_to_pixel", new Vector2I(53, 30));
             this.gamepiece.Call("move_to", destinationPixel);
             await this.ToSignal(this.gamepiece, "arrived");
         }

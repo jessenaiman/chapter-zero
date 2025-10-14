@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
 
 namespace OmegaSpiral.Source.Scripts
 {
@@ -17,9 +18,12 @@ namespace OmegaSpiral.Source.Scripts
     /// character portraits, dialogue choices, and branching conversation trees.
     /// It provides a rich interface for storytelling and player interaction with NPCs.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Generated code")]
     public partial class UIDialogue : Control
     {
-        // Private fields
+        /// <summary>
+        /// Private fields
+        /// </summary>
         private RichTextLabel? dialogueText;
         private Label? characterNameLabel;
         private TextureRect? characterPortrait;
@@ -42,6 +46,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Emitted when a dialogue choice is selected.
         /// </summary>
+        /// <param name="choiceIndex"></param>
         [Signal]
         public delegate void ChoiceSelectedEventHandler(int choiceIndex);
 
@@ -75,6 +80,7 @@ namespace OmegaSpiral.Source.Scripts
         /// Show an effect label (like emotion indicators or emphasis).
         /// </summary>
         /// <param name="text">The text to show.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="text"/> is <c>null</c>.</exception>
         public static void ShowEffectLabel(string text)
         {
             if (text == null)
@@ -125,7 +131,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="text">The dialogue text to display.</param>
         /// <param name="speaker">The character speaking (optional).</param>
-        public async void StartDialogue(string text, Character? speaker = null)
+        public async Task StartDialogueAsync(string text, Character? speaker = null)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -304,7 +310,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="message">The message to show.</param>
         /// <param name="duration">The duration to show the message for.</param>
-        public async void ShowMessage(string message, float duration = 2.0f)
+        public async Task ShowMessageAsync(string message, float duration = 2.0f)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -658,12 +664,6 @@ namespace OmegaSpiral.Source.Scripts
 
             // Add the button to the choices container
             this.choicesContainer.AddChild(button);
-
-            // Properly dispose the button after use
-            button.Dispose();
-
-            // Dispose the button after it is no longer needed
-            button.QueueFree();
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
-// <copyright file="AsciiRoomRenderer.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="AsciiRoomRenderer.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Field;
 using YamlDotNet.Serialization;
 
 /// <summary>
@@ -17,7 +18,7 @@ using YamlDotNet.Serialization;
 public partial class AsciiRoomRenderer : Node2D
 {
     private Label? asciiDisplay;
-    private DungeonSequenceData? dungeonData;
+    private DungeonSequenceData dungeonData = new();
     private int currentDungeonIndex;
     private Vector2I playerPosition;
     private SceneManager? sceneManager;
@@ -44,7 +45,7 @@ public partial class AsciiRoomRenderer : Node2D
     /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
-        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.dungeonData.Dungeons.Count == 0)
         {
             return;
         }
@@ -87,7 +88,11 @@ public partial class AsciiRoomRenderer : Node2D
             var yamlText = Godot.FileAccess.GetFileAsString(dataPath);
 
             var deserializer = new DeserializerBuilder().Build();
-            this.dungeonData = deserializer.Deserialize<DungeonSequenceData>(yamlText);
+            var loadedData = deserializer.Deserialize<DungeonSequenceData>(yamlText);
+            if (loadedData != null)
+            {
+                this.dungeonData = loadedData;
+            }
 
             GD.Print($"Loaded dungeon sequence with {this.dungeonData.Dungeons.Count} rooms");
         }
@@ -105,7 +110,7 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void InitializePlayerPosition()
     {
-        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.dungeonData.Dungeons.Count == 0)
         {
             return;
         }
@@ -115,7 +120,7 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void RenderDungeon()
     {
-        if (this.dungeonData == null || this.asciiDisplay == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.asciiDisplay == null || this.dungeonData.Dungeons.Count == 0)
         {
             return;
         }
@@ -155,7 +160,7 @@ public partial class AsciiRoomRenderer : Node2D
 
     private bool IsValidMove(Vector2I position)
     {
-        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.dungeonData.Dungeons.Count == 0)
         {
             return false;
         }
@@ -188,7 +193,7 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void CheckObjectInteraction()
     {
-        if (this.dungeonData == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.dungeonData.Dungeons.Count == 0)
         {
             return;
         }
@@ -207,14 +212,17 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void InteractWithObject(DungeonObject obj)
     {
-        if (this.dungeonData == null || this.gameState == null || this.dungeonData.Dungeons.Count == 0)
+        if (this.gameState == null || this.dungeonData.Dungeons.Count == 0)
         {
             return;
         }
 
         // Update Dreamweaver scores
         int score = obj.AlignedTo == this.dungeonData.Dungeons[this.currentDungeonIndex].Owner ? 2 : 1;
-        this.gameState.DreamweaverScores[obj.AlignedTo] += score;
+        if (this.gameState.DreamweaverScores != null)
+        {
+            this.gameState.DreamweaverScores[obj.AlignedTo] += score;
+        }
 
         // Display interaction text
         GD.Print(obj.Text);
@@ -242,7 +250,10 @@ public partial class AsciiRoomRenderer : Node2D
             if (this.currentDungeonIndex >= this.dungeonData.Dungeons.Count)
             {
                 // Transition to party creation
-                this.sceneManager?.TransitionToScene("Scene3WizardryParty");
+                if (this.sceneManager != null)
+                {
+                    this.sceneManager.TransitionToScene("Scene3WizardryParty");
+                }
             }
             else
             {

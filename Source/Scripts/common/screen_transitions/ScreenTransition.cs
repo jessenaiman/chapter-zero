@@ -63,6 +63,7 @@ public partial class ScreenTransition : CanvasLayer
     /// Reveal the screen instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been revealed.
     /// </summary>
+    /// <param name="duration"></param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Reveal(float duration = 0.0f)
     {
@@ -73,6 +74,7 @@ public partial class ScreenTransition : CanvasLayer
     /// Hide the ColorRect instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been cleared.
     /// </summary>
+    /// <param name="duration"></param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task ClearScreen(float duration = 0.0f)
     {
@@ -100,6 +102,7 @@ public partial class ScreenTransition : CanvasLayer
     /// Cover the screen instantly, unless the duration argument is non-zero.
     /// This method is a coroutine that will finish once the screen has been covered.
     /// </summary>
+    /// <param name="duration"></param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Cover(float duration = 0.0f)
     {
@@ -130,6 +133,8 @@ public partial class ScreenTransition : CanvasLayer
     /// <summary>
     /// Relegate the tween creation to a method so that derived classes can easily change transition type.
     /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="targetColor"></param>
     private void TweenTransition(float duration, Color targetColor)
     {
         if (this.colorRect != null)

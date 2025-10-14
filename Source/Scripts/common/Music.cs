@@ -1,5 +1,5 @@
-// <copyright file="Music.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Music.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -19,7 +19,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Gets singleton instance of Music.
         /// </summary>
-        public static Music? Instance { get; private set; }
+        public static Music Instance { get; private set; } = null!;
 
         /// <summary>
         /// Gets or sets the default bus name for music playback.
@@ -100,7 +100,7 @@ namespace OmegaSpiral.Source.Scripts
             this.AddChild(this.sfxPlayer);
 
             // Create crossfade timer
-            this.crossfadeTimer = new Timer();
+            this.crossfadeTimer = new Godot.Timer();
             this.crossfadeTimer.OneShot = true;
             this.crossfadeTimer.Timeout += this.OnCrossfadeTimeout;
             this.AddChild(this.crossfadeTimer);
@@ -112,7 +112,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <param name="track">The audio stream to play.</param>
         public void Play(AudioStream track)
         {
-            if (track == null)
+            if (track == null || this.currentMusicPlayer == null)
             {
                 return;
             }
@@ -121,7 +121,7 @@ namespace OmegaSpiral.Source.Scripts
             this.musicHistory.Add(track);
 
             // If no music is currently playing, play immediately
-            if (this.currentMusicPlayer.Stream == null || this.currentMusicPlayer.Playing == false)
+            if (this.currentMusicPlayer.Stream == null || !this.currentMusicPlayer.Playing)
             {
                 this.currentMusicPlayer.Stream = track;
                 this.currentMusicPlayer.Play();
@@ -159,7 +159,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <param name="newTrack">The new audio track to crossfade to.</param>
         public void CrossfadeTo(AudioStream newTrack)
         {
-            if (newTrack == null)
+            if (newTrack == null || this.nextMusicPlayer == null || this.crossfadeTimer == null)
             {
                 return;
             }
@@ -178,9 +178,18 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void Stop()
         {
-            this.currentMusicPlayer.Stop();
-            this.nextMusicPlayer.Stop();
-            this.crossfadeTimer.Stop();
+            if (this.currentMusicPlayer != null)
+            {
+                this.currentMusicPlayer.Stop();
+            }
+            if (this.nextMusicPlayer != null)
+            {
+                this.nextMusicPlayer.Stop();
+            }
+            if (this.crossfadeTimer != null)
+            {
+                this.crossfadeTimer.Stop();
+            }
         }
 
         /// <summary>
@@ -188,8 +197,14 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void Pause()
         {
-            this.currentMusicPlayer.StreamPaused = true;
-            this.nextMusicPlayer.StreamPaused = true;
+            if (this.currentMusicPlayer != null)
+            {
+                this.currentMusicPlayer.StreamPaused = true;
+            }
+            if (this.nextMusicPlayer != null)
+            {
+                this.nextMusicPlayer.StreamPaused = true;
+            }
         }
 
         /// <summary>
@@ -197,15 +212,21 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void Resume()
         {
-            this.currentMusicPlayer.StreamPaused = false;
-            this.nextMusicPlayer.StreamPaused = false;
+            if (this.currentMusicPlayer != null)
+            {
+                this.currentMusicPlayer.StreamPaused = false;
+            }
+            if (this.nextMusicPlayer != null)
+            {
+                this.nextMusicPlayer.StreamPaused = false;
+            }
         }
 
         /// <summary>
         /// Get the currently playing music track.
         /// </summary>
         /// <returns>The currently playing audio stream, or <see langword="null"/> if no track is playing.</returns>
-        public AudioStream GetPlayingTrack()
+        public AudioStream? GetPlayingTrack()
         {
             return this.currentMusicPlayer?.Stream;
         }
@@ -233,8 +254,14 @@ namespace OmegaSpiral.Source.Scripts
         /// <param name="volumeDb">The volume level in decibels.</param>
         public void SetMusicVolume(float volumeDb)
         {
-            this.currentMusicPlayer.VolumeDb = volumeDb;
-            this.nextMusicPlayer.VolumeDb = volumeDb;
+            if (this.currentMusicPlayer != null)
+            {
+                this.currentMusicPlayer.VolumeDb = volumeDb;
+            }
+            if (this.nextMusicPlayer != null)
+            {
+                this.nextMusicPlayer.VolumeDb = volumeDb;
+            }
         }
 
         /// <summary>
@@ -243,7 +270,10 @@ namespace OmegaSpiral.Source.Scripts
         /// <param name="volumeDb">The volume level in decibels.</param>
         public void SetSfxVolume(float volumeDb)
         {
-            this.sfxPlayer.VolumeDb = volumeDb;
+            if (this.sfxPlayer != null)
+            {
+                this.sfxPlayer.VolumeDb = volumeDb;
+            }
         }
 
         /// <summary>
@@ -263,7 +293,7 @@ namespace OmegaSpiral.Source.Scripts
 
             while (elapsed < duration)
             {
-                elapsed += this.GetProcessDeltaTime();
+                elapsed += (float) this.GetProcessDeltaTime();
                 var t = elapsed / duration;
                 this.currentMusicPlayer.VolumeDb = Mathf.Lerp(startVolume, targetVolume, t);
 
@@ -285,8 +315,11 @@ namespace OmegaSpiral.Source.Scripts
             this.nextMusicPlayer = tempPlayer;
 
             // Mute the old player
-            this.nextMusicPlayer.VolumeDb = -80.0f;
-            this.nextMusicPlayer.Stop();
+            if (this.nextMusicPlayer != null)
+            {
+                this.nextMusicPlayer.VolumeDb = -80.0f;
+                this.nextMusicPlayer.Stop();
+            }
         }
     }
 }

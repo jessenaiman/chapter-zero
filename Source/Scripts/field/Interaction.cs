@@ -1,5 +1,5 @@
-// <copyright file="Interaction.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="Interaction.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -73,12 +73,30 @@ public partial class Interaction : Area2D
     {
         base._Ready();
 
-        // Connect to input events
-        this.InputEvent += OnInputEvent;
+        // Connect to input events - using the correct signature for CollisionObject2D.InputEvent
+        this.InputEvent += (_, @event, _) =>
+        {
+            if (@event != null && @event.IsActionPressed(this.TriggerAction))
+            {
+                this.Run();
+            }
+        };
 
         // Connect to area events for hover detection
-        this.AreaEntered += this.OnAreaEntered;
-        this.AreaExited += this.OnAreaExited;
+        this.AreaEntered += (Area2D area) =>
+        {
+            if (area != null)
+            {
+                this.OnAreaEntered(area);
+            }
+        };
+        this.AreaExited += (Area2D area) =>
+        {
+            if (area != null)
+            {
+                this.OnAreaExited(area);
+            }
+        };
     }
 
     /// <inheritdoc/>
@@ -132,6 +150,7 @@ public partial class Interaction : Area2D
     /// <summary>
     /// Check if the player is within trigger distance of this interaction.
     /// </summary>
+    /// <param name="player"></param>
     /// <returns></returns>
     public bool IsPlayerWithinTriggerDistance(Node2D player)
     {
@@ -147,6 +166,7 @@ public partial class Interaction : Area2D
     /// <summary>
     /// Check if the player is facing this interaction.
     /// </summary>
+    /// <param name="player"></param>
     /// <returns></returns>
     public bool IsPlayerFacing(Node2D player)
     {
@@ -168,23 +188,9 @@ public partial class Interaction : Area2D
     }
 
     /// <summary>
-    /// Callback when input events occur within this interaction's area.
-    /// </summary>
-    /// <param name="viewport">The viewport where the input event occurred.</param>
-    /// <param name="event">The input event that was triggered.</param>
-    /// <param name="shapeIdx">The index of the shape involved in the collision.</param>
-    private void OnInputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
-    {
-        // Handle input events
-        if (@event.IsActionPressed(this.TriggerAction))
-        {
-            this.Run();
-        }
-    }
-
-    /// <summary>
     /// Callback when another area enters this interaction's area.
     /// </summary>
+    /// <param name="area"></param>
     private void OnAreaEntered(Area2D area)
     {
         // Check if the entering area is the player
@@ -198,6 +204,7 @@ public partial class Interaction : Area2D
     /// <summary>
     /// Callback when another area exits this interaction's area.
     /// </summary>
+    /// <param name="area"></param>
     private void OnAreaExited(Area2D area)
     {
         // Check if the exiting area is the player

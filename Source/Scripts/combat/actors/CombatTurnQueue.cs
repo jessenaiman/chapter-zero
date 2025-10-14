@@ -1,5 +1,5 @@
-// <copyright file="CombatTurnQueue.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="CombatTurnQueue.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -67,7 +67,7 @@ public partial class CombatTurnQueue : Node
         var combatActors = new CombatActor[actorList.Count];
         for (int i = 0; i < actorList.Count; i++)
         {
-            combatActors[i] = (CombatActor)actorList[i];
+            combatActors[i] = (CombatActor) actorList[i];
         }
 
         return combatActors;

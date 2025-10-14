@@ -1,16 +1,16 @@
-// <copyright file="RoamingCombatTrigger.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="RoamingCombatTrigger.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Threading.Tasks;
 using Godot;
 
-[Tool]
 /// <summary>
 /// Represents a roaming combat trigger that handles victory and loss cutscenes for roaming encounters.
 /// This trigger automatically removes itself after a victory and handles game-over scenarios on loss.
 /// </summary>
+[Tool]
 public partial class RoamingCombatTrigger : CombatTrigger
 {
     /// <summary>
@@ -18,9 +18,10 @@ public partial class RoamingCombatTrigger : CombatTrigger
     /// </summary>
     /// <inheritdoc/>
     /// <returns>A task representing the asynchronous operation.</returns>
-    protected override async Task RunVictoryCutsceneAsync()
+    protected override Task RunVictoryCutsceneAsync()
     {
         this.QueueFree();
+        return Task.CompletedTask;
     }
 
     /// <summary>

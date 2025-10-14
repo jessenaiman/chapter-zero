@@ -7,31 +7,31 @@ exclude_paths:
   # Git and GitHub directories
   - '.git/**'
   - '.github/**'
-  
+
   # Test and spec directories (if not needed for analysis)
   - '.specify/**'
   - 'specs/**'
   - 'test/**'
   - 'Tests/**'
-  
+
   # Build output directories
   - 'bin/**'
   - 'obj/**'
   - 'coverage/**'
-  
+
   # Dependencies and packages
   - 'models/**'
   - 'addons/**'
-  
+
   # Documentation and markdown files
   - 'docs/**'
   - '*.md'
-  
+
   # YAML configuration files
   - 'yaml/**'
   - '*.yml'
   - '*.yaml'
-  
+
   # Asset files
   - '*.png'
   - '*.jpg'
@@ -44,7 +44,7 @@ exclude_paths:
   - '*.tscn'
   - '*.import'
   - '*.uid'
-  
+
   # Generated or temporary files
   - '*.csproj.old'
   - 'Copilot-Processing.md'
@@ -55,7 +55,7 @@ engines:
   # Enable StyleCop analyzer
   stylecop:
     enabled: true
-  
+
   # Enable Roslyn analyzers for C#
   roslyn:
     enabled: true

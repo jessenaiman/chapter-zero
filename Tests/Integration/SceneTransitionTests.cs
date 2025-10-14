@@ -1,5 +1,5 @@
-// <copyright file="SceneTransitionTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="SceneTransitionTests.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests.Integration
@@ -14,6 +14,12 @@ namespace OmegaSpiral.Tests.Integration
     [TestFixture]
     public partial class SceneTransitionTests
     {
+        /// <summary>
+        /// Verifies that Scene1Narrative.tscn loads and instantiates successfully.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the scene and its required components are present.
+        /// </remarks>
         [Test]
         public void Scene1_LoadsSuccessfully()
         {
@@ -38,6 +44,12 @@ namespace OmegaSpiral.Tests.Integration
             sceneInstance.QueueFree();
         }
 
+        /// <summary>
+        /// Verifies that Scene2NethackSequence.tscn loads and instantiates successfully.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the scene loads and its root node is correct.
+        /// </remarks>
         [Test]
         public void Scene2_LoadsSuccessfully()
         {
@@ -58,6 +70,12 @@ namespace OmegaSpiral.Tests.Integration
             sceneInstance.QueueFree();
         }
 
+        /// <summary>
+        /// Verifies that the combat arena scene loads and instantiates successfully.
+        /// </summary>
+        /// <remarks>
+        /// Ensures the combat arena scene is present and can be loaded for testing.
+        /// </remarks>
         [Test]
         public void CombatArena_LoadsSuccessfully()
         {

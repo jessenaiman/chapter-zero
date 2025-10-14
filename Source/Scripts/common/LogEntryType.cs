@@ -1,59 +1,62 @@
-// <copyright file="LogEntryType.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="LogEntryType.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-/// <summary>
-/// Types of log entries for the combat log.
-/// </summary>
-public enum LogEntryType
+namespace OmegaSpiral.Source.Scripts.Common
 {
     /// <summary>
-    /// General information entry.
+    /// Types of log entries for the combat log.
     /// </summary>
-    Info,
+    public enum LogEntryType
+    {
+        /// <summary>
+        /// General information entry.
+        /// </summary>
+        Info,
 
-    /// <summary>
-    /// Damage dealt entry.
-    /// </summary>
-    Damage,
+        /// <summary>
+        /// Damage dealt entry.
+        /// </summary>
+        Damage,
 
-    /// <summary>
-    /// Healing received entry.
-    /// </summary>
-    Heal,
+        /// <summary>
+        /// Healing received entry.
+        /// </summary>
+        Heal,
 
-    /// <summary>
-    /// Attack missed entry.
-    /// </summary>
-    Miss,
+        /// <summary>
+        /// Attack missed entry.
+        /// </summary>
+        Miss,
 
-    /// <summary>
-    /// Action performed entry.
-    /// </summary>
-    Action,
+        /// <summary>
+        /// Action performed entry.
+        /// </summary>
+        Action,
 
-    /// <summary>
-    /// Status effect applied entry.
-    /// </summary>
-    StatusEffect,
+        /// <summary>
+        /// Status effect applied entry.
+        /// </summary>
+        StatusEffect,
 
-    /// <summary>
-    /// Battler defeated entry.
-    /// </summary>
-    Defeated,
+        /// <summary>
+        /// Battler defeated entry.
+        /// </summary>
+        Defeated,
 
-    /// <summary>
-    /// Milestone achieved entry.
-    /// </summary>
-    Milestone,
+        /// <summary>
+        /// Milestone achieved entry.
+        /// </summary>
+        Milestone,
 
-    /// <summary>
-    /// Breakthrough achieved entry.
-    /// </summary>
-    Breakthrough,
+        /// <summary>
+        /// Breakthrough achieved entry.
+        /// </summary>
+        Breakthrough,
 
-    /// <summary>
-    /// System message entry.
-    /// </summary>
-    System,
+        /// <summary>
+        /// System message entry.
+        /// </summary>
+        System,
+    }
 }

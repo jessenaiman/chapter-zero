@@ -1,6 +1,8 @@
-// <copyright file="DialogueChoice.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DialogueChoice.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
+
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 
 /// <summary>
 /// Represents a choice in a dialogue.

@@ -258,7 +258,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The usage percentage as a value between 0 and 1.</returns>
         public float GetUsagePercentage()
         {
-            return this.MaxSize > 0 ? (float)this.ItemIds.Count / this.MaxSize : 0f;
+            return this.MaxSize > 0 ? (float) this.ItemIds.Count / this.MaxSize : 0f;
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace OmegaSpiral.Domain.Models
         /// </summary>
         /// <param name="itemId">The ID of the item.</param>
         /// <returns>The custom data dictionary for the item, or null if not found.</returns>
-        public Dictionary<string, object> GetItemCustomData(string itemId)
+        public Dictionary<string, object>? GetItemCustomData(string itemId)
         {
             return this.CustomItemData.ContainsKey(itemId) ? this.CustomItemData[itemId] : null;
         }
@@ -372,7 +372,9 @@ namespace OmegaSpiral.Domain.Models
         {
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId) ||
                 !this.CategoryAssignments.ContainsKey(category))
+            {
                 return;
+            }
 
             this.CategoryAssignments[category].Remove(itemId);
         }

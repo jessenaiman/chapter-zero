@@ -1,5 +1,5 @@
-// <copyright file="DreamweaverSystem.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DreamweaverSystem.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts
@@ -10,6 +10,7 @@ namespace OmegaSpiral.Source.Scripts
     using System.Threading.Tasks;
     using Godot;
     using OmegaSpiral.Scripts.Field.Narrative;
+    using NarrativeChoiceOption = OmegaSpiral.Source.Scripts.Field.Narrative.ChoiceOption;
     using YamlDotNet.Serialization;
 
     /// <summary>
@@ -19,11 +20,17 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public partial class DreamweaverSystem : Node
     {
-        private Dictionary<string, DreamweaverPersona> personas = new ();
+        private readonly TaskCompletionSource<bool> initializationComplete = new();
+        private Dictionary<string, DreamweaverPersona> personas = new();
         private GameState? gameState;
 
         /// <summary>
-        /// Signal emitted when narrative is generated for a persona.
+        /// Gets a task that completes when the Dreamweaver system has finished initializing.
+        /// </summary>
+        public Task<bool> InitializationComplete => this.initializationComplete.Task;
+
+        /// <summary>
+        /// Emits the signal when narrative is generated for a persona.
         /// </summary>
         /// <param name="personaId">The identifier of the persona that generated the narrative.</param>
         /// <param name="generatedText">The generated narrative text.</param>
@@ -31,14 +38,14 @@ namespace OmegaSpiral.Source.Scripts
         public delegate void NarrativeGeneratedEventHandler(string personaId, string generatedText);
 
         /// <summary>
-        /// Signal emitted when a persona is activated.
+        /// Emits the signal when a persona is activated.
         /// </summary>
         /// <param name="personaId">The identifier of the activated persona.</param>
         [Signal]
         public delegate void PersonaActivatedEventHandler(string personaId);
 
         /// <summary>
-        /// Signal emitted when an error occurs during narrative generation.
+        /// Emits the signal when an error occurs during narrative generation.
         /// </summary>
         /// <param name="personaId">The identifier of the persona that encountered the error.</param>
         /// <param name="errorMessage">The error message describing what went wrong.</param>
@@ -48,12 +55,14 @@ namespace OmegaSpiral.Source.Scripts
         /// <inheritdoc/>
         public override void _Ready()
         {
+            GD.Print($"DreamweaverSystem _Ready called, instance: {this.GetInstanceId()}");
             this.gameState = this.GetNode<GameState>("/root/GameState");
 
             // Initialize the three Dreamweaver personas
             this.InitializePersonas();
 
             GD.Print("Dreamweaver System initialized with 3 personas");
+            this.initializationComplete.SetResult(true);
         }
 
         /// <summary>
@@ -124,7 +133,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <param name="personaId">The identifier of the persona to generate choices for.</param>
         /// <param name="context">Additional context for choice generation.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<List<global::ChoiceOption>> GenerateChoicesAsync(string personaId, string context = "")
+        public async Task<List<NarrativeChoiceOption>> GenerateChoicesAsync(string personaId, string context = "")
         {
             if (!this.personas.ContainsKey(personaId))
             {
@@ -135,7 +144,7 @@ namespace OmegaSpiral.Source.Scripts
             {
                 var persona = this.personas[personaId];
                 var choices = await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
-                return choices.Select(c => new global::ChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
+                return choices.Select(c => new NarrativeChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
             }
             catch (InvalidOperationException ex)
             {
@@ -181,6 +190,18 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
+        /// Gets a persona by its identifier.
+        /// </summary>
+        /// <param name="personaId">The identifier of the persona to retrieve.</param>
+        /// <returns>The persona with the given identifier, or null if not found.</returns>
+        public DreamweaverPersona? GetPersona(string personaId)
+        {
+            var persona = this.personas.GetValueOrDefault(personaId);
+            GD.Print($"GetPersona called for '{personaId}', found: {persona != null}, total personas: {this.personas.Count}");
+            return persona;
+        }
+
+        /// <summary>
         /// Loads persona configuration from YAML file.
         /// </summary>
         /// <param name="personaId">The persona identifier.</param>
@@ -190,6 +211,7 @@ namespace OmegaSpiral.Source.Scripts
             try
             {
                 var configPath = $"res://Source/Data/scenes/scene1_narrative/{personaId}.yaml";
+                GD.Print($"Loading persona config from: {configPath}");
                 if (!Godot.FileAccess.FileExists(configPath))
                 {
                     GD.PrintErr($"Persona config not found: {configPath}");
@@ -200,9 +222,14 @@ namespace OmegaSpiral.Source.Scripts
                 var yamlText = file.GetAsText();
                 file.Close();
 
+                GD.Print($"YAML text length for {personaId}: {yamlText.Length}");
+
                 // Use YamlDotNet to deserialize the YAML directly into C# objects
                 var deserializer = new DeserializerBuilder().Build();
-                return deserializer.Deserialize<PersonaConfig>(yamlText);
+                var config = deserializer.Deserialize<PersonaConfig>(yamlText);
+
+                GD.Print($"Deserialized config for {personaId}: OpeningLines count = {config?.OpeningLines.Count ?? 0}");
+                return config;
             }
             catch (InvalidOperationException ex)
             {
@@ -216,7 +243,11 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
 
-        // Fallback methods for when LLM generation fails
+        /// <summary>
+        /// Fallback methods for when LLM generation fails
+        /// </summary>
+        /// <param name="personaId"></param>
+        /// <returns></returns>
         private static string GetFallbackNarrative(string personaId)
         {
             var fallbacks = new Dictionary<string, string>
@@ -241,22 +272,25 @@ namespace OmegaSpiral.Source.Scripts
             return fallbacks.GetValueOrDefault(personaId, "Welcome to the spiral.");
         }
 
-        private static List<global::ChoiceOption> GetFallbackChoices()
+        private static List<NarrativeChoiceOption> GetFallbackChoices()
         {
-            return new List<global::ChoiceOption>
-        {
-            new global::ChoiceOption { Id = "continue", Text = "Continue", Description = "Continue the journey" },
-            new global::ChoiceOption { Id = "reflect", Text = "Reflect", Description = "Take a moment to reflect" },
-            new global::ChoiceOption { Id = "question", Text = "Question", Description = "Ask a question" },
-        };
+            return new List<NarrativeChoiceOption>
+            {
+                new NarrativeChoiceOption { Id = "continue", Text = "Continue", Description = "Continue the journey" },
+                new NarrativeChoiceOption { Id = "reflect", Text = "Reflect", Description = "Take a moment to reflect" },
+                new NarrativeChoiceOption { Id = "question", Text = "Question", Description = "Ask a question" },
+            };
         }
 
         private void InitializePersonas()
         {
+            GD.Print("Initializing personas...");
             // Load persona configurations from YAML files
             var heroConfig = LoadPersonaConfig("hero");
             var shadowConfig = LoadPersonaConfig("shadow");
             var ambitionConfig = LoadPersonaConfig("ambition");
+
+            GD.Print($"Loaded configs - Hero: {heroConfig != null}, Shadow: {shadowConfig != null}, Ambition: {ambitionConfig != null}");
 
             if (this.gameState == null)
             {
@@ -267,6 +301,7 @@ namespace OmegaSpiral.Source.Scripts
             if (heroConfig != null)
             {
                 this.personas["hero"] = new DreamweaverPersona("hero", heroConfig, this.gameState);
+                GD.Print($"Hero persona initialized with {heroConfig.OpeningLines.Count} opening lines");
             }
 
             if (shadowConfig != null)
@@ -277,6 +312,12 @@ namespace OmegaSpiral.Source.Scripts
             if (ambitionConfig != null)
             {
                 this.personas["ambition"] = new DreamweaverPersona("ambition", ambitionConfig, this.gameState);
+            }
+
+            GD.Print($"Total personas initialized: {this.personas.Count}");
+            foreach (var key in this.personas.Keys)
+            {
+                GD.Print($"Persona key: '{key}'");
             }
         }
     }

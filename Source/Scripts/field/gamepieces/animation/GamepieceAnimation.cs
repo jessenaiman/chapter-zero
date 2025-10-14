@@ -1,5 +1,5 @@
-// <copyright file="GamepieceAnimation.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="GamepieceAnimation.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
@@ -105,12 +105,12 @@ public partial class GamepieceAnimation : Marker2D
         // sequence id itself.
         var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
 
-        if (this.anim.HasAnimation(value + sequenceSuffix))
+        if (this.anim != null && this.anim.HasAnimation(value + sequenceSuffix))
         {
             this.currentSequenceId = value;
             this.SwapAnimation(value + sequenceSuffix, false);
         }
-        else if (this.anim.HasAnimation(value))
+        else if (this.anim != null && this.anim.HasAnimation(value))
         {
             this.currentSequenceId = value;
             this.SwapAnimation(value, false);
@@ -140,11 +140,11 @@ public partial class GamepieceAnimation : Marker2D
 
         var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
 
-        if (this.anim.HasAnimation(this.currentSequenceId + sequenceSuffix))
+        if (this.anim != null && this.anim.HasAnimation(this.currentSequenceId + sequenceSuffix))
         {
             this.SwapAnimation(this.currentSequenceId + sequenceSuffix, true);
         }
-        else if (this.anim.HasAnimation(this.currentSequenceId))
+        else if (this.anim != null && this.anim.HasAnimation(this.currentSequenceId))
         {
             this.SwapAnimation(this.currentSequenceId, true);
         }
@@ -158,6 +158,11 @@ public partial class GamepieceAnimation : Marker2D
     /// <param name="keepPosition">Whether to keep the current animation position.</param>
     private void SwapAnimation(string nextSequence, bool keepPosition)
     {
+        if (this.anim == null)
+        {
+            return;
+        }
+
         var nextAnim = this.anim.GetAnimation(nextSequence);
 
         if (nextAnim != null)
@@ -167,7 +172,7 @@ public partial class GamepieceAnimation : Marker2D
             var currentPositionRatio = 0f;
             if (keepPosition)
             {
-                currentPositionRatio = (float)(this.anim.CurrentAnimationPosition / this.anim.CurrentAnimationLength);
+                currentPositionRatio = (float) (this.anim.CurrentAnimationPosition / this.anim.CurrentAnimationLength);
             }
 
             // RESET the animation immediately to its default reset state before the next sequence.

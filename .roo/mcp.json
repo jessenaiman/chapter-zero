@@ -34,6 +34,19 @@
         "launch_editor",
         "list_projects"
       ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "BSAIXhyWJbJc3k3D6dubp7wLAmEu6LP"
+      },
+      "alwaysAllow": [
+        "brave_web_search"
+      ]
     }
   }
 }

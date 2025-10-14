@@ -1,5 +1,5 @@
-// <copyright file="DialogueWindow.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DialogueWindow.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -9,7 +9,7 @@ using Godot;
 /// Shows and hides automatically when timelines start and end.
 /// </summary>
 [GlobalClass]
-public partial class DialogueWindow : Node
+public partial class DialogueWindow : Control
 {
     /// <inheritdoc/>
     public override void _Ready()
@@ -21,10 +21,10 @@ public partial class DialogueWindow : Node
         if (dialogic != null)
         {
             // Connect to timeline signals
-            dialogic.Connect("timeline_started", Callable.From(() => Show()));
-            dialogic.Connect("timeline_ended", Callable.From(() => Hide()));
+            dialogic.Connect("timeline_started", Callable.From(() => this.Show()));
+            dialogic.Connect("timeline_ended", Callable.From(() => this.Hide()));
         }
 
-        Hide();
+        this.Hide();
     }
 }

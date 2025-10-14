@@ -1,5 +1,5 @@
-// <copyright file="MovingInteractionPopup.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="MovingInteractionPopup.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -65,7 +65,7 @@ public partial class MovingInteractionPopup : InteractionPopup
     {
         if (this.gp != null)
         {
-            this.Position = this.gp.Follower.Position;
+            this.Position = this.gp.Position;
         }
     }
 

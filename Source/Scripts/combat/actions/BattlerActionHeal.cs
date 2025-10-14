@@ -1,75 +1,79 @@
-// <copyright file="BattlerActionHeal.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="BattlerActionHeal.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
-/// <summary>
-/// A sample <see cref="BattlerAction"/> implementation that simulates a direct melee hit.
-/// </summary>
-public partial class HealBattlerAction : BattlerAction
+namespace OmegaSpiral.Source.Scripts.Combat.Actions
 {
-    private const float JumpDistance = 250.0f;
-
     /// <summary>
-    /// Gets or sets the amount of healing to apply.
+    /// A sample <see cref="HealBattlerAction"/> implementation that simulates a healing action for battlers.
     /// </summary>
-    [Export]
-    public int HealAmount { get; set; } = 50;
-
-    /// <inheritdoc/>
-    public override async Task Execute(Battler source, Battler[] targets = null!)
+    public partial class HealBattlerAction : BattlerAction
     {
-        if (source == null)
+        private const float JumpDistance = 250.0f;
+
+        /// <summary>
+        /// Gets or sets the amount of healing to apply.
+        /// </summary>
+        [Export]
+        public int HealAmount { get; set; } = 50;
+
+        /// <inheritdoc/>
+        public override async Task Execute(Battler source, Battler[] targets = null!)
         {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        if (targets == null)
-        {
-            targets = Array.Empty<Battler>();
-        }
-
-        if (targets.Length == 0)
-        {
-            GD.PrintErr("An attack action requires a target.");
-            return;
-        }
-
-        var timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-
-        // Animate a little jump from the source Battler to add some movement to the action.
-        Vector2 origin = source.Position;
-
-        Tween tween = source.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
-        tween.TweenProperty(source, "position", origin + new Vector2(0, -JumpDistance), 0.15f);
-        await source.ToSignal(tween, Tween.SignalName.Finished);
-        timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        tween = source.CreateTween().SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Quad);
-        tween.TweenProperty(source, "position", origin, 0.15f);
-        await source.ToSignal(tween, Tween.SignalName.Finished);
-
-        // Wait for a short delay and then apply healing to the targets.
-        timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        using (BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f))
-        {
-            foreach (Battler target in targets)
+            if (source == null)
             {
-                target.TakeHit(hit);
-
-                // Pause slightly between heals.
-                timer = source.GetTree().CreateTimer(0.1f);
-                await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+                throw new ArgumentNullException(nameof(source));
             }
-        }
 
-        // Pause slightly before resuming combat.
-        timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+            if (targets == null)
+            {
+                targets = Array.Empty<Battler>();
+            }
+
+            if (targets.Length == 0)
+            {
+                GD.PrintErr("An attack action requires a target.");
+                return;
+            }
+
+            var timer = source.GetTree().CreateTimer(0.1f);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+
+            // Animate a little jump from the source Battler to add some movement to the action.
+            Vector2 origin = source.Position;
+
+            Tween tween = source.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
+            tween.TweenProperty(source, "position", origin + new Vector2(0, -JumpDistance), 0.15f);
+            await source.ToSignal(tween, Tween.SignalName.Finished);
+            timer = source.GetTree().CreateTimer(0.1f);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+            tween = source.CreateTween().SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Quad);
+            tween.TweenProperty(source, "position", origin, 0.15f);
+            await source.ToSignal(tween, Tween.SignalName.Finished);
+
+            // Wait for a short delay and then apply healing to the targets.
+            timer = source.GetTree().CreateTimer(0.1f);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+            using (BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f))
+            {
+                foreach (Battler target in targets)
+                {
+                    target.TakeHit(hit);
+
+                    // Pause slightly between heals.
+                    timer = source.GetTree().CreateTimer(0.1f);
+                    await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+                }
+            }
+
+            // Pause slightly before resuming combat.
+            timer = source.GetTree().CreateTimer(0.1f);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+        }
     }
 }

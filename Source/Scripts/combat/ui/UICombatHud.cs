@@ -17,18 +17,19 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Emitted when the player selects a battler to view details for.
     /// </summary>
+    /// <param name="battler">The battler that was selected.</param>
     [Signal]
     public delegate void BattlerSelectedEventHandler(Battler battler);
 
     /// <summary>
     /// Gets the list of combat participants.
     /// </summary>
-    public BattlerList? Battlers { get; private set; }
+    public BattlerList Battlers { get; private set; } = null!;
 
     /// <summary>
     /// Gets or sets the currently selected battler.
     /// </summary>
-    public Battler SelectedBattler
+    public Battler? SelectedBattler
     {
         get => this.selectedBattler;
         set
@@ -93,7 +94,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Connect to necessary signals.
     /// </summary>
-    private static void ConnectSignals()
+    private void ConnectSignals()
     {
         // Connect to combat events
         // CombatEvents.BattlerSelected += OnBattlerSelected;
@@ -168,7 +169,7 @@ public partial class UICombatHud : Control
     /// </summary>
     /// <param name="battler">The battler to create a display for.</param>
     /// <param name="container">The container to add the display to.</param>
-    private void CreateBattlerDisplay(Battler battler, Control container)
+    private void CreateBattlerDisplay(Battler battler, Control? container)
     {
         if (battler == null || container == null)
         {
@@ -204,7 +205,7 @@ public partial class UICombatHud : Control
     /// </summary>
     /// <param name="battler">The battler to update the display for.</param>
     /// <param name="display">The display to update.</param>
-    private static void UpdateBattlerDisplay(Battler battler, Control display)
+    private static void UpdateBattlerDisplay(Battler? battler, Control? display)
     {
         if (battler == null || display == null || battler.Stats == null)
         {
@@ -232,7 +233,7 @@ public partial class UICombatHud : Control
     /// Update the detailed battler info panel.
     /// </summary>
     /// <param name="battler">The battler to display info for.</param>
-    private void UpdateBattlerInfoPanel(Battler battler)
+    private void UpdateBattlerInfoPanel(Battler? battler)
     {
         if (battler == null || this.battlerInfoPanel == null || battler.Stats == null)
         {
@@ -380,7 +381,7 @@ public partial class UICombatHud : Control
     /// </summary>
     /// <param name="battler">The battler to get the display for.</param>
     /// <returns>The display control for the battler, or null if not found.</returns>
-    public Control GetBattlerDisplay(Battler battler)
+    public Control? GetBattlerDisplay(Battler? battler)
     {
         if (battler == null)
         {
@@ -421,7 +422,6 @@ public partial class UICombatHud : Control
         this.UpdateAllDisplays();
     }
 
-
     /// <summary>
     /// Show a message in the HUD.
     /// </summary>
@@ -429,21 +429,17 @@ public partial class UICombatHud : Control
     /// <param name="duration">The duration to show the message for.</param>
     public async void ShowMessage(string message, float duration = 2.0f)
     {
-#pragma warning disable CA1801 // Parameter is never used
+        _ = message;
         // Show a temporary message in the HUD
         // This would typically involve showing a label or panel with the message
-
         // For example:
         // var messageLabel = GetNode<Label>("MessageLabel");
         // messageLabel.Text = message;
         // messageLabel.Show();
-
         // Wait for the specified duration
         await this.ToSignal(this.GetTree().CreateTimer(duration), Godot.Timer.SignalName.Timeout);
-
         // Hide the message
         // messageLabel.Hide();
-#pragma warning restore CA1801 // Parameter is never used
     }
 
     /// <summary>
@@ -454,23 +450,22 @@ public partial class UICombatHud : Control
     /// <param name="color">The color of the text.</param>
     public static void ShowEffectLabel(string text, Vector2 position, Color color)
     {
-#pragma warning disable CA1801 // Parameters are never used
+        _ = text;
+        _ = position;
+        _ = color;
         // Show a floating label at the specified position
         // This would typically involve creating a temporary label that floats upward and fades out
-
         // For example:
         // var label = new Label();
         // label.Text = text;
         // label.AddThemeColorOverride("font_color", color);
         // label.Position = position;
         // AddChild(label);
-
         // Create a tween to animate the label
         // var tween = CreateTween();
         // tween.TweenProperty(label, "position:y", position.Y - 50, 1.0f);
         // tween.Parallel().TweenProperty(label, "modulate:a", 0.0f, 1.0f);
         // tween.TweenCallback(new Callable(label, "queue_free"));
-#pragma warning restore CA1801 // Parameters are never used
     }
 
     /// <summary>
@@ -479,10 +474,9 @@ public partial class UICombatHud : Control
     /// <param name="turnOrder">The current turn order.</param>
     public static void UpdateTurnOrder(List<Battler> turnOrder)
     {
-#pragma warning disable CA1801 // Parameter is never used
+        _ = turnOrder;
         // Update the display showing the turn order
         // This would typically involve updating icons or names showing who is next to act
-
         // For example:
         // var turnOrderContainer = GetNode<HBoxContainer>("TurnOrder");
         // foreach (var child in turnOrderContainer.GetChildren())
@@ -495,6 +489,5 @@ public partial class UICombatHud : Control
         //     icon.Texture = battler.Icon;
         //     turnOrderContainer.AddChild(icon);
         // }
-#pragma warning restore CA1801 // Parameter is never used
     }
 }

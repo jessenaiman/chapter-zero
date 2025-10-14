@@ -1,5 +1,5 @@
-// <copyright file="ConversationTemplate.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="ConversationTemplate.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
@@ -22,7 +22,8 @@ public partial class ConversationTemplate : Interaction
     /// Execute the conversation interaction.
     /// Starts the Dialogic timeline and waits for it to complete.
     /// </summary>
-    public async void Execute()
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async System.Threading.Tasks.Task Execute()
     {
         if (this.Timeline == null)
         {

@@ -1,5 +1,5 @@
-// <copyright file="NarrativeTerminalSchemaTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="NarrativeTerminalSchemaTests.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Tests
@@ -10,12 +10,18 @@ namespace OmegaSpiral.Tests
     using Godot;
     using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for the narrative terminal schema validation.
+    /// </summary>
     [TestFixture]
     public class NarrativeTerminalSchemaTests : IDisposable
     {
         private JsonSchemaValidator? validator;
         private string? schemaPath;
 
+        /// <summary>
+        /// Sets up the test fixture.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
@@ -23,6 +29,9 @@ namespace OmegaSpiral.Tests
             this.schemaPath = "res://specs/004-implement-omega-spiral/contracts/scene1_narrative_schema.json";
         }
 
+        /// <summary>
+        /// Tests that valid data returns true.
+        /// </summary>
         [Test]
         public void ValidateNarrativeTerminalSchema_ValidData_ReturnsTrue()
         {
@@ -69,6 +78,9 @@ namespace OmegaSpiral.Tests
             Assert.That(result, Is.True, "Valid narrative terminal data should pass schema validation");
         }
 
+        /// <summary>
+        /// Tests that data with missing required field returns false.
+        /// </summary>
         [Test]
         public void ValidateNarrativeTerminalSchema_MissingRequiredField_ReturnsFalse()
         {
@@ -89,6 +101,9 @@ namespace OmegaSpiral.Tests
             Assert.That(result, Is.False, "Data missing required fields should fail schema validation");
         }
 
+        /// <summary>
+        /// Tests that data with wrong type returns false.
+        /// </summary>
         [Test]
         public void ValidateNarrativeTerminalSchema_WrongType_ReturnsFalse()
         {
@@ -113,6 +128,9 @@ namespace OmegaSpiral.Tests
             Assert.That(result, Is.False, "Data with wrong type should fail schema validation");
         }
 
+        /// <summary>
+        /// Tests that empty data returns false.
+        /// </summary>
         [Test]
         public void ValidateNarrativeTerminalSchema_EmptyData_ReturnsFalse()
         {

@@ -1,5 +1,5 @@
-// <copyright file="DialogicIntegration.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="DialogicIntegration.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Scripts.Common
@@ -82,7 +82,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <param name="value">Value to set.</param>
         public void SetDialogicVariable(string variableName, Variant value)
         {
-            var variablesSubsystem = (GodotObject)this.dialogic.Call("get_subsystem", "VAR");
+            var variablesSubsystem = (GodotObject) this.dialogic.Call("get_subsystem", "VAR");
             if (variablesSubsystem != null)
             {
                 variablesSubsystem.Call("set_variable", variableName, value);
@@ -96,7 +96,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <returns>The variable value.</returns>
         public Variant GetDialogicVariable(string variableName)
         {
-            var variablesSubsystem = (GodotObject)this.dialogic.Call("get_subsystem", "VAR");
+            var variablesSubsystem = (GodotObject) this.dialogic.Call("get_subsystem", "VAR");
             if (variablesSubsystem != null)
             {
                 return variablesSubsystem.Call("get_variable", variableName).As<Variant>();
@@ -146,7 +146,7 @@ namespace OmegaSpiral.Source.Scripts.Common
             await this.StartTimelineWithVariablesAsync(timelinePath, choiceDict).ConfigureAwait(false);
 
             // Get the selected choice from Dialogic variables
-            var selectedChoice = (int)this.GetDialogicVariable("selected_choice");
+            var selectedChoice = (int) this.GetDialogicVariable("selected_choice");
             GD.Print($"Player selected choice: {selectedChoice}");
 
             // Continue with C# narrative logic based on choice
@@ -203,6 +203,8 @@ namespace OmegaSpiral.Source.Scripts.Common
                     GD.Print("Invalid choice");
                     break;
             }
+
+            await Task.CompletedTask;
         }
     }
 }
