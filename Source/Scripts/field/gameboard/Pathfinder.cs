@@ -15,10 +15,16 @@ using Godot;
 /// </summary>
 public partial class Pathfinder : RefCounted
 {
-    // Dictionary to store points: key = point ID, value = PointData
+    /// <summary>
+    /// Dictionary to store points in the pathfinder.
+    /// Key is the point ID, value is the <see cref="PointData"/> for that point.
+    /// </summary>
     private Dictionary<int, PointData> points = new Dictionary<int, PointData>();
 
-    // Dictionary to store connections between points: key = point ID, value = list of connected point IDs
+    /// <summary>
+    /// Dictionary to store connections between points.
+    /// Key is the point ID, value is a list of connected point IDs.
+    /// </summary>
     private Dictionary<int, List<int>> connections = new Dictionary<int, List<int>>();
 
     /// <summary>
@@ -283,6 +289,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Heuristic cost estimate between two positions (Manhattan distance).
     /// </summary>
+    /// <param name="a">The first position.</param>
+    /// <param name="b">The second position.</param>
     private static float HeuristicCostEstimate(Vector2I a, Vector2I b)
     {
         return Mathf.Abs(a.X - b.X) + Mathf.Abs(a.Y - b.Y);
@@ -291,6 +299,7 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Get adjacent cells to a given cell.
     /// </summary>
+    /// <param name="cell">The cell position to find adjacent cells for.</param>
     private List<Vector2I> GetAdjacentCells(Vector2I cell)
     {
         var neighbors = new List<Vector2I>();
@@ -315,6 +324,8 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Reconstruct path from cameFrom dictionary.
     /// </summary>
+    /// <param name="cameFrom">A dictionary mapping each point ID to its predecessor in the path.</param>
+    /// <param name="currentId">The point ID to start reconstructing the path from (typically the end point).</param>
     private List<Vector2I> ReconstructPath(Dictionary<int, int> cameFrom, int currentId)
     {
         var path = new List<Vector2I> { this.points[currentId].Position };

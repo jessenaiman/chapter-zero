@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b35omff3fdb2g"]
+[gd_scene load_steps=5 format=3 uid="uid://cyktcbejl7m4x"]
 
 [ext_resource type="Texture2D" uid="uid://c1j6dohohfgo8" path="res://src/combat/ui/battler_entry/battler_hud_background.png" id="1_um1qm"]
 [ext_resource type="Script" uid="uid://f87ixnrwdhni" path="res://src/combat/ui/battler_entry/ui_battler_entry.gd" id="2_82qpa"]

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rBCRna5ivvc=",
+  "dgSpecHash": "11220L/bz0E=",
   "success": true,
   "projectFilePath": "/home/adam/Dev/omega-spiral/chapter-zero/OmegaSpiral.csproj",
   "expectedPackageFiles": [
@@ -39,24 +39,13 @@
     "/home/adam/.nuget/packages/nunit/4.4.0/nunit.4.4.0.nupkg.sha512",
     "/home/adam/.nuget/packages/nunit3testadapter/5.2.0/nunit3testadapter.5.2.0.nupkg.sha512",
     "/home/adam/.nuget/packages/roslynator.analyzers/4.14.1/roslynator.analyzers.4.14.1.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.collections.immutable/9.0.0/system.collections.immutable.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition/9.0.0/system.composition.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.attributedmodel/9.0.0/system.composition.attributedmodel.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.convention/9.0.0/system.composition.convention.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.hosting/9.0.0/system.composition.hosting.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.runtime/9.0.0/system.composition.runtime.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.typedparts/9.0.0/system.composition.typedparts.9.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.diagnostics.diagnosticsource/5.0.0/system.diagnostics.diagnosticsource.5.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.diagnostics.eventlog/6.0.0/system.diagnostics.eventlog.6.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.io.pipelines/9.0.0/system.io.pipelines.9.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.memory/4.5.5/system.memory.4.5.5.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.reflection.metadata/9.0.0/system.reflection.metadata.9.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.text.encoding.codepages/7.0.0/system.text.encoding.codepages.7.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "/home/adam/.nuget/packages/yamldotnet/16.3.0/yamldotnet.16.3.0.nupkg.sha512"
   ],
   "logs": []

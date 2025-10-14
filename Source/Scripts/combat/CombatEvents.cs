@@ -43,4 +43,17 @@ public partial class CombatEvents : Node
     /// <param name="targets">The battlers that are the targets of the action.</param>
     [Signal]
     public delegate void ActionSelectedEventHandler(BattlerAction action, Battler source, Battler[] targets);
-}
+
+        /// <summary>
+        /// Singleton instance for global access to CombatEvents.
+        /// </summary>
+        public static CombatEvents? Instance { get; private set; }
+
+        /// <summary>
+        /// Called when the node enters the scene tree. Sets the singleton instance for global access.
+        /// </summary>
+        public override void _Ready()
+        {
+            Instance = this;
+        }
+    }

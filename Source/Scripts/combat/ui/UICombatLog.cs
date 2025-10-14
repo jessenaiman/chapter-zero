@@ -13,8 +13,13 @@ namespace OmegaSpiral.Source.Scripts
     using System.Collections.Generic;
     using Godot;
 
-    public partial class UICombatLog : Control
-    {
+/// <summary>
+/// Represents the UI component for displaying the combat log in Omega Spiral.
+/// The UICombatLog provides a visual record of combat events, actions, and outcomes,
+/// allowing players to review the flow of battle and make informed decisions.
+/// </summary>
+public partial class UICombatLog : Control
+{
         /// <summary>
         /// Gets or sets the maximum number of log entries to keep.
         /// </summary>
@@ -120,6 +125,11 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         public void ClearLog()
         {
+            if (this.logContainer == null)
+            {
+                return;
+            }
+
             foreach (var entry in this.logEntries)
             {
                 this.logContainer.RemoveChild(entry);
@@ -134,6 +144,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="battler">The battler that took damage.</param>
         /// <param name="damageAmount">The amount of damage taken.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> is <see langword="null"/>.
+        /// </exception>
         public void AddDamageEntry(Battler battler, int damageAmount)
         {
             if (battler == null)
@@ -150,6 +163,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="battler">The battler that was healed.</param>
         /// <param name="healAmount">The amount of healing received.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> is <see langword="null"/>.
+        /// </exception>
         public void AddHealEntry(Battler battler, int healAmount)
         {
             if (battler == null)
@@ -165,6 +181,9 @@ namespace OmegaSpiral.Source.Scripts
         /// Add a miss log entry.
         /// </summary>
         /// <param name="battler">The battler that missed.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> is <see langword="null"/>.
+        /// </exception>
         public void AddMissEntry(Battler battler)
         {
             if (battler == null)
@@ -185,7 +204,7 @@ namespace OmegaSpiral.Source.Scripts
         public void AddActionEntry(Battler battler, BattlerAction action, List<Battler> targets)
         {
             var targetNames = string.Join(", ", targets.ConvertAll(t => t.Name));
-            var text = $"{battler.Name} uses {action.Name} on {targetNames}!";
+            var text = $"{battler.Name} uses {action.Label} on {targetNames}!";
             this.AddLogEntry(text, Colors.White);
         }
 
@@ -194,6 +213,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="battler">The battler affected by the status effect.</param>
         /// <param name="statusEffect">The status effect applied.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> or <paramref name="statusEffect"/> is <see langword="null"/>.
+        /// </exception>
         public void AddStatusEffectEntry(Battler battler, string statusEffect)
         {
             if (battler == null)
@@ -214,6 +236,9 @@ namespace OmegaSpiral.Source.Scripts
         /// Add a battler defeated log entry.
         /// </summary>
         /// <param name="battler">The battler that was defeated.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> is <see langword="null"/>.
+        /// </exception>
         public void AddBattlerDefeatedEntry(Battler battler)
         {
             if (battler == null)
@@ -267,6 +292,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </summary>
         /// <param name="battler">The battler that received the debuff.</param>
         /// <param name="debuffName">The name of the debuff.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="battler"/> or <paramref name="debuffName"/> is <see langword="null"/>.
+        /// </exception>
         public void AddDebuffEntry(Battler battler, string debuffName)
         {
             if (battler == null)
@@ -287,6 +315,7 @@ namespace OmegaSpiral.Source.Scripts
         /// Add a turn start log entry.
         /// </summary>
         /// <param name="battler">The battler whose turn is starting.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="battler"/> is <see langword="null"/>.</exception>
         public void AddTurnStartEntry(Battler battler)
         {
             if (battler == null)

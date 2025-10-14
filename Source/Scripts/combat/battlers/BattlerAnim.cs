@@ -20,13 +20,25 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     private const float MoveOffset = 40.0f;
 
-    // Private fields
+    /// <summary>
+    /// Private fields used for internal state management of the <see cref="BattlerAnim"/> instance.
+    /// </summary>
     private BattlerDirection direction = BattlerDirection.Right;
     private Tween? moveTween;
     private Vector2 restPosition = Vector2.Zero;
     private Marker2D? front;
     private Marker2D? top;
     private AnimationPlayer? anim;
+
+    /// <summary>
+    /// Gets a value indicating whether the animation player is currently playing an animation.
+    /// </summary>
+    public bool IsPlaying => this.anim?.IsPlaying() ?? false;
+
+    /// <summary>
+    /// Gets the top anchor marker for positioning UI elements.
+    /// </summary>
+    public Marker2D Top => this.top ??= this.GetNode<Marker2D>("TopAnchor");
 
     /// <summary>
     /// Emitted whenever an action-based animation wants to apply an effect. May be triggered multiple
@@ -38,6 +50,7 @@ public partial class BattlerAnim : Marker2D
     /// <summary>
     /// Forward AnimationPlayer's same signal.
     /// </summary>
+    /// <param name="name">The name of the finished animation.</param>
     [Signal]
     public delegate void AnimationFinishedEventHandler(string name);
 
@@ -81,10 +94,7 @@ public partial class BattlerAnim : Marker2D
         this.front = this.GetNode<Marker2D>("FrontAnchor");
         this.top = this.GetNode<Marker2D>("TopAnchor");
 
-        this.anim.AnimationFinished += (StringName animName) =>
-        {
-            this.EmitSignal(SignalName.AnimationFinished, animName.ToString());
-        };
+        this.anim.AnimationFinished += (StringName animName) => this.EmitSignal(SignalName.AnimationFinished, animName.ToString());
 
         this.restPosition = this.Position;
     }
@@ -94,6 +104,7 @@ public partial class BattlerAnim : Marker2D
     /// </summary>
     /// <param name="battler">The battler to associate with this animation.</param>
     /// <param name="facing">The initial direction the battler is facing.</param>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="battler"/> is <see langword="null"/>.</exception>
     public void Setup(Battler battler, BattlerDirection facing)
     {
         if (battler == null)
@@ -146,6 +157,7 @@ public partial class BattlerAnim : Marker2D
     /// <summary>
     /// Queues the specified animation sequence and plays it if the animation player is stopped.
     /// </summary>
+    /// <param name="animName">The name of the animation to queue and play.</param>
     public void QueueAnimation(string animName)
     {
         System.Diagnostics.Debug.Assert(this.anim != null && this.anim.HasAnimation(animName), $"Battler animation '{this.Name}' does not have animation '{animName}'!");
@@ -160,6 +172,7 @@ public partial class BattlerAnim : Marker2D
     /// <summary>
     /// Tween the object <see cref="MoveOffset"/> pixels from its rest position towards enemy <see cref="Battler"/>s.
     /// </summary>
+    /// <param name="duration">The time in seconds for the tween animation to complete.</param>
     public void MoveForward(float duration)
     {
         if (this.moveTween != null)
@@ -178,6 +191,7 @@ public partial class BattlerAnim : Marker2D
     /// <summary>
     /// Tween the object back to its rest position.
     /// </summary>
+    /// <param name="duration">The time in seconds for the tween animation to complete.</param>
     public void MoveToRest(float duration)
     {
         if (this.moveTween != null)

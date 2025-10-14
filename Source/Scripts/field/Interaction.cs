@@ -170,6 +170,9 @@ public partial class Interaction : Area2D
     /// <summary>
     /// Callback when input events occur within this interaction's area.
     /// </summary>
+    /// <param name="viewport">The viewport where the input event occurred.</param>
+    /// <param name="event">The input event that was triggered.</param>
+    /// <param name="shapeIdx">The index of the shape involved in the collision.</param>
     private void OnInputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
     {
         // Handle input events

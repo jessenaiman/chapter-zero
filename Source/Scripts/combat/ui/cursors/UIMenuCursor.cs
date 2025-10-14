@@ -15,9 +15,14 @@ public partial class UIMenuCursor : Marker2D
     /// </summary>
     private const float SlideTime = 0.1f;
 
-    // The tween used to move the cursor between menu entries.
+    /// <summary>
+    /// The tween used to move the cursor between menu entries.
+    /// </summary>
     private Tween? slideTween;
 
+    /// <summary>
+    /// The animation player for the cursor animation.
+    /// </summary>
     private AnimationPlayer? anim;
 
     /// <inheritdoc/>
@@ -51,7 +56,10 @@ public partial class UIMenuCursor : Marker2D
     /// <param name="seconds">The time to advance the animation to.</param>
     public void AdvanceAnimation(float seconds)
     {
-        this.anim.Seek(seconds, true);
+        if (this.anim != null)
+        {
+            this.anim.Seek(seconds, true);
+        }
     }
 
     /// <summary>
@@ -60,6 +68,6 @@ public partial class UIMenuCursor : Marker2D
     /// <returns>The current animation position in seconds.</returns>
     public float GetAnimationPosition()
     {
-        return this.anim.GetCurrentAnimationPosition();
+        return this.anim != null ? (float)this.anim.GetCurrentAnimationPosition() : 0f;
     }
 }

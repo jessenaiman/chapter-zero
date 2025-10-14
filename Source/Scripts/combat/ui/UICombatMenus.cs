@@ -95,24 +95,33 @@ public partial class UICombatMenus : Control
         // choose an action.
         // If the selected Battler had already queued an action, the player must rechoose that
         // action.
-        CombatEvents.PlayerBattlerSelected += (battler) =>
+        if (CombatEvents.Instance != null)
         {
-            // Reset the action description bar.
-            this.actionDescription.Description = string.Empty;
-
-            this.SelectedBattler = battler;
-            if (this.SelectedBattler != null)
+            CombatEvents.Instance.PlayerBattlerSelected += (battler) =>
             {
-                this.CreateActionMenu();
+                // Reset the action description bar.
+                if (this.actionDescription != null)
+                {
+                    this.actionDescription.Description = string.Empty;
+                }
 
-                // There is a chance that the player had already selected an action for this Battler
-                // and now wants to change it. In that case, unqueue the action through the proper
-                // CombatEvents signal.
-                // Note that the targets parameter must be cast to the correct array type.
-                List<Battler> emptyTargetArray = new List<Battler>();
-                CombatEvents.ActionSelected?.Invoke(null, this.SelectedBattler, emptyTargetArray);
-            }
-        };
+                this.SelectedBattler = battler;
+                if (this.SelectedBattler != null)
+                {
+                    this.CreateActionMenu();
+
+                    // There is a chance that the player had already selected an action for this Battler
+                    // and now wants to change it. In that case, unqueue the action through the proper
+                    // CombatEvents signal.
+                    // Note that the targets parameter must be cast to the correct array type.
+                    Battler[] emptyTargetArray = new Battler[0];
+                    if (CombatEvents.Instance != null)
+                    {
+                        CombatEvents.Instance.ActionSelected?.Invoke(null, this.SelectedBattler, emptyTargetArray);
+                    }
+                }
+            };
+        }
 
         // If there is a change in Battler states (for now, only consider a change in health points),
         // re-evaluate the targeting cursor's target list, if the cursor is currently active.
@@ -174,11 +183,20 @@ public partial class UICombatMenus : Control
             return;
         }
 
+        if (this.selectedAction == null || this.SelectedBattler == null || this.battlers == null || this.TargetCursorScene == null)
+        {
+            GD.PrintErr("Trying to create the targeting cursor without required data!");
+            return;
+        }
+
         // Create the cursor which will respond to player input and allow choosing a target.
         this.cursor = this.TargetCursorScene.Instantiate() as UIBattlerTargetingCursor;
-        this.cursor.TargetsAll = this.selectedAction.TargetsAll();
-        this.cursor.Targets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
-        this.AddChild(this.cursor);
+        if (this.cursor != null)
+        {
+            this.cursor.TargetsAll = this.selectedAction.TargetsAll();
+            this.cursor.Targets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
+            this.AddChild(this.cursor);
+        }
 
         // On combat end, remove the cursor from the scene tree.
         this.battlers.BattlersDowned += this.cursor.QueueFree;
@@ -193,11 +211,17 @@ public partial class UICombatMenus : Control
             {
                 // At this point, the player should have selected a valid action and assigned it
                 // targets, so the action may be cached for whenever the battler is ready.
-                CombatEvents.ActionSelected?.Invoke(this.selectedAction, this.SelectedBattler, targets.ToArray());
+                if (CombatEvents.Instance != null)
+                {
+                    CombatEvents.Instance.ActionSelected?.Invoke(this.selectedAction, this.SelectedBattler, targets.ToArray());
+                }
 
                 // The player has properly queued an action. Return the UI to the state where the
                 // player will pick a player Battler.
-                CombatEvents.PlayerBattlerSelected?.Invoke(null);
+                if (CombatEvents.Instance != null)
+                {
+                    CombatEvents.Instance.PlayerBattlerSelected?.Invoke(null);
+                }
             }
             else
             {
@@ -209,7 +233,7 @@ public partial class UICombatMenus : Control
 
     private void OnBattlerHealthChanged()
     {
-        if (this.cursor != null)
+        if (this.cursor != null && this.selectedAction != null && this.SelectedBattler != null && this.battlers != null)
         {
             this.cursor.Targets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
         }

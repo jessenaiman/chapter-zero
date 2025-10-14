@@ -22,10 +22,14 @@ public partial class CombatArena : Control
     /// </summary>
     public ActiveTurnQueue? TurnQueue => this.turnQueue;
 
-    // Keep a reference to the turn queue, which handles combat logic including combat start and end.
+    /// <summary>
+    /// Keep a reference to the turn queue, which handles combat logic including combat start and end.
+    /// </summary>
     private ActiveTurnQueue? turnQueue;
 
-    // UI elements
+    /// <summary>
+    /// UI elements used in the combat arena.
+    /// </summary>
     private AnimationPlayer? uiAnimation;
     private UITurnBar? uiTurnBar;
     private UIEffectLabelBuilder? uiEffectLabelBuilder;
@@ -51,17 +55,23 @@ public partial class CombatArena : Control
         }
 
         // Setup the different combat UI elements, beginning with the player battler list.
-        BattlerList combatParticipantData = this.turnQueue.Battlers;
-        this.uiEffectLabelBuilder.Setup(combatParticipantData);
-        this.uiPlayerMenus.Setup(combatParticipantData);
-        this.uiTurnBar.Setup(combatParticipantData);
+        BattlerList? combatParticipantData = this.turnQueue.Battlers;
+        if (combatParticipantData != null)
+        {
+            this.uiEffectLabelBuilder.Setup(combatParticipantData);
+            this.uiPlayerMenus.Setup(combatParticipantData);
+            this.uiTurnBar.Setup(combatParticipantData);
+        }
 
         // The UI elements will automatically fade out once one of the battler teams has lost.
-        combatParticipantData.BattlersDowned += () =>
+        if (combatParticipantData != null)
         {
-            this.uiPlayerMenus.Visible = false;
-            this.uiTurnBar?.FadeOut();
-        };
+            combatParticipantData.BattlersDowned += () =>
+            {
+                this.uiPlayerMenus.Visible = false;
+                this.uiTurnBar?.FadeOut();
+            };
+        }
     }
 
     /// <summary>

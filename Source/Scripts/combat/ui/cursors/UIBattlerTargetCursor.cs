@@ -50,10 +50,10 @@ public partial class UIBattlerTargetingCursor : Node2D
             this.targets = value;
             if (this.targets.Count > 0)
             {
-                if (!this.targets.Contains(this.currentTarget))
+                if (this.currentTarget != null && !this.targets.Contains(this.currentTarget))
                 {
                     this.currentTarget = this.targets[0];
-                    if (this.secondaryCursors.ContainsKey(this.currentTarget))
+                    if (this.currentTarget != null && this.secondaryCursors.ContainsKey(this.currentTarget))
                     {
                         this.secondaryCursors.Remove(this.currentTarget);
                     }
@@ -108,10 +108,12 @@ public partial class UIBattlerTargetingCursor : Node2D
         }
     }
 
-    // One of the entries specified by _targets, at which the cursor is located.
+    /// <summary>
+    /// One of the entries specified by <see cref="Targets"/>, at which the cursor is located.
+    /// </summary>
     private Battler? currentTarget;
 
-    public Battler CurrentTarget
+    public Battler? CurrentTarget
     {
         get => this.currentTarget;
         set
@@ -122,22 +124,25 @@ public partial class UIBattlerTargetingCursor : Node2D
             {
                 this.Hide();
             }
-            else if (this.cursor != null)
+            else if (this.cursor != null && this.currentTarget.Anim?.Top != null)
             {
                 this.cursor.MoveTo(this.currentTarget.Anim.Top.GlobalPosition);
             }
         }
     }
 
-    // The primary cursor instance, which is moved from target to target whenever TargetsAll is false.
+    /// <summary>
+    /// The primary cursor instance, which is moved from target to target whenever <see cref="TargetsAll"/> is false.
+    /// </summary>
     private UIMenuCursor? cursor;
 
-    // Secondary cursors, which are created whenever TargetsAll is true.
-    // They are children of the UIBattlerTargetingCursor. Dictionary keys are a Battler instance that
-    // corresponds with one of the targets. This allows the number of cursors to be updated as Battler
-    // state changes.
-    // In other words, if targets die or are added while the player is choosing targets, the cursors
-    // highlighting the targets will update accordingly.
+    /// <summary>
+    /// Secondary cursors, which are created whenever <see cref="TargetsAll"/> is true.
+    /// They are children of the <see cref="UIBattlerTargetingCursor"/>. Dictionary keys are a <see cref="Battler"/> instance that
+    /// corresponds with one of the targets. This allows the number of cursors to be updated as <see cref="Battler"/>
+    /// state changes. In other words, if targets die or are added while the player is choosing targets, the cursors
+    /// highlighting the targets will update accordingly.
+    /// </summary>
     private Dictionary<Battler, UIMenuCursor> secondaryCursors = new Dictionary<Battler, UIMenuCursor>();
 
     /// <inheritdoc/>
@@ -150,14 +155,20 @@ public partial class UIBattlerTargetingCursor : Node2D
         }
 
         this.Hide();
-        this.cursor = this.CreateCursorOverBattler(this.currentTarget);
+        if (this.currentTarget != null)
+        {
+            this.cursor = this.CreateCursorOverBattler(this.currentTarget);
+        }
 
         // If the Battler that is currently selecting targets is downed, close the cursor immediately.
-        CombatEvents.PlayerBattlerSelected += (battler) =>
+        if (CombatEvents.Instance != null)
         {
-            this.SetProcessUnhandledInput(false);
-            this.QueueFree();
-        };
+            CombatEvents.Instance.PlayerBattlerSelected += (battler) =>
+            {
+                this.SetProcessUnhandledInput(false);
+                this.QueueFree();
+            };
+        }
     }
 
     /// <inheritdoc/>
@@ -174,7 +185,7 @@ public partial class UIBattlerTargetingCursor : Node2D
                     highlightedTargets.Add(target);
                 }
             }
-            else
+            else if (this.currentTarget != null)
             {
                 highlightedTargets.Add(this.currentTarget);
             }
@@ -231,13 +242,21 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// </summary>
     /// <param name="target">The battler to create the cursor over.</param>
     /// <returns>The created cursor.</returns>
-    private UIMenuCursor CreateCursorOverBattler(Battler target)
+    private UIMenuCursor? CreateCursorOverBattler(Battler? target)
     {
+        if (target?.Anim == null)
+        {
+            return null;
+        }
+        
         var newCursor = this.cursorScene.Instantiate() as UIMenuCursor;
-        this.AddChild(newCursor);
+        if (newCursor != null)
+        {
+            this.AddChild(newCursor);
 
-        newCursor.Rotation = Mathf.Pi / 2;
-        newCursor.GlobalPosition = target.Anim.Top.GlobalPosition;
+            newCursor.Rotation = Mathf.Pi / 2;
+            newCursor.GlobalPosition = target.Anim.Top.GlobalPosition;
+        }
         return newCursor;
     }
 

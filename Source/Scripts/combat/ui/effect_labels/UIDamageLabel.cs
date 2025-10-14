@@ -130,24 +130,30 @@ public partial class UIDamageLabel : Marker2D
 
         // Animate the label, moving it in an upwards direction.
         // We define a range of 60 degrees for the labels movement.
-        var angle = GD.RandfRange(-Mathf.Pi / 6.0f, Mathf.Pi / 6.0f);
-        var target = (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position;
+        var angle = GD.Randf() * (Mathf.Pi / 3.0f) - (Mathf.Pi / 6.0f); // Random angle between -π/6 and π/6
+        var target = this.label != null ? (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position : this.Position;
 
         this.tween = this.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
-        this.tween.TweenProperty(
-            this.label,
-            "position",
-            target,
-            this.MoveTime);
+        if (this.label != null)
+        {
+            this.tween.TweenProperty(
+                this.label,
+                "position",
+                target,
+                this.MoveTime);
+        }
 
         // Fade out the label at the end of it's movement upwards.
-        this.tween.Parallel().TweenProperty(
-            this,
-            "modulate",
-            Colors.Transparent,
-            this.FadeTime).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Linear).SetDelay(this.MoveTime - this.FadeTime);
+        if (this.tween != null)
+        {
+            this.tween.Parallel().TweenProperty(
+                this,
+                "modulate",
+                Colors.Transparent,
+                this.FadeTime).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Linear).SetDelay(this.MoveTime - this.FadeTime);
 
-        // Finally, after everything prior has finished, free the label.
-        this.tween.TweenCallback(QueueFree);
+            // Finally, after everything prior has finished, free the label.
+            this.tween.TweenCallback(new Callable(this, "QueueFree"));
+        }
     }
 }

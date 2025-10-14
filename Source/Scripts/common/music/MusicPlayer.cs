@@ -33,6 +33,11 @@ public partial class MusicPlayer : Node
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async void Play(AudioStream newStream, float timeIn = 0.0f, float timeOut = 0.0f)
     {
+        if (this.track == null || this.anim == null)
+        {
+            return;
+        }
+
         if (newStream == this.track.Stream)
         {
             return;
@@ -74,6 +79,11 @@ public partial class MusicPlayer : Node
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async void Stop(float timeOut = 0.0f)
     {
+        if (this.track == null || this.anim == null)
+        {
+            return;
+        }
+
         if (Mathf.IsEqualApprox(timeOut, 0.0f))
         {
             timeOut = 0.005f;
@@ -93,15 +103,15 @@ public partial class MusicPlayer : Node
     /// <returns><see langword="true"/> if a track is playing; otherwise, <see langword="false"/>.</returns>
     public bool IsPlaying()
     {
-        return this.track.Playing;
+        return this.track?.Playing ?? false;
     }
 
     /// <summary>
     /// Gets the currently playing audio stream.
     /// </summary>
     /// <returns>The current <see cref="AudioStream"/>, or <see langword="null"/> if no track is playing.</returns>
-    public AudioStream GetPlayingTrack()
+    public AudioStream? GetPlayingTrack()
     {
-        return this.track.Stream;
+        return this.track?.Stream;
     }
 }

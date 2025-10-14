@@ -58,6 +58,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <param name="variables">Dictionary of variables to set before starting.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="variables"/> is <see langword="null"/>.</exception>
         public async Task StartTimelineWithVariablesAsync(string timelinePath, Godot.Collections.Dictionary variables)
         {
             if (variables == null)
@@ -127,6 +128,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <param name="choices">Array of choice options to present to the player.</param>
         /// <param name="timelinePath">Path to the Dialogic timeline resource.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="choices"/> is <see langword="null"/>.</exception>
         public async Task PresentChoiceWithDialogicAsync(string[] choices, string timelinePath)
         {
             if (choices == null)

@@ -6,41 +6,7 @@
 			"type": "shell",
 			"command": "mkdir -p docs/adr"
 		},
-		{
-			"label": "Create unified blueprint file",
-			"type": "shell",
-			"command": "touch unified-blueprint.md"
-        },
-        {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/OmegaSpiral.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary;ForceNoAlign"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "test",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "test",
-                "${workspaceFolder}/OmegaSpiral.csproj"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile"
-        },
+        // ...existing code...
         {
             "label": "build",
             "command": "dotnet",

@@ -387,7 +387,7 @@ public partial class UICombatHud : Control
             return null;
         }
 
-        return this.battlerDisplays.GetValueOrDefault(battler, null);
+        return this.battlerDisplays.TryGetValue(battler, out var display) ? display : null;
     }
 
     /// <summary>
