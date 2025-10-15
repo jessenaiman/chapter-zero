@@ -101,3 +101,33 @@ dotnet_diagnostic.RCS1046.severity = none     # Method name should not match par
 dotnet_diagnostic.RCS1047.severity = none     # Non-asynchronous method name should not end with 'Async'
 dotnet_diagnostic.RCS1048.severity = none     # Asynchronous method name should end with 'Async'
 dotnet_diagnostic.RCS1049.severity = none     # Asynchronous method name with suffix 'Async'
+
+# Test-specific naming rules (allow underscores in test method names)
+[Tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.CA1822.severity = none
+dotnet_naming_rule.test_methods_should_use_pascal_case.severity = error
+dotnet_naming_rule.test_methods_should_use_pascal_case.symbols = test_methods
+dotnet_naming_rule.test_methods_should_use_pascal_case.style = test_method_style
+
+dotnet_naming_symbols.test_methods.applicable_kinds = method
+dotnet_naming_symbols.test_methods.applicable_accessibilities = public,protected,private,internal
+dotnet_naming_symbols.test_methods.name_match = ^[A-Z][a-zA-Z0-9]*(_[A-Z][a-zA-Z0-9]*)*$
+
+dotnet_naming_style.test_method_style.capitalization = pascal_case
+dotnet_naming_style.test_method_style.word_separator = _
+
+# Keep strict naming for non-test files
+[**/*.{cs,csx}]
+dotnet_naming_rule.methods_should_use_pascal_case.severity = error
+dotnet_naming_rule.methods_should_use_pascal_case.symbols = methods
+dotnet_naming_rule.methods_should_use_pascal_case.style = method_style
+
+dotnet_naming_symbols.methods.applicable_kinds = method
+dotnet_naming_symbols.methods.applicable_accessibilities = public,protected,private,internal
+dotnet_naming_symbols.methods.name_match = ^[A-Z][a-zA-Z0-9]*$
+
+dotnet_naming_style.method_style.capitalization = pascal_case
+
+[.godot/**/*.cs]
+dotnet_diagnostic.CS1591.severity = none

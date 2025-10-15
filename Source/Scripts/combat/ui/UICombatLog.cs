@@ -144,10 +144,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddDamageEntry(Battler battler, int damageAmount)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name} takes {damageAmount} damage!";
             this.AddLogEntry(text, Colors.Red);
@@ -163,10 +160,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddHealEntry(Battler battler, int healAmount)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name} recovers {healAmount} HP!";
             this.AddLogEntry(text, Colors.Green);
@@ -181,10 +175,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddMissEntry(Battler battler)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name}'s attack missed!";
             this.AddLogEntry(text, Colors.Yellow);
@@ -213,15 +204,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddStatusEffectEntry(Battler battler, string statusEffect)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
-            if (statusEffect == null)
-            {
-                throw new ArgumentNullException(nameof(statusEffect));
-            }
+            ArgumentNullException.ThrowIfNull(statusEffect);
 
             var text = $"{battler.Name} is affected by {statusEffect}!";
             this.AddLogEntry(text, Colors.Purple);
@@ -236,10 +221,7 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddBattlerDefeatedEntry(Battler battler)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name} has been defeated!";
             this.AddLogEntry(text, Colors.DarkRed);
@@ -253,10 +235,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddCriticalHitEntry(Battler battler, int damageAmount)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name} lands a critical hit for {damageAmount} damage!";
             this.AddLogEntry(text, Colors.Orange);
@@ -270,15 +249,9 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddBuffEntry(Battler battler, string buffName)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
-            if (buffName == null)
-            {
-                throw new ArgumentNullException(nameof(buffName));
-            }
+            ArgumentNullException.ThrowIfNull(buffName);
 
             var text = $"{battler.Name} gains {buffName}!";
             this.AddLogEntry(text, Colors.LightBlue);
@@ -294,15 +267,9 @@ namespace OmegaSpiral.Source.Scripts
         /// </exception>
         public void AddDebuffEntry(Battler battler, string debuffName)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
-            if (debuffName == null)
-            {
-                throw new ArgumentNullException(nameof(debuffName));
-            }
+            ArgumentNullException.ThrowIfNull(debuffName);
 
             var text = $"{battler.Name} suffers {debuffName}!";
             this.AddLogEntry(text, Colors.DarkBlue);
@@ -315,10 +282,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="battler"/> is <see langword="null"/>.</exception>
         public void AddTurnStartEntry(Battler battler)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name}'s turn begins.";
             this.AddLogEntry(text, Colors.LightGray);
@@ -331,10 +295,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddTurnEndEntry(Battler battler)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = $"{battler.Name}'s turn ends.";
             this.AddLogEntry(text, Colors.Gray);
@@ -429,20 +390,11 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddSpecialAbilityEntry(Battler battler, string abilityName, List<Battler> targets)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
-            if (abilityName == null)
-            {
-                throw new ArgumentNullException(nameof(abilityName));
-            }
+            ArgumentNullException.ThrowIfNull(abilityName);
 
-            if (targets == null)
-            {
-                throw new ArgumentNullException(nameof(targets));
-            }
+            ArgumentNullException.ThrowIfNull(targets);
 
             var targetNames = string.Join(", ", targets.ConvertAll(t => t.Name));
             var text = $"{battler.Name} uses {abilityName} on {targetNames}!";
@@ -458,20 +410,11 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="targets"/> is <c>null</c>.</exception>
         public void AddItemUsageEntry(Battler battler, string itemName, List<Battler> targets)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
-            if (itemName == null)
-            {
-                throw new ArgumentNullException(nameof(itemName));
-            }
+            ArgumentNullException.ThrowIfNull(itemName);
 
-            if (targets == null)
-            {
-                throw new ArgumentNullException(nameof(targets));
-            }
+            ArgumentNullException.ThrowIfNull(targets);
 
             var targetNames = string.Join(", ", targets.ConvertAll(t => t.Name));
             var text = $"{battler.Name} uses {itemName} on {targetNames}!";
@@ -486,10 +429,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="battler"/> is <c>null</c>.</exception>
         public void AddFleeAttemptEntry(Battler battler, bool success)
         {
-            if (battler == null)
-            {
-                throw new ArgumentNullException(nameof(battler));
-            }
+            ArgumentNullException.ThrowIfNull(battler);
 
             var text = success
                 ? $"{battler.Name} successfully flees from battle!"

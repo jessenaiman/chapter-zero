@@ -4,6 +4,7 @@
 
 using System;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// An arena is the background for a battle. It is a Control node that contains the battlers and the turn queue.

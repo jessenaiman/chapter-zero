@@ -78,7 +78,7 @@ public partial class InteractionPopup : UIPopup
 
             if (this.sprite != null)
             {
-                this.sprite.Texture = Emotes.ContainsKey(this.emote) ? Emotes[this.emote] : Emotes[EmoteType.Empty];
+                this.sprite.Texture = Emotes.TryGetValue(this.emote, out Texture2D? value1) ? value1 : Emotes[EmoteType.Empty];
             }
         }
     }

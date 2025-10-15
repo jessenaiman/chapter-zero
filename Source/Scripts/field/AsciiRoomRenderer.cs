@@ -179,10 +179,8 @@ public partial class AsciiRoomRenderer : Node2D
         char tile = dungeon.Map[position.Y][position.X];
 
         // Check if the tile is in the legend and if it's walkable (not a wall)
-        if (dungeon.Legend.ContainsKey(tile))
+        if (dungeon.Legend.TryGetValue(tile, out string? tileDescription))
         {
-            string tileDescription = dungeon.Legend[tile];
-
             // If the tile is a wall, it's not valid to move to
             return tileDescription != "wall";
         }

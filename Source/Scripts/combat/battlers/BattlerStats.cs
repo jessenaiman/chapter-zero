@@ -327,9 +327,9 @@ public partial class BattlerStats : Resource
         // Multipliers apply to the stat multiplicatively.
         // They are first summed, with the sole restriction that they may not go below zero.
         float statMultiplier = 1.0f;
-        if (this.multipliers.ContainsKey(propName))
+        if (this.multipliers.TryGetValue(propName, out Dictionary<int, float>? multiplierDict))
         {
-            var multipliers = this.multipliers[propName].Values.ToList();
+            var multipliers = multiplierDict.Values.ToList();
             foreach (float multiplier in multipliers)
             {
                 statMultiplier += multiplier;
@@ -348,9 +348,9 @@ public partial class BattlerStats : Resource
         }
 
         // Add all modifiers to the stat.
-        if (this.modifiers.ContainsKey(propName))
+        if (this.modifiers.TryGetValue(propName, out Dictionary<int, int>? modifierDict))
         {
-            var modifiers = this.modifiers[propName].Values.ToList();
+            var modifiers = modifierDict.Values.ToList();
             foreach (int modifier in modifiers)
             {
                 value += modifier;
@@ -403,7 +403,7 @@ public partial class BattlerStats : Resource
 
         // If there are no keys, we return `0`, which is our first valid unique id. Without existing
         // keys, calling methods like `Array.back()` will trigger an error.
-        if (!dictionary.ContainsKey(statName) || dictionary[statName].Keys.Count == 0)
+        if (!dictionary.TryGetValue(statName, out Dictionary<int, object>? value) || value.Keys.Count == 0)
         {
             return 0;
         }
@@ -411,7 +411,7 @@ public partial class BattlerStats : Resource
         {
             // We always start from the last key, which will always be the highest number, even if we
             // remove modifiers.
-            var keys = dictionary[statName].Keys.ToList();
+            var keys = value.Keys.ToList();
             keys.Sort();
             return keys[keys.Count - 1] + 1;
         }

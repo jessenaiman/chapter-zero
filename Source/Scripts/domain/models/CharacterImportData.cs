@@ -128,51 +128,51 @@ namespace OmegaSpiral.Domain.Models
             };
 
             // Deserialize class data if available
-            if (this.ClassData.ContainsKey("Id"))
+            if (this.ClassData.TryGetValue("Id", out object? idValue))
             {
                 character.Class = new CharacterClass
                 {
-                    Id = this.ClassData["Id"].ToString() ?? string.Empty,
+                    Id = idValue.ToString() ?? string.Empty,
                     Name = this.ClassData["Name"].ToString() ?? string.Empty,
                     Description = this.ClassData["Description"].ToString() ?? string.Empty,
-                    BaseHealth = this.ClassData.ContainsKey("BaseHealth") ? System.Convert.ToInt32(this.ClassData["BaseHealth"], CultureInfo.InvariantCulture) : 100,
-                    BaseMana = this.ClassData.ContainsKey("BaseMana") ? System.Convert.ToInt32(this.ClassData["BaseMana"], CultureInfo.InvariantCulture) : 50,
-                    BaseAttack = this.ClassData.ContainsKey("BaseAttack") ? System.Convert.ToInt32(this.ClassData["BaseAttack"], CultureInfo.InvariantCulture) : 10,
-                    BaseDefense = this.ClassData.ContainsKey("BaseDefense") ? System.Convert.ToInt32(this.ClassData["BaseDefense"], CultureInfo.InvariantCulture) : 5,
-                    BaseMagic = this.ClassData.ContainsKey("BaseMagic") ? System.Convert.ToInt32(this.ClassData["BaseMagic"], CultureInfo.InvariantCulture) : 5,
-                    BaseMagicDefense = this.ClassData.ContainsKey("BaseMagicDefense") ? System.Convert.ToInt32(this.ClassData["BaseMagicDefense"], CultureInfo.InvariantCulture) : 5,
-                    BaseSpeed = this.ClassData.ContainsKey("BaseSpeed") ? System.Convert.ToInt32(this.ClassData["BaseSpeed"], CultureInfo.InvariantCulture) : 10,
-                    IconPath = this.ClassData.ContainsKey("IconPath") ? this.ClassData["IconPath"].ToString() ?? string.Empty : string.Empty,
+                    BaseHealth = this.ClassData.TryGetValue("BaseHealth", out object? baseHealthValue) ? System.Convert.ToInt32(baseHealthValue, CultureInfo.InvariantCulture) : 100,
+                    BaseMana = this.ClassData.TryGetValue("BaseMana", out object? baseManaValue) ? System.Convert.ToInt32(baseManaValue, CultureInfo.InvariantCulture) : 50,
+                    BaseAttack = this.ClassData.TryGetValue("BaseAttack", out object? baseAttackValue) ? System.Convert.ToInt32(baseAttackValue, CultureInfo.InvariantCulture) : 10,
+                    BaseDefense = this.ClassData.TryGetValue("BaseDefense", out object? baseDefenseValue) ? System.Convert.ToInt32(baseDefenseValue, CultureInfo.InvariantCulture) : 5,
+                    BaseMagic = this.ClassData.TryGetValue("BaseMagic", out object? baseMagicValue) ? System.Convert.ToInt32(baseMagicValue, CultureInfo.InvariantCulture) : 5,
+                    BaseMagicDefense = this.ClassData.TryGetValue("BaseMagicDefense", out object? baseMagicDefenseValue) ? System.Convert.ToInt32(baseMagicDefenseValue, CultureInfo.InvariantCulture) : 5,
+                    BaseSpeed = this.ClassData.TryGetValue("BaseSpeed", out object? baseSpeedValue) ? System.Convert.ToInt32(baseSpeedValue, CultureInfo.InvariantCulture) : 10,
+                    IconPath = this.ClassData.TryGetValue("IconPath", out object? iconPathValue) ? iconPathValue.ToString() ?? string.Empty : string.Empty,
                 };
             }
 
             // Deserialize appearance data if available
-            if (this.AppearanceData.ContainsKey("SkinColor"))
+            if (this.AppearanceData.TryGetValue("SkinColor", out object? skinColorValue))
             {
                 character.Appearance = new CharacterAppearance
                 {
-                    SkinColor = Color.FromHtml(this.AppearanceData["SkinColor"].ToString() ?? "#FFFFFF"),
+                    SkinColor = Color.FromHtml(skinColorValue.ToString() ?? "#FFFFFF"),
                     HairColor = Color.FromHtml(this.AppearanceData["HairColor"].ToString() ?? "#000000"),
                     EyeColor = Color.FromHtml(this.AppearanceData["EyeColor"].ToString() ?? "#000000"),
-                    HairStyle = this.AppearanceData.ContainsKey("HairStyle") ? this.AppearanceData["HairStyle"].ToString() ?? string.Empty : string.Empty,
-                    EyeStyle = this.AppearanceData.ContainsKey("EyeStyle") ? this.AppearanceData["EyeStyle"].ToString() ?? string.Empty : string.Empty,
-                    ClothingStyle = this.AppearanceData.ContainsKey("ClothingStyle") ? this.AppearanceData["ClothingStyle"].ToString() ?? string.Empty : string.Empty,
-                    Accessory = this.AppearanceData.ContainsKey("Accessory") ? this.AppearanceData["Accessory"].ToString() ?? string.Empty : string.Empty,
-                    SpritePath = this.AppearanceData.ContainsKey("SpritePath") ? this.AppearanceData["SpritePath"].ToString() ?? string.Empty : string.Empty,
-                    PortraitPath = this.AppearanceData.ContainsKey("PortraitPath") ? this.AppearanceData["PortraitPath"].ToString() ?? string.Empty : string.Empty,
-                    HeightScale = this.AppearanceData.ContainsKey("HeightScale") ? System.Convert.ToSingle(this.AppearanceData["HeightScale"], CultureInfo.InvariantCulture) : 1.0f,
-                    WidthScale = this.AppearanceData.ContainsKey("WidthScale") ? System.Convert.ToSingle(this.AppearanceData["WidthScale"], CultureInfo.InvariantCulture) : 1.0f,
-                    BodyType = this.AppearanceData.ContainsKey("BodyType") ? this.AppearanceData["BodyType"].ToString() ?? "Normal" : "Normal",
-                    FacialExpression = this.AppearanceData.ContainsKey("FacialExpression") ? this.AppearanceData["FacialExpression"].ToString() ?? "Neutral" : "Neutral",
+                    HairStyle = this.AppearanceData.TryGetValue("HairStyle", out object? hairStyleValue) ? hairStyleValue.ToString() ?? string.Empty : string.Empty,
+                    EyeStyle = this.AppearanceData.TryGetValue("EyeStyle", out object? eyeStyleValue) ? eyeStyleValue.ToString() ?? string.Empty : string.Empty,
+                    ClothingStyle = this.AppearanceData.TryGetValue("ClothingStyle", out object? clothingStyleValue) ? clothingStyleValue.ToString() ?? string.Empty : string.Empty,
+                    Accessory = this.AppearanceData.TryGetValue("Accessory", out object? accessoryValue) ? accessoryValue.ToString() ?? string.Empty : string.Empty,
+                    SpritePath = this.AppearanceData.TryGetValue("SpritePath", out object? spritePathValue) ? spritePathValue.ToString() ?? string.Empty : string.Empty,
+                    PortraitPath = this.AppearanceData.TryGetValue("PortraitPath", out object? portraitPathValue) ? portraitPathValue.ToString() ?? string.Empty : string.Empty,
+                    HeightScale = this.AppearanceData.TryGetValue("HeightScale", out object? heightScaleValue) ? System.Convert.ToSingle(heightScaleValue, CultureInfo.InvariantCulture) : 1.0f,
+                    WidthScale = this.AppearanceData.TryGetValue("WidthScale", out object? widthScaleValue) ? System.Convert.ToSingle(widthScaleValue, CultureInfo.InvariantCulture) : 1.0f,
+                    BodyType = this.AppearanceData.TryGetValue("BodyType", out object? bodyTypeValue) ? bodyTypeValue.ToString() ?? "Normal" : "Normal",
+                    FacialExpression = this.AppearanceData.TryGetValue("FacialExpression", out object? facialExpressionValue) ? facialExpressionValue.ToString() ?? "Neutral" : "Neutral",
                 };
             }
 
             // Deserialize stats data if available
-            if (this.StatsData.ContainsKey("Health"))
+            if (this.StatsData.TryGetValue("Health", out object? healthValue))
             {
                 character.Stats = new CharacterStats
                 {
-                    Health = System.Convert.ToInt32(this.StatsData["Health"], CultureInfo.InvariantCulture),
+                    Health = System.Convert.ToInt32(healthValue, CultureInfo.InvariantCulture),
                     MaxHealth = System.Convert.ToInt32(this.StatsData["MaxHealth"], CultureInfo.InvariantCulture),
                     Mana = System.Convert.ToInt32(this.StatsData["Mana"], CultureInfo.InvariantCulture),
                     MaxMana = System.Convert.ToInt32(this.StatsData["MaxMana"], CultureInfo.InvariantCulture),
@@ -183,21 +183,21 @@ namespace OmegaSpiral.Domain.Models
                     Magic = System.Convert.ToInt32(this.StatsData["Magic"], CultureInfo.InvariantCulture),
                     MagicDefense = System.Convert.ToInt32(this.StatsData["MagicDefense"], CultureInfo.InvariantCulture),
                     Speed = System.Convert.ToInt32(this.StatsData["Speed"], CultureInfo.InvariantCulture),
-                    Luck = System.Convert.ToInt32(this.StatsData.ContainsKey("Luck") ? this.StatsData["Luck"] : 5, CultureInfo.InvariantCulture),
-                    Strength = System.Convert.ToInt32(this.StatsData.ContainsKey("Strength") ? this.StatsData["Strength"] : 10, CultureInfo.InvariantCulture),
-                    Dexterity = System.Convert.ToInt32(this.StatsData.ContainsKey("Dexterity") ? this.StatsData["Dexterity"] : 10, CultureInfo.InvariantCulture),
-                    Constitution = System.Convert.ToInt32(this.StatsData.ContainsKey("Constitution") ? this.StatsData["Constitution"] : 10, CultureInfo.InvariantCulture),
-                    Intelligence = System.Convert.ToInt32(this.StatsData.ContainsKey("Intelligence") ? this.StatsData["Intelligence"] : 10, CultureInfo.InvariantCulture),
-                    Wisdom = System.Convert.ToInt32(this.StatsData.ContainsKey("Wisdom") ? this.StatsData["Wisdom"] : 10, CultureInfo.InvariantCulture),
-                    Charisma = System.Convert.ToInt32(this.StatsData.ContainsKey("Charisma") ? this.StatsData["Charisma"] : 10, CultureInfo.InvariantCulture),
-                    CriticalChance = System.Convert.ToSingle(this.StatsData.ContainsKey("CriticalChance") ? this.StatsData["CriticalChance"] : 5.0f, CultureInfo.InvariantCulture),
-                    CriticalDamage = System.Convert.ToSingle(this.StatsData.ContainsKey("CriticalDamage") ? this.StatsData["CriticalDamage"] : 1.5f, CultureInfo.InvariantCulture),
-                    Evasion = System.Convert.ToSingle(this.StatsData.ContainsKey("Evasion") ? this.StatsData["Evasion"] : 5.0f, CultureInfo.InvariantCulture),
-                    Accuracy = System.Convert.ToSingle(this.StatsData.ContainsKey("Accuracy") ? this.StatsData["Accuracy"] : 95.0f, CultureInfo.InvariantCulture),
-                    PhysicalResistance = System.Convert.ToSingle(this.StatsData.ContainsKey("PhysicalResistance") ? this.StatsData["PhysicalResistance"] : 0.0f, CultureInfo.InvariantCulture),
-                    MagicalResistance = System.Convert.ToSingle(this.StatsData.ContainsKey("MagicalResistance") ? this.StatsData["MagicalResistance"] : 0.0f, CultureInfo.InvariantCulture),
-                    MovementSpeed = System.Convert.ToSingle(this.StatsData.ContainsKey("MovementSpeed") ? this.StatsData["MovementSpeed"] : 1.0f, CultureInfo.InvariantCulture),
-                    ExperienceForNextLevel = System.Convert.ToInt32(this.StatsData.ContainsKey("ExperienceForNextLevel") ? this.StatsData["ExperienceForNextLevel"] : 100, CultureInfo.InvariantCulture),
+                    Luck = System.Convert.ToInt32(this.StatsData.TryGetValue("Luck", out object? luckValue) ? luckValue : 5, CultureInfo.InvariantCulture),
+                    Strength = System.Convert.ToInt32(this.StatsData.TryGetValue("Strength", out object? strengthValue) ? strengthValue : 10, CultureInfo.InvariantCulture),
+                    Dexterity = System.Convert.ToInt32(this.StatsData.TryGetValue("Dexterity", out object? dexterityValue) ? dexterityValue : 10, CultureInfo.InvariantCulture),
+                    Constitution = System.Convert.ToInt32(this.StatsData.TryGetValue("Constitution", out object? constitutionValue) ? constitutionValue : 10, CultureInfo.InvariantCulture),
+                    Intelligence = System.Convert.ToInt32(this.StatsData.TryGetValue("Intelligence", out object? intelligenceValue) ? intelligenceValue : 10, CultureInfo.InvariantCulture),
+                    Wisdom = System.Convert.ToInt32(this.StatsData.TryGetValue("Wisdom", out object? wisdomValue) ? wisdomValue : 10, CultureInfo.InvariantCulture),
+                    Charisma = System.Convert.ToInt32(this.StatsData.TryGetValue("Charisma", out object? charismaValue) ? charismaValue : 10, CultureInfo.InvariantCulture),
+                    CriticalChance = System.Convert.ToSingle(this.StatsData.TryGetValue("CriticalChance", out object? critChanceValue) ? critChanceValue : 5.0f, CultureInfo.InvariantCulture),
+                    CriticalDamage = System.Convert.ToSingle(this.StatsData.TryGetValue("CriticalDamage", out object? critDamageValue) ? critDamageValue : 1.5f, CultureInfo.InvariantCulture),
+                    Evasion = System.Convert.ToSingle(this.StatsData.TryGetValue("Evasion", out object? evasionValue) ? evasionValue : 5.0f, CultureInfo.InvariantCulture),
+                    Accuracy = System.Convert.ToSingle(this.StatsData.TryGetValue("Accuracy", out object? accuracyValue) ? accuracyValue : 95.0f, CultureInfo.InvariantCulture),
+                    PhysicalResistance = System.Convert.ToSingle(this.StatsData.TryGetValue("PhysicalResistance", out object? physResValue) ? physResValue : 0.0f, CultureInfo.InvariantCulture),
+                    MagicalResistance = System.Convert.ToSingle(this.StatsData.TryGetValue("MagicalResistance", out object? magResValue) ? magResValue : 0.0f, CultureInfo.InvariantCulture),
+                    MovementSpeed = System.Convert.ToSingle(this.StatsData.TryGetValue("MovementSpeed", out object? moveSpeedValue) ? moveSpeedValue : 1.0f, CultureInfo.InvariantCulture),
+                    ExperienceForNextLevel = System.Convert.ToInt32(this.StatsData.TryGetValue("ExperienceForNextLevel", out object? expNextLevelValue) ? expNextLevelValue : 100, CultureInfo.InvariantCulture),
                 };
             }
 
@@ -255,24 +255,24 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A new CharacterClass instance, or null if data is invalid.</returns>
         private CharacterClass? CreateCharacterClassFromData()
         {
-            if (!this.ClassData.ContainsKey("Id"))
+            if (!this.ClassData.TryGetValue("Id", out object? value))
             {
                 return null;
             }
 
             return new CharacterClass
             {
-                Id = this.ClassData["Id"].ToString() ?? string.Empty,
+                Id = value.ToString() ?? string.Empty,
                 Name = this.ClassData["Name"].ToString() ?? string.Empty,
                 Description = this.ClassData["Description"].ToString() ?? string.Empty,
-                BaseHealth = this.ClassData.ContainsKey("BaseHealth") ? System.Convert.ToInt32(this.ClassData["BaseHealth"], CultureInfo.InvariantCulture) : 100,
-                BaseMana = this.ClassData.ContainsKey("BaseMana") ? System.Convert.ToInt32(this.ClassData["BaseMana"], CultureInfo.InvariantCulture) : 50,
-                BaseAttack = this.ClassData.ContainsKey("BaseAttack") ? System.Convert.ToInt32(this.ClassData["BaseAttack"], CultureInfo.InvariantCulture) : 10,
-                BaseDefense = this.ClassData.ContainsKey("BaseDefense") ? System.Convert.ToInt32(this.ClassData["BaseDefense"], CultureInfo.InvariantCulture) : 5,
-                BaseMagic = this.ClassData.ContainsKey("BaseMagic") ? System.Convert.ToInt32(this.ClassData["BaseMagic"], CultureInfo.InvariantCulture) : 5,
-                BaseMagicDefense = this.ClassData.ContainsKey("BaseMagicDefense") ? System.Convert.ToInt32(this.ClassData["BaseMagicDefense"], CultureInfo.InvariantCulture) : 5,
-                BaseSpeed = this.ClassData.ContainsKey("BaseSpeed") ? System.Convert.ToInt32(this.ClassData["BaseSpeed"], CultureInfo.InvariantCulture) : 10,
-                IconPath = this.ClassData.ContainsKey("IconPath") ? this.ClassData["IconPath"].ToString() ?? string.Empty : string.Empty,
+                BaseHealth = this.ClassData.TryGetValue("BaseHealth", out object? baseHealthValue) ? System.Convert.ToInt32(baseHealthValue, CultureInfo.InvariantCulture) : 100,
+                BaseMana = this.ClassData.TryGetValue("BaseMana", out object? baseManaValue) ? System.Convert.ToInt32(baseManaValue, CultureInfo.InvariantCulture) : 50,
+                BaseAttack = this.ClassData.TryGetValue("BaseAttack", out object? baseAttackValue) ? System.Convert.ToInt32(baseAttackValue, CultureInfo.InvariantCulture) : 10,
+                BaseDefense = this.ClassData.TryGetValue("BaseDefense", out object? baseDefenseValue) ? System.Convert.ToInt32(baseDefenseValue, CultureInfo.InvariantCulture) : 5,
+                BaseMagic = this.ClassData.TryGetValue("BaseMagic", out object? baseMagicValue) ? System.Convert.ToInt32(baseMagicValue, CultureInfo.InvariantCulture) : 5,
+                BaseMagicDefense = this.ClassData.TryGetValue("BaseMagicDefense", out object? baseMagicDefenseValue) ? System.Convert.ToInt32(baseMagicDefenseValue, CultureInfo.InvariantCulture) : 5,
+                BaseSpeed = this.ClassData.TryGetValue("BaseSpeed", out object? baseSpeedValue) ? System.Convert.ToInt32(baseSpeedValue, CultureInfo.InvariantCulture) : 10,
+                IconPath = this.ClassData.TryGetValue("IconPath", out object? iconPathValue) ? iconPathValue.ToString() ?? string.Empty : string.Empty,
             };
         }
 
@@ -282,26 +282,26 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A new CharacterAppearance instance, or null if data is invalid.</returns>
         private CharacterAppearance? CreateCharacterAppearanceFromData()
         {
-            if (!this.AppearanceData.ContainsKey("SkinColor"))
+            if (!this.AppearanceData.TryGetValue("SkinColor", out object? value))
             {
                 return null;
             }
 
             return new CharacterAppearance
             {
-                SkinColor = Color.FromHtml(this.AppearanceData["SkinColor"].ToString() ?? "#FFFFFF"),
+                SkinColor = Color.FromHtml(value.ToString() ?? "#FFFFFF"),
                 HairColor = Color.FromHtml(this.AppearanceData["HairColor"].ToString() ?? "#000000"),
                 EyeColor = Color.FromHtml(this.AppearanceData["EyeColor"].ToString() ?? "#000000"),
-                HairStyle = this.AppearanceData.ContainsKey("HairStyle") ? this.AppearanceData["HairStyle"].ToString() ?? string.Empty : string.Empty,
-                EyeStyle = this.AppearanceData.ContainsKey("EyeStyle") ? this.AppearanceData["EyeStyle"].ToString() ?? string.Empty : string.Empty,
-                ClothingStyle = this.AppearanceData.ContainsKey("ClothingStyle") ? this.AppearanceData["ClothingStyle"].ToString() ?? string.Empty : string.Empty,
-                Accessory = this.AppearanceData.ContainsKey("Accessory") ? this.AppearanceData["Accessory"].ToString() ?? string.Empty : string.Empty,
-                SpritePath = this.AppearanceData.ContainsKey("SpritePath") ? this.AppearanceData["SpritePath"].ToString() ?? string.Empty : string.Empty,
-                PortraitPath = this.AppearanceData.ContainsKey("PortraitPath") ? this.AppearanceData["PortraitPath"].ToString() ?? string.Empty : string.Empty,
-                HeightScale = this.AppearanceData.ContainsKey("HeightScale") ? System.Convert.ToSingle(this.AppearanceData["HeightScale"], CultureInfo.InvariantCulture) : 1.0f,
-                WidthScale = this.AppearanceData.ContainsKey("WidthScale") ? System.Convert.ToSingle(this.AppearanceData["WidthScale"], CultureInfo.InvariantCulture) : 1.0f,
-                BodyType = this.AppearanceData.ContainsKey("BodyType") ? this.AppearanceData["BodyType"].ToString() ?? "Normal" : "Normal",
-                FacialExpression = this.AppearanceData.ContainsKey("FacialExpression") ? this.AppearanceData["FacialExpression"].ToString() ?? "Neutral" : "Neutral",
+                HairStyle = this.AppearanceData.TryGetValue("HairStyle", out object? hairStyleValue) ? hairStyleValue.ToString() ?? string.Empty : string.Empty,
+                EyeStyle = this.AppearanceData.TryGetValue("EyeStyle", out object? eyeStyleValue) ? eyeStyleValue.ToString() ?? string.Empty : string.Empty,
+                ClothingStyle = this.AppearanceData.TryGetValue("ClothingStyle", out object? clothingStyleValue) ? clothingStyleValue.ToString() ?? string.Empty : string.Empty,
+                Accessory = this.AppearanceData.TryGetValue("Accessory", out object? accessoryValue) ? accessoryValue.ToString() ?? string.Empty : string.Empty,
+                SpritePath = this.AppearanceData.TryGetValue("SpritePath", out object? spritePathValue) ? spritePathValue.ToString() ?? string.Empty : string.Empty,
+                PortraitPath = this.AppearanceData.TryGetValue("PortraitPath", out object? portraitPathValue) ? portraitPathValue.ToString() ?? string.Empty : string.Empty,
+                HeightScale = this.AppearanceData.TryGetValue("HeightScale", out object? heightScaleValue) ? System.Convert.ToSingle(heightScaleValue, CultureInfo.InvariantCulture) : 1.0f,
+                WidthScale = this.AppearanceData.TryGetValue("WidthScale", out object? widthScaleValue) ? System.Convert.ToSingle(widthScaleValue, CultureInfo.InvariantCulture) : 1.0f,
+                BodyType = this.AppearanceData.TryGetValue("BodyType", out object? bodyTypeValue) ? bodyTypeValue.ToString() ?? "Normal" : "Normal",
+                FacialExpression = this.AppearanceData.TryGetValue("FacialExpression", out object? facialExpressionValue) ? facialExpressionValue.ToString() ?? "Neutral" : "Neutral",
             };
         }
 
@@ -311,14 +311,14 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A new CharacterStats instance, or null if data is invalid.</returns>
         private CharacterStats? CreateCharacterStatsFromData()
         {
-            if (!this.StatsData.ContainsKey("Health"))
+            if (!this.StatsData.TryGetValue("Health", out object? value))
             {
                 return null;
             }
 
             return new CharacterStats
             {
-                Health = System.Convert.ToInt32(this.StatsData["Health"], CultureInfo.InvariantCulture),
+                Health = System.Convert.ToInt32(value, CultureInfo.InvariantCulture),
                 MaxHealth = System.Convert.ToInt32(this.StatsData["MaxHealth"], CultureInfo.InvariantCulture),
                 Mana = System.Convert.ToInt32(this.StatsData["Mana"], CultureInfo.InvariantCulture),
                 MaxMana = System.Convert.ToInt32(this.StatsData["MaxMana"], CultureInfo.InvariantCulture),
@@ -329,21 +329,21 @@ namespace OmegaSpiral.Domain.Models
                 Magic = System.Convert.ToInt32(this.StatsData["Magic"], CultureInfo.InvariantCulture),
                 MagicDefense = System.Convert.ToInt32(this.StatsData["MagicDefense"], CultureInfo.InvariantCulture),
                 Speed = System.Convert.ToInt32(this.StatsData["Speed"], CultureInfo.InvariantCulture),
-                Luck = System.Convert.ToInt32(this.StatsData.ContainsKey("Luck") ? this.StatsData["Luck"] : 5, CultureInfo.InvariantCulture),
-                Strength = System.Convert.ToInt32(this.StatsData.ContainsKey("Strength") ? this.StatsData["Strength"] : 10, CultureInfo.InvariantCulture),
-                Dexterity = System.Convert.ToInt32(this.StatsData.ContainsKey("Dexterity") ? this.StatsData["Dexterity"] : 10, CultureInfo.InvariantCulture),
-                Constitution = System.Convert.ToInt32(this.StatsData.ContainsKey("Constitution") ? this.StatsData["Constitution"] : 10, CultureInfo.InvariantCulture),
-                Intelligence = System.Convert.ToInt32(this.StatsData.ContainsKey("Intelligence") ? this.StatsData["Intelligence"] : 10, CultureInfo.InvariantCulture),
-                Wisdom = System.Convert.ToInt32(this.StatsData.ContainsKey("Wisdom") ? this.StatsData["Wisdom"] : 10, CultureInfo.InvariantCulture),
-                Charisma = System.Convert.ToInt32(this.StatsData.ContainsKey("Charisma") ? this.StatsData["Charisma"] : 10, CultureInfo.InvariantCulture),
-                CriticalChance = System.Convert.ToSingle(this.StatsData.ContainsKey("CriticalChance") ? this.StatsData["CriticalChance"] : 5.0f, CultureInfo.InvariantCulture),
-                CriticalDamage = System.Convert.ToSingle(this.StatsData.ContainsKey("CriticalDamage") ? this.StatsData["CriticalDamage"] : 1.5f, CultureInfo.InvariantCulture),
-                Evasion = System.Convert.ToSingle(this.StatsData.ContainsKey("Evasion") ? this.StatsData["Evasion"] : 5.0f, CultureInfo.InvariantCulture),
-                Accuracy = System.Convert.ToSingle(this.StatsData.ContainsKey("Accuracy") ? this.StatsData["Accuracy"] : 95.0f, CultureInfo.InvariantCulture),
-                PhysicalResistance = System.Convert.ToSingle(this.StatsData.ContainsKey("PhysicalResistance") ? this.StatsData["PhysicalResistance"] : 0.0f, CultureInfo.InvariantCulture),
-                MagicalResistance = System.Convert.ToSingle(this.StatsData.ContainsKey("MagicalResistance") ? this.StatsData["MagicalResistance"] : 0.0f, CultureInfo.InvariantCulture),
-                MovementSpeed = System.Convert.ToSingle(this.StatsData.ContainsKey("MovementSpeed") ? this.StatsData["MovementSpeed"] : 1.0f, CultureInfo.InvariantCulture),
-                ExperienceForNextLevel = System.Convert.ToInt32(this.StatsData.ContainsKey("ExperienceForNextLevel") ? this.StatsData["ExperienceForNextLevel"] : 10, CultureInfo.InvariantCulture),
+                Luck = System.Convert.ToInt32(this.StatsData.TryGetValue("Luck", out object? luckValue) ? luckValue : 5, CultureInfo.InvariantCulture),
+                Strength = System.Convert.ToInt32(this.StatsData.TryGetValue("Strength", out object? strengthValue) ? strengthValue : 10, CultureInfo.InvariantCulture),
+                Dexterity = System.Convert.ToInt32(this.StatsData.TryGetValue("Dexterity", out object? dexterityValue) ? dexterityValue : 10, CultureInfo.InvariantCulture),
+                Constitution = System.Convert.ToInt32(this.StatsData.TryGetValue("Constitution", out object? constitutionValue) ? constitutionValue : 10, CultureInfo.InvariantCulture),
+                Intelligence = System.Convert.ToInt32(this.StatsData.TryGetValue("Intelligence", out object? intelligenceValue) ? intelligenceValue : 10, CultureInfo.InvariantCulture),
+                Wisdom = System.Convert.ToInt32(this.StatsData.TryGetValue("Wisdom", out object? wisdomValue) ? wisdomValue : 10, CultureInfo.InvariantCulture),
+                Charisma = System.Convert.ToInt32(this.StatsData.TryGetValue("Charisma", out object? charismaValue) ? charismaValue : 10, CultureInfo.InvariantCulture),
+                CriticalChance = System.Convert.ToSingle(this.StatsData.TryGetValue("CriticalChance", out object? critChanceValue) ? critChanceValue : 5.0f, CultureInfo.InvariantCulture),
+                CriticalDamage = System.Convert.ToSingle(this.StatsData.TryGetValue("CriticalDamage", out object? critDamageValue) ? critDamageValue : 1.5f, CultureInfo.InvariantCulture),
+                Evasion = System.Convert.ToSingle(this.StatsData.TryGetValue("Evasion", out object? evasionValue) ? evasionValue : 5.0f, CultureInfo.InvariantCulture),
+                Accuracy = System.Convert.ToSingle(this.StatsData.TryGetValue("Accuracy", out object? accuracyValue) ? accuracyValue : 95.0f, CultureInfo.InvariantCulture),
+                PhysicalResistance = System.Convert.ToSingle(this.StatsData.TryGetValue("PhysicalResistance", out object? physResValue) ? physResValue : 0.0f, CultureInfo.InvariantCulture),
+                MagicalResistance = System.Convert.ToSingle(this.StatsData.TryGetValue("MagicalResistance", out object? magResValue) ? magResValue : 0.0f, CultureInfo.InvariantCulture),
+                MovementSpeed = System.Convert.ToSingle(this.StatsData.TryGetValue("MovementSpeed", out object? moveSpeedValue) ? moveSpeedValue : 1.0f, CultureInfo.InvariantCulture),
+                ExperienceForNextLevel = System.Convert.ToInt32(this.StatsData.TryGetValue("ExperienceForNextLevel", out object? expNextLevelValue) ? expNextLevelValue : 10, CultureInfo.InvariantCulture),
             };
         }
     }

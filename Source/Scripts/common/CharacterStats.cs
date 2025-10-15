@@ -122,20 +122,17 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static CharacterStats FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
-            if (dict == null)
-            {
-                throw new System.ArgumentNullException(nameof(dict));
-            }
+            ArgumentNullException.ThrowIfNull(dict);
 
             return new CharacterStats
             {
-                Strength = dict.ContainsKey("strength") ? dict["strength"].AsInt32() : 10,
-                Intelligence = dict.ContainsKey("intelligence") ? dict["intelligence"].AsInt32() : 10,
-                Wisdom = dict.ContainsKey("wisdom") ? dict["wisdom"].AsInt32() : 10,
-                Dexterity = dict.ContainsKey("dexterity") ? dict["dexterity"].AsInt32() : 10,
-                Constitution = dict.ContainsKey("constitution") ? dict["constitution"].AsInt32() : 10,
-                Charisma = dict.ContainsKey("charisma") ? dict["charisma"].AsInt32() : 10,
-                Luck = dict.ContainsKey("luck") ? dict["luck"].AsInt32() : 10,
+                Strength = dict.TryGetValue("strength", out Variant strengthValue) ? strengthValue.AsInt32() : 10,
+                Intelligence = dict.TryGetValue("intelligence", out Variant intelligenceValue) ? intelligenceValue.AsInt32() : 10,
+                Wisdom = dict.TryGetValue("wisdom", out Variant wisdomValue) ? wisdomValue.AsInt32() : 10,
+                Dexterity = dict.TryGetValue("dexterity", out Variant dexterityValue) ? dexterityValue.AsInt32() : 10,
+                Constitution = dict.TryGetValue("constitution", out Variant constitutionValue) ? constitutionValue.AsInt32() : 10,
+                Charisma = dict.TryGetValue("charisma", out Variant charismaValue) ? charismaValue.AsInt32() : 10,
+                Luck = dict.TryGetValue("luck", out Variant luckValue) ? luckValue.AsInt32() : 10,
             };
         }
 

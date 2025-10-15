@@ -102,10 +102,7 @@ public partial class Interaction : Area2D
     /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event == null)
-        {
-            throw new ArgumentNullException(nameof(@event));
-        }
+        ArgumentNullException.ThrowIfNull(@event);
 
         base._UnhandledInput(@event);
 

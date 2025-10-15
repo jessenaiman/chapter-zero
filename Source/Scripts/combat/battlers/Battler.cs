@@ -367,10 +367,7 @@ public partial class Battler : Node2D
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="action"/> is <see langword="null"/>.</exception>
     public async Task ActAsync(BattlerAction action, Battler[]? targets = null)
     {
-        if (action == null)
-        {
-            throw new ArgumentNullException(nameof(action));
-        }
+        ArgumentNullException.ThrowIfNull(action);
 
         targets ??= Array.Empty<Battler>();
 
@@ -403,10 +400,7 @@ public partial class Battler : Node2D
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="hit"/> is <see langword="null"/>.</exception>
     public void TakeHit(BattlerHit hit)
     {
-        if (hit == null)
-        {
-            throw new ArgumentNullException(nameof(hit));
-        }
+        ArgumentNullException.ThrowIfNull(hit);
 
         if (hit.IsSuccessful())
         {

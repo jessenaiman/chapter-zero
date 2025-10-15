@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// The player battler UI displays information for each player-owned <see cref="Battler"/> in a combat.
@@ -44,10 +45,7 @@ public partial class UIPlayerBattlerList : UIListMenu
     /// <exception cref="ArgumentNullException"><paramref name="battlerData"/> is <c>null</c>.</exception>
     public void Setup(BattlerList battlerData)
     {
-        if (battlerData == null)
-        {
-            throw new ArgumentNullException(nameof(battlerData));
-        }
+        ArgumentNullException.ThrowIfNull(battlerData);
 
         this.Battlers = battlerData.Players.ToList();
     }
@@ -59,10 +57,7 @@ public partial class UIPlayerBattlerList : UIListMenu
     /// <exception cref="ArgumentNullException"><paramref name="entry"/> is <c>null</c>.</exception>
     protected override void OnEntryPressed(BaseButton entry)
     {
-        if (entry == null)
-        {
-            throw new ArgumentNullException(nameof(entry));
-        }
+        ArgumentNullException.ThrowIfNull(entry);
 
         if (!this.IsDisabled)
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// Container for the player combat HUD.
@@ -264,9 +265,9 @@ public partial class UICombatHud : Control
     /// <param name="battler">The battler whose health changed.</param>
     private void OnBattlerHealthChanged(Battler battler)
     {
-        if (this.battlerDisplays.ContainsKey(battler))
+        if (this.battlerDisplays.TryGetValue(battler, out Control? value))
         {
-            UpdateBattlerDisplay(battler, this.battlerDisplays[battler]);
+            UpdateBattlerDisplay(battler, value);
         }
 
         // If this is the selected battler, also update the info panel
@@ -282,9 +283,9 @@ public partial class UICombatHud : Control
     /// <param name="battler">The battler whose energy changed.</param>
     private void OnBattlerEnergyChanged(Battler battler)
     {
-        if (this.battlerDisplays.ContainsKey(battler))
+        if (this.battlerDisplays.TryGetValue(battler, out Control? value))
         {
-            UpdateBattlerDisplay(battler, this.battlerDisplays[battler]);
+            UpdateBattlerDisplay(battler, value);
         }
 
         // If this is the selected battler, also update the info panel
@@ -327,19 +328,18 @@ public partial class UICombatHud : Control
     private void HighlightSelectedBattler()
     {
         // Remove highlight from all battler displays
-        foreach (var display in this.battlerDisplays.Values)
+        foreach (var displayItem in this.battlerDisplays.Values)
         {
             // Remove highlight styling
-            // display.Modulate = Colors.White;
+            // displayItem.Modulate = Colors.White;
         }
 
         // Add highlight to the selected battler's display
-        if (this.SelectedBattler != null && this.battlerDisplays.ContainsKey(this.SelectedBattler))
+        if (this.SelectedBattler != null && this.battlerDisplays.TryGetValue(this.SelectedBattler, out Control? selectedDisplay))
         {
-            var display = this.battlerDisplays[this.SelectedBattler];
 
             // Add highlight styling
-            // display.Modulate = Colors.Yellow;
+            // selectedDisplay.Modulate = Colors.Yellow;
         }
     }
 

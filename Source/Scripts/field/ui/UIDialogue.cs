@@ -83,10 +83,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <c>null</c>.</exception>
         public static void ShowEffectLabel(string text)
         {
-            if (text == null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+            ArgumentNullException.ThrowIfNull(text);
 
             // Show a floating label at the specified position
             // This would typically involve creating a temporary label that floats upward and fades out

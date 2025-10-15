@@ -42,10 +42,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="character"/> is <c>null</c>.</exception>
         public bool AddMember(Character character)
         {
-            if (character == null)
-            {
-                throw new ArgumentNullException(nameof(character));
-            }
+            ArgumentNullException.ThrowIfNull(character);
 
             if (this.Members.Count >= 3)
             {
@@ -188,7 +185,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns><see langword="true"/> if item was removed, <see langword="false"/> if insufficient quantity.</returns>
         public bool RemoveItem(string itemName, int quantity = 1)
         {
-            if (!this.Inventory.ContainsKey(itemName) || this.Inventory[itemName] < quantity)
+            if (!this.Inventory.TryGetValue(itemName, out int value) || value < quantity)
             {
                 GD.Print($"Insufficient {itemName}: need {quantity}, have {this.Inventory.GetValueOrDefault(itemName, 0)}");
                 return false;
@@ -243,21 +240,17 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static PartyData FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
-            if (dict == null)
-            {
-                throw new ArgumentNullException(nameof(dict));
-            }
+            ArgumentNullException.ThrowIfNull(dict);
 
             var party = new PartyData();
 
-            if (dict.ContainsKey("gold"))
+            if (dict.TryGetValue("gold", out Variant value))
             {
-                party.Gold = (int) dict["gold"];
+                party.Gold = (int) value;
             }
 
-            if (dict.ContainsKey("inventory"))
+            if (dict.TryGetValue("inventory", out Variant inventoryVar))
             {
-                var inventoryVar = dict["inventory"];
                 if (inventoryVar.VariantType == Variant.Type.Dictionary)
                 {
                     var inventoryDict = inventoryVar.AsGodotDictionary<string, Variant>();
@@ -268,9 +261,8 @@ namespace OmegaSpiral.Source.Scripts
                 }
             }
 
-            if (dict.ContainsKey("members"))
+            if (dict.TryGetValue("members", out Variant membersVar))
             {
-                var membersVar = dict["members"];
                 if (membersVar.VariantType == Variant.Type.Array)
                 {
                     var membersArray = membersVar.AsGodotArray();

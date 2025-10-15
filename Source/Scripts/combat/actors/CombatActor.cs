@@ -71,15 +71,9 @@ public abstract partial class CombatActor : Node2D
     /// <exception cref="ArgumentNullException"><paramref name="a"/> is <c>null</c>.</exception>
     public static bool Sort(CombatActor a, CombatActor b)
     {
-        if (a == null)
-        {
-            throw new ArgumentNullException(nameof(a));
-        }
+        ArgumentNullException.ThrowIfNull(a);
 
-        if (b == null)
-        {
-            throw new ArgumentNullException(nameof(b));
-        }
+        ArgumentNullException.ThrowIfNull(b);
 
         return a.Initiative > b.Initiative;
     }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral;
 
 /// <summary>
 /// Base class for controllers that manage Gamepiece movement and interaction.

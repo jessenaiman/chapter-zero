@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral;
+using OmegaSpiral.Field.Gamepieces;
 
 /// <summary>
 /// Base class for movable objects in the game world.

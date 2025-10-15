@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Actions
 {
@@ -134,10 +135,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions
         /// <exception cref="ArgumentNullException"><paramref name="target"/> is <c>null</c>.</exception>
         public virtual bool IsTargetValid(Battler target)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
+            ArgumentNullException.ThrowIfNull(target);
 
             return target.IsSelectable && target.Stats?.Health > 0;
         }
@@ -154,10 +152,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is <c>null</c>.</exception>
         public virtual async Task Execute(Battler source, Battler[] targets = null!)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            ArgumentNullException.ThrowIfNull(source);
 
             if (targets == null)
             {
@@ -178,15 +173,9 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is <c>null</c>.</exception>
         public virtual Battler[] GetPossibleTargets(Battler source, BattlerList battlers)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            ArgumentNullException.ThrowIfNull(source);
 
-            if (battlers == null)
-            {
-                throw new ArgumentNullException(nameof(battlers));
-            }
+            ArgumentNullException.ThrowIfNull(battlers);
 
             var possibleTargets = new System.Collections.Generic.List<Battler>();
 
@@ -232,10 +221,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions
         /// <exception cref="ArgumentNullException"><paramref name="target"/> is <c>null</c>.</exception>
         public virtual bool CanTargetBattler(Battler target)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
+            ArgumentNullException.ThrowIfNull(target);
 
             return target.IsSelectable && target.Stats?.Health > 0;
         }

@@ -1,5 +1,5 @@
-// <copyright file="UIActionMenu.cs" company="PlaceholderCompanyompany">
-// CopyrighPlaceholderCompanyolderCompany. All rights reserved.
+// <copyright file="UIActionMenu.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Combat;
 
 /// <summary>
 /// A menu lists a <see cref="Battler"/>'s <see cref="Battler.Actions"/>, allowing the player to select one.

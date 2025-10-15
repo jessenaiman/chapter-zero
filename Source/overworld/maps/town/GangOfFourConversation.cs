@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral;
 
 /// <summary>
 /// Conversation interaction with the Gang of Four NPCs.

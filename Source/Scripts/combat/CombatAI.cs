@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// The base class responsible for AI-controlled Battlers.

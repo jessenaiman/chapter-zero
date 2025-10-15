@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// Base class for combat artificial intelligence.

@@ -41,10 +41,7 @@ public partial class NarratorEngine : Node
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="dialogues"/> is <see langword="null"/>.</exception>
     public void AddDialogueRange(List<string> dialogues)
     {
-        if (dialogues == null)
-        {
-            throw new ArgumentNullException(nameof(dialogues));
-        }
+        ArgumentNullException.ThrowIfNull(dialogues);
 
         foreach (string dialogue in dialogues)
         {
@@ -90,10 +87,7 @@ public partial class NarratorEngine : Node
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="outputAction"/> is <see langword="null"/>.</exception>
     public void ProcessDialogueQueue(Action<string> outputAction)
     {
-        if (outputAction == null)
-        {
-            throw new ArgumentNullException(nameof(outputAction));
-        }
+        ArgumentNullException.ThrowIfNull(outputAction);
 
         if (this.isProcessing || !this.HasDialogue())
         {
@@ -164,10 +158,7 @@ public partial class NarratorEngine : Node
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="paragraphs"/> is <see langword="null"/>.</exception>
     public void ProcessNarrativeBlock(List<string> paragraphs, Action<string>? outputAction = null)
     {
-        if (paragraphs == null)
-        {
-            throw new ArgumentNullException(nameof(paragraphs));
-        }
+        ArgumentNullException.ThrowIfNull(paragraphs);
 
         foreach (string paragraph in paragraphs)
         {

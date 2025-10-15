@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Godot;
 
 using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.

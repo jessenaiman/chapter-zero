@@ -4,6 +4,7 @@
 
 using System;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// Displays the timeline representing the turn order of all battlers in the arena.

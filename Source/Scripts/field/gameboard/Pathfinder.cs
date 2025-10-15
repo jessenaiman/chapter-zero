@@ -112,14 +112,14 @@ public partial class Pathfinder : RefCounted
     /// <param name="pointId2">The unique identifier of the second point.</param>
     public void DisconnectPoints(int pointId1, int pointId2)
     {
-        if (this.connections.ContainsKey(pointId1))
+        if (this.connections.TryGetValue(pointId1, out List<int>? connections1))
         {
-            this.connections[pointId1].Remove(pointId2);
+            connections1.Remove(pointId2);
         }
 
-        if (this.connections.ContainsKey(pointId2))
+        if (this.connections.TryGetValue(pointId2, out List<int>? connections2))
         {
-            this.connections[pointId2].Remove(pointId1);
+            connections2.Remove(pointId1);
         }
     }
 
@@ -130,9 +130,9 @@ public partial class Pathfinder : RefCounted
     /// <param name="disabled">True to disable the point, false to enable it. Default is true.</param>
     public void SetPointDisabled(int pointId, bool disabled = true)
     {
-        if (this.points.ContainsKey(pointId))
+        if (this.points.TryGetValue(pointId, out PointData? pointData))
         {
-            this.points[pointId].Disabled = disabled;
+            pointData.Disabled = disabled;
         }
     }
 
@@ -143,9 +143,9 @@ public partial class Pathfinder : RefCounted
     /// <returns>True if the point is disabled, false otherwise.</returns>
     public bool IsPointDisabled(int pointId)
     {
-        if (this.points.ContainsKey(pointId))
+        if (this.points.TryGetValue(pointId, out PointData? pointData))
         {
-            return this.points[pointId].Disabled;
+            return pointData.Disabled;
         }
 
         return false;
@@ -188,22 +188,21 @@ public partial class Pathfinder : RefCounted
             point.FScore = float.PositiveInfinity;
         }
 
-        if (!this.points.ContainsKey(startId) || !this.points.ContainsKey(endId))
+        if (!this.points.TryGetValue(startId, out PointData? startPoint) || !this.points.ContainsKey(endId))
         {
             return new List<Vector2I>();
         }
 
-        var start = this.points[startId];
-        var end = this.points[endId];
+        var endPoint = this.points[endId];
 
-        start.GScore = 0;
-        start.FScore = HeuristicCostEstimate(start.Position, end.Position);
+        startPoint.GScore = 0;
+        startPoint.FScore = HeuristicCostEstimate(startPoint.Position, endPoint.Position);
 
         var openSet = new PriorityQueue<int, float>();
         var cameFrom = new Dictionary<int, int>();
         var openSetHash = new HashSet<int> { startId };
 
-        openSet.Enqueue(startId, start.FScore);
+        openSet.Enqueue(startId, startPoint.FScore);
 
         while (openSet.Count > 0)
         {
@@ -215,8 +214,8 @@ public partial class Pathfinder : RefCounted
                 return this.ReconstructPath(cameFrom, currentId);
             }
 
-            var current = this.points[currentId];
-            if (current.Disabled)
+            var currentPoint = this.points[currentId];
+            if (currentPoint.Disabled)
             {
                 continue;
             }
@@ -228,23 +227,23 @@ public partial class Pathfinder : RefCounted
                     continue;
                 }
 
-                var neighbor = this.points[neighborId];
-                if (neighbor.Disabled)
+                var neighborPoint = this.points[neighborId];
+                if (neighborPoint.Disabled)
                 {
                     continue;
                 }
 
-                var tentativeGScore = current.GScore + 1; // Distance between neighbors is always 1 in grid
+                var tentativeGScore = currentPoint.GScore + 1; // Distance between neighbors is always 1 in grid
 
-                if (tentativeGScore < neighbor.GScore)
+                if (tentativeGScore < neighborPoint.GScore)
                 {
                     cameFrom[neighborId] = currentId;
-                    neighbor.GScore = tentativeGScore;
-                    neighbor.FScore = neighbor.GScore + HeuristicCostEstimate(neighbor.Position, end.Position);
+                    neighborPoint.GScore = tentativeGScore;
+                    neighborPoint.FScore = neighborPoint.GScore + HeuristicCostEstimate(neighborPoint.Position, endPoint.Position);
 
                     if (!openSetHash.Contains(neighborId))
                     {
-                        openSet.Enqueue(neighborId, neighbor.FScore);
+                        openSet.Enqueue(neighborId, neighborPoint.FScore);
                         openSetHash.Add(neighborId);
                     }
                 }

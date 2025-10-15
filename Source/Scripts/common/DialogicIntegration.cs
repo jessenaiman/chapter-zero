@@ -61,10 +61,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="variables"/> is <see langword="null"/>.</exception>
         public async Task StartTimelineWithVariablesAsync(string timelinePath, Godot.Collections.Dictionary variables)
         {
-            if (variables == null)
-            {
-                throw new ArgumentNullException(nameof(variables));
-            }
+            ArgumentNullException.ThrowIfNull(variables);
 
             // Set variables in Dialogic before starting timeline
             foreach (var kvp in variables)
@@ -131,10 +128,7 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="choices"/> is <see langword="null"/>.</exception>
         public async Task PresentChoiceWithDialogicAsync(string[] choices, string timelinePath)
         {
-            if (choices == null)
-            {
-                throw new ArgumentNullException(nameof(choices));
-            }
+            ArgumentNullException.ThrowIfNull(choices);
 
             // Set choices as Dialogic variables
             using var choiceDict = new Godot.Collections.Dictionary();

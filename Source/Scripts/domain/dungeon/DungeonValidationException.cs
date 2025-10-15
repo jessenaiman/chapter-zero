@@ -34,15 +34,5 @@ namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
             : base(message, innerException)
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DungeonValidationException"/> class from serialization data.
-        /// </summary>
-        /// <param name="info">The serialization info.</param>
-        /// <param name="context">The streaming context.</param>
-        protected DungeonValidationException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
     }
 }

@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral;
+using OmegaSpiral.Field.Cutscenes;
+using OmegaSpiral.Field.Gamepieces;
 
 /// <summary>
 /// Applied to any gamepiece to allow player control.
@@ -115,10 +118,7 @@ public partial class PlayerController : GamepieceController
     /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event == null)
-        {
-            throw new ArgumentNullException(nameof(@event));
-        }
+        ArgumentNullException.ThrowIfNull(@event);
 
         if (@event.IsActionReleased("select"))
         {

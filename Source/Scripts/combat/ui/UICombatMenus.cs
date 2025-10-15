@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-
 using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Battlers;
+
 /// <summary>
 /// Manages the combat UI menus, including action selection and targeting cursors for player battlers.
 /// </summary>

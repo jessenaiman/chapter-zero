@@ -108,10 +108,7 @@ public partial class BattlerAnim : Marker2D
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="battler"/> is <see langword="null"/>.</exception>
     public void Setup(Battler battler, BattlerDirection facing)
     {
-        if (battler == null)
-        {
-            throw new ArgumentNullException(nameof(battler));
-        }
+        ArgumentNullException.ThrowIfNull(battler);
 
         // BattlerAnim objects are assigned in-editor and created dynamically both in-game and in-editor.
         // We do not want the BattlerAnim objects to be saved with the CombatArena scenes, since they are

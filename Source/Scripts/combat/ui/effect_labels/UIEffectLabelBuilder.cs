@@ -4,6 +4,7 @@
 
 using System;
 using Godot;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// A builder class responsible for adding visual feedback to <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction"/>s.

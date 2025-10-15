@@ -1,5 +1,6 @@
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Battlers;
 
 /// <summary>
 /// Responsible for Battlers, managing their turns, action order, and lifespans.

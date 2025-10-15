@@ -13,23 +13,46 @@ repos:
       - id: check-merge-conflict
       - id: mixed-line-ending
 
-  # .NET 10 formatting with system-installed dotnet CLI
+  # .NET checks (all local hooks)
   - repo: local
     hooks:
+      # Step 1: Format check
       - id: dotnet-format
-        name: .NET Format (dotnet format)
+        name: .NET Format Check
         entry: dotnet format OmegaSpiral.sln
         args: ['--verify-no-changes', '--no-restore']
         language: system
         types: [c#]
         pass_filenames: false
+        stages: [commit]
+
+      # Step 2: Build with warnings as errors
+      - id: dotnet-build
+        name: .NET Build (Debug)
+        entry: dotnet build OmegaSpiral.sln
+        args: ['--configuration', 'Debug', '--no-restore']
+        language: system
+        types: [c#]
+        pass_filenames: false
+        stages: [commit]
+
+      # Step 3: Run tests
+      - id: dotnet-test
+        name: .NET Test Suite
+        entry: dotnet test OmegaSpiral.sln
+        args: ['--no-build', '--configuration', 'Debug', '--verbosity', 'minimal']
+        language: system
+        types: [c#]
+        pass_filenames: false
+        stages: [commit]
 
   # Godot GDScript validation
   - repo: local
     hooks:
       - id: gdscript-check
         name: GDScript Syntax Check
-        entry: bash -c 'echo "GDScript validation placeholder - install gdlint or gdformat for real validation"'
+        entry: bash -c 'echo "✓ GDScript validation placeholder - install gdlint or gdformat for real validation"'
         language: system
         files: \.gd$
         pass_filenames: false
+        stages: [commit]

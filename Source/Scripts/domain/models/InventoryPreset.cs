@@ -156,7 +156,7 @@ namespace OmegaSpiral.Domain.Models
             // Add items from the preset
             foreach (var itemId in this.ItemIds)
             {
-                var quantity = this.ItemQuantities.ContainsKey(itemId) ? this.ItemQuantities[itemId] : 1;
+                var quantity = this.ItemQuantities.TryGetValue(itemId, out int value) ? value : 1;
                 inventory.AddItem(itemId, quantity);
             }
 
@@ -258,7 +258,7 @@ namespace OmegaSpiral.Domain.Models
 
             foreach (var itemId in this.ItemIds)
             {
-                var quantity = this.ItemQuantities.ContainsKey(itemId) ? this.ItemQuantities[itemId] : 1;
+                var quantity = this.ItemQuantities.TryGetValue(itemId, out int value) ? value : 1;
                 var itemWeight = itemWeightProvider?.Invoke(itemId) ?? 0f;
                 totalWeight += itemWeight * quantity;
             }

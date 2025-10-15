@@ -136,10 +136,10 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The actual quantity removed.</returns>
         public int RemoveItem(string itemId, int quantity = 1)
         {
-            if (string.IsNullOrEmpty(itemId) || quantity <= 0 || !this.ItemQuantities.ContainsKey(itemId))
+            if (string.IsNullOrEmpty(itemId) || quantity <= 0 || !this.ItemQuantities.TryGetValue(itemId, out int value))
                 return 0;
 
-            int actualQuantity = System.Math.Min(quantity, this.ItemQuantities[itemId]);
+            int actualQuantity = System.Math.Min(quantity, value);
             this.ItemQuantities[itemId] -= actualQuantity;
 
             if (this.ItemQuantities[itemId] <= 0)
@@ -182,7 +182,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The quantity of the item, or 0 if not found.</returns>
         public int GetItemQuantity(string itemId)
         {
-            return this.ItemQuantities.ContainsKey(itemId) ? this.ItemQuantities[itemId] : 0;
+            return this.ItemQuantities.TryGetValue(itemId, out int value) ? value : 0;
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The custom data dictionary for the item, or null if not found.</returns>
         public Dictionary<string, object>? GetItemCustomData(string itemId)
         {
-            return this.CustomItemData.ContainsKey(itemId) ? this.CustomItemData[itemId] : null;
+            return this.CustomItemData.TryGetValue(itemId, out Dictionary<string, object>? value) ? value : null;
         }
 
         /// <summary>
@@ -315,10 +315,8 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The ID of the unequipped item, or empty string if no item was equipped.</returns>
         public string UnequipItem(string slot)
         {
-            if (string.IsNullOrEmpty(slot) || !this.EquippedItems.ContainsKey(slot))
+            if (string.IsNullOrEmpty(slot) || !this.EquippedItems.TryGetValue(slot, out string? itemId))
                 return string.Empty;
-
-            string itemId = this.EquippedItems[slot];
             this.EquippedItems.Remove(slot);
             return itemId;
         }
@@ -330,7 +328,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The ID of the equipped item, or empty string if no item is equipped.</returns>
         public string GetEquippedItem(string slot)
         {
-            return this.EquippedItems.ContainsKey(slot) ? this.EquippedItems[slot] : string.Empty;
+            return this.EquippedItems.TryGetValue(slot, out string? value) ? value : string.Empty;
         }
 
         /// <summary>
@@ -352,14 +350,15 @@ namespace OmegaSpiral.Domain.Models
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId))
                 return;
 
-            if (!this.CategoryAssignments.ContainsKey(category))
+            if (!this.CategoryAssignments.TryGetValue(category, out List<string>? value))
             {
-                this.CategoryAssignments[category] = new List<string>();
+                value = new List<string>();
+                this.CategoryAssignments[category] = value;
             }
 
-            if (!this.CategoryAssignments[category].Contains(itemId))
+            if (!value.Contains(itemId))
             {
-                this.CategoryAssignments[category].Add(itemId);
+                value.Add(itemId);
             }
         }
 
@@ -371,12 +370,12 @@ namespace OmegaSpiral.Domain.Models
         public void RemoveFromCategory(string category, string itemId)
         {
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId) ||
-                !this.CategoryAssignments.ContainsKey(category))
+                !this.CategoryAssignments.TryGetValue(category, out List<string>? value))
             {
                 return;
             }
 
-            this.CategoryAssignments[category].Remove(itemId);
+            value.Remove(itemId);
         }
 
         /// <summary>
@@ -386,8 +385,8 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A list of item IDs in the specified category.</returns>
         public List<string> GetCategoryItems(string category)
         {
-            return this.CategoryAssignments.ContainsKey(category) ?
-                   new List<string>(this.CategoryAssignments[category]) :
+            return this.CategoryAssignments.TryGetValue(category, out List<string>? value) ?
+                   new List<string>(value) :
                    new List<string>();
         }
 

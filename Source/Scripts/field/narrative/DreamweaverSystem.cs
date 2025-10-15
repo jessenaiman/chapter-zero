@@ -74,7 +74,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<string> GenerateNarrativeAsync(string personaId, string context = "")
         {
-            if (!this.personas.ContainsKey(personaId))
+            if (!this.personas.TryGetValue(personaId, out DreamweaverPersona? persona))
             {
                 GD.PrintErr($"Unknown persona: {personaId}");
                 this.EmitSignal(SignalName.GenerationError, personaId, "Unknown persona");
@@ -83,7 +83,6 @@ namespace OmegaSpiral.Source.Scripts
 
             try
             {
-                var persona = this.personas[personaId];
                 var generatedText = await persona.GenerateNarrativeAsync(context).ConfigureAwait(false);
 
                 this.EmitSignal(SignalName.NarrativeGenerated, personaId, generatedText);
@@ -110,14 +109,13 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<string> GetOpeningLineAsync(string personaId)
         {
-            if (!this.personas.ContainsKey(personaId))
+            if (!this.personas.TryGetValue(personaId, out DreamweaverPersona? persona))
             {
                 return GetFallbackOpeningLine(personaId);
             }
 
             try
             {
-                var persona = this.personas[personaId];
                 return await persona.GetOpeningLineAsync().ConfigureAwait(false);
             }
             catch (InvalidOperationException ex)
@@ -135,14 +133,13 @@ namespace OmegaSpiral.Source.Scripts
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<List<NarrativeChoiceOption>> GenerateChoicesAsync(string personaId, string context = "")
         {
-            if (!this.personas.ContainsKey(personaId))
+            if (!this.personas.TryGetValue(personaId, out DreamweaverPersona? persona))
             {
                 return GetFallbackChoices();
             }
 
             try
             {
-                var persona = this.personas[personaId];
                 var choices = await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
                 return choices.Select(c => new NarrativeChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
             }

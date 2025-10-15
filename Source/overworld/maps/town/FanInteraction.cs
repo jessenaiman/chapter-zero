@@ -4,6 +4,7 @@
 
 using Godot;
 using System.Reflection;
+using OmegaSpiral;
 
 /// <summary>
 /// Interaction with the adoring fan NPC.

@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using OmegaSpiral;
+using OmegaSpiral.Field.Gamepieces;
 
 /// <summary>
 /// Defines the playable area of the game and where everything on it lies.
@@ -119,12 +121,7 @@ public partial class Gameboard : Node
     /// <exception cref="ArgumentNullException"><paramref name="node"/> is <c>null</c>.</exception>
     public Vector2I GetCellUnderNode(Node2D node)
     {
-        if (node == null)
-        {
-            throw new ArgumentNullException(nameof(node));
-        }
-
-        return this.PixelToCell(node.GlobalPosition / node.GlobalScale);
+        return node == null ? throw new ArgumentNullException(nameof(node)) : this.PixelToCell(node.GlobalPosition / node.GlobalScale);
     }
 
     /// <summary>
@@ -210,10 +207,7 @@ public partial class Gameboard : Node
     /// <exception cref="ArgumentNullException"><paramref name="boardMap"/> is <c>null</c>.</exception>
     public void RegisterGameboardLayer(GameboardLayer boardMap)
     {
-        if (boardMap == null)
-        {
-            throw new ArgumentNullException(nameof(boardMap));
-        }
+        ArgumentNullException.ThrowIfNull(boardMap);
 
         boardMap.CellsChanged += this.OnGameboardLayerCellsChanged;
     }

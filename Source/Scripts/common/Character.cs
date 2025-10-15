@@ -74,41 +74,37 @@ namespace OmegaSpiral.Source.Scripts
         /// <exception cref="ArgumentNullException"><paramref name="dict"/> is <c>null</c>.</exception>
         public static Character FromDictionary(Godot.Collections.Dictionary<string, Variant> dict)
         {
-            if (dict == null)
-            {
-                throw new System.ArgumentNullException(nameof(dict));
-            }
+            ArgumentNullException.ThrowIfNull(dict);
 
             var character = new Character();
 
-            if (dict.ContainsKey("name"))
+            if (dict.TryGetValue("name", out Variant nameValue))
             {
-                character.Name = (string) dict["name"];
+                character.Name = (string) nameValue;
             }
 
-            if (dict.ContainsKey("class"))
+            if (dict.TryGetValue("class", out Variant classValue))
             {
-                character.Class = (CharacterClass) System.Enum.Parse(typeof(CharacterClass), (string) dict["class"]);
+                character.Class = (CharacterClass) System.Enum.Parse(typeof(CharacterClass), (string) classValue);
             }
 
-            if (dict.ContainsKey("race"))
+            if (dict.TryGetValue("race", out Variant raceValue))
             {
-                character.Race = (CharacterRace) System.Enum.Parse(typeof(CharacterRace), (string) dict["race"]);
+                character.Race = (CharacterRace) System.Enum.Parse(typeof(CharacterRace), (string) raceValue);
             }
 
-            if (dict.ContainsKey("level"))
+            if (dict.TryGetValue("level", out Variant levelValue))
             {
-                character.Level = (int) dict["level"];
+                character.Level = (int) levelValue;
             }
 
-            if (dict.ContainsKey("experience"))
+            if (dict.TryGetValue("experience", out Variant expValue))
             {
-                character.Experience = (int) dict["experience"];
+                character.Experience = (int) expValue;
             }
 
-            if (dict.ContainsKey("stats"))
+            if (dict.TryGetValue("stats", out Variant statsVar))
             {
-                var statsVar = dict["stats"];
                 if (statsVar.VariantType == Variant.Type.Dictionary)
                 {
                     var statsDict = statsVar.AsGodotDictionary<string, Variant>();

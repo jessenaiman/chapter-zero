@@ -235,7 +235,7 @@ public partial class PathLoopAIController : GamepieceController
     {
         float distanceToPoint = 0.0f;
 
-        if (this.IsActive && this.MovePath.Any())
+        if (this.IsActive && this.MovePath.Count != 0)
         {
             var nextIndex = this.GetNextWaypointIndex();
             var nextCell = this.MovePath[nextIndex];

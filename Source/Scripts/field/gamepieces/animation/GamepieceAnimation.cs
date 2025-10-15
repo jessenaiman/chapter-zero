@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral;
 
 /// <summary>
 /// Encapsulates Gamepiece animation as an optional component.
@@ -103,7 +104,7 @@ public partial class GamepieceAnimation : Marker2D
         // We need to check to see if the animation is valid. First of all, look for
         // a directional equivalent - e.g. idle_n. If that fails, look for the new
         // sequence id itself.
-        var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
+        var sequenceSuffix = DirectionSuffixes.TryGetValue(this.direction, out string? value1) ? value1 : string.Empty;
 
         if (this.anim != null && this.anim.HasAnimation(value + sequenceSuffix))
         {
@@ -138,7 +139,7 @@ public partial class GamepieceAnimation : Marker2D
             await this.ToSignal(this, Node.SignalName.Ready);
         }
 
-        var sequenceSuffix = DirectionSuffixes.ContainsKey(this.direction) ? DirectionSuffixes[this.direction] : string.Empty;
+        var sequenceSuffix = DirectionSuffixes.TryGetValue(this.direction, out string? value1) ? value1 : string.Empty;
 
         if (this.anim != null && this.anim.HasAnimation(this.currentSequenceId + sequenceSuffix))
         {

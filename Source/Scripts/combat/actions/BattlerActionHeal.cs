@@ -25,10 +25,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions
         /// <inheritdoc/>
         public override async Task Execute(Battler source, Battler[] targets = null!)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            ArgumentNullException.ThrowIfNull(source);
 
             if (targets == null)
             {

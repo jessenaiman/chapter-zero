@@ -314,7 +314,7 @@ namespace OmegaSpiral.Domain.Models
             // Add items from the export data
             foreach (var itemId in this.ItemIds)
             {
-                var quantity = this.ItemQuantities.ContainsKey(itemId) ? this.ItemQuantities[itemId] : 1;
+                var quantity = this.ItemQuantities.TryGetValue(itemId, out int value) ? value : 1;
                 inventory.AddItem(itemId, quantity);
             }
 
@@ -476,7 +476,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The custom data dictionary for the item, or null if not found.</returns>
         public Dictionary<string, object>? GetItemCustomData(string itemId)
         {
-            return this.CustomItemData.ContainsKey(itemId) ? this.CustomItemData[itemId] : null;
+            return this.CustomItemData.TryGetValue(itemId, out Dictionary<string, object>? value) ? value : null;
         }
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace OmegaSpiral.Domain.Models
 
             foreach (var itemId in this.ItemIds)
             {
-                var quantity = this.ItemQuantities.ContainsKey(itemId) ? this.ItemQuantities[itemId] : 1;
+                var quantity = this.ItemQuantities.TryGetValue(itemId, out int value) ? value : 1;
                 var itemWeight = itemWeightProvider?.Invoke(itemId) ?? 0f;
                 totalWeight += itemWeight * quantity;
             }
