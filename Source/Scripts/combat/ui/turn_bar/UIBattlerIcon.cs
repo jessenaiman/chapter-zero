@@ -23,15 +23,15 @@ public partial class UIBattlerIcon : TextureRect
         /// <summary>
         /// Represents a friendly battler that is not controlled by the player.
         /// </summary>
-        Ally,
+        Ally = 0,
         /// <summary>
         /// Represents a battler that is controlled by the player.
         /// </summary>
-        Player,
+        Player = 1,
         /// <summary>
         /// Represents an enemy battler that acts against the player.
         /// </summary>
-        Enemy,
+        Enemy = 2,
     }
 
     private static readonly Dictionary<Types, Texture2D?> PortraitBacks = new Dictionary<Types, Texture2D?>

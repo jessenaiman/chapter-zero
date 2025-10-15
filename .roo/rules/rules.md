@@ -1,11 +1,16 @@
 # C# Documentation Rules
 
-**use the serana mcp tool to understand the project and tool use**
-**MUST USE SERANA TO FIND AND REPLACE, and FOR PROJECT MEMORIES**
-**ALWAYS CHECK THE BUILD AFTER EVERY NEW FILE AND CHANGE**
+## [Code Standards](./../../coding-conventions.instructions.md)
+
+**use the serana onboard mcp tool first**
+**MUST USE SERANA TO FIND PROJECT MEMORIES**
+**ALWAYS CHECK THE TESTS AND BUILD AFTER EVERY NEW FILE AND CHANGE**
 **USE CODACY TO CHECK FOR ISSUES AND FIXES**
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE BUILD IS CLEAN**
 **MUST ENFORCE XML Documentation Comments**
+**MUST DOUBLE CHECK FOR ALL RULES**
+
+## XML Documentation Rules
 
 - Public members should be documented with XML comments.
 - It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
@@ -13,7 +18,6 @@
 - Use `<param>` for method parameters.
 - Use `<paramref>` to reference parameters in documentation.
 - Use `<returns>` for method return values.
-- Use `<remarks>` for additional information, which can include implementation details, usage notes, or any other relevant context.
 - Use `<exception>` to document exceptions thrown by methods.
 - Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
 - Use `<see cref>` to reference other types or members inline (in a sentence).
@@ -24,46 +28,3 @@
 - Use `<typeparamref>` to reference type parameters in documentation.
 - Use `<c>` for inline code snippets.
 - Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
-
-# C# Async Programming Best Practices
-
-Your goal is to help me follow best practices for asynchronous programming in C#.
-
-## Naming Conventions
-
-- Use the 'Async' suffix for all async methods
-- Match method names with their synchronous counterparts when applicable (e.g., `GetDataAsync()` for `GetData()`)
-
-## Return Types
-
-- Return `Task<T>` when the method returns a value
-- Return `Task` when the method doesn't return a value
-- Consider `ValueTask<T>` for high-performance scenarios to reduce allocations
-- Avoid returning `void` for async methods except for event handlers
-
-## Exception Handling
-
-- Use try/catch blocks around await expressions
-- Avoid swallowing exceptions in async methods
-- Use `ConfigureAwait(false)` when appropriate to prevent deadlocks in library code
-- Propagate exceptions with `Task.FromException()` instead of throwing in async Task returning methods
-
-## Performance
-
-- Use `Task.WhenAll()` for parallel execution of multiple tasks
-- Use `Task.WhenAny()` for implementing timeouts or taking the first completed task
-- Avoid unnecessary async/await when simply passing through task results
-- Consider cancellation tokens for long-running operations
-
-## Common Pitfalls
-
-- Never use `.Wait()`, `.Result`, or `.GetAwaiter().GetResult()` in async code
-- Avoid mixing blocking and async code
-- Don't create async void methods (except for event handlers)
-- Always await Task-returning methods
-
-## Implementation Patterns
-
-- Implement the async command pattern for long-running operations
-- Use async streams (IAsyncEnumerable<T>) for processing sequences asynchronously
-- Consider the task-based asynchronous pattern (TAP) for public APIs

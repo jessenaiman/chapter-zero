@@ -62,32 +62,32 @@ public partial class Inventory : Resource
         /// <summary>
         /// A key item, typically used to unlock doors or chests.
         /// </summary>
-        Key,
+        Key = 0,
 
         /// <summary>
         /// A coin item, representing currency or collectible value.
         /// </summary>
-        Coin,
+        Coin = 1,
 
         /// <summary>
         /// A bomb item, used for explosive actions or puzzles.
         /// </summary>
-        Bomb,
+        Bomb = 2,
 
         /// <summary>
         /// A red wand item, representing a magical tool with specific abilities.
         /// </summary>
-        RedWand,
+        RedWand = 3,
 
         /// <summary>
         /// A blue wand item, representing a magical tool with specific abilities.
         /// </summary>
-        BlueWand,
+        BlueWand = 4,
 
         /// <summary>
         /// A green wand item, representing a magical tool with specific abilities.
         /// </summary>
-        GreenWand,
+        GreenWand = 5,
     }
 
     /// <summary>

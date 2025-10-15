@@ -10,13 +10,13 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum DreamweaverType
     {
         /// <summary>Hero thread - sacrifice and wisdom.</summary>
-        Light,
+        Light = 0,
 
         /// <summary>Ambition thread - chaos and transformation.</summary>
-        Mischief,
+        Mischief = 1,
 
         /// <summary>Shadow thread - power and consequence.</summary>
-        Wrath,
+        Wrath = 2,
     }
 
     /// <summary>
@@ -25,13 +25,13 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum DreamweaverThread
     {
         /// <summary>Light-aligned choices.</summary>
-        Hero,
+        Hero = 0,
 
         /// <summary>Wrath-aligned choices.</summary>
-        Shadow,
+        Shadow = 1,
 
         /// <summary>Mischief-aligned choices.</summary>
-        Ambition,
+        Ambition = 2,
     }
 
     /// <summary>
@@ -40,25 +40,25 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum CharacterClass
     {
         /// <summary>Warrior class.</summary>
-        Fighter,
+        Fighter = 0,
 
         /// <summary>Magic user class.</summary>
-        Mage,
+        Mage = 1,
 
         /// <summary>Healing class.</summary>
-        Priest,
+        Priest = 2,
 
         /// <summary>Stealth class.</summary>
-        Thief,
+        Thief = 3,
 
         /// <summary>Support class.</summary>
-        Bard,
+        Bard = 4,
 
         /// <summary>Holy warrior class.</summary>
-        Paladin,
+        Paladin = 5,
 
         /// <summary>Nature warrior class.</summary>
-        Ranger,
+        Ranger = 6,
     }
 
     /// <summary>
@@ -67,22 +67,22 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum CharacterRace
     {
         /// <summary>Human race.</summary>
-        Human,
+        Human = 0,
 
         /// <summary>Elf race.</summary>
-        Elf,
+        Elf = 1,
 
         /// <summary>Dwarf race.</summary>
-        Dwarf,
+        Dwarf = 2,
 
         /// <summary>Gnome race.</summary>
-        Gnome,
+        Gnome = 3,
 
         /// <summary>Halfling race.</summary>
-        Halfling,
+        Halfling = 4,
 
         /// <summary>Half-Elf race.</summary>
-        HalfElf,
+        HalfElf = 5,
     }
 
     /// <summary>
@@ -91,13 +91,13 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum ObjectType
     {
         /// <summary>Door object.</summary>
-        Door,
+        Door = 0,
 
         /// <summary>Monster object.</summary>
-        Monster,
+        Monster = 1,
 
         /// <summary>Treasure chest object.</summary>
-        Chest,
+        Chest = 2,
     }
 
     /// <summary>
@@ -106,21 +106,21 @@ namespace OmegaSpiral.Source.Scripts.Common
     public enum TileType
     {
         /// <summary>Wall tile (impassable).</summary>
-        Wall,
+        Wall = 0,
 
         /// <summary>Floor tile (walkable).</summary>
-        Floor,
+        Floor = 1,
 
         /// <summary>Door tile.</summary>
-        Door,
+        Door = 2,
 
         /// <summary>Key tile.</summary>
-        Key,
+        Key = 3,
 
         /// <summary>Treasure tile.</summary>
-        Treasure,
+        Treasure = 4,
 
         /// <summary>Exit tile.</summary>
-        Exit,
+        Exit = 5,
     }
 }

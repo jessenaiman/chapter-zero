@@ -10,10 +10,10 @@ public enum BattlerDirection
     /// <summary>
     /// The battler faces toward the left side of the screen.
     /// </summary>
-    Left,
+    Left = 0,
 
     /// <summary>
     /// The battler faces toward the right side of the screen.
     /// </summary>
-    Right,
+    Right = 1,
 }

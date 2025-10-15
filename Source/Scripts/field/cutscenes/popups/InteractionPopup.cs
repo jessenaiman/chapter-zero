@@ -40,22 +40,22 @@ public partial class InteractionPopup : UIPopup
         /// <summary>
         /// The combat emote type.
         /// </summary>
-        Combat,
+        Combat = 0,
 
         /// <summary>
         /// The empty emote type.
         /// </summary>
-        Empty,
+        Empty = 1,
 
         /// <summary>
         /// The exclamation emote type.
         /// </summary>
-        Exclamation,
+        Exclamation = 2,
 
         /// <summary>
         /// The question emote type.
         /// </summary>
-        Question,
+        Question = 3,
     }
 
     /// <summary>

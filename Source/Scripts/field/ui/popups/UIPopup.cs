@@ -26,19 +26,19 @@ public partial class UIPopup : Node2D
         /// <summary>
         /// The popup is not visible.
         /// </summary>
-        Hidden,
+        Hidden = 0,
         /// <summary>
         /// The popup is fully visible and idle.
         /// </summary>
-        Shown,
+        Shown = 1,
         /// <summary>
         /// The popup is in the process of disappearing.
         /// </summary>
-        Hiding,
+        Hiding = 2,
         /// <summary>
         /// The popup is in the process of appearing.
         /// </summary>
-        Showing,
+        Showing = 3,
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public partial class UIPopup : Node2D
     /// </remarks>
     protected bool IsShown
     {
-        get;
+        get => field;
         set
         {
             field = value;

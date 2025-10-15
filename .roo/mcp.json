@@ -32,7 +32,8 @@
         "get_project_info",
         "stop_project",
         "launch_editor",
-        "list_projects"
+        "list_projects",
+        "run_project"
       ]
     },
     "brave-search": {

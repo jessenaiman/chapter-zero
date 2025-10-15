@@ -18,7 +18,7 @@ config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/show_image=false
-config/icon="uid://cb0tfa5vcg2tg"
+#config/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
@@ -45,7 +45,7 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/yaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/yaml/plugin.cfg")
 
 [gui]
 

@@ -31,7 +31,7 @@ A narrative-driven Godot game blending retro aesthetics (DOS terminals, NetHack 
 ### Recommended Tools
 
 - **Visual Studio Code** or **Rider** for C# development
-- **Git LFS**: For handling large assets (if needed)
+- **Min0**: For handling large assets (if needed)
 
 ## Setup Instructions
 

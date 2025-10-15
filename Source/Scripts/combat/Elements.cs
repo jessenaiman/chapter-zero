@@ -19,22 +19,22 @@ public partial class Elements : RefCounted
         /// <summary>
         /// No element type.
         /// </summary>
-        None,
+        None = 0,
 
         /// <summary>
         /// Bug element type.
         /// </summary>
-        Bug,
+        Bug = 1,
 
         /// <summary>
         /// Break element type.
         /// </summary>
-        Break,
+        Break = 2,
 
         /// <summary>
         /// Seek element type.
         /// </summary>
-        Seek,
+        Seek = 3,
     }
 
     /// <summary>

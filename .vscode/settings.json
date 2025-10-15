@@ -16,8 +16,11 @@
     "files.include": {
         ".godot/mono/temp/obj/Debug/Godot.SourceGenerators/**": true
     },
-    "dotnet-test-explorer.testProjectPath": "chapter-zero.sln",
-    "dotnet-test-explorer.testAssemblyPath": "Tests",
+    "dotnet-test-explorer.testProjectPath": "OmegaSpiral.sln",
+    "dotnet-test-explorer.testAssemblyPath": "Tests/bin/Debug/net8.0",
     "dotnet-test-explorer.showCodeLens": true,
-    "dotnet-test-explorer.showTestExplorer": true
+    "dotnet-test-explorer.showTestExplorer": true,
+    "omnisharp.useModernNet": true,
+    "dotnet.server.useOmnisharp": false,
+    "chatgpt.commentCodeLensEnabled": true
 }

@@ -38,3 +38,4 @@ Thumbs.db
 *.log
 
 godot-open-rpg
+*.nuget.cache

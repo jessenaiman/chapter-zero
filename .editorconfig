@@ -46,7 +46,7 @@ dotnet_diagnostic.RCS1003.severity = error    # Add braces to if-else
 dotnet_diagnostic.RCS1018.severity = error    # Add accessibility modifiers
 dotnet_diagnostic.RCS1021.severity = error    # Simplify lazy initialization
 dotnet_diagnostic.RCS1036.severity = error    # Remove redundant empty line
-dotnet_diagnostic.RCS1046.severity = none     # Method name should not match parameter name (disable for flexibility)
+dotnet_diagnostic.RCS1046.severity = error  # Method name should not match parameter name (disable for flexibility)
 dotnet_diagnostic.RCS1051.severity = error    # Parentheses should not be used
 dotnet_diagnostic.RCS1073.severity = error    # Convert if to return statement
 dotnet_diagnostic.RCS1085.severity = error    # Use auto-implemented property
@@ -89,7 +89,7 @@ dotnet_diagnostic.RCS1197.severity = none     # Optimize StringBuilder usage (pe
 dotnet_diagnostic.RCS1201.severity = none     # Use pattern matching (already enabled via csharp_style)
 dotnet_diagnostic.RCS1217.severity = none     # Convert interpolated string to concatenation (style preference)
 dotnet_diagnostic.RCS1220.severity = none     # Use pattern matching to check for null (style preference)
-dotnet_diagnostic.RCS1239.severity = warning  # Use 'for' statement instead of 'foreach' (performance vs readability)
+dotnet_diagnostic.RCS1239.severity = none     # Use 'for' statement instead of 'foreach' (performance vs readability)
 dotnet_diagnostic.RCS1243.severity = none     # Duplicate word in comment (may be intentional)
 
 # Async and Performance Rules (align with .NET guidelines)

@@ -12,51 +12,51 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <summary>
         /// General information entry.
         /// </summary>
-        Info,
+        Info = 0,
 
         /// <summary>
         /// Damage dealt entry.
         /// </summary>
-        Damage,
+        Damage = 1,
 
         /// <summary>
         /// Healing received entry.
         /// </summary>
-        Heal,
+        Heal = 2,
 
         /// <summary>
         /// Attack missed entry.
         /// </summary>
-        Miss,
+        Miss = 3,
 
         /// <summary>
         /// Action performed entry.
         /// </summary>
-        Action,
+        Action = 4,
 
         /// <summary>
         /// Status effect applied entry.
         /// </summary>
-        StatusEffect,
+        StatusEffect = 5,
 
         /// <summary>
         /// Battler defeated entry.
         /// </summary>
-        Defeated,
+        Defeated = 6,
 
         /// <summary>
         /// Milestone achieved entry.
         /// </summary>
-        Milestone,
+        Milestone = 7,
 
         /// <summary>
         /// Breakthrough achieved entry.
         /// </summary>
-        Breakthrough,
+        Breakthrough = 8,
 
         /// <summary>
         /// System message entry.
         /// </summary>
-        System,
+        System = 9,
     }
 }

@@ -28,22 +28,22 @@ public partial class Directions : RefCounted
         /// <summary>
         /// The north cardinal direction.
         /// </summary>
-        North,
+        North = 0,
 
         /// <summary>
         /// The east cardinal direction.
         /// </summary>
-        East,
+        East = 1,
 
         /// <summary>
         /// The south cardinal direction.
         /// </summary>
-        South,
+        South = 2,
 
         /// <summary>
         /// The west cardinal direction.
         /// </summary>
-        West,
+        West = 3,
     }
 
     /// <summary>

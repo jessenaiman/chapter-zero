@@ -61,12 +61,12 @@ namespace OmegaSpiral.Source.Scripts
 
         private enum PromptKind
         {
-            None,
-            InitialChoice,
-            StoryChoice,
-            Freeform,
-            PlayerName,
-            Secret,
+            None = 0,
+            InitialChoice = 1,
+            StoryChoice = 2,
+            Freeform = 3,
+            PlayerName = 4,
+            Secret = 5,
         }
 
         /// <summary>

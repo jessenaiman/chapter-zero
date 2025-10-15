@@ -13,7 +13,7 @@
     <SourceRoot Include="/home/adam/.nuget/packages/" />
   </ItemGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Content Include="$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net9.0/LICENSE" Condition="Exists('$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net9.0/LICENSE')">
+    <Content Include="$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net8.0/LICENSE" Condition="Exists('$(NuGetPackageRoot)gdunit4.api/5.0.0/contentFiles/any/net8.0/LICENSE')">
       <NuGetPackageId>gdUnit4.api</NuGetPackageId>
       <NuGetPackageVersion>5.0.0</NuGetPackageVersion>
       <NuGetItemType>Content</NuGetItemType>
@@ -23,9 +23,9 @@
     </Content>
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Platform.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Platform.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net8.0/Microsoft.Testing.Platform.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.platform/1.9.0/buildTransitive/net8.0/Microsoft.Testing.Platform.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.testing.platform.msbuild/1.9.0/buildTransitive/Microsoft.Testing.Platform.MSBuild.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.platform.msbuild/1.9.0/buildTransitive/Microsoft.Testing.Platform.MSBuild.props')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.testing.extensions.telemetry/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.extensions.telemetry/1.9.0/buildTransitive/net9.0/Microsoft.Testing.Extensions.Telemetry.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.testing.extensions.telemetry/1.9.0/buildTransitive/net8.0/Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('$(NuGetPackageRoot)microsoft.testing.extensions.telemetry/1.9.0/buildTransitive/net8.0/Microsoft.Testing.Extensions.Telemetry.props')" />
     <Import Project="$(NuGetPackageRoot)nunit3testadapter/5.2.0/build/netcoreapp3.1/NUnit3TestAdapter.props" Condition="Exists('$(NuGetPackageRoot)nunit3testadapter/5.2.0/build/netcoreapp3.1/NUnit3TestAdapter.props')" />
     <Import Project="$(NuGetPackageRoot)nunit/4.4.0/build/NUnit.props" Condition="Exists('$(NuGetPackageRoot)nunit/4.4.0/build/NUnit.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.analyzers/3.11.0/buildTransitive/Microsoft.CodeAnalysis.Analyzers.props')" />
