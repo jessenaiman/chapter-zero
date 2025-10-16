@@ -1,0 +1,10 @@
+{
+  "type": "field_combat",
+  "title": "Town & Tactics",
+  "description": "Return to the original Omega Spiral prototype: explore the town hub, recruit your party, and clash in classic turn-based combat.",
+  "scene": "Scene5FieldCombat",
+  "resources": {
+    "fieldScene": "res://Source/Scenes/Scene5FieldCombat.tscn",
+    "combatAssets": "res://Source/combat"
+  }
+}

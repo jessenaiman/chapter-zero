@@ -26,8 +26,8 @@
     },
     {
       "id": 5,
-      "type": "pixel_combat",
-      "path": "scene5_ff_combat",
+      "type": "field_combat",
+      "path": "scene5_field_combat",
       "supportsThreads": false
     }
   ]

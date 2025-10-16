@@ -26,6 +26,15 @@ SceneManager="*res://Source/Scripts/SceneManager.cs"
 GameState="*res://Source/Scripts/common/GameState.cs"
 NarratorEngine="*res://Source/Scripts/field/narrative/NarratorEngine.cs"
 DreamweaverSystem="*res://Source/Scripts/field/narrative/DreamweaverSystem.cs"
+FieldEvents="*res://Source/Scripts/field/FieldEvents.cs"
+FieldCamera="*res://Source/Scripts/field/FieldCamera.cs"
+Gameboard="*res://Source/Scripts/field/gameboard/Gameboard.cs"
+GamepieceRegistry="*res://Source/Scripts/field/gamepieces/GamepieceRegistry.cs"
+Player="*res://Source/Scripts/common/Player.cs"
+CombatEvents="*res://Source/Scripts/combat/CombatEvents.cs"
+Music="*res://Source/Scripts/common/music/MusicPlayer.tscn"
+Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn"
+Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 [display]
 
