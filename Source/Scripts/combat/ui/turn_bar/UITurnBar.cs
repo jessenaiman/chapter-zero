@@ -1,15 +1,18 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
+
 // <copyright file="UITurnBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Displays the timeline representing the turn order of all battlers in the arena.
 /// Battler icons move along the timeline in real-time as their readiness updates.
 /// </summary>
+[GlobalClass]
 public partial class UITurnBar : Control
 {
     private PackedScene? iconScene;

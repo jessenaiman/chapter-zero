@@ -1,13 +1,13 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
+
 // <copyright file="Gameboard.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using OmegaSpiral;
-using OmegaSpiral.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 /// <summary>
 /// Defines the playable area of the game and where everything on it lies.

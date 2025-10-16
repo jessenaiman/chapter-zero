@@ -1,11 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+
 // <copyright file="UIBattlerEntry.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// An entry in the <see cref="UIPlayerBattlerList"/> for one of the player's <see cref="Battler"/>s.

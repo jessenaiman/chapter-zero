@@ -1,50 +1,48 @@
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
+
 // <copyright file="DoorTrigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
-using OmegaSpiral.Field.Cutscenes;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 
-namespace OmegaSpiral.Field.Cutscenes.Templates.Doors
+/// <summary>
+/// A trigger that plays an animation when an area enters its trigger zone.
+/// This is typically used for door objects that open when the player approaches.
+/// </summary>
+[GlobalClass]
+public partial class DoorTrigger : Trigger
 {
     /// <summary>
-    /// A trigger that plays an animation when an area enters its trigger zone.
-    /// This is typically used for door objects that open when the player approaches.
+    /// Gets or sets the AnimationPlayer node that handles the door opening/closing animations.
     /// </summary>
-    [GlobalClass]
-    public partial class DoorTrigger : Trigger
+    [Export]
+    public AnimationPlayer? Anim { get; set; }
+
+    /// <inheritdoc/>
+    public override void _Ready()
     {
-        /// <summary>
-        /// Gets or sets the AnimationPlayer node that handles the door opening/closing animations.
-        /// </summary>
-        [Export]
-        public AnimationPlayer? Anim { get; set; }
+        base._Ready();
 
-        /// <inheritdoc/>
-        public override void _Ready()
+        // Validate that the AnimationPlayer reference is set
+        if (this.Anim == null)
         {
-            base._Ready();
-
-            // Validate that the AnimationPlayer reference is set
-            if (this.Anim == null)
-            {
-                GD.PrintErr($"{this.Name} error: AnimationPlayer reference is not set!");
-            }
+            GD.PrintErr($"{this.Name} error: AnimationPlayer reference is not set!");
         }
+    }
 
-        /// <summary>
-        /// Activate the door trigger's logic.
-        /// Plays the "open" animation when triggered.
-        /// </summary>
-        /// <param name="_">The object that triggered this door (unused).</param>
-        public void Activate(Node2D _)
+    /// <summary>
+    /// Activate the door trigger's logic.
+    /// Plays the "open" animation when triggered.
+    /// </summary>
+    /// <param name="_">The object that triggered this door (unused).</param>
+    public void Activate(Node2D _)
+    {
+        // Play the open animation if the animation player is set
+        if (this.Anim != null)
         {
-            // Play the open animation if the animation player is set
-            if (this.Anim != null)
-            {
-                this.Anim.Play("open");
-            }
+            this.Anim.Play("open");
         }
     }
 }

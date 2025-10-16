@@ -1,9 +1,11 @@
+namespace OmegaSpiral.Source.Scripts.Common;
+
 // <copyright file="Player.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 /// <summary>
 /// An autoload that provides easy access to the player's state, including both Combat and Field

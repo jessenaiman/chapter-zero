@@ -3,12 +3,29 @@
 This file provides guidance to agents when working with code in this repository.
 
 ## Technology Stack
+
 - **Engine**: Godot 4.5.1 RC (/home/adam/Godot_v4.5.1-rc2_mono_linux_x86_64) with .NET/Mono support
 - **Language**: C# 14 (using .NET 8.0) with preview language features
 - **AI Integration**: NobodyWho plugin for local LLM inference
 - **Testing**: GDUnit
 
-# C# style guide
+## C# style guide
+
+Note: In Godot 4+, use the [GlobalClass] attribute on classes that need to be
+visible in the Godot editor. This allows proper C# namespace usage while
+maintaining editor integration.
+
+ Example:
+
+```cs
+   namespace OmegaSpiral.Combat;
+
+   [GlobalClass]
+   public partial class MyNode : Node
+   {
+       // ...
+   }
+```
 
 =============
 
@@ -46,11 +63,11 @@ For detailed information on C# features in different versions, please see
 
 ----------------------
 
-* Use line feed (**LF**) characters to break lines, not CRLF or CR.
-* Use one line feed character at the end of each file, except for `csproj` files.
-* Use **UTF-8** encoding without a `byte order mark <https://en.wikipedia.org/wiki/Byte_order_mark>`_.
-* Use **4 spaces** instead of tabs for indentation (which is referred to as "soft tabs").
-* Consider breaking a line into several if it's longer than 100 characters.
+- Use line feed (**LF**) characters to break lines, not CRLF or CR.
+- Use one line feed character at the end of each file, except for `csproj` files.
+- Use **UTF-8** encoding without a `byte order mark <https://en.wikipedia.org/wiki/Byte_order_mark>`_.
+- Use **4 spaces** instead of tabs for indentation (which is referred to as "soft tabs").
+- Consider breaking a line into several if it's longer than 100 characters.
 
 ### Line breaks and blank lines
 
@@ -58,9 +75,7 @@ For a general indentation rule, follow `the "Allman Style" <https://en.wikipedia
 which recommends placing the brace associated with a control statement on the next line, indented to
 the same level:
 
-.. code-block:: csharp
-
-    // Use this style:
+```csharp
     if (x > 0)
     {
         DoSomething();
@@ -70,16 +85,18 @@ the same level:
     if (x > 0) {
         DoSomething();
     }
+```
 
 However, you may choose to omit line breaks inside brackets:
 
-* For simple property accessors.
-* For simple object, array, or collection initializers.
-* For abstract auto property, indexer, or event declarations.
+- For simple property accessors.
+- For simple object, array, or collection initializers.
+- For abstract auto property, indexer, or event declarations.
 
 .. code-block:: csharp
 
-    // You may put the brackets in a single line in following cases:
+**    ```csharp
+    // You may put the brackets in a single line in the following cases:
     public interface MyInterface
     {
         int MyProperty { get; set; }
@@ -92,84 +109,87 @@ However, you may choose to omit line breaks inside brackets:
             get { return 0; }
             set
             {
-                ArrayValue = new [] {value};
+                ArrayValue = new[] { value };
             }
         }
     }
+    ```
 
-Insert a blank line:
+    Insert a blank line:
 
-* After a list of ``using`` statements.
-* Between method, properties, and inner type declarations.
-* At the end of each file.
+    - After a list of `using` statements.
+    - Between method, property, and inner type declarations.
+    - At the end of each file.
 
-Field and constant declarations can be grouped together according to relevance. In that case, consider
-inserting a blank line between the groups for easier reading.
+    Field and constant declarations can be grouped together according to relevance. In that case, consider inserting a blank line between the groups for easier reading.
 
-Avoid inserting a blank line:
+    Avoid inserting a blank line:
 
-* After ``{``, the opening brace.
-* Before ``}``, the closing brace.
-* After a comment block or a single-line comment.
-* Adjacent to another blank line.
+    - After `{` (the opening brace).
+    - Before `}` (the closing brace).
+    - After a comment block or a single-line comment.
+    - Adjacent to another blank line.
 
-using System;
-using Godot;
-                                            // Blank line after `using` list.
-public class MyClass
-{                                         // No blank line after `{`.
-    public enum MyEnum
-    {
-        Value,
-        AnotherValue                      // No blank line before `}`.
+    ```csharp
+    using System;
+    using Godot;
+
+    // Blank line after `using` list.
+    public class MyClass
+    { // No blank line after `{`.
+        public enum MyEnum
+        {
+            Value,
+            AnotherValue // No blank line before `}`.
+        }
+
+        // Blank line around inner types.
+        public const int SomeConstant = 1;
+        public const int AnotherConstant = 2;
+
+        private Vector3 _x; // Related constants or fields can be
+        private Vector3 _y; // grouped together.
+
+        private float _width;
+        private float _height;
+
+        public int MyProperty { get; set; } // Blank line around properties.
+
+        public void MyMethod()
+        {
+            // Some comment.
+            AnotherMethod(); // No blank line after a comment.
+        } // Blank line around methods.
+
+        public void AnotherMethod()
+        {
+        }
     }
-                                            // Blank line around inner types.
-    public const int SomeConstant = 1;
-    public const int AnotherConstant = 2;
+    ```
 
-    private Vector3 _x;                  // Related constants or fields can be
-    private Vector3 _y;                  // grouped together.
+    ### Using spaces
 
-    private float _width;
-    private float _height;
+    Insert a space:
 
-    public int MyProperty { get; set; }
-                                            // Blank line around properties.
-    public void MyMethod()
-    {
-        // Some comment.
-        AnotherMethod();                  // No blank line after a comment.
-    }
-                                            // Blank line around methods.
-    public void AnotherMethod()
-    {
-    }
-}
+    - Around a binary and ternary operator.
+    - Between an opening parenthesis and `if`, `for`, `foreach`, `catch`, `while`, `lock`, or `using` keywords.
+    - Before and within a single-line accessor block.
+    - Between accessors in a single-line accessor block.
+    - After a comma that is not at the end of a line.
+    - After a semicolon in a `for` statement.
+    - After a colon in a single-line `case` statement.
+    - Around a colon in a type declaration.
+    - Around a lambda arrow.
+    - After the single-line comment symbol (`//`), and before it if used at the end of a line.
+    - After the opening brace, and before the closing brace in a single-line initializer.
 
-### Using spaces
+    Do not use a space:
 
-Insert a space:
+    - After type cast parentheses.
 
-* Around a binary and ternary operator.
-* Between an opening parenthesis and ``if``, ``for``, ``foreach``, ``catch``, ``while``, ``lock`` or ``using`` keywords.
-* Before and within a single line accessor block.
-* Between accessors in a single line accessor block.
-* After a comma which is not at the end of a line.
-* After a semicolon in a ``for`` statement.
-* After a colon in a single line ``case`` statement.
-* Around a colon in a type declaration.
-* Around a lambda arrow.
-* After a single-line comment symbol (``//``), and before it if used at the end of a line.
-* After the opening brace, and before the closing brace in a single line initializer.
+    The following example shows a proper use of spaces, according to some of the above conventions:
 
-Do not use a space:
-
-* After type cast parentheses.
-
-The following example shows a proper use of spaces, according to some of the above mentioned conventions:
-
-.. code-block:: csharp
-
+    ```csharp
     public class MyClass<A, B> : Parent<A, B>
     {
         public float MyProperty { get; set; }
@@ -199,14 +219,13 @@ The following example shows a proper use of spaces, according to some of the abo
             i += (int)MyProperty; // No space after a type cast.
         }
     }
+    ```
 
-### Naming conventions
+    ### Naming conventions
 
-Use **PascalCase** for all namespaces, type names and member level identifiers (i.e. methods, properties,
-constants, events), except for private fields:
+    Use PascalCase for all namespaces, type names, and member-level identifiers (methods, properties, constants, events), except for private fields:
 
-.. code-block:: csharp
-
+    ```csharp
     namespace ExampleProject
     {
         public class PlayerCharacter
@@ -222,12 +241,11 @@ constants, events), except for private fields:
             }
         }
     }
+    ```
 
-Use **camelCase** for all other identifiers (i.e. local variables, method arguments), and use
-an underscore (``_``) as a prefix for private fields (but not for methods or properties, as explained above):
+    Use camelCase for all other identifiers (local variables, method arguments), and use an underscore (`_`) as a prefix for private fields (but not for methods or properties):
 
-.. code-block:: csharp
-
+    ```csharp
     private Vector3 _aimingAt; // Use an `_` prefix for private fields.
 
     private void Attack(float attackStrength)
@@ -236,60 +254,46 @@ an underscore (``_``) as a prefix for private fields (but not for methods or pro
 
         targetFound?.Hit(attackStrength);
     }
+    ```
 
-There's an exception with acronyms which consist of two letters, like ``UI``, which should be written in
-uppercase letters where PascalCase would be expected, and in lowercase letters otherwise.
+    There's an exception for two-letter acronyms (e.g., `UI`), which should be uppercase where PascalCase is expected and lowercase otherwise.
 
-Note that ``id`` is **not** an acronym, so it should be treated as a normal identifier:
+    Note that `id` is not an acronym and should be treated as a normal identifier:
 
-.. code-block:: csharp
-
+    ```csharp
     public string Id { get; }
 
     public UIManager UI
     {
         get { return uiManager; }
     }
+    ```
 
-It is generally discouraged to use a type name as a prefix of an identifier, like ``string strText``
-or ``float fPower``, for example. An exception is made, however, for interfaces, which
-**should**, in fact, have an uppercase letter ``I`` prefixed to their names, like ``IInventoryHolder`` or ``IDamageable``.
+    It is generally discouraged to use a type name as a prefix of an identifier (for example, `string strText`). An exception is interfaces, which should be prefixed with `I` (for example, `IInventoryHolder` or `IDamageable`).
 
-Lastly, consider choosing descriptive names and do not try to shorten them too much if it affects
-readability.
+    Lastly, prefer descriptive names over excessive shortening when it impacts readability.
 
-For instance, if you want to write code to find a nearby enemy and hit it with a weapon, prefer:
+    ### Implicitly typed local variables
 
-.. code-block:: csharp
+    Consider using implicit typing (`var`) for local variables only when the type is evident from the right side of the assignment.
 
-    FindNearbyEnemy()?.Damage(weaponDamage);
-
-Rather than:
-
-.. code-block:: csharp
-
-    FindNode()?.Change(wpnDmg);
-
-### Member variables
-
-Don't declare member variables if they are only used locally in a method, as it
-makes the code more difficult to follow. Instead, declare them as local
-variables in the method's body.
-
-### Local variables
-
-Declare local variables as close as possible to their first use. This makes it
-easier to follow the code, without having to scroll too much to find where the
-variable was declared.
-
-### Implicitly typed local variables
-
-Consider using implicitly typing (``var``) for declaration of a local variable, but do so
-**only when the type is evident** from the right side of the assignment:
-
-.. code-block:: csharp
-
+    ```csharp
     // You can use `var` for these cases:
+    var direction = new Vector2(1, 0);
+    var value = (int)speed;
+    var text = "Some value";
+
+    for (var i = 0; i < 10; i++)
+    {
+    }
+
+    // But not for these:
+    var valueFromMethod = GetValue();
+    var velocity = direction * 1.5;
+
+    // It's generally better to use explicit typing for numeric literals where ambiguity exists:
+    var numericValue = 1.5;
+    ```
 
     var direction = new Vector2(1, 0);
 
@@ -315,32 +319,34 @@ Consider using implicitly typing (``var``) for declaration of a local variable, 
 
 ### Other considerations
 
-* Use explicit access modifiers.
-* Use properties instead of non-private fields.
-* Use modifiers in this order:
+- Use explicit access modifiers.
+- Use properties instead of non-private fields.
+- Use modifiers in this order:
    ``public``/``protected``/``private``/``internal``/``virtual``/``override``/``abstract``/``new``/``static``/``readonly``.
-* Avoid using fully-qualified names or ``this.`` prefix for members when it's not necessary.
-* Remove unused ``using`` statements and unnecessary parentheses.
-* Consider omitting the default initial value for a type.
-* Consider using null-conditional operators or type initializers to make the code more compact.
-* Use safe cast when there is a possibility of the value being a different type, and use direct cast otherwise.
-
+- Avoid using fully-qualified names or ``this.`` prefix for members when it's not necessary.
+- Remove unused ``using`` statements and unnecessary parentheses.
+- Consider omitting the default initial value for a type.
+- Consider using null-conditional operators or type initializers to make the code more compact.
+- Use safe cast when there is a possibility of the value being a different type, and use direct cast otherwise.
 
 ## Build/Lint/Test Commands
 
 ### Build Commands
+
 ```bash
 dotnet build  # Standard build
 dotnet build --warnaserror  # Enforce warnings as errors
 ```
 
 ### Test Commands
+
 ```bash
 dotnet test  # Run all tests
 # Note: Some tests require Godot runtime and must be run through Godot's test runner or GdUnit4
 ```
 
 ### Lint/Format Commands
+
 ```bash
 dotnet format  # Format code
 dotnet format --verify-no-changes # Verify formatting without changes
@@ -348,6 +354,7 @@ dotnet build --warnaserror # Static analysis with Roslyn/StyleCop analyzers
 ```
 
 ### Pre-commit Checks (automatically enforced)
+
 1. Code formatting: `dotnet format --verify-no-changes`
 2. Static analysis: `dotnet build --warnaserror`
 3. Tests: `dotnet test`
@@ -356,22 +363,26 @@ dotnet build --warnaserror # Static analysis with Roslyn/StyleCop analyzers
 ## Code Style & Conventions
 
 ### Non-Obvious Patterns
+
 - **Godot C# Integration**: Use `Godot.Collections.Dictionary` and `Godot.Collections.Array` for signal parameters, not System.Collections
 - **Type Aliases**: `Range = Godot.Range`, `Timer = Godot.Timer` to resolve System/Godot conflicts
 - **Singleton Autoloads**: SceneManager and GameState are autoloaded singletons defined in project.godot
 - **Scene Transitions**: Use SceneManager.TransitionToScene() for all scene changes (not direct Godot methods)
 
 ### XML Documentation Required
+
 - All public members must have XML documentation comments
 - Use `<inheritdoc/>` for overriding methods when behavior is unchanged
 - Document exceptions with `<exception>` tags
 
 ### Async Programming
+
 - Use 'Async' suffix for all async methods
 - Avoid `.Wait()`, `.Result`, or `.GetAwaiter().GetResult()` in async code
 - Use `Task.WhenAll()` for parallel execution
 
 ### Godot-Specific Conventions
+
 - Use PascalCase for Godot signals and node paths
 - Access Godot built-in types through Godot namespace (not System)
 - Use `GD.Print()` for logging, not Console.WriteLine()

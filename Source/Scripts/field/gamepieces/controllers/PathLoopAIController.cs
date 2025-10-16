@@ -1,11 +1,13 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
+
 // <copyright file="PathLoopAIController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// AI controller that moves a gamepiece along a looping path defined by a Line2D.
@@ -170,7 +172,7 @@ public partial class PathLoopAIController : GamepieceController
 
             var pathSegment = board.PathFinder.GetPathToCell(source, target);
 
-            if (pathSegment == null || !pathSegment.Any())
+            if (pathSegment == null || pathSegment.Count == 0)
             {
                 GD.PushError($"{this.Name}: Failed to find path between cells {source} and {target}");
                 return false;
@@ -194,7 +196,7 @@ public partial class PathLoopAIController : GamepieceController
         if (lastCell != firstCell)
         {
             var closingPath = board.PathFinder.GetPathToCell(lastCell, firstCell);
-            if (closingPath == null || !closingPath.Any())
+            if (closingPath == null || closingPath.Count == 0)
             {
                 GD.PushError($"{this.Name}: Failed to close loop between {lastCell} and {firstCell}");
                 return false;
@@ -271,10 +273,10 @@ public partial class PathLoopAIController : GamepieceController
     /// <param name="excessDistance"></param>
     protected override void OnGamepieceArriving(float excessDistance)
     {
-        if (this.MovePath.Any() && this.IsActive)
+        if (this.MovePath.Count != 0 && this.IsActive)
         {
             // Fast gamepieces could jump several waypoints at once, so check which waypoint is next
-            while (this.MovePath.Any() && excessDistance > 0.0f)
+            while (this.MovePath.Count != 0 && excessDistance > 0.0f)
             {
                 var nextIndex = this.GetNextWaypointIndex();
                 if ((this.currentWaypointIndex >= 0 && this.MovePath[this.currentWaypointIndex] == this.startCell) ||

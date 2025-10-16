@@ -2,12 +2,18 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+
+using OmegaSpiral.Source.Scripts.Field;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
+
+namespace OmegaSpiral.Field;
 
 /// <summary>
 /// A signal bus to connect distant scenes to various field-exclusive events.
 /// </summary>
+[GlobalClass]
 public partial class FieldEvents : Node
 {
     /// <summary>
@@ -21,7 +27,6 @@ public partial class FieldEvents : Node
     /// </summary>
     /// <param name="cell">The cell position that was highlighted.</param>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellHighlightedEventHandler(Vector2I cell);
 
     /// <summary>
@@ -29,7 +34,6 @@ public partial class FieldEvents : Node
     /// </summary>
     /// <param name="cell">The cell position that was selected.</param>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CellSelectedEventHandler(Vector2I cell);
 
     /// <summary>
@@ -37,7 +41,6 @@ public partial class FieldEvents : Node
     /// </summary>
     /// <param name="interaction">The interaction that was selected.</param>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InteractionSelectedEventHandler(Interaction interaction);
 
     /// <summary>
@@ -46,7 +49,6 @@ public partial class FieldEvents : Node
     /// </summary>
     /// <param name="arena">The packed scene for the combat arena.</param>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CombatTriggeredEventHandler(PackedScene arena);
 
     /// <summary>
@@ -54,14 +56,12 @@ public partial class FieldEvents : Node
     /// character to the cutscene code.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CutsceneBeganEventHandler();
 
     /// <summary>
     /// Emitted when a <see cref="Cutscene"/> ends, restoring normal mode of play.
     /// </summary>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void CutsceneEndedEventHandler();
 
     /// <summary>
@@ -70,7 +70,6 @@ public partial class FieldEvents : Node
     /// </summary>
     /// <param name="isPaused">Whether input is paused (<see langword="true"/>) or resumed (<see langword="false"/>).</param>
     [Signal]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Mark members as static", Justification = "<Pending>")]
     public delegate void InputPausedEventHandler(bool isPaused);
 
     /// <inheritdoc/>

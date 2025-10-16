@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 // <copyright file="Battler.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -5,8 +7,9 @@
 using System;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Actors;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Represents a playable combatant or enemy in battle. Carries out <see cref="BattlerAction"/>s as its <see cref="Readiness"/> charges.
@@ -17,6 +20,7 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// Battlers have <see cref="BattlerAnim"/>ation children which play out the Battler's actions.
 /// </para>
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class Battler : Node2D
 {
@@ -101,7 +105,7 @@ public partial class Battler : Node2D
     /// </remarks>
     [Export]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Required for Godot export system")]
-    public BattlerAction[] Actions { get; set; } = Array.Empty<BattlerAction>();
+    public Godot.Collections.Array<BattlerAction> Actions { get; set; } = new Godot.Collections.Array<BattlerAction>();
 
     /// <summary>
     /// Gets or sets each Battler is shown on the screen by a <see cref="BattlerAnim"/> object. The object is created dynamically

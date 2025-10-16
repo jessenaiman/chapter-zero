@@ -1,10 +1,17 @@
+namespace OmegaSpiral.Source.Overworld.Maps.Town;
+
 // <copyright file="FanInteraction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
-using System.Reflection;
 using OmegaSpiral;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes.Popups;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
+using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// Interaction with the adoring fan NPC.

@@ -12,6 +12,7 @@ namespace OmegaSpiral.Source.Scripts
     using OmegaSpiral.Scripts.Field.Narrative;
     using NarrativeChoiceOption = OmegaSpiral.Source.Scripts.Field.Narrative.ChoiceOption;
     using YamlDotNet.Serialization;
+    using OmegaSpiral.Source.Scripts.Common;
 
     /// <summary>
     /// Main orchestrator for the Dreamweaver LLM system.

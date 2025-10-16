@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
+
 // <copyright file="UIInventory.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
 
 /// <summary>

@@ -1,12 +1,14 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
+
 // <copyright file="GamepieceController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// Base class for controllers that manage Gamepiece movement and interaction.
@@ -14,6 +16,7 @@ using OmegaSpiral;
 /// and responding to player input or AI decisions. They manage movement paths,
 /// collision detection, and interaction with other game objects.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class GamepieceController : Node
 {

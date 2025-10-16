@@ -1,17 +1,18 @@
+namespace OmegaSpiral.Source.Scripts.Common;
+
 // <copyright file="JsonSchemaValidator.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
 
 /// <summary>
 /// Provides functionality to validate JSON data against a specified schema.
 /// </summary>
+[GlobalClass]
 public partial class JsonSchemaValidator : Node
 {
     /// <summary>

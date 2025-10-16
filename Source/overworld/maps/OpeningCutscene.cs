@@ -1,13 +1,18 @@
+namespace OmegaSpiral.Source.Overworld.Maps;
+
 // <copyright file="OpeningCutscene.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 
 /// <summary>
 /// The opening cutscene that plays at the start of the game.
 /// This cutscene shows the introductory dialogue and sets up the initial game state.
 /// </summary>
+[GlobalClass]
 public partial class OpeningCutscene : Cutscene
 {
     /// <summary>

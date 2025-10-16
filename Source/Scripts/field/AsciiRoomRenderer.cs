@@ -1,13 +1,14 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="AsciiRoomRenderer.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts;
-using OmegaSpiral.Source.Scripts.Field;
+using OmegaSpiral.Source.Scripts.Common;
 using YamlDotNet.Serialization;
 
 /// <summary>
@@ -15,6 +16,7 @@ using YamlDotNet.Serialization;
 /// Handles player movement, object interactions, and dungeon progression.
 /// Loads dungeon data from JSON and renders it as ASCII art with collision detection.
 /// </summary>
+[GlobalClass]
 public partial class AsciiRoomRenderer : Node2D
 {
     private Label? asciiDisplay;

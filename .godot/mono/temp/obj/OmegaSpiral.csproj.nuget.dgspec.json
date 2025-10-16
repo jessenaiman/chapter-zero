@@ -29,6 +29,7 @@
           }
         },
         "warningProperties": {
+          "allWarningsAsErrors": true,
           "warnAsError": [
             "NU1605"
           ]
@@ -59,14 +60,6 @@
               "version": "[4.5.1-rc.2, )",
               "autoReferenced": true
             },
-            "NUnit": {
-              "target": "Package",
-              "version": "[4.4.0, )"
-            },
-            "NUnit3TestAdapter": {
-              "target": "Package",
-              "version": "[5.2.0, )"
-            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.4, )"
@@ -88,10 +81,6 @@
             "gdUnit4.api": {
               "target": "Package",
               "version": "[5.0.0, )"
-            },
-            "gdUnit4.test.adapter": {
-              "target": "Package",
-              "version": "[3.0.0, )"
             }
           },
           "imports": [

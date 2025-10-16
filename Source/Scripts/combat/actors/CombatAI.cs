@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
+
 // <copyright file="CombatAI.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -7,14 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Base class for combat artificial intelligence.
 /// CombatAI determines the behavior of non-player Battlers in combat. It chooses actions
 /// and targets based on the Battler's stats, the situation, and the AI's personality.
 /// </summary>
+[GlobalClass]
 public partial class CombatAI : Node
 {
     /// <summary>

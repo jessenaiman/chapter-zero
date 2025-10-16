@@ -1,13 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
+
 // <copyright file="UIDamageLabel.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
 /// An animated combat UI element emphasizing damage done (or healed) to a battler.
 /// </summary>
+[GlobalClass]
 public partial class UIDamageLabel : Marker2D
 {
     /// <summary>

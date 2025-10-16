@@ -1,9 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+
 // <copyright file="UIBattlerLifeBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// An element of the <see cref="UIBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.

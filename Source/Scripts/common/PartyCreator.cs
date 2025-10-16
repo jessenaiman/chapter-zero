@@ -1,17 +1,18 @@
+namespace OmegaSpiral.Source.Scripts.Common;
+
 // <copyright file="PartyCreator.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
-using OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.
 /// Provides UI for selecting character classes, races, and managing party composition.
 /// Integrates with GameState to persist the created party for subsequent scenes.
 /// </summary>
+[GlobalClass]
 public partial class PartyCreator : Node2D
 {
     private PartyData? partyData;

@@ -1,13 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+
 // <copyright file="UIEnergyBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Bar representing a <see cref="Battler"/>'s energy points. Each point is a <see cref="UIEnergyPoint"/>.
 /// </summary>
+[GlobalClass]
 public partial class UIBattlerEnergyBar : Node
 {
     private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://src/combat/ui/battler_entry/ui_energy_point.tscn");

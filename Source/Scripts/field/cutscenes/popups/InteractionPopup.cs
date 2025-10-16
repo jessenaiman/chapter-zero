@@ -1,10 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Popups;
+
 // <copyright file="InteractionPopup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.UI.Popups;
 
 /// <summary>
 /// A <see cref="UIPopup"/> used specifically to mark <see cref="Interaction"/>s and other points of interest for the player.
@@ -12,6 +14,7 @@ using Godot;
 /// InteractionPopups may be added as children to a variety of objects. They respond to the player's
 /// physics layer and show up as an emote bubble when the player is nearby.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class InteractionPopup : UIPopup
 {
@@ -76,9 +79,9 @@ public partial class InteractionPopup : UIPopup
                 return;
             }
 
-            if (this.sprite != null)
+            if (this.Sprite != null)
             {
-                this.sprite.Texture = Emotes.TryGetValue(this.emote, out Texture2D? value1) ? value1 : Emotes[EmoteType.Empty];
+                this.Sprite.Texture = Emotes.TryGetValue(this.emote, out Texture2D? value1) ? value1 : Emotes[EmoteType.Empty];
             }
         }
     }

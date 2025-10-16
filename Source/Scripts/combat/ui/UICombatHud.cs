@@ -1,11 +1,10 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI;
+
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Container for the player combat HUD.
@@ -13,6 +12,7 @@ using OmegaSpiral.Combat.Battlers;
 /// including battler status, health bars, action points, and other real-time combat data.
 /// It provides a heads-up display that helps players make informed decisions during combat.
 /// </summary>
+[GlobalClass]
 public partial class UICombatHud : Control
 {
     /// <summary>

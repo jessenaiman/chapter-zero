@@ -1,18 +1,19 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="TileDungeonController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
-using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Common;
 using YamlDotNet.Serialization;
 
 /// <summary>
 /// Controls the tile-based dungeon functionality, handling player movement, tile interactions, and dungeon state.
 /// </summary>
+[GlobalClass]
 public partial class TileDungeonController : Node2D
 {
     private TileMapLayer? tileMapLayer;

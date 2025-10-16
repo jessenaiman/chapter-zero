@@ -1,10 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
+
 // <copyright file="CombatTurnQueue.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Manages the turn-based combat system, coordinating the sequence of actions between all combat participants.

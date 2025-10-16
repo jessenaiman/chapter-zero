@@ -1,5 +1,3 @@
-using Godot;
-
 namespace OmegaSpiral.Domain.Models
 {
     /// <summary>

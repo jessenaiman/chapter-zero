@@ -1,13 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+
 // <copyright file="UIMenuCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 
 /// <summary>
 /// The cursor of a <see cref="UIListMenu"/>, indicating which option is currently in focus.
 /// </summary>
+[GlobalClass]
 public partial class UIMenuCursor : Marker2D
 {
     /// <summary>

@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Field.UI;
+
 // <copyright file="DialogueWindow.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>

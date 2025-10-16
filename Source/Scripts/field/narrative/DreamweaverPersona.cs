@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Represents an individual Dreamweaver persona that can generate dynamic narrative
@@ -23,6 +24,11 @@ public partial class DreamweaverPersona
     private PersonaConfig config;
     private GameState? gameState;
     private Random random = new();
+
+    /// <summary>
+    /// Reusable JsonSerializerOptions instance for case-insensitive property matching.
+    /// </summary>
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
     /// <summary>
     /// NobodyWho integration
@@ -212,8 +218,7 @@ public partial class DreamweaverPersona
             if (jsonStart >= 0 && jsonEnd > jsonStart)
             {
                 var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, options);
+                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, JsonSerializerOptions);
 
                 if (parsedChoices != null)
                 {

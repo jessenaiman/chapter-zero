@@ -1,9 +1,10 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Animation;
+
 // <copyright file="GamepieceAnimation.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral;
 

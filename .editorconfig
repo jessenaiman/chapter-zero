@@ -93,8 +93,8 @@ dotnet_diagnostic.RCS1239.severity = none     # Use 'for' statement instead of '
 dotnet_diagnostic.RCS1243.severity = none     # Duplicate word in comment (may be intentional)
 
 # Async and Performance Rules (align with .NET guidelines)
-dotnet_diagnostic.RCS1090.severity = warning  # Call 'ConfigureAwait(false)' - warning to allow flexibility
-dotnet_diagnostic.RCS1229.severity = warning  # Use async/await when necessary - warning for review
+dotnet_diagnostic.RCS1090.severity = error  # Call 'ConfigureAwait(false)' - warning to allow flexibility
+dotnet_diagnostic.RCS1229.severity = error  # Use async/await when necessary - warning for review
 
 # Naming Rules (disable to allow flexibility, enforce via code reviews)
 dotnet_diagnostic.RCS1046.severity = none     # Method name should not match parameter name

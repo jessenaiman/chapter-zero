@@ -1,7 +1,10 @@
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
+
 // <copyright file="ConversationTemplate.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using Godot;
 
 /// <summary>
@@ -9,6 +12,7 @@ using Godot;
 /// This class provides a reusable template for creating dialogue interactions
 /// that start a specific timeline and handle Dialogic signals.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class ConversationTemplate : Interaction
 {

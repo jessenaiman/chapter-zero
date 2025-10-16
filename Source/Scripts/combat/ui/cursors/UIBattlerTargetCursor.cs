@@ -1,16 +1,19 @@
-using OmegaSpiral.Source.Scripts.Combat.Actions;
+namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+
 // <copyright file="UIBattlerTargetCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
+using OmegaSpiral.Combat;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Allows the player to choose the targets of a <see cref="BattlerAction"/>.
 /// </summary>
+[GlobalClass]
 public partial class UIBattlerTargetingCursor : Node2D
 {
     /// <summary>

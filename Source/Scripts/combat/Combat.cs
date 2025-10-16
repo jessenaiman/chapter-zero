@@ -1,8 +1,11 @@
+namespace OmegaSpiral.Source.Scripts.Combat;
+
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 
 /// <summary>
 /// Starts and ends combat, and manages the transition between the field game state and the combat game.
@@ -17,15 +20,15 @@ using Godot;
 /// </summary>
 public partial class Combat : CanvasLayer
 {
-    private CombatArena? activeArena;
+    private CombatArena? _activeArena;
 
     /// <summary>
     /// Keep track of what music track was playing previously, and return to it once combat has finished.
     /// </summary>
-    private AudioStream? previousMusicTrack;
+    private AudioStream? _previousMusicTrack;
 
-    private CenterContainer? combatContainer;
-    private Godot.Timer? transitionDelayTimer;
+    private CenterContainer? _combatContainer;
+    private Godot.Timer? _transitionDelayTimer;
 
     /// <summary>
     /// Initializes the combat system when the node is ready.
@@ -34,20 +37,20 @@ public partial class Combat : CanvasLayer
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.combatContainer = this.GetNode<CenterContainer>("CenterContainer");
-        this.transitionDelayTimer = this.GetNode<Godot.Timer>("CenterContainer/TransitionDelay");
+        _combatContainer = GetNode<CenterContainer>("CenterContainer");
+        _transitionDelayTimer = GetNode<Godot.Timer>("CenterContainer/TransitionDelay");
 
-        var fieldEvents = this.GetNode("/root/FieldEvents");
+        var fieldEvents = GetNode("/root/FieldEvents");
         if (fieldEvents != null)
         {
-            fieldEvents.Connect("combat_triggered", Callable.From((PackedScene arena) => this.StartAsync(arena)));
+            fieldEvents.Connect("combat_triggered", Callable.From((PackedScene arena) => StartAsync(arena)));
         }
     }
 
     /// <summary>
     /// Begin a combat. Takes a PackedScene as its only parameter, expecting it to be a CombatState
     /// object once instantiated.
-    /// This is normally a response to <see cref="FieldEvents.CombatTriggered"/>.
+    /// This is normally a response to <see cref="CombatTrigger"/>.
     /// </summary>
     /// <param name="arena">The <see cref="PackedScene"/> representing the combat arena to be instantiated.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation of starting combat.</returns>
@@ -60,57 +63,57 @@ public partial class Combat : CanvasLayer
             throw new ArgumentNullException(nameof(arena), "The arena parameter cannot be null.");
         }
 
-        System.Diagnostics.Debug.Assert(this.activeArena == null, "Attempting to start a combat while one is ongoing!");
+        System.Diagnostics.Debug.Assert(_activeArena == null, "Attempting to start a combat while one is ongoing!");
 
-        var transition = this.GetNode("/root/Transition");
+        var transition = GetNode("/root/Transition");
         transition.Call("cover", 0.2f);
-        await this.ToSignal(transition, "finished");
+        await ToSignal(transition, "finished");
 
         var newArena = (CombatArena) arena.Instantiate();
         System.Diagnostics.Debug.Assert(newArena != null, "Failed to initiate combat. Provided 'arena' argument is not a CombatArena.");
 
-        this.activeArena = newArena;
-        if (this.combatContainer != null)
+        _activeArena = newArena;
+        if (_combatContainer != null)
         {
-            this.combatContainer.AddChild(this.activeArena);
+            _combatContainer.AddChild(_activeArena);
         }
         else
         {
             throw new InvalidOperationException("Combat container is not initialized.");
         }
 
-        if (this.activeArena?.TurnQueue != null)
+        if (_activeArena?.TurnQueue != null)
         {
-            this.activeArena.TurnQueue.CombatFinished += async (bool isPlayerVictory) =>
+            _activeArena.TurnQueue.CombatFinished += async (bool isPlayerVictory) =>
             {
-                this.DisplayCombatResultsDialogAsync(isPlayerVictory);
+                DisplayCombatResultsDialogAsync(isPlayerVictory);
 
                 // Wait a short period of time and then fade the screen to black.
-                if (this.transitionDelayTimer != null)
+                if (_transitionDelayTimer != null)
                 {
-                    this.transitionDelayTimer.Start();
+                    _transitionDelayTimer.Start();
                 }
                 else
                 {
                     throw new InvalidOperationException("Transition delay timer is not initialized.");
                 }
 
-                await this.ToSignal(this.transitionDelayTimer, "timeout");
+                await ToSignal(_transitionDelayTimer, "timeout");
                 transition.Call("cover", 0.2f);
-                await this.ToSignal(transition, "finished");
+                await ToSignal(transition, "finished");
 
-                this.activeArena?.QueueFree();
+                _activeArena?.QueueFree();
 
-                var music = this.GetNode("/root/Music");
-                if (this.previousMusicTrack != null)
+                var music = GetNode("/root/Music");
+                if (_previousMusicTrack != null)
                 {
-                    music.Call("play", this.previousMusicTrack);
+                    music.Call("play", _previousMusicTrack);
                 }
 
                 // Whatever object started the combat will now be responsible for flow of the game. In
                 // particular, the screen is still covered, so the combat-starting object will want to
                 // decide what to do now that the outcome of the combat is known.
-                var combatEvents = this.GetNode("/root/CombatEvents");
+                var combatEvents = GetNode("/root/CombatEvents");
                 if (combatEvents != null)
                 {
                     combatEvents.EmitSignal("combat_finished", isPlayerVictory);
@@ -118,14 +121,14 @@ public partial class Combat : CanvasLayer
             };
         }
 
-        var music = this.GetNode("/root/Music");
-        this.previousMusicTrack = (AudioStream) music.Call("get_playing_track");
-        if (this.activeArena?.Music != null)
+        var music = GetNode("/root/Music");
+        _previousMusicTrack = (AudioStream) music.Call("get_playing_track");
+        if (_activeArena?.Music != null)
         {
-            music.Call("play", this.activeArena.Music);
+            music.Call("play", _activeArena.Music);
         }
 
-        var combatEvents = this.GetNode("/root/CombatEvents");
+        var combatEvents = GetNode("/root/CombatEvents");
         if (combatEvents != null)
         {
             combatEvents.EmitSignal("combat_initiated");
@@ -134,15 +137,15 @@ public partial class Combat : CanvasLayer
         // Before starting combat itself, reveal the screen again.
         // The Transition.clear() call is deferred since it follows on the heels of cover(), and needs a
         // frame to allow everything else to respond to Transition.finished.
-        this.CallDeferred("_DeferredClearTransition", 0.2f);
+        CallDeferred("DeferredClearTransition", 0.2f);
 
         // Begin the combat. The turn queue takes over from here.
-        this.activeArena?.Start();
+        _activeArena?.Start();
     }
 
     private void DeferredClearTransition(float duration)
     {
-        var transition = this.GetNode("/root/Transition");
+        var transition = GetNode("/root/Transition");
         transition.CallDeferred("clear", duration);
     }
 
@@ -168,13 +171,13 @@ public partial class Combat : CanvasLayer
 
     private void DisplayCombatResultsDialogAsync(bool isPlayerVictory)
     {
-        if (this.activeArena?.TurnQueue?.Battlers?.Players == null || this.activeArena?.TurnQueue?.Battlers?.Players?.Length == 0)
+        if (_activeArena?.TurnQueue?.Battlers?.Players == null || _activeArena?.TurnQueue?.Battlers?.Players?.Length == 0)
         {
             GD.PrintErr("Cannot display combat results - no player battlers found");
             return;
         }
 
-        string playerPartyLeaderName = this.activeArena?.TurnQueue?.Battlers?.Players?[0]?.Name ?? "Unknown";
+        string playerPartyLeaderName = _activeArena?.TurnQueue?.Battlers?.Players?[0]?.Name ?? "Unknown";
 
         string[] timelineEvents;
         if (isPlayerVictory)

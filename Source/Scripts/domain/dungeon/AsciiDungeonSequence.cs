@@ -3,7 +3,6 @@ namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
 

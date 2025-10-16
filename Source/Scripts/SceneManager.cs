@@ -5,7 +5,6 @@
 namespace OmegaSpiral.Source.Scripts
 {
     using Godot;
-    using OmegaSpiral.Source.Scripts.Common;
 
     /// <summary>
     /// Manages scene transitions and tracks current scene state across the game.

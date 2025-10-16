@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+
 // <copyright file="UIPlayerBattlerList.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -6,12 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 
 /// <summary>
 /// The player battler UI displays information for each player-owned <see cref="Battler"/> in a combat.
 /// These entries may be selected in order to queue actions for the battlers to perform.
 /// </summary>
+[GlobalClass]
 public partial class UIPlayerBattlerList : UIListMenu
 {
     private List<Battler> battlers = new List<Battler>();

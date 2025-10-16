@@ -1,6 +1,10 @@
+namespace OmegaSpiral.Combat;
+
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Combat.Battlers;
+using System.Collections.Generic;
+using System.Linq;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// Responsible for Battlers, managing their turns, action order, and lifespans.
@@ -11,6 +15,7 @@ using OmegaSpiral.Combat.Battlers;
 /// time is slowed for player input, it is not stopped completely which may result in an AI Battler
 /// acting while the player is taking their turn.
 /// </summary>
+[GlobalClass]
 public partial class ActiveTurnQueue : Node2D
 {
     /// <summary>
@@ -28,8 +33,8 @@ public partial class ActiveTurnQueue : Node2D
 
     private bool _isActive = true;
     private float _timeScale = 1.0f;
-    private BattlerAction? _activeAction = null;
-    private bool _isPlayerMenuOpen = false;
+    private BattlerAction? _activeAction;
+    private bool _isPlayerMenuOpen;
     private Dictionary<Battler, Dictionary<string, object>> _cachedActions = new();
 
     /// <summary>

@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
+
 // <copyright file="Pathfinder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -13,6 +14,7 @@ using Godot;
 /// blocked cells and other obstacles. It uses the A* algorithm to find the shortest path
 /// between two points.
 /// </summary>
+[GlobalClass]
 public partial class Pathfinder : RefCounted
 {
     /// <summary>

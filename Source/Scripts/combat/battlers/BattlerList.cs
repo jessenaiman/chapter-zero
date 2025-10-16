@@ -2,17 +2,18 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 using System;
 using System.Linq;
 using Godot;
 
-namespace OmegaSpiral.Combat.Battlers
+/// <summary>
+/// Keeps reference to the various combat participants, including all <see cref="Battler"/>s and their teams.
+/// </summary>
+[GlobalClass]
+public partial class BattlerList : RefCounted
 {
-    /// <summary>
-    /// Keeps reference to the various combat participants, including all <see cref="Battler"/>s and their teams.
-    /// </summary>
-    public partial class BattlerList : RefCounted
-    {
         /// <summary>
         /// Emitted immediately once the player has won or lost the battle. Note that all animations (such
         /// as the player or AI battlers disappearing) are not yet completed.
@@ -122,5 +123,4 @@ namespace OmegaSpiral.Combat.Battlers
         {
             return battlers.Where(battler => battler.Stats?.Health > 0).ToArray();
         }
-    }
 }

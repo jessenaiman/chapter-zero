@@ -2,15 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
 using Timer = Godot.Timer; // Resolve ambiguity between Godot.Timer and System.Threading.Timer
-using OmegaSpiral.Field.Cutscenes;
-using OmegaSpiral.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
-namespace OmegaSpiral.Field.Cutscenes.Templates.AreaTransitions
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.AreaTransitions
 {
     /// <summary>
     /// Base class for area transitions that move the player between different areas of the game.

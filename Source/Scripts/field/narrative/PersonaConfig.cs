@@ -4,7 +4,6 @@
 
 namespace OmegaSpiral.Scripts.Field.Narrative;
 
-using System;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 

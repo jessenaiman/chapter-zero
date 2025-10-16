@@ -1,24 +1,13 @@
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
+
 // <copyright file="Cutscene.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
+using System.Threading.Tasks;
 using Godot;
 
 /// <summary>
-/// A cutscene stops field gameplay to run a scripted event.
-///
-/// A cutscene may be thought of as the videogame equivalent of a short scene in a film. For example,
-/// dialogue may be displayed, the scene may switch to show key NPCs performing an event, or the
-/// inventory may be altered. Gameplay on the field is <b>stopped</b> until the cutscene concludes,
-/// though this may span a combat scenario (e.g. epic bossfight).
-///
-/// Cutscenes may or may not have duration, and only one cutscene may be active at a time. Field
-/// gameplay is stopped for the entire duration of the active cutscene.
-/// Gameplay is stopped by emitting the global <see cref="FieldEvents.InputPaused"/> signal.
-/// AI and player objects respond to this signal. For examples or responses to this signal, see
-/// <see cref="FieldCursor.OnInputPaused(bool)"/>.
-///
 /// Cutscenes are inherently custom and must be derived to do anything useful. They may be run via
 /// the <see cref="Run"/> method and derived cutscenes will override the <see cref="ExecuteAsync"/> method to
 /// provide custom functionality.
@@ -29,6 +18,7 @@ using Godot;
 /// the player interaction with them via a keypress or touch. Several derived templates (for example,
 /// open-able doors) are included in res://field/cutscenes/templates.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class Cutscene : Node2D
 {

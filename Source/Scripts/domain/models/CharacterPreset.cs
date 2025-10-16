@@ -4,8 +4,6 @@
 
 namespace OmegaSpiral.Domain.Models
 {
-    using Godot;
-
     /// <summary>
     /// Represents a character preset that combines appearance, stats, and class information.
     /// </summary>

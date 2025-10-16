@@ -1,18 +1,19 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+
 // <copyright file="UIActionMenu.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Combat.Battlers;
-using OmegaSpiral.Combat;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 
 /// <summary>
 /// A menu lists a <see cref="Battler"/>'s <see cref="Battler.Actions"/>, allowing the player to select one.
 /// </summary>
+[GlobalClass]
 public partial class UIActionMenu : UIListMenu
 {
     private Battler? battler;
@@ -60,7 +61,7 @@ public partial class UIActionMenu : UIListMenu
             // If the battler's energy levels changed, re-evaluate which actions are available.
             this.battler.Stats?.EnergyChanged += () =>
             {
-                foreach (var entry in this.entries.OfType<UIActionButton>())
+                foreach (var entry in this.Entries.OfType<UIActionButton>())
                 {
                     bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
                     entry.Disabled = !canUseAction || this.IsDisabled;

@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Tests.Dialogic;
+
 // <copyright file="DialogicIntegrationTest.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -8,6 +10,7 @@ using OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Test scene for verifying DialogicIntegration functionality.
 /// </summary>
+[GlobalClass]
 public partial class DialogicIntegrationTest : Node2D
 {
     private DialogicIntegration? dialogicIntegration;

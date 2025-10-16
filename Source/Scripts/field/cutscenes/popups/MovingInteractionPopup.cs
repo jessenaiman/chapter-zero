@@ -1,9 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Popups;
+
 // <copyright file="MovingInteractionPopup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 /// <summary>
 /// An <see cref="InteractionPopup"/> that follows a moving <see cref="Gamepiece"/>.

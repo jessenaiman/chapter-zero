@@ -1,9 +1,10 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="Interaction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
-using System.Threading.Tasks;
 using Godot;
 
 /// <summary>

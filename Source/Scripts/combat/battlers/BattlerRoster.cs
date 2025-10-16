@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 // <copyright file="BattlerRoster.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Linq;
 using Godot;
 
@@ -12,6 +13,7 @@ using Godot;
 /// <remarks>
 /// This class uses Godot's scene tree to retrieve battler nodes grouped by <see cref="Battler.Group"/>.
 /// </remarks>
+[GlobalClass]
 public partial class BattlerRoster : RefCounted
 {
     private Callable getNodesInGroup;

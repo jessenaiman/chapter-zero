@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 // <copyright file="BattlerStats.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -6,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat;
 
 /// <summary>
 /// Numerically represents the characteristics of a specific <see cref="Battler"/>.
 /// </summary>
+[GlobalClass]
 public partial class BattlerStats : Resource
 {
     /// <summary>
@@ -75,7 +79,7 @@ public partial class BattlerStats : Resource
     /// </summary>
     [ExportCategory("Elements")]
     [Export]
-    public Elements.Types Affinity { get; set; } = Elements.Types.None;
+    public Element Affinity { get; set; } = Element.None;
 
     /// <summary>
     /// Gets or sets the base maximum health value.

@@ -1,13 +1,13 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
+
 // <copyright file="Gamepiece.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral;
-using OmegaSpiral.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// Base class for movable objects in the game world.

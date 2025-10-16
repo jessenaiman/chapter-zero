@@ -1,9 +1,15 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="Field.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Combat;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 
 /// <summary>
 /// The cutscene that will play on starting a new game.
@@ -73,8 +79,8 @@ public partial class Field : Node2D
         // The field state must pause/unpause with combat accordingly.
         // Note that pausing/unpausing input is already wrapped up in triggers, which are what will
         // initiate combat.
-        combatEvents.CombatInitiated += (_) => this.Hide();
-        combatEvents.CombatFinished += (_) => this.Show();
+        combatEvents.CombatInitiated += () => this.Hide();
+        combatEvents.CombatFinished += (_ => this.Show());
 
         camera.Scale = this.Scale;
         camera.MakeCurrent();

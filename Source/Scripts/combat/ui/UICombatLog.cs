@@ -1,18 +1,19 @@
-using OmegaSpiral.Source.Scripts.Combat.Actions;
 // <copyright file="UICombatLog.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts
-{
-    using System.Collections.Generic;
-    using Godot;
+using Godot;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI
+{
     /// <summary>
     /// Represents the UI component for displaying the combat log in Omega Spiral.
     /// The UICombatLog provides a visual record of combat events, actions, and outcomes,
     /// allowing players to review the flow of battle and make informed decisions.
     /// </summary>
+    [GlobalClass]
     public partial class UICombatLog : Control
     {
         /// <summary>

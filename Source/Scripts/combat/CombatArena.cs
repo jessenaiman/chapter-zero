@@ -1,10 +1,15 @@
+namespace OmegaSpiral.Source.Scripts.Combat;
+
 // <copyright file="CombatArena.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Combat;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.UI;
+using OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
+using OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 
 /// <summary>
 /// An arena is the background for a battle. It is a Control node that contains the battlers and the turn queue.

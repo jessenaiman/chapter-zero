@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
+
 // <copyright file="CombatRandomAI.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -7,13 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-
-using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.
 /// </summary>
+[GlobalClass]
 public partial class CombatRandomAI : CombatAI
 {
     /// <summary>
@@ -148,12 +150,12 @@ public partial class CombatRandomAI : CombatAI
     /// <summary>
     /// Gets the priority of an action for the AI. Parameters are unused in this implementation.
     /// </summary>
-    /// <param name="_action">The action to evaluate.</param>
+    /// <param name="action">The action to evaluate.</param>
     /// <param name="_targets">The targets for the action.</param>
     /// <returns>The priority value for the action.</returns>
-    public override float GetActionPriority(BattlerAction _action, List<Battler> _targets)
+    public override float GetActionPriority(BattlerAction action, List<Battler> _targets)
     {
-        _ = _action;
+        _ = action;
         _ = _targets;
         // Return a neutral priority since this AI doesn't prioritize actions
         return 1.0f;

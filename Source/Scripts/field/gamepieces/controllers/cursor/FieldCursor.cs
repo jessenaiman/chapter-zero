@@ -1,8 +1,11 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
+
 // <copyright file="FieldCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// Handles mouse/touch events for the field gamestate.
@@ -10,6 +13,7 @@ using Godot;
 /// The field cursor's role is to determine whether or not the input event occurs over a particular
 /// cell and how that cell should be highlighted.
 /// </summary>
+[GlobalClass]
 public partial class FieldCursor : TileMapLayer
 {
     private Vector2I focus = Gameboard.InvalidCell;

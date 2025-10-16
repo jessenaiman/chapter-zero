@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Common;
+
 // <copyright file="CollisionFinder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
 
 /// <summary>

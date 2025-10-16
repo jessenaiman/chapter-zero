@@ -1,10 +1,11 @@
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
+
 // <copyright file="NarratorEngine.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 
 /// <summary>
@@ -14,6 +15,7 @@ using Godot;
 /// The <c>NarratorEngine</c> class manages dialogue lines, processes narrative blocks,
 /// and supports typewriter effects for text output in Ωmega Spiral's field scenes.
 /// </remarks>
+[GlobalClass]
 public partial class NarratorEngine : Node
 {
     private Queue<string> dialogueQueue = new();

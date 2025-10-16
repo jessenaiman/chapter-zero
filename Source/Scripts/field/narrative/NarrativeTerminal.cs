@@ -10,8 +10,6 @@ namespace OmegaSpiral.Source.Scripts
     using System.Text.Json;
     using System.Threading.Tasks;
     using Godot;
-    using OmegaSpiral;
-    using OmegaSpiral.Source.Scripts;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Field.Narrative;
 

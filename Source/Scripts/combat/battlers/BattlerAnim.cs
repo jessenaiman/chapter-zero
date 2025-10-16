@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
+
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 /// <summary>
 /// The visual representation of a <see cref="Battler"/>.
@@ -13,6 +14,7 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 ///
 /// <br/><br/>Note: BattlerAnims must be children of a Battler object to function correctly!.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class BattlerAnim : Marker2D
 {

@@ -10,7 +10,7 @@ echo "========================================"
 
 # Build the project first
 echo "📦 Building project..."
-if dotnet build --verbosity quiet; then
+if dotnet build; then
     echo "✅ Build successful"
 else
     echo "❌ Build failed - fix compilation errors first"

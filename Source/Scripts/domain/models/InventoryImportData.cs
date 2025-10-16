@@ -5,7 +5,6 @@
 namespace OmegaSpiral.Domain.Models
 {
     using System.Collections.Generic;
-    using Godot;
 
     /// <summary>
     /// Represents the data structure for importing inventory data.

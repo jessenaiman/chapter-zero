@@ -1,9 +1,12 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="FieldCamera.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 /// <summary>
 /// Specialized camera that is constrained to the <see cref="Gameboard"/>'s boundaries.
@@ -13,6 +16,7 @@ using Godot;
 /// <br/><br/>In some cases the gameboard is smaller than the viewport, in which case it will be
 /// snapped to the gameboard centre along the constrained axis/axes.
 /// </summary>
+[GlobalClass]
 public partial class FieldCamera : Camera2D
 {
     private GameboardProperties? gameboardProperties;

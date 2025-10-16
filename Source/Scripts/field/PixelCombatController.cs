@@ -1,9 +1,10 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="PixelCombatController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
@@ -15,6 +16,7 @@ using YamlDotNet.Serialization;
 /// <remarks>
 /// Handles loading combat data, initializing sprites and UI, processing player and enemy turns, and determining combat outcomes.
 /// </remarks>
+[GlobalClass]
 public partial class PixelCombatController : Node2D
 {
     private Sprite2D? playerSprite;

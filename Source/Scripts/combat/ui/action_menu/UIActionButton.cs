@@ -1,14 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+
 // <copyright file="UIActionButton.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Combat.Actions;
 
 /// <summary>
-/// A button representing a single <see cref="OmegaSpiral.Source.Scripts.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
+/// A button representing a single <see cref="BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
 /// </summary>
+[GlobalClass]
 public partial class UIActionButton : TextureButton
 {
     private TextureRect? icon;

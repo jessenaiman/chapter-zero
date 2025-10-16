@@ -1,13 +1,17 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI;
+
 // <copyright file="UICombatMenus.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
-using OmegaSpiral.Combat.Battlers;
+using OmegaSpiral.Combat;
+using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+using OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
 /// <summary>
 /// Manages the combat UI menus, including action selection and targeting cursors for player battlers.
@@ -227,7 +231,7 @@ public partial class UICombatMenus : Control
             // and now wants to change it. In that case, unqueue the action through the proper
             // CombatEvents signal.
             // Note that the targets parameter must be cast to the correct array type.
-            Battler[] emptyTargetArray = new Battler[0];
+            Battler[] emptyTargetArray = System.Array.Empty<Battler>();
             if (CombatEvents.Instance != null)
             {
                 // Use the proper event subscription syntax instead of invocation

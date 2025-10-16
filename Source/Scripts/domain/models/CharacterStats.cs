@@ -1,7 +1,5 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using Godot;
-
 namespace OmegaSpiral.Domain.Models
 {
     /// <summary>

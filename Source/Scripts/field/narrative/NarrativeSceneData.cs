@@ -2,9 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
     /// <summary>

@@ -4,7 +4,6 @@
 
 namespace OmegaSpiral.Source.Scripts
 {
-    using System;
     using System.Collections.Generic;
     using Godot;
 

@@ -1,14 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Field.UI.Popups;
+
 // <copyright file="UIPopup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 
 /// <summary>
 /// An animated pop-up graphic. These are often found, for example, in dialogue bubbles to
 /// demonstrate the need for player input.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class UIPopup : Node2D
 {
@@ -65,7 +67,7 @@ public partial class UIPopup : Node2D
 
             if (field && this.state == States.Hidden)
             {
-                this.anim?.Play("appear");
+                this.Anim?.Play("appear");
                 this.state = States.Showing;
             }
 
@@ -79,9 +81,9 @@ public partial class UIPopup : Node2D
             //
             // So, we check here to see if the popup is sitting in this 'wait' window, where it can be
             // immediately hidden and still look smooth as butter.
-            else if (!field && anim != null && anim.CurrentAnimation == "bounce_wait")
+            else if (!field && Anim != null && Anim.CurrentAnimation == "bounce_wait")
             {
-                this.anim.Play("disappear");
+                this.Anim.Play("disappear");
                 this.state = States.Hiding;
             }
         }
@@ -95,24 +97,24 @@ public partial class UIPopup : Node2D
     /// <summary>
     /// The animation player used for controlling popup animations.
     /// </summary>
-    protected AnimationPlayer? anim;
+    protected AnimationPlayer? Anim { get; set; }
     /// <summary>
     /// The sprite used to visually represent the popup.
     /// </summary>
-    protected Sprite2D? sprite;
+    protected Sprite2D? Sprite { get; set; }
 
     /// <inheritdoc/>
     public override void _Ready()
     {
         if (!Engine.IsEditorHint())
         {
-            if (this.sprite != null)
+            if (this.Sprite != null)
             {
-                this.sprite.Scale = Vector2.Zero;
+                this.Sprite.Scale = Vector2.Zero;
             }
-            if (this.anim != null)
+            if (this.Anim != null)
             {
-                this.anim.AnimationFinished += this.OnAnimationFinished;
+                this.Anim.AnimationFinished += this.OnAnimationFinished;
             }
         }
     }
@@ -148,18 +150,18 @@ public partial class UIPopup : Node2D
     /// </summary>
     protected void OnBounceFinished()
     {
-        if (this.anim == null)
+        if (this.Anim == null)
         {
             return;
         }
 
         if (this.IsShown)
         {
-            this.anim.Play("bounce_wait");
+            this.Anim.Play("bounce_wait");
         }
         else
         {
-            this.anim.Play("disappear");
+            this.Anim.Play("disappear");
             this.state = States.Hiding;
         }
     }
@@ -167,8 +169,8 @@ public partial class UIPopup : Node2D
     /// <inheritdoc/>
     public override void _EnterTree()
     {
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.sprite = this.GetNode<Sprite2D>("Sprite2D");
+        this.Anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this.Sprite = this.GetNode<Sprite2D>("Sprite2D");
     }
 
     /// <summary>
@@ -178,7 +180,7 @@ public partial class UIPopup : Node2D
     /// <param name="animName"></param>
     private void OnAnimationFinished(StringName animName)
     {
-        if (this.anim == null)
+        if (this.Anim == null)
         {
             return;
         }
@@ -196,11 +198,11 @@ public partial class UIPopup : Node2D
             {
                 case States.Hiding:
                 case States.Hidden:
-                    this.anim.Play("appear");
+                    this.Anim.Play("appear");
                     this.state = States.Showing;
                     break;
                 default:
-                    this.anim.Play("bounce");
+                    this.Anim.Play("bounce");
                     this.state = States.Shown;
                     break;
             }
@@ -214,7 +216,7 @@ public partial class UIPopup : Node2D
             {
                 case States.Showing:
                 case States.Shown:
-                    this.anim.Play("disappear");
+                    this.Anim.Play("disappear");
                     this.state = States.Hiding;
                     break;
                 default:

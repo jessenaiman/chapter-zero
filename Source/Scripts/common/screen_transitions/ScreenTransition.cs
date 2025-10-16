@@ -1,6 +1,7 @@
+namespace OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
+
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using System;
 using System.Threading.Tasks;
 using Godot;
 
@@ -8,12 +9,13 @@ using Godot;
 /// A transition (usually between gameplay scenes) in which the screen is hidden behind an opaque
 /// color and then shown again.
 ///
-/// Screen transitions are often used in <see cref="Cutscene"/>s to cover up changes in the scenery or sudden
+/// Screen transitions are often used in cutscenes to cover up changes in the scenery or sudden
 /// changes to the loaded area. Many games begin with the screen covered and play some kind of
 /// animation before transitioning (see <see cref="Reveal"/>) to gameplay.
 ///
 /// <br/><br/>ScreenTransitions cover or reveal the screen uniformly as a fade animation.
 /// </summary>
+[GlobalClass]
 public partial class ScreenTransition : CanvasLayer
 {
     /// <summary>

@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
+
 // <copyright file="GameboardLayer.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -13,6 +14,7 @@ using Godot;
 /// GameboardLayers. These layers determine which cells are blocked or clear.
 /// The layers register themselves to the Gameboard in _Ready.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class GameboardLayer : TileMapLayer
 {

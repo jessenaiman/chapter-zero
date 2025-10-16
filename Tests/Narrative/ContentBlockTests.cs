@@ -1,9 +1,5 @@
-using System;
 using GdUnit4;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Tests;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace OmegaSpiral.Tests.Functional.Narrative;
 
@@ -252,7 +248,7 @@ public class ContentBlockTests
     [TestCase]
     public void TransitionSection_AtYAMLBoundary_ActivatesDissolveEffect()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
+        // TODO: Implement proper test with actual Godot runtime
         // This test would require Godot runtime to test actual transition timing
         // The mock implementation would verify boundary detection
         AssertThat(true).IsTrue();

@@ -1,66 +1,47 @@
+namespace OmegaSpiral.Combat;
+
 // <copyright file="CombatEvents.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Combat.Actions;
 
 /// <summary>
 /// A signal bus to connect distant scenes to various combat-exclusive events.
 /// </summary>
+[GlobalClass]
 public partial class CombatEvents : Node
 {
     /// <summary>
-    /// Emitted whenever a combat has been setup and is ready to become the active 'game state'. At this
-    /// point, the screen is fully covered by the <see cref="ScreenTransition"/> autoload.
+    /// Emitted when a player battler is selected for action.
     /// </summary>
-    /// <param name="arena">The packed scene representing the combat arena.</param>
-    [Signal]
-    public delegate void CombatInitiatedEventHandler(PackedScene arena);
-
-    /// <summary>
-    /// Emitted whenever the player has finished with the combat state regardless of whether or not the
-    /// combat was won by the player. At this point the screen has faded to black and any events that
-    /// immediately follow the combat may occur.
-    /// </summary>
-    /// <param name="isPlayerVictory">Indicates whether the player won the combat.</param>
-    [Signal]
-    public delegate void CombatFinishedEventHandler(bool isPlayerVictory);
-
-    /// <summary>
-    /// Emitted whenever a player battler is selected, prompting the player to choose an action.
-    /// </summary>
-    /// <param name="battler">The battler that was selected.</param>
+    /// <param name="battler">The selected battler.</param>
     [Signal]
     public delegate void PlayerBattlerSelectedEventHandler(Battler battler);
 
     /// <summary>
-    /// Emitted whenever a battler has selected an action to perform once it is
-    /// <see cref="Battler.ReadyToAct"/>.
+    /// Emitted when an action is selected with targets.
     /// </summary>
-    /// <param name="action">The action that was selected.</param>
-    /// <param name="source">The battler performing the action.</param>
-    /// <param name="targets">The battlers that are the targets of the action.</param>
+    /// <param name="action">The selected action.</param>
+    /// <param name="source">The source battler of the action.</param>
+    /// <param name="targets">The target battlers of the action.</param>
     [Signal]
-    public delegate void ActionSelectedEventHandler(BattlerAction action, Battler source, Battler[] targets);
+    public delegate void ActionSelectedEventEventHandler(BattlerAction action, Battler source, Battler[] targets);
 
     /// <summary>
-    /// Event for when an action is selected, allowing subscribers to react.
+    /// Emitted when combat is initiated.
     /// </summary>
-    public event ActionSelectedEventHandler? ActionSelectedEvent;
+    [Signal]
+    public delegate void CombatInitiatedEventHandler();
 
     /// <summary>
-    /// Raises the ActionSelected event and emits the signal for Godot.
+    /// Emitted when combat is finished.
     /// </summary>
-    /// <param name="action">The action that was selected.</param>
-    /// <param name="source">The battler performing the action.</param>
-    /// <param name="targets">The battlers that are the targets of the action.</param>
-    public void RaiseActionSelected(BattlerAction action, Battler source, Battler[] targets)
-    {
-        ActionSelectedEvent?.Invoke(action, source, targets);
-        EmitSignal("ActionSelected", action, source, targets);
-    }
+    /// <param name="isPlayerVictory">True if the player won, false otherwise.</param>
+    [Signal]
+    public delegate void CombatFinishedEventHandler(bool isPlayerVictory);
 
     /// <summary>
     /// Singleton instance for global access to CombatEvents.

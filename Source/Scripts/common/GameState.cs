@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Scripts.Common;
+
 // <copyright file="GameState.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -6,12 +8,12 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
-using OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Global game state singleton managing player progress, Dreamweaver alignment, and persistence.
 /// FUTURE: Will track LLM consultation history and dynamic narrative state (see ADR-0003).
 /// </summary>
+[GlobalClass]
 public partial class GameState : Node
 {
     /// <summary>

@@ -1,8 +1,9 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
+
 // <copyright file="GameboardProperties.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 
 /// <summary>
@@ -12,6 +13,7 @@ using Godot;
 /// placed on one of these cells, so the gameboard determines where each cell is located. In this
 /// case, we are using a simple orthographic (square) projection.
 /// </summary>
+[GlobalClass]
 public partial class GameboardProperties : Resource
 {
     /// <summary>

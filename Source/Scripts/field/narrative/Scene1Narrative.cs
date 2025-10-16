@@ -1,19 +1,20 @@
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
+
 // <copyright file="Scene1Narrative.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using Godot;
 using OmegaSpiral.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts;
-using YamlDotNet.Serialization;
 
 /// <summary>
 /// Main narrative scene that integrates with the Dreamweaver system and Dialogic plugin
 /// to provide dynamic story generation and persona-based narrative experiences.
 /// </summary>
+[GlobalClass]
 public partial class Scene1Narrative : Node2D
 {
     /// <summary>

@@ -1,11 +1,13 @@
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+
 // <copyright file="UIListMenu.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
 /// <summary>
 /// A list menu is a template menu that provides common functionality for the combat menus.
@@ -14,6 +16,7 @@ using Godot;
 /// buttons, D-pad, etc. A cursor follows the selected menu entry and player input is forwarded via
 /// a simple set of signals.
 /// </summary>
+[GlobalClass]
 public partial class UIListMenu : VBoxContainer
 {
     /// <summary>
@@ -35,7 +38,7 @@ public partial class UIListMenu : VBoxContainer
         set
         {
             this.isDisabled = value;
-            foreach (var entry in this.entries)
+            foreach (var entry in this.Entries)
             {
                 if (entry != null)
                 {
@@ -54,7 +57,7 @@ public partial class UIListMenu : VBoxContainer
     /// <summary>
     /// Track all battler list entries in the following array.
     /// </summary>
-    protected List<BaseButton> entries = new List<BaseButton>();
+    protected List<BaseButton> Entries { get; set; } = new List<BaseButton>();
 
     private AnimationPlayer? anim;
     private UIMenuCursor? menuCursor;
@@ -71,11 +74,11 @@ public partial class UIListMenu : VBoxContainer
     /// </summary>
     public void FocusFirstEntry()
     {
-        if (this.entries.Count > 0 && this.entries[0] != null && this.menuCursor != null)
+        if (this.Entries.Count > 0 && this.Entries[0] != null && this.menuCursor != null)
         {
-            this.entries[0].GrabFocus();
-            var entryPosition = this.entries[0].GlobalPosition;
-            var entrySize = this.entries[0].Size;
+            this.Entries[0].GrabFocus();
+            var entryPosition = this.Entries[0].GlobalPosition;
+            var entrySize = this.Entries[0].Size;
             this.menuCursor.Position = entryPosition + new Vector2(0.0f, entrySize.Y / 2.0f);
         }
     }
@@ -140,7 +143,7 @@ public partial class UIListMenu : VBoxContainer
             buttonEntry.MouseEntered += () => this.OnEntryFocused(buttonEntry);
             buttonEntry.Pressed += () => this.OnEntryPressed(buttonEntry);
 
-            this.entries.Add(buttonEntry);
+            this.Entries.Add(buttonEntry);
 
             if (this.IsDisabled)
             {
@@ -162,13 +165,13 @@ public partial class UIListMenu : VBoxContainer
     /// </remarks>
     protected void LoopFirstAndLastEntries()
     {
-        System.Diagnostics.Debug.Assert(this.entries.Count > 0, "No action entries for the menu to connect!");
+        System.Diagnostics.Debug.Assert(this.Entries.Count > 0, "No action entries for the menu to connect!");
 
-        var lastEntryIndex = this.entries.Count - 1;
-        var firstEntry = this.entries[0];
+        var lastEntryIndex = this.Entries.Count - 1;
+        var firstEntry = this.Entries[0];
         if (lastEntryIndex > 0)
         {
-            var lastEntry = this.entries[lastEntryIndex];
+            var lastEntry = this.Entries[lastEntryIndex];
             firstEntry.FocusNeighborTop = firstEntry.GetPathTo(lastEntry);
             lastEntry.FocusNeighborBottom = lastEntry.GetPathTo(firstEntry);
         }

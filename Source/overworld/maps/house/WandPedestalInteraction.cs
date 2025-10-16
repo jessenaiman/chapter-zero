@@ -1,3 +1,5 @@
+namespace OmegaSpiral.Source.Overworld.Maps.House;
+
 // <copyright file="WandPedestalInteraction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -5,7 +7,6 @@
 using System.Globalization;
 using System.Linq;
 using Godot;
-using Godot.Collections;
 
 /// <summary>
 /// A puzzle interaction where the player must place the correct colored wand on each pedestal.

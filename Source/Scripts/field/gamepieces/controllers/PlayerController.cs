@@ -1,14 +1,16 @@
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
+
 // <copyright file="PlayerController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral;
-using OmegaSpiral.Field.Cutscenes;
-using OmegaSpiral.Field.Gamepieces;
+using OmegaSpiral.Field;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// Applied to any gamepiece to allow player control.
@@ -200,8 +202,8 @@ public partial class PlayerController : GamepieceController
     /// <summary>
     /// Move the gamepiece towards a pressed key direction.
     /// </summary>
-    /// <param name="inputDirection">The direction to move.</param>
-    public override void MoveToPressedKey(Vector2 inputDirection)
+    /// <param name="direction">The direction to move.</param>
+    public override void MoveToPressedKey(Vector2 direction)
     {
         if (this.IsActive)
         {
@@ -211,7 +213,7 @@ public partial class PlayerController : GamepieceController
 
             // Unless using 8-direction movement, one movement axis must be preferred.
             // Default to the x-axis.
-            targetCell = sourceCell + new Vector2I((int) inputDirection.X, (int) inputDirection.Y);
+            targetCell = sourceCell + new Vector2I((int) direction.X, (int) direction.Y);
 
             // Try to get a path to destination (will fail if cell is occupied)
             var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
@@ -220,7 +222,7 @@ public partial class PlayerController : GamepieceController
             // Path is invalid. Bump animation?
             if (newMovePath.Count < 1)
             {
-                this.Gamepiece.Direction = Directions.AngleToDirection(inputDirection.Angle());
+                this.Gamepiece.Direction = Directions.AngleToDirection(direction.Angle());
             }
             else
             {

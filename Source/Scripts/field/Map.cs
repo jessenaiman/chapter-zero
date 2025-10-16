@@ -1,15 +1,17 @@
+namespace OmegaSpiral.Source.Scripts.Field;
+
 // <copyright file="Map.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 /// <summary>
 /// The map defines the properties of the playable grid, which will be applied on _ready to the
 /// <see cref="Gameboard"/>. These properties usually correspond to one or multiple tilesets.
 /// </summary>
+[GlobalClass]
 [Tool]
 public partial class Map : Node2D
 {
@@ -70,8 +72,8 @@ public partial class Map : Node2D
             // be kept.
             // foreach (Gamepiece gamepiece in FindChildren("*", "Gamepiece"))
             // {
-            //    Vector2I cell = Gameboard.GetCellUnderNode(gamepiece);
-            //    gamepiece.Position = Gameboard.CellToPixel(cell);
+            //    Vector2I cell = gameboard.GetCellUnderNode(gamepiece);
+            //    gamepiece.Position = gameboard.CellToPixel(cell);
             //
             //    if (GamepieceRegistry.Register(gamepiece, cell) == false)
             //    {
