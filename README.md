@@ -4,7 +4,7 @@ A narrative-driven Godot game blending retro aesthetics (DOS terminals, NetHack 
 
 ## Overview
 
-**Omega Spiral** is an experimental narrative game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
+**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
 ### Key Features
 

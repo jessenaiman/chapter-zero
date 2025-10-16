@@ -1265,7 +1265,7 @@ public class DialogueFlowTests
         AssertThat(finalTallies[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light]).IsEqual(3);
         AssertThat(finalTallies[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Mischief]).IsEqual(2);
         AssertThat(finalTallies[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath]).IsEqual(1);
-        AssertThat(scoreLog).HasSize(6); // 3 initial + 3 updates
+        AssertThat(scoreLog).HasSize(7); // 3 initial + 4 updates
     }
 
     #endregion

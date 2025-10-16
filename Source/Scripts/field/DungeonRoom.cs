@@ -4,7 +4,6 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
-using YamlDotNet.Serialization;
 
 namespace OmegaSpiral.Source.Scripts.Field
 {
@@ -13,28 +12,28 @@ namespace OmegaSpiral.Source.Scripts.Field
     /// Each room belongs to a specific Dreamweaver type and contains interactive elements.
     /// Used by the ASCII renderer to display explorable dungeon environments.
     /// </summary>
-    public partial class DungeonRoom
+    public partial class DungeonRoom : Resource
     {
         /// <summary>
         /// Gets or sets the Dreamweaver type that owns this dungeon room.
         /// Determines the narrative alignment and object behaviors in this room.
         /// </summary>
-        [YamlMember(Alias = "owner")]
+        [Export]
         public DreamweaverType Owner { get; set; }
 
         /// <summary>
         /// Gets the ASCII map layout for this dungeon room.
         /// Each string represents a row of the dungeon grid.
         /// </summary>
-        [YamlMember(Alias = "map")]
-        public List<string> Map { get; init; } = new();
+        [Export]
+        public Godot.Collections.Array<string> Map { get; set; } = new();
 
         /// <summary>
         /// Gets the legend mapping characters to their descriptions.
         /// Used to determine tile types and walkability.
         /// </summary>
-        [YamlMember(Alias = "legend")]
-        public Dictionary<string, string> YamlLegend { get; init; } = new();
+        [Export] 
+        public Godot.Collections.Dictionary<string, string> YamlLegend { get; set; } = new();
 
         /// <summary>
         /// Gets the legend mapping characters to their descriptions.
@@ -61,8 +60,8 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets the collection of interactive objects in this dungeon room.
         /// Maps character symbols to their corresponding dungeon objects.
         /// </summary>
-        [YamlMember(Alias = "objects")]
-        public Dictionary<string, DungeonObject> YamlObjects { get; init; } = new();
+        [Export]
+        public Godot.Collections.Dictionary<string, DungeonObject> YamlObjects { get; set; } = new();
 
         /// <summary>
         /// Gets the collection of interactive objects in this dungeon room.
@@ -89,8 +88,8 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets the starting position for the player in this room.
         /// Coordinates are zero-based from the top-left corner of the map.
         /// </summary>
-        [YamlMember(Alias = "playerStartPosition")]
-        public List<int> YamlPlayerStartPosition { get; init; } = new() { 2, 2 };
+        [Export]
+        public Godot.Collections.Array<int> YamlPlayerStartPosition { get; set; } = new() { 2, 2 };
 
         /// <summary>
         /// Gets the starting position for the player in this room.

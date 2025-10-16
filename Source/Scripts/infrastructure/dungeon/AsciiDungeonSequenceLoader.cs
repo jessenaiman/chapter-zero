@@ -85,6 +85,13 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
 
         private static DungeonStageDefinition ConvertDungeonDefinition(Godot.Collections.Dictionary<string, Variant> dungeon)
         {
+            // Extract id (optional, generate if not present)
+            var id = "stage";
+            if (dungeon.TryGetValue("id", out var idVariant) && idVariant.VariantType == Variant.Type.String)
+            {
+                id = idVariant.As<string>();
+            }
+
             // Extract owner
             if (!dungeon.TryGetValue("owner", out var ownerVariant) ||
                 ownerVariant.VariantType != Variant.Type.String)
@@ -127,7 +134,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
             // Extract and convert objects
             var objects = ConvertObjects(dungeon);
 
-            return new DungeonStageDefinition(owner, map, legend, objects);
+            return new DungeonStageDefinition(id, owner, map, legend, objects);
         }
 
         private static System.Collections.Generic.Dictionary<char, string> ConvertLegend(Godot.Collections.Dictionary<string, Variant> dungeon)
@@ -205,11 +212,16 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                     throw new DungeonValidationException($"Unsupported dungeon object type '{typeString}' for object '{key}'.");
                 }
 
-                // Extract aligned_to
-                if (!documentDict.TryGetValue("aligned_to", out var alignedToVariant) ||
+                // Extract alignedTo (for compatibility with existing data files)
+                if (!documentDict.TryGetValue("alignedTo", out var alignedToVariant) ||
                     alignedToVariant.VariantType != Variant.Type.String)
                 {
-                    throw new DungeonValidationException($"Object '{key}' must have an 'aligned_to' string property.");
+                    // Try the old property name as fallback
+                    if (!documentDict.TryGetValue("aligned_to", out alignedToVariant) ||
+                        alignedToVariant.VariantType != Variant.Type.String)
+                    {
+                        throw new DungeonValidationException($"Object '{key}' must have an 'alignedTo' string property.");
+                    }
                 }
 
                 var alignedToString = alignedToVariant.As<string>();

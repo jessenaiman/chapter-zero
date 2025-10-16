@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt7jcphqs175b"
-path="res://.godot/imported/icon_arrows.svg-93f11bfc028871112e9f653cbdf9e46b.ctex"
+path="res://.godot/imported/icon_arrows.svg-43f3182e7dd45908f3a9640be658acf3.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Source/combat/battlers/squirrel/icon_arrows.svg"
-dest_files=["res://.godot/imported/icon_arrows.svg-93f11bfc028871112e9f653cbdf9e46b.ctex"]
+dest_files=["res://.godot/imported/icon_arrows.svg-43f3182e7dd45908f3a9640be658acf3.ctex"]
 
 [params]
 

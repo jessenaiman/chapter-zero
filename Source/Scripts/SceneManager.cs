@@ -81,6 +81,7 @@ namespace OmegaSpiral.Source.Scripts
                 "Scene3NeverGoAlone" => "res://Source/Scenes/Scene3NeverGoAlone.tscn",
                 "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",
                 "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
+                "OpenRPGMain" => "res://Source/ExternalScenes/OpenRPGMain.tscn",
                 _ => string.Empty,
             };
 

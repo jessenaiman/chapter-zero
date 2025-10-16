@@ -1,17 +1,17 @@
 # AGENTS.md
 
-This file provides guidance to agents when working with code in this repository.
+**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
 ## Technology Stack
 
-- **Engine**: Godot 4.5.1 RC (/home/adam/Godot_v4.5.1-rc2_mono_linux_x86_64) with .NET/Mono support
+- **Engine**: Godot 4.5.1 Stable (/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64) with .NET/Mono support
 - **Language**: C# 14 (using .NET 8.0) with preview language features
 - **AI Integration**: NobodyWho plugin for local LLM inference
-- **Testing**: GDUnit
+## Testing with GDUnit
 
-## C# style guide
+- GDUnit4 supports logic-only tests that run without the Godot runtime for speed, and Godot-dependent tests using [RequireGodotRuntime] for scene/node integration.
 
-Note: In Godot 4+, use the [GlobalClass] attribute on classes that need to be
+*Note*: In Godot 4+, use the [GlobalClass] attribute on classes that need to be
 visible in the Godot editor. This allows proper C# namespace usage while
 maintaining editor integration.
 
@@ -27,7 +27,7 @@ maintaining editor integration.
    }
 ```
 
-=============
+## C# style guide
 
 Having well-defined and consistent coding conventions is important for every project, and Godot
 is no exception to this rule.

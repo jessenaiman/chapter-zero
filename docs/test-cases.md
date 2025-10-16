@@ -50,10 +50,10 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 ### Issue: CB-005 · Section Transition Effects
 
 - **Labels**: `area::narrative-effects`, `type::functional-test`
-- **Description**: Fade between YAML-defined sections with a dissolve shader and accurate timing.
+- **Description**: Fade between json-defined sections with a dissolve shader and accurate timing.
 - **Implementation Notes**: Implement a dissolve coroutine tied to Dialogic timeline callbacks in `Scene1Narrative` (`Source/Scripts/field/narrative/Scene1Narrative.cs:150-360`) by animating a shader parameter (e.g., `dissolve_amount`) over 1.5 seconds. Add configuration constants to `Scene1Narrative` so tests can assert durations through exported properties, and convert the placeholders in `Tests/Narrative/ContentBlockTests.cs:243-291` into proper assertions.
 - **Acceptance Criteria**:
-  - [ ] It should trigger dissolve effect at YAML-defined section boundaries
+  - [ ] It should trigger dissolve effect at json-defined section boundaries
   - [ ] It should fade text using dissolve shader during transitions
   - [ ] It should match configured dissolve duration from settings
   - [ ] It should proceed to next content block after dissolve completes
@@ -75,7 +75,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::narrative-runtime`, `type::functional-test`
 - **Description**: Load deterministic scene data when NobodyWho is disabled or fails.
-- **Implementation Notes**: Align the loader with the YAML assets in `Source/Data/scenes/scene1_narrative/{hero,shadow,ambition,omega}.yaml` by replacing the JSON deserialization in `NarrativeTerminal.TryLoadSceneData` (`Source/Scripts/field/narrative/NarrativeTerminal.cs:148-188`) with a `YamlDotNet` pipeline that matches `Scene1Narrative.LoadPersonaConfigFromYaml`. Update `Tests/Narrative/DialogueFlowTests.cs:18-60` to instantiate the loader directly and assert `ScriptSource.Fallback`.
+- **Implementation Notes**: Align the loader with the JSON assets in `Source/Data/stages/ghost-terminal/{hero,shadow,ambition,omega}.json` using Godot's native JSON parsing. Update `Tests/Narrative/DialogueFlowTests.cs:18-60` to instantiate the loader directly and assert `ScriptSource.Fallback`.
 - **Acceptance Criteria**:
   - [x] It should load valid script (content currently called a scene) object when NobodyWho plugin is disabled
   - [x] It should return scene header matching expected structure
@@ -85,7 +85,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::narrative-logic`, `type::functional-test`
 - **Description**: Present the three mandatory Omega questions in the intended order.
-- **Implementation Notes**: Normalise the opening question list when parsing YAML so `InitialChoice`, `NamePrompt`, and `SecretQuestion` map to fixed indices (`NarrativeTerminal.NormalizeNarrativeData`, `Source/Scripts/field/narrative/NarrativeTerminal.cs:190-226`). Mirror it in `Scene1Narrative` when the Dialogic timeline emits `dialogic_signal`. Tests belong in `Tests/Narrative/DialogueFlowTests.cs:64-111`.
+- **Implementation Notes**: Normalise the opening question list when parsing json so `InitialChoice`, `NamePrompt`, and `SecretQuestion` map to fixed indices (`NarrativeTerminal.NormalizeNarrativeData`, `Source/Scripts/field/narrative/NarrativeTerminal.cs:190-226`). Mirror it in `Scene1Narrative` when the Dialogic timeline emits `dialogic_signal`. Tests belong in `Tests/Narrative/DialogueFlowTests.cs:64-111`.
 - **Acceptance Criteria**:
   - [ ] It should present three mandatory questions in fixed order
   - [ ] It should show OneStory prompt first
@@ -96,7 +96,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::narrative-logic`, `type::functional-test`
 - **Description**: Guarantee each prompt exposes three Dreamweaver-aligned responses.
-- **Implementation Notes**: Keep the YAML `options` arrays intact when loading persona files and map them to `DreamweaverChoice.Thread` in `NormalizeNarrativeData` (`Source/Scripts/field/narrative/NarrativeTerminal.cs:198-216`). Tests already exercise this at `Tests/Narrative/DialogueFlowTests.cs:115-166`; extend them to validate label text.
+- **Implementation Notes**: Keep the json `options` arrays intact when loading persona files and map them to `DreamweaverChoice.Thread` in `NormalizeNarrativeData` (`Source/Scripts/field/narrative/NarrativeTerminal.cs:198-216`). Tests already exercise this at `Tests/Narrative/DialogueFlowTests.cs:115-166`; extend them to validate label text.
 - **Acceptance Criteria**:
   - [x] It should provide exactly three responses for each prompt
   - [x] It should map one response to HERO affinity
@@ -107,7 +107,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::narrative-content`, `type::functional-test`
 - **Description**: Serve three unique story fragments, each requiring input before progressing.
-- **Implementation Notes**: Populate `sceneData.StoryBlocks` from the persona YAML (`Source/Data/scenes/scene1_narrative/*.yaml`) and ensure `NarrativeTerminal.PresentStoryBlock` increments `currentBlockIndex` only after user confirmation (`Source/Scripts/field/narrative/NarrativeTerminal.cs:425-516`). Use fixtures in `Tests/Narrative/DialogueFlowTests.cs:170-220` to confirm no duplicates surface during one playthrough.
+- **Implementation Notes**: Populate `sceneData.StoryBlocks` from the persona json (`Source/Data/scenes/scene1_narrative/*.json`) and ensure `NarrativeTerminal.PresentStoryBlock` increments `currentBlockIndex` only after user confirmation (`Source/Scripts/field/narrative/NarrativeTerminal.cs:425-516`). Use fixtures in `Tests/Narrative/DialogueFlowTests.cs:170-220` to confirm no duplicates surface during one playthrough.
 - **Acceptance Criteria**:
   - [ ] It should offer three distinct story blocks when selected
   - [ ] It should require player interaction for each story block
@@ -186,7 +186,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::dreamweaver`, `type::functional-test`
 - **Description**: Produce responsive Dreamweaver commentary after each player decision.
-- **Implementation Notes**: Hook commentary triggers to `DreamweaverSystem.GenerateNarrativeAsync` results and `GameState.UpdateDreamweaverScore`. Maintain thresholds for reaction tiers in a YAML config (e.g., `res://Source/Data/narrative/dreamweaver_commentary.yaml`) and assert output through integration tests.
+- **Implementation Notes**: Hook commentary triggers to `DreamweaverSystem.GenerateNarrativeAsync` results and `GameState.UpdateDreamweaverScore`. Maintain thresholds for reaction tiers in a json config (e.g., `res://Source/Data/narrative/dreamweaver_commentary.json`) and assert output through integration tests.
 - **Acceptance Criteria**:
   - [ ] It should trigger non-selected Dreamweaver commentary after player choices
   - [ ] It should reference affinity shifts in Dreamweaver dialogue
@@ -208,7 +208,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::dreamweaver`, `type::narrative-test`
 - **Description**: Deliver Dreamweaver remarks at major story beats, weighted by affinity.
-- **Implementation Notes**: Map scene events to commentary triggers in `DreamweaverSystem` by subscribing to cues from `SceneManager` and `NarrativeTerminal`. Use a rule table to pick lines from the persona YAML files and log emission timestamps for verification.
+- **Implementation Notes**: Map scene events to commentary triggers in `DreamweaverSystem` by subscribing to cues from `SceneManager` and `NarrativeTerminal`. Use a rule table to pick lines from the persona json files and log emission timestamps for verification.
 - **Acceptance Criteria**:
   - [ ] It should trigger Dreamweaver commentary at appropriate story beats
   - [ ] It should show comments from dominant or affected Dreamweaver after choice
@@ -299,8 +299,8 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 ### Issue: STG-001 · Dungeon Schema Loading
 
 - **Labels**: `area::dungeon`, `type::functional-test`
-- **Description**: Load Scene 2 dungeon stages from the YAML schema and validate layout integrity.
-- **Implementation Notes**: Point `AsciiDungeonSequenceLoader` at `Source/Data/scenes/scene2_nethack/dungeon_sequence.yaml`, `scene3_wizardry/scene3_wizardry_schema.json`, and `scene4_tile_dungeon/dungeon.yaml`, using `YamlDotNet` for YAML and `System.Text.Json` for JSON. Convert results into `DungeonStageDefinition` before passing to `AsciiDungeonSequence.Create`. Tests live in `Tests/Dungeon/NethackSceneTests.cs:27-174`.
+- **Description**: Load Scene 2 dungeon stages from the json schema and validate layout integrity.
+- **Implementation Notes**: Point `AsciiDungeonSequenceLoader` at `Source/Data/stages/nethack/dungeon_sequence.json` using Godot's native JSON parsing. Convert results into `DungeonStageDefinition` before passing to `AsciiDungeonSequence.Create`. Tests live in `Tests/Dungeon/NethackSceneTests.cs:27-174`.
 - **Acceptance Criteria**:
   - [ ] It should load three distinct DungeonStage instances from valid schema
   - [ ] It should assign unique owner values matching schema definition
@@ -311,7 +311,7 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
 
 - **Labels**: `area::dungeon`, `type::functional-test`
 - **Description**: Block duplicate Dreamweaver owners in the sequence definition.
-- **Implementation Notes**: `AsciiDungeonSequence.Create` already throws when duplicates appear (`Source/Scripts/domain/dungeon/AsciiDungeonSequence.cs:19-48`); extend tests in `Tests/Dungeon/NethackSceneTests.cs` to cover validation via YAML fixtures.
+- **Implementation Notes**: `AsciiDungeonSequence.Create` already throws when duplicates appear (`Source/Scripts/domain/dungeon/AsciiDungeonSequence.cs:19-48`); extend tests in `Tests/Dungeon/NethackSceneTests.cs` to cover validation via json fixtures.
 - **Acceptance Criteria**:
   - [ ] It should throw domain exception when duplicate owners detected
   - [ ] It should prevent aggregate creation with invalid owner sequence

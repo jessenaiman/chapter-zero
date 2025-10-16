@@ -33,9 +33,9 @@ public class NethackSceneTests
         // Assert
         AssertThat(sequence).IsNotNull();
         AssertThat(sequence.Stages).HasSize(3);
-        AssertThat(sequence.Stages[0].Owner).IsNotEqualTo(sequence.Stages[1].Owner);
-        AssertThat(sequence.Stages[0].Owner).IsNotEqualTo(sequence.Stages[2].Owner);
-        AssertThat(sequence.Stages[1].Owner).IsNotEqualTo(sequence.Stages[2].Owner);
+        AssertThat(sequence.Stages[0].Owner).IsNotEqual(sequence.Stages[1].Owner);
+        AssertThat(sequence.Stages[0].Owner).IsNotEqual(sequence.Stages[2].Owner);
+        AssertThat(sequence.Stages[1].Owner).IsNotEqual(sequence.Stages[2].Owner);
     }
 
     /// <summary>
@@ -109,15 +109,14 @@ public class NethackSceneTests
     /// Tests that scene throws domain exception when duplicate owners detected.
     /// </summary>
     [TestCase]
+    [ThrowsException(typeof(DungeonValidationException), "unique Dreamweaver owner")]
     public void LoadSchema_WhenDuplicateOwnersProvided_ThrowsDomainException()
     {
         // Arrange
         var duplicateOwnerJson = CreateDungeonSequenceWithDuplicateOwners();
 
-        // Act & Assert
-        AssertThat(() => AsciiDungeonSequenceLoader.LoadFromJson(duplicateOwnerJson))
-            .Throws<DungeonValidationException>()
-            .WithMessageContaining("unique Dreamweaver owner");
+        // Act
+        AsciiDungeonSequenceLoader.LoadFromJson(duplicateOwnerJson);
     }
 
     /// <summary>
@@ -135,9 +134,10 @@ public class NethackSceneTests
         };
 
         // Act & Assert
-        AssertThat(() => AsciiDungeonSequence.Create(duplicateDefinitions))
-            .Throws<DungeonValidationException>()
-            .WithMessageContaining("unique Dreamweaver owner");
+        var exception = AssertThat(() => AsciiDungeonSequence.Create(duplicateDefinitions))
+            .Completions()
+            .Throws<DungeonValidationException>();
+        AssertThat(exception.Message).Contains("unique Dreamweaver owner");
     }
 
     /// <summary>
@@ -171,10 +171,19 @@ public class NethackSceneTests
     [TestCase]
     public void Sequence_WhenStageBegins_PublishesDungeonStageEnteredEvent()
     {
-        // This test would require Godot runtime to test actual event publishing
-        // The mock implementation would verify the event publishing logic
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start();
+
+        // Assert
+        AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
+        AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(0);
     }
 
     /// <summary>
@@ -183,10 +192,19 @@ public class NethackSceneTests
     [TestCase]
     public void StageEvent_WhenPublished_IncludesOwnerIdentifier()
     {
-        // This test would require Godot runtime to test actual event payload
-        // The mock implementation would verify owner identifier inclusion
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start();
+
+        // Assert
+        AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
+        AssertThat(publisher.LastStageEnteredEvent!.Owner).IsEqual(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light); // First stage is Light
     }
 
     /// <summary>
@@ -195,10 +213,19 @@ public class NethackSceneTests
     [TestCase]
     public void StageEvent_WhenPublished_IncludesStageIndex()
     {
-        // This test would require Godot runtime to test actual event payload
-        // The mock implementation would verify stage index inclusion
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start();
+
+        // Assert
+        AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
+        AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(0);
     }
 
     /// <summary>
@@ -207,10 +234,20 @@ public class NethackSceneTests
     [TestCase]
     public void StageEvent_WhenPublished_IncludesASCIIMapMetadata()
     {
-        // This test would require Godot runtime to test actual event payload
-        // The mock implementation would verify map metadata inclusion
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start();
+
+        // Assert
+        AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
+        AssertThat(publisher.LastStageEnteredEvent!.MapRows).IsNotEmpty();
+        AssertThat(publisher.LastStageEnteredEvent.MapRows[0]).Contains("#"); // Verify map data present
     }
 
     #endregion
@@ -311,10 +348,20 @@ public class NethackSceneTests
     [TestCase]
     public void StageProgression_WhenCurrentStageCompleted_AdvancesToNextStage()
     {
-        // This test would require Godot runtime to test actual stage progression
-        // The mock implementation would verify the progression logic
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start(); // Start at stage 0
+        runner.CompleteCurrentStage(); // Complete stage 0, move to stage 1
+
+        // Assert
+        AssertThat(publisher.StageEnteredEventsCount).IsEqual(2); // Initial start (stage 0) + after completion (stage 1)
+        AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(1);
     }
 
     /// <summary>
@@ -372,10 +419,21 @@ public class NethackSceneTests
     [TestCase]
     public void StageProgression_WhenProgressing_ReachesThirdStageWithoutSkipping()
     {
-        // This test would require Godot runtime to test actual progression
-        // The mock implementation would verify the progression logic
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        AssertThat(true).IsTrue();
+        // Arrange
+        var validJson = CreateValidDungeonSequenceJson();
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var publisher = new TestDungeonEventPublisher();
+        var affinityService = new TestDreamweaverAffinityService();
+        var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
+
+        // Act
+        runner.Start(); // Start at stage 0
+        runner.CompleteCurrentStage(); // Complete stage 0, move to stage 1
+        runner.CompleteCurrentStage(); // Complete stage 1, move to stage 2
+
+        // Assert
+        AssertThat(publisher.StageEnteredEventsCount).IsEqual(3); // All three stages
+        AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(2);
     }
 
     #endregion
@@ -597,6 +655,7 @@ public class NethackSceneTests
     private DungeonStageDefinition CreateValidDungeonStageDefinition(OmegaSpiral.Source.Scripts.Common.DreamweaverType owner)
     {
         return new DungeonStageDefinition(
+            "test-stage",
             owner,
             new List<string> { "####", "#..#", "#..#", "####" },
             new Dictionary<char, string> { { '#', "wall" }, { '.', "floor" } },
@@ -606,6 +665,7 @@ public class NethackSceneTests
     private DungeonStage CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType owner)
     {
         var definition = new DungeonStageDefinition(
+            "test-stage-with-objects",
             owner,
             new List<string> { "####", "#D.#", "#M.#", "#C.#", "####" },
             new Dictionary<char, string> { { '#', "wall" }, { '.', "floor" }, { 'D', "door" }, { 'M', "monster" }, { 'C', "chest" } },
@@ -617,6 +677,36 @@ public class NethackSceneTests
             });
 
         return DungeonStage.Create(definition);
+    }
+
+    #endregion
+
+    #region Test Helper Classes
+
+    private sealed class TestDungeonEventPublisher : IDungeonEventPublisher
+    {
+        public DungeonStageEnteredEvent? LastStageEnteredEvent { get; private set; }
+        public DungeonStageClearedEvent? LastStageClearedEvent { get; private set; }
+        public int StageEnteredEventsCount { get; private set; }
+
+        public void PublishStageCleared(DungeonStageClearedEvent domainEvent)
+        {
+            this.LastStageClearedEvent = domainEvent;
+        }
+
+        public void PublishStageEntered(DungeonStageEnteredEvent domainEvent)
+        {
+            this.LastStageEnteredEvent = domainEvent;
+            this.StageEnteredEventsCount++;
+        }
+    }
+
+    private sealed class TestDreamweaverAffinityService : IDreamweaverAffinityService
+    {
+        public void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change)
+        {
+            // Mock implementation - no-op for testing
+        }
     }
 
     #endregion

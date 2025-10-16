@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cch8ku256ts3y"
-path="res://.godot/imported/icon_raise.svg-283e1597326be7ec66d64acdc699bf56.ctex"
+path="res://.godot/imported/icon_raise.svg-fae266aa3c579335fe08949014807b70.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Source/combat/battlers/bear/icon_raise.svg"
-dest_files=["res://.godot/imported/icon_raise.svg-283e1597326be7ec66d64acdc699bf56.ctex"]
+dest_files=["res://.godot/imported/icon_raise.svg-fae266aa3c579335fe08949014807b70.ctex"]
 
 [params]
 

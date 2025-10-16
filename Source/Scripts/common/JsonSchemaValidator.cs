@@ -52,19 +52,45 @@ public partial class JsonSchemaValidator : Node
 
             var schema = (Dictionary<string, Variant>) schemaParseResult;
 
-            // Perform basic validation - check if required fields exist based on schema
-            if (schema.TryGetValue("type", out var schemaTypeVariant) &&
-                schemaTypeVariant.VariantType == Variant.Type.String)
+            // Validate data type against schema's type enum if specified
+            if (schema.TryGetValue("properties", out var propsVariant) &&
+                propsVariant.VariantType == Variant.Type.Dictionary)
             {
-                var schemaType = schemaTypeVariant.As<string>();
-                if (jsonData.TryGetValue("type", out var dataTypeVariant) &&
-                    dataTypeVariant.VariantType == Variant.Type.String)
+                var properties = (Dictionary<string, Variant>) propsVariant;
+                if (properties.TryGetValue("type", out var typePropVariant) &&
+                    typePropVariant.VariantType == Variant.Type.Dictionary)
                 {
-                    var dataType = dataTypeVariant.As<string>();
-                    if (schemaType != dataType)
+                    var typeProp = (Dictionary<string, Variant>) typePropVariant;
+                    if (typeProp.TryGetValue("enum", out var enumVariant) &&
+                        enumVariant.VariantType == Variant.Type.Array)
                     {
-                        GD.PrintErr($"Schema validation error: Expected type '{schemaType}', got '{dataType}'");
-                        return false;
+                        var enumArray = (Godot.Collections.Array) enumVariant;
+                        if (jsonData.TryGetValue("type", out var dataTypeVariant) &&
+                            dataTypeVariant.VariantType == Variant.Type.String)
+                        {
+                            var dataType = dataTypeVariant.As<string>();
+                            bool isValidType = false;
+                            foreach (var enumValue in enumArray)
+                            {
+                                if (enumValue.VariantType == Variant.Type.String &&
+                                    enumValue.As<string>() == dataType)
+                                {
+                                    isValidType = true;
+                                    break;
+                                }
+                            }
+                            
+                            if (!isValidType)
+                            {
+                                GD.PrintErr($"Schema validation error: Invalid type '{dataType}'. Expected one of: [{string.Join(", ", enumArray)}]");
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            GD.PrintErr("Schema validation error: Data missing required 'type' field");
+                            return false;
+                        }
                     }
                 }
             }

@@ -1,6 +1,6 @@
 # Omega Spiral Scripts Documentation
 
-This directory contains all the C# scripts for the Omega Spiral game, built with Godot 4.5 and .NET 10.
+This directory contains all the C# scripts for the Omega Spiral game, built with Godot 4.5 and .NET 8 and C# 14.
 
 ## Architecture Overview
 

@@ -157,7 +157,20 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                 return;
             }
 
-            this.sceneManager.TransitionToScene("Scene4TileDungeon");
+            // Check if the external Open RPG scene is available
+            string externalScenePath = "res://Source/ExternalScenes/OpenRPGMain.tscn";
+            if (Godot.FileAccess.FileExists(externalScenePath))
+            {
+                // Transition to the external Open RPG scene using SceneManager
+                GD.Print("Transitioning to external Open RPG scene...");
+                this.sceneManager.TransitionToScene("OpenRPGMain");
+            }
+            else
+            {
+                // Fallback to internal TileDungeon scene if external scene is not available
+                GD.Print("External Open RPG scene not found, falling back to internal TileDungeon scene.");
+                this.sceneManager.TransitionToScene("Scene4TileDungeon");
+            }
         }
     }
 }

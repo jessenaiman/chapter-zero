@@ -65,7 +65,7 @@
                   "type": "string",
                   "description": "Description text for the object"
                 },
-                "aligned_to": {
+                "alignedTo": {
                   "type": "string",
                   "enum": ["Light", "Mischief", "Wrath"],
                   "description": "Dreamweaver alignment of this object"

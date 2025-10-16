@@ -403,7 +403,8 @@ public class ContentBlockTests
         choiceContext.DisplayChoices(DefaultChoiceOptions);
 
         // Act
-        choiceContext.SimulateMouseClick(x: 150, y: 160);
+        choiceContext.LayoutChoicesWithPositions(DefaultChoiceLayout);
+        choiceContext.SimulateMouseClick(x: 150, y: 220);
         bool narrativeAdvancedAfterMouse = choiceContext.NarrativeAdvanced;
 
         // Reset and test keyboard

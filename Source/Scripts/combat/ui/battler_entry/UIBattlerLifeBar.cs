@@ -88,7 +88,11 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="startHp">The starting hit points.</param>
     public void Setup(string battlerName, int maxHp, int startHp)
     {
-        this.nameLabel?.Text = battlerName;
+        if (this.nameLabel != null)
+        {
+            this.nameLabel.Text = battlerName;
+        }
+
         this.MaxValue = maxHp;
         this.Value = startHp;
     }
@@ -99,7 +103,10 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="texture">The texture to display.</param>
     public void SetActionIcon(Texture2D? texture)
     {
-        this.queuedActionIcon?.Texture = texture;
+        if (this.queuedActionIcon != null)
+        {
+            this.queuedActionIcon.Texture = texture;
+        }
     }
 
     /// <summary>
@@ -108,6 +115,9 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     /// <param name="newValue">The new value of the life bar.</param>
     private void OnValueChanged(double newValue)
     {
-        this.valueLabel?.Text = ((int) newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        if (this.valueLabel != null)
+        {
+            this.valueLabel.Text = ((int)newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        }
     }
 }

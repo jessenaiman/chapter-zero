@@ -59,14 +59,17 @@ public partial class UIActionMenu : UIListMenu
             this.battler.HealthDepleted += async () => await this.CloseAsync().ConfigureAwait(false);
 
             // If the battler's energy levels changed, re-evaluate which actions are available.
-            this.battler.Stats?.EnergyChanged += () =>
+            if (this.battler.Stats != null)
             {
-                foreach (var entry in this.Entries.OfType<UIActionButton>())
+                this.battler.Stats.EnergyChanged += () =>
                 {
-                    bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
-                    entry.Disabled = !canUseAction || this.IsDisabled;
-                }
-            };
+                    foreach (var entry in this.Entries.OfType<UIActionButton>())
+                    {
+                        bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
+                        entry.Disabled = !canUseAction || this.IsDisabled;
+                    }
+                };
+            }
         }
     }
 

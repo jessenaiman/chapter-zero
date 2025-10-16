@@ -39,7 +39,11 @@ public partial class UIActionDescription : MarginContainer
                 return;
             }
 
-            this.descriptionLabel?.Text = this.description;
+            if (this.descriptionLabel != null)
+            {
+                this.descriptionLabel.Text = this.description;
+            }
+
             if (string.IsNullOrEmpty(this.description))
             {
                 this.Hide();

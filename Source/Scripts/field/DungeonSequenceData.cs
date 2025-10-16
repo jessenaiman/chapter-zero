@@ -2,7 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using YamlDotNet.Serialization;
+using Godot;
 
 namespace OmegaSpiral.Source.Scripts.Field
 {
@@ -11,20 +11,20 @@ namespace OmegaSpiral.Source.Scripts.Field
     /// Used by the NetHack-style scene to provide multiple dungeon layouts.
     /// Each dungeon belongs to a specific Dreamweaver type for narrative alignment.
     /// </summary>
-    public partial class DungeonSequenceData
+    public partial class DungeonSequenceData : Resource
     {
         /// <summary>
         /// Gets or sets the type identifier for this dungeon sequence.
         /// Used to distinguish between different dungeon sequence formats.
         /// </summary>
-        [YamlMember(Alias = "type")]
+        [Export]
         public string Type { get; set; } = "ascii_dungeon_sequence";
 
         /// <summary>
         /// Gets the collection of dungeon rooms in this sequence.
         /// Each room represents a different area the player can explore.
         /// </summary>
-        [YamlMember(Alias = "dungeons")]
-        public List<DungeonRoom> Dungeons { get; init; } = new();
+        [Export]
+        public Godot.Collections.Array<DungeonRoom> Dungeons { get; set; } = new();
     }
 }

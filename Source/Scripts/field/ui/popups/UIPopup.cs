@@ -43,6 +43,8 @@ public partial class UIPopup : Node2D
         Showing = 3,
     }
 
+    private bool isShownBackingField;
+
     /// <summary>
     /// Gets or sets a value indicating whether the popup is currently shown.
     /// Setting this property triggers the appropriate animation and state transitions.
@@ -53,19 +55,19 @@ public partial class UIPopup : Node2D
     /// </remarks>
     protected bool IsShown
     {
-        get => field;
+        get => this.isShownBackingField;
         set
         {
-            field = value;
+            this.isShownBackingField = value;
 
             if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                field = value;
+                this.isShownBackingField = value;
                 return;
             }
 
-            if (field && this.state == States.Hidden)
+            if (this.isShownBackingField && this.state == States.Hidden)
             {
                 this.Anim?.Play("appear");
                 this.state = States.Showing;
@@ -81,7 +83,7 @@ public partial class UIPopup : Node2D
             //
             // So, we check here to see if the popup is sitting in this 'wait' window, where it can be
             // immediately hidden and still look smooth as butter.
-            else if (!field && Anim != null && Anim.CurrentAnimation == "bounce_wait")
+            else if (!this.isShownBackingField && Anim != null && Anim.CurrentAnimation == "bounce_wait")
             {
                 this.Anim.Play("disappear");
                 this.state = States.Hiding;

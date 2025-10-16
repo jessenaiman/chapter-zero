@@ -1,15 +1,34 @@
-# C# Documentation Rules
+# Omega Spiral Game Overview
 
-## [Code Standards](./../coding-conventions.instructions.md)
+**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
-## Tools USE THEM FIRST
+## Engine Checklist
+
+If you don't understand the codebase or project do not make changes until you do.
+
+use the tools and work like a pair programmer carefully explaining in chat files to review. Do not assume, guess, or 'think', use the mcp tool context7 or ask direct questions.
+
+1. What scenes already load?
+2. What tests already run?
+3. Did you check the project or build to understand the codebase?
+4. Did you fix all issues, warnings, problems, broken tests?
+5. Do you understand the game we're building
+6. If the answer is no to any of these is no repeat steps 1-5 until the answer
+7. I don't think so. Did you actually do steps 1-6? Check again
+
+### Tools USE THEM FIRST
+
+- Always read tool descriptions completely before using
+- Don't make the user waste tokens telling you about issues that could have been found with tools.
 
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
 **ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS AND DISCUSS FIXES**
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 
-## Rules
+## Documentation Rules
+
+## [Code Standards](./../coding-conventions.instructions.md)
 
 **FIX EVERYTHING**
 - Present brief actionable next steps only
@@ -30,8 +49,6 @@ Use your damn tools, don't make the user waste tokens telling you about issues t
 **NEVER HIDE ERRORS**
 **ALWAYS CHECK THE TESTS AND BUILD AFTER EVERY NEW FILE AND CHANGE**
 **USE CODACY TO CHECK FOR ISSUES AND FIXES**
-**MUST USE SERANA TO FIND PROJECT MEMORIES**
-**MUST USE SERANA ONBOARD MCP TOOL FIRST**
 
 ## XML Documentation Rules
 

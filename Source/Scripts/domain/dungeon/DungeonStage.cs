@@ -17,16 +17,23 @@ namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
         private readonly ReadOnlyDictionary<char, DungeonObjectDefinition> interactiveObjects;
 
         private DungeonStage(
+            string id,
             DreamweaverType owner,
             ReadOnlyCollection<string> map,
             ReadOnlyDictionary<char, string> legend,
             ReadOnlyDictionary<char, DungeonObjectDefinition> interactiveObjects)
         {
+            this.Id = id;
             this.Owner = owner;
             this.map = map;
             this.legend = legend;
             this.interactiveObjects = interactiveObjects;
         }
+
+        /// <summary>
+        /// Gets the unique identifier for this dungeon stage.
+        /// </summary>
+        public string Id { get; }
 
         /// <summary>
         /// Gets the Dreamweaver that owns this dungeon stage.
@@ -63,6 +70,7 @@ namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
             var interactiveObjects = BuildObjects(definition.Objects, legend);
 
             return new DungeonStage(
+                definition.Id,
                 definition.Owner,
                 new ReadOnlyCollection<string>(normalizedMap),
                 new ReadOnlyDictionary<char, string>(legend),

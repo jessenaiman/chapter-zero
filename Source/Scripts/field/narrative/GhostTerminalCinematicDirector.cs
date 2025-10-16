@@ -9,14 +9,16 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
     /// </summary>
     public static class GhostTerminalCinematicDirector
     {
-        private const string OpeningScenePath = "res://Source/Scenes/ui/ghost_terminal/OpeningLine.tscn";
-        private const string ThreadChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/ThreadChoice.tscn";
-        private const string StoryParagraphScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryParagraph.tscn";
-        private const string StoryQuestionScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryQuestion.tscn";
-        private const string StoryChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryChoice.tscn";
-        private const string NamePromptScenePath = "res://Source/Scenes/ui/ghost_terminal/NamePrompt.tscn";
-        private const string SecretPromptScenePath = "res://Source/Scenes/ui/ghost_terminal/SecretPrompt.tscn";
-        private const string ExitScenePath = "res://Source/Scenes/ui/ghost_terminal/ExitLine.tscn";
+        // Updated: These scenes do not exist, so references are commented out or replaced with TODOs.
+        // private const string OpeningScenePath = "res://Source/Scenes/ui/ghost_terminal/OpeningLine.tscn";
+        // private const string ThreadChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/ThreadChoice.tscn";
+        // private const string StoryParagraphScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryParagraph.tscn";
+        // private const string StoryQuestionScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryQuestion.tscn";
+        // private const string StoryChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryChoice.tscn";
+        // private const string NamePromptScenePath = "res://Source/Scenes/ui/ghost_terminal/NamePrompt.tscn";
+        // private const string SecretPromptScenePath = "res://Source/Scenes/ui/ghost_terminal/SecretPrompt.tscn";
+        // private const string ExitScenePath = "res://Source/Scenes/ui/ghost_terminal/ExitLine.tscn";
+        // TODO: Implement or provide fallback for missing GhostTerminal UI scenes.
 
         /// <summary>
         /// Builds a cinematic plan describing the Ghost Terminal introduction.
@@ -32,14 +34,16 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
             foreach (string line in data.OpeningLines)
             {
-                var beat = new GhostTerminalBeat(GhostTerminalBeatType.OpeningLine, OpeningScenePath);
+                // Fallback: create beat with type and no scene path.
+                var beat = new GhostTerminalBeat(GhostTerminalBeatType.OpeningLine, string.Empty);
                 beat.Lines.Add(line);
                 beats.Add(beat);
             }
 
             if (data.InitialChoice?.Options != null && data.InitialChoice.Options.Count > 0)
             {
-                var threadBeat = new GhostTerminalBeat(GhostTerminalBeatType.ThreadChoice, ThreadChoiceScenePath)
+                // Fallback: create thread choice beat with type and no scene path.
+                var threadBeat = new GhostTerminalBeat(GhostTerminalBeatType.ThreadChoice, string.Empty)
                 {
                     Prompt = data.InitialChoice.Prompt ?? string.Empty,
                 };
@@ -63,22 +67,23 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
                 foreach (string paragraph in block.Paragraphs)
                 {
-                    var paragraphBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryParagraph, StoryParagraphScenePath);
+                    // Fallback: create paragraph beat with type and no scene path.
+                    var paragraphBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryParagraph, string.Empty);
                     paragraphBeat.Lines.Add(paragraph);
                     beats.Add(paragraphBeat);
                 }
 
                 if (!string.IsNullOrWhiteSpace(block.Question))
                 {
-                    var questionBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryQuestion, StoryQuestionScenePath)
-                    {
-                        Prompt = block.Question,
-                    };
+                    // Fallback: create question beat with type and no scene path.
+                    var questionBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryQuestion, string.Empty);
+                    questionBeat.Prompt = block.Question;
                     beats.Add(questionBeat);
 
                     if (block.Choices.Count > 0)
                     {
-                        var choiceBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryChoice, StoryChoiceScenePath);
+                        // Fallback: create story choice beat with type and no scene path.
+                        var choiceBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryChoice, string.Empty);
                         for (int i = 0; i < block.Choices.Count; i++)
                         {
                             ChoiceOption choice = block.Choices[i];
@@ -105,7 +110,8 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                 ? "What name should the terminal record?"
                 : data.NamePrompt;
 
-            var nameBeat = new GhostTerminalBeat(GhostTerminalBeatType.NamePrompt, NamePromptScenePath)
+            // Fallback: create name prompt beat with type and no scene path.
+            var nameBeat = new GhostTerminalBeat(GhostTerminalBeatType.NamePrompt, string.Empty)
             {
                 Prompt = namePrompt,
             };
@@ -113,7 +119,8 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
             if (data.SecretQuestion != null)
             {
-                var secretBeat = new GhostTerminalBeat(GhostTerminalBeatType.SecretPrompt, SecretPromptScenePath)
+                // Fallback: create secret prompt beat with type and no scene path.
+                var secretBeat = new GhostTerminalBeat(GhostTerminalBeatType.SecretPrompt, string.Empty)
                 {
                     Prompt = data.SecretQuestion.Prompt ?? "Can you face what hides in the dark?",
                 };
@@ -136,7 +143,8 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                 ? "Moving to the next part of your journey..."
                 : data.ExitLine;
 
-            var exitBeat = new GhostTerminalBeat(GhostTerminalBeatType.ExitLine, ExitScenePath);
+            // Fallback: create exit beat with type and no scene path.
+            var exitBeat = new GhostTerminalBeat(GhostTerminalBeatType.ExitLine, string.Empty);
             exitBeat.Lines.Add(exitLine);
             beats.Add(exitBeat);
 

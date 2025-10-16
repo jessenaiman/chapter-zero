@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbgfjvlm8kx4k"
-path="res://.godot/imported/squirrel.png-40b82afcd6713b60ce238e7a0780293f.ctex"
+path="res://.godot/imported/squirrel.png-5cd6582f0ae483c369cc4e0986fbe6cb.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://Source/combat/battlers/squirrel/squirrel.png"
-dest_files=["res://.godot/imported/squirrel.png-40b82afcd6713b60ce238e7a0780293f.ctex"]
+dest_files=["res://.godot/imported/squirrel.png-5cd6582f0ae483c369cc4e0986fbe6cb.ctex"]
 
 [params]
 

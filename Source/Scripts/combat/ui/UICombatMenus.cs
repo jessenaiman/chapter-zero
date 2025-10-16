@@ -29,7 +29,10 @@ public partial class UICombatMenus : Control
     /// <param name="action">The focused BattlerAction.</param>
     public void OnActionFocused(BattlerAction action)
     {
-        this.actionDescription?.Description = action.Description;
+        if (this.actionDescription != null)
+        {
+            this.actionDescription.Description = action.Description;
+        }
     }
     /// <summary>
     /// Gets or sets the action menu scene that will be created whenever the player needs to select an action.

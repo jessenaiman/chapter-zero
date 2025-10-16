@@ -4,7 +4,6 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
-using YamlDotNet.Serialization;
 
 namespace OmegaSpiral.Source.Scripts.Field
 {
@@ -13,13 +12,13 @@ namespace OmegaSpiral.Source.Scripts.Field
     /// Objects have types, descriptions, and alignments that affect gameplay.
     /// Can be collected or interacted with to progress through the dungeon.
     /// </summary>
-    public partial class DungeonObject
+    public partial class DungeonObject : Resource
     {
         /// <summary>
         /// Gets or sets the type category of this dungeon object.
         /// Determines behavior and interaction mechanics.
         /// </summary>
-        [YamlMember(Alias = "type")]
+        [Export]
         public string YamlType { get; set; } = string.Empty;
 
         /// <summary>
@@ -36,14 +35,14 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets or sets the descriptive text displayed when interacting with this object.
         /// Contains narrative content or gameplay instructions.
         /// </summary>
-        [YamlMember(Alias = "text")]
+        [Export]
         public string? Text { get; set; }
 
         /// <summary>
         /// Gets or sets the Dreamweaver alignment this object responds to.
         /// Affects scoring and narrative outcomes when collected.
         /// </summary>
-        [YamlMember(Alias = "alignedTo")]
+        [Export]
         public string YamlAlignedTo { get; set; } = string.Empty;
 
         /// <summary>
@@ -60,8 +59,8 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets the grid position of this object within the dungeon room.
         /// Coordinates are zero-based from the top-left corner of the map.
         /// </summary>
-        [YamlMember(Alias = "position")]
-        public List<int> YamlPosition { get; init; } = new();
+        [Export]
+        public Godot.Collections.Array<int> YamlPosition { get; set; } = new();
 
         /// <summary>
         /// Gets the grid position of this object within the dungeon room.

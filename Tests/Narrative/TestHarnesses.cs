@@ -18,6 +18,7 @@ public class NarrativeTerminalHarness
     private bool _sceneDataLoaded;
     private int _selectedThreadIndex = -1;
     private int _selectedSecretIndex = -1;
+    private int _currentBlockIndex;
 
     /// <summary>
     /// Initializes a new test harness with configurable LLM settings.
@@ -115,7 +116,7 @@ public class NarrativeTerminalHarness
     /// </summary>
     public void AdvanceBlock()
     {
-        // Simulate block advancement
+        _currentBlockIndex++;
     }
 
     /// <summary>
@@ -124,7 +125,7 @@ public class NarrativeTerminalHarness
     /// <returns>The block index currently being displayed.</returns>
     public int GetCurrentBlockIndex()
     {
-        return 0;
+        return _currentBlockIndex;
     }
 
     /// <summary>
