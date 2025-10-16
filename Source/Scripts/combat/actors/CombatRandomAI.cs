@@ -151,12 +151,12 @@ public partial class CombatRandomAI : CombatAI
     /// Gets the priority of an action for the AI. Parameters are unused in this implementation.
     /// </summary>
     /// <param name="action">The action to evaluate.</param>
-    /// <param name="_targets">The targets for the action.</param>
+    /// <param name="targets">The targets for the action.</param>
     /// <returns>The priority value for the action.</returns>
-    public override float GetActionPriority(BattlerAction action, List<Battler> _targets)
+    public override float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
         _ = action;
-        _ = _targets;
+        _ = targets;
         // Return a neutral priority since this AI doesn't prioritize actions
         return 1.0f;
     }

@@ -12,7 +12,7 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// Manages the turn-based combat system, coordinating the sequence of actions between all combat participants.
 /// Handles round progression, actor initiative ordering, and battle end conditions.
 /// </summary>
-[Icon("res://src/combat/actors/icon_turn_queue.png")]
+[Icon("res://Source/Scripts/combat/actors/icon_turn_queue.png")]
 public partial class CombatTurnQueue : Node
 {
     private int roundCount = 1;

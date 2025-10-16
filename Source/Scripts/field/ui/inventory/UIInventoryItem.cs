@@ -39,7 +39,7 @@ public partial class UIInventoryItem : TextureRect
             else if (this.count > 1 && this.countLabel != null)
             {
                 this.countLabel.Show();
-                this.countLabel.Text = this.count.ToString();
+                this.countLabel.Text = this.count.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
             else if (this.countLabel != null)
             {

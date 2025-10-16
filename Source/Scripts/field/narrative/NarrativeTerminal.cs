@@ -7,11 +7,11 @@ namespace OmegaSpiral.Source.Scripts
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Text.Json;
     using System.Threading.Tasks;
     using Godot;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Field.Narrative;
+    using OmegaSpiral.Source.Scripts.Infrastructure;
 
     /// <summary>
     /// Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
@@ -20,12 +20,6 @@ namespace OmegaSpiral.Source.Scripts
     /// </summary>
     public partial class NarrativeTerminal : Control
     {
-        private readonly JsonSerializerOptions jsonOptions = new()
-        {
-            PropertyNameCaseInsensitive = true,
-            ReadCommentHandling = JsonCommentHandling.Skip,
-        };
-
         /// <summary>
         /// Optional Dialogic integration for enhanced dialogue presentation.
         /// When enabled, uses Dialogic's timeline system for dialogue UI while
@@ -50,6 +44,7 @@ namespace OmegaSpiral.Source.Scripts
         private IReadOnlyList<ChoiceOption> activeChoices = Array.Empty<ChoiceOption>();
         private bool awaitingInput;
         private int currentBlockIndex;
+        private GhostTerminalCinematicPlan cinematicPlan = GhostTerminalCinematicPlan.Empty;
 
         /// <summary>
         /// Dynamic narrative state
@@ -147,8 +142,8 @@ namespace OmegaSpiral.Source.Scripts
 
         private bool TryLoadSceneData()
         {
-            string basePath = "res://Source/Data/scenes/scene1_narrative";
-            string threadKey = this.gameState.DreamweaverThread.ToString().ToUpperInvariant();
+            string basePath = "res://Source/Data/stages/ghost-terminal";
+            string threadKey = this.gameState.DreamweaverThread.ToString().ToLowerInvariant();
             var candidates = new[] { threadKey, "hero", "shadow", "ambition" };
 
             foreach (string candidate in candidates)
@@ -161,25 +156,26 @@ namespace OmegaSpiral.Source.Scripts
 
                 try
                 {
-                    string json = Godot.FileAccess.GetFileAsString(path);
-                    NarrativeSceneData? data = JsonSerializer.Deserialize<NarrativeSceneData>(json, this.jsonOptions);
-                    if (data == null)
+                    var configData = ConfigurationService.LoadConfiguration(path);
+
+                    // Validate against narrative terminal schema
+                    var schemaPath = "res://Source/Data/schemas/narrative_terminal_schema.json";
+                    if (!ConfigurationService.ValidateConfiguration(configData, schemaPath))
                     {
+                        GD.PrintErr($"Schema validation failed for narrative data at {path}");
                         continue;
                     }
 
+                    var data = NarrativeSceneFactory.Create(configData);
+
                     this.NormalizeNarrativeData(data);
                     this.sceneData = data;
+                    this.cinematicPlan = GhostTerminalCinematicDirector.BuildPlan(data);
                     return true;
                 }
-                catch (JsonException ex)
+                catch (Exception ex)
                 {
-                    GD.PrintErr($"Failed to parse narrative data at {path}: {ex.Message}");
-                }
-                catch (Exception ex) when (ex is not JsonException)
-                {
-                    GD.PrintErr($"Unexpected error loading narrative data at {path}: {ex.Message}");
-                    throw;
+                    GD.PrintErr($"Failed to load narrative data at {path}: {ex.Message}");
                 }
             }
 
@@ -193,29 +189,32 @@ namespace OmegaSpiral.Source.Scripts
             data.StoryBlocks ??= new List<StoryBlock>();
             data.SecretQuestion ??= new SecretQuestion { Options = new List<string>() };
 
-            if (data.InitialChoice != null)
+            if (data.InitialChoice?.Options != null && data.InitialChoice.Options.Count > 0)
             {
-                data.InitialChoice.Options = new List<DreamweaverChoice>();
                 foreach (DreamweaverChoice option in data.InitialChoice.Options)
                 {
-                    if (!Enum.TryParse(option.Id, true, out DreamweaverThread parsedThread))
+                    if (string.IsNullOrWhiteSpace(option.Id) ||
+                        !Enum.TryParse(option.Id, true, out DreamweaverThread parsedThread))
                     {
                         parsedThread = DreamweaverThread.Hero;
                     }
 
                     option.Thread = parsedThread;
+                    option.Text ??= option.Id;
+                    option.Description ??= string.Empty;
                 }
 
                 this.threadChoices = data.InitialChoice.Options;
+            }
+            else
+            {
+                this.threadChoices = Array.Empty<DreamweaverChoice>();
             }
 
             foreach (StoryBlock block in data.StoryBlocks)
             {
                 block.Paragraphs ??= new List<string>();
-                if (block.Choices == null)
-                {
-                    block.Choices = new List<ChoiceOption>();
-                }
+                block.Choices ??= new List<ChoiceOption>();
             }
         }
 
@@ -258,7 +257,7 @@ namespace OmegaSpiral.Source.Scripts
                 for (int i = 0; i < dynamicChoices.Count; i++)
                 {
                     var choice = dynamicChoices[i];
-                    this.DisplayImmediate($"  {i + 1}. {choice.Text} — {choice.Description}");
+                    this.DisplayImmediate($"  {i + 1}. {choice.Label} — {choice.Description}");
                 }
 
                 this.activeChoices = Array.Empty<ChoiceOption>();

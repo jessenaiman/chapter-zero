@@ -70,7 +70,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Dictionary mapping battlers to their UI displays.
     /// </summary>
-    private Dictionary<Battler, Control> battlerDisplays = new Dictionary<Battler, Control>();
+    private readonly Dictionary<Battler, Control> battlerDisplays = new();
 
     /// <summary>
     /// The currently selected battler.
@@ -95,7 +95,7 @@ public partial class UICombatHud : Control
     /// <summary>
     /// Connect to necessary signals.
     /// </summary>
-    private void ConnectSignals()
+    private static void ConnectSignals()
     {
         // Connect to combat events
         // CombatEvents.BattlerSelected += OnBattlerSelected;

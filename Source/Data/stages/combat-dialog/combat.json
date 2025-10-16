@@ -1,0 +1,28 @@
+{
+  "type": "pixel_combat",
+  "title": "Final Battle",
+  "description": "Face the ultimate challenge in this turn-based pixel combat!",
+  "playerSprite": "res://Assets/sprites/player_combat.png",
+  "enemy": {
+    "name": "Dark Guardian",
+    "hp": 150,
+    "maxHp": 150,
+    "attack": 15,
+    "defense": 5,
+    "sprite": "res://Assets/sprites/enemy_guardian.png",
+    "attackPatterns": [
+      "Slash",
+      "Dark Magic",
+      "Summon Minions",
+      "Power Strike"
+    ]
+  },
+  "actions": [
+    "FIGHT",
+    "MAGIC",
+    "ITEM",
+    "RUN"
+  ],
+  "music": "res://Assets/audio/combat_theme.ogg",
+  "victoryText": "Victory! The Dreamweaver has been chosen based on your journey."
+}

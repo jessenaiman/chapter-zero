@@ -5,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
 // </copyright>
 
 using Godot;
+using System.Globalization;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
 
 /// <summary>
@@ -79,7 +80,7 @@ public partial class UIDamageLabel : Marker2D
 
             if (this.label != null)
             {
-                this.label.Text = this.amount.ToString();
+                this.label.Text = this.amount.ToString(CultureInfo.InvariantCulture);
 
                 if (this.amount >= 0)
                 {
@@ -107,7 +108,7 @@ public partial class UIDamageLabel : Marker2D
         // If Amount was set before the node was ready, apply it now
         if (this.label != null)
         {
-            this.label.Text = this.amount.ToString();
+            this.label.Text = this.amount.ToString(CultureInfo.InvariantCulture);
 
             if (this.amount >= 0)
             {

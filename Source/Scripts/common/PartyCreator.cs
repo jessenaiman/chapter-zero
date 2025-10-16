@@ -83,7 +83,7 @@ public partial class PartyCreator : Node2D
         }
 
         this.classSelector.Clear();
-        foreach (CharacterClass cClass in System.Enum.GetValues(typeof(CharacterClass)))
+        foreach (CharacterClass cClass in System.Enum.GetValues<CharacterClass>())
         {
             this.classSelector.AddItem(cClass.ToString());
         }
@@ -101,7 +101,7 @@ public partial class PartyCreator : Node2D
         }
 
         this.raceSelector.Clear();
-        foreach (CharacterRace race in System.Enum.GetValues(typeof(CharacterRace)))
+        foreach (CharacterRace race in System.Enum.GetValues<CharacterRace>())
         {
             this.raceSelector.AddItem(race.ToString());
         }

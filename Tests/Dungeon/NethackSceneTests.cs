@@ -25,11 +25,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenValidSchemaProvided_LoadsThreeDistinctDungeonStages()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act
-        var sequence = loader.LoadFromJson(validJson);
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert
         AssertThat(sequence).IsNotNull();
@@ -46,11 +45,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenValidSchemaProvided_AssignsUniqueOwnerValues()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act
-        var sequence = loader.LoadFromJson(validJson);
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert
         AssertThat(sequence.Stages).HasSize(3);
@@ -68,11 +66,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenValidSchemaProvided_ValidatesMapDimensions()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act
-        var sequence = loader.LoadFromJson(validJson);
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert
         AssertThat(sequence.Stages).HasSize(3);
@@ -90,11 +87,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenValidSchemaProvided_CorrectlyAlignsObjectGlyphs()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act
-        var sequence = loader.LoadFromJson(validJson);
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert
         AssertThat(sequence.Stages).HasSize(3);
@@ -116,11 +112,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenDuplicateOwnersProvided_ThrowsDomainException()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var duplicateOwnerJson = CreateDungeonSequenceWithDuplicateOwners();
 
         // Act & Assert
-        AssertThat(() => loader.LoadFromJson(duplicateOwnerJson))
+        AssertThat(() => AsciiDungeonSequenceLoader.LoadFromJson(duplicateOwnerJson))
             .Throws<DungeonValidationException>()
             .WithMessageContaining("unique Dreamweaver owner");
     }
@@ -152,11 +147,10 @@ public class NethackSceneTests
     public void LoadSchema_WhenValidSchemaProvided_MaintainsBalancedAffinityDistribution()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act
-        var sequence = loader.LoadFromJson(validJson);
+        var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert
         AssertThat(sequence.Stages).HasSize(3);
@@ -330,12 +324,11 @@ public class NethackSceneTests
     public void StageProgression_WhenSameSeedUsed_MaintainsConsistentSequenceOrder()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act - Load sequence multiple times with same data
-        var sequence1 = loader.LoadFromJson(validJson);
-        var sequence2 = loader.LoadFromJson(validJson);
+        var sequence1 = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var sequence2 = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert - Verify consistent order
         AssertThat(sequence1.Stages.Count).IsEqual(sequence2.Stages.Count);
@@ -352,12 +345,11 @@ public class NethackSceneTests
     public void StageProgression_WhenSameSeedUsed_GeneratesIdenticalLayouts()
     {
         // Arrange
-        var loader = new AsciiDungeonSequenceLoader();
         var validJson = CreateValidDungeonSequenceJson();
 
         // Act - Load sequence multiple times with same data
-        var sequence1 = loader.LoadFromJson(validJson);
-        var sequence2 = loader.LoadFromJson(validJson);
+        var sequence1 = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+        var sequence2 = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
         // Assert - Verify identical layouts
         AssertThat(sequence1.Stages.Count).IsEqual(sequence2.Stages.Count);

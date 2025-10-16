@@ -92,10 +92,19 @@ public class ErrorHandlingTests
     [TestCase]
     public void ProcessInput_WithRapidMashing_CompletesContentNormally()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual input spam handling
-        // The mock implementation would verify state machine stability
-        AssertThat(true).IsTrue();
+        // Arrange
+        var inputHarness = new TestInputSpamHarness();
+        inputHarness.StartContentBlock();
+
+        // Act - simulate 20 rapid key presses
+        for (int i = 0; i < 20; i++)
+        {
+            inputHarness.SimulateInput();
+        }
+
+        // Assert
+        AssertThat(inputHarness.ContentDisplayed).IsTrue();
+        AssertThat(inputHarness.IsInValidState).IsTrue();
     }
 
     /// <summary>
@@ -104,9 +113,20 @@ public class ErrorHandlingTests
     [TestCase]
     public void ProcessInput_WithFiftyPlusRapidInputs_MaintainsConsistentState()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // There should be a delay after key input to allow processing and for the next text block to start
-        AssertThat(true).IsTrue();
+        // Arrange
+        var inputHarness = new TestInputSpamHarness();
+        inputHarness.StartContentBlock();
+
+        // Act - simulate 60+ rapid inputs
+        for (int i = 0; i < 60; i++)
+        {
+            inputHarness.SimulateInput();
+        }
+
+        // Assert
+        AssertThat(inputHarness.IsInValidState).IsTrue();
+        AssertThat(inputHarness.ProcessedInputCount).IsGreater(50);
+        AssertThat(inputHarness.CrashOccurred).IsFalse();
     }
 
     /// <summary>
@@ -115,10 +135,26 @@ public class ErrorHandlingTests
     [TestCase]
     public void ProcessInput_WithInputSpam_AvoidsCrashes()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual crash prevention
-        // The mock implementation would verify system stability
-        AssertThat(true).IsTrue();
+        // Arrange
+        var inputHarness = new TestInputSpamHarness();
+        inputHarness.StartContentBlock();
+
+        // Act - attempt to trigger crashes with spam
+        try
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                inputHarness.SimulateInput();
+            }
+        }
+        catch (Exception)
+        {
+            inputHarness.MarkCrash();
+        }
+
+        // Assert
+        AssertThat(inputHarness.CrashOccurred).IsFalse();
+        AssertThat(inputHarness.IsInValidState).IsTrue();
     }
 
     #endregion

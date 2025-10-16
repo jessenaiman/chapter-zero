@@ -27,7 +27,7 @@ public partial class UIInventory : HBoxContainer
     {
         base._Ready();
 
-        this.itemScene = GD.Load<PackedScene>("res://src/field/ui/inventory/ui_inventory_item.tscn");
+        this.itemScene = GD.Load<PackedScene>("res://Source/Scripts/field/ui/inventory/UIInventoryItem.tscn");
 
         // Get the Inventory singleton
         var inventory = this.GetNode("/root/Inventory");

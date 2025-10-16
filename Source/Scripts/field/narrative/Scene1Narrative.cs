@@ -131,34 +131,59 @@ public partial class Scene1Narrative : Node2D
     }
 
     /// <summary>
-    /// Loads persona configuration from YAML file.
+    /// Loads persona configuration from JSON file using ConfigurationService.
     /// </summary>
     /// <param name="personaId">The persona identifier.</param>
     /// <returns>The loaded persona configuration or null if not found.</returns>
-    private static PersonaConfig? LoadPersonaConfigFromYaml(string personaId)
+    private static PersonaConfig? LoadPersonaConfigFromJson(string personaId)
     {
         try
         {
-            var configPath = $"res://Source/Data/scenes/scene1_narrative/{personaId}.yaml";
+            var configPath = $"res://Source/Data/stages/ghost-terminal/{personaId}.json";
             if (!Godot.FileAccess.FileExists(configPath))
             {
                 GD.PrintErr($"Persona config not found: {configPath}");
                 return null;
             }
 
-            Godot.FileAccess file = Godot.FileAccess.Open(configPath, Godot.FileAccess.ModeFlags.Read);
-            var yamlText = file.GetAsText();
-            file.Close();
+            // Use ConfigurationService for unified JSON loading with schema validation
+            var configData = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration(configPath);
+            if (configData == null)
+            {
+                GD.PrintErr($"Failed to load configuration from {configPath}");
+                return null;
+            }
 
-            // Use YamlDotNet to deserialize the YAML directly into C# objects
-            var deserializer = new YamlDotNet.Serialization.DeserializerBuilder().Build();
-            return deserializer.Deserialize<PersonaConfig>(yamlText);
+            // Map Godot.Collections.Dictionary to PersonaConfig
+            return MapToPersonaConfig(configData);
         }
         catch (InvalidOperationException ex)
         {
             GD.PrintErr($"Failed to load persona config for {personaId}: {ex.Message}");
             return null;
         }
+    }
+
+    /// <summary>
+    /// Maps a Godot Dictionary to a PersonaConfig object.
+    /// </summary>
+    /// <param name="configData">The configuration dictionary.</param>
+    /// <returns>A new PersonaConfig instance.</returns>
+    private static PersonaConfig? MapToPersonaConfig(Godot.Collections.Dictionary<string, Godot.Variant> configData)
+    {
+        var config = new PersonaConfig();
+
+        if (configData.TryGetValue("openingLines", out var openingLinesVar))
+        {
+            var openingArray = openingLinesVar.AsGodotArray();
+            foreach (var line in openingArray)
+            {
+                config.OpeningLines.Add(line.ToString() ?? string.Empty);
+            }
+        }
+
+        // Map other fields as needed...
+        return config;
     }
 
     /// <summary>
@@ -427,9 +452,9 @@ public partial class Scene1Narrative : Node2D
             return;
         }
 
-        // Load persona-specific content from the YAML configuration
+        // Load persona-specific content from the JSON configuration
         // For now, use the personaId to determine which config to load
-        var config = LoadPersonaConfigFromYaml(personaId);
+        var config = LoadPersonaConfigFromJson(personaId);
         if (config != null && config.InitialChoice != null)
         {
             if (this.outputLabel != null)

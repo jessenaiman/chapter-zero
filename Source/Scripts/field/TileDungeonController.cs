@@ -8,7 +8,7 @@ using System;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using YamlDotNet.Serialization;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 /// <summary>
 /// Controls the tile-based dungeon functionality, handling player movement, tile interactions, and dungeon state.
@@ -43,22 +43,34 @@ public partial class TileDungeonController : Node2D
     {
         try
         {
-            string dataPath = "res://Source/Data/scenes/scene4_tile_dungeon/dungeon.yaml";
-            var yamlText = Godot.FileAccess.GetFileAsString(dataPath);
+            string dataPath = "res://Source/Data/stages/mirror-dungeon/dungeon.json";
+            var configData = ConfigurationService.LoadConfiguration(dataPath);
 
-            var deserializer = new DeserializerBuilder().Build();
-            this.dungeonData = deserializer.Deserialize<TileDungeonData>(yamlText);
+            // Map the dictionary to TileDungeonData
+            if (configData != null)
+            {
+                this.dungeonData = new TileDungeonData();
+
+                if (configData.TryGetValue("type", out var typeVar))
+                {
+                    this.dungeonData.Type = typeVar.ToString() ?? "tile_dungeon";
+                }
+
+                if (configData.TryGetValue("tilemap", out var tilemapVar))
+                {
+                    var tilemapArray = tilemapVar.AsGodotArray();
+                    foreach (var row in tilemapArray)
+                    {
+                        this.dungeonData.Tilemap.Add(row.ToString() ?? string.Empty);
+                    }
+                }
+            }
 
             GD.Print($"Loaded dungeon data with {this.dungeonData?.Tilemap?.Count ?? 0} tilemap rows");
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             GD.PrintErr($"Failed to load dungeon data: {ex.Message}");
-            this.dungeonData = new TileDungeonData();
-        }
-        catch (YamlDotNet.Core.YamlException ex)
-        {
-            GD.PrintErr($"YAML parsing error for dungeon data: {ex.Message}");
             this.dungeonData = new TileDungeonData();
         }
     }
@@ -185,7 +197,7 @@ public partial class TileDungeonController : Node2D
 
             if (definition.Type == TileType.Exit)
             {
-                this.sceneManager.TransitionToScene("Scene5PixelCombat");
+                this.sceneManager.TransitionToScene("Scene5FieldCombat");
             }
         }
     }

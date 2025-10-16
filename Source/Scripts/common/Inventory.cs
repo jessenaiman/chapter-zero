@@ -37,7 +37,7 @@ namespace OmegaSpiral
         /// </summary>
         public Inventory()
         {
-            foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
+            foreach (ItemType itemType in Enum.GetValues<ItemType>())
             {
                 this.items[itemType] = 0;
             }

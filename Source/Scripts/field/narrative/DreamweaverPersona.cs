@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Scripts.Field.Narrative;
@@ -24,11 +23,6 @@ public partial class DreamweaverPersona
     private PersonaConfig config;
     private GameState? gameState;
     private Random random = new();
-
-    /// <summary>
-    /// Reusable JsonSerializerOptions instance for case-insensitive property matching.
-    /// </summary>
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { PropertyNameCaseInsensitive = true };
 
     /// <summary>
     /// NobodyWho integration
@@ -115,7 +109,7 @@ public partial class DreamweaverPersona
             GD.PrintErr($"Narrative generation failed for {this.PersonaId}: {ex.Message}");
             return this.GenerateFromJsonFallback();
         }
-        catch (System.Text.Json.JsonException ex)
+        catch (ArgumentException ex)
         {
             GD.PrintErr($"JSON parsing failed for {this.PersonaId}: {ex.Message}");
             return this.GenerateFromJsonFallback();
@@ -180,7 +174,7 @@ public partial class DreamweaverPersona
             GD.PrintErr($"Failed to generate choices for {this.PersonaId}: {ex.Message}");
             return this.GetBaseChoicesFromJson();
         }
-        catch (System.Text.Json.JsonException ex)
+        catch (ArgumentException ex)
         {
             GD.PrintErr($"JSON parsing failed for {this.PersonaId}: {ex.Message}");
             return this.GetBaseChoicesFromJson();
@@ -202,10 +196,11 @@ public partial class DreamweaverPersona
     }
 
     /// <summary>
-    /// Parses choices from JSON response.
+    /// Parses choices from JSON response using Godot native JSON parsing.
     /// </summary>
     /// <param name="jsonResponse">The JSON response string to parse.</param>
     /// <returns>A list of parsed choice options.</returns>
+    /// <exception cref="ArgumentException">Thrown when JSON parsing fails.</exception>
     private static List<ChoiceOption> ParseChoicesFromJson(string jsonResponse)
     {
         var choices = new List<ChoiceOption>();
@@ -218,21 +213,57 @@ public partial class DreamweaverPersona
             if (jsonStart >= 0 && jsonEnd > jsonStart)
             {
                 var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
-                var parsedChoices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, JsonSerializerOptions);
 
-                if (parsedChoices != null)
+                // Use Godot native JSON parsing
+                var json = new Json();
+                var parseError = json.Parse(jsonText);
+
+                if (parseError != Error.Ok)
                 {
-                    choices = parsedChoices;
+                    GD.PrintErr($"Failed to parse choices JSON: {json.GetErrorMessage()}");
+                    return choices;
+                }
+
+                var data = json.Data;
+
+                // Validate data is an array
+                if (data.VariantType != Variant.Type.Array)
+                {
+                    GD.PrintErr("Choices JSON is not an array");
+                    return choices;
+                }
+
+                var choicesArray = data.AsGodotArray();
+
+                // Map each choice from Godot variant to ChoiceOption
+                foreach (var choiceVariant in choicesArray)
+                {
+                    if (choiceVariant.VariantType != Variant.Type.Dictionary)
+                    {
+                        continue;
+                    }
+
+                    var choiceDict = choiceVariant.AsGodotDictionary();
+
+                    var choice = new ChoiceOption
+                    {
+                        Id = choiceDict.ContainsKey("id") ? choiceDict["id"].AsString() : string.Empty,
+                        Label = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() :
+                                choiceDict.ContainsKey("label") ? choiceDict["label"].AsString() : string.Empty,
+                        Description = choiceDict.ContainsKey("description") ? choiceDict["description"].AsString() : string.Empty,
+                    };
+
+                    choices.Add(choice);
                 }
             }
-        }
-        catch (System.Text.Json.JsonException ex)
-        {
-            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
         }
         catch (ArgumentOutOfRangeException ex)
         {
             GD.PrintErr($"Invalid JSON response format: {ex.Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
         }
 
         return choices;

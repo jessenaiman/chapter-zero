@@ -10,9 +10,9 @@ namespace OmegaSpiral.Source.Scripts
     using System.Threading.Tasks;
     using Godot;
     using OmegaSpiral.Scripts.Field.Narrative;
-    using NarrativeChoiceOption = OmegaSpiral.Source.Scripts.Field.Narrative.ChoiceOption;
-    using YamlDotNet.Serialization;
+    using NarrativeChoiceOption = OmegaSpiral.Scripts.Field.Narrative.ChoiceOption;
     using OmegaSpiral.Source.Scripts.Common;
+    using OmegaSpiral.Source.Scripts.Infrastructure;
 
     /// <summary>
     /// Main orchestrator for the Dreamweaver LLM system.
@@ -22,7 +22,7 @@ namespace OmegaSpiral.Source.Scripts
     public partial class DreamweaverSystem : Node
     {
         private readonly TaskCompletionSource<bool> initializationComplete = new();
-        private Dictionary<string, DreamweaverPersona> personas = new();
+        private readonly Dictionary<string, DreamweaverPersona> personas = new();
         private GameState? gameState;
 
         /// <summary>
@@ -95,12 +95,6 @@ namespace OmegaSpiral.Source.Scripts
                 this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
                 return GetFallbackNarrative(personaId);
             }
-            catch (System.Text.Json.JsonException ex)
-            {
-                GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
-                this.EmitSignal(SignalName.GenerationError, personaId, ex.Message);
-                return GetFallbackNarrative(personaId);
-            }
         }
 
         /// <summary>
@@ -142,16 +136,11 @@ namespace OmegaSpiral.Source.Scripts
             try
             {
                 var choices = await persona.GenerateChoicesAsync(context).ConfigureAwait(false);
-                return choices.Select(c => new NarrativeChoiceOption { Id = c.Id, Text = c.Label, Description = c.Description }).ToList();
+                return choices.Select(c => new NarrativeChoiceOption { Id = c.Id, Label = c.Label, Description = c.Description }).ToList();
             }
             catch (InvalidOperationException ex)
             {
                 GD.PrintErr($"Failed to generate choices for {personaId}: {ex.Message}");
-                return GetFallbackChoices();
-            }
-            catch (System.Text.Json.JsonException ex)
-            {
-                GD.PrintErr($"JSON parsing failed for {personaId}: {ex.Message}");
                 return GetFallbackChoices();
             }
         }
@@ -200,33 +189,45 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Loads persona configuration from YAML file.
+        /// Loads persona configuration from JSON file using Godot native parsing with schema validation.
         /// </summary>
         /// <param name="personaId">The persona identifier.</param>
         /// <returns>The loaded persona configuration or null if not found.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when JSON parsing or schema validation fails.</exception>
         private static PersonaConfig? LoadPersonaConfig(string personaId)
         {
             try
             {
-                var configPath = $"res://Source/Data/scenes/scene1_narrative/{personaId}.yaml";
+                var configPath = $"res://Source/Data/stages/ghost-terminal/{personaId}.json";
+
                 GD.Print($"Loading persona config from: {configPath}");
+
                 if (!Godot.FileAccess.FileExists(configPath))
                 {
                     GD.PrintErr($"Persona config not found: {configPath}");
                     return null;
                 }
 
-                Godot.FileAccess file = Godot.FileAccess.Open(configPath, Godot.FileAccess.ModeFlags.Read);
-                var yamlText = file.GetAsText();
-                file.Close();
+                // Use ConfigurationService for unified JSON loading with schema validation
+                var jsonData = ConfigurationService.LoadConfiguration(configPath);
 
-                GD.Print($"YAML text length for {personaId}: {yamlText.Length}");
+                if (jsonData == null)
+                {
+                    GD.PrintErr($"Failed to load or validate config for {personaId}");
+                    return null;
+                }
 
-                // Use YamlDotNet to deserialize the YAML directly into C# objects
-                var deserializer = new DeserializerBuilder().Build();
-                var config = deserializer.Deserialize<PersonaConfig>(yamlText);
+                // Validate against narrative terminal schema
+                var schemaPath = "res://Source/Data/schemas/narrative_terminal_schema.json";
+                if (!ConfigurationService.ValidateConfiguration(jsonData, schemaPath))
+                {
+                    GD.PrintErr($"Schema validation failed for {personaId} config");
+                    return null;
+                }
 
-                GD.Print($"Deserialized config for {personaId}: OpeningLines count = {config?.OpeningLines.Count ?? 0}");
+                // Map Godot.Collections.Dictionary to PersonaConfig
+                var config = MapToPersonaConfig(jsonData);
+                GD.Print($"Loaded config for {personaId}: OpeningLines count = {config?.OpeningLines.Count ?? 0}");
                 return config;
             }
             catch (InvalidOperationException ex)
@@ -234,21 +235,153 @@ namespace OmegaSpiral.Source.Scripts
                 GD.PrintErr($"Failed to load persona config for {personaId}: {ex.Message}");
                 return null;
             }
-            catch (YamlDotNet.Core.YamlException ex)
-            {
-                GD.PrintErr($"YAML parsing error for {personaId}: {ex.Message}");
-                return null;
-            }
         }
 
         /// <summary>
-        /// Fallback methods for when LLM generation fails
+        /// Maps a Godot.Collections.Dictionary to PersonaConfig domain object.
         /// </summary>
-        /// <param name="personaId"></param>
-        /// <returns></returns>
+        /// <param name="data">The dictionary data from JSON.</param>
+        /// <returns>The mapped PersonaConfig object.</returns>
+        private static PersonaConfig MapToPersonaConfig(Godot.Collections.Dictionary<string, Variant> data)
+        {
+            var config = new PersonaConfig();
+
+            // Map opening lines
+            if (data.TryGetValue("openingLines", out var openingLinesValue) && openingLinesValue.VariantType == Variant.Type.Array)
+            {
+                var openingArray = data["openingLines"].AsGodotArray();
+                foreach (var line in openingArray)
+                {
+                    config.OpeningLines.Add(line.AsString());
+                }
+            }
+
+            // Map initial choice
+            if (data.TryGetValue("initialChoice", out var initialChoiceValue) && initialChoiceValue.VariantType == Variant.Type.Dictionary)
+            {
+                var initialChoiceDict = data["initialChoice"].AsGodotDictionary();
+                config.InitialChoice = new ChoiceBlock
+                {
+                    Prompt = initialChoiceDict.ContainsKey("prompt")
+                        ? initialChoiceDict["prompt"].AsString()
+                        : string.Empty,
+                    Options = new(),
+                };
+
+                if (initialChoiceDict.ContainsKey("options") && initialChoiceDict["options"].VariantType == Variant.Type.Array)
+                {
+                    var optionsArray = initialChoiceDict["options"].AsGodotArray();
+                    foreach (var opt in optionsArray)
+                    {
+                        if (opt.VariantType == Variant.Type.Dictionary)
+                        {
+                            var optDict = opt.AsGodotDictionary();
+                            config.InitialChoice.Options.Add(new ChoiceOption
+                            {
+                                Id = optDict.ContainsKey("id") ? optDict["id"].AsString() : string.Empty,
+                                Label = optDict.ContainsKey("label") ? optDict["label"].AsString() : string.Empty,
+                                Description = optDict.ContainsKey("description") ? optDict["description"].AsString() : string.Empty,
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Map story blocks
+            if (data.TryGetValue("storyBlocks", out var storyBlocksValue) && storyBlocksValue.VariantType == Variant.Type.Array)
+            {
+                var blocksArray = data["storyBlocks"].AsGodotArray();
+                foreach (var block in blocksArray)
+                {
+                    if (block.VariantType == Variant.Type.Dictionary)
+                    {
+                        var blockDict = block.AsGodotDictionary();
+                        var storyBlock = new StoryBlock();
+
+                        if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
+                        {
+                            var paragraphsArray = blockDict["paragraphs"].AsGodotArray();
+                            foreach (var para in paragraphsArray)
+                            {
+                                storyBlock.Paragraphs.Add(para.AsString());
+                            }
+                        }
+
+                        if (blockDict.ContainsKey("question"))
+                        {
+                            storyBlock.Question = blockDict["question"].AsString();
+                        }
+
+                        if (blockDict.ContainsKey("choices") && blockDict["choices"].VariantType == Variant.Type.Array)
+                        {
+                            var choicesArray = blockDict["choices"].AsGodotArray();
+                            foreach (var choice in choicesArray)
+                            {
+                                if (choice.VariantType == Variant.Type.Dictionary)
+                                {
+                                    var choiceDict = choice.AsGodotDictionary();
+                                    storyBlock.Choices.Add(new NarrativeChoice
+                                    {
+                                        Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
+                                        NextBlock = choiceDict.ContainsKey("nextBlock") ? choiceDict["nextBlock"].AsInt32() : 0,
+                                    });
+                                }
+                            }
+                        }
+
+                        config.StoryBlocks.Add(storyBlock);
+                    }
+                }
+            }
+
+            // Map name prompt
+            if (data.TryGetValue("namePrompt", out var namePromptValue))
+            {
+                config.NamePrompt = data["namePrompt"].AsString();
+            }
+
+            // Map secret question
+            if (data.TryGetValue("secretQuestion", out var secretQuestionValue) && secretQuestionValue.VariantType == Variant.Type.Dictionary)
+            {
+                var secretQuestionDict = data["secretQuestion"].AsGodotDictionary();
+                config.SecretQuestion = new SecretQuestionBlock
+                {
+                    Prompt = secretQuestionDict.ContainsKey("prompt")
+                        ? secretQuestionDict["prompt"].AsString()
+                        : string.Empty,
+                    Options = new List<string>(),
+                };
+
+                if (secretQuestionDict.ContainsKey("options") && secretQuestionDict["options"].VariantType == Variant.Type.Array)
+                {
+                    var optionsArray = secretQuestionDict["options"].AsGodotArray();
+                    foreach (var opt in optionsArray)
+                    {
+                        if (opt.VariantType == Variant.Type.String)
+                        {
+                            config.SecretQuestion.Options.Add(opt.AsString());
+                        }
+                    }
+                }
+            }
+
+            // Map exit line
+            if (data.TryGetValue("exitLine", out var exitLineValue))
+            {
+                config.ExitLine = data["exitLine"].AsString();
+            }
+
+            return config;
+        }
+
+        /// <summary>
+        /// Fallback methods for when LLM generation fails.
+        /// </summary>
+        /// <param name="personaId">The persona identifier.</param>
+        /// <returns>A fallback narrative string.</returns>
         private static string GetFallbackNarrative(string personaId)
         {
-            var fallbacks = new Dictionary<string, string>
+            var fallbacks = new Dictionary<string, string>()
             {
                 ["hero"] = "The hero's path calls to you, filled with light and shadow.",
                 ["shadow"] = "The shadows whisper secrets that only you can hear.",
@@ -258,9 +391,14 @@ namespace OmegaSpiral.Source.Scripts
             return fallbacks.GetValueOrDefault(personaId, "The narrative continues...");
         }
 
+        /// <summary>
+        /// Gets a fallback opening line for when configuration fails to load.
+        /// </summary>
+        /// <param name="personaId">The persona identifier.</param>
+        /// <returns>A fallback opening line string.</returns>
         private static string GetFallbackOpeningLine(string personaId)
         {
-            var fallbacks = new Dictionary<string, string>
+            var fallbacks = new Dictionary<string, string>()
             {
                 ["hero"] = "A hero emerges from the darkness.",
                 ["shadow"] = "The shadows remember what you forget.",
@@ -270,20 +408,27 @@ namespace OmegaSpiral.Source.Scripts
             return fallbacks.GetValueOrDefault(personaId, "Welcome to the spiral.");
         }
 
+        /// <summary>
+        /// Gets fallback choices for when dynamic choice generation fails.
+        /// </summary>
+        /// <returns>A list of default narrative choices.</returns>
         private static List<NarrativeChoiceOption> GetFallbackChoices()
         {
-            return new List<NarrativeChoiceOption>
+            return new()
             {
-                new NarrativeChoiceOption { Id = "continue", Text = "Continue", Description = "Continue the journey" },
-                new NarrativeChoiceOption { Id = "reflect", Text = "Reflect", Description = "Take a moment to reflect" },
-                new NarrativeChoiceOption { Id = "question", Text = "Question", Description = "Ask a question" },
+                new NarrativeChoiceOption { Id = "continue", Label = "Continue", Description = "Continue the journey" },
+                new NarrativeChoiceOption { Id = "reflect", Label = "Reflect", Description = "Take a moment to reflect" },
+                new NarrativeChoiceOption { Id = "question", Label = "Question", Description = "Ask a question" },
             };
         }
 
+        /// <summary>
+        /// Initializes the three Dreamweaver personas by loading their configurations.
+        /// </summary>
         private void InitializePersonas()
         {
             GD.Print("Initializing personas...");
-            // Load persona configurations from YAML files
+            // Load persona configurations from JSON files
             var heroConfig = LoadPersonaConfig("hero");
             var shadowConfig = LoadPersonaConfig("shadow");
             var ambitionConfig = LoadPersonaConfig("ambition");

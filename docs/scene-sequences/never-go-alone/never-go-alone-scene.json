@@ -1,0 +1,122 @@
+{
+  "scene": "never-go-alone",
+  "overview": [
+    "Beyond the ghost-terminal’s dying glow, the corridor fractures into three mirrored halls.",
+    "Each hall hums with the cadence of a different Dreamweaver, waiting for the player to choose a companion.",
+    "The path forward is an escape spiral; every ally chosen becomes a layer of protection against the Omega Echo that stalks the rear."
+  ],
+  "companions": [
+    {
+      "id": "light",
+      "name": "Lumen Archivist",
+      "affinityRequirement": "Light >= 2",
+      "description": [
+        "Cartographer of luminous exits, mapping paths that refuse to vanish.",
+        "Promises guidance, but only if the player accepts their own responsibility to lead."
+      ],
+      "abilities": [
+        "RevealSafeTiles: Highlight stable ASCII ground.",
+        "SanctifyGlyph: Convert corrupted glyphs into healing nodes."
+      ],
+      "banter": [
+        "\"Light doesn’t show the way—it reminds you there was always one.\"",
+        "\"Chart every heartbeat; that is how we outrun the Weaver.\""
+      ]
+    },
+    {
+      "id": "mischief",
+      "name": "Whisper Courier",
+      "affinityRequirement": "Mischief >= 2",
+      "description": [
+        "Messenger who dances between glitches, never walking any path twice.",
+        "Sees the escape not as a dash, but as a prank on inevitability."
+      ],
+      "abilities": [
+        "PhaseSkip: Bypass one locked ASCII chamber per tier.",
+        "EchoDecoy: Drop a decoy sprite that absorbs traps and misdirects Omega Echo."
+      ],
+      "banter": [
+        "\"Every exit is just an entrance that forgot to lock itself.\"",
+        "\"Keep your eyes on the decoy; the real me will already be gone.\""
+      ]
+    },
+    {
+      "id": "wrath",
+      "name": "Graviton Warden",
+      "affinityRequirement": "Wrath >= 2",
+      "description": [
+        "Battle-scarred guardian who breaks the maze rather than navigating it.",
+        "Believes resistance is the only compass worth trusting."
+      ],
+      "abilities": [
+        "GlyphBreaker: Shatter door glyphs to force alternate routes.",
+        "AnchorStride: Stabilise collapsing bridges for a single traversal."
+      ],
+      "banter": [
+        "\"Walls are just symbols waiting to remember they’re hollow.\"",
+        "\"I will not let the maze rewrite you.\""
+      ]
+    }
+  ],
+  "escapeSequence": {
+    "tiers": [
+      {
+        "name": "Tier 1 – Glyph Gate",
+        "layout": [
+          "###########",
+          "#..@..D..C#",
+          "#.###.###.#",
+          "#.......M.#",
+          "###########"
+        ],
+        "objective": "Choose an ability to open the primary corridor and outpace the Omega Echo.",
+        "twistVariant": "If Mischief is unchosen, Omega Echo seals door glyphs a turn earlier."
+      },
+      {
+        "name": "Tier 2 – Anomaly Atrium",
+        "layout": [
+          "~~~~~~~~~~~",
+          "#..@..~..C#",
+          "#.###~###.#",
+          "#..D..~..M#",
+          "###########"
+        ],
+        "objective": "Chain two companion abilities to cross collapsing platforms.",
+        "twistVariant": "If Light is unchosen, safe tiles flicker and require rerouting."
+      },
+      {
+        "name": "Tier 3 – Memory Vault",
+        "layout": [
+          "###########",
+          "#.@....#..#",
+          "###.###.###",
+          "#..D....C.#",
+          "###########"
+        ],
+        "objective": "Trigger GlyphBreaker to open the final path; outrun the Omega Echo emerging from the opposite side.",
+        "twistVariant": "If Wrath is unchosen, Omega Echo gains the first move and forces a defensive play."
+      }
+    ],
+    "finale": {
+      "description": [
+        "At the exit glyph, the companions align their sigils into a spiral passphrase.",
+        "Omega Echo attempts to overwrite the passphrase; success depends on accumulated Dreamweaver affinity."
+      ],
+      "outcomes": [
+        {
+          "condition": "Total affinity >= 6",
+          "result": "Player escapes with all companions intact; the Echo retreats into the void."
+        },
+        {
+          "condition": "Total affinity < 6",
+          "result": "One companion becomes a lingering Echo, altering future abilities."
+        }
+      ],
+      "closingLine": "\"Never go alone doesn’t mean you leave together unscarred.\""
+    }
+  },
+  "llmHooks": {
+    "companionIntro": "Describe {companionName} greeting the player at {tierName} with tone {tone}.",
+    "echoRebuttal": "Narrate Omega Echo taunting the party, highlighting the unchosen Dreamweaver {dreamweaverId}."
+  }
+}

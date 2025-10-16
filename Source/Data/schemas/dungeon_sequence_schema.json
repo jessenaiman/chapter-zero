@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+ "type": "object",
+  "title": "ASCII Dungeon Sequence Schema",
+  "description": "Schema for validating ASCII dungeon sequence configuration files",
+  "required": ["type", "dungeons"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["ascii_dungeon_sequence"],
+      "description": "Type identifier for the dungeon sequence"
+    },
+    "dungeons": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "description": "Array of exactly 3 dungeon stages",
+      "items": {
+        "type": "object",
+        "title": "Dungeon Stage",
+        "required": ["owner", "map", "legend", "objects"],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "enum": ["Light", "Mischief", "Wrath"],
+            "description": "The Dreamweaver owner of this dungeon stage"
+          },
+          "map": {
+            "type": "array",
+            "description": "ASCII representation of the dungeon map",
+            "items": {
+              "type": "string",
+              "description": "Each string represents a row of the map"
+            },
+            "minItems": 1,
+            "example": ["############", "#...D......#", "#.M........#", "#......C...#", "############"]
+          },
+          "legend": {
+            "type": "object",
+            "description": "Mapping of ASCII characters to their meanings",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "#": "wall",
+              ".": "floor",
+              "D": "door",
+              "M": "monster",
+              "C": "chest"
+            }
+          },
+          "objects": {
+            "type": "object",
+            "description": "Definition of interactive objects in the dungeon",
+            "additionalProperties": {
+              "type": "object",
+              "title": "Dungeon Object",
+              "required": ["type", "text", "aligned_to"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of the dungeon object"
+                },
+                "text": {
+                  "type": "string",
+                  "description": "Description text for the object"
+                },
+                "aligned_to": {
+                  "type": "string",
+                  "enum": ["Light", "Mischief", "Wrath"],
+                  "description": "Dreamweaver alignment of this object"
+                },
+                "affinity_delta": {
+                  "type": "integer",
+                  "description": "Affinity points gained when interacting with this object",
+                  "default": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -61,7 +61,7 @@ public partial class Map : Node2D
                 camera.GameboardProperties = this.GameboardProperties;
             }
 
-            var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
+            var gameboard = this.GetNode<OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
             if (gameboard != null && this.GameboardProperties != null)
             {
                 gameboard.Properties = this.GameboardProperties;

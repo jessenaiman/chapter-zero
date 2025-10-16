@@ -3,159 +3,251 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
+    using Godot;
+    using Godot.Collections;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
 
     /// <summary>
-    /// Loads ASCII dungeon sequence definitions from JSON that conforms to the Scene 2 schema.
+    /// Loads ASCII dungeon sequence definitions from JSON that conforms to the Scene 2 schema using Godot's native JSON capabilities.
     /// </summary>
     public sealed class AsciiDungeonSequenceLoader
     {
-        private static readonly JsonSerializerOptions SerializerOptions = new()
-        {
-            PropertyNameCaseInsensitive = true,
-        };
-
         /// <summary>
         /// Loads a dungeon sequence from JSON text.
         /// </summary>
         /// <param name="json">The JSON payload.</param>
         /// <returns>An aggregate representing the dungeon sequence.</returns>
         /// <exception cref="DungeonValidationException">Thrown when the sequence payload is invalid or cannot be parsed.</exception>
-        public AsciiDungeonSequence LoadFromJson(string json)
+        public static AsciiDungeonSequence LoadFromJson(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
             {
                 throw new DungeonValidationException("Sequence JSON payload cannot be null or empty.");
             }
 
-            SequenceDocument? document;
-            try
+            // Parse the JSON using Godot's native JSON parser
+            var parseResult = Json.ParseString(json);
+            if (parseResult.VariantType == Variant.Type.Nil)
             {
-                document = JsonSerializer.Deserialize<SequenceDocument>(json, SerializerOptions);
-            }
-            catch (JsonException ex)
-            {
-                throw new DungeonValidationException("Failed to parse dungeon sequence JSON.", ex);
+                throw new DungeonValidationException("Failed to parse dungeon sequence JSON - parse result is null.");
             }
 
-            if (document is null || document.Type != "ascii_dungeon_sequence")
+            if (parseResult.VariantType != Variant.Type.Dictionary)
+            {
+                throw new DungeonValidationException("Dungeon sequence JSON must contain an object at the root level.");
+            }
+
+            var data = (Godot.Collections.Dictionary<string, Variant>) parseResult;
+
+            // Validate against the schema using JsonSchemaValidator
+            var schemaPath = "res://Source/Data/schemas/dungeon_sequence_schema.json";
+            if (!JsonSchemaValidator.ValidateSchema(data, schemaPath))
+            {
+                throw new DungeonValidationException("Dungeon sequence JSON does not conform to the required schema.");
+            }
+
+            // Extract and validate the type
+            if (!data.TryGetValue("type", out var typeVariant) ||
+                typeVariant.VariantType != Variant.Type.String ||
+                typeVariant.As<string>() != "ascii_dungeon_sequence")
             {
                 throw new DungeonValidationException("Invalid dungeon sequence type.");
             }
 
-            if (document.Dungeons is null || document.Dungeons.Count != 3)
+            // Extract and validate the dungeons array
+            if (!data.TryGetValue("dungeons", out var dungeonsVariant) ||
+                dungeonsVariant.VariantType != Variant.Type.Array)
+            {
+                throw new DungeonValidationException("Dungeon sequence must contain a 'dungeons' array.");
+            }
+
+            var dungeonsArray = (Godot.Collections.Array) dungeonsVariant;
+            if (dungeonsArray.Count != 3)
             {
                 throw new DungeonValidationException("Dungeon sequence must define exactly three stages.");
             }
 
-            var definitions = document.Dungeons.Select(ConvertDungeonDefinition).ToList();
+            var definitions = new List<DungeonStageDefinition>();
+            foreach (var dungeonVariant in dungeonsArray)
+            {
+                if (dungeonVariant.VariantType != Variant.Type.Dictionary)
+                {
+                    throw new DungeonValidationException("Each dungeon in the sequence must be an object.");
+                }
+                var dungeonDict = (Godot.Collections.Dictionary<string, Variant>) dungeonVariant;
+                definitions.Add(ConvertDungeonDefinition(dungeonDict));
+            }
+
             return AsciiDungeonSequence.Create(definitions);
         }
 
-        private static DungeonStageDefinition ConvertDungeonDefinition(DungeonDocument dungeon)
+        private static DungeonStageDefinition ConvertDungeonDefinition(Godot.Collections.Dictionary<string, Variant> dungeon)
         {
-            ArgumentNullException.ThrowIfNull(dungeon);
-
-            if (!Enum.TryParse<DreamweaverType>(dungeon.Owner, true, out var owner))
+            // Extract owner
+            if (!dungeon.TryGetValue("owner", out var ownerVariant) ||
+                ownerVariant.VariantType != Variant.Type.String)
             {
-                throw new DungeonValidationException($"Unsupported Dreamweaver owner '{dungeon.Owner}'.");
+                throw new DungeonValidationException("Dungeon owner is required and must be a string.");
             }
 
-            var map = dungeon.Map ?? throw new DungeonValidationException("Dungeon map is required.");
-            var legend = ConvertLegend(dungeon.Legend);
-            var objects = ConvertObjects(dungeon.Objects);
+            var ownerString = ownerVariant.As<string>();
+            if (!Enum.TryParse<DreamweaverType>(ownerString, true, out var owner))
+            {
+                throw new DungeonValidationException($"Unsupported Dreamweaver owner '{ownerString}'.");
+            }
+
+            // Extract map
+            if (!dungeon.TryGetValue("map", out var mapVariant) ||
+                mapVariant.VariantType != Variant.Type.Array)
+            {
+                throw new DungeonValidationException("Dungeon map is required and must be an array of strings.");
+            }
+
+            var mapArray = (Godot.Collections.Array) mapVariant;
+            var map = new List<string>();
+            foreach (var mapItem in mapArray)
+            {
+                if (mapItem.VariantType != Variant.Type.String)
+                {
+                    throw new DungeonValidationException("Map entries must be strings.");
+                }
+                map.Add(mapItem.As<string>());
+            }
+
+            if (map.Count == 0)
+            {
+                throw new DungeonValidationException("Dungeon map cannot be empty.");
+            }
+
+            // Extract and convert legend
+            var legend = ConvertLegend(dungeon);
+
+            // Extract and convert objects
+            var objects = ConvertObjects(dungeon);
 
             return new DungeonStageDefinition(owner, map, legend, objects);
         }
 
-        private static IReadOnlyDictionary<char, string> ConvertLegend(Dictionary<string, string>? legend)
+        private static System.Collections.Generic.Dictionary<char, string> ConvertLegend(Godot.Collections.Dictionary<string, Variant> dungeon)
         {
-            if (legend is null || legend.Count == 0)
+            if (!dungeon.TryGetValue("legend", out var legendVariant) ||
+                legendVariant.VariantType != Variant.Type.Dictionary)
             {
                 throw new DungeonValidationException("Legend entries are required.");
             }
 
-            return legend.ToDictionary(
-                entry => entry.Key.Single(),
-                entry => entry.Value);
-        }
-
-        private static IReadOnlyDictionary<char, DungeonObjectDefinition> ConvertObjects(
-            Dictionary<string, DungeonObjectDocument>? objects)
-        {
-            if (objects is null || objects.Count == 0)
+            var legendDict = (Godot.Collections.Dictionary<string, Variant>) legendVariant;
+            if (legendDict.Count == 0)
             {
-                return new Dictionary<char, DungeonObjectDefinition>();
+                throw new DungeonValidationException("Legend entries are required.");
             }
 
-            var result = new Dictionary<char, DungeonObjectDefinition>(objects.Count);
-
-            foreach (var pair in objects)
+            var result = new System.Collections.Generic.Dictionary<char, string>();
+            foreach (var entry in legendDict)
             {
-                var key = pair.Key.Single();
-                var document = pair.Value ?? throw new DungeonValidationException($"Interactive object '{pair.Key}' is invalid.");
-
-                if (!Enum.TryParse<DungeonObjectType>(document.Type, true, out var objectType))
+                var key = entry.Key;
+                if (key.Length != 1)
                 {
-                    throw new DungeonValidationException($"Unsupported dungeon object type '{document.Type}'.");
+                    throw new DungeonValidationException($"Legend key '{key}' must be a single character.");
                 }
-
-                if (!Enum.TryParse<DreamweaverType>(document.AlignedTo, true, out var alignedTo))
-                {
-                    throw new DungeonValidationException($"Unsupported alignment '{document.AlignedTo}' for object '{pair.Key}'.");
-                }
-
-                result[key] = new DungeonObjectDefinition(
-                    objectType,
-                    document.Text ?? string.Empty,
-                    alignedTo,
-                    document.AffinityDelta ?? 0);
+                result[key[0]] = entry.Value.As<string>();
             }
 
             return result;
         }
 
-        private sealed class SequenceDocument
+        private static System.Collections.Generic.Dictionary<char, DungeonObjectDefinition> ConvertObjects(Godot.Collections.Dictionary<string, Variant> dungeon)
         {
-            [JsonPropertyName("type")]
-            public string Type { get; set; } = string.Empty;
+            if (!dungeon.TryGetValue("objects", out var objectsVariant) ||
+                objectsVariant.VariantType != Variant.Type.Dictionary)
+            {
+                return new System.Collections.Generic.Dictionary<char, DungeonObjectDefinition>();
+            }
 
-            [JsonPropertyName("dungeons")]
-            public List<DungeonDocument>? Dungeons { get; set; }
-        }
+            var objectsDict = (Godot.Collections.Dictionary<string, Variant>) objectsVariant;
+            if (objectsDict.Count == 0)
+            {
+                return new System.Collections.Generic.Dictionary<char, DungeonObjectDefinition>();
+            }
 
-        private sealed class DungeonDocument
-        {
-            [JsonPropertyName("owner")]
-            public string Owner { get; set; } = string.Empty;
+            var result = new System.Collections.Generic.Dictionary<char, DungeonObjectDefinition>(objectsDict.Count);
 
-            [JsonPropertyName("map")]
-            public List<string>? Map { get; set; }
+            foreach (var pair in objectsDict)
+            {
+                var key = pair.Key;
+                if (key.Length != 1)
+                {
+                    throw new DungeonValidationException($"Object key '{key}' must be a single character.");
+                }
 
-            [JsonPropertyName("legend")]
-            public Dictionary<string, string>? Legend { get; set; }
+                var keyChar = key[0];
+                var documentVariant = pair.Value;
 
-            [JsonPropertyName("objects")]
-            public Dictionary<string, DungeonObjectDocument>? Objects { get; set; }
-        }
+                if (documentVariant.VariantType != Variant.Type.Dictionary)
+                {
+                    throw new DungeonValidationException($"Interactive object '{key}' is invalid - must be an object.");
+                }
 
-        private sealed class DungeonObjectDocument
-        {
-            [JsonPropertyName("type")]
-            public string Type { get; set; } = string.Empty;
+                var documentDict = (Godot.Collections.Dictionary<string, Variant>) documentVariant;
 
-            [JsonPropertyName("text")]
-            public string? Text { get; set; }
+                // Extract type
+                if (!documentDict.TryGetValue("type", out var typeVariant) ||
+                    typeVariant.VariantType != Variant.Type.String)
+                {
+                    throw new DungeonValidationException($"Object '{key}' must have a 'type' string property.");
+                }
 
-            [JsonPropertyName("aligned_to")]
-            public string AlignedTo { get; set; } = string.Empty;
+                var typeString = typeVariant.As<string>();
+                if (!Enum.TryParse<DungeonObjectType>(typeString, true, out var objectType))
+                {
+                    throw new DungeonValidationException($"Unsupported dungeon object type '{typeString}' for object '{key}'.");
+                }
 
-            [JsonPropertyName("affinity_delta")]
-            public int? AffinityDelta { get; set; }
+                // Extract aligned_to
+                if (!documentDict.TryGetValue("aligned_to", out var alignedToVariant) ||
+                    alignedToVariant.VariantType != Variant.Type.String)
+                {
+                    throw new DungeonValidationException($"Object '{key}' must have an 'aligned_to' string property.");
+                }
+
+                var alignedToString = alignedToVariant.As<string>();
+                if (!Enum.TryParse<DreamweaverType>(alignedToString, true, out var alignedTo))
+                {
+                    throw new DungeonValidationException($"Unsupported alignment '{alignedToString}' for object '{key}'.");
+                }
+
+                // Extract optional text
+                var text = string.Empty;
+                if (documentDict.TryGetValue("text", out var textVariant) &&
+                    textVariant.VariantType == Variant.Type.String)
+                {
+                    text = textVariant.As<string>();
+                }
+
+                // Extract optional affinity_delta
+                var affinityDelta = 0;
+                if (documentDict.TryGetValue("affinity_delta", out var affinityDeltaVariant))
+                {
+                    if (affinityDeltaVariant.VariantType == Variant.Type.Int)
+                    {
+                        affinityDelta = (int) affinityDeltaVariant;
+                    }
+                    else if (affinityDeltaVariant.VariantType == Variant.Type.Float)
+                    {
+                        affinityDelta = (int) (float) affinityDeltaVariant;
+                    }
+                }
+
+                result[keyChar] = new DungeonObjectDefinition(
+                    objectType,
+                    text,
+                    alignedTo,
+                    affinityDelta);
+            }
+
+            return result;
         }
     }
 }

@@ -78,9 +78,9 @@ namespace OmegaSpiral.Source.Scripts
             {
                 "Scene1Narrative" => "res://Source/Scenes/Scene1Narrative.tscn",
                 "Scene2NethackSequence" => "res://Source/Scenes/Scene2NethackSequence.tscn",
-                "Scene3WizardryParty" => "res://Source/Scenes/Scene3WizardryParty.tscn",
+                "Scene3NeverGoAlone" => "res://Source/Scenes/Scene3NeverGoAlone.tscn",
                 "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",
-                "Scene5PixelCombat" => "res://Source/Scenes/Scene5PixelCombat.tscn",
+                "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
                 _ => string.Empty,
             };
 

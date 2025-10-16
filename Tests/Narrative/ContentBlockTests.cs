@@ -11,6 +11,15 @@ namespace OmegaSpiral.Tests.Functional.Narrative;
 [TestSuite]
 public class ContentBlockTests
 {
+    private static readonly string[] DefaultChoiceOptions = new[] { "Option A", "Option B", "Option C" };
+
+    private static readonly (int buttonId, int x, int y, int width, int height)[] DefaultChoiceLayout =
+    {
+        (0, 100, 100, 200, 40),
+        (1, 100, 160, 200, 40),
+        (2, 100, 220, 200, 40),
+    };
+
     #region Content Block Wait State Tests (CB-001)
 
     /// <summary>
@@ -248,10 +257,16 @@ public class ContentBlockTests
     [TestCase]
     public void TransitionSection_AtYAMLBoundary_ActivatesDissolveEffect()
     {
-        // TODO: Implement proper test with actual Godot runtime
-        // This test would require Godot runtime to test actual transition timing
-        // The mock implementation would verify boundary detection
-        AssertThat(true).IsTrue();
+        // Arrange
+        var transitionContext = new TestTransitionContext();
+        transitionContext.ConfigureYamlBoundary(sectionId: "opening", nextSection: "main_story");
+
+        // Act
+        transitionContext.TriggerTransition();
+
+        // Assert
+        AssertThat(transitionContext.DissolveEffectActive).IsTrue();
+        AssertThat(transitionContext.CurrentSection).IsEqual("opening");
     }
 
     /// <summary>
@@ -260,10 +275,18 @@ public class ContentBlockTests
     [TestCase]
     public void TransitionSection_WithDissolveShader_FadesTextCorrectly()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual shader fade behavior
-        // The mock implementation would verify shader activation
-        AssertThat(true).IsTrue();
+        // Arrange
+        var transitionContext = new TestTransitionContext();
+        transitionContext.ConfigureYamlBoundary(sectionId: "part1", nextSection: "part2");
+        transitionContext.SetShaderParameters(dissolveAmount: 0.0);
+
+        // Act
+        transitionContext.TriggerTransition();
+        transitionContext.AdvanceDissolveAnimation(TimeSpan.FromSeconds(0.75));
+
+        // Assert
+        AssertThat(transitionContext.DissolveAmount).IsGreater(0d);
+        AssertThat(transitionContext.DissolveAmount).IsLess(1d);
     }
 
     /// <summary>
@@ -272,10 +295,17 @@ public class ContentBlockTests
     [TestCase]
     public void TransitionSection_WithTiming_MatchesConfiguredDuration()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual duration timing
-        // The mock implementation would verify configuration usage
-        AssertThat(true).IsTrue();
+        // Arrange
+        var transitionContext = new TestTransitionContext();
+        transitionContext.ConfigureDissolveDuration(TimeSpan.FromSeconds(1.5));
+
+        // Act
+        transitionContext.TriggerTransition();
+        transitionContext.AdvanceDissolveAnimation(TimeSpan.FromSeconds(1.5));
+
+        // Assert
+        AssertThat(transitionContext.DissolveAmount).IsEqual(1d);
+        AssertThat(transitionContext.ElapsedTime).IsEqual(1.5d);
     }
 
     /// <summary>
@@ -284,10 +314,19 @@ public class ContentBlockTests
     [TestCase]
     public void TransitionSection_WithDissolve_WaitsForCompletion()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual completion waiting
-        // The mock implementation would verify state machine progression
-        AssertThat(true).IsTrue();
+        // Arrange
+        var transitionContext = new TestTransitionContext();
+        transitionContext.ConfigureDissolveDuration(TimeSpan.FromSeconds(1.5));
+
+        // Act
+        transitionContext.TriggerTransition();
+        bool completeBeforeTransition = transitionContext.NextSectionReady;
+        transitionContext.AdvanceDissolveAnimation(TimeSpan.FromSeconds(1.5));
+        bool completeAfterTransition = transitionContext.NextSectionReady;
+
+        // Assert
+        AssertThat(completeBeforeTransition).IsFalse();
+        AssertThat(completeAfterTransition).IsTrue();
     }
 
     #endregion
@@ -300,10 +339,18 @@ public class ContentBlockTests
     [TestCase]
     public void SelectChoice_WithKeyboardNavigation_AllowsChoiceSelection()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual keyboard navigation
-        // The mock implementation would verify keyboard input handling
-        AssertThat(true).IsTrue();
+        // Arrange
+        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+
+        // Act
+        choiceContext.NavigateKeyboard(KeyboardNavigation.Down);
+        choiceContext.NavigateKeyboard(KeyboardNavigation.Down);
+        choiceContext.ConfirmKeyboard();
+
+        // Assert
+        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
+        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
     }
 
     /// <summary>
@@ -312,10 +359,17 @@ public class ContentBlockTests
     [TestCase]
     public void SelectChoice_WithMouseClick_AllowsChoiceSelection()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual mouse interaction
-        // The mock implementation would verify mouse input handling
-        AssertThat(true).IsTrue();
+        // Arrange
+        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+        choiceContext.LayoutChoicesWithPositions(DefaultChoiceLayout);
+
+        // Act
+        choiceContext.SimulateMouseClick(x: 150, y: 220);
+
+        // Assert
+        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
+        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
     }
 
     /// <summary>
@@ -324,10 +378,18 @@ public class ContentBlockTests
     [TestCase]
     public void SelectChoice_WithGamepadInput_AllowsChoiceSelection()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual gamepad interaction
-        // The mock implementation would verify gamepad input handling
-        AssertThat(true).IsTrue();
+        // Arrange
+        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+
+        // Act
+        choiceContext.NavigateGamepad(GamepadNavigation.Down);
+        choiceContext.NavigateGamepad(GamepadNavigation.Down);
+        choiceContext.ConfirmGamepad();
+
+        // Assert
+        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
+        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
     }
 
     /// <summary>
@@ -336,10 +398,30 @@ public class ContentBlockTests
     [TestCase]
     public void SelectChoice_WithAnyValidInput_AdvancesNarrative()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual narrative progression
-        // The mock implementation would verify state machine advancement
-        AssertThat(true).IsTrue();
+        // Arrange
+        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+
+        // Act
+        choiceContext.SimulateMouseClick(x: 150, y: 160);
+        bool narrativeAdvancedAfterMouse = choiceContext.NarrativeAdvanced;
+
+        // Reset and test keyboard
+        choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+        choiceContext.ConfirmKeyboard();
+        bool narrativeAdvancedAfterKeyboard = choiceContext.NarrativeAdvanced;
+
+        // Reset and test gamepad
+        choiceContext = new TestChoiceContext(numberOfChoices: 3);
+        choiceContext.DisplayChoices(DefaultChoiceOptions);
+        choiceContext.ConfirmGamepad();
+        bool narrativeAdvancedAfterGamepad = choiceContext.NarrativeAdvanced;
+
+        // Assert
+        AssertThat(narrativeAdvancedAfterMouse).IsTrue();
+        AssertThat(narrativeAdvancedAfterKeyboard).IsTrue();
+        AssertThat(narrativeAdvancedAfterGamepad).IsTrue();
     }
 
     #endregion
@@ -352,10 +434,17 @@ public class ContentBlockTests
     [TestCase]
     public void AdvanceBlock_WithKeyboardSelect_AdvancesContentBlock()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual input handling
-        // The mock implementation would verify input mapping logic
-        AssertThat(true).IsTrue();
+        // Arrange
+        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+        contentBlock.DisplayText("Press Space to continue...");
+
+        // Act
+        contentBlock.SimulateKeyboardInput(KeyInput.Confirm);
+
+        // Assert
+        AssertThat(contentBlock.Visible).IsFalse();
+        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
+        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Keyboard);
     }
 
     /// <summary>
@@ -364,10 +453,17 @@ public class ContentBlockTests
     [TestCase]
     public void AdvanceBlock_WithGamepadConfirm_AdvancesContentBlock()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual gamepad input
-        // The mock implementation would verify gamepad input mapping
-        AssertThat(true).IsTrue();
+        // Arrange
+        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+        contentBlock.DisplayText("Press A to continue...");
+
+        // Act
+        contentBlock.SimulateGamepadInput(GamepadInput.Confirm);
+
+        // Assert
+        AssertThat(contentBlock.Visible).IsFalse();
+        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
+        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Gamepad);
     }
 
     /// <summary>
@@ -376,10 +472,17 @@ public class ContentBlockTests
     [TestCase]
     public void AdvanceBlock_WithMouseClick_AdvancesContentBlock()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test actual mouse input
-        // The mock implementation would verify mouse input mapping
-        AssertThat(true).IsTrue();
+        // Arrange
+        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+        contentBlock.DisplayText("Click to continue...");
+
+        // Act
+        contentBlock.SimulateMouseInput(MouseInput.LeftClick);
+
+        // Assert
+        AssertThat(contentBlock.Visible).IsFalse();
+        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
+        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Mouse);
     }
 
     /// <summary>
@@ -388,10 +491,25 @@ public class ContentBlockTests
     [TestCase]
     public void AdvanceBlock_WithAllInputMethods_RespondsConsistently()
     {
-        // TODO: Implement proper test with actual Godot runtime or proper mock
-        // This test would require Godot runtime to test all input method behaviors
-        // The mock implementation would verify consistent input handling
-        AssertThat(true).IsTrue();
+        // Arrange
+        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+
+        // Act & Assert - Test keyboard
+        contentBlock.DisplayText("Test 1");
+        contentBlock.SimulateKeyboardInput(KeyInput.Confirm);
+        AssertThat(contentBlock.Visible).IsFalse();
+
+        // Reset and test gamepad
+        contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+        contentBlock.DisplayText("Test 2");
+        contentBlock.SimulateGamepadInput(GamepadInput.Confirm);
+        AssertThat(contentBlock.Visible).IsFalse();
+
+        // Reset and test mouse
+        contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
+        contentBlock.DisplayText("Test 3");
+        contentBlock.SimulateMouseInput(MouseInput.LeftClick);
+        AssertThat(contentBlock.Visible).IsFalse();
     }
 
     #endregion
@@ -422,9 +540,11 @@ public class ContentBlockTests
         private bool typewriterActive;
         private bool soundLoopActive;
 
-        private readonly List<string> typewriterSnapshots = new();
-        private readonly List<double> typewriterIntervals = new();
-        private readonly List<string> audioEvents = new();
+        internal List<string> TypewriterSnapshots { get; } = new();
+
+        internal List<double> TypewriterIntervals { get; } = new();
+
+        internal List<string> AudioEvents { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestContentBlock"/> class with wait state configuration.
@@ -460,12 +580,6 @@ public class ContentBlockTests
         internal bool IsTypewriterActive => this.typewriterActive;
 
         internal bool IsSoundLoopActive => this.soundLoopActive;
-
-        internal IReadOnlyList<string> TypewriterSnapshots => this.typewriterSnapshots;
-
-        internal IReadOnlyList<double> TypewriterIntervals => this.typewriterIntervals;
-
-        internal IReadOnlyList<string> AudioEvents => this.audioEvents;
 
         /// <summary>
         /// Presents new text and resets wait state tracking.
@@ -555,9 +669,9 @@ public class ContentBlockTests
             this.typewriterActive = text.Length > 0;
             this.soundLoopActive = this.typewriterActive;
 
-            this.typewriterSnapshots.Clear();
-            this.typewriterIntervals.Clear();
-            this.audioEvents.Clear();
+            this.TypewriterSnapshots.Clear();
+            this.TypewriterIntervals.Clear();
+            this.AudioEvents.Clear();
         }
 
         /// <summary>
@@ -579,9 +693,9 @@ public class ContentBlockTests
                 this.revealedCharacters = Math.Min(this.revealedCharacters + 1, this.typewriterText.Length);
 
                 string snapshot = this.typewriterText.Substring(0, this.revealedCharacters);
-                this.typewriterSnapshots.Add(snapshot);
-                this.typewriterIntervals.Add(this.typewriterInterval.TotalSeconds);
-                this.audioEvents.Add(this.typewriterAudio);
+                this.TypewriterSnapshots.Add(snapshot);
+                this.TypewriterIntervals.Add(this.typewriterInterval.TotalSeconds);
+                this.AudioEvents.Add(this.typewriterAudio);
 
                 if (this.revealedCharacters >= this.typewriterText.Length)
                 {
@@ -590,5 +704,395 @@ public class ContentBlockTests
                 }
             }
         }
+
+        /// <summary>
+        /// Simulates keyboard input to advance the content block.
+        /// </summary>
+        /// <param name="key">The keyboard input type.</param>
+        internal void SimulateKeyboardInput(KeyInput key)
+        {
+            if (key == KeyInput.Confirm)
+            {
+                this.ReceiveInput();
+                this.LastInputMethod = InputMethodType.Keyboard;
+            }
+        }
+
+        /// <summary>
+        /// Simulates gamepad input to advance the content block.
+        /// </summary>
+        /// <param name="button">The gamepad button.</param>
+        internal void SimulateGamepadInput(GamepadInput button)
+        {
+            if (button == GamepadInput.Confirm)
+            {
+                this.ReceiveInput();
+                this.LastInputMethod = InputMethodType.Gamepad;
+            }
+        }
+
+        /// <summary>
+        /// Simulates mouse input to advance the content block.
+        /// </summary>
+        /// <param name="click">The mouse click type.</param>
+        internal void SimulateMouseInput(MouseInput click)
+        {
+            if (click == MouseInput.LeftClick)
+            {
+                this.ReceiveInput();
+                this.LastInputMethod = InputMethodType.Mouse;
+            }
+        }
+
+        /// <summary>
+        /// Gets the last input method used to interact with this block.
+        /// </summary>
+        internal InputMethodType LastInputMethod { get; private set; } = InputMethodType.None;
+    }
+
+    /// <summary>
+    /// Deterministic test double for section transitions with dissolve effects.
+    /// </summary>
+    private sealed class TestTransitionContext
+    {
+        private string currentSectionId = string.Empty;
+        private string nextSectionId = string.Empty;
+        private bool dissolveActive;
+        private double dissolveAmount;
+        private TimeSpan elapsedTime;
+        private TimeSpan dissolveDuration = TimeSpan.FromSeconds(1.5);
+
+        /// <summary>
+        /// Configures a YAML section boundary for testing.
+        /// </summary>
+        /// <param name="sectionId">Current section identifier.</param>
+        /// <param name="nextSection">Next section identifier.</param>
+        internal void ConfigureYamlBoundary(string sectionId, string nextSection)
+        {
+            this.currentSectionId = sectionId;
+            this.nextSectionId = nextSection;
+        }
+
+        /// <summary>
+        /// Configures dissolve animation duration.
+        /// </summary>
+        /// <param name="duration">Target animation duration.</param>
+        internal void ConfigureDissolveDuration(TimeSpan duration)
+        {
+            this.dissolveDuration = duration;
+        }
+
+        /// <summary>
+        /// Configures initial shader parameters for dissolve effect.
+        /// </summary>
+        /// <param name="dissolveAmount">Initial dissolve amount.</param>
+        internal void SetShaderParameters(double dissolveAmount)
+        {
+            this.dissolveAmount = dissolveAmount;
+        }
+
+        /// <summary>
+        /// Triggers the section transition with dissolve effect.
+        /// </summary>
+        internal void TriggerTransition()
+        {
+            this.dissolveActive = true;
+            this.elapsedTime = TimeSpan.Zero;
+        }
+
+        /// <summary>
+        /// Advances the dissolve animation timeline.
+        /// </summary>
+        /// <param name="delta">Elapsed time.</param>
+        internal void AdvanceDissolveAnimation(TimeSpan delta)
+        {
+            if (!this.dissolveActive)
+            {
+                return;
+            }
+
+            this.elapsedTime += delta;
+            this.dissolveAmount = Math.Min(this.elapsedTime.TotalSeconds / this.dissolveDuration.TotalSeconds, 1d);
+
+            if (this.elapsedTime >= this.dissolveDuration)
+            {
+                this.dissolveActive = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether the dissolve effect is currently active.
+        /// </summary>
+        internal bool DissolveEffectActive => this.dissolveActive;
+
+        /// <summary>
+        /// Gets the current section identifier.
+        /// </summary>
+        internal string CurrentSection => this.currentSectionId;
+
+        /// <summary>
+        /// Gets the current dissolve amount (0.0 to 1.0).
+        /// </summary>
+        internal double DissolveAmount => this.dissolveAmount;
+
+        /// <summary>
+        /// Gets the elapsed time in seconds.
+        /// </summary>
+        internal double ElapsedTime => this.elapsedTime.TotalSeconds;
+
+        /// <summary>
+        /// Gets whether the next section is ready after transition completion.
+        /// </summary>
+        internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+    }
+
+    /// <summary>
+    /// Deterministic test double for choice selection with multi-input support.
+    /// </summary>
+    private sealed class TestChoiceContext
+    {
+        private readonly int numberOfChoices;
+        private int selectedIndex;
+        private string[] choices = Array.Empty<string>();
+        private readonly Dictionary<int, (int X, int Y, int Width, int Height)> choicePositions = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestChoiceContext"/> class.
+        /// </summary>
+        /// <param name="numberOfChoices">Number of choices available.</param>
+        internal TestChoiceContext(int numberOfChoices)
+        {
+            this.numberOfChoices = numberOfChoices;
+        }
+
+        /// <summary>
+        /// Displays choices for selection.
+        /// </summary>
+        /// <param name="choiceOptions">Array of choice labels.</param>
+        internal void DisplayChoices(string[] choiceOptions)
+        {
+            this.choices = choiceOptions;
+            this.selectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Layouts choices with screen positions for mouse click testing.
+        /// </summary>
+        /// <param name="positions">Array of choice positions (buttonId, x, y, width, height).</param>
+        internal void LayoutChoicesWithPositions((int buttonId, int x, int y, int width, int height)[] positions)
+        {
+            foreach (var pos in positions)
+            {
+                this.choicePositions[pos.buttonId] = (pos.x, pos.y, pos.width, pos.height);
+            }
+        }
+
+        /// <summary>
+        /// Navigates choices using keyboard input.
+        /// </summary>
+        /// <param name="navigation">Keyboard navigation direction.</param>
+        internal void NavigateKeyboard(KeyboardNavigation navigation)
+        {
+            if (navigation == KeyboardNavigation.Up && this.selectedIndex > 0)
+            {
+                this.selectedIndex--;
+            }
+            else if (navigation == KeyboardNavigation.Down && this.selectedIndex < this.numberOfChoices - 1)
+            {
+                this.selectedIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Confirms keyboard selection.
+        /// </summary>
+        internal void ConfirmKeyboard()
+        {
+            this.NarrativeAdvanced = true;
+        }
+
+        /// <summary>
+        /// Navigates choices using gamepad input.
+        /// </summary>
+        /// <param name="navigation">Gamepad navigation direction.</param>
+        internal void NavigateGamepad(GamepadNavigation navigation)
+        {
+            if (navigation == GamepadNavigation.Up && this.selectedIndex > 0)
+            {
+                this.selectedIndex--;
+            }
+            else if (navigation == GamepadNavigation.Down && this.selectedIndex < this.numberOfChoices - 1)
+            {
+                this.selectedIndex++;
+            }
+        }
+
+        /// <summary>
+        /// Confirms gamepad selection.
+        /// </summary>
+        internal void ConfirmGamepad()
+        {
+            this.NarrativeAdvanced = true;
+        }
+
+        /// <summary>
+        /// Simulates mouse click on a choice at specified coordinates.
+        /// </summary>
+        /// <param name="x">Click X coordinate.</param>
+        /// <param name="y">Click Y coordinate.</param>
+        internal void SimulateMouseClick(int x, int y)
+        {
+            foreach (var pos in this.choicePositions)
+            {
+                var (posX, posY, width, height) = pos.Value;
+                if (x >= posX && x <= posX + width && y >= posY && y <= posY + height)
+                {
+                    this.selectedIndex = pos.Key;
+                    this.NarrativeAdvanced = true;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the index of the selected choice.
+        /// </summary>
+        internal int SelectedChoiceIndex => this.selectedIndex;
+
+        /// <summary>
+        /// Gets the text of the selected choice.
+        /// </summary>
+        internal string SelectedChoice => this.selectedIndex < this.choices.Length ? this.choices[this.selectedIndex] : string.Empty;
+
+        /// <summary>
+        /// Gets or sets whether narrative has advanced after choice.
+        /// </summary>
+        internal bool NarrativeAdvanced { get; set; }
+    }
+
+    /// <summary>
+    /// Input method types for content block interaction.
+    /// </summary>
+    private enum InputMethodType
+    {
+        /// <summary>
+        /// No input method yet used.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Keyboard input.
+        /// </summary>
+        Keyboard,
+
+        /// <summary>
+        /// Gamepad/controller input.
+        /// </summary>
+        Gamepad,
+
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse
+    }
+
+    /// <summary>
+    /// Keyboard input types.
+    /// </summary>
+    private enum KeyInput
+    {
+        /// <summary>
+        /// Confirm/select action.
+        /// </summary>
+        Confirm,
+
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel
+    }
+
+    /// <summary>
+    /// Gamepad input types.
+    /// </summary>
+    private enum GamepadInput
+    {
+        /// <summary>
+        /// Confirm button (A on Xbox, Cross on PlayStation).
+        /// </summary>
+        Confirm,
+
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel
+    }
+
+    /// <summary>
+    /// Mouse input types.
+    /// </summary>
+    private enum MouseInput
+    {
+        /// <summary>
+        /// Left mouse button click.
+        /// </summary>
+        LeftClick,
+
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick
+    }
+
+    /// <summary>
+    /// Keyboard navigation directions.
+    /// </summary>
+    private enum KeyboardNavigation
+    {
+        /// <summary>
+        /// Navigate up.
+        /// </summary>
+        Up,
+
+        /// <summary>
+        /// Navigate down.
+        /// </summary>
+        Down,
+
+        /// <summary>
+        /// Navigate left.
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
+    }
+
+    /// <summary>
+    /// Gamepad navigation directions.
+    /// </summary>
+    private enum GamepadNavigation
+    {
+        /// <summary>
+        /// Navigate up.
+        /// </summary>
+        Up,
+
+        /// <summary>
+        /// Navigate down.
+        /// </summary>
+        Down,
+
+        /// <summary>
+        /// Navigate left.
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
     }
 }

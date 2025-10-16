@@ -4,15 +4,17 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI;
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
+
 using OmegaSpiral.Combat;
 using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 using OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
-
 /// <summary>
 /// Manages the combat UI menus, including action selection and targeting cursors for player battlers.
 /// </summary>
@@ -172,30 +174,48 @@ public partial class UICombatMenus : Control
 
     private void CreateTargetingCursor()
     {
+        if (!this.ValidateTargetingCursorPrerequisites())
+        {
+            return;
+        }
+
+        this.InstantiateAndConfigureCursor();
+        SetupCursorEventSubscriptions();
+        this.ConnectCursorSignals();
+    }
+
+    /// <summary>
+    /// Validates that all required data is available for creating a targeting cursor.
+    /// </summary>
+    /// <returns>True if all prerequisites are met, false otherwise.</returns>
+    private bool ValidateTargetingCursorPrerequisites()
+    {
         if (this.selectedAction is null)
         {
             GD.PrintErr("Trying to create the targeting cursor without a selected action!");
-            return;
+            return false;
         }
 
         if (this.selectedAction is null || this.SelectedBattler is null || this.battlers is null || this.TargetCursorScene is null)
         {
             GD.PrintErr("Trying to create the targeting cursor without required data!");
-            return;
+            return false;
         }
 
-        // Create the cursor which will respond to player input and allow choosing a target.
+        return true;
+    }
+
+    /// <summary>
+    /// Instantiates the targeting cursor and configures its initial state.
+    /// </summary>
+    private void InstantiateAndConfigureCursor()
+    {
         if (this.TargetCursorScene is not null && this.selectedAction is not null && this.SelectedBattler is not null && this.battlers is not null)
         {
             this.cursor = this.TargetCursorScene.Instantiate() as UIBattlerTargetingCursor;
             if (this.cursor is not null)
             {
-                if (this.selectedAction is not null)
-                {
-                    this.cursor.TargetsAll = this.selectedAction.TargetsAll();
-                    var possibleTargets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
-                    this.cursor.Targets = possibleTargets is not null ? new List<Battler>(possibleTargets) : new List<Battler>();
-                }
+                this.ConfigureCursorTargets();
                 this.AddChild(this.cursor);
                 this.battlers.BattlersDowned += this.cursor.QueueFree;
             }
@@ -206,8 +226,37 @@ public partial class UICombatMenus : Control
         {
             this.battlers.BattlersDowned += this.cursor.QueueFree;
         }
+    }
 
-        // Finally, connect to the cursor's signals that will indicate that targets have been chosen.
+    /// <summary>
+    /// Configures the cursor's targeting behavior and initial target list.
+    /// </summary>
+    private void ConfigureCursorTargets()
+    {
+        if (this.selectedAction is not null && this.cursor is not null)
+        {
+            this.cursor.TargetsAll = this.selectedAction.TargetsAll();
+            if (this.SelectedBattler is not null && this.battlers is not null)
+            {
+                var possibleTargets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
+                this.cursor.Targets = possibleTargets is not null ? new List<Battler>(possibleTargets) : new List<Battler>();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets up event subscriptions for cursor management.
+    /// </summary>
+    private static void SetupCursorEventSubscriptions()
+    {
+        // Event subscriptions are handled in InstantiateAndConfigureCursor method
+    }
+
+    /// <summary>
+    /// Connects to the cursor's signals for target selection handling.
+    /// </summary>
+    private void ConnectCursorSignals()
+    {
         if (this.cursor != null)
         {
             this.cursor.TargetsSelected += this.OnTargetsSelected;
@@ -231,7 +280,7 @@ public partial class UICombatMenus : Control
             // and now wants to change it. In that case, unqueue the action through the proper
             // CombatEvents signal.
             // Note that the targets parameter must be cast to the correct array type.
-            Battler[] emptyTargetArray = System.Array.Empty<Battler>();
+            Battler[] emptyTargetArray = Array.Empty<Battler>();
             if (CombatEvents.Instance != null)
             {
                 // Use the proper event subscription syntax instead of invocation

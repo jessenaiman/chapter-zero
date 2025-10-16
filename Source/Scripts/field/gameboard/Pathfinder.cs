@@ -69,20 +69,15 @@ public partial class Pathfinder : RefCounted
     /// <param name="pointId">The unique identifier of the point to remove.</param>
     public void RemovePoint(int pointId)
     {
-        if (this.points.ContainsKey(pointId))
+        if (this.points.Remove(pointId))
         {
-            this.points.Remove(pointId);
-
             // Remove all connections to this point
             foreach (var connectionsList in this.connections.Values)
             {
                 connectionsList.RemoveAll(id => id == pointId);
             }
 
-            if (this.connections.ContainsKey(pointId))
-            {
-                this.connections.Remove(pointId);
-            }
+            this.connections.Remove(pointId);
         }
     }
 
@@ -190,12 +185,10 @@ public partial class Pathfinder : RefCounted
             point.FScore = float.PositiveInfinity;
         }
 
-        if (!this.points.TryGetValue(startId, out PointData? startPoint) || !this.points.ContainsKey(endId))
+        if (!this.points.TryGetValue(startId, out PointData? startPoint) || !this.points.TryGetValue(endId, out PointData? endPoint))
         {
             return new List<Vector2I>();
         }
-
-        var endPoint = this.points[endId];
 
         startPoint.GScore = 0;
         startPoint.FScore = HeuristicCostEstimate(startPoint.Position, endPoint.Position);
@@ -344,7 +337,7 @@ public partial class Pathfinder : RefCounted
     /// <summary>
     /// Point data structure.
     /// </summary>
-    private class PointData
+    private sealed class PointData
     {
         public Vector2I Position { get; set; }
 

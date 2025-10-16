@@ -262,8 +262,8 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Callback when input is received.
         /// </summary>
-        /// <param name="inputEvent">The input event.</param>
-        public override void _Input(InputEvent inputEvent)
+        /// <param name="event">The input event.</param>
+        public override void _Input(InputEvent @event)
         {
             if (!this.IsActive || !this.Visible)
             {
@@ -271,14 +271,14 @@ namespace OmegaSpiral.Source.Scripts
             }
 
             // Check for continue input (e.g., spacebar or enter)
-            if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
+            if (@event is InputEventKey keyEvent && keyEvent.Pressed)
             {
                 if (keyEvent.Keycode == Key.Space || keyEvent.Keycode == Key.Enter)
                 {
                     this.OnContinueInput();
                 }
             }
-            else if (inputEvent is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+            else if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
             {
                 if (mouseEvent.ButtonIndex == MouseButton.Left)
                 {

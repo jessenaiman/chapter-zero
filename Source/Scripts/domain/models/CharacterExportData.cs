@@ -629,7 +629,7 @@ namespace OmegaSpiral.Domain.Models
             return godotDict;
         }
 
-        private static string GetString(IDictionary<string, object> source, string key, string fallback = "")
+        private static string GetString(Dictionary<string, object> source, string key, string fallback = "")
         {
             if (!source.TryGetValue(key, out object? raw) || raw == null)
             {
@@ -639,7 +639,7 @@ namespace OmegaSpiral.Domain.Models
             return raw.ToString() ?? fallback;
         }
 
-        private static int GetInt(IDictionary<string, object> source, string key, int fallback)
+        private static int GetInt(Dictionary<string, object> source, string key, int fallback)
         {
             if (!source.TryGetValue(key, out object? raw) || raw == null)
             {
@@ -649,7 +649,7 @@ namespace OmegaSpiral.Domain.Models
             return System.Convert.ToInt32(raw, CultureInfo.InvariantCulture);
         }
 
-        private static float GetFloat(IDictionary<string, object> source, string key, float fallback)
+        private static float GetFloat(Dictionary<string, object> source, string key, float fallback)
         {
             if (!source.TryGetValue(key, out object? raw) || raw == null)
             {

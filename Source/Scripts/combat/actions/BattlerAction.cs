@@ -10,7 +10,6 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Combat;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-
 /// <summary>
 /// Specifies the scope of targets that a <see cref="BattlerAction"/> can affect during combat.
 /// </summary>

@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://omegaspiral.com/schemas/narrative_terminal.json",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["narrative_terminal"],
+      "description": "Type identifier for narrative terminal configuration"
+    },
+    "openingLines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Array of opening narrative lines"
+    },
+    "initialChoice": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "The prompt text for the initial choice"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the choice option"
+              },
+              "label": {
+                "type": "string",
+                "description": "Display label for the choice option"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the choice option"
+              }
+            },
+            "required": ["id", "label", "description"]
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["prompt", "options"]
+    },
+    "storyBlocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "paragraphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Array of paragraph text for the story block"
+          },
+          "question": {
+            "type": "string",
+            "description": "Optional question to ask after the paragraphs"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "description": "Display text for the choice"
+                },
+                "nextBlock": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Index of the next story block to display"
+                }
+              },
+              "required": ["text", "nextBlock"]
+            }
+          }
+        },
+        "required": ["paragraphs"]
+      }
+    },
+    "namePrompt": {
+      "type": "string",
+      "description": "Prompt text for asking the player's name"
+    },
+    "secretQuestion": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "The prompt text for the secret question"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Array of possible answers for the secret question"
+        }
+      },
+      "required": ["prompt", "options"]
+    },
+    "exitLine": {
+      "type": "string",
+      "description": "Final line displayed when exiting the narrative terminal"
+    }
+  },
+  "required": ["type", "openingLines", "initialChoice", "storyBlocks"]
+}

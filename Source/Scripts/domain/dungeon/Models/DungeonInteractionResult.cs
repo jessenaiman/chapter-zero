@@ -7,11 +7,11 @@ namespace OmegaSpiral.Source.Scripts.Domain.Dungeon.Models
     /// Captures the outcome of interacting with a dungeon glyph.
     /// </summary>
     /// <param name="AlignedTo">The Dreamweaver alignment influenced by the interaction.</param>
-    /// <param name="Object">The underlying object definition, if any.</param>
+    /// <param name="ObjectDefinition">The underlying object definition, if any.</param>
     /// <param name="Change">The affinity change applied.</param>
     public sealed record DungeonInteractionResult(
         DreamweaverType AlignedTo,
-        DungeonObjectDefinition? Object,
+        DungeonObjectDefinition? ObjectDefinition,
         DreamweaverAffinityChange Change)
     {
         /// <summary>

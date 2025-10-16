@@ -5,11 +5,15 @@
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AnalysisLevel>8.0</AnalysisLevel>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
@@ -29,5 +33,17 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+  <!-- Suppress XML doc warning CS1591 only for generated code -->
+  <ItemGroup>
+    <Compile Update="**/*.generated.cs">
+      <NoWarn>$(NoWarn);1591</NoWarn>
+    </Compile>
+  </ItemGroup>
+  <!-- Also suppress CS1591 for Godot-generated sources under .godot -->
+  <ItemGroup>
+    <Compile Update=".godot/**/*.cs">
+      <NoWarn>$(NoWarn);1591</NoWarn>
+    </Compile>
   </ItemGroup>
 </Project>

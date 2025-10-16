@@ -8,7 +8,7 @@ using System;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using YamlDotNet.Serialization;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 /// <summary>
 /// Controls the turn-based pixel combat scene, managing player and enemy actions, UI updates, and combat flow.
@@ -50,22 +50,32 @@ public partial class PixelCombatController : Node2D
     {
         try
         {
-            string dataPath = "res://Source/Data/scenes/scene5_ff_combat/combat.yaml";
-            var yamlText = Godot.FileAccess.GetFileAsString(dataPath);
+            string dataPath = "res://Source/Data/stages/combat-dialog/combat.json";
+            var configData = ConfigurationService.LoadConfiguration(dataPath);
 
-            var deserializer = new DeserializerBuilder().Build();
-            this.combatData = deserializer.Deserialize<CombatSceneData>(yamlText);
+            // Map the dictionary to CombatSceneData
+            if (configData != null)
+            {
+                this.combatData = new CombatSceneData();
 
-            GD.Print($"Loaded combat data with enemy: {this.combatData.Enemy?.Name}");
+                if (configData.TryGetValue("type", out var typeVar))
+                {
+                    this.combatData.Type = typeVar.ToString() ?? "pixel_combat";
+                }
+
+                if (configData.TryGetValue("playerSprite", out var playerSpriteVar))
+                {
+                    this.combatData.PlayerSprite = playerSpriteVar.ToString();
+                }
+
+                // Map other fields as needed
+            }
+
+            GD.Print($"Loaded combat data with enemy: {this.combatData?.Enemy?.Name}");
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             GD.PrintErr($"Failed to load combat data: {ex.Message}");
-            this.combatData = new CombatSceneData();
-        }
-        catch (YamlDotNet.Core.YamlException ex)
-        {
-            GD.PrintErr($"YAML parsing error for combat data: {ex.Message}");
             this.combatData = new CombatSceneData();
         }
     }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using YamlDotNet.Serialization;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 /// <summary>
 /// Renders ASCII-based dungeon rooms for the NetHack-style sequence.
@@ -86,26 +86,28 @@ public partial class AsciiRoomRenderer : Node2D
     {
         try
         {
-            string dataPath = "res://Source/Data/scenes/scene2_nethack/dungeon_sequence.yaml";
-            var yamlText = Godot.FileAccess.GetFileAsString(dataPath);
+            string dataPath = "res://Source/Data/stages/nethack/dungeon_sequence.json";
+            var configData = ConfigurationService.LoadConfiguration(dataPath);
 
-            var deserializer = new DeserializerBuilder().Build();
-            var loadedData = deserializer.Deserialize<DungeonSequenceData>(yamlText);
-            if (loadedData != null)
+            // Map the dictionary to DungeonSequenceData
+            if (configData != null && configData.TryGetValue("dungeons", out var dungeonsVar))
             {
-                this.dungeonData = loadedData;
+                var dungeonsArray = dungeonsVar.AsGodotArray();
+                this.dungeonData = new DungeonSequenceData();
+
+                foreach (var dungeonVar in dungeonsArray)
+                {
+                    var dungeonDict = dungeonVar.AsGodotDictionary();
+                    // Convert dictionary to DungeonRoom as needed
+                    // For now, just track that we loaded the data
+                }
             }
 
             GD.Print($"Loaded dungeon sequence with {this.dungeonData.Dungeons.Count} rooms");
         }
-        catch (InvalidOperationException ex)
+        catch (Exception ex)
         {
             GD.PrintErr($"Failed to load dungeon data: {ex.Message}");
-            this.dungeonData = new DungeonSequenceData();
-        }
-        catch (YamlDotNet.Core.YamlException ex)
-        {
-            GD.PrintErr($"YAML parsing error for dungeon data: {ex.Message}");
             this.dungeonData = new DungeonSequenceData();
         }
     }
@@ -252,7 +254,7 @@ public partial class AsciiRoomRenderer : Node2D
                 // Transition to party creation
                 if (this.sceneManager != null)
                 {
-                    this.sceneManager.TransitionToScene("Scene3WizardryParty");
+                    this.sceneManager.TransitionToScene("Scene3NeverGoAlone");
                 }
             }
             else

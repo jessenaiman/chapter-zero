@@ -14,8 +14,8 @@
     },
     {
       "id": 3,
-      "type": "wizardry_party",
-      "path": "scene3_wizardry",
+      "type": "never_go_alone",
+      "path": "scene3_never_go_alone",
       "supportsThreads": false
     },
     {
