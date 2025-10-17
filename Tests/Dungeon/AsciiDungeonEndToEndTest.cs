@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Tests.EndToEnd.Dungeon
 {
+    using System.Globalization;
     using System.Threading.Tasks;
     using GdUnit4;
     using Godot;
@@ -30,24 +31,24 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         {
             // This test would normally require Godot runtime to execute
             // For now, we'll verify the data structure and configuration
-            
+
             // Load the dungeon sequence JSON
             var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
-            
+
             // Load and validate the sequence
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
-            
+
             // Verify structure
             AssertThat(sequence).IsNotNull();
             AssertThat(sequence.Stages).HasSize(3); // Three stages per specification
-            
+
             // Verify each stage has unique owner
             var owners = new System.Collections.Generic.HashSet<DreamweaverType>();
             foreach (var stage in sequence.Stages)
             {
                 AssertThat(owners.Add(stage.Owner)).IsTrue(); // Verify unique owner
             }
-            
+
             // Verify stage maps are valid (rectangular)
             foreach (var stage in sequence.Stages)
             {
@@ -69,18 +70,15 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
             // Create a test sequence
             var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
-            
+
             // Create a test game state to track scores
             var gameState = new GameState();
-            
+
             // Initialize scores for each dreamweaver
-            gameState.DreamweaverScores = new System.Collections.Generic.Dictionary<DreamweaverType, int>
-            {
-                { DreamweaverType.Light, 0 },
-                { DreamweaverType.Mischief, 0 },
-                { DreamweaverType.Wrath, 0 }
-            };
-            
+            gameState.UpdateDreamweaverScore(DreamweaverType.Light, 0);
+            gameState.UpdateDreamweaverScore(DreamweaverType.Mischief, 0);
+            gameState.UpdateDreamweaverScore(DreamweaverType.Wrath, 0);
+
             // Simulate interactions with objects in the first stage
             var firstStage = sequence.Stages[0];
             foreach (var obj in firstStage.Legend.Keys)
@@ -89,12 +87,12 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
                 {
                     // Resolve interaction for this object
                     var result = firstStage.ResolveInteraction(obj);
-                    
+
                     // Update game state (this simulates what happens in the actual game)
-                    gameState.DreamweaverScores[result.AlignedTo] += result.Change.Value;
+                    gameState.DreamweaverScores[result.AlignedTo] += result.Change.Amount;
                 }
             }
-            
+
             // Verify that at least one score was updated
             var totalScore = gameState.DreamweaverScores.Values.Sum();
             AssertThat(totalScore).IsGreater(0);
@@ -109,36 +107,36 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
             // Create a test sequence
             var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
-            
+
             // Create mock publisher and affinity service
             var publisher = new TestDungeonEventPublisher();
             var affinityService = new TestDreamweaverAffinityService();
-            
+
             // Create runner
             var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
-            
+
             // Start the sequence
             runner.Start();
-            
+
             // Verify first stage started
             AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
             AssertThat(publisher.LastStageEnteredEvent.StageIndex).IsEqual(0);
-            
+
             // Complete first stage
             runner.CompleteCurrentStage();
-            
+
             // Verify we moved to stage 1
             AssertThat(publisher.LastStageEnteredEvent.StageIndex).IsEqual(1);
-            
+
             // Complete second stage
             runner.CompleteCurrentStage();
-            
+
             // Verify we moved to stage 2
             AssertThat(publisher.LastStageEnteredEvent.StageIndex).IsEqual(2);
-            
+
             // Complete final stage
             runner.CompleteCurrentStage();
-            
+
             // Should not have triggered another stage since there are only 3
             AssertThat(publisher.StageEnteredEventsCount).IsEqual(3); // Initial + 3 stages
         }
@@ -152,10 +150,10 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
             // Load sequence
             var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
-            
+
             // Verify it has 3 stages (as specified in nethack scene doc)
             AssertThat(sequence.Stages).HasSize(3);
-            
+
             // Verify each stage has:
             // - A unique Dreamweaver owner
             var owners = new System.Collections.Generic.List<DreamweaverType>();
@@ -165,26 +163,27 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
                 AssertThat(owners.Contains(stage.Owner)).IsFalse(); // Unique owners
                 owners.Add(stage.Owner);
             }
-            
+
             // Verify each stage has a map with objects
             foreach (var stage in sequence.Stages)
             {
                 AssertThat(stage.Map).IsNotEmpty();
-                
+
                 // Verify stage has the specified objects (D, M, C) or similar
-                bool hasDoor = false, hasMonster = false, hasChest = false;
-                
+                var hasInteractiveObjects = false;
+
                 foreach (var kvp in stage.Legend)
                 {
-                    var desc = kvp.Value.ToLower();
-                    if (desc.Contains("door")) hasDoor = true;
-                    if (desc.Contains("monster")) hasMonster = true;
-                    if (desc.Contains("chest")) hasChest = true;
+                    var desc = kvp.Value.ToLower(CultureInfo.InvariantCulture);
+                    if (desc != "wall" && desc != "floor" && desc != "player")
+                    {
+                        hasInteractiveObjects = true;
+                        break;
+                    }
                 }
-                
+
                 // Based on specification, each stage should have interactive objects
-                // This may vary depending on the specific JSON data
-                AssertThat(stage.Legend.Count).IsGreater(2); // At least wall, floor, and an object
+                AssertThat(hasInteractiveObjects).IsTrue(); // Should have at least one interactive object
             }
         }
 
@@ -199,7 +198,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
             // Create a test sequence
             var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
-            
+
             // Test each stage's scoring mechanism
             foreach (var stage in sequence.Stages)
             {
@@ -210,7 +209,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
                     // We can't directly test ResolveInteraction without knowing which glyphs are objects
                     // That's done in the object definitions, not the legend directly
                 }
-                
+
                 // Verify the specific scoring mechanism by looking at interactions
                 // Test owner-aligned interaction (should give 2 points to owner)
                 var testGlyph = FindObjectOfType(stage, stage.Owner);
@@ -223,7 +222,12 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
             }
         }
 
-        // Helper method to find an object in a stage that's aligned to a specific owner
+        /// <summary>
+        /// Helper method to find an object in a stage that's aligned to a specific owner.
+        /// </summary>
+        /// <param name="stage">The dungeon stage to search.</param>
+        /// <param name="owner">The dreamweaver owner type to find.</param>
+        /// <returns>The character representing the object, or null if not found.</returns>
         private char? FindObjectOfType(DungeonStage stage, DreamweaverType owner)
         {
             // This is a simplified check - in reality we'd need to look at the object definitions
@@ -244,7 +248,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         {
             public int StageEnteredEventsCount { get; private set; }
             public int StagesClearedCount { get; private set; }
-            
+
             public DungeonStageEnteredEvent? LastStageEnteredEvent { get; private set; }
             public DungeonStageClearedEvent? LastStageClearedEvent { get; private set; }
 

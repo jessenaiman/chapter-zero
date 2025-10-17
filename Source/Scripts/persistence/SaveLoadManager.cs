@@ -37,7 +37,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
             try
             {
                 // Check if save already exists
-                var existingSave = await _context.GameSaves
+                var existingSave = await _context.GameSaves!
                     .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot);
 
                 if (existingSave != null)
@@ -50,7 +50,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
                 {
                     // Create new save
                     var newSave = CreateGameSaveFromGameState(gameState, saveSlot);
-                    _context.GameSaves.Add(newSave);
+                    _context.GameSaves!.Add(newSave);
                 }
 
                 await _context.SaveChangesAsync();
@@ -73,7 +73,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
         {
             try
             {
-                var gameSave = await _context.GameSaves
+                var gameSave = await _context.GameSaves!
                     .Include(gs => gs.Shards)
                     .Include(gs => gs.SceneData)
                     .Include(gs => gs.DreamweaverScores)
@@ -107,7 +107,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
         {
             try
             {
-                return await _context.GameSaves
+                return await _context.GameSaves!
                     .OrderByDescending(gs => gs.LastModifiedAt)
                     .Select(gs => gs.SaveSlot)
                     .ToListAsync();
@@ -128,7 +128,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
         {
             try
             {
-                var gameSave = await _context.GameSaves
+                var gameSave = await _context.GameSaves!
                     .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot);
 
                 if (gameSave == null)
@@ -136,7 +136,7 @@ namespace OmegaSpiral.Source.Scripts.Persistence
                     return false;
                 }
 
-                _context.GameSaves.Remove(gameSave);
+                _context.GameSaves!.Remove(gameSave);
                 await _context.SaveChangesAsync();
                 GD.Print($"Save slot deleted: {saveSlot}");
                 return true;

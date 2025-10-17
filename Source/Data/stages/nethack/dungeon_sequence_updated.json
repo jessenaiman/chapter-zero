@@ -13,7 +13,7 @@
       ],
       "legend": {
         "#": "wall",
-        ".": "floor", 
+        ".": "floor",
         "@": "player",
         "D": "door",
         "M": "monster",
@@ -27,7 +27,7 @@
           "position": [10, 3]
         },
         "M": {
-          "type": "Monster", 
+          "type": "Monster",
           "text": "A spectral wolf appears! It lunges...",
           "aligned_to": "Wrath",
           "position": [14, 3]
@@ -42,7 +42,7 @@
       "playerStartPosition": [2, 3]
     },
     {
-      "owner": "Mischief", 
+      "owner": "Mischief",
       "map": [
         "########################",
         "#..~..~..~..~..~..~..#",
@@ -55,7 +55,7 @@
         "#": "wall",
         ".": "floor",
         "~": "water",
-        "@": "player", 
+        "@": "player",
         "D": "door",
         "M": "monster",
         "C": "chest"
@@ -70,7 +70,7 @@
         "M": {
           "type": "Monster",
           "text": "A guardian of light blocks your path!",
-          "aligned_to": "Light", 
+          "aligned_to": "Light",
           "position": [14, 3]
         },
         "C": {
@@ -85,7 +85,7 @@
     {
       "owner": "Wrath",
       "map": [
-        "########################", 
+        "########################",
         "#.#.#.#.#.#.#.#.#.#.#.#",
         "#@#.#.#.#.#.#.#.#.#.#.#",
         "#........M...C...D....#",
@@ -96,7 +96,7 @@
         "#": "wall",
         ".": "floor",
         "@": "player",
-        "D": "door", 
+        "D": "door",
         "M": "monster",
         "C": "chest"
       },
@@ -108,7 +108,7 @@
           "position": [18, 3]
         },
         "M": {
-          "type": "Monster", 
+          "type": "Monster",
           "text": "A trickster imp cackles and attacks!",
           "aligned_to": "Mischief",
           "position": [10, 3]
