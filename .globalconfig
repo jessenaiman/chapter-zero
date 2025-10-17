@@ -1,0 +1,2 @@
+# Suppress CS1591 (Missing XML comment for publicly visible type or member) for generated files
+dotnet_diagnostic.CS1591.severity = none

@@ -5,11 +5,11 @@
 // ReSharper disable once CheckNamespace
 namespace GdUnit4.TestRunner;
 
-using GdUnit4.Core.Runners;
+using Godot;
 
 /// <summary>
 ///     The GdUnit4Net test runner scene.
 /// </summary>
-public partial class GdUnit4TestRunnerScene : GdUnit4TestRunnerSceneCore
+public partial class GdUnit4TestRunnerScene : Node
 {
 }

@@ -8,6 +8,10 @@ using System.IO;
 using GdUnit4;
 using static GdUnit4.Assertions;
 
+/// <summary>
+/// Test suite for validating house scene configuration and interactions.
+/// Tests verify that house scenes exist, are properly formatted, and contain expected interaction components.
+/// </summary>
 [TestSuite]
 [RequireGodotRuntime]
 public class HouseSceneTests
@@ -18,6 +22,10 @@ public class HouseSceneTests
 
     private static string HouseScenePath => ResolveProjectPath("Source/overworld/maps/house/wand_pedestal_interaction.tscn");
 
+    /// <summary>
+    /// Tests that the house scene file exists and contains valid content.
+    /// Verifies that the wand pedestal interaction scene is properly configured and includes required components.
+    /// </summary>
     [TestCase]
     public void HouseScene_ExistsAndIsValid()
     {

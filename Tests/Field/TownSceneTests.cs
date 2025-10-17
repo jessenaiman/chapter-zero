@@ -8,6 +8,10 @@ using System.IO;
 using GdUnit4;
 using static GdUnit4.Assertions;
 
+/// <summary>
+/// Test suite for validating town scene configuration and directory structure.
+/// Tests verify that town directories exist, are properly organized, and contain expected files.
+/// </summary>
 [TestSuite]
 [RequireGodotRuntime]
 public class TownSceneTests
@@ -18,6 +22,10 @@ public class TownSceneTests
 
     private static string TownMapPath => ResolveProjectPath("Source/overworld/maps/town");
 
+    /// <summary>
+    /// Tests that the town directory exists and contains expected files.
+    /// Verifies that the town map directory is properly configured and includes required conversation encounter scripts.
+    /// </summary>
     [TestCase]
     public void TownDirectory_ContainsExpectedFiles()
     {

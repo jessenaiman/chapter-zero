@@ -309,7 +309,7 @@ public partial class AsciiRoomRenderer : Node2D
                 return null;
             }
 
-            var owner = (DreamweaverType)Enum.Parse(typeof(DreamweaverType), ownerVar.ToString() ?? "Light");
+            var owner = Enum.Parse<DreamweaverType>(ownerVar.ToString() ?? "Light");
 
             if (!dungeonDict.TryGetValue("map", out var mapVar))
             {

@@ -46,10 +46,10 @@ Initialize sequence-specific state:
 protected override void OnSequenceReady()
 {
     base.OnSequenceReady(); // Always call base first!
-    
+
     // Get nodes from your scene
     var myLabel = this.GetNode<Label>("MyLabel");
-    
+
     // Initialize state
     // ...
 }
@@ -67,10 +67,10 @@ public override async Task PlayAsync()
     {
         await this.DisplayTextWithTypewriterAsync("Some dialogue...").ConfigureAwait(false);
     }
-    
+
     // Fade effects
     await this.FadeToBlackAsync(1.0f).ConfigureAwait(false);
-    
+
     // Signal completion
     this.CompleteSequence("next_sequence_id");
 }
@@ -169,7 +169,7 @@ public partial class SimpleSequence : NarrativeSequence
         base.OnSequenceReady();
         this.contentLabel = this.GetNode<Label>("ContentLabel");
         this.continueButton = this.GetNode<Button>("ContinueButton");
-        
+
         if (this.continueButton != null)
         {
             this.continueButton.Pressed += this.OnContinuePressed;
@@ -180,13 +180,13 @@ public partial class SimpleSequence : NarrativeSequence
     {
         // Fade in
         await this.FadeFromBlackAsync(0.5f).ConfigureAwait(false);
-        
+
         // Display content
         if (this.contentLabel != null)
         {
             this.contentLabel.Text = "Welcome to the sequence!";
         }
-        
+
         // Wait for user interaction (button press)
         // OnContinuePressed will call CompleteSequence()
     }
@@ -229,9 +229,9 @@ public override async Task PlayAsync()
 {
     var button = this.GetNode<Button>("SubmitButton");
     var taskCompletionSource = new TaskCompletionSource<bool>();
-    
+
     button.Pressed += () => taskCompletionSource.SetResult(true);
-    
+
     await taskCompletionSource.Task.ConfigureAwait(false);
     this.CompleteSequence("next_id");
 }
@@ -243,13 +243,13 @@ public override async Task PlayAsync()
 public override async Task PlayAsync()
 {
     var textBlocks = new[] { "Line 1", "Line 2", "Line 3" };
-    
+
     foreach (string block in textBlocks)
     {
         await this.DisplayTextWithTypewriterAsync(block).ConfigureAwait(false);
         await Task.Delay(500).ConfigureAwait(false); // Pause between blocks
     }
-    
+
     this.CompleteSequence("next_id");
 }
 ```
@@ -288,11 +288,11 @@ public class MySequenceTests
         // Arrange
         var sequence = new MySequence();
         // ... setup
-        
+
         // Act
         var playTask = sequence.PlayAsync();
         // ... simulate user input
-        
+
         // Assert
         // ... verify signals emitted, content displayed
     }
@@ -307,9 +307,9 @@ Enable debug output in sequences:
 public override async Task PlayAsync()
 {
     GD.Print($"[{this.SequenceId}] Starting playback");
-    
+
     // ... sequence logic
-    
+
     GD.Print($"[{this.SequenceId}] Playback complete, next: next_id");
     this.CompleteSequence("next_id");
 }

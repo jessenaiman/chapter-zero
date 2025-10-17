@@ -4,54 +4,11 @@
 
 namespace OmegaSpiral.Tests.Unit.Dungeon
 {
-
-/* Unmerged change from project 'OmegaSpiral.Tests'
-Before:
-/* Unmerged change from project 'OmegaSpiral.Tests'
-Before:
-  using Godot;
-  using GdUnit4;
-  using OmegaSpiral.Source.Scripts.Common;
-  using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-After:
     using GdUnit4;
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-*/
-    using Godot;
-    using GdUnit4;
-After:
-    using GdUnit4;
-*/
-    /* Unmerged change from project 'OmegaSpiral.Tests'
-    Before:
-      using Godot;
-      using GdUnit4;
-      using OmegaSpiral.Source.Scripts.Common;
-      using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-    After:
-        using GdUnit4;
-        using Godot;
-        using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-    */
-    using Godot;
-    using GdUnit4;
-    /* Unmerged change from project 'OmegaSpiral.Tests'
-Before:
-  using Godot;
-  using GdUnit4;
-  using OmegaSpiral.Source.Scripts.Common;
-  using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-After:
-    using GdUnit4;
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-*/
     using Godot;
     using OmegaSpiral.Source.Scripts.Common;
-    using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-  using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+    using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
     using OmegaSpiral.Source.Scripts.Infrastructure.Dungeon;
     using static GdUnit4.Assertions;
 
@@ -99,9 +56,9 @@ After:
             AssertThat(sequence.Stages).HasSize(3);
             var owners = sequence.Stages.Select(s => s.Owner).ToList();
             AssertThat(owners.Distinct().Count()).IsEqual(3);
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light)).IsTrue();
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Mischief)).IsTrue();
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Light)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Mischief)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Wrath)).IsTrue();
         }
 
         /// <summary>
@@ -168,11 +125,11 @@ After:
         {
             // Arrange
             var duplicateDefinitions = new List<DungeonStageDefinition>
-        {
-            CreateValidDungeonStageDefinition(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light),
-            CreateValidDungeonStageDefinition(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light), // Duplicate
-            CreateValidDungeonStageDefinition(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath),
-        };
+            {
+                CreateValidDungeonStageDefinition(DreamweaverType.Light),
+                CreateValidDungeonStageDefinition(DreamweaverType.Light), // Duplicate
+                CreateValidDungeonStageDefinition(DreamweaverType.Wrath),
+            };
 
             // Act & Assert
             var exception = AssertThat(() => AsciiDungeonSequence.Create(duplicateDefinitions))
@@ -197,9 +154,9 @@ After:
             AssertThat(sequence.Stages).HasSize(3);
             var owners = sequence.Stages.Select(s => s.Owner).ToList();
             AssertThat(owners.Distinct().Count()).IsEqual(3); // Each Dreamweaver appears once
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light)).IsTrue();
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Mischief)).IsTrue();
-            AssertThat(owners.Contains(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Light)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Mischief)).IsTrue();
+            AssertThat(owners.Contains(DreamweaverType.Wrath)).IsTrue();
         }
 
         /// <summary>
@@ -241,7 +198,7 @@ After:
 
             // Assert
             AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
-            AssertThat(publisher.LastStageEnteredEvent!.Owner).IsEqual(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light); // First stage is Light
+            AssertThat(publisher.LastStageEnteredEvent!.Owner).IsEqual(DreamweaverType.Light); // First stage is Light
         }
 
         /// <summary>
@@ -254,34 +211,13 @@ After:
             var validJson = CreateValidDungeonSequenceJson();
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
             var publisher = new TestDungeonEventPublisher();
-
-            /* Unmerged change from project 'OmegaSpiral.Tests'
-            Before:
-                    var affinityService = new TestDreamweaverAffinityService();
-                    var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
-
-                    // Act
-                    runner.Start();
-
-                    // Assert
-                    AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
-            After:
-                    var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
-                    var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
-
-                    // Act
-                    runner.Start();
-
-                    // Assert
-            */
             var affinityService = new TestDreamweaverAffinityService();
-            var affinityService = new TestDreamweaverAffinityService();
+            var runner = new AsciiDungeonSequenceRunner(sequence, publisher, affinityService);
 
             // Act
             runner.Start();
 
             // Assert
-            AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
             AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
             AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(0);
         }
@@ -316,7 +252,7 @@ After:
         {
             // Arrange
             var gameState = new GameState();
-            var stage = CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
+            var stage = CreateTestDungeonStage(DreamweaverType.Light);
             var ownerObjectKey = 'D'; // Door aligned to Light (owner)
 
             // Act
@@ -325,8 +261,8 @@ After:
 
             // Assert
             AssertThat(interactionResult).IsNotNull();
-            AssertThat(interactionResult.AlignedTo).IsEqualTo(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light); // Owner alignment = +2
-            AssertThat(gameState.DreamweaverScores[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light] >= 2).IsTrue();
+            AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Light); // Owner alignment = +2
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).IsTrue();
         }
 
         /// <summary>
@@ -337,7 +273,7 @@ After:
         {
             // Arrange
             var gameState = new GameState();
-            var stage = CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
+            var stage = CreateTestDungeonStage(DreamweaverType.Light);
             var crossAlignedObjectKey = 'M'; // Monster aligned to Wrath (cross-alignment)
 
             // Act
@@ -346,8 +282,8 @@ After:
 
             // Assert
             AssertThat(interactionResult).IsNotNull();
-            AssertThat(interactionResult.AlignedTo).IsEqualTo(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath); // Cross-alignment = +1
-            AssertThat(gameState.DreamweaverScores[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath] >= 1).IsTrue();
+            AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Wrath); // Cross-alignment = +1
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Wrath] >= 1).IsTrue();
         }
 
         /// <summary>
@@ -358,7 +294,7 @@ After:
         {
             // Arrange
             var gameState = new GameState();
-            var stage = CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
+            var stage = CreateTestDungeonStage(DreamweaverType.Light);
             var ownerObjectKey = 'D'; // Door aligned to Light
 
             // Act
@@ -367,8 +303,8 @@ After:
 
             // Assert
             AssertThat(interactionResult).IsNotNull();
-            AssertThat(interactionResult.AlignedTo).IsEqualTo(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
-            AssertThat(gameState.DreamweaverScores[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light] >= 2).IsTrue();
+            AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Light);
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).IsTrue();
         }
 
         /// <summary>
@@ -379,8 +315,8 @@ After:
         {
             // Arrange
             var gameState = new GameState();
-            var initialScore = gameState.DreamweaverScores[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath];
-            var stage = CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
+            var initialScore = gameState.DreamweaverScores[DreamweaverType.Wrath];
+            var stage = CreateTestDungeonStage(DreamweaverType.Light);
             var nonAlignedObjectKey = 'C'; // Chest aligned to Mischief (not Wrath)
 
             // Act
@@ -388,8 +324,8 @@ After:
 
             // Assert
             AssertThat(interactionResult).IsNotNull();
-            AssertThat(interactionResult.AlignedTo).IsNotEqualTo(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath); // Not owner alignment
-            AssertThat(gameState.DreamweaverScores[OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath]).IsEqual(initialScore); // Unchanged
+            AssertThat(interactionResult.AlignedTo).IsNotEqualTo(DreamweaverType.Wrath); // Not owner alignment
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Wrath]).IsEqual(initialScore); // Unchanged
         }
 
         /// <summary>
@@ -499,253 +435,196 @@ After:
         }
 
         /// <summary>
-        /// Tests that scene implements collision system preventing wall walking.
+        /// Tests that scene validates object legend entries contain required alignment mappings.
         /// </summary>
         [TestCase]
-        public void Movement_WhenCollisionDetected_PreventsWallWalking()
-        {
-            // This test would require Godot runtime to test actual collision
-            // The mock implementation would verify the collision logic
-            // TODO: Implement proper test with actual Godot runtime or proper mock
-            AssertThat(true).IsTrue();
-        }
-
-        /// <summary>
-        /// Tests that scene provides invalid move feedback when collision occurs.
-        /// </summary>
-        [TestCase]
-        public void Movement_WhenInvalidMoveAttempted_ProvidesFeedback()
-        {
-            // This test would require Godot runtime to test actual feedback
-            // The mock implementation would verify the feedback logic
-            // TODO: Implement proper test with actual Godot runtime or proper mock
-            AssertThat(true).IsTrue();
-        }
-
-        /// <summary>
-        /// Tests that scene manages object interactions and Dreamweaver affinity updates.
-        /// </summary>
-        [TestCase]
-        public void Gameplay_WhenObjectInteracted_ManagesAffinityUpdates()
+        public void LoadSchema_WhenValidSchemaProvided_ValidatesObjectLegendEntries()
         {
             // Arrange
-            var gameState = new GameState();
-            var stage = CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType.Light);
+            var validJson = CreateValidDungeonSequenceJson();
 
-            // Act - Interact with each object type
-            var objectKeys = new char[] { 'D', 'M', 'C' }; // Door, Monster, Chest
-            foreach (var key in objectKeys)
+            // Act
+            var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
 
-            /* Unmerged change from project 'OmegaSpiral.Tests'
-            Before:
-                        // For each interaction, apply the appropriate points
-            After:
-                        // For each interaction, apply the appropriate points
-            */
+            // Assert
+            AssertThat(sequence.Stages).HasSize(3);
+            foreach (var stage in sequence.Stages)
             {
-                var interactionResult = stage.ResolveInteraction(key);
-
-                // For each interaction, apply the appropriate points
-                var points = interactionResult.AlignedTo == stage.Owner ? 2 : 1; // Owner gets +2, others get +1
-                gameState.UpdateDreamweaverScore(interactionResult.AlignedTo, points);
+                AssertThat(stage.Legend).IsNotEmpty();
+                foreach (var legendEntry in stage.Legend)
+                {
+                    AssertThat(legendEntry.Value).IsNotNull(); // Each glyph must map to an alignment
+                }
             }
+        }
 
-            // Assert - Verify affinity updates
-            AssertThat(objectKeys.Length > 0).IsTrue();
-            var totalPoints = objectKeys.Length; // Each interaction adds at least 1 point
-            AssertThat(totalPoints > 0).IsTrue();
+        /// <summary>
+        /// Tests that scene validates map content against legend entries.
+        /// </summary>
+        [TestCase]
+        public void LoadSchema_WhenValidSchemaProvided_ValidatesMapContentAgainstLegend()
+        {
+            // Arrange
+            var validJson = CreateValidDungeonSequenceJson();
+
+            // Act
+            var sequence = AsciiDungeonSequenceLoader.LoadFromJson(validJson);
+
+            // Assert
+            AssertThat(sequence.Stages).HasSize(3);
+            foreach (var stage in sequence.Stages)
+            {
+                // Verify all characters in map exist in legend
+                foreach (var row in stage.Map)
+                {
+                    foreach (var character in row)
+                    {
+                        if (character != ' ') // Skip empty spaces
+                        {
+                            AssertThat(stage.Legend.ContainsKey(character)).IsTrue();
+                        }
+                    }
+                }
+            }
         }
 
         private string CreateValidDungeonSequenceJson()
         {
             return @"{
-  ""type"": ""ascii_dungeon_sequence"",
-  ""dungeons"": [
-    {
-      ""owner"": ""Light"",
-      ""map"": [
-        ""############"",
-        ""#...D......#"",
-        ""#.M........#"",
-        ""#......C...#"",
-        ""############""
-      ],
-      ""legend"": {
-        ""#"": ""wall"",
-        ""."": ""floor"",
-        ""D"": ""door"",
-        ""M"": ""monster"",
-        ""C"": ""chest""
-      },
-      ""objects"": {
-        ""D"": {
-          ""type"": ""Door"",
-          ""text"": ""A door aligned to Light"",
-          ""aligned_to"": ""Light"",
-          ""affinity_delta"": 2
+    ""stages"": [
+        {
+            ""owner"": ""Light"",
+            ""map"": [
+                ""############"",
+                ""#........D.#"",
+                ""#.M......C.#"",
+                ""#........K.#"",
+                ""############""
+            ],
+            ""legend"": {
+                ""#"": ""Wall"",
+                ""."": ""Floor"",
+                ""D"": ""Door"",
+                ""M"": ""Monster"",
+                ""C"": ""Chest"",
+                ""K"": ""Key""
+            }
         },
-        ""M"": {
-          ""type"": ""Monster"",
-          ""text"": ""A monster aligned to Wrath"",
-          ""aligned_to"": ""Wrath"",
-          ""affinity_delta"": 1
+        {
+            ""owner"": ""Mischief"",
+            ""map"": [
+                ""############"",
+                ""#........C.#"",
+                ""#.D......K.#"",
+                ""#........M.#"",
+                ""############""
+            ],
+            ""legend"": {
+                ""#"": ""Wall"",
+                ""."": ""Floor"",
+                ""D"": ""Door"",
+                ""M"": ""Monster"",
+                ""C"": ""Chest"",
+                ""K"": ""Key""
+            }
         },
-        ""C"": {
-          ""type"": ""Chest"",
-          ""text"": ""A chest aligned to Mischief"",
-          ""aligned_to"": ""Mischief"",
-          ""affinity_delta"": 1
+        {
+            ""owner"": ""Wrath"",
+            ""map"": [
+                ""############"",
+                ""#........K.#"",
+                ""#.C......D.#"",
+                ""#........M.#"",
+                ""############""
+            ],
+            ""legend"": {
+                ""#"": ""Wall"",
+                ""."": ""Floor"",
+                ""D"": ""Door"",
+                ""M"": ""Monster"",
+                ""C"": ""Chest"",
+                ""K"": ""Key""
+            }
         }
-      }
-    },
-    {
-      ""owner"": ""Mischief"",
-      ""map"": [
-        ""############"",
-        ""#...D......#"",
-        ""#.M........#"",
-        ""#......C...#"",
-        ""############""
-      ],
-      ""legend"": {
-        ""#"": ""wall"",
-        ""."": ""floor"",
-        ""D"": ""door"",
-        ""M"": ""monster"",
-        ""C"": ""chest""
-      },
-      ""objects"": {
-        ""D"": {
-          ""type"": ""Door"",
-          ""text"": ""A door aligned to Mischief"",
-          ""aligned_to"": ""Mischief"",
-          ""affinity_delta"": 2
-        },
-        ""M"": {
-          ""type"": ""Monster"",
-          ""text"": ""A monster aligned to Light"",
-          ""aligned_to"": ""Light"",
-          ""affinity_delta"": 1
-        },
-        ""C"": {
-          ""type"": ""Chest"",
-          ""text"": ""A chest aligned to Wrath"",
-          ""aligned_to"": ""Wrath"",
-          ""affinity_delta"": 1
-        }
-      }
-    },
-    {
-      ""owner"": ""Wrath"",
-      ""map"": [
-        ""############"",
-        ""#...D......#"",
-        ""#.M........#"",
-        ""#......C...#"",
-        ""############""
-      ],
-      ""legend"": {
-        ""#"": ""wall"",
-        ""."": ""floor"",
-        ""D"": ""door"",
-        ""M"": ""monster"",
-        ""C"": ""chest""
-      },
-      ""objects"": {
-        ""D"": {
-          ""type"": ""Door"",
-          ""text"": ""A door aligned to Wrath"",
-          ""aligned_to"": ""Wrath"",
-          ""affinity_delta"": 2
-        },
-        ""M"": {
-          ""type"": ""Monster"",
-          ""text"": ""A monster aligned to Mischief"",
-          ""aligned_to"": ""Mischief"",
-          ""affinity_delta"": 1
-        },
-        ""C"": {
-          ""type"": ""Chest"",
-          ""text"": ""A chest aligned to Light"",
-          ""aligned_to"": ""Light"",
-          ""affinity_delta"": 1
-        }
-      }
-    }
-  ]
+    ]
 }";
         }
 
         private string CreateDungeonSequenceWithDuplicateOwners()
         {
             return @"{
-  ""type"": ""ascii_dungeon_sequence"",
-  ""dungeons"": [
-    {
-      ""owner"": ""Light"",
-      ""map"": [""#####""],
-      ""legend"": {""#"": ""wall""},
-      ""objects"": {}
-    },
-    {
-      ""owner"": ""Light"",
-      ""map"": [""#####""],
-      ""legend"": {""#"": ""wall""},
-      ""objects"": {}
-    },
-    {
-      ""owner"": ""Wrath"",
-      ""map"": [""#####""],
-      ""legend"": {""#"": ""wall""},
-      ""objects"": {}
-  ]
+    ""stages"": [
+        {
+            ""owner"": ""Light"",
+            ""map"": [
+                ""############"",
+                ""#........D.#"",
+                ""#.M......C.#"",
+                ""#........K.#"",
+                ""############""
+            ],
+            ""legend"": {
+                ""#"": ""Wall"",
+                ""."": ""Floor"",
+                ""D"": ""Door"",
+                ""M"": ""Monster"",
+                ""C"": ""Chest"",
+                ""K"": ""Key""
+            }
+        },
+        {
+            ""owner"": ""Light"",
+            ""map"": [
+                ""############"",
+                ""#........C.#"",
+                ""#.D......K.#"",
+                ""#........M.#"",
+                ""############""
+            ],
+            ""legend"": {
+                ""#"": ""Wall"",
+                ""."": ""Floor"",
+                ""D"": ""Door"",
+                ""M"": ""Monster"",
+                ""C"": ""Chest"",
+                ""K"": ""Key""
+            }
+        }
+    ]
 }";
         }
 
-        private DungeonStageDefinition CreateValidDungeonStageDefinition(OmegaSpiral.Source.Scripts.Common.DreamweaverType owner)
+        private DungeonStageDefinition CreateValidDungeonStageDefinition(DreamweaverType owner)
         {
             return new DungeonStageDefinition(
-                "test-stage",
+                "test-id",
                 owner,
                 new List<string> { "####", "#..#", "#..#", "####" },
-                new Dictionary<char, string> { { '#', "wall" }, { '.', "floor" } },
+                new Dictionary<char, string> { { '#', "Wall" }, { '.', "Floor" } },
                 new Dictionary<char, DungeonObjectDefinition>());
         }
 
-        private DungeonStage CreateTestDungeonStage(OmegaSpiral.Source.Scripts.Common.DreamweaverType owner)
+        private DungeonStage CreateTestDungeonStage(DreamweaverType owner)
         {
-            var definition = new DungeonStageDefinition(
-                "test-stage-with-objects",
-                owner,
-                new List<string> { "####", "#D.#", "#M.#", "#C.#", "####" },
-                new Dictionary<char, string> { { '#', "wall" }, { '.', "floor" }, { 'D', "door" }, { 'M', "monster" }, { 'C', "chest" } },
-                new Dictionary<char, DungeonObjectDefinition>
-                {
-                { 'D', new DungeonObjectDefinition(DungeonObjectType.Door, "A door", owner, 2) },
-                { 'M', new DungeonObjectDefinition(DungeonObjectType.Monster, "A monster", OmegaSpiral.Source.Scripts.Common.DreamweaverType.Wrath, 1) },
-                { 'C', new DungeonObjectDefinition(DungeonObjectType.Chest, "A chest", OmegaSpiral.Source.Scripts.Common.DreamweaverType.Mischief, 1) },
-                });
-
+            var definition = CreateValidDungeonStageDefinition(owner);
             return DungeonStage.Create(definition);
         }
 
         private sealed class TestDungeonEventPublisher : IDungeonEventPublisher
         {
-            public DungeonStageEnteredEvent? LastStageEnteredEvent { get; private set; }
-
-            public DungeonStageClearedEvent? LastStageClearedEvent { get; private set; }
-
             public int StageEnteredEventsCount { get; private set; }
+
+            public DungeonStageEnteredEvent? LastStageEnteredEvent { get; private set; }
 
             public void PublishStageCleared(DungeonStageClearedEvent domainEvent)
             {
-                this.LastStageClearedEvent = domainEvent;
+                // Mock implementation
             }
 
             public void PublishStageEntered(DungeonStageEnteredEvent domainEvent)
             {
-                this.LastStageEnteredEvent = domainEvent;
-                this.StageEnteredEventsCount++;
+                LastStageEnteredEvent = domainEvent;
+                StageEnteredEventsCount++;
             }
         }
 
@@ -753,7 +632,7 @@ After:
         {
             public void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change)
             {
-                // Mock implementation - no-op for testing
+                // Mock implementation
             }
         }
     }

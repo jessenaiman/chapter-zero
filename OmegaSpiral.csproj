@@ -12,7 +12,6 @@
     <FileVersion>1.0.0.0</FileVersion>
     <Version>1.0.0</Version>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);1591</NoWarn>
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
@@ -38,6 +37,9 @@
   </ItemGroup>
   <!-- Suppress XML doc warning CS1591 only for generated code -->
   <ItemGroup>
+    <Compile Update="**/*_ScriptSignals.generated.cs">
+      <NoWarn>$(NoWarn);1591</NoWarn>
+    </Compile>
     <Compile Update="**/*.generated.cs">
       <NoWarn>$(NoWarn);1591</NoWarn>
     </Compile>

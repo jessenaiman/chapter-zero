@@ -703,3 +703,139 @@ _Purpose: mirror every currently defined test case (except the Save/Load suite) 
   - [ ] It should show consequences of Scene 1 secret in Scene 2 events
   - [ ] It should maintain narrative continuity through callbacks and hints
   - [ ] It should enhance immersion with meaningful choice persistence
+
+## Gameplay Simulation Tests
+
+### Issue: SIM-001 · Full Opening Sequence Playthrough
+- **Labels**: `area::integration`, `type::playtest`
+- **Description**: Simulate a complete playthrough of the opening sequence with all player choices.
+- **Implementation Notes**: Create an automated test that drives through the entire Scene1Narrative sequence including name input, persona selection, and all three story blocks. Use Godot's input simulation to trigger UI events and verify state progression. Tests should capture the full flow from initial loading to transition to Scene 2.
+- **Acceptance Criteria**:
+  - [ ] It should complete full opening sequence without errors or crashes
+  - [ ] It should handle all player input scenarios (keyboard, mouse, gamepad)
+  - [ ] It should validate all choice selections lead to correct narrative paths
+  - [ ] It should verify final transition to Scene 2 occurs correctly
+  - [ ] It should maintain consistent game state throughout entire sequence
+
+### Issue: SIM-002 · Hero Path Gameplay Flow
+- **Labels**: `area::integration`, `type::playtest`
+- **Description**: Test the complete HERO persona gameplay experience from start to finish.
+- **Implementation Notes**: Simulate a player choosing the HERO path, entering "Garrett" as name, and progressing through all HERO-aligned story blocks. Verify affinity scores are updated correctly and the final transition reflects HERO choice. Test should assert proper dialogue flow and Dreamweaver responses.
+- **Acceptance Criteria**:
+  - [ ] It should select HERO persona when player chooses first option
+  - [ ] It should update HERO affinity score during story interactions
+  - [ ] It should display HERO-appropriate dialogue and narrative content
+  - [ ] It should transition to Scene 2 with HERO path active
+  - [ ] It should carry forward HERO state to subsequent scenes
+
+### Issue: SIM-003 · Shadow Path Gameplay Flow
+- **Labels**: `area::integration`, `type::playtest`
+- **Description**: Test the complete SHADOW persona gameplay experience from start to finish.
+- **Implementation Notes**: Simulate a player choosing the SHADOW path, entering "Shadow" as name, and progressing through all SHADOW-aligned story blocks. Verify affinity scores are updated correctly and the final transition reflects SHADOW choice. Test should assert proper dialogue flow and Dreamweaver responses.
+- **Acceptance Criteria**:
+  - [ ] It should select SHADOW persona when player chooses second option
+  - [ ] It should update SHADOW affinity score during story interactions
+  - [ ] It should display SHADOW-appropriate dialogue and narrative content
+  - [ ] It should transition to Scene 2 with SHADOW path active
+  - [ ] It should carry forward SHADOW state to subsequent scenes
+
+### Issue: SIM-004 · Ambition Path Gameplay Flow
+- **Labels**: `area::integration`, `type::playtest`
+- **Description**: Test the complete AMBITION persona gameplay experience from start to finish.
+- **Implementation Notes**: Simulate a player choosing the AMBITION path, entering "Ambition" as name, and progressing through all AMBITION-aligned story blocks. Verify affinity scores are updated correctly and the final transition reflects AMBITION choice. Test should assert proper dialogue flow and Dreamweaver responses.
+- **Acceptance Criteria**:
+  - [ ] It should select AMBITION persona when player chooses third option
+  - [ ] It should update AMBITION affinity score during story interactions
+  - [ ] It should display AMBITION-appropriate dialogue and narrative content
+  - [ ] It should transition to Scene 2 with AMBITION path active
+  - [ ] It should carry forward AMBITION state to subsequent scenes
+
+### Issue: SIM-005 · Rapid Input Stress Test
+- **Labels**: `area::stability`, `type::stress-test`
+- **Description**: Test system stability under rapid player input during narrative sequences.
+- **Implementation Notes**: Simulate rapid keyboard/mouse input during typewriter text display and choice selection phases. Send 100+ rapid inputs and verify the system handles them gracefully without crashing or corrupting state. Test should cover both valid and invalid inputs.
+- **Acceptance Criteria**:
+  - [ ] It should handle 100+ rapid keyboard inputs without crashing
+  - [ ] It should handle 100+ rapid mouse clicks without state corruption
+  - [ ] It should maintain narrative flow despite input spamming
+  - [ ] It should not skip or corrupt text during rapid input sequences
+  - [ ] It should recover gracefully from input overflow situations
+
+### Issue: SIM-006 · Multi-Session Gameplay Continuity
+- **Labels**: `area::integration`, `type::functional-test`
+- **Description**: Test gameplay continuity across multiple play sessions with save/load.
+- **Implementation Notes**: Simulate a player starting a game, making choices, saving progress, quitting, then reloading and continuing. Verify that all choices, affinity scores, and narrative state are preserved correctly. Test should cover both automatic and manual saves.
+- **Acceptance Criteria**:
+  - [ ] It should preserve player name across save/load cycles
+  - [ ] It should maintain persona selection after game restart
+  - [ ] It should carry forward affinity scores between sessions
+  - [ ] It should resume at correct narrative point after loading
+  - [ ] It should handle save corruption gracefully with fallback options
+
+### Issue: SIM-007 · Choice Consequence Verification
+- **Labels**: `area::narrative-logic`, `type::functional-test`
+- **Description**: Verify that player choices have meaningful consequences in subsequent gameplay.
+- **Implementation Notes**: Test that each persona choice leads to different dialogue options, story branches, and Dreamweaver interactions in Scene 2. Simulate the same scenario with different initial choices and verify divergent outcomes.
+- **Acceptance Criteria**:
+  - [ ] It should show different dialogue trees based on initial persona choice
+  - [ ] It should trigger different Dreamweaver commentary for each path
+  - [ ] It should influence combat encounters based on affinity scores
+  - [ ] It should affect NPC reactions in later scenes
+  - [ ] It should create meaningful narrative divergence from early choices
+
+### Issue: SIM-008 · Accessibility Gameplay Test
+- **Labels**: `area::accessibility`, `type::ux-test`
+- **Description**: Test gameplay with accessibility features enabled (text speed, font size, etc.).
+- **Implementation Notes**: Simulate gameplay with various accessibility settings enabled (slow text speed, large fonts, colorblind modes). Verify that all gameplay elements remain accessible and functional with these settings.
+- **Acceptance Criteria**:
+  - [ ] It should complete gameplay with slowest text speed setting
+  - [ ] It should display all UI elements correctly with largest font size
+  - [ ] It should function properly with colorblind mode enabled
+  - [ ] It should maintain gameplay integrity with accessibility options active
+  - [ ] It should provide equivalent experience regardless of accessibility settings
+
+## Comprehensive Integration Tests
+
+### Issue: INT-005 · Full Game Loop Integration
+- **Labels**: `area::integration`, `type::playtest`
+- **Description**: Test the complete game loop from Scene 1 through all subsequent scenes.
+- **Implementation Notes**: Create an automated test that drives through the entire game flow: Scene 1 (Ghost Terminal) → Scene 2 (Nethack Sequence) → Scene 3 (Never Go Alone) → Scene 4 (Tile Dungeon) → Scene 5 (Field Combat). Verify state persistence, affinity tracking, and smooth transitions between all scenes. Test should capture console output and ensure no errors occur throughout the full loop.
+- **Acceptance Criteria**:
+  - [ ] It should complete full game loop without crashes or errors
+  - [ ] It should maintain affinity scores across all scene transitions
+  - [ ] It should preserve player name and choices throughout gameplay
+  - [ ] It should transition smoothly between all five main scenes
+  - [ ] It should carry forward narrative state and consequences
+
+### Issue: INT-006 · Cross-Platform Gameplay Consistency
+- **Labels**: `area::integration`, `type::compatibility-test`
+- **Description**: Ensure gameplay consistency across different platforms and hardware configurations.
+- **Implementation Notes**: Test gameplay on different resolutions, aspect ratios, and hardware capabilities. Verify that narrative pacing, input responsiveness, and visual effects remain consistent. Tests should cover windowed/fullscreen modes and different input devices (keyboard, mouse, gamepad).
+- **Acceptance Criteria**:
+  - [ ] It should maintain consistent gameplay across 16:9, 16:10, and 4:3 aspect ratios
+  - [ ] It should function correctly at resolutions from 1024x768 to 4K
+  - [ ] It should handle input consistently across keyboard, mouse, and gamepad
+  - [ ] It should maintain performance across different hardware configurations
+  - [ ] It should preserve visual fidelity across platform variations
+
+### Issue: INT-007 · Save/Load Game State Integrity
+- **Labels**: `area::integration`, `type::functional-test`
+- **Description**: Verify complete game state preservation during save and load operations.
+- **Implementation Notes**: Test saving at various points throughout gameplay and loading back into the exact same state. Verify that all player data, affinity scores, inventory items, and narrative choices are preserved. Tests should cover both manual saves and auto-saves.
+- **Acceptance Criteria**:
+  - [ ] It should save complete game state including player name and choices
+  - [ ] It should load saved game state without data loss or corruption
+  - [ ] It should preserve affinity scores and narrative consequences
+  - [ ] It should maintain inventory contents and character equipment
+  - [ ] It should resume gameplay at exact point where save was triggered
+
+### Issue: INT-008 · Multi-Player Session Isolation
+- **Labels**: `area::integration`, `type::functional-test`
+- **Description**: Ensure separate player sessions do not interfere with each other.
+- **Implementation Notes**: Test multiple save slots and verify that starting a new game doesn't affect existing saves. Test concurrent access scenarios and ensure proper isolation between different player profiles. Verify that each session maintains its own state independently.
+- **Acceptance Criteria**:
+  - [ ] It should maintain separate state for each save slot
+  - [ ] It should prevent cross-contamination between player sessions
+  - [ ] It should allow multiple independent save files
+  - [ ] It should isolate game state between concurrent sessions
+  - [ ] It should handle session switching without data leakage

@@ -30,6 +30,10 @@ public partial class Scene1Narrative : Node2D
 
     private ShaderMaterial? _crtMaterial;
 
+    /// <summary>
+    /// Called when the node enters the scene tree for the first time.
+    /// Initializes UI components and starts the typewriter effect.
+    /// </summary>
     public override void _Ready()
     {
         _outputLabel = GetNode<RichTextLabel>("OutputLabel");
@@ -45,6 +49,10 @@ public partial class Scene1Narrative : Node2D
         StartTypewriterEffect();
     }
 
+    /// <summary>
+    /// Called every frame. Updates the CRT shader material with the current time.
+    /// </summary>
+    /// <param name="delta">The elapsed time since the previous frame.</param>
     public override void _Process(double delta)
     {
         if (_crtMaterial != null)
@@ -106,6 +114,10 @@ public partial class Scene1Narrative : Node2D
         }
     }
 
+    /// <summary>
+    /// Called when an input event occurs. Handles key presses to proceed to the next scene.
+    /// </summary>
+    /// <param name="event">The input event that occurred.</param>
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && _inputField!.Visible == false)

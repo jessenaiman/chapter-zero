@@ -16,37 +16,37 @@ namespace OmegaSpiral.Source.Scripts.Persistence
         /// <summary>
         /// Gets or sets the game saves.
         /// </summary>
-        public DbSet<GameSave> GameSaves { get; set; }
+        public DbSet<GameSave>? GameSaves { get; set; }
 
         /// <summary>
         /// Gets or sets the story shards.
         /// </summary>
-        public DbSet<StoryShard> StoryShards { get; set; }
+        public DbSet<StoryShard>? StoryShards { get; set; }
 
         /// <summary>
         /// Gets or sets the scene data.
         /// </summary>
-        public DbSet<SceneData> SceneData { get; set; }
+        public DbSet<SceneData>? SceneData { get; set; }
 
         /// <summary>
         /// Gets or sets the Dreamweaver scores.
         /// </summary>
-        public DbSet<DreamweaverScore> DreamweaverScores { get; set; }
+        public DbSet<DreamweaverScore>? DreamweaverScores { get; set; }
 
         /// <summary>
         /// Gets or sets the party data.
         /// </summary>
-        public DbSet<PartySaveData> PartyData { get; set; }
+        public DbSet<PartySaveData>? PartyData { get; set; }
 
         /// <summary>
         /// Gets or sets the character data.
         /// </summary>
-        public DbSet<CharacterSaveData> CharacterData { get; set; }
+        public DbSet<CharacterSaveData>? CharacterData { get; set; }
 
         /// <summary>
         /// Gets or sets the narrator messages.
         /// </summary>
-        public DbSet<NarratorMessage> NarratorMessages { get; set; }
+        public DbSet<NarratorMessage>? NarratorMessages { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameDbContext"/> class.

@@ -21,9 +21,15 @@ use the tools and work like a pair programmer carefully explaining in chat files
 - Always read tool descriptions completely before using
 - Don't make the user waste tokens telling you about issues that could have been found with tools.
 
+You have a tool to view vscode problems which you are REQUIRED to check.
+You must confirm that the problems tab is clean before moving on.
+You MUST use the `[problems]` tool, this is not optional.
+
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
-**ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS AND DISCUSS FIXES**
-**RUN TESTS USING THE EXTENSIONS AND VSCODE TOOLS**
+**ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS**
+**FIX ALL ISSUES, WARNINGS, PROBLEMS, BROKEN TESTS**
+**DISCUSS FIXES AND COMMUNICATE SINGLE SENTENCES DEMONSTRATING UNDERSTANDING**
+**RUN TESTS USING THE EXTENSIONS AND VSCODE TOOLS AND IMMEDIATELY CHECK RESULTS**
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 

@@ -20,8 +20,6 @@ public class FieldCombatStageTests
 {
     private static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 
-    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-
     private static string ManifestPath => ResolveProjectPath("Source/Data/manifest.json");
 
     private static string StageMetadataPath => ResolveProjectPath("Source/Data/stages/field-combat/stage.json");
@@ -30,6 +28,9 @@ public class FieldCombatStageTests
 
     private static string ProjectConfigPath => ResolveProjectPath("project.godot");
 
+    /// <summary>
+    /// Verifies that the manifest entry for stage five uses the field combat scene.
+    /// </summary>
     [TestCase]
     public void Manifest_EntryForStageFive_UsesFieldCombatScene()
     {
@@ -45,6 +46,9 @@ public class FieldCombatStageTests
         AssertThat(stageFive.GetProperty("supportsThreads").GetBoolean()).IsFalse();
     }
 
+    /// <summary>
+    /// Verifies that stage metadata defines title, scene, and resource hints.
+    /// </summary>
     [TestCase]
     public void StageMetadata_DefinesTitleSceneAndResourceHints()
     {
@@ -67,6 +71,9 @@ public class FieldCombatStageTests
         AssertThat(resources.GetProperty("combatAssets").GetString()).IsEqual("res://Source/combat");
     }
 
+    /// <summary>
+    /// Verifies that the scene file does not reference legacy src paths.
+    /// </summary>
     [TestCase]
     public void SceneFile_DoesNotReferenceLegacySrcPaths()
     {
@@ -78,6 +85,9 @@ public class FieldCombatStageTests
         AssertThat(sceneText.Contains("res://Source/overworld/maps/town/warrior.dtl")).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies that project autoloads include field and combat singletons.
+    /// </summary>
     [TestCase]
     public void ProjectAutoloads_IncludeFieldAndCombatSingletons()
     {
@@ -92,4 +102,6 @@ public class FieldCombatStageTests
         AssertThat(projectLines).Contains("Music=\"*res://Source/Scripts/common/music/MusicPlayer.tscn\"");
         AssertThat(projectLines).Contains("Transition=\"*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn\"");
     }
+
+    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
 }
