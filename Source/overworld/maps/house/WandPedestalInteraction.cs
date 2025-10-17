@@ -144,34 +144,63 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
     /// <param name="argument"></param>
     private void OnDialogicSignalEvent(string argument)
     {
-        // Get the Inventory singleton
         var inventory = this.GetNode("/root/Inventory");
         if (inventory == null)
         {
             return;
         }
 
-        // Convert the argument into an item id
-        var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
-        int itemId = -1;
-        if (itemTypes != null && itemTypes.ContainsKey(argument.ToUpper(CultureInfo.InvariantCulture)))
-        {
-            itemId = (int) itemTypes[argument.ToUpper(CultureInfo.InvariantCulture)];
-        }
-
+        int itemId = GetItemIdFromArgument(argument, inventory);
         if (!ValidItems.Contains(itemId))
         {
             return;
         }
 
-        // Convert the pedestal requirement to an item id
-        string expectedWand = this.PedestalRequirement.ToUpper(CultureInfo.InvariantCulture) + "_WAND";
-        int expectedWandId = -1;
+        int expectedWandId = GetExpectedWandId(inventory, this.PedestalRequirement);
+        UpdatePedestalState(itemId, expectedWandId, inventory);
+    }
+
+    /// <summary>
+    /// Converts a string argument to an item ID using the inventory's ItemTypes dictionary.
+    /// </summary>
+    /// <param name="argument">The item type string to convert.</param>
+    /// <param name="inventory">The inventory node.</param>
+    /// <returns>The item ID, or -1 if not found.</returns>
+    private static int GetItemIdFromArgument(string argument, Node inventory)
+    {
+        var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
+        if (itemTypes != null && itemTypes.ContainsKey(argument.ToUpper(CultureInfo.InvariantCulture)))
+        {
+            return (int) itemTypes[argument.ToUpper(CultureInfo.InvariantCulture)];
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// Gets the expected wand ID for this pedestal based on its requirement.
+    /// </summary>
+    /// <param name="inventory">The inventory node.</param>
+    /// <param name="pedestalRequirement">The pedestal's requirement string.</param>
+    /// <returns>The expected wand item ID, or -1 if not found.</returns>
+    private static int GetExpectedWandId(Node inventory, string pedestalRequirement)
+    {
+        var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
+        string expectedWand = pedestalRequirement.ToUpper(CultureInfo.InvariantCulture) + "_WAND";
         if (itemTypes != null && itemTypes.ContainsKey(expectedWand))
         {
-            expectedWandId = (int) itemTypes[expectedWand];
+            return (int) itemTypes[expectedWand];
         }
+        return -1;
+    }
 
+    /// <summary>
+    /// Updates the pedestal's state with the new item and checks if it's correct.
+    /// </summary>
+    /// <param name="itemId">The new item ID to place on the pedestal.</param>
+    /// <param name="expectedWandId">The expected wand ID for correctness check.</param>
+    /// <param name="inventory">The inventory node.</param>
+    private void UpdatePedestalState(int itemId, int expectedWandId, Node inventory)
+    {
         // Handle item placement/removal
         if (itemId < 0)
         {
