@@ -32,7 +32,7 @@ namespace OmegaSpiral.Source.Scripts.Field
         /// Gets the legend mapping characters to their descriptions.
         /// Used to determine tile types and walkability.
         /// </summary>
-        [Export] 
+        [Export]
         public Godot.Collections.Dictionary<string, string> YamlLegend { get; set; } = new();
 
         /// <summary>

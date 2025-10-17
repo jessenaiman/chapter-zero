@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Overworld.Maps.Town;
 
 // <copyright file="FanInteraction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -13,6 +12,7 @@ using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Overworld.Maps.Town;
 /// <summary>
 /// Interaction with the adoring fan NPC.
 /// Handles the fan's dialogue and quest progression logic.

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat;
 
 // <copyright file="CombatArena.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -11,6 +10,7 @@ using OmegaSpiral.Source.Scripts.Combat.UI;
 using OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
 using OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 
+namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
 /// An arena is the background for a battle. It is a Control node that contains the battlers and the turn queue.
 /// It also contains the music that plays during the battle.

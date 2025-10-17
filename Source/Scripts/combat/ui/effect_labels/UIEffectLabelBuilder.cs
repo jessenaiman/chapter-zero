@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
 
 // <copyright file="UIEffectLabelBuilder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using Godot;
 using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
 /// <summary>
 /// A builder class responsible for adding visual feedback to <see cref="BattlerAction"/>s.
 ///

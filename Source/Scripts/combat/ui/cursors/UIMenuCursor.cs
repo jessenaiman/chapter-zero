@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
 // <copyright file="UIMenuCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 /// <summary>
 /// The cursor of a <see cref="UIListMenu"/>, indicating which option is currently in focus.
 /// </summary>

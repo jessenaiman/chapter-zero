@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 
 // <copyright file="CombatTrigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 /// <summary>
 /// Represents a trigger for initiating combat encounters in the game field.
 /// </summary>

@@ -2,15 +2,13 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
-
-using System;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
 /// <summary>
 /// Sequence for collecting the player's name.
 /// Displays a prompt and accepts text input, then transitions to the secret question.

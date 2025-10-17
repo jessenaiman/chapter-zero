@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 
 // <copyright file="UIInventory.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 /// <summary>
 /// An exceptionally simple item inventory that tracks which items the player has picked up.
 /// Normally, inventory design would be more complex. In particular, you would want to separate the

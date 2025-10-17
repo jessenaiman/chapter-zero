@@ -2,10 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using Godot;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using Godot;
-
     /// <summary>
     /// Classic CRPG party creation and management system.
     /// </summary>
@@ -35,7 +35,7 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Adds a character to the party if there is space (maximum 3 members).
+        /// Adds a character to the party if there is space (maximum 4 members for Scene5 demo).
         /// </summary>
         /// <param name="character">The character to add.</param>
         /// <returns><see langword="true"/> if character was added, <see langword="false"/> if party is full.</returns>
@@ -44,14 +44,14 @@ namespace OmegaSpiral.Source.Scripts
         {
             ArgumentNullException.ThrowIfNull(character);
 
-            if (this.Members.Count >= 3)
+            if (this.Members.Count >= 4)
             {
-                GD.Print("Party is full (maximum 3 members)");
+                GD.Print("Party is full (maximum 4 members)");
                 return false;
             }
 
             this.Members.Add(character);
-            GD.Print($"Added {character.Name} to party (now {this.Members.Count}/3 members)");
+            GD.Print($"Added {character.Name} to party (now {this.Members.Count}/4 members)");
             return true;
         }
 
@@ -90,9 +90,9 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Checks if the party is complete (has 3 members).
+        /// Checks if the party is complete (has 4 members for Scene5 demo, or 3+ for other scenes).
         /// </summary>
-        /// <returns><see langword="true"/> if the party has 3 members, <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true"/> if the party has 3 or more members, <see langword="false"/> otherwise.</returns>
         public bool IsComplete()
         {
             return this.Members.Count >= 3;

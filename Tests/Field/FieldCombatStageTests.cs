@@ -1,10 +1,14 @@
+// <copyright file="FieldCombatStageTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace OmegaSpiral.Tests.Field;
+
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using GdUnit4;
 using static GdUnit4.Assertions;
-
-namespace OmegaSpiral.Tests.Field;
 
 /// <summary>
 /// Regression tests that ensure the restored town+combat stage wiring stays intact.
@@ -19,8 +23,11 @@ public class FieldCombatStageTests
     private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
 
     private static string ManifestPath => ResolveProjectPath("Source/Data/manifest.json");
+
     private static string StageMetadataPath => ResolveProjectPath("Source/Data/stages/field-combat/stage.json");
+
     private static string StageScenePath => ResolveProjectPath("Source/Scenes/Scene5FieldCombat.tscn");
+
     private static string ProjectConfigPath => ResolveProjectPath("project.godot");
 
     [TestCase]

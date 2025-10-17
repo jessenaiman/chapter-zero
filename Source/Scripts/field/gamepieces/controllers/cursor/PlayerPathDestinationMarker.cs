@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 
 // <copyright file="PlayerPathDestinationMarker.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 /// <summary>
 /// Marks the destination cell where the player's gamepiece is moving to.
 /// Shows when a path is set and hides when the gamepiece arrives.

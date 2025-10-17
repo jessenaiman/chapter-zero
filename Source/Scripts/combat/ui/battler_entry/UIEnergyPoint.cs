@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 
 // <copyright file="UIEnergyPoint.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 /// <summary>
 /// A single energy point UI element, animating smoothly as a player Battler gains and spends energy.
 /// </summary>

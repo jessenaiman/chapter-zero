@@ -2,12 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
-
 using System;
 using System.Linq;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>
 /// Keeps reference to the various combat participants, including all <see cref="Battler"/>s and their teams.
 /// </summary>

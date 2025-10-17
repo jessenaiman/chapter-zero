@@ -6,7 +6,7 @@
         "/home/adam/Documents/Cline/MCP/godot-mcp/build/index.js"
       ],
       "env": {
-        "GODOT_PATH": "/home/adam/bin/godot",
+        "GODOT_PATH": "/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64",
         "DEBUG": "true"
       },
       "disabled": false,

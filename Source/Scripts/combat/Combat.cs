@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat;
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 
+namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
 /// Starts and ends combat, and manages the transition between the field game state and the combat game.
 ///

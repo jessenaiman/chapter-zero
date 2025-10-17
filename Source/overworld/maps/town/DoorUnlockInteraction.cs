@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Overworld.Maps.Town;
 
 // <copyright file="DoorUnlockInteraction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Popups;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 
+namespace OmegaSpiral.Overworld.Maps.Town;
 /// <summary>
 /// Interaction that handles unlocking and opening doors.
 /// When triggered, this interaction checks if the player has a key and uses it to unlock the door.

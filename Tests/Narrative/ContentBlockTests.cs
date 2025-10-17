@@ -1,7 +1,11 @@
-using GdUnit4;
-using static GdUnit4.Assertions;
+// <copyright file="ContentBlockTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Tests.Functional.Narrative;
+
+using GdUnit4;
+using static GdUnit4.Assertions;
 
 /// <summary>
 /// Functional test suite for validating content block presentation behavior.
@@ -20,6 +24,54 @@ public class ContentBlockTests
         (2, 100, 220, 200, 40),
     };
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	#region Content Block Wait State Tests (CB-001)
+
+	/// <summary>
+	/// Tests that content block remains visible when waiting without user input for 10 seconds.
+	/// </summary>
+	[TestCase]
+After:
+    /// <summary>
+    /// Tests that content block remains visible when waiting without user input for 10 seconds.
+    /// </summary>
+    [TestCase]
+*/
+    #region Content Block Wait State Tests (CB-001)
+After:
+    /* Unmerged change from project 'OmegaSpiral.Tests'
+    Before:
+        #region Content Block Wait State Tests (CB-001)
+
+        /// <summary>
+        /// Tests that content block remains visible when waiting without user input for 10 seconds.
+        /// </summary>
+        [TestCase]
+    After:
+        /// <summary>
+        /// Tests that content block remains visible when waiting without user input for 10 seconds.
+        /// </summary>
+        [TestCase]
+    */
+*/
+    /* Unmerged change from project 'OmegaSpiral.Tests'
+    Before:
+        #region Content Block Wait State Tests (CB-001)
+
+        /// <summary>
+        /// Tests that content block remains visible when waiting without user input for 10 seconds.
+        /// </summary>
+        [TestCase]
+    After:
+        /// <summary>
+        /// Tests that content block remains visible when waiting without user input for 10 seconds.
+        /// </summary>
+        [TestCase]
+    */
     #region Content Block Wait State Tests (CB-001)
 
     /// <summary>
@@ -85,6 +137,80 @@ public class ContentBlockTests
         contentBlock.ReceiveInput();
         AssertThat(contentBlock.Visible).IsFalse();
         AssertThat(contentBlock.IsAwaitingInput).IsFalse();
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	#region CRT Visual Presentation Tests (CB-003)
+
+	/// <summary>
+	/// Tests that text is centered within a 4:3 aspect ratio frame.
+	/// </summary>
+	[TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that text is centered within a 4:3 aspect ratio frame.
+    /// </summary>
+    [TestCase]
+*/
+    }
+
+    #endregion
+
+    #region CRT Visual Presentation Tests (CB-003)
+After:
+    }
+
+    #endregion
+
+    #region CRT Visual Presentation Tests (CB-003)
+
+    /// <summary>
+    /// Tests that text is centered within a 4:3 aspect ratio frame.
+    /// </summary>
+    [TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that text is centered within a 4:3 aspect ratio frame.
+    /// </summary>
+    [TestCase]
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            #region CRT Visual Presentation Tests (CB-003)
+
+            /// <summary>
+            /// Tests that text is centered within a 4:3 aspect ratio frame.
+            /// </summary>
+            [TestCase]
+        After:
+            }
+
+
+
+            /// <summary>
+            /// Tests that text is centered within a 4:3 aspect ratio frame.
+            /// </summary>
+            [TestCase]
+        */
     }
 
     #endregion
@@ -152,6 +278,80 @@ public class ContentBlockTests
         // Assert
         AssertThat(contentBlock.VisualOverlayAligned).IsTrue();
         AssertThat(contentBlock.FrameAspectRatio).IsEqual(4d / 3d);
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	#region Typewriter Animation Tests (CB-004)
+
+	/// <summary>
+	/// Tests that characters are revealed sequentially at consistent intervals.
+	/// </summary>
+	[TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that characters are revealed sequentially at consistent intervals.
+    /// </summary>
+    [TestCase]
+*/
+    }
+
+    #endregion
+
+    #region Typewriter Animation Tests (CB-004)
+After:
+    }
+
+    #endregion
+
+    #region Typewriter Animation Tests (CB-004)
+
+    /// <summary>
+    /// Tests that characters are revealed sequentially at consistent intervals.
+    /// </summary>
+    [TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that characters are revealed sequentially at consistent intervals.
+    /// </summary>
+    [TestCase]
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            #region Typewriter Animation Tests (CB-004)
+
+            /// <summary>
+            /// Tests that characters are revealed sequentially at consistent intervals.
+            /// </summary>
+            [TestCase]
+        After:
+            }
+
+
+
+            /// <summary>
+            /// Tests that characters are revealed sequentially at consistent intervals.
+            /// </summary>
+            [TestCase]
+        */
     }
 
     #endregion
@@ -245,6 +445,80 @@ public class ContentBlockTests
         // Assert
         AssertThat(contentBlock.TypewriterIntervals.Distinct().Count()).IsEqual(1);
         AssertThat(contentBlock.TypewriterIntervals[0]).IsEqual(0.12d);
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	#region Section Transition Effects Tests (CB-005)
+
+	/// <summary>
+	/// Tests that dissolve effect triggers at YAML-defined section boundaries.
+	/// </summary>
+	[TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that dissolve effect triggers at YAML-defined section boundaries.
+    /// </summary>
+    [TestCase]
+*/
+    }
+
+    #endregion
+
+    #region Section Transition Effects Tests (CB-005)
+After:
+    }
+
+    #endregion
+
+    #region Section Transition Effects Tests (CB-005)
+
+    /// <summary>
+    /// Tests that dissolve effect triggers at YAML-defined section boundaries.
+    /// </summary>
+    [TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that dissolve effect triggers at YAML-defined section boundaries.
+    /// </summary>
+    [TestCase]
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            #region Section Transition Effects Tests (CB-005)
+
+            /// <summary>
+            /// Tests that dissolve effect triggers at YAML-defined section boundaries.
+            /// </summary>
+            [TestCase]
+        After:
+            }
+
+
+
+            /// <summary>
+            /// Tests that dissolve effect triggers at YAML-defined section boundaries.
+            /// </summary>
+            [TestCase]
+        */
     }
 
     #endregion
@@ -327,6 +601,80 @@ public class ContentBlockTests
         // Assert
         AssertThat(completeBeforeTransition).IsFalse();
         AssertThat(completeAfterTransition).IsTrue();
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	#region Choice Selection Input Tests (CB-006)
+
+	/// <summary>
+	/// Tests that keyboard navigation allows selection of dialogue choices.
+	/// </summary>
+	[TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that keyboard navigation allows selection of dialogue choices.
+    /// </summary>
+    [TestCase]
+*/
+    }
+
+    #endregion
+
+    #region Choice Selection Input Tests (CB-006)
+After:
+    }
+
+    #endregion
+
+    #region Choice Selection Input Tests (CB-006)
+
+    /// <summary>
+    /// Tests that keyboard navigation allows selection of dialogue choices.
+    /// </summary>
+    [TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that keyboard navigation allows selection of dialogue choices.
+    /// </summary>
+    [TestCase]
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            #region Choice Selection Input Tests (CB-006)
+
+            /// <summary>
+            /// Tests that keyboard navigation allows selection of dialogue choices.
+            /// </summary>
+            [TestCase]
+        After:
+            }
+
+
+
+            /// <summary>
+            /// Tests that keyboard navigation allows selection of dialogue choices.
+            /// </summary>
+            [TestCase]
+        */
     }
 
     #endregion
@@ -423,6 +771,80 @@ public class ContentBlockTests
         AssertThat(narrativeAdvancedAfterMouse).IsTrue();
         AssertThat(narrativeAdvancedAfterKeyboard).IsTrue();
         AssertThat(narrativeAdvancedAfterGamepad).IsTrue();
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	#region Input Method Support Tests (CB-002)
+
+	/// <summary>
+	/// Tests that content block advances when keyboard select is pressed.
+	/// </summary>
+	[TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that content block advances when keyboard select is pressed.
+    /// </summary>
+    [TestCase]
+*/
+    }
+
+    #endregion
+
+    #region Input Method Support Tests (CB-002)
+After:
+    }
+
+    #endregion
+
+    #region Input Method Support Tests (CB-002)
+
+    /// <summary>
+    /// Tests that content block advances when keyboard select is pressed.
+    /// </summary>
+    [TestCase]
+After:
+    }
+
+
+
+    /// <summary>
+    /// Tests that content block advances when keyboard select is pressed.
+    /// </summary>
+    [TestCase]
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            #region Input Method Support Tests (CB-002)
+
+            /// <summary>
+            /// Tests that content block advances when keyboard select is pressed.
+            /// </summary>
+            [TestCase]
+        After:
+            }
+
+
+
+            /// <summary>
+            /// Tests that content block advances when keyboard select is pressed.
+            /// </summary>
+            [TestCase]
+        */
     }
 
     #endregion
@@ -511,6 +933,69 @@ public class ContentBlockTests
         contentBlock.DisplayText("Test 3");
         contentBlock.SimulateMouseInput(MouseInput.LeftClick);
         AssertThat(contentBlock.Visible).IsFalse();
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+	}
+
+	#endregion
+
+	/// <summary>
+	/// Deterministic test double that simulates presentation and input behavior for content blocks.
+	/// </summary>
+	private sealed class TestContentBlock
+After:
+    }
+
+
+    /// <summary>
+    /// Deterministic test double that simulates presentation and input behavior for content blocks.
+    /// </summary>
+    private sealed class TestContentBlock
+*/
+    }
+
+    #endregion
+After:
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Deterministic test double that simulates presentation and input behavior for content blocks.
+    /// </summary>
+    private sealed class TestContentBlock
+After:
+    }
+
+
+    /// <summary>
+    /// Deterministic test double that simulates presentation and input behavior for content blocks.
+    /// </summary>
+    private sealed class TestContentBlock
+*/
+    }
+*/
+
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+            }
+
+            #endregion
+
+            /// <summary>
+            /// Deterministic test double that simulates presentation and input behavior for content blocks.
+            /// </summary>
+            private sealed class TestContentBlock
+        After:
+            }
+
+
+            /// <summary>
+            /// Deterministic test double that simulates presentation and input behavior for content blocks.
+            /// </summary>
+            private sealed class TestContentBlock
+        */
     }
 
     #endregion
@@ -818,11 +1303,49 @@ public class ContentBlockTests
             if (this.elapsedTime >= this.dissolveDuration)
             {
                 this.dissolveActive = false;
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+			}
+		}
+
+		/// <summary>
+		/// Gets whether the dissolve effect is currently active.
+		/// </summary>
+		internal bool DissolveEffectActive => this.dissolveActive;
+After:
             }
         }
 
         /// <summary>
         /// Gets whether the dissolve effect is currently active.
+        /// </summary>
+        internal bool DissolveEffectActive => this.dissolveActive;
+*/
+
+                /* Unmerged change from project 'OmegaSpiral.Tests'
+                Before:
+                            }
+                        }
+
+                        /// <summary>
+                        /// Gets whether the dissolve effect is currently active.
+                        /// </summary>
+                        internal bool DissolveEffectActive => this.dissolveActive;
+                After:
+                            }
+                        }
+
+                        /// <summary>
+                        /// Gets a value indicating whether gets whether the dissolve effect is currently active.
+                        /// </summary>
+                        internal bool DissolveEffectActive => this.dissolveActive;
+                */
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether gets whether the dissolve effect is currently active.
         /// </summary>
         internal bool DissolveEffectActive => this.dissolveActive;
 
@@ -841,6 +1364,52 @@ public class ContentBlockTests
         /// </summary>
         internal double ElapsedTime => this.elapsedTime.TotalSeconds;
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Gets whether the next section is ready after transition completion.
+		/// </summary>
+		internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+After:
+        /// <summary>
+        /// Gets a value indicating whether gets whether the next section is ready after transition completion.
+        /// </summary>
+        internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+*/
+        /// <summary>
+        /// Gets whether the next section is ready after transition completion.
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Gets whether the next section is ready after transition completion.
+        /// </summary>
+        internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+After:
+        /// <summary>
+        /// Gets a value indicating whether gets whether the next section is ready after transition completion.
+        /// </summary>
+        internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+*/
+
+        /// <summary>
+        /// Gets a value indicating whether gets whether the next section is ready after transition completion.
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Gets whether the next section is ready after transition completion.
+                /// </summary>
+                internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+        After:
+                /// <summary>
+                /// Gets a value indicating whether gets whether the next section is ready after transition completion.
+                /// </summary>
+                internal bool NextSectionReady => !this.dissolveActive && this.elapsedTime >= this.dissolveDuration;
+        */
         /// <summary>
         /// Gets whether the next section is ready after transition completion.
         /// </summary>
@@ -965,6 +1534,52 @@ public class ContentBlockTests
         /// </summary>
         internal string SelectedChoice => this.selectedIndex < this.choices.Length ? this.choices[this.selectedIndex] : string.Empty;
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Gets or sets whether narrative has advanced after choice.
+		/// </summary>
+		internal bool NarrativeAdvanced { get; set; }
+After:
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether narrative has advanced after choice.
+        /// </summary>
+        internal bool NarrativeAdvanced { get; set; }
+*/
+        /// <summary>
+        /// Gets or sets whether narrative has advanced after choice.
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Gets or sets whether narrative has advanced after choice.
+        /// </summary>
+        internal bool NarrativeAdvanced { get; set; }
+After:
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether narrative has advanced after choice.
+        /// </summary>
+        internal bool NarrativeAdvanced { get; set; }
+*/
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether narrative has advanced after choice.
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Gets or sets whether narrative has advanced after choice.
+                /// </summary>
+                internal bool NarrativeAdvanced { get; set; }
+        After:
+                /// <summary>
+                /// Gets or sets a value indicating whether gets or sets whether narrative has advanced after choice.
+                /// </summary>
+                internal bool NarrativeAdvanced { get; set; }
+        */
         /// <summary>
         /// Gets or sets whether narrative has advanced after choice.
         /// </summary>
@@ -991,6 +1606,92 @@ public class ContentBlockTests
         /// </summary>
         Gamepad,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Mouse input.
+		/// </summary>
+		Mouse
+	}
+
+	/// <summary>
+	/// Keyboard input types.
+	/// </summary>
+	private enum KeyInput
+After:
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse,
+    }
+
+    /// <summary>
+    /// Keyboard input types.
+    /// </summary>
+    private enum KeyInput
+*/
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse
+    }
+
+    /// <summary>
+    /// Keyboard input types.
+    /// </summary>
+    private enum KeyInput
+After:
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse,
+    }
+
+    /// <summary>
+    /// Keyboard input types.
+    /// </summary>
+    private enum KeyInput
+*/
+
+        /// <summary>
+        /// Mouse input.
+        /// </summary>
+        Mouse,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Mouse input.
+                /// </summary>
+                Mouse
+            }
+
+            /// <summary>
+            /// Keyboard input types.
+            /// </summary>
+            private enum KeyInput
+        After:
+                /// <summary>
+                /// Mouse input.
+                /// </summary>
+                Mouse,
+            }
+
+            /// <summary>
+            /// Keyboard input types.
+            /// </summary>
+            private enum KeyInput
+        */
         /// <summary>
         /// Mouse input.
         /// </summary>
@@ -1007,6 +1708,92 @@ public class ContentBlockTests
         /// </summary>
         Confirm,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Cancel/back action.
+		/// </summary>
+		Cancel
+	}
+
+	/// <summary>
+	/// Gamepad input types.
+	/// </summary>
+	private enum GamepadInput
+After:
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel,
+    }
+
+    /// <summary>
+    /// Gamepad input types.
+    /// </summary>
+    private enum GamepadInput
+*/
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel
+    }
+
+    /// <summary>
+    /// Gamepad input types.
+    /// </summary>
+    private enum GamepadInput
+After:
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel,
+    }
+
+    /// <summary>
+    /// Gamepad input types.
+    /// </summary>
+    private enum GamepadInput
+*/
+
+        /// <summary>
+        /// Cancel/back action.
+        /// </summary>
+        Cancel,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Cancel/back action.
+                /// </summary>
+                Cancel
+            }
+
+            /// <summary>
+            /// Gamepad input types.
+            /// </summary>
+            private enum GamepadInput
+        After:
+                /// <summary>
+                /// Cancel/back action.
+                /// </summary>
+                Cancel,
+            }
+
+            /// <summary>
+            /// Gamepad input types.
+            /// </summary>
+            private enum GamepadInput
+        */
         /// <summary>
         /// Cancel/back action.
         /// </summary>
@@ -1023,6 +1810,92 @@ public class ContentBlockTests
         /// </summary>
         Confirm,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Cancel button (B on Xbox, Circle on PlayStation).
+		/// </summary>
+		Cancel
+	}
+
+	/// <summary>
+	/// Mouse input types.
+	/// </summary>
+	private enum MouseInput
+After:
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel,
+    }
+
+    /// <summary>
+    /// Mouse input types.
+    /// </summary>
+    private enum MouseInput
+*/
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel
+    }
+
+    /// <summary>
+    /// Mouse input types.
+    /// </summary>
+    private enum MouseInput
+After:
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel,
+    }
+
+    /// <summary>
+    /// Mouse input types.
+    /// </summary>
+    private enum MouseInput
+*/
+
+        /// <summary>
+        /// Cancel button (B on Xbox, Circle on PlayStation).
+        /// </summary>
+        Cancel,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Cancel button (B on Xbox, Circle on PlayStation).
+                /// </summary>
+                Cancel
+            }
+
+            /// <summary>
+            /// Mouse input types.
+            /// </summary>
+            private enum MouseInput
+        After:
+                /// <summary>
+                /// Cancel button (B on Xbox, Circle on PlayStation).
+                /// </summary>
+                Cancel,
+            }
+
+            /// <summary>
+            /// Mouse input types.
+            /// </summary>
+            private enum MouseInput
+        */
         /// <summary>
         /// Cancel button (B on Xbox, Circle on PlayStation).
         /// </summary>
@@ -1039,6 +1912,92 @@ public class ContentBlockTests
         /// </summary>
         LeftClick,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Right mouse button click.
+		/// </summary>
+		RightClick
+	}
+
+	/// <summary>
+	/// Keyboard navigation directions.
+	/// </summary>
+	private enum KeyboardNavigation
+After:
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick,
+    }
+
+    /// <summary>
+    /// Keyboard navigation directions.
+    /// </summary>
+    private enum KeyboardNavigation
+*/
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick
+    }
+
+    /// <summary>
+    /// Keyboard navigation directions.
+    /// </summary>
+    private enum KeyboardNavigation
+After:
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick,
+    }
+
+    /// <summary>
+    /// Keyboard navigation directions.
+    /// </summary>
+    private enum KeyboardNavigation
+*/
+
+        /// <summary>
+        /// Right mouse button click.
+        /// </summary>
+        RightClick,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Right mouse button click.
+                /// </summary>
+                RightClick
+            }
+
+            /// <summary>
+            /// Keyboard navigation directions.
+            /// </summary>
+            private enum KeyboardNavigation
+        After:
+                /// <summary>
+                /// Right mouse button click.
+                /// </summary>
+                RightClick,
+            }
+
+            /// <summary>
+            /// Keyboard navigation directions.
+            /// </summary>
+            private enum KeyboardNavigation
+        */
         /// <summary>
         /// Right mouse button click.
         /// </summary>
@@ -1065,6 +2024,92 @@ public class ContentBlockTests
         /// </summary>
         Left,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Navigate right.
+		/// </summary>
+		Right
+	}
+
+	/// <summary>
+	/// Gamepad navigation directions.
+	/// </summary>
+	private enum GamepadNavigation
+After:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
+    /// Gamepad navigation directions.
+    /// </summary>
+    private enum GamepadNavigation
+*/
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
+    }
+
+    /// <summary>
+    /// Gamepad navigation directions.
+    /// </summary>
+    private enum GamepadNavigation
+After:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+    }
+
+    /// <summary>
+    /// Gamepad navigation directions.
+    /// </summary>
+    private enum GamepadNavigation
+*/
+
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Navigate right.
+                /// </summary>
+                Right
+            }
+
+            /// <summary>
+            /// Gamepad navigation directions.
+            /// </summary>
+            private enum GamepadNavigation
+        After:
+                /// <summary>
+                /// Navigate right.
+                /// </summary>
+                Right,
+            }
+
+            /// <summary>
+            /// Gamepad navigation directions.
+            /// </summary>
+            private enum GamepadNavigation
+        */
         /// <summary>
         /// Navigate right.
         /// </summary>
@@ -1091,6 +2136,62 @@ public class ContentBlockTests
         /// </summary>
         Left,
 
+
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+		/// <summary>
+		/// Navigate right.
+		/// </summary>
+		Right
+	}
+After:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+    }
+*/
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
+After:
+/* Unmerged change from project 'OmegaSpiral.Tests'
+Before:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right
+    }
+After:
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+    }
+*/
+
+        /// <summary>
+        /// Navigate right.
+        /// </summary>
+        Right,
+*/
+        /* Unmerged change from project 'OmegaSpiral.Tests'
+        Before:
+                /// <summary>
+                /// Navigate right.
+                /// </summary>
+                Right
+            }
+        After:
+                /// <summary>
+                /// Navigate right.
+                /// </summary>
+                Right,
+            }
+        */
         /// <summary>
         /// Navigate right.
         /// </summary>

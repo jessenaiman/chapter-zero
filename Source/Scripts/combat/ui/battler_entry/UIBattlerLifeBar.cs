@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 
 // <copyright file="UIBattlerLifeBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 /// <summary>
 /// An element of the <see cref="UIBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
 /// The LifeBar also can show an action icon to demonstrate when the player has queued an action for
@@ -117,7 +117,7 @@ public partial class UIBattlerLifeBar : TextureProgressBar
     {
         if (this.valueLabel != null)
         {
-            this.valueLabel.Text = ((int)newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            this.valueLabel.Text = ((int) newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

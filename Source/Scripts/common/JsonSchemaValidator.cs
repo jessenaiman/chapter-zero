@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Common;
 
 // <copyright file="JsonSchemaValidator.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System;
 using Godot;
 using Godot.Collections;
 
+namespace OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Provides functionality to validate JSON data against a specified schema using Godot's native JSON capabilities.
 /// </summary>
@@ -17,10 +17,10 @@ public partial class JsonSchemaValidator : Node
     /// <summary>
     /// Validates the provided JSON data against the schema at the specified path.
     /// </summary>
-    /// <param name="jsonData">The JSON data to validate as a Godot Dictionary.</param>
+    /// <param name="jsonData">The JSON data to validate as a Godot Godot.Collections.Dictionary.</param>
     /// <param name="schemaPath">The file path to the JSON schema.</param>
     /// <returns>True if the data is valid according to the schema, false otherwise.</returns>
-    public static bool ValidateSchema(Dictionary<string, Variant> jsonData, string schemaPath)
+    public static bool ValidateSchema(Godot.Collections.Dictionary<string, Variant> jsonData, string schemaPath)
     {
         try
         {
@@ -50,17 +50,17 @@ public partial class JsonSchemaValidator : Node
                 return false;
             }
 
-            var schema = (Dictionary<string, Variant>) schemaParseResult;
+            var schema = (Godot.Collections.Dictionary<string, Variant>) schemaParseResult;
 
             // Validate data type against schema's type enum if specified
             if (schema.TryGetValue("properties", out var propsVariant) &&
                 propsVariant.VariantType == Variant.Type.Dictionary)
             {
-                var properties = (Dictionary<string, Variant>) propsVariant;
+                var properties = (Godot.Collections.Dictionary<string, Variant>) propsVariant;
                 if (properties.TryGetValue("type", out var typePropVariant) &&
                     typePropVariant.VariantType == Variant.Type.Dictionary)
                 {
-                    var typeProp = (Dictionary<string, Variant>) typePropVariant;
+                    var typeProp = (Godot.Collections.Dictionary<string, Variant>) typePropVariant;
                     if (typeProp.TryGetValue("enum", out var enumVariant) &&
                         enumVariant.VariantType == Variant.Type.Array)
                     {
@@ -79,7 +79,7 @@ public partial class JsonSchemaValidator : Node
                                     break;
                                 }
                             }
-                            
+
                             if (!isValidType)
                             {
                                 GD.PrintErr($"Schema validation error: Invalid type '{dataType}'. Expected one of: [{string.Join(", ", enumArray)}]");
@@ -118,7 +118,7 @@ public partial class JsonSchemaValidator : Node
             if (schema.TryGetValue("properties", out var propertiesVariant) &&
                 propertiesVariant.VariantType == Variant.Type.Dictionary)
             {
-                var properties = (Dictionary<string, Variant>) propertiesVariant;
+                var properties = (Godot.Collections.Dictionary<string, Variant>) propertiesVariant;
                 if (!ValidateProperties(jsonData, properties))
                 {
                     return false;
@@ -135,60 +135,34 @@ public partial class JsonSchemaValidator : Node
     }
 
     /// <summary>
-    /// Validates the provided JSON data against a schema dictionary.
+    /// Validates the provided JSON data against a schema Godot.Collections.Dictionary.
     /// </summary>
-    /// <param name="jsonData">The JSON data to validate as a Godot Dictionary.</param>
-    /// <param name="schema">The schema dictionary to validate against.</param>
+    /// <param name="jsonData">The JSON data to validate as a Godot Godot.Collections.Dictionary.</param>
+    /// <param name="schema">The schema Godot.Collections.Dictionary to validate against.</param>
     /// <returns>True if the data is valid according to the schema, false otherwise.</returns>
-    public static bool ValidateSchema(Dictionary<string, Variant> jsonData, Dictionary<string, Variant> schema)
+    /// <summary>
+    /// Validates the provided JSON data against a schema Godot.Collections.Dictionary.
+    /// </summary>
+    /// <returns>True if the data is valid according to the schema, false otherwise.</returns>
+    public static bool ValidateSchema(
+        Godot.Collections.Dictionary<string, Variant> jsonData,
+        Godot.Collections.Dictionary<string, Variant> schema)
     {
         try
         {
-            // Perform basic validation - check if required fields exist based on schema
-            if (schema.TryGetValue("type", out var schemaTypeVariant) &&
-                schemaTypeVariant.VariantType == Variant.Type.String)
+            if (!ValidateTypeField(jsonData, schema))
             {
-                var schemaType = schemaTypeVariant.As<string>();
-                if (jsonData.TryGetValue("type", out var dataTypeVariant) &&
-                    dataTypeVariant.VariantType == Variant.Type.String)
-                {
-                    var dataType = dataTypeVariant.As<string>();
-                    if (schemaType != dataType)
-                    {
-                        GD.PrintErr($"Schema validation error: Expected type '{schemaType}', got '{dataType}'");
-                        return false;
-                    }
-                }
+                return false;
             }
 
-            // Validate required properties if specified in schema
-            if (schema.TryGetValue("required", out var requiredVariant) &&
-                requiredVariant.VariantType == Variant.Type.Array)
+            if (!ValidateRequiredProperties(jsonData, schema))
             {
-                var requiredArray = (Godot.Collections.Array) requiredVariant;
-                foreach (var prop in requiredArray)
-                {
-                    if (prop.VariantType == Variant.Type.String)
-                    {
-                        var propName = prop.As<string>();
-                        if (!jsonData.ContainsKey(propName))
-                        {
-                            GD.PrintErr($"Schema validation error: Required property '{propName}' is missing");
-                            return false;
-                        }
-                    }
-                }
+                return false;
             }
 
-            // Validate properties structure if specified in schema
-            if (schema.TryGetValue("properties", out var propertiesVariant) &&
-                propertiesVariant.VariantType == Variant.Type.Dictionary)
+            if (!ValidateSchemaProperties(jsonData, schema))
             {
-                var properties = (Dictionary<string, Variant>) propertiesVariant;
-                if (!ValidateProperties(jsonData, properties))
-                {
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -198,22 +172,102 @@ public partial class JsonSchemaValidator : Node
             GD.PrintErr($"Schema validation error: {ex.Message}");
             return false;
         }
+    }
+
+    /// <summary>
+    /// Validates the type field in the schema and data.
+    /// </summary>
+    /// <param name="jsonData">The JSON data to validate.</param>
+    /// <param name="schema">The schema to validate against.</param>
+    /// <returns>True if the type is valid or not specified, false otherwise.</returns>
+    private static bool ValidateTypeField(
+        Godot.Collections.Dictionary<string, Variant> jsonData,
+        Godot.Collections.Dictionary<string, Variant> schema)
+    {
+        if (schema.TryGetValue("type", out var schemaTypeVariant) &&
+            schemaTypeVariant.VariantType == Variant.Type.String)
+        {
+            var schemaType = schemaTypeVariant.As<string>();
+            if (jsonData.TryGetValue("type", out var dataTypeVariant) &&
+                dataTypeVariant.VariantType == Variant.Type.String)
+            {
+                var dataType = dataTypeVariant.As<string>();
+                if (schemaType != dataType)
+                {
+                    GD.PrintErr($"Schema validation error: Expected type '{schemaType}', got '{dataType}'");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Validates required properties in the schema.
+    /// </summary>
+    /// <param name="jsonData">The JSON data to validate.</param>
+    /// <param name="schema">The schema to validate against.</param>
+    /// <returns>True if all required properties are present, false otherwise.</returns>
+    private static bool ValidateRequiredProperties(
+        Godot.Collections.Dictionary<string, Variant> jsonData,
+        Godot.Collections.Dictionary<string, Variant> schema)
+    {
+        if (schema.TryGetValue("required", out var requiredVariant) &&
+            requiredVariant.VariantType == Variant.Type.Array)
+        {
+            var requiredArray = (Godot.Collections.Array) requiredVariant;
+            foreach (var prop in requiredArray)
+            {
+                if (prop.VariantType == Variant.Type.String)
+                {
+                    var propName = prop.As<string>();
+                    if (!jsonData.ContainsKey(propName))
+                    {
+                        GD.PrintErr($"Schema validation error: Required property '{propName}' is missing");
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Validates the properties structure in the schema.
+    /// </summary>
+    /// <param name="jsonData">The JSON data to validate.</param>
+    /// <param name="schema">The schema to validate against.</param>
+    /// <returns>True if the properties are valid or not specified, false otherwise.</returns>
+    private static bool ValidateSchemaProperties(
+        Godot.Collections.Dictionary<string, Variant> jsonData,
+        Godot.Collections.Dictionary<string, Variant> schema)
+    {
+        if (schema.TryGetValue("properties", out var propertiesVariant) &&
+            propertiesVariant.VariantType == Variant.Type.Dictionary)
+        {
+            var properties = (Godot.Collections.Dictionary<string, Variant>) propertiesVariant;
+            if (!ValidateProperties(jsonData, properties))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /// <summary>
     /// Validates properties against their type definitions in the schema.
     /// </summary>
-    /// <param name="data">The data dictionary to validate.</param>
+    /// <param name="data">The data Godot.Collections.Dictionary to validate.</param>
     /// <param name="properties">The properties schema definition.</param>
     /// <returns>True if all properties are valid, false otherwise.</returns>
-    private static bool ValidateProperties(Dictionary<string, Variant> data, Dictionary<string, Variant> properties)
+    private static bool ValidateProperties(Godot.Collections.Dictionary<string, Variant> data, Godot.Collections.Dictionary<string, Variant> properties)
     {
         foreach (var property in properties)
         {
             var propName = property.Key;
             if (data.TryGetValue(propName, out var propValue))
             {
-                var propSchema = (Dictionary<string, Variant>) property.Value;
+                var propSchema = (Godot.Collections.Dictionary<string, Variant>) property.Value;
 
                 if (propSchema.TryGetValue("type", out var expectedTypeVariant) &&
                     expectedTypeVariant.VariantType == Variant.Type.String)

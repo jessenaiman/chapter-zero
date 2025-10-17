@@ -2,12 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// Provides reusable validation logic for player-provided names within narrative flows.
     /// Ensures consistent enforcement of formatting and length rules across UI surfaces.

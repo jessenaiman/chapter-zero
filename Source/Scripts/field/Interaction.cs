@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="Interaction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field;
 using System;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// Base class for interactive objects in the game world.
 /// Interactions are objects that respond to player input, typically when the player

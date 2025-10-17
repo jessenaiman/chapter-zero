@@ -1,7 +1,7 @@
+using System;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
 {
-    using System;
-
     /// <summary>
     /// Represents domain validation failures that occur when constructing dungeon aggregates or value objects.
     /// </summary>

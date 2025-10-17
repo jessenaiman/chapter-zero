@@ -2,17 +2,17 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
+using Godot;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Scripts.Infrastructure;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Threading.Tasks;
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Common;
-    using OmegaSpiral.Source.Scripts.Field.Narrative;
-    using OmegaSpiral.Source.Scripts.Infrastructure;
-
     /// <summary>
     /// Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
     /// FUTURE: Will integrate with DreamweaverSystem for LLM-powered dynamic narrative (see ADR-0003).

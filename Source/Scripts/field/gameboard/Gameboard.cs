@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 // <copyright file="Gameboard.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 /// <summary>
 /// Defines the playable area of the game and where everything on it lies.
 /// The gameboard is defined, essentially, as a grid of Vector2I cells. Anything may be

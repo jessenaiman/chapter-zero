@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 
 // <copyright file="PathLoopAIController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 /// <summary>
 /// AI controller that moves a gamepiece along a looping path defined by a Line2D.
 /// The controller will continuously follow the path, waiting between loops and when paths are blocked.
@@ -41,13 +41,13 @@ public partial class PathLoopAIController : GamepieceController
     /// </summary>
     private Godot.Timer? timer;
 
-    private Gameboard? gameboard;
+    private global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard? gameboard;
 
-    private Gameboard? GetGameboard()
+    private global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard? GetGameboard()
     {
         if (this.gameboard == null || !GodotObject.IsInstanceValid(this.gameboard))
         {
-            this.gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+            this.gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
         }
 
         return this.gameboard;

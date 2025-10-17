@@ -2,10 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Scripts.Field.Narrative;
-
 using System.Collections.Generic;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// <summary>
 /// Represents the JSON configuration for a Dreamweaver persona.
 /// </summary>
@@ -24,12 +23,12 @@ public sealed class PersonaConfig
     /// <summary>
     /// Gets or sets the initial choice presented to the player.
     /// </summary>
-    public ChoiceBlock InitialChoice { get; set; } = new();
+    public PersonaChoiceBlock InitialChoice { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the story blocks that make up the narrative.
     /// </summary>
-    public List<StoryBlock> StoryBlocks { get; set; } = new();
+    public List<PersonaStoryBlock> StoryBlocks { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the prompt asking for the player's name.
@@ -39,7 +38,7 @@ public sealed class PersonaConfig
     /// <summary>
     /// Gets or sets the secret question block.
     /// </summary>
-    public SecretQuestionBlock SecretQuestion { get; set; } = new();
+    public PersonaSecretQuestionBlock SecretQuestion { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the exit line shown when leaving the narrative.
@@ -50,23 +49,23 @@ public sealed class PersonaConfig
 /// <summary>
 /// Represents a choice block with a prompt and multiple options.
 /// </summary>
-public sealed class ChoiceBlock
+public sealed class PersonaChoiceBlock
 {
     /// <summary>
-    /// Gets or sets the prompt text for the choice.
+    /// Gets or sets the prompt text asking the player to make a choice.
     /// </summary>
     public string Prompt { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the available choice options.
+    /// Gets or sets the collection of choice options.
     /// </summary>
-    public List<ChoiceOption> Options { get; set; } = new();
+    public List<PersonaChoiceOption> Options { get; set; } = new();
 }
 
 /// <summary>
-/// Represents a single choice option with id, label, and description.
+/// Represents a choice option with text and description.
 /// </summary>
-public sealed class ChoiceOption
+public sealed class PersonaChoiceOption
 {
     /// <summary>
     /// Gets or sets the unique identifier for this choice.
@@ -79,36 +78,36 @@ public sealed class ChoiceOption
     public string Label { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the descriptive text for this choice.
+    /// Gets or sets the description providing more details about this choice.
     /// </summary>
     public string Description { get; set; } = string.Empty;
 }
 
 /// <summary>
-/// Represents a story block with paragraphs, question, and choices.
+/// Represents a segment of narrative story with text and branching choices.
 /// </summary>
-public sealed class StoryBlock
+public sealed class PersonaStoryBlock
 {
     /// <summary>
-    /// Gets or sets the narrative paragraphs in this block.
+    /// Gets or sets the collection of text paragraphs that make up this story block.
     /// </summary>
     public List<string> Paragraphs { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the question asked at the end of this block.
+    /// Gets or sets the question or prompt presented after the story text.
     /// </summary>
     public string Question { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the available narrative choices.
+    /// Gets or sets the collection of choice options available after this story block.
     /// </summary>
-    public List<NarrativeChoice> Choices { get; set; } = new();
+    public List<PersonaNarrativeChoice> Choices { get; set; } = new();
 }
 
 /// <summary>
-/// Represents a narrative choice with text and next block reference.
+/// Represents a choice block with a prompt and multiple Dreamweaver-aligned options.
 /// </summary>
-public sealed class NarrativeChoice
+public sealed class PersonaNarrativeChoice
 {
     /// <summary>
     /// Gets or sets the choice text displayed to the player.
@@ -124,7 +123,7 @@ public sealed class NarrativeChoice
 /// <summary>
 /// Represents the secret question block with prompt and options.
 /// </summary>
-public sealed class SecretQuestionBlock
+public sealed class PersonaSecretQuestionBlock
 {
     /// <summary>
     /// Gets or sets the prompt for the secret question.

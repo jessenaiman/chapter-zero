@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
 
 // <copyright file="ConversationTemplate.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
 using System;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
 /// <summary>
 /// Template for conversation interactions that execute Dialogic timelines.
 /// This class provides a reusable template for creating dialogue interactions

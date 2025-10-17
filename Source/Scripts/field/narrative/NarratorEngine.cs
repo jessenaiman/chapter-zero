@@ -1,13 +1,10 @@
-namespace OmegaSpiral.Source.Scripts.Field.Narrative;
-
 // <copyright file="NarratorEngine.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// <summary>
 /// Provides narrative management and dialogue queueing for field scenes.
 /// </summary>

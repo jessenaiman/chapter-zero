@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 // <copyright file="GameboardLayer.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 /// <summary>
 /// A single layer of the gameboard that determines which cells are blocked or clear.
 /// The Gameboard's state (where Gamepieces may or may not move) is composed from a number of

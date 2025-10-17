@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Common;
 
 // <copyright file="CollisionFinder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Common;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Find all collision shapes of a given mask within a specified search radius.
 ///

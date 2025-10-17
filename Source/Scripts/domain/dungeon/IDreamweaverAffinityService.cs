@@ -2,11 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
 {
-    using OmegaSpiral.Source.Scripts.Common;
-    using Models;
-
     /// <summary>
     /// Service for managing Dreamweaver affinity changes.
     /// </summary>

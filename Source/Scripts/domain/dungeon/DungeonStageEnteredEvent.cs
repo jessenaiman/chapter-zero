@@ -2,11 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
 {
-    using System.Collections.Generic;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Domain event raised when a dungeon stage is entered.
     /// </summary>

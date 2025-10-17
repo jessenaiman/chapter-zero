@@ -2,18 +2,18 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Godot;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
+using NarrativeChoiceOption = OmegaSpiral.Source.Scripts.Field.Narrative.ChoiceOption;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Infrastructure;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Godot;
-    using OmegaSpiral.Scripts.Field.Narrative;
-    using NarrativeChoiceOption = OmegaSpiral.Scripts.Field.Narrative.ChoiceOption;
-    using OmegaSpiral.Source.Scripts.Common;
-    using OmegaSpiral.Source.Scripts.Infrastructure;
-
     /// <summary>
     /// Main orchestrator for the Dreamweaver LLM system.
     /// Manages three personas (Hero, Shadow, Ambition) and coordinates
@@ -260,7 +260,7 @@ namespace OmegaSpiral.Source.Scripts
             if (data.TryGetValue("initialChoice", out var initialChoiceValue) && initialChoiceValue.VariantType == Variant.Type.Dictionary)
             {
                 var initialChoiceDict = data["initialChoice"].AsGodotDictionary();
-                config.InitialChoice = new ChoiceBlock
+                config.InitialChoice = new PersonaChoiceBlock
                 {
                     Prompt = initialChoiceDict.ContainsKey("prompt")
                         ? initialChoiceDict["prompt"].AsString()
@@ -276,7 +276,7 @@ namespace OmegaSpiral.Source.Scripts
                         if (opt.VariantType == Variant.Type.Dictionary)
                         {
                             var optDict = opt.AsGodotDictionary();
-                            config.InitialChoice.Options.Add(new ChoiceOption
+                            config.InitialChoice.Options.Add(new PersonaChoiceOption
                             {
                                 Id = optDict.ContainsKey("id") ? optDict["id"].AsString() : string.Empty,
                                 Label = optDict.ContainsKey("label") ? optDict["label"].AsString() : string.Empty,
@@ -296,7 +296,7 @@ namespace OmegaSpiral.Source.Scripts
                     if (block.VariantType == Variant.Type.Dictionary)
                     {
                         var blockDict = block.AsGodotDictionary();
-                        var storyBlock = new StoryBlock();
+                        var storyBlock = new PersonaStoryBlock();
 
                         if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
                         {
@@ -320,7 +320,7 @@ namespace OmegaSpiral.Source.Scripts
                                 if (choice.VariantType == Variant.Type.Dictionary)
                                 {
                                     var choiceDict = choice.AsGodotDictionary();
-                                    storyBlock.Choices.Add(new NarrativeChoice
+                                    storyBlock.Choices.Add(new PersonaNarrativeChoice
                                     {
                                         Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
                                         NextBlock = choiceDict.ContainsKey("nextBlock") ? choiceDict["nextBlock"].AsInt32() : 0,
@@ -344,7 +344,7 @@ namespace OmegaSpiral.Source.Scripts
             if (data.TryGetValue("secretQuestion", out var secretQuestionValue) && secretQuestionValue.VariantType == Variant.Type.Dictionary)
             {
                 var secretQuestionDict = data["secretQuestion"].AsGodotDictionary();
-                config.SecretQuestion = new SecretQuestionBlock
+                config.SecretQuestion = new PersonaSecretQuestionBlock
                 {
                     Prompt = secretQuestionDict.ContainsKey("prompt")
                         ? secretQuestionDict["prompt"].AsString()

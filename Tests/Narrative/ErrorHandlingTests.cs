@@ -1,8 +1,13 @@
-using GdUnit4;
-using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Field.Narrative;
+// <copyright file="ErrorHandlingTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Tests.Functional.Narrative;
+
+using GdUnit4;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Tests.Narrative;
+using static GdUnit4.Assertions;
 
 /// <summary>
 /// Functional test suite for validating error handling and edge cases in the narrative system.
@@ -12,8 +17,6 @@ namespace OmegaSpiral.Tests.Functional.Narrative;
 [TestSuite]
 public class ErrorHandlingTests
 {
-    #region Name Input Validation Tests (ERR-001)
-
     /// <summary>
     /// Tests that system rejects empty string when player name is submitted.
     /// </summary>
@@ -81,10 +84,6 @@ public class ErrorHandlingTests
         AssertThat(result.IsAccepted).IsFalse();
         AssertThat(result.ErrorMessage).IsEqual("Name contains unsupported characters.");
     }
-
-    #endregion
-
-    #region Input Spam Protection Tests (ERR-002)
 
     /// <summary>
     /// Tests that content completes normally when input buttons are mashed rapidly.
@@ -156,7 +155,4 @@ public class ErrorHandlingTests
         AssertThat(inputHarness.CrashOccurred).IsFalse();
         AssertThat(inputHarness.IsInValidState).IsTrue();
     }
-
-    #endregion
-
 }

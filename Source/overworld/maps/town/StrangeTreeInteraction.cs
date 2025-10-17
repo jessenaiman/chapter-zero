@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Overworld.Maps.Town;
 
 // <copyright file="StrangeTreeInteraction.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Popups;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Conversations;
 
+namespace OmegaSpiral.Source.Overworld.Maps.Town;
 /// <summary>
 /// Opens up a secret path once the 'Strange Tree' has been interacted with twice.
 /// Handles the tree's dialogue and the animation for revealing the secret path.

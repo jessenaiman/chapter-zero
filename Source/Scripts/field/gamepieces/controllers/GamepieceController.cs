@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 
 // <copyright file="GamepieceController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -10,6 +9,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 /// <summary>
 /// Base class for controllers that manage Gamepiece movement and interaction.
 /// GamepieceControllers handle the logic for moving Gamepieces around the gameboard
@@ -132,12 +132,12 @@ public partial class GamepieceController : Node
     /// <summary>
     /// Gets the current cell position of the gamepiece.
     /// </summary>
-    public Vector2I CellPosition { get; private set; } = Gameboard.InvalidCell;
+    public Vector2I CellPosition { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
-    public Vector2I TargetCell { get; private set; } = Gameboard.InvalidCell;
+    public Vector2I TargetCell { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets or sets a value indicating whether whether this controller is controlled by the player.
@@ -245,7 +245,7 @@ public partial class GamepieceController : Node
         var targetCell = sourceCell + new Vector2I((int) direction.X, (int) direction.Y);
 
         // Try to get a path to the destination (will fail if cell is occupied)
-        var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
+        var gameboard = this.GetNode<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
         var newPath = gameboard?.PathFinder?.GetPathToCell(sourceCell, targetCell) ?? new List<Vector2I>();
 
         // Path is invalid. Bump animation?

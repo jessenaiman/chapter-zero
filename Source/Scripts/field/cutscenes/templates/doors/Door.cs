@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 
 // <copyright file="Door.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.AreaTransitions;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 /// <summary>
 /// A door that can be locked or unlocked, blocking or allowing passage through its cell.
 /// When a door is locked, it places a dummy gamepiece on the cell to block movement.

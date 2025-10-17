@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
 
 // <copyright file="Trigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
 /// <summary>
 /// A <see cref="Cutscene"/> that triggers on collision with a <see cref="Gamepiece"/>'s collision shapes.
 ///

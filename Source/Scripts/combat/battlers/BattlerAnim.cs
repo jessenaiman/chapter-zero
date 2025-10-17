@@ -1,10 +1,10 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>
 /// The visual representation of a <see cref="Battler"/>.
 ///

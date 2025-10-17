@@ -2,9 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
-
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
@@ -12,6 +9,7 @@ using OmegaSpiral.Source.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
 /// <summary>
 /// Sequence for presenting the secret question with multiple choice options.
 /// Displays the question and options, then transitions based on the player's choice.

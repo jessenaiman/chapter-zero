@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 
 // <copyright file="RoamingCombatTrigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 using System.Threading.Tasks;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Combat;
 /// <summary>
 /// Represents a roaming combat trigger that handles victory and loss cutscenes for roaming encounters.
 /// This trigger automatically removes itself after a victory and handles game-over scenarios on loss.

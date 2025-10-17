@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 
 // <copyright file="UIActionDescription.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 /// <summary>
 /// A text bar that displays the <see cref="OmegaSpiral.Combat.Actions.BattlerAction.Description"/> of a <see cref="OmegaSpiral.Combat.Actions.BattlerAction"/>.
 ///

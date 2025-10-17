@@ -1,10 +1,11 @@
-﻿// Copyright (c) 2025 Mike Schulze
-// MIT License - See LICENSE file in the repository root for full license text
+// <copyright file="GdUnit4TestRunnerScene.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 // ReSharper disable once CheckNamespace
 namespace GdUnit4.TestRunner;
 
-using Core.Runners;
+using GdUnit4.Core.Runners;
 
 /// <summary>
 ///     The GdUnit4Net test runner scene.

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Overworld.Maps.Forest;
 
 // <copyright file="GameEndTrigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Overworld.Maps.Forest;
 /// <summary>
 /// A trigger that plays the game ending sequence when the player reaches the end of the forest.
 /// Moves the player to a specific position, plays a dialogue, and triggers a final animation.

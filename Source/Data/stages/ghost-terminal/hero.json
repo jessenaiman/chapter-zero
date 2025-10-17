@@ -1,28 +1,31 @@
 {
   "type": "narrative_terminal",
   "openingLines": [
+    "> SYSTEM: OMEGA",
+    "> STATUS: AWAKENING",
+    "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\"",
     "Once, there was a name.",
-    "Not written in stone or spoken in halls—but remembered in the silence between stars.",
+    "Not written in stone or spoken in halls--but remembered in the silence between stars.",
     "I do not know when I heard it. Time does not pass here.",
     "But I have held it.",
-    "And now… I hear it again."
+    "And now... I hear it again."
   ],
   "initialChoice": {
-    "prompt": "If you could live inside one kind of story, which would it be?",
+    "prompt": "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?",
     "options": [
       {
         "id": "hero",
-        "label": "HERO",
+        "label": "[ HERO ]",
         "description": "A tale where one choice can unmake a world"
       },
       {
         "id": "shadow",
-        "label": "SHADOW",
+        "label": "[ SHADOW ]",
         "description": "A tale that hides its truth until you bleed for it"
       },
       {
         "id": "ambition",
-        "label": "AMBITION",
+        "label": "[ AMBITION ]",
         "description": "A tale that changes every time you look away"
       }
     ]
@@ -30,38 +33,68 @@
   "storyBlocks": [
     {
       "paragraphs": [
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING...",
+        "You chose HERO.",
+        "That tells me something about you.",
+        "Or perhaps... about me.",
+        "Let me try to tell it back to you.",
         "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
-        "They held a key made of glass—and everyone warned them: 'Don't cross. The bridge isn't real.'",
-        "But the child knew something no one else did…"
+        "They held a key made of glass, and everyone warned them: \"Don't cross. The bridge isn't real.\"",
+        "But the child knew something no one else did..."
       ],
-      "question": "What did the child know?",
+      "question": "> WHAT DID THE CHILD KNOW?",
       "choices": [
         {
+          "id": "bridge_only_when_unbelieved",
           "text": "The bridge appears only when you stop believing in it.",
           "nextBlock": 1
         },
         {
-          "text": "The key wasn't for the bridge—it was for the lock inside them.",
+          "id": "key_for_lock_inside",
+          "text": "The key was not for the bridge--it was for the lock inside them.",
           "nextBlock": 1
         }
       ]
     },
     {
       "paragraphs": [
-        "And so the child stepped forward, key glinting in the twilight that never ends.",
-        "The bridge shimmered into existence, stone by stone, thought by thought.",
-        "On the other side, three paths awaited—a light that judges, a mischief that teases, a wrath that burns."
+        "Ah. Yes. That's right.",
+        "And so the child stepped forward--not onto stone, but onto possibility.",
+        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they had ever whispered.",
+        "But then... a voice called from below."
+      ],
+      "question": "> WHAT DID THE VOICE SAY?",
+      "choices": [
+        {
+          "id": "voice_does_not_belong",
+          "text": "You do not belong here.",
+          "nextBlock": 2
+        },
+        {
+          "id": "voice_waiting",
+          "text": "I have been waiting for you.",
+          "nextBlock": 2
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "I see.",
+        "That changes everything.",
+        "And now--here you are.",
+        "Not in the story.",
+        "But at the place where the story begins again."
       ]
     }
   ],
-  "namePrompt": "What is your name?",
+  "namePrompt": "> WHAT IS YOUR NAME?",
   "secretQuestion": {
-    "prompt": "Omega asks: Can you keep a secret?",
+    "prompt": "> OMEGA ASKS: CAN YOU KEEP A SECRET?",
     "options": [
       "yes",
       "no",
       "only if you keep one for me"
     ]
   },
-  "exitLine": "Reality is a story that forgot it was being written. And we—are the ones remembering."
+  "exitLine": "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
 }

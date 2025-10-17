@@ -1,24 +1,14 @@
+using System.Collections.Generic;
+using System.Globalization;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-
     /// <summary>
     /// Translates <see cref="NarrativeSceneData"/> into a cinematic plan that Scene1Narrative can realise with Godot scenes.
     /// </summary>
     public static class GhostTerminalCinematicDirector
     {
-        // Updated: These scenes do not exist, so references are commented out or replaced with TODOs.
-        // private const string OpeningScenePath = "res://Source/Scenes/ui/ghost_terminal/OpeningLine.tscn";
-        // private const string ThreadChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/ThreadChoice.tscn";
-        // private const string StoryParagraphScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryParagraph.tscn";
-        // private const string StoryQuestionScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryQuestion.tscn";
-        // private const string StoryChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/StoryChoice.tscn";
-        // private const string NamePromptScenePath = "res://Source/Scenes/ui/ghost_terminal/NamePrompt.tscn";
-        // private const string SecretPromptScenePath = "res://Source/Scenes/ui/ghost_terminal/SecretPrompt.tscn";
-        // private const string ExitScenePath = "res://Source/Scenes/ui/ghost_terminal/ExitLine.tscn";
-        // TODO: Implement or provide fallback for missing GhostTerminal UI scenes.
+        private const string ThreadChoiceScenePath = "res://Source/Scenes/ui/ghost_terminal/ThreadChoice.tscn";
 
         /// <summary>
         /// Builds a cinematic plan describing the Ghost Terminal introduction.
@@ -32,23 +22,33 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
             var beats = new List<GhostTerminalBeat>();
 
-            foreach (string line in data.OpeningLines)
+            beats.AddRange(BuildOpeningLinesBeats(data.OpeningLines));
+            beats.AddRange(BuildInitialChoiceBeats(data.InitialChoice));
+            beats.AddRange(BuildStoryBlocksBeats(data.StoryBlocks, data.NamePrompt, data.SecretQuestion, data.ExitLine));
+
+            return new GhostTerminalCinematicPlan(beats);
+        }
+
+        private static IEnumerable<GhostTerminalBeat> BuildOpeningLinesBeats(IEnumerable<string> openingLines)
+        {
+            foreach (string line in openingLines)
             {
-                // Fallback: create beat with type and no scene path.
                 var beat = new GhostTerminalBeat(GhostTerminalBeatType.OpeningLine, string.Empty);
                 beat.Lines.Add(line);
-                beats.Add(beat);
+                yield return beat;
             }
+        }
 
-            if (data.InitialChoice?.Options != null && data.InitialChoice.Options.Count > 0)
+        private static IEnumerable<GhostTerminalBeat> BuildInitialChoiceBeats(NarrativeChoice? initialChoice)
+        {
+            if (initialChoice?.Options != null && initialChoice.Options.Count > 0)
             {
-                // Fallback: create thread choice beat with type and no scene path.
-                var threadBeat = new GhostTerminalBeat(GhostTerminalBeatType.ThreadChoice, string.Empty)
+                var threadBeat = new GhostTerminalBeat(GhostTerminalBeatType.ThreadChoice, ThreadChoiceScenePath)
                 {
-                    Prompt = data.InitialChoice.Prompt ?? string.Empty,
+                    Prompt = initialChoice.Prompt ?? string.Empty,
                 };
 
-                foreach (DreamweaverChoice option in data.InitialChoice.Options)
+                foreach (DreamweaverChoice option in initialChoice.Options)
                 {
                     threadBeat.Options.Add(new GhostTerminalOption
                     {
@@ -58,76 +58,104 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                     });
                 }
 
-                beats.Add(threadBeat);
+                yield return threadBeat;
             }
+        }
 
-            for (int blockIndex = 0; blockIndex < data.StoryBlocks.Count; blockIndex++)
+        private static IEnumerable<GhostTerminalBeat> BuildStoryBlocksBeats(List<StoryBlock> storyBlocks, string? namePrompt, SecretQuestion? secretQuestion, string? exitLine)
+        {
+            for (int blockIndex = 0; blockIndex < storyBlocks.Count; blockIndex++)
             {
-                StoryBlock block = data.StoryBlocks[blockIndex];
+                StoryBlock block = storyBlocks[blockIndex];
 
-                foreach (string paragraph in block.Paragraphs)
+                foreach (var beat in BuildParagraphBeats(block.Paragraphs))
                 {
-                    // Fallback: create paragraph beat with type and no scene path.
-                    var paragraphBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryParagraph, string.Empty);
-                    paragraphBeat.Lines.Add(paragraph);
-                    beats.Add(paragraphBeat);
+                    yield return beat;
                 }
 
-                if (!string.IsNullOrWhiteSpace(block.Question))
+                foreach (var beat in BuildQuestionBeats(block, blockIndex))
                 {
-                    // Fallback: create question beat with type and no scene path.
-                    var questionBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryQuestion, string.Empty);
-                    questionBeat.Prompt = block.Question;
-                    beats.Add(questionBeat);
+                    yield return beat;
+                }
+            }
 
-                    if (block.Choices.Count > 0)
+            if (!string.IsNullOrWhiteSpace(namePrompt))
+            {
+                var nameBeat = new GhostTerminalBeat(GhostTerminalBeatType.NamePrompt, string.Empty)
+                {
+                    Prompt = namePrompt!,
+                };
+                yield return nameBeat;
+            }
+
+            foreach (var beat in BuildSecretQuestionBeats(secretQuestion))
+            {
+                yield return beat;
+            }
+
+            if (!string.IsNullOrWhiteSpace(exitLine))
+            {
+                var exitBeat = new GhostTerminalBeat(GhostTerminalBeatType.ExitLine, string.Empty);
+                exitBeat.Lines.Add(exitLine!);
+                yield return exitBeat;
+            }
+        }
+
+        private static IEnumerable<GhostTerminalBeat> BuildParagraphBeats(IEnumerable<string> paragraphs)
+        {
+            foreach (string paragraph in paragraphs)
+            {
+                var paragraphBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryParagraph, string.Empty);
+                paragraphBeat.Lines.Add(paragraph);
+                yield return paragraphBeat;
+            }
+        }
+
+        private static IEnumerable<GhostTerminalBeat> BuildQuestionBeats(StoryBlock block, int blockIndex)
+        {
+            if (!string.IsNullOrWhiteSpace(block.Question))
+            {
+                var questionBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryQuestion, string.Empty);
+                questionBeat.Prompt = block.Question;
+                yield return questionBeat;
+
+                if (block.Choices.Count > 0)
+                {
+                    var choiceBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryChoice, string.Empty);
+                    for (int i = 0; i < block.Choices.Count; i++)
                     {
-                        // Fallback: create story choice beat with type and no scene path.
-                        var choiceBeat = new GhostTerminalBeat(GhostTerminalBeatType.StoryChoice, string.Empty);
-                        for (int i = 0; i < block.Choices.Count; i++)
+                        ChoiceOption choice = block.Choices[i];
+                        string label = string.IsNullOrWhiteSpace(choice.Text)
+                            ? $"Option {i + 1}"
+                            : choice.Text!;
+
+                        choiceBeat.Options.Add(new GhostTerminalOption
                         {
-                            ChoiceOption choice = block.Choices[i];
-                            string label = string.IsNullOrWhiteSpace(choice.Text)
-                                ? $"Option {i + 1}"
-                                : choice.Text!;
-
-                            choiceBeat.Options.Add(new GhostTerminalOption
-                            {
-                                Id = string.IsNullOrWhiteSpace(choice.Id)
-                                    ? $"block_{blockIndex}_choice_{i}"
-                                    : choice.Id!,
-                                Label = label,
-                                Description = choice.Description ?? string.Empty,
-                            });
-                        }
-
-                        beats.Add(choiceBeat);
+                            Id = string.IsNullOrWhiteSpace(choice.Id)
+                                ? $"block_{blockIndex}_choice_{i}"
+                                : choice.Id!,
+                            Label = label,
+                            Description = choice.Description ?? string.Empty,
+                        });
                     }
+
+                    yield return choiceBeat;
                 }
             }
+        }
 
-            var namePrompt = string.IsNullOrWhiteSpace(data.NamePrompt)
-                ? "What name should the terminal record?"
-                : data.NamePrompt;
-
-            // Fallback: create name prompt beat with type and no scene path.
-            var nameBeat = new GhostTerminalBeat(GhostTerminalBeatType.NamePrompt, string.Empty)
+        private static IEnumerable<GhostTerminalBeat> BuildSecretQuestionBeats(SecretQuestion? secretQuestion)
+        {
+            if (secretQuestion?.Options != null && secretQuestion.Options.Count > 0)
             {
-                Prompt = namePrompt,
-            };
-            beats.Add(nameBeat);
-
-            if (data.SecretQuestion != null)
-            {
-                // Fallback: create secret prompt beat with type and no scene path.
                 var secretBeat = new GhostTerminalBeat(GhostTerminalBeatType.SecretPrompt, string.Empty)
                 {
-                    Prompt = data.SecretQuestion.Prompt ?? "Can you face what hides in the dark?",
+                    Prompt = secretQuestion.Prompt ?? string.Empty,
                 };
 
-                for (int i = 0; i < data.SecretQuestion.Options.Count; i++)
+                for (int i = 0; i < secretQuestion.Options.Count; i++)
                 {
-                    string optionText = data.SecretQuestion.Options[i];
+                    string optionText = secretQuestion.Options[i];
                     secretBeat.Options.Add(new GhostTerminalOption
                     {
                         Id = (i + 1).ToString(CultureInfo.InvariantCulture),
@@ -136,19 +164,8 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                     });
                 }
 
-                beats.Add(secretBeat);
+                yield return secretBeat;
             }
-
-            var exitLine = string.IsNullOrWhiteSpace(data.ExitLine)
-                ? "Moving to the next part of your journey..."
-                : data.ExitLine;
-
-            // Fallback: create exit beat with type and no scene path.
-            var exitBeat = new GhostTerminalBeat(GhostTerminalBeatType.ExitLine, string.Empty);
-            exitBeat.Lines.Add(exitLine);
-            beats.Add(exitBeat);
-
-            return new GhostTerminalCinematicPlan(beats);
         }
     }
 }

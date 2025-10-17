@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI;
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
@@ -6,6 +5,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI;
 /// <summary>
 /// Container for the player combat HUD.
 /// The UICombatHud manages the display of combat-related information during battles,

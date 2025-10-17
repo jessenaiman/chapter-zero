@@ -2,14 +2,13 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Combat.Actions;
-
 using System;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Combat.Actions;
 /// <summary>
 /// A sample <see cref="HealBattlerAction"/> implementation that simulates a healing action for battlers.
 /// </summary>

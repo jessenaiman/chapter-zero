@@ -119,6 +119,18 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
         /// </summary>
         public string? Text { get; set; }
 
+        private string? label;
+
+        /// <summary>
+        /// Gets or sets the display label for this choice option.
+        /// Falls back to <see cref="Text"/> when not explicitly provided.
+        /// </summary>
+        public string? Label
+        {
+            get => this.label ?? this.Text;
+            set => this.label = value;
+        }
+
         /// <summary>
         /// Gets or sets the detailed description for this choice option.
         /// Provides additional context or explanation for the choice.

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 
 // <copyright file="UIListMenu.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 /// <summary>
 /// A list menu is a template menu that provides common functionality for the combat menus.
 ///

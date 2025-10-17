@@ -2,10 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using Godot;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using Godot;
-
     /// <summary>
     /// Manages scene transitions and tracks current scene state across the game.
     /// Serves as a singleton autoload for centralized scene management.
@@ -77,6 +77,7 @@ namespace OmegaSpiral.Source.Scripts
             string scenePath = sceneName switch
             {
                 "Scene1Narrative" => "res://Source/Scenes/Scene1Narrative.tscn",
+                "GhostTerminal" => "res://Source/Scenes/GhostTerminal/Opening.tscn",
                 "Scene2NethackSequence" => "res://Source/Scenes/Scene2NethackSequence.tscn",
                 "Scene3NeverGoAlone" => "res://Source/Scenes/Scene3NeverGoAlone.tscn",
                 "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",

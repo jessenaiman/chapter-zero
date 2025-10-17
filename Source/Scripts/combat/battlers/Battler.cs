@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 // <copyright file="Battler.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -11,6 +10,7 @@ using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Actors;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>
 /// Represents a playable combatant or enemy in battle. Carries out <see cref="BattlerAction"/>s as its <see cref="Readiness"/> charges.
 /// <para>

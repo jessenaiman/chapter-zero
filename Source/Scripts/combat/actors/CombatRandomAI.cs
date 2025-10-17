@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 
 // <copyright file="CombatRandomAI.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -12,6 +11,7 @@ using Godot;
 using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// <summary>
 /// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.
 /// </summary>

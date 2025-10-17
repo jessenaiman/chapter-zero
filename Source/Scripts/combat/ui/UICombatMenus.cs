@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI;
 
 // <copyright file="UICombatMenus.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -15,6 +14,8 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 using OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+
+namespace OmegaSpiral.Source.Scripts.Combat.UI;
 /// <summary>
 /// Manages the combat UI menus, including action selection and targeting cursors for player battlers.
 /// </summary>

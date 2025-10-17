@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="TileDungeonController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -10,6 +9,7 @@ using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// Controls the tile-based dungeon functionality, handling player movement, tile interactions, and dungeon state.
 /// </summary>

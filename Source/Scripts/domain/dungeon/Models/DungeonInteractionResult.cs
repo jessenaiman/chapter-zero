@@ -1,8 +1,8 @@
+using System;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon.Models
 {
-    using System;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Captures the outcome of interacting with a dungeon glyph.
     /// </summary>

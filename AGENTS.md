@@ -15,6 +15,15 @@
 visible in the Godot editor. This allows proper C# namespace usage while
 maintaining editor integration.
 
+## Project Guidelines
+
+## Act 1 Specifics - Ghost Writer
+
+- Narrative content is loaded exclusively from JSON assets at res://Source/Data/stages/ghost-terminal/. No hardcoded fallbacks exist in code.
+- “GhostTerminalCinematicDirector must not synthesize content; it only transforms NarrativeSceneData into beats.”
+- “Tests must construct NarrativeSceneData (via NarrativeSceneFactory) and validate translation only.”
+
+
  Example:
 
 ```cs

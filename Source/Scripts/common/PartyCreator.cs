@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Common;
 
 // <copyright file="PartyCreator.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Common;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 
+namespace OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.
 /// Provides UI for selecting character classes, races, and managing party composition.

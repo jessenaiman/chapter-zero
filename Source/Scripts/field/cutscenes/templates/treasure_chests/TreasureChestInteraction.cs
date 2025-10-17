@@ -2,11 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Field.Cutscenes;
-
 using Godot;
 using OmegaSpiral.Source.Scripts.Field;
 
+namespace OmegaSpiral.Field.Cutscenes;
 /// <summary>
 /// An interaction that opens and closes an animated chest and adds an item to the player's inventory.
 /// The item is only added the first time the player opens the chest.

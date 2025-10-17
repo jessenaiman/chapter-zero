@@ -2,11 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
-
 using System.Threading.Tasks;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
 /// <summary>
 /// Placeholder sequence implementation demonstrating the NarrativeSequence pattern.
 /// This sequence serves as a template for implementing Phase 2+ sequences (Opening, ThreadBranch, etc.).

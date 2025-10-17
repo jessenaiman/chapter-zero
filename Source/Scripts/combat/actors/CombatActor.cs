@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 
 // <copyright file="CombatActor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 using System;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// <summary>
 /// Actors take turns based on their initiative value. Higher initiative means
 /// they act earlier in the turn order. Each actor completes their full turn before

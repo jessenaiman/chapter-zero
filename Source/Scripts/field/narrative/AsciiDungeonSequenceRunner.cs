@@ -1,11 +1,10 @@
+
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Domain.Dungeon;
+using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Collections.Generic;
-    using OmegaSpiral.Source.Scripts.Common;
-    using OmegaSpiral.Source.Scripts.Domain.Dungeon;
-    using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
-
     /// <summary>
     /// Coordinates progression through the ASCII dungeon sequence, publishing stage events and applying affinity changes.
     /// </summary>

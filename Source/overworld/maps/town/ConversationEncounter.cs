@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Overworld.Maps.Town;
 
 // <copyright file="ConversationEncounter.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Overworld.Maps.Town;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field;
 
+namespace OmegaSpiral.Source.Overworld.Maps.Town;
 /// <summary>
 /// An interaction that triggers a pre-combat dialogue, initiates combat,
 /// and then plays victory or loss dialogue based on the outcome.

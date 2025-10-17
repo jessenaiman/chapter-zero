@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 // <copyright file="GamepieceRegistry.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
 /// <summary>
 /// Keeps track of Gamepieces and their positions on the Gameboard.
 /// The GamepieceRegistry maintains a mapping of Gamepieces to their current cell positions
@@ -122,10 +122,10 @@ public partial class GamepieceRegistry : Node
     {
         if (gamepiece == null)
         {
-            return Gameboard.InvalidCell;
+            return global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
         }
 
-        return this.gamepieceToCell.GetValueOrDefault(gamepiece, Gameboard.InvalidCell);
+        return this.gamepieceToCell.GetValueOrDefault(gamepiece, global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell);
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public partial class GamepieceRegistry : Node
             var gamepiece = kvp.Key;
             var cell = kvp.Value;
 
-            var gameboard = this.GetTree().Root.GetNode<Gameboard>("Gameboard");
+            var gameboard = this.GetTree().Root.GetNode<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("Gameboard");
             var gamepiecePosition = gameboard.CellToPixel(cell);
             var distanceSquared = position.DistanceSquaredTo(gamepiecePosition);
 

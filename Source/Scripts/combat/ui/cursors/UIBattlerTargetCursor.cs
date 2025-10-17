@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
 // <copyright file="UIBattlerTargetCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -10,6 +9,7 @@ using OmegaSpiral.Combat;
 using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 /// <summary>
 /// Allows the player to choose the targets of a <see cref="BattlerAction"/>.
 /// </summary>

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.TreasureChests;
 
 // <copyright file="TreasureChest.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.TreasureChests;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.TreasureChests;
 /// <summary>
 /// A treasure chest gamepiece that contains an item for the player to collect.
 /// </summary>

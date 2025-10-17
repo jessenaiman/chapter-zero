@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="AsciiRoomRenderer.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -11,6 +10,7 @@ using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// Renders ASCII-based dungeon rooms for the NetHack-style sequence.
 /// Handles player movement, object interactions, and dungeon progression.

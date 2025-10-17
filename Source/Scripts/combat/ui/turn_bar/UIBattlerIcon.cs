@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 
 // <copyright file="UIBattlerIcon.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 using System.Collections.Generic;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 /// <summary>
 /// UI element representing a battler icon in the turn bar.
 /// </summary>

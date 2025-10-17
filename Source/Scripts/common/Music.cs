@@ -2,11 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using Godot;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using System.Collections.Generic;
-    using Godot;
-
     /// <summary>
     /// Centralized music and audio management system.
     /// The Music class provides a centralized way to manage and play background music

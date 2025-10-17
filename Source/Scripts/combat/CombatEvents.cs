@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Combat;
 
 // <copyright file="CombatEvents.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Combat.Actions;
 
+namespace OmegaSpiral.Combat;
 /// <summary>
 /// A signal bus to connect distant scenes to various combat-exclusive events.
 /// </summary>

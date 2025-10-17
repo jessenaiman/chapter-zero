@@ -1,12 +1,11 @@
+using System.Text;
+using Godot;
+using OmegaSpiral.Source.Scripts.Infrastructure;
+using ConfigDictionary = Godot.Collections.Dictionary<string, Godot.Variant>;
+using GodotArray = Godot.Collections.Array;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Text;
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Infrastructure;
-    using ConfigDictionary = Godot.Collections.Dictionary<string, Godot.Variant>;
-    using GodotArray = Godot.Collections.Array;
-
     /// <summary>
     /// Lightweight controller that renders the Never Go Alone stage summary and
     /// transitions to the next gameplay scene when the player is ready.

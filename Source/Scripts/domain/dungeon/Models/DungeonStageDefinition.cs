@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon.Models
 {
-    using System.Collections.Generic;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Immutable definition describing a Dreamweaver-owned ASCII dungeon stage.
     /// </summary>

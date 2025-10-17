@@ -2,12 +2,12 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
+using System.Threading.Tasks;
+using Godot;
+
 namespace OmegaSpiral.Source.Scripts.Common
 {
-    using System;
-    using System.Threading.Tasks;
-    using Godot;
-
     /// <summary>
     /// Provides integration between C# narrative logic and Dialogic GDScript addon.
     /// This allows leveraging Dialogic's battle-tested dialogue system while maintaining

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 // <copyright file="BattlerRoster.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 using System.Linq;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>
 /// Provides methods to query and manage battlers within the current scene.
 /// </summary>

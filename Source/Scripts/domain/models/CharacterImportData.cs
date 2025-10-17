@@ -2,13 +2,13 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Globalization;
+
+using Godot;
+
 namespace OmegaSpiral.Domain.Models
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-
-    using Godot;
-
     /// <summary>
     /// Represents the data structure for importing character data.
     /// </summary>

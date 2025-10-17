@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 // <copyright file="Pathfinder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 /// <summary>
 /// A* pathfinding implementation for grid-based movement.
 /// The Pathfinder handles finding paths between cells on the gameboard, taking into account

@@ -2,10 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace OmegaSpiral.Domain.Models
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Represents the data structure for importing inventory data.
     /// </summary>

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.UI.Popups;
 
 // <copyright file="UIPopup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Field.UI.Popups;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.UI.Popups;
 /// <summary>
 /// An animated pop-up graphic. These are often found, for example, in dialogue bubbles to
 /// demonstrate the need for player input.
@@ -176,11 +176,11 @@ public partial class UIPopup : Node2D
     }
 
     /// <summary>
-    /// An animation has finished, so we may want to change the popup's behaviour depending on whether or
-    /// not it has been flagged for a state change through _is_shown.
-    /// </summary>
-    /// <param name="animName"></param>
-    private void OnAnimationFinished(StringName animName)
+	/// An animation has finished, so we may want to change the popup's behaviour depending on whether or
+	/// not it has been flagged for a state change through _is_shown.
+	/// </summary>
+	/// <param name="animName"></param>
+	private void OnAnimationFinished(StringName animName)
     {
         if (this.Anim == null)
         {

@@ -18,14 +18,16 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <AnalysisMode>Recommended</AnalysisMode>
+    <CodeAnalysisRuleSet>OmegaSpiral.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <!-- Removed problematic Compile entry. SDK-style projects include all .cs files by default. -->
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" Link="Properties\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="gdUnit4.api" Version="5.0.0" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.14.1">
@@ -40,10 +42,10 @@
       <NoWarn>$(NoWarn);1591</NoWarn>
     </Compile>
   </ItemGroup>
-  <!-- Also suppress CS1591 for Godot-generated sources under .godot -->
+  <!-- Also suppress code analysis for generated migration files -->
   <ItemGroup>
-    <Compile Update=".godot/**/*.cs">
-      <NoWarn>$(NoWarn);1591</NoWarn>
+    <Compile Update="Source/Scripts/persistence/Migrations/**/*.cs">
+      <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     </Compile>
   </ItemGroup>
 </Project>

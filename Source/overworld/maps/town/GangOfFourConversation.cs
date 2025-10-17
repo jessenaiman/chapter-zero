@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Overworld.Maps.Town;
 
 // <copyright file="GangOfFourConversation.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using Godot;
 using OmegaSpiral;
 using OmegaSpiral.Source.Scripts.Field;
 
+namespace OmegaSpiral.Source.Overworld.Maps.Town;
 /// <summary>
 /// Conversation interaction with the Gang of Four NPCs.
 /// Handles dialogue interactions and coin rewards.

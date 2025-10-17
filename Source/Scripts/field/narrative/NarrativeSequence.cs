@@ -2,14 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative;
-
-using System;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// <summary>
 /// Base class for all narrative sequences in the Ghost Terminal stage.
 /// Each sequence represents a distinct phase of the narrative presentation (opening, thread choice, story block, etc.).
@@ -150,7 +147,7 @@ public abstract partial class NarrativeSequence : Control
 
         // Note: This would call UIDialogue's typewriter method if it's exposed.
         // For now, we defer to direct display.
-        await Task.Delay((int)(text.Length * characterDelay * 1000)).ConfigureAwait(false);
+        await Task.Delay((int) (text.Length * characterDelay * 1000)).ConfigureAwait(false);
     }
 
     /// <summary>

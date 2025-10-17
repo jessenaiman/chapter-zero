@@ -1,7 +1,7 @@
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon.Models
 {
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Immutable definition for an interactive object in a dungeon stage.
     /// </summary>

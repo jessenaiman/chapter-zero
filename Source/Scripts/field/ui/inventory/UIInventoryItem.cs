@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 
 // <copyright file="UIInventoryItem.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
 /// <summary>
 /// An inventory item, tracking both its UI representation and underlying data.
 /// Will be replaced in future iterations of the OpenRPG project.

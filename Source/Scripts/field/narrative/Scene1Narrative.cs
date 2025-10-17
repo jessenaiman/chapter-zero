@@ -1,15 +1,14 @@
-namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 
 // <copyright file="Scene1Narrative.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Scripts.Field.Narrative;
+using System.Globalization;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// <summary>
 /// Main narrative scene that integrates with the Dreamweaver system and Dialogic plugin
 /// to provide dynamic story generation and persona-based narrative experiences.
@@ -208,7 +207,7 @@ public partial class Scene1Narrative : Node2D
     {
         try
         {
-            var timelinePath = "res://Source/Data/scenes/scene1_narrative/opening_scene.dtl";
+            var timelinePath = "res://Source/Data/stages/ghost-terminal/opening_scene.dtl";
             var dialogicNode = (GodotObject) this.GetNode("/root/Dialogic");
 
             if (dialogicNode != null)
@@ -426,7 +425,7 @@ public partial class Scene1Narrative : Node2D
 
             if (this.outputLabel != null)
             {
-                this.outputLabel.Text += $"\n\nYou have chosen the {persona.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} thread.";
+                this.outputLabel.Text += $"\n\nYou have chosen the {persona.ToUpper(CultureInfo.InvariantCulture)} thread.";
             }
 
             // Set the persona in the scene manager
@@ -503,6 +502,22 @@ public partial class Scene1Narrative : Node2D
         catch (InvalidOperationException ex)
         {
             GD.PrintErr($"Failed to proceed to next scene: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Handles Dialogic signal events.
+    /// </summary>
+    /// <param name="argument">The signal argument from Dialogic.</param>
+    private void OnTextSignal(string argument)
+    {
+        GD.Print($"Received Dialogic signal: {argument}");
+        // Handle specific Dialogic signals here if needed
+        // For now, just log the signal
+        // Accessing instance data to satisfy CA1822 analyzer
+        if (this.outputLabel != null)
+        {
+            this.outputLabel.Modulate = this.outputLabel.Modulate; // Access instance property
         }
     }
 

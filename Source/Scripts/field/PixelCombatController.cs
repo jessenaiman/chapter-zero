@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="PixelCombatController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -10,6 +9,7 @@ using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// Controls the turn-based pixel combat scene, managing player and enemy actions, UI updates, and combat flow.
 /// </summary>
@@ -253,7 +253,7 @@ public partial class PixelCombatController : Node2D
     private static int CalculatePlayerDamage()
     {
         // TODO: Calculate based on party stats
-        return 10 + (int)(GD.Randf() * 10);
+        return 10 + (int) (GD.Randf() * 10);
     }
 
     /// <summary>

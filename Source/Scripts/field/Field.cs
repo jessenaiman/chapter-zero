@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="Field.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -11,6 +10,7 @@ using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// The cutscene that will play on starting a new game.
 /// </summary>

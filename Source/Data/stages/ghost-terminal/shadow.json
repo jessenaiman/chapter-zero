@@ -1,28 +1,31 @@
 {
   "type": "narrative_terminal",
   "openingLines": [
+    "> SYSTEM: OMEGA",
+    "> STATUS: AWAKENING",
+    "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\"",
     "The shadows remember everything you forget.",
     "They whisper in the corners of your mind.",
     "They know the names you buried.",
     "They keep the secrets you denied.",
-    "And now… they call to you."
+    "And now... they call to you."
   ],
   "initialChoice": {
-    "prompt": "What darkness calls to you most?",
+    "prompt": "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?",
     "options": [
       {
         "id": "hero",
-        "label": "HERO",
+        "label": "[ HERO ]",
         "description": "The darkness of sacrifice and lost light"
       },
       {
         "id": "shadow",
-        "label": "SHADOW",
+        "label": "[ SHADOW ]",
         "description": "The darkness that hides within itself"
       },
       {
         "id": "ambition",
-        "label": "AMBITION",
+        "label": "[ AMBITION ]",
         "description": "The darkness of endless hunger"
       }
     ]
@@ -30,18 +33,25 @@
   "storyBlocks": [
     {
       "paragraphs": [
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING...",
+        "You chose SHADOW.",
+        "That tells me something about you.",
+        "Or perhaps... about me.",
+        "Let me try to tell it back to you.",
         "In the deepest shadow, a figure waited.",
         "Not for rescue, not for light.",
         "But for someone who understood the comfort of darkness.",
         "The figure held out a hand, and in its palm was a single, burning ember."
       ],
-      "question": "What did you see in the ember?",
+      "question": "> WHAT DID YOU SEE IN THE EMBER?",
       "choices": [
         {
+          "id": "shadow_ember_last_light",
           "text": "The last light before eternal night.",
           "nextBlock": 1
         },
         {
+          "id": "shadow_ember_hidden_fire",
           "text": "A reflection of my own hidden fire.",
           "nextBlock": 1
         }
@@ -50,19 +60,42 @@
     {
       "paragraphs": [
         "And so you accepted the ember, and it did not burn.",
-        "Instead, it showed you the paths that lay ahead—",
-        "One where shadows serve light, one where shadows dance for their own pleasure, one where shadows consume everything."
+        "Instead, it showed you the paths that lay ahead--",
+        "One where shadows serve light, one where shadows dance for their own pleasure, one where shadows consume everything.",
+        "From below, a whisper rose through the dark."
+      ],
+      "question": "> WHAT DID THE WHISPER SAY?",
+      "choices": [
+        {
+          "id": "shadow_whisper_warning",
+          "text": "You do not belong here.",
+          "nextBlock": 2
+        },
+        {
+          "id": "shadow_whisper_invitation",
+          "text": "I have been waiting for you.",
+          "nextBlock": 2
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "I see.",
+        "That changes everything.",
+        "And now--here you are.",
+        "Not in the story.",
+        "But at the place where the story begins again."
       ]
     }
   ],
-  "namePrompt": "What name do the shadows call you?",
+  "namePrompt": "> WHAT NAME DO THE SHADOWS CALL YOU?",
   "secretQuestion": {
-    "prompt": "Can you face what hides in the dark?",
+    "prompt": "> OMEGA ASKS: CAN YOU KEEP A SECRET?",
     "options": [
       "yes",
       "no",
-      "the dark is where I belong"
+      "only if you keep one for me"
     ]
   },
-  "exitLine": "Some stories are written in shadow. And some shadows… write themselves."
+  "exitLine": "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
 }

@@ -2,14 +2,13 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Combat.Actions;
-
 using System;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Combat.Actions;
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a ranged attack, such as a fireball.
 /// </summary>

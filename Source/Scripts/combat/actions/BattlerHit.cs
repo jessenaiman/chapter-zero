@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Actions;
 
 // <copyright file="BattlerHit.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actions;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Actions;
 /// <summary>
 /// Represents a damage-dealing hit to be applied to a target Battler.
 /// Encapsulates calculations for how hits are applied based on some properties.

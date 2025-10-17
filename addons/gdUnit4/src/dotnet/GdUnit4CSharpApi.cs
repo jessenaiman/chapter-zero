@@ -1,7 +1,5 @@
 // Copyright (c) 2025 Mike Schulze
 // MIT License - See LICENSE file in the repository root for full license text
-#pragma warning disable IDE1006
-namespace gdUnit4.addons.gdUnit4.src.dotnet;
 #pragma warning restore IDE1006
 
 #if GDUNIT4NET_API_V5
@@ -18,6 +16,8 @@ using GdUnit4.Api;
 using Godot;
 using Godot.Collections;
 
+#pragma warning disable IDE1006
+namespace gdUnit4.addons.gdUnit4.src.dotnet;
 /// <summary>
 ///     The GdUnit4 GDScript - C# API wrapper.
 /// </summary>

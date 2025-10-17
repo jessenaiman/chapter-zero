@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Common;
 
 // <copyright file="GameState.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,7 +7,10 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Persistence;
+using Microsoft.EntityFrameworkCore;
 
+namespace OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Global game state singleton managing player progress, Dreamweaver alignment, and persistence.
 /// FUTURE: Will track LLM consultation history and dynamic narrative state (see ADR-0003).
@@ -77,13 +79,31 @@ public partial class GameState : Node
     public string SaveVersion { get; set; } = "1.0.0";
 
     /// <summary>
-    /// Gets or sets the player's party data including characters and inventory.
+    /// Gets the player's party data including characters and inventory.
     /// </summary>
     public PartyData PlayerParty { get; set; } = new();
+
+    /// <summary>
+    /// Gets the save/load manager for database operations.
+    /// </summary>
+    private SaveLoadManager? _saveLoadManager;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
+        // Initialize database context
+        var dbPath = Path.Combine(OS.GetUserDataDir(), "omega_spiral_saves.db");
+        var options = new DbContextOptionsBuilder<GameDbContext>()
+            .UseSqlite($"Data Source={dbPath}")
+            .Options;
+
+        var context = new GameDbContext(options);
+
+        // Ensure database is created and migrated
+        context.Database.Migrate();
+
+        _saveLoadManager = new SaveLoadManager(context);
+
         // Set initial values
         this.CurrentScene = 1;
         this.DreamweaverThread = DreamweaverThread.Hero;
@@ -170,87 +190,96 @@ public partial class GameState : Node
     }
 
     /// <summary>
-    /// Saves the current game state to a file.
+    /// Saves the current game state to the database.
     /// </summary>
-    public void SaveGame()
+    /// <param name="saveSlot">The save slot name (optional, defaults to "default").</param>
+    /// <returns>True if the save was successful, false otherwise.</returns>
+    public async Task<bool> SaveGameAsync(string saveSlot = "default")
     {
-        var saveData = new Godot.Collections.Dictionary<string, Variant>
+        if (_saveLoadManager == null)
         {
-            ["version"] = this.SaveVersion,
-            ["timestamp"] = this.LastSaveTime.ToString("O"),
-            ["gameState"] = new Godot.Collections.Dictionary<string, Variant>
-            {
-                ["currentScene"] = this.CurrentScene,
-                ["playerName"] = this.PlayerName,
-                ["dreamweaverThread"] = this.DreamweaverThread.ToString(),
-                ["dreamweaverScores"] = new Godot.Collections.Dictionary<string, int>
-                {
-                    ["Light"] = this.DreamweaverScores[DreamweaverType.Light],
-                    ["Mischief"] = this.DreamweaverScores[DreamweaverType.Mischief],
-                    ["Wrath"] = this.DreamweaverScores[DreamweaverType.Wrath],
-                },
-                ["selectedDreamweaver"] = this.SelectedDreamweaver?.ToString() ?? string.Empty,
-                ["partyData"] = this.PlayerParty.ToDictionary(),
-                ["collectedShards"] = new Godot.Collections.Array<string>(this.Shards),
-                ["sceneProgress"] = new Godot.Collections.Dictionary<string, Variant>(this.SceneData.ToDictionary(kvp => kvp.Key, kvp => Variant.From(kvp.Value))),
-            },
-        };
+            GD.PrintErr("SaveLoadManager not initialized");
+            return false;
+        }
 
-        var jsonString = Json.Stringify(saveData);
-        using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Write);
-        file.StoreString(jsonString);
         this.LastSaveTime = DateTime.Now;
-        GD.Print("Game saved successfully");
+        return await _saveLoadManager.SaveGameAsync(this, saveSlot);
     }
 
     /// <summary>
-    /// Loads the game state from a file.
+    /// Saves the current game state to the database (synchronous wrapper).
+    /// </summary>
+    public void SaveGame()
+    {
+        // Run async save on a background thread
+        Task.Run(() => SaveGameAsync()).Wait();
+    }
+
+    /// <summary>
+    /// Loads the game state from the database.
+    /// </summary>
+    /// <param name="saveSlot">The save slot name (optional, defaults to "default").</param>
+    /// <returns>True if the game was loaded successfully, false otherwise.</returns>
+    public async Task<bool> LoadGameAsync(string saveSlot = "default")
+    {
+        if (_saveLoadManager == null)
+        {
+            GD.PrintErr("SaveLoadManager not initialized");
+            return false;
+        }
+
+        var loadedState = await _saveLoadManager.LoadGameAsync(saveSlot);
+        if (loadedState == null)
+        {
+            return false;
+        }
+
+        // Copy loaded state to this instance
+        CopyFrom(loadedState);
+        return true;
+    }
+
+    /// <summary>
+    /// Loads the game state from the database (synchronous wrapper).
     /// </summary>
     /// <returns>True if the game was loaded successfully, false otherwise.</returns>
     public bool LoadGame()
     {
-        if (!Godot.FileAccess.FileExists("user://savegame.json"))
+        return Task.Run(() => LoadGameAsync()).Result;
+    }
+
+    /// <summary>
+    /// Copies all state from another GameState instance.
+    /// </summary>
+    /// <param name="other">The GameState to copy from.</param>
+    private void CopyFrom(GameState other)
+    {
+        this.SaveVersion = other.SaveVersion;
+        this.LastSaveTime = other.LastSaveTime;
+        this.CurrentScene = other.CurrentScene;
+        this.DreamweaverThread = other.DreamweaverThread;
+        this.PlayerName = other.PlayerName;
+        this.PlayerSecret = other.PlayerSecret;
+        this.SelectedDreamweaver = other.SelectedDreamweaver;
+
+        this.Shards.Clear();
+        this.Shards.AddRange(other.Shards);
+
+        this.SceneData.Clear();
+        foreach (var kvp in other.SceneData)
         {
-            GD.Print("No save file found");
-            return false;
+            this.SceneData[kvp.Key] = kvp.Value;
         }
 
-        try
+        foreach (var kvp in other.DreamweaverScores)
         {
-            using var file = Godot.FileAccess.Open("user://savegame.json", Godot.FileAccess.ModeFlags.Read);
-            var jsonString = file.GetAsText();
-            var jsonNode = Json.ParseString(jsonString);
-            if (jsonNode.VariantType != Variant.Type.Dictionary)
-            {
-                GD.Print("Invalid save file format");
-                return false;
-            }
-
-            var saveData = jsonNode.AsGodotDictionary<string, Variant>();
-            if (!saveData.TryGetValue("gameState", out var gameStateVar))
-            {
-                GD.Print("Invalid save file structure");
-                return false;
-            }
-
-            if (gameStateVar.VariantType != Variant.Type.Dictionary)
-            {
-                GD.Print("Invalid save file structure");
-                return false;
-            }
-
-            var gameStateData = gameStateVar.AsGodotDictionary<string, Variant>();
-            this.LoadCoreState(gameStateData);
-            this.LoadPartyState(gameStateData);
-            LoadProgressState(gameStateData);
-            GD.Print("Game loaded successfully");
-            return true;
+            this.DreamweaverScores[kvp.Key] = kvp.Value;
         }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"Error loading game: {ex.Message}");
-            throw;
-        }
+
+        this.PlayerParty = other.PlayerParty;
+
+        this.NarratorQueue.Clear();
+        this.NarratorQueue.AddRange(other.NarratorQueue);
     }
 
     private static void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)
@@ -277,99 +306,5 @@ public partial class GameState : Node
     {
         // Basic sanitization - remove potentially harmful characters
         return name.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
-    }
-
-    private void LoadCoreState(Godot.Collections.Dictionary<string, Variant> gameStateData)
-    {
-        if (gameStateData.TryGetValue("currentScene", out var currentSceneVariant) &&
-            currentSceneVariant.VariantType == Variant.Type.Int)
-        {
-            int sceneId = currentSceneVariant.AsInt32();
-            this.CurrentScene = Mathf.Clamp(sceneId, 1, 5);
-        }
-
-        if (gameStateData.TryGetValue("playerName", out var playerNameVariant) &&
-            playerNameVariant.VariantType == Variant.Type.String)
-        {
-            string playerName = playerNameVariant.AsString();
-            this.PlayerName = SanitizePlayerName(playerName);
-        }
-
-        if (gameStateData.TryGetValue("dreamweaverThread", out var threadVariant) &&
-            threadVariant.VariantType == Variant.Type.String)
-        {
-            string threadStr = threadVariant.AsString();
-            if (Enum.TryParse<DreamweaverThread>(threadStr, out var thread))
-            {
-                this.DreamweaverThread = thread;
-            }
-        }
-
-        if (gameStateData.TryGetValue("dreamweaverScores", out var scoresVariant))
-        {
-            if (scoresVariant.VariantType == Variant.Type.Dictionary)
-            {
-                var scoresDict = scoresVariant.AsGodotDictionary<string, Variant>();
-                this.LoadDreamweaverScores(scoresDict);
-            }
-        }
-
-        if (gameStateData.TryGetValue("selectedDreamweaver", out var selectedVariant) &&
-            selectedVariant.VariantType == Variant.Type.String)
-        {
-            string selectedStr = selectedVariant.AsString();
-            if (!string.IsNullOrEmpty(selectedStr) && Enum.TryParse<DreamweaverType>(selectedStr, out var selected))
-            {
-                this.SelectedDreamweaver = selected;
-            }
-        }
-    }
-
-    private void LoadPartyState(Godot.Collections.Dictionary<string, Variant> gameStateData)
-    {
-        if (gameStateData.TryGetValue("partyData", out var partyVariant))
-        {
-            if (partyVariant.VariantType == Variant.Type.Dictionary)
-            {
-                var partyDict = partyVariant.AsGodotDictionary<string, Variant>();
-                this.PlayerParty = PartyData.FromDictionary(partyDict);
-            }
-        }
-
-        if (gameStateData.TryGetValue("collectedShards", out var shardsVariant))
-        {
-            if (shardsVariant.VariantType == Variant.Type.Array)
-            {
-                var shardsArray = shardsVariant.AsGodotArray();
-                this.LoadShards(shardsArray);
-            }
-        }
-    }
-
-    private void LoadDreamweaverScores(Godot.Collections.Dictionary<string, Variant> scoresDict)
-    {
-        foreach (var kvp in scoresDict)
-        {
-            if (Enum.TryParse<DreamweaverType>(kvp.Key, out var dreamweaverType))
-            {
-                if (kvp.Value.VariantType == Variant.Type.Int)
-                {
-                    this.DreamweaverScores[dreamweaverType] = kvp.Value.AsInt32();
-                }
-            }
-        }
-    }
-
-    private void LoadShards(Godot.Collections.Array shardsArray)
-    {
-        this.Shards.Clear();
-        foreach (var shard in shardsArray)
-        {
-            if (shard.VariantType == Variant.Type.String)
-            {
-                string shardName = shard.AsString();
-                this.Shards.Add(shardName);
-            }
-        }
     }
 }

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="Map.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// The map defines the properties of the playable grid, which will be applied on _ready to the
 /// <see cref="Gameboard"/>. These properties usually correspond to one or multiple tilesets.

@@ -1,7 +1,11 @@
-using GdUnit4;
-using static GdUnit4.Assertions;
+// <copyright file="NarrativeScriptFunctionalTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace OmegaSpiral.Tests.Functional.Narrative;
+
+using GdUnit4;
+using static GdUnit4.Assertions;
 
 /// <summary>
 /// Functional test suite for validating narrative script behavior.

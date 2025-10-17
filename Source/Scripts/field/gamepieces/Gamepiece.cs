@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 // <copyright file="Gamepiece.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -9,6 +8,7 @@ using Godot;
 using OmegaSpiral;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
 /// <summary>
 /// Base class for movable objects in the game world.
 /// Gamepieces are objects that can move around the gameboard and interact with
@@ -87,12 +87,12 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// Gets the current cell position of the gamepiece.
     /// </summary>
-    public Vector2I CellPosition { get; private set; } = Gameboard.InvalidCell;
+    public Vector2I CellPosition { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
-    public Vector2I TargetCell { get; private set; } = Gameboard.InvalidCell;
+    public Vector2I TargetCell { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the path the gamepiece is following.
@@ -128,8 +128,8 @@ public partial class Gamepiece : Node2D
             this.AddToGroup(Group);
 
             // Initialize the cell position
-            var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
-            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? Gameboard.InvalidCell;
+            var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
+            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
         }
     }
 
@@ -160,8 +160,8 @@ public partial class Gamepiece : Node2D
             this.IsMoving = false;
 
             // Update the cell position
-            var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
-            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? Gameboard.InvalidCell;
+            var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
+            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
             // Emit the waypoint reached signal
             this.EmitSignal(SignalName.WaypointReached, this.CellPosition);
@@ -211,7 +211,7 @@ public partial class Gamepiece : Node2D
     public void MoveToCell(Vector2I cell)
     {
         // Convert cell to pixel position
-        var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+        var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
         this.targetPosition = gameboard?.CellToPixel(cell) ?? Vector2.Zero;
         this.remainingDistance = this.Position.DistanceTo(this.targetPosition);
 
@@ -281,7 +281,7 @@ public partial class Gamepiece : Node2D
     /// <returns>True if the gamepiece can move to the cell, false otherwise.</returns>
     public bool CanMoveToCell(Vector2I cell)
     {
-        var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+        var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
         if (gameboard == null)
         {
             return false;
@@ -305,7 +305,7 @@ public partial class Gamepiece : Node2D
     /// <returns></returns>
     public List<Vector2I> GetMoveableAdjacentCells()
     {
-        var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+        var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
         var adjacentCells = gameboard?.GetAdjacentCells(this.CellPosition) ?? new List<Vector2I>();
         var moveableCells = new List<Vector2I>();
 

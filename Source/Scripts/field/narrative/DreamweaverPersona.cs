@@ -2,17 +2,16 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 
+namespace OmegaSpiral.Source.Scripts;
 /// <summary>
 /// Represents an individual Dreamweaver persona that can generate dynamic narrative
 /// using the nobodywho LLM framework. Each persona uses JSON text as a foundation
@@ -288,10 +287,8 @@ public partial class DreamweaverPersona
             // Initialize NobodyWho model for this persona
             this.llmModel = (GodotObject) ClassDB.Instantiate("NobodyWhoModel");
 
-            // Load the Qwen3-4B model
-            this.llmModel.Call("load_model", modelPath);
-
-            // Configure model parameters for narrative generation
+            // Set the model path - configure model parameters for narrative generation
+            this.llmModel.Set("model_path", modelPath);
             this.llmModel.Set("temperature", 0.8f);  // Creative but not too random
             this.llmModel.Set("max_tokens", 200);    // Keep responses concise
             this.llmModel.Set("top_p", 0.9f);        // Balanced sampling

@@ -23,6 +23,7 @@ use the tools and work like a pair programmer carefully explaining in chat files
 
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
 **ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS AND DISCUSS FIXES**
+**RUN TESTS USING THE EXTENSIONS AND VSCODE TOOLS**
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 

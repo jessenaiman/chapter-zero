@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
 
 // <copyright file="Cutscene.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using System.Threading.Tasks;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes;
 /// <summary>
 /// Cutscenes are inherently custom and must be derived to do anything useful. They may be run via
 /// the <see cref="Run"/> method and derived cutscenes will override the <see cref="ExecuteAsync"/> method to

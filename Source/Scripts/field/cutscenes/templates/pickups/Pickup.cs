@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Pickups;
 
 // <copyright file="Pickup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using System.Threading.Tasks;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Pickups;
 /// <summary>
 /// A pickup item that can be collected by the player.
 /// Pickups are interactive objects that the player can collect by triggering them.

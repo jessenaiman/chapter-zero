@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Combat;
 
 using Godot;
 using System.Collections.Generic;
@@ -6,6 +5,7 @@ using System.Linq;
 using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Combat;
 /// <summary>
 /// Responsible for Battlers, managing their turns, action order, and lifespans.
 /// The ActiveTurnQueue sorts Battlers neatly into a queue as they are ready to act. Time is paused

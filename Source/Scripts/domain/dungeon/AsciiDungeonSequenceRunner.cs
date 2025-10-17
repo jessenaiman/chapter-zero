@@ -2,11 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Linq;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
 {
-    using System.Linq;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Runs an ASCII dungeon sequence, publishing events as stages are entered and cleared.
     /// </summary>

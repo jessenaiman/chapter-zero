@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.UI;
 
 // <copyright file="DialogueWindow.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Field.UI;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.UI;
 /// <summary>
 /// A dialogue window that extends Dialogic's style layer functionality.
 /// Shows and hides automatically when timelines start and end.

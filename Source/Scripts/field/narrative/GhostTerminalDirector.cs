@@ -2,14 +2,12 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative;
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// <summary>
 /// Orchestrates the playback of narrative sequences in the Ghost Terminal stage.
 /// The director maintains a queue of sequences, plays them in order, and handles transitions

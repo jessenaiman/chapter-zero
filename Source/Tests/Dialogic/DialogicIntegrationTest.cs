@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Tests.Dialogic;
 
 // <copyright file="DialogicIntegrationTest.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Tests.Dialogic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
 
+namespace OmegaSpiral.Tests.Dialogic;
 /// <summary>
 /// Test scene for verifying DialogicIntegration functionality.
 /// </summary>

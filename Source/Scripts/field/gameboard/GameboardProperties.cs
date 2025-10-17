@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 // <copyright file="GameboardProperties.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -6,6 +5,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 /// <summary>
 /// Determines the Extents of the Gameboard, among other details.
 /// The gameboard properties define the playable area of the game and where everything on it lies.

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat;
 
 // <copyright file="Elements.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat;
 using System;
 using System.Collections.Generic;
 
+namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
 /// Enum representing different element types in combat.
 /// </summary>

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 
 // <copyright file="UIActionButton.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 using Godot;
 using OmegaSpiral.Combat.Actions;
 
+namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 /// <summary>
 /// A button representing a single <see cref="BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
 /// </summary>

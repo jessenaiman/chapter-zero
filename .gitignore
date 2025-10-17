@@ -1,7 +1,6 @@
-
-
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+addons/
 
 # LLM Models (large binary files - download separately)
 models/*.gguf
@@ -37,3 +36,25 @@ Thumbs.db
 
 godot-open-rpg
 *.nuget.cache
+
+# Test results
+TestResults/
+Tests/TestResults/
+reports/
+
+# Additional Godot cache files
+.godot/editor/filesystem_cache*
+.godot/mono/temp/
+
+# Build artifacts that might be missed
+*.build
+*.builds
+
+# Additional temporary files
+*.tmp
+*.temp
+*.cache
+
+# IDE specific
+.vscode/tasks.json
+EOF</execute_command>

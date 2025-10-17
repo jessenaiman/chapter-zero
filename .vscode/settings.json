@@ -17,22 +17,11 @@
         ".godot/mono/temp/obj/Debug/Godot.SourceGenerators/**": true
     },
     "dotnet-test-explorer.testProjectPath": "Tests/OmegaSpiral.Tests.csproj",
-    "dotnet-test-explorer.testAssemblyPath": "Tests/bin/Debug/net8.0",
     "dotnet-test-explorer.testArguments": "--logger:trx;LogFileName=test-results.trx",
     "dotnet-test-explorer.showCodeLens": true,
-    "dotnet-test-explorer.showTestExplorer": true,
     "dotnet-test-explorer.autoExpandTree": true,
-    "dotnet-test-explorer.testFramework": "gdunit4",
+    "dotnet-test-explorer.runSettingsPath": "Tests/.runsettings",
     "omnisharp.useModernNet": true,
     "dotnet.server.useOmnisharp": false,
-    "chatgpt.commentCodeLensEnabled": true,
-    "chatgpt.enableCodeActions": true,
-    "chatgpt.enableCodeCompletions": true,
-    "dotnet.analyzerSupport": true,
-    "dotnet.codeAnalysis.runOnLiveAnalysis": true,
-    "dotnet.codeAnalysis.runOnBuild": true,
-    "csharp.tests.runSettingsPath": "Tests/.runsettings",
-    "csharp.testExplorer.testProjectPath": "Tests/OmegaSpiral.Tests.csproj",
-    "csharp.testExplorer.testFramework": "gdunit4",
-    "csharp.testExplorer.testAdapter": "gdunit4"
+    "chatgpt.commentCodeLensEnabled": true
 }

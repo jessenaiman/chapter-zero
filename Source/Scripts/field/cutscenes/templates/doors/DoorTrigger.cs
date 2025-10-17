@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 
 // <copyright file="DoorTrigger.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 
+namespace OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 /// <summary>
 /// A trigger that plays an animation when an area enters its trigger zone.
 /// This is typically used for door objects that open when the player approaches.

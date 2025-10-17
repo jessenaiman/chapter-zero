@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field;
 
 // <copyright file="FieldCamera.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
+namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
 /// Specialized camera that is constrained to the <see cref="Gameboard"/>'s boundaries.
 ///

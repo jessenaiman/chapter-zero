@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 
 // <copyright file="FieldCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -7,6 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers.Cursor;
 /// <summary>
 /// Handles mouse/touch events for the field gamestate.
 ///
@@ -16,11 +16,11 @@ using OmegaSpiral.Source.Scripts.Field.Gameboard;
 [GlobalClass]
 public partial class FieldCursor : TileMapLayer
 {
-    private Vector2I focus = Gameboard.InvalidCell;
+    private Vector2I focus = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Emitted when the highlighted cell changes to a new value. An invalid cell is indicated by a value
-    /// of <see cref="Gameboard.InvalidCell"/>.
+    /// of <see cref="global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell"/>.
     /// </summary>
     /// <param name="oldFocus">The previous focused cell.</param>
     /// <param name="newFocus">The new focused cell.</param>
@@ -37,7 +37,7 @@ public partial class FieldCursor : TileMapLayer
     /// <summary>
     /// Gets or sets the cell currently highlighted by the cursor.
     ///
-    /// A focus of <see cref="Gameboard.InvalidCell"/> indicates that there is no highlight.
+    /// A focus of <see cref="global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell"/> indicates that there is no highlight.
     /// </summary>
     [Export]
     public Vector2I Focus
@@ -78,7 +78,7 @@ public partial class FieldCursor : TileMapLayer
     }
 
     /// <summary>
-    /// Change the highlighted cell to a new value. A value of <see cref="Gameboard.InvalidCell"/> will
+    /// Change the highlighted cell to a new value. A value of <see cref="global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell"/> will
     /// indicate that there is no highlighted cell.
     /// </summary>
     /// <param name="value">The new focus cell.</param>
@@ -94,7 +94,7 @@ public partial class FieldCursor : TileMapLayer
 
         this.Clear();
 
-        if (this.focus != Gameboard.InvalidCell)
+        if (this.focus != global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell)
         {
             this.SetCell(this.focus, 0, new Vector2I(1, 5), 0);
         }
@@ -114,17 +114,17 @@ public partial class FieldCursor : TileMapLayer
         var mousePosition = (this.GetGlobalMousePosition() - this.GlobalPosition) / this.GlobalScale;
 
         // Get the Gameboard instance from the scene tree
-        var gameboard = this.GetTree().Root.GetNode<Gameboard>("Gameboard");
+        var gameboard = this.GetTree().Root.GetNode<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("Gameboard");
         if (gameboard == null)
         {
-            return Gameboard.InvalidCell;
+            return global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
         }
 
         var cellUnderMouse = gameboard.PixelToCell(mousePosition);
 
         if (gameboard.PathFinder == null || !gameboard.PathFinder.HasCell(cellUnderMouse))
         {
-            cellUnderMouse = Gameboard.InvalidCell;
+            cellUnderMouse = global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell;
         }
 
         return cellUnderMouse;
@@ -140,7 +140,7 @@ public partial class FieldCursor : TileMapLayer
 
         if (isPaused)
         {
-            this.SetFocus(Gameboard.InvalidCell);
+            this.SetFocus(global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell);
         }
     }
 }

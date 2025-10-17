@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 
 // <copyright file="PlayerController.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -12,6 +11,7 @@ using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 /// <summary>
 /// Applied to any gamepiece to allow player control.
 /// <br/><br/>The controller responds to player input to handle movement and interaction.
@@ -84,7 +84,7 @@ public partial class PlayerController : GamepieceController
             // moving towards.
             this.Gamepiece.WaypointChanged += (newWaypoint) =>
             {
-                if (newWaypoint == Gameboard.InvalidCell)
+                if (newWaypoint == global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard.InvalidCell)
                 {
                     if (this.playerCollision != null)
                     {
@@ -93,7 +93,7 @@ public partial class PlayerController : GamepieceController
                 }
                 else
                 {
-                    var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+                    var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
                     if (this.playerCollision != null && gameboard != null)
                     {
                         this.playerCollision.Position = gameboard.CellToPixel(newWaypoint) - this.Gamepiece.Position;
@@ -216,7 +216,7 @@ public partial class PlayerController : GamepieceController
             targetCell = sourceCell + new Vector2I((int) direction.X, (int) direction.Y);
 
             // Try to get a path to destination (will fail if cell is occupied)
-            var gameboard = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+            var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
             var newMovePath = gameboard?.PathFinder?.GetPathToCell(sourceCell, targetCell) ?? new List<Vector2I>();
 
             // Path is invalid. Bump animation?
@@ -351,7 +351,7 @@ public partial class PlayerController : GamepieceController
     {
         if (this.IsActive && !this.Gamepiece.IsMoving)
         {
-            var gameboardLocal = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+            var gameboardLocal = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
             var sourceCell = gameboardLocal?.PixelToCell(this.Gamepiece.Position) ?? Vector2I.Zero;
 
             // Don't move to the cell the focus is standing on.
@@ -365,7 +365,7 @@ public partial class PlayerController : GamepieceController
 
             // Otherwise it's just the empty gameboard, so we'll try to move the player towards the
             // selected cell.
-            var gameboardCell = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+            var gameboardCell = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
             var newPath = gameboardCell?.PathFinder?.GetPathToCell(sourceCell, cell) ?? new List<Vector2I>();
             if (newPath.Count > 0)
             {
@@ -388,7 +388,7 @@ public partial class PlayerController : GamepieceController
     {
         if (this.IsActive && !this.Gamepiece.IsMoving)
         {
-            var gameboardInteraction = this.GetNodeOrNull<Gameboard>("/root/Gameboard");
+            var gameboardInteraction = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.Gameboard.Gameboard>("/root/Gameboard");
             if (gameboardInteraction == null)
             {
                 return;

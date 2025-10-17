@@ -1,9 +1,8 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-
     /// <summary>
     /// Immutable description of the cinematic beats that compose the Ghost Terminal introduction.
     /// The plan enumerates which Godot scenes to instantiate and the narrative payload for each beat.

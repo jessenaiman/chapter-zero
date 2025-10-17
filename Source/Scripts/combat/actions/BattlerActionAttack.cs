@@ -2,14 +2,13 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Combat.Actions;
-
 using System;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
+namespace OmegaSpiral.Combat.Actions;
 /// <summary>
 /// An attack action for a <see cref="BattlerAction"/>.
 /// </summary>

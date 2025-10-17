@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 // <copyright file="BattlerStats.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -10,6 +9,7 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat;
 
+namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>
 /// Numerically represents the characteristics of a specific <see cref="Battler"/>.
 /// </summary>

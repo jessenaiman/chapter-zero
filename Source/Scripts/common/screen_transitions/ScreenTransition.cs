@@ -1,10 +1,10 @@
-namespace OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
 using System.Threading.Tasks;
 using Godot;
 
+namespace OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 /// <summary>
 /// A transition (usually between gameplay scenes) in which the screen is hidden behind an opaque
 /// color and then shown again.

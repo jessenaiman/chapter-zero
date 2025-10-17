@@ -1,10 +1,9 @@
+using System.Collections.Generic;
+using Godot;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts.Field.Narrative
 {
-    using System;
-    using System.Collections.Generic;
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Factory helpers for constructing <see cref="NarrativeSceneData"/> instances from Godot dictionaries.
     /// Centralizes JSON to domain mapping so both runtime code and tests share the same logic.
@@ -23,23 +22,47 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
             var result = new NarrativeSceneData
             {
-                Type = data.TryGetValue("type", out var typeVar) && typeVar.VariantType == Variant.Type.String
-                    ? typeVar.AsString()
-                    : "narrative_terminal",
+                Type = GetSceneType(data),
+                OpeningLines = GetOpeningLines(data),
+                InitialChoice = GetInitialChoice(data),
+                StoryBlocks = GetStoryBlocks(data),
+                NamePrompt = GetNamePrompt(data),
+                SecretQuestion = GetSecretQuestion(data),
+                ExitLine = GetExitLine(data)
             };
 
+            return result;
+        }
+
+        private static string GetSceneType(Godot.Collections.Dictionary<string, Variant> data)
+        {
+            return data.TryGetValue("type", out var typeVar) && typeVar.VariantType == Variant.Type.String
+                ? typeVar.AsString()
+                : "narrative_terminal";
+        }
+
+        private static List<string> GetOpeningLines(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("openingLines", out var openingLinesVar) &&
                 openingLinesVar.VariantType == Variant.Type.Array)
             {
-                result.OpeningLines = ExtractStringList(openingLinesVar.AsGodotArray());
+                return ExtractStringList(openingLinesVar.AsGodotArray());
             }
+            return new List<string>();
+        }
 
+        private static NarrativeChoice? GetInitialChoice(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("initialChoice", out var initialChoiceVar) &&
                 initialChoiceVar.VariantType == Variant.Type.Dictionary)
             {
-                result.InitialChoice = MapToInitialChoice(initialChoiceVar.AsGodotDictionary());
+                return MapToInitialChoice(initialChoiceVar.AsGodotDictionary());
             }
+            return null;
+        }
 
+        private static List<StoryBlock> GetStoryBlocks(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("storyBlocks", out var storyBlocksVar) &&
                 storyBlocksVar.VariantType == Variant.Type.Array)
             {
@@ -51,29 +74,39 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
                         storyBlocks.Add(MapToStoryBlock(blockVar.AsGodotDictionary()));
                     }
                 }
-
-                result.StoryBlocks = storyBlocks;
+                return storyBlocks;
             }
+            return new List<StoryBlock>();
+        }
 
+        private static string? GetNamePrompt(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("namePrompt", out var namePromptVar) &&
                 namePromptVar.VariantType == Variant.Type.String)
             {
-                result.NamePrompt = namePromptVar.AsString();
+                return namePromptVar.AsString();
             }
+            return null;
+        }
 
+        private static SecretQuestion? GetSecretQuestion(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("secretQuestion", out var secretVar) &&
                 secretVar.VariantType == Variant.Type.Dictionary)
             {
-                result.SecretQuestion = MapToSecretQuestion(secretVar.AsGodotDictionary());
+                return MapToSecretQuestion(secretVar.AsGodotDictionary());
             }
+            return null;
+        }
 
+        private static string? GetExitLine(Godot.Collections.Dictionary<string, Variant> data)
+        {
             if (data.TryGetValue("exitLine", out var exitVar) &&
                 exitVar.VariantType == Variant.Type.String)
             {
-                result.ExitLine = exitVar.AsString();
+                return exitVar.AsString();
             }
-
-            return result;
+            return null;
         }
 
         private static NarrativeChoice MapToInitialChoice(Godot.Collections.Dictionary dict)
@@ -121,7 +154,9 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
 
             if (dict.TryGetValue("label", out var labelVar) && labelVar.VariantType == Variant.Type.String)
             {
-                choice.Text = labelVar.AsString();
+                string label = labelVar.AsString();
+                choice.Text = label;
+                choice.Label = label;
             }
 
             if (dict.TryGetValue("description", out var descriptionVar) &&
@@ -174,7 +209,9 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
             if (dict.TryGetValue("text", out var textVar) &&
                 textVar.VariantType == Variant.Type.String)
             {
-                option.Text = textVar.AsString();
+                string text = textVar.AsString();
+                option.Text = text;
+                option.Label = text;
             }
 
             if (dict.TryGetValue("nextBlock", out var nextVar) &&

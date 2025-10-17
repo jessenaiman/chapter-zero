@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+
 namespace OmegaSpiral.Source.Scripts.Domain.Dungeon
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using OmegaSpiral.Source.Scripts.Common;
-    using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
-
     /// <summary>
     /// Represents the aggregate responsible for orchestrating the ASCII dungeon stages encountered in Scene 2.
     /// </summary>

@@ -1,4 +1,3 @@
-namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Animation;
 
 // <copyright file="GamepieceAnimation.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using Godot;
 using OmegaSpiral;
 
+namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Animation;
 /// <summary>
 /// Encapsulates Gamepiece animation as an optional component.
 /// <br/><br/>Allows playing animations that automatically adapt to the parent

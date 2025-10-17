@@ -2,9 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
-
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
@@ -12,6 +9,7 @@ using OmegaSpiral.Source.Scripts.Field.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
+namespace OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
 /// <summary>
 /// Thread branch sequence for Shadow-aligned narrative continuation.
 /// Presents Shadow-specific story content after the opening choice.

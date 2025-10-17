@@ -2,11 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using Godot;
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Source.Scripts
 {
-    using Godot;
-    using OmegaSpiral.Source.Scripts.Common;
-
     /// <summary>
     /// Character statistics following classic CRPG attribute system.
     /// </summary>
