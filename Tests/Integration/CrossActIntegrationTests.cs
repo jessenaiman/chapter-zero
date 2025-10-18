@@ -2,8 +2,6 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.Integration
 {
     using System.IO;
@@ -47,7 +45,7 @@ namespace OmegaSpiral.Tests.Integration
             AssertThat(heroPlan.Beats[^1].Type).IsEqual(GhostTerminalBeatType.ExitLine);
 
             // Arrange: Load second act dungeon sequence
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
 
             // Act: Process second act dungeon
@@ -83,7 +81,7 @@ namespace OmegaSpiral.Tests.Integration
             // is integrated between the acts.
 
             // For now, validate that both systems can coexist
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
             var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
 
@@ -107,7 +105,7 @@ namespace OmegaSpiral.Tests.Integration
         {
             // Load both act configurations
             string[] stageIds = { "hero", "shadow", "ambition", "omega" };
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
             var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
 
@@ -142,13 +140,13 @@ namespace OmegaSpiral.Tests.Integration
             // These are required by the maaacks_game_template addon
 
             AssertThat(AppConfig.MainMenuScenePath).IsNotNull();
-            AssertThat(AppConfig.main_menu_scene_path).IsNotNull();
-            AssertThat(AppConfig.ending_scene_path).IsNotNull();
+            AssertThat(AppConfig.MainMenuScenePath).IsNotNull();
+            AssertThat(AppConfig.EndingScenePath).IsNotNull();
 
             // Validate paths point to valid scenes
             AssertThat(AppConfig.MainMenuScenePath).EndsWith(".tscn");
-            AssertThat(AppConfig.main_menu_scene_path).EndsWith(".tscn");
-            AssertThat(AppConfig.ending_scene_path).EndsWith(".tscn");
+            AssertThat(AppConfig.MainMenuScenePath).EndsWith(".tscn");
+            AssertThat(AppConfig.EndingScenePath).EndsWith(".tscn");
         }
     }
 }

@@ -5,8 +5,6 @@
 // TODO: DUPLICATE FILE - This file appears to be duplicated with Tests/Unit/Infrastructure/SceneManagerTests.cs
 // Review and consolidate duplicate test files after recent refactor
 
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.Unit.Common;
 
 using GdUnit4;
@@ -25,6 +23,7 @@ public class SceneManagerTests
     /// Tests that TransitionToScene sets the correct target scene.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void TransitionToScene_SetsTargetScene()
     {
         // Arrange
@@ -43,6 +42,7 @@ public class SceneManagerTests
     /// Tests that scene transitions preserve GameState.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void TransitionToScene_PreservesGameState()
     {
         // Arrange

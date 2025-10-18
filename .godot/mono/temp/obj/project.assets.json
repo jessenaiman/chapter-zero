@@ -34,7 +34,7 @@
       "coverlet.collector/6.0.4": {
         "type": "package",
         "build": {
-          "build/netstandard2.0/_._": {}
+          "build/netstandard2.0/coverlet.collector.targets": {}
         }
       },
       "gdUnit4.analyzers/1.0.0": {
@@ -595,7 +595,8 @@
           "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
         },
         "build": {
-          "build/netstandard2.0/_._": {}
+          "build/netstandard2.0/Microsoft.CodeCoverage.props": {},
+          "build/netstandard2.0/Microsoft.CodeCoverage.targets": {}
         }
       },
       "Microsoft.Data.Sqlite.Core/8.0.10": {
@@ -958,7 +959,8 @@
           "lib/net8.0/_._": {}
         },
         "build": {
-          "build/net8.0/_._": {}
+          "build/net8.0/Microsoft.NET.Test.Sdk.props": {},
+          "build/net8.0/Microsoft.NET.Test.Sdk.targets": {}
         }
       },
       "Microsoft.TestPlatform.AdapterUtilities/17.14.1": {
@@ -1257,7 +1259,8 @@
           }
         },
         "build": {
-          "build/net8.0/_._": {}
+          "build/net8.0/Microsoft.TestPlatform.TestHost.props": {},
+          "build/net8.0/Microsoft.TestPlatform.TestHost.targets": {}
         }
       },
       "Mono.Cecil/0.11.6": {
@@ -4715,8 +4718,10 @@
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.10",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.10",
+      "Microsoft.NET.Test.Sdk >= 17.14.1",
       "Newtonsoft.Json >= 13.0.4",
       "Roslynator.Analyzers >= 4.14.1",
+      "coverlet.collector >= 6.0.4",
       "gdUnit4.analyzers >= 1.0.0",
       "gdUnit4.api >= 5.0.0",
       "gdUnit4.test.adapter >= 3.0.0"
@@ -4793,6 +4798,10 @@
             "target": "Package",
             "version": "[8.0.10, )"
           },
+          "Microsoft.NET.Test.Sdk": {
+            "target": "Package",
+            "version": "[17.14.1, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.4, )"
@@ -4802,6 +4811,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[4.14.1, )"
+          },
+          "coverlet.collector": {
+            "target": "Package",
+            "version": "[6.0.4, )"
           },
           "gdUnit4.analyzers": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

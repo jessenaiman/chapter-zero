@@ -1,9 +1,6 @@
 // <copyright file="NethackSceneTests.cs" company="Omega Spiral">
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
-
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.Unit.Dungeon
 {
     using GdUnit4;
@@ -250,7 +247,8 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
         /// Tests that scene increments affinity when interacting with owner-aligned object.
         /// </summary>
         [TestCase]
-        public void ObjectInteraction_WhenOwnerAlignedObject_InteractsAndUpdatesAffinity()
+    [RequireGodotRuntime]
+    public void ObjectInteraction_WhenOwnerAlignedObject_InteractsAndUpdatesAffinity()
         {
             // Arrange
             var gameState = new GameState();
@@ -271,7 +269,8 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
         /// Tests that scene applies configured point value to correct Dreamweaver.
         /// </summary>
         [TestCase]
-        public void ObjectInteraction_WhenConfiguredPointsApplied_AppliesToCorrectDreamweaver()
+    [RequireGodotRuntime]
+    public void ObjectInteraction_WhenConfiguredPointsApplied_AppliesToCorrectDreamweaver()
         {
             // Arrange
             var gameState = new GameState();
@@ -292,7 +291,8 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
         /// Tests that scene records interaction in affinity history.
         /// </summary>
         [TestCase]
-        public void ObjectInteraction_WhenOccurs_RecordsInAffinityHistory()
+    [RequireGodotRuntime]
+    public void ObjectInteraction_WhenOccurs_RecordsInAffinityHistory()
         {
             // Arrange
             var gameState = new GameState();
@@ -313,7 +313,8 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
         /// Tests that scene leaves affinity unchanged for non-aligned object interactions.
         /// </summary>
         [TestCase]
-        public void ObjectInteraction_WhenNonAlignedObject_LeavesAffinityUnchanged()
+    [RequireGodotRuntime]
+    public void ObjectInteraction_WhenNonAlignedObject_LeavesAffinityUnchanged()
         {
             // Arrange
             var gameState = new GameState();
@@ -481,7 +482,8 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
                 {
                     foreach (var character in row)
                     {
-                        if (character != ' ') // Skip empty spaces
+                        // Skip empty spaces
+                        if (character != ' ')
                         {
                             AssertThat(stage.Legend.ContainsKey(character)).IsTrue();
                         }

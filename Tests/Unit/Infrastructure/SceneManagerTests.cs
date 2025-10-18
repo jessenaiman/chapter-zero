@@ -16,6 +16,7 @@ namespace OmegaSpiral.Tests.Unit.Infrastructure
     /// Tests player data management, scene tracking, and initialization.
     /// </summary>
     [TestSuite]
+    [RequireGodotRuntime]
     public class SceneManagerTests : IDisposable
     {
         private OmegaSpiral.Source.Scripts.SceneManager? sceneManager;

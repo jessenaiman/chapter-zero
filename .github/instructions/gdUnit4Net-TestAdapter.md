@@ -28,6 +28,8 @@ The GdUnit4.TestAdapter implements the Microsoft test adapter framework [VSTest]
 
 ## Installation
 
+All code style and analyzer rules are now managed in `.editorconfig` at the solution root. Only Roslynator analyzers are enforced; StyleCop and ruleset files are no longer used.
+
 Add the Test Adapter to your test project:
 
 ```xml
@@ -81,7 +83,7 @@ Create a `.runsettings` file in your solution root:
         <ResultsDirectory>./TestResults</ResultsDirectory>
         <TestSessionTimeout>1800000</TestSessionTimeout>
         <TreatNoTestsAsError>true</TreatNoTestsAsError>
-        
+
         <!-- Environment variables available to tests -->
         <EnvironmentVariables>
             <GODOT_BIN>C:\Path\To\Godot_v4.4-stable_mono_win64.exe</GODOT_BIN>
@@ -113,13 +115,13 @@ Create a `.runsettings` file in your solution root:
     <GdUnit4>
         <!-- Additional Godot runtime parameters -->
         <Parameters>--verbose</Parameters>
-        
+
         <!-- Test display name format: SimpleName or FullyQualifiedName -->
         <DisplayName>FullyQualifiedName</DisplayName>
-        
+
         <!-- Capture stdout from test cases -->
         <CaptureStdOut>true</CaptureStdOut>
-        
+
         <!-- Compilation timeout for large projects (milliseconds) -->
         <CompileProcessTimeout>20000</CompileProcessTimeout>
     </GdUnit4>
@@ -193,14 +195,14 @@ Configure multiple output formats for comprehensive test reporting:
                 <Verbosity>detailed</Verbosity>
             </Configuration>
         </Logger>
-        
+
         <!-- HTML report -->
         <Logger friendlyName="html" enabled="True">
             <Configuration>
                 <LogFileName>TestResults/test-report.html</LogFileName>
             </Configuration>
         </Logger>
-        
+
         <!-- TRX format for CI/CD -->
         <Logger friendlyName="trx" enabled="True">
             <Configuration>

@@ -24,6 +24,8 @@ gdUnit4.api is the C# package to enable GdUnit4 to run/write unit tests in C#.
 
 ## Installation
 
+All code style and analyzer rules are now managed in `.editorconfig` at the solution root. Only Roslynator analyzers are enforced; StyleCop and ruleset files are no longer used.
+
 You can install the GdUnit4 API by adding it as a package reference to your project:
 
 ```xml
@@ -50,14 +52,14 @@ namespace GdUnit4.Tests
         {
             AssertThat("This is a test message").IsEqual("This is a test message");
         }
-        
-        [TestCase] 
+
+        [TestCase]
         [RequireGodotRuntime] // ← Add this for Godot-dependent tests
         public void IsEqual()
         {
              AssertThat(new Node2D()).IsNotNull();
         }
-        
+
         [Test]
         [RequireGodotRuntime]
         [GodotExceptionMonitor]  // ← Monitor Godot exceptions
@@ -66,21 +68,21 @@ namespace GdUnit4.Tests
             var node = new MyNode(); // Will catch exceptions in _Ready()
             AddChild(node);
         }
-        
+
         [Test]
         [DataPoint(nameof(TestData))]  // ← Data-driven tests
         public void TestCalculations(int a, int b, int expected)
         {
             AssertThat(Calculator.Add(a, b)).IsEqual(expected);
         }
-        
+
         [Test]
         [ThrowsException(typeof(ArgumentNullException), "Value cannot be null")]
         public void TestValidation()
         {
             Calculator.Add(null, 5); // Expects specific exception
         }
-        
+
         // Data source for parameterized tests
         public static IEnumerable<object[]> TestData => new[]
         {

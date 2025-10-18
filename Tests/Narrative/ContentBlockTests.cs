@@ -2,12 +2,11 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.Functional.Narrative;
 
 using GdUnit4;
 using static GdUnit4.Assertions;
+using OmegaSpiral.Tests.Narrative;
 
 /// <summary>
 /// Functional test suite for validating content block presentation behavior.
@@ -17,14 +16,14 @@ using static GdUnit4.Assertions;
 [TestSuite]
 public class ContentBlockTests
 {
-	private static readonly string[] DefaultChoiceOptions = new[] { "Option A", "Option B", "Option C" };
+	   private static readonly string[] DefaultChoiceOptions = new[] { "Option A", "Option B", "Option C" };
 
-	private static readonly (int ButtonId, int X, int Y, int Width, int Height)[] DefaultChoiceLayout =
-	{
-		(0, 100, 100, 200, 40),
-		(1, 100, 160, 200, 40),
-		(2, 100, 220, 200, 40),
-	};
+	   private static readonly (int ButtonId, int X, int Y, int Width, int Height)[] DefaultChoiceLayout =
+	   {
+		   (0, 100, 100, 200, 40),
+		   (1, 100, 160, 200, 40),
+		   (2, 100, 220, 200, 40),
+	   };
 
 	/// <summary>
 	/// Tests that content block remains visible when waiting without user input for 10 seconds.
@@ -600,141 +599,141 @@ public class ContentBlockTests
 		}
 
 		/// <summary>
-		/// Simulates the player providing input to dismiss the content block.
-		/// </summary>
-		internal void ReceiveInput()
+		  /// Simulates the player providing input to dismiss the content block.
+		  /// </summary>
+		  internal void ReceiveInput()
+		  {
+			  if (!this.IsAwaitingInput)
+			  {
+				  return;
+			  }
+
+			  this.IsAwaitingInput = false;
+			  this.Visible = false;
+		  }
+
+	/// <summary>
+	/// Configures the simulated CRT frame geometry and text alignment.
+	/// </summary>
+	/// <param name="width">Frame width in pixels.</param>
+	/// <param name="height">Frame height in pixels.</param>
+	/// <param name="textX">Text horizontal position.</param>
+	/// <param name="textY">Text vertical position.</param>
+	internal void ConfigureCrtFrame(double width, double height, double textX, double textY)
+	{
+		this.frameWidth = width;
+		this.frameHeight = height;
+
+		double centerX = width / 2d;
+		double centerY = height / 2d;
+		this.textCentered = Math.Abs(textX - centerX) <= 1d && Math.Abs(textY - centerY) <= 1d;
+	}
+
+	/// <summary>
+	/// Applies CRT shader characteristics to the mock block.
+	/// </summary>
+	/// <param name="blurStrength">Configured blur intensity.</param>
+	/// <param name="scanlineIntensity">Configured scanline intensity.</param>
+	/// <param name="overlayAligned">Indicates whether the overlay aligns with reference visuals.</param>
+	internal void ApplyCrtShader(double blurStrength, double scanlineIntensity, bool overlayAligned)
+	{
+		this.crtShaderApplied = true;
+		this.blurStrength = blurStrength;
+		this.scanlineIntensity = scanlineIntensity;
+		this.visualOverlayAligned = overlayAligned;
+	}
+
+	/// <summary>
+	/// Starts the simulated typewriter animation for the supplied text.
+	/// </summary>
+	/// <param name="text">Text to reveal sequentially.</param>
+	/// <param name="interval">Interval between character reveals.</param>
+	/// <param name="soundEffect">Audio cue associated with each character.</param>
+	internal void StartTypewriter(string text, TimeSpan interval, string soundEffect)
+	{
+		this.typewriterText = text;
+		this.typewriterInterval = interval;
+		this.typewriterAudio = soundEffect;
+		this.revealedCharacters = 0;
+		this.accumulatedTime = TimeSpan.Zero;
+		this.typewriterActive = text.Length > 0;
+		this.soundLoopActive = this.typewriterActive;
+
+		this.TypewriterSnapshots.Clear();
+		this.TypewriterIntervals.Clear();
+		this.AudioEvents.Clear();
+	}
+
+	/// <summary>
+	/// Advances the typewriter animation, capturing snapshots and audio events.
+	/// </summary>
+	/// <param name="delta">Elapsed time to process.</param>
+	internal void AdvanceTypewriter(TimeSpan delta)
+	{
+		if (!this.typewriterActive)
 		{
-			if (!this.IsAwaitingInput)
+			return;
+		}
+
+		this.accumulatedTime += delta;
+
+		while (this.accumulatedTime >= this.typewriterInterval && this.typewriterActive)
+		{
+			this.accumulatedTime -= this.typewriterInterval;
+			this.revealedCharacters = Math.Min(this.revealedCharacters + 1, this.typewriterText.Length);
+
+			string snapshot = this.typewriterText.Substring(0, this.revealedCharacters);
+			this.TypewriterSnapshots.Add(snapshot);
+			this.TypewriterIntervals.Add(this.typewriterInterval.TotalSeconds);
+			this.AudioEvents.Add(this.typewriterAudio);
+
+			if (this.revealedCharacters >= this.typewriterText.Length)
 			{
-				return;
-			}
-
-			this.IsAwaitingInput = false;
-			this.Visible = false;
-		}
-
-		/// <summary>
-		/// Configures the simulated CRT frame geometry and text alignment.
-		/// </summary>
-		/// <param name="width">Frame width in pixels.</param>
-		/// <param name="height">Frame height in pixels.</param>
-		/// <param name="textX">Text horizontal position.</param>
-		/// <param name="textY">Text vertical position.</param>
-		internal void ConfigureCrtFrame(double width, double height, double textX, double textY)
-		{
-			this.frameWidth = width;
-			this.frameHeight = height;
-
-			double centerX = width / 2d;
-			double centerY = height / 2d;
-			this.textCentered = Math.Abs(textX - centerX) <= 1d && Math.Abs(textY - centerY) <= 1d;
-		}
-
-		/// <summary>
-		/// Applies CRT shader characteristics to the mock block.
-		/// </summary>
-		/// <param name="blurStrength">Configured blur intensity.</param>
-		/// <param name="scanlineIntensity">Configured scanline intensity.</param>
-		/// <param name="overlayAligned">Indicates whether the overlay aligns with reference visuals.</param>
-		internal void ApplyCrtShader(double blurStrength, double scanlineIntensity, bool overlayAligned)
-		{
-			this.crtShaderApplied = true;
-			this.blurStrength = blurStrength;
-			this.scanlineIntensity = scanlineIntensity;
-			this.visualOverlayAligned = overlayAligned;
-		}
-
-		/// <summary>
-		/// Starts the simulated typewriter animation for the supplied text.
-		/// </summary>
-		/// <param name="text">Text to reveal sequentially.</param>
-		/// <param name="interval">Interval between character reveals.</param>
-		/// <param name="soundEffect">Audio cue associated with each character.</param>
-		internal void StartTypewriter(string text, TimeSpan interval, string soundEffect)
-		{
-			this.typewriterText = text;
-			this.typewriterInterval = interval;
-			this.typewriterAudio = soundEffect;
-			this.revealedCharacters = 0;
-			this.accumulatedTime = TimeSpan.Zero;
-			this.typewriterActive = text.Length > 0;
-			this.soundLoopActive = this.typewriterActive;
-
-			this.TypewriterSnapshots.Clear();
-			this.TypewriterIntervals.Clear();
-			this.AudioEvents.Clear();
-		}
-
-		/// <summary>
-		/// Advances the typewriter animation, capturing snapshots and audio events.
-		/// </summary>
-		/// <param name="delta">Elapsed time to process.</param>
-		internal void AdvanceTypewriter(TimeSpan delta)
-		{
-			if (!this.typewriterActive)
-			{
-				return;
-			}
-
-			this.accumulatedTime += delta;
-
-			while (this.accumulatedTime >= this.typewriterInterval && this.typewriterActive)
-			{
-				this.accumulatedTime -= this.typewriterInterval;
-				this.revealedCharacters = Math.Min(this.revealedCharacters + 1, this.typewriterText.Length);
-
-				string snapshot = this.typewriterText.Substring(0, this.revealedCharacters);
-				this.TypewriterSnapshots.Add(snapshot);
-				this.TypewriterIntervals.Add(this.typewriterInterval.TotalSeconds);
-				this.AudioEvents.Add(this.typewriterAudio);
-
-				if (this.revealedCharacters >= this.typewriterText.Length)
-				{
-					this.typewriterActive = false;
-					this.soundLoopActive = false;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Simulates keyboard input to advance the content block.
-		/// </summary>
-		/// <param name="key">The keyboard input type.</param>
-		internal void SimulateKeyboardInput(KeyInput key)
-		{
-			if (key == KeyInput.Confirm)
-			{
-				this.ReceiveInput();
-				this.LastInputMethod = InputMethodType.Keyboard;
-			}
-		}
-
-		/// <summary>
-		/// Simulates gamepad input to advance the content block.
-		/// </summary>
-		/// <param name="button">The gamepad button.</param>
-		internal void SimulateGamepadInput(GamepadInput button)
-		{
-			if (button == GamepadInput.Confirm)
-			{
-				this.ReceiveInput();
-				this.LastInputMethod = InputMethodType.Gamepad;
-			}
-		}
-
-		/// <summary>
-		/// Simulates mouse input to advance the content block.
-		/// </summary>
-		/// <param name="click">The mouse click type.</param>
-		internal void SimulateMouseInput(MouseInput click)
-		{
-			if (click == MouseInput.LeftClick)
-			{
-				this.ReceiveInput();
-				this.LastInputMethod = InputMethodType.Mouse;
+				this.typewriterActive = false;
+				this.soundLoopActive = false;
 			}
 		}
 	}
+
+	/// <summary>
+	/// Simulates keyboard input to advance the content block.
+	/// </summary>
+	/// <param name="key">The keyboard input type.</param>
+	internal void SimulateKeyboardInput(KeyInput key)
+	{
+		if (key == KeyInput.Confirm)
+		{
+			this.ReceiveInput();
+			this.LastInputMethod = InputMethodType.Keyboard;
+		}
+	}
+
+	/// <summary>
+	/// Simulates gamepad input to advance the content block.
+	/// </summary>
+	/// <param name="button">The gamepad button.</param>
+	internal void SimulateGamepadInput(GamepadInput button)
+	{
+		if (button == GamepadInput.Confirm)
+		{
+			this.ReceiveInput();
+			this.LastInputMethod = InputMethodType.Gamepad;
+		}
+	}
+
+	/// <summary>
+	/// Simulates mouse input to advance the content block.
+	/// </summary>
+	/// <param name="click">The mouse click type.</param>
+	internal void SimulateMouseInput(MouseInput click)
+	{
+		if (click == MouseInput.LeftClick)
+		{
+			this.ReceiveInput();
+			this.LastInputMethod = InputMethodType.Mouse;
+		}
+	}
+}
 
 	/// <summary>
 	/// Deterministic test double for section transitions with dissolve effects.
@@ -775,62 +774,62 @@ public class ContentBlockTests
 
 		/// <summary>
 		/// Configures a YAML section boundary for testing.
-		/// </summary>
-		/// <param name="sectionId">Current section identifier.</param>
-		/// <param name="nextSection">Next section identifier.</param>
-		internal void ConfigureYamlBoundary(string sectionId, string nextSection)
+		  /// </summary>
+		  /// <param name="sectionId">Current section identifier.</param>
+		  /// <param name="nextSection">Next section identifier.</param>
+		  internal void ConfigureYamlBoundary(string sectionId, string nextSection)
+		  {
+			  this.currentSectionId = sectionId;
+			  this.nextSectionId = nextSection;
+		  }
+
+	/// <summary>
+	/// Configures dissolve animation duration.
+	/// </summary>
+	/// <param name="duration">Target animation duration.</param>
+	internal void ConfigureDissolveDuration(TimeSpan duration)
+	{
+		this.dissolveDuration = duration;
+	}
+
+	/// <summary>
+	/// Configures initial shader parameters for dissolve effect.
+	/// </summary>
+	/// <param name="dissolveAmount">Initial dissolve amount.</param>
+	internal void SetShaderParameters(double dissolveAmount)
+	{
+		this.dissolveAmount = dissolveAmount;
+	}
+
+	/// <summary>
+	/// Triggers the section transition with dissolve effect.
+	/// </summary>
+	internal void TriggerTransition()
+	{
+		this.dissolveActive = true;
+		this.elapsedTime = TimeSpan.Zero;
+	}
+
+	/// <summary>
+	/// Advances the dissolve animation timeline.
+	/// </summary>
+	/// <param name="delta">Elapsed time.</param>
+	internal void AdvanceDissolveAnimation(TimeSpan delta)
+	{
+		if (!this.dissolveActive)
 		{
-			this.currentSectionId = sectionId;
-			this.nextSectionId = nextSection;
+			return;
 		}
 
-		/// <summary>
-		/// Configures dissolve animation duration.
-		/// </summary>
-		/// <param name="duration">Target animation duration.</param>
-		internal void ConfigureDissolveDuration(TimeSpan duration)
+		this.elapsedTime += delta;
+		this.dissolveAmount = Math.Min(this.elapsedTime.TotalSeconds / this.dissolveDuration.TotalSeconds, 1d);
+
+		if (this.elapsedTime >= this.dissolveDuration)
 		{
-			this.dissolveDuration = duration;
-		}
-
-		/// <summary>
-		/// Configures initial shader parameters for dissolve effect.
-		/// </summary>
-		/// <param name="dissolveAmount">Initial dissolve amount.</param>
-		internal void SetShaderParameters(double dissolveAmount)
-		{
-			this.dissolveAmount = dissolveAmount;
-		}
-
-		/// <summary>
-		/// Triggers the section transition with dissolve effect.
-		/// </summary>
-		internal void TriggerTransition()
-		{
-			this.dissolveActive = true;
-			this.elapsedTime = TimeSpan.Zero;
-		}
-
-		/// <summary>
-		/// Advances the dissolve animation timeline.
-		/// </summary>
-		/// <param name="delta">Elapsed time.</param>
-		internal void AdvanceDissolveAnimation(TimeSpan delta)
-		{
-			if (!this.dissolveActive)
-			{
-				return;
-			}
-
-			this.elapsedTime += delta;
-			this.dissolveAmount = Math.Min(this.elapsedTime.TotalSeconds / this.dissolveDuration.TotalSeconds, 1d);
-
-			if (this.elapsedTime >= this.dissolveDuration)
-			{
-				this.dissolveActive = false;
-			}
+			this.dissolveActive = false;
 		}
 	}
+}
 
 	/// <summary>
 	/// Deterministic test double for choice selection with multi-input support.

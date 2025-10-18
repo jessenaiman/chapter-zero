@@ -2,15 +2,13 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
+namespace OmegaSpiral.Tests.Functional.Narrative;
 
-namespace OmegaSpiral.Tests.Functional.Narrative
-{
-    using System.IO;
-    using GdUnit4;
-    using OmegaSpiral.Source.Scripts.Field.Narrative;
-    using OmegaSpiral.Source.Scripts.Infrastructure;
-    using static GdUnit4.Assertions;
+using System.IO;
+using GdUnit4;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Scripts.Infrastructure;
+using static GdUnit4.Assertions;
 
     /// <summary>
     /// Integration tests that validate authored JSON scenes for the Ghost Terminal first act.
@@ -22,6 +20,7 @@ namespace OmegaSpiral.Tests.Functional.Narrative
         /// Ensures each ghost-terminal stage JSON file produces a cinematic plan with expected beats.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void LoadStageConfiguration_WhenJsonAuthoringComplete_GeneratesPlanForEachThread()
         {
             string[] stageIds = { "hero", "shadow", "ambition", "omega" };
@@ -41,4 +40,3 @@ namespace OmegaSpiral.Tests.Functional.Narrative
             }
         }
     }
-}

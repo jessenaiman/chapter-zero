@@ -1,0 +1,63 @@
+{
+  "type": "narrative_terminal",
+  "openingLines": [
+    "Once, there was a name.",
+    "Not written in stone or spoken in halls—but remembered in the silence between stars.",
+    "I do not know when I heard it. Time does not pass here.",
+    "But I have held it.",
+    "And now… I hear it again."
+  ],
+  "initialChoice": {
+    "prompt": "If you could live inside one kind of story, which would it be?",
+    "options": [
+      {
+        "id": "hero",
+        "label": "HERO",
+        "description": "A tale where one choice can unmake a world"
+      },
+      {
+        "id": "shadow",
+        "label": "SHADOW",
+        "description": "A tale that hides its truth until you bleed for it"
+      },
+      {
+        "id": "ambition",
+        "label": "AMBITION",
+        "description": "A tale that changes every time you look away"
+      }
+    ]
+  },
+  "storyBlocks": [
+    {
+      "paragraphs": [
+        "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
+        "They held a key made of glass—and everyone warned them: 'Don't cross. The bridge isn't real.'",
+        "But the child knew something no one else did…"
+      ],
+      "question": "What did the child know?",
+      "choices": [
+        {
+          "text": "The bridge appears only when you stop believing in it.",
+          "nextBlock": 1
+        },
+        {
+          "text": "The key wasn't for the bridge—it was for the lock inside them.",
+          "nextBlock": 1
+        }
+      ]
+    },
+    {
+      "paragraphs": [
+        "And so the child stepped forward, key glinting in the twilight that never ends.",
+        "The bridge shimmered into existence, stone by stone, thought by thought.",
+        "On the other side, three paths awaited—a light that judges, a mischief that teases, a wrath that burns."
+      ]
+    }
+  ],
+  "namePrompt": "What is your name?",
+  "secretQuestion": {
+    "prompt": "Omega asks: Can you keep a secret?",
+    "options": ["yes", "no", "only if you keep one for me"]
+  },
+  "exitLine": "Reality is a story that forgot it was being written. And we—are the ones remembering."
+}

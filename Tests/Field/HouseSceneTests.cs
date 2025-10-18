@@ -2,7 +2,6 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
 #pragma warning disable SA1202
 #pragma warning disable SA1401
 #pragma warning disable SA1403

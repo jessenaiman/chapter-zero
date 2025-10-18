@@ -14,7 +14,6 @@ namespace OmegaSpiral.Source.Scripts
     /// character portraits, dialogue choices, and branching conversation trees.
     /// It provides a rich interface for storytelling and player interaction with NPCs.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Generated code")]
     public partial class UIDialogue : Control
     {
         /// <summary>

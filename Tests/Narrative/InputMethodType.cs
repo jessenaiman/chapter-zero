@@ -2,9 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-
-namespace OmegaSpiral.Tests.Functional.Narrative;
+namespace OmegaSpiral.Tests.Narrative;
 
 /// <summary>
 /// Input method types for content block interaction.

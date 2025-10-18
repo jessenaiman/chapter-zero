@@ -2,8 +2,6 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.Unit.Common;
 
 using GdUnit4;
@@ -21,6 +19,7 @@ public class GameStateTests
     /// Tests that a new GameState initializes with zero scores for all Dreamweavers.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void Constructor_InitializesWithZeroScores()
     {
         // Arrange & Act
@@ -37,6 +36,7 @@ public class GameStateTests
     /// Tests that UpdateDreamweaverScore correctly adds points to the specified Dreamweaver.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void UpdateDreamweaverScore_AddsPointsCorrectly()
     {
         // Arrange
@@ -55,6 +55,7 @@ public class GameStateTests
     /// Tests that UpdateDreamweaverScore can handle negative score changes.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void UpdateDreamweaverScore_HandlesNegativeChanges()
     {
         // Arrange
@@ -72,6 +73,7 @@ public class GameStateTests
     /// Tests that GetHighestScoringDreamweaver returns the Dreamweaver with the highest score.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void GetHighestScoringDreamweaver_ReturnsCorrectDreamweaver()
     {
         // Arrange
@@ -91,6 +93,7 @@ public class GameStateTests
     /// Tests that GetHighestScoringDreamweaver handles ties by returning one of the highest.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void GetHighestScoringDreamweaver_HandlesTies()
     {
         // Arrange
@@ -110,6 +113,7 @@ public class GameStateTests
     /// Tests that GetTotalScore returns the sum of all Dreamweaver scores.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void GetTotalScore_ReturnsSumOfAllScores()
     {
         // Arrange

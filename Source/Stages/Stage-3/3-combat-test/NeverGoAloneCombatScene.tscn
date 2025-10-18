@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://combat_scene_uid"]
+
+[ext_resource type="Script" path="res://Source/Scripts/field/narrative/NeverGoAloneCombatController.cs" id="1"]
+
+[node name="NeverGoAloneCombatScene" type="Node2D"]
+y_sort_enabled = true
+
+[node name="CombatArena" type="Node2D" parent="."]
+script = ExtResource("1")
+party_roster = NodePath("../PartyRoster")
+enemy_roster = NodePath("../EnemyRoster")
+
+[node name="PartyRoster" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="EnemyRoster" type="Node" parent="."]
+script = ExtResource("1")
+
+[node name="CombatArenaController" type="Node" parent="."]
+script = ExtResource("1")
+party_roster = NodePath("../PartyRoster")
+enemy_roster = NodePath("../EnemyRoster")
+combat_arena = NodePath("../CombatArena")

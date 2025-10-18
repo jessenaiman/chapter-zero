@@ -2,10 +2,6 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-#pragma warning disable CS1591
-#pragma warning disable SA1620
-
 namespace OmegaSpiral.Tests.Unit.Persistence
 {
     using System.Collections.Generic;
@@ -54,6 +50,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task SaveGameAsync_NewGameState_ReturnsTrue()
         {
             // Arrange
@@ -72,6 +69,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests saving an existing game state updates it.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task SaveGameAsync_ExistingGameState_UpdatesExisting()
         {
             // Arrange
@@ -94,6 +92,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests loading a game state successfully.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task LoadGameAsync_ExistingSave_ReturnsGameState()
         {
             // Arrange
@@ -111,6 +110,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests loading a non-existing save returns null.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task LoadGameAsync_NonExistingSave_ReturnsNull()
         {
             // Act
@@ -124,6 +124,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests getting available save slots.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task GetAvailableSaveSlotsAsync_ReturnsList()
         {
             // Arrange
@@ -141,6 +142,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests deleting an existing save slot.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task DeleteSaveSlotAsync_ExistingSlot_ReturnsTrue()
         {
             // Arrange

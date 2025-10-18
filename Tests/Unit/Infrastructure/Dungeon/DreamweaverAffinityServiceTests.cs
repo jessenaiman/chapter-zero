@@ -12,6 +12,7 @@ namespace OmegaSpiral.Tests.Unit.Infrastructure.Dungeon;
 /// Tests the application of affinity changes to GameState.
 /// </summary>
 [TestSuite]
+[RequireGodotRuntime]
 public partial class DreamweaverAffinityServiceTests : IDisposable
 {
     private GameState? _gameState;
@@ -51,6 +52,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange adds positive points to the specified Dreamweaver.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void ApplyChange_AddsPositivePoints()
     {
         // Arrange
@@ -67,6 +69,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange subtracts points for decrease changes.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void ApplyChange_SubtractsPointsForDecrease()
     {
         // Arrange
@@ -84,6 +87,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange works for all Dreamweaver types.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void ApplyChange_WorksForAllDreamweaverTypes()
     {
         // Arrange
@@ -128,6 +132,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange handles zero amount changes.
     /// </summary>
     [TestCase]
+    [RequireGodotRuntime]
     public void ApplyChange_HandlesZeroAmount()
     {
         // Arrange

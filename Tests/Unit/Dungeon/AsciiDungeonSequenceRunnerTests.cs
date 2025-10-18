@@ -2,8 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable CA1861 // Avoid constant arrays as arguments
-
 namespace OmegaSpiral.Tests.Unit.Dungeon;
 
 using System.Collections.Generic;
@@ -20,6 +18,10 @@ using static GdUnit4.Assertions;
 [TestSuite]
 public partial class AsciiDungeonSequenceRunnerTests : IDisposable
 {
+    private static readonly string[] SingleXMap = ["X"];
+    private static readonly string[] SingleYMap = ["Y"];
+    private static readonly string[] SingleZMap = ["Z"];
+
     /// <summary>
     /// Disposes of test resources.
     /// </summary>
@@ -40,19 +42,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };
@@ -93,19 +95,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };
@@ -139,19 +141,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };
@@ -183,19 +185,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };
@@ -240,19 +242,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };
@@ -276,19 +278,19 @@ public partial class AsciiDungeonSequenceRunnerTests : IDisposable
             new DungeonStageDefinition(
                 Id: "test-stage-1",
                 Owner: DreamweaverType.Light,
-                Map: new string[] { "X" },
+                Map: SingleXMap,
                 Legend: new Dictionary<char, string> { ['X'] = "Wall" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-2",
                 Owner: DreamweaverType.Mischief,
-                Map: new string[] { "Y" },
+                Map: SingleYMap,
                 Legend: new Dictionary<char, string> { ['Y'] = "Door" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
             new DungeonStageDefinition(
                 Id: "test-stage-3",
                 Owner: DreamweaverType.Wrath,
-                Map: new string[] { "Z" },
+                Map: SingleZMap,
                 Legend: new Dictionary<char, string> { ['Z'] = "Treasure" },
                 Objects: new Dictionary<char, DungeonObjectDefinition>()),
         };

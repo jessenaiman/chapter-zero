@@ -108,6 +108,7 @@ namespace OmegaSpiral.Tests.EndToEnd.GameFlow
         /// Tests complete game flow player data sequence.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void GameFlow_CompleteSequence_WithAllData()
         {
             // Arrange - Simulate complete game flow

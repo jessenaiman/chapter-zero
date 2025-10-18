@@ -2,11 +2,9 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
+namespace OmegaSpiral.Tests.Narrative;
 
-namespace OmegaSpiral.Tests.Visual
-{
-    using System.IO;
+using System.IO;
     using GdUnit4;
     using Godot;
     using OmegaSpiral.Source.Scripts.Field.Narrative;
@@ -69,7 +67,7 @@ namespace OmegaSpiral.Tests.Visual
         public void AsciiRoomRenderer_SecondAct_RendersDungeonContent()
         {
             // Load dungeon sequence
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
             var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
 
@@ -114,7 +112,7 @@ namespace OmegaSpiral.Tests.Visual
             string heroJsonContent = File.ReadAllText(heroStagePath);
             var heroConfig = ConfigurationService.LoadConfigurationFromString(heroJsonContent, heroStagePath);
 
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
 
             // Process both acts
@@ -149,7 +147,7 @@ namespace OmegaSpiral.Tests.Visual
         public void PlayerInteraction_BothActs_SupportsExpectedInputMethods()
         {
             // Load dungeon sequence to validate interaction elements
-            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonPath = "../../../../Source/Data/stages/nethack/dungeon_sequence.json";
             var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
             var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
 
@@ -173,4 +171,3 @@ namespace OmegaSpiral.Tests.Visual
             AssertThat(heroSceneData.OpeningLines.Count).IsGreater(0);
         }
     }
-}

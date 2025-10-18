@@ -7,9 +7,9 @@ run your Godot C# tests seamlessly in Visual Studio (Code), JetBrains Rider, and
 
 ### Key Highlights
 
-🚀 **High Performance**: Up to 10x faster test execution for logic-only tests  
-🎯 **VSTest Compatible**: Full integration with Visual Studio Test Platform  
-⚡ **Smart Runtime**: Tests run without Godot runtime by default, with opt-in Godot features  
+🚀 **High Performance**: Up to 10x faster test execution for logic-only tests
+🎯 **VSTest Compatible**: Full integration with Visual Studio Test Platform
+⚡ **Smart Runtime**: Tests run without Godot runtime by default, with opt-in Godot features
 🔧 **Feature Complete**: All standard testing features you expect from modern frameworks
 
 ### Main Features
@@ -18,7 +18,7 @@ run your Godot C# tests seamlessly in Visual Studio (Code), JetBrains Rider, and
 * **Wide range of assertion methods** for verifying the behavior and output of your code
 * **Parameterized Tests (Test Cases and DataPoints)** for testing functions with multiple sets of inputs and expected outputs
 * **Advanced Test Filtering** with VSTest filter support, test categories, and traits
-* **Scene runner** for simulating different kinds of inputs and actions, such as mouse clicks and keyboard inputs  
+* **Scene runner** for simulating different kinds of inputs and actions, such as mouse clicks and keyboard inputs
   For example, you can simulate mouse clicks and keyboard inputs by calling the appropriate methods on the runner instance. Additionally, you can wait for a specific signal to be
   emitted by the scene, or you can wait for a specific function to return a certain value.
 * **VSTest Adapter** to run and debug your tests with full VSTest compatibility
@@ -58,6 +58,35 @@ powerful [test filtering capabilities](TestAdapter/TestFilterGuide.md) for selec
 
 For compile-time validation of your test code, check out the [gdUnit4.analyzers README](Analyzers/README.md).
 
+## Test Filtering Usage
+
+GdUnit4Net supports advanced test filtering using VSTest syntax:
+
+```bash
+# Run only tests in a specific class
+dotnet test --filter "Class=CalculatorTests"
+
+# Run tests with a specific category
+dotnet test --filter "TestCategory=UnitTest"
+
+# Run tests with a specific trait
+dotnet test --filter "Trait=Speed=Fast"
+
+# Combine filters with logical operators
+dotnet test --filter "(TestCategory=UnitTest)&(Trait.Owner=TeamA)"
+```
+
+Example test with category and trait:
+
+```csharp
+[Test]
+[Category("Integration")]
+[Trait("Speed", "Fast")]
+public void FastIntegrationTest()
+{
+    // Test logic here
+}
+```
 # Examples
 
 The [gdUnit4NetExamples](https://github.com/MikeSchulze/gdUnit4NetExamples) repository provides comprehensive example projects
@@ -82,15 +111,15 @@ namespace GdUnit4.Tests
         {
             AssertThat("This is a test message").IsEqual("This is a test message");
         }
-        
+
         // Godot runtime required for Node operations
-        [TestCase] 
+        [TestCase]
         [RequireGodotRuntime]
         public void TestGodotNode()
         {
              AssertThat(new Node2D()).IsNotNull();
         }
-        
+
         // Exception monitoring for Godot-specific errors
         [Test]
         [RequireGodotRuntime]
@@ -100,7 +129,7 @@ namespace GdUnit4.Tests
             var node = new MyNode(); // Will catch exceptions in _Ready()
             AddChild(node);
         }
-        
+
         // Data-driven tests with dynamic test data
         [Test]
         [DataPoint(nameof(TestData))]
@@ -108,7 +137,7 @@ namespace GdUnit4.Tests
         {
             AssertThat(Calculator.Add(a, b)).IsEqual(expected);
         }
-        
+
         // Exception validation with specific messages
         [Test]
         [ThrowsException(typeof(ArgumentNullException), "Value cannot be null")]
@@ -116,7 +145,7 @@ namespace GdUnit4.Tests
         {
             Calculator.Add(null, 5);
         }
-        
+
         // Test categories and traits for filtering
         [Test]
         [Category("Integration")]
@@ -125,7 +154,7 @@ namespace GdUnit4.Tests
         {
             // This test can be filtered by category or trait
         }
-        
+
         // Data source for parameterized tests
         public static IEnumerable<object[]> TestData => new[]
         {
@@ -156,7 +185,7 @@ dotnet test --filter "(Category=Integration)|(Trait=Speed:Fast)"
 ```
 
 The test run looks like this:
-<p align="center"><a href="https://github.com/MikeSchulze/gdUnit4Net"><img src="https://github.com/MikeSchulze/gdUnit4Net/blob/master/Example/assets/TestExplorerRun.png" width="100%"/><br/>
+<p align="center"><a href="https://github.com/MikeSchulze/gdUnit4Net"><img src="https://github.com/MikeSchulze/gdUnit4Net/blob/master/Example/assets/TestExplorerRun.png" width="100%"/></a><br/></p>
 
 ## What's New in v5.0
 
@@ -204,6 +233,10 @@ The test run looks like this:
 
 **Important**: v5.0 includes breaking changes that require minimal code updates:
 ⚠️ Please read the [release notes](https://github.com/MikeSchulze/gdUnit4Net/releases/tag/v5.0.0) about braking changes. ⚠️
+
+- All code style and analyzer rules are now managed in `.editorconfig` at the solution root.
+- Only Roslynator analyzers are enforced; StyleCop and ruleset files are no longer used.
+- Remove any `stylecop.json`, `.ruleset`, or related configuration files from the project.
 
 1. **Add `[RequireGodotRuntime]`** to tests that use Godot features (Nodes, Scenes, Resources)
 2. **Remove unnecessary Godot dependencies** from pure logic tests for better performance

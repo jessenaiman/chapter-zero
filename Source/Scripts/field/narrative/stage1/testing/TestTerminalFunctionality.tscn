@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://test_terminal_functionality"]
+
+[ext_resource type="Script" path="res://Source/Scripts/field/narrative/TestTerminalFunctionality.cs" id="1_test_terminal"]
+[ext_resource type="PackedScene" uid="uid://terminal_ui_scene" path="res://Source/Scenes/UI/TerminalUI.tscn" id="2_terminal_ui"]
+
+[node name="TestTerminalFunctionality" type="Node2D"]
+script = ExtResource("1_test_terminal")
+
+[node name="TerminalUI" parent="." instance=ExtResource("2_terminal_ui")]
+position = Vector2(512, 300)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999847, 0.017452, 0, -0.017452, 0.999847, 0, 2, 5)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 5, 0)
+light_energy = 0.5
+directional_shadow_mode = 2

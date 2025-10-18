@@ -2,8 +2,6 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
-
 namespace OmegaSpiral.Tests.EndToEnd.Dungeon
 {
     using System.Globalization;
@@ -32,8 +30,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         /// <returns>The absolute path to the dungeon_sequence.json file.</returns>
         private static string GetDungeonSequencePath()
         {
-            string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."));
-            return Path.Combine(projectRoot, "Source", "Data", "stages", "nethack", "dungeon_sequence.json");
+            string projectRoot = System.IO.Path.GetFullPath(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."));
+            return System.IO.Path.Combine(projectRoot, "Source", "Data", "stages", "nethack", "dungeon_sequence.json");
         }
 
         /// <summary>
@@ -45,9 +43,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         public void SceneTransition_FromGhostTerminalToNethackDungeon_ExecutesSuccessfully()
         {
             // Load the dungeon sequence JSON (integration point)
-            string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."));
-            var jsonPath = Path.Combine(projectRoot, "Source", "Data", "stages", "nethack", "dungeon_sequence.json");
-            var jsonContent = System.IO.File.ReadAllText(jsonPath);
+            string jsonPath = GetDungeonSequencePath();
+            string jsonContent = System.IO.File.ReadAllText(jsonPath);
 
             // Load sequence through the loader (integration)
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
@@ -73,8 +70,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         public void AsciiDungeon_Interactions_UpdateDreamweaverAffinity()
         {
             // Create a test sequence
-            var jsonPath = GetDungeonSequencePath();
-            var jsonContent = System.IO.File.ReadAllText(jsonPath);
+            string jsonPath = GetDungeonSequencePath();
+            string jsonContent = System.IO.File.ReadAllText(jsonPath);
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             // Create a test game state to track scores
@@ -112,8 +109,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         public void AsciiDungeonSequence_ExecutesCompleteRun()
         {
             // Create a test sequence - use filesystem path for tests
-            var jsonPath = GetDungeonSequencePath();
-            var jsonContent = System.IO.File.ReadAllText(jsonPath);
+            string jsonPath = GetDungeonSequencePath();
+            string jsonContent = System.IO.File.ReadAllText(jsonPath);
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             // Create mock publisher and affinity service
@@ -158,8 +155,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         public void AsciiDungeon_FollowsNethackSceneSpecification()
         {
             // Load sequence through integration point
-            var jsonPath = GetDungeonSequencePath();
-            var jsonContent = System.IO.File.ReadAllText(jsonPath);
+            string jsonPath = GetDungeonSequencePath();
+            string jsonContent = System.IO.File.ReadAllText(jsonPath);
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             // Verify complete dungeon experience (3 stages as per spec)
@@ -194,8 +191,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
         public void AsciiDungeon_AffinityScoring_FollowsSpecification()
         {
             // Load sequence and create complete gameplay setup
-            var jsonPath = GetDungeonSequencePath();
-            var jsonContent = System.IO.File.ReadAllText(jsonPath);
+            string jsonPath = GetDungeonSequencePath();
+            string jsonContent = System.IO.File.ReadAllText(jsonPath);
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             var publisher = new TestDungeonEventPublisher();

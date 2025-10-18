@@ -27,8 +27,7 @@ As a designer:
 
 As a developer:
 - Implement design concepts using SOLID architectural principles
-- Write comprehensive unit tests (using NUnit) that validate both functionality and behavior
-- Ensure all code follows project conventions (Allman braces, PascalCase/camelCase, async naming, XML documentation)
+- Write comprehensive unit tests (using GDUnit) that validate both functionality and behavior
 - Maintain proper separation of concerns between scene management, game state, and character systems
 - Integrate with existing systems (SceneManager, GameState, PartyData) without breaking existing functionality
 

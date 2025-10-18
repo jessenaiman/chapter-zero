@@ -101,10 +101,9 @@ public partial class Battler : Node2D
     /// These can be anything: attacks, healing spells, etc.
     /// </summary>
     /// <remarks>
-    /// This property returns an array for Godot export compatibility. Consider using defensive copies when modifying.
+    /// This property returns a Godot array for Godot export compatibility. Consider using defensive copies when modifying.
     /// </remarks>
     [Export]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "Required for Godot export system")]
     public Godot.Collections.Array<BattlerAction> Actions { get; set; } = new Godot.Collections.Array<BattlerAction>();
 
     /// <summary>

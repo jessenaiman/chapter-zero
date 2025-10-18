@@ -9,14 +9,7 @@ test attributes and helps developers catch configuration errors early in the dev
 
 The analyzer must be included by referencing the gdUnit4.analyzer package:
 
-```xml
-<PackageReference Include="gdUnit4.api" Version="5.0.0"/>
-<PackageReference Include="gdUnit4.test.adapter" Version="3.0.0"/>
-<PackageReference Include="gdUnit4.analyzers" Version="1.0.0">
-  <PrivateAssets>all</PrivateAssets>
-  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
+All code style and analyzer rules are now managed in `.editorconfig` at the solution root. Only Roslynator analyzers are enforced; **StyleCop and ruleset files are no longer used.**
 
 * **Attribute Validation:** The analyzer enforces correct usage of GdUnit4 test attributes
 
@@ -29,7 +22,7 @@ The analyzer must be included by referencing the gdUnit4.analyzer package:
   [TestCase]
   [DataPoint(nameof(TestData))]
   public void ValidTest(int a, int b) { }
-  
+
   // ❌ Invalid: Multiple TestCase with DataPoint
   [TestCase]
   [TestCase]                         // GdUnit0201 error: Method 'InvalidTest' cannot have multiple TestCase attributes when DataPoint attribute is present

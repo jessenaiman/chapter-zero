@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    GdUnit4Net Test Configuration for Omega Spiral
+
+    This configuration file provides settings for test execution using GdUnit4Net,
+    the VSTest-compatible testing framework for Godot C# projects.
+
+    Documentation: https://mikeschulze.github.io/gdUnit4/csharp_project_setup/vstest-adapter/
+-->
+<RunSettings>
+    <!-- Test Execution Configuration -->
+    <RunConfiguration>
+        <!-- Run tests sequentially (required for Godot runtime tests) -->
+        <MaxCpuCount>1</MaxCpuCount>
+
+        <!-- Test adapter paths -->
+        <TestAdaptersPaths>.</TestAdaptersPaths>
+
+        <!-- Results directory for test output -->
+        <ResultsDirectory>./TestResults</ResultsDirectory>
+
+        <!-- Timeout for entire test session (30 minutes) -->
+        <TestSessionTimeout>1800000</TestSessionTimeout>
+
+        <!-- Fail build if no tests are found -->
+        <TreatNoTestsAsError>true</TreatNoTestsAsError>
+
+        <!-- Environment variables available to all tests -->
+        <EnvironmentVariables>
+            <!-- Path to Godot executable (required for [RequireGodotRuntime] tests) -->
+            <GODOT_BIN>/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64/Godot_v4.5.1-stable_mono_linux.x86_64</GODOT_BIN>
+
+            <!-- Path to test data fixtures -->
+            <TEST_DATA_PATH>./Tests/TestData</TEST_DATA_PATH>
+
+            <!-- Enable debug mode for detailed logging -->
+            <DEBUG_MODE>true</DEBUG_MODE>
+
+            <!-- Project root path for Godot -->
+            <PROJECT_PATH>/home/adam/Dev/omega-spiral/chapter-zero</PROJECT_PATH>
+        </EnvironmentVariables>
+    </RunConfiguration>
+
+    <!-- Test Result Loggers -->
+    <LoggerRunSettings>
+        <Loggers>
+            <!-- Console logger for terminal output -->
+            <Logger friendlyName="console" enabled="True">
+                <Configuration>
+                    <!-- Verbosity: quiet, minimal, normal, detailed, diagnostic -->
+                    <Verbosity>normal</Verbosity>
+                </Configuration>
+            </Logger>
+
+            <!-- HTML logger for human-readable reports -->
+            <Logger friendlyName="html" enabled="True">
+                <Configuration>
+                    <LogFileName>TestResults/test-result.html</LogFileName>
+                </Configuration>
+            </Logger>
+
+            <!-- TRX logger for CI/CD integration -->
+            <Logger friendlyName="trx" enabled="True">
+                <Configuration>
+                    <LogFileName>TestResults/test-result.trx</LogFileName>
+                </Configuration>
+            </Logger>
+        </Loggers>
+    </LoggerRunSettings>
+
+    <!-- GdUnit4-Specific Configuration -->
+    <GdUnit4>
+        <!-- Additional Godot runtime parameters -->
+        <!-- --headless: Run without GUI -->
+        <!-- --path: Specify project path -->
+        <!-- --disable-crash-handler: Prevent crash dialogs during tests -->
+        <Parameters>--headless --path /home/adam/Dev/omega-spiral/chapter-zero --disable-crash-handler --verbose</Parameters>
+
+        <!-- Test display name format: SimpleName or FullyQualifiedName -->
+        <!-- FullyQualifiedName shows namespace.Class.Method for better identification -->
+        <DisplayName>FullyQualifiedName</DisplayName>
+
+        <!-- Capture stdout from test cases for debugging -->
+        <CaptureStdOut>true</CaptureStdOut>
+
+        <!-- Compilation timeout for large projects (60 seconds) -->
+        <!-- Increase if you have a large project or slow build machine -->
+        <CompileProcessTimeout>60000</CompileProcessTimeout>
+    </GdUnit4>
+</RunSettings>

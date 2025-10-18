@@ -2,28 +2,27 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-#pragma warning disable SA1636
+using GdUnit4;
+using Godot;
+using Godot.Collections;
+using OmegaSpiral.Source.Scripts.Field.Narrative;
+using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Functional.Narrative
+namespace OmegaSpiral.Tests.Functional.Narrative;
+
+/// <summary>
+/// Validates narrative plan generation for the Ghost Terminal introduction.
+/// </summary>
+[TestSuite]
+public class DialogueFlowTests
 {
-    using GdUnit4;
-    using Godot;
-    using Godot.Collections;
-    using OmegaSpiral.Source.Scripts.Field.Narrative;
-    using static GdUnit4.Assertions;
-
     /// <summary>
-    /// Validates narrative plan generation for the Ghost Terminal introduction.
+    /// Ensures the cinematic director mirrors authored narrative data with no synthesized beats.
     /// </summary>
-    [TestSuite]
-    public class DialogueFlowTests
+    [TestCase]
+    [RequireGodotRuntime]
+    public void BuildPlan_WithFactoryCreatedData_MirrorsNarrativeBeats()
     {
-        /// <summary>
-        /// Ensures the cinematic director mirrors authored narrative data with no synthesized beats.
-        /// </summary>
-        [TestCase]
-        public void BuildPlan_WithFactoryCreatedData_MirrorsNarrativeBeats()
-        {
             // Arrange
             var sceneDictionary = CreateSampleNarrativeDictionary();
             NarrativeSceneData sceneData = NarrativeSceneFactory.Create(sceneDictionary);
@@ -181,4 +180,3 @@ namespace OmegaSpiral.Tests.Functional.Narrative
             };
         }
     }
-}

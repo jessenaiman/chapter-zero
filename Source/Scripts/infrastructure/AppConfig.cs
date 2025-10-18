@@ -41,12 +41,12 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Gets the main menu scene path (lowercase version for addon compatibility).
         /// </summary>
-        public static string main_menu_scene_path => MainMenuScenePath;
+        public static string MainMenuScenePathAddon => MainMenuScenePath;
 
         /// <summary>
         /// Gets the ending scene path. Returns main menu as fallback if no specific ending scene exists.
         /// </summary>
-        public static string ending_scene_path => MainMenuScenePath;
+        public static string EndingScenePath => MainMenuScenePath;
 
         /// <summary>
         /// Loads the configuration file from disk.

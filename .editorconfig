@@ -1,6 +1,7 @@
-# .editorconfig for strict C# code style
+# .editorconfig for strict C# code style and Roslynator-only analyzer rules
 root = true
 
+# Remove all StyleCop and ruleset settings, enforce only Roslynator
 [*.cs]
 indent_style = space
 indent_size = 4
@@ -8,6 +9,11 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+# Only Roslynator and C# code style rules below
+
+# Disable StyleCop for all files (project-wide)
+dotnet_analyzer_diagnostic.category-StyleCop.severity = none
 
 # C# specific rules
 csharp_new_line_before_open_brace = all
@@ -135,3 +141,16 @@ dotnet_diagnostic.CS1591.severity = none
 
 # Suppress SA1636 copyright header warnings
 dotnet_diagnostic.SA1636.severity = none
+
+# GdUnit4 Analyzer Configuration
+# Enforce correct usage of GdUnit4 test attributes per documentation
+dotnet_diagnostic.GdUnit0201.severity = error # Multiple TestCase with DataPoint not allowed
+dotnet_diagnostic.GdUnit0202.severity = error # Invalid test attribute combination
+dotnet_diagnostic.GdUnit0203.severity = error # Invalid DataPoint attribute usage
+
+# Godot-specific suppressions (ONLY for .godot generated code, NOT project code)
+[.godot/**/*.cs]
+dotnet_diagnostic.CS0246.severity = none      # Type or namespace not found (Godot generated only)
+dotnet_diagnostic.CS0103.severity = none      # Name does not exist (Godot generated only)
+dotnet_diagnostic.CS0117.severity = none      # Does not contain a definition (Godot generated only)
+dotnet_diagnostic.CS1061.severity = none      # No accessible extension method (Godot generated only)

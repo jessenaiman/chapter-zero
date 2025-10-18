@@ -235,8 +235,8 @@ public partial class JsonSchemaValidator : Node
     /// <summary>
     /// Validates the properties structure in the schema.
     /// </summary>
-    /// <param name="jsonData">The JSON data to validate.</param>
-    /// <param name="schema">The schema to validate against.</param>
+    /// <param name="jsonData">The data dictionary to validate.</param>
+    /// <param name="schema">The schema dictionary containing property definitions.</param>
     /// <returns>True if the properties are valid or not specified, false otherwise.</returns>
     private static bool ValidateSchemaProperties(
         Godot.Collections.Dictionary<string, Variant> jsonData,
