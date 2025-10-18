@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2025-10-16" name="report_6" tests="23" failures="13" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="NethackSceneTests" package="Tests/Dungeon" timestamp="2025-10-16T14:38:58" hostname="localhost" tests="23" failures="13" errors="0" skipped="0" flaky="0" time="0.183">
+		<testcase name="LoadSchema_WhenValidSchemaProvided_LoadsThreeDistinctDungeonStages" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.023">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:31" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="LoadSchema_WhenValidSchemaProvided_AssignsUniqueOwnerValues" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.002">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:51" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="LoadSchema_WhenValidSchemaProvided_ValidatesMapDimensions" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:72" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="LoadSchema_WhenValidSchemaProvided_CorrectlyAlignsObjectGlyphs" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:93" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="LoadSchema_WhenDuplicateOwnersProvided_ThrowsDomainException" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.007">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:-1" type="FAILURE">
+<![CDATA[
+Expecting exception message
+	"unique Dreamweaver owner"
+ but is
+	"Failed to parse dungeon sequence JSON - parse result is null."
+]]>
+			</failure>
+		</testcase>
+		<testcase name="CreateSequence_WhenDuplicateOwnersProvided_PreventsAggregateCreation" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.039">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:137" type="FAILURE">
+<![CDATA[
+'GdUnit4.Asserts.ObjectAssert' does not contain a definition for 'Completions'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="LoadSchema_WhenValidSchemaProvided_MaintainsBalancedAffinityDistribution" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.004">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:153" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="Sequence_WhenStageBegins_PublishesDungeonStageEnteredEvent" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+		</testcase>
+		<testcase name="StageEvent_WhenPublished_IncludesOwnerIdentifier" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="StageEvent_WhenPublished_IncludesStageIndex" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="StageEvent_WhenPublished_IncludesASCIIMapMetadata" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="ObjectInteraction_WhenOwnerAlignedObject_InteractsAndUpdatesAffinity" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.029">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:237" type="FAILURE">
+<![CDATA[
+'GdUnit4.Asserts.ObjectAssert' does not contain a definition for 'IsEqualTo'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="ObjectInteraction_WhenConfiguredPointsApplied_AppliesToCorrectDreamweaver" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.002">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:258" type="FAILURE">
+<![CDATA[
+'GdUnit4.Asserts.ObjectAssert' does not contain a definition for 'IsEqualTo'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="ObjectInteraction_WhenOccurs_RecordsInAffinityHistory" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:279" type="FAILURE">
+<![CDATA[
+'GdUnit4.Asserts.ObjectAssert' does not contain a definition for 'IsEqualTo'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="ObjectInteraction_WhenNonAlignedObject_LeavesAffinityUnchanged" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.002">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:300" type="FAILURE">
+<![CDATA[
+'GdUnit4.Asserts.ObjectAssert' does not contain a definition for 'IsNotEqualTo'
+]]>
+			</failure>
+		</testcase>
+		<testcase name="StageProgression_WhenCurrentStageCompleted_AdvancesToNextStage" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+		</testcase>
+		<testcase name="StageProgression_WhenSameSeedUsed_MaintainsConsistentSequenceOrder" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:330" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="StageProgression_WhenSameSeedUsed_GeneratesIdenticalLayouts" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.001">
+			<failure message="FAILED: res://Tests/Dungeon/NethackSceneTests.cs:351" type="FAILURE">
+<![CDATA[
+Dungeon sequence JSON does not conform to the required schema.
+]]>
+			</failure>
+		</testcase>
+		<testcase name="StageProgression_WhenProgressing_ReachesThirdStageWithoutSkipping" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="Movement_WhenInputReceived_HandlesMovementCorrectly" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="Movement_WhenCollisionDetected_PreventsWallWalking" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="Movement_WhenInvalidMoveAttempted_ProvidesFeedback" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+		<testcase name="Gameplay_WhenObjectInteracted_ManagesAffinityUpdates" classname="OmegaSpiral.Tests.Unit.Dungeon.NethackSceneTests" time="0.000">
+		</testcase>
+	</testsuite>
+</testsuites>

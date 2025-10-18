@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2025-10-16" name="report_4" tests="56" failures="1" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="DialogueFlowTests" package="Tests/Narrative" timestamp="2025-10-16T14:35:09" hostname="localhost" tests="56" failures="1" errors="0" skipped="0" flaky="0" time="0.199">
+		<testcase name="BuildPlan_WhenShadowConfigLoaded_ConstructsOrderedCinematicBeats" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.062">
+		</testcase>
+		<testcase name="InitializeNarrative_WhenLLMDisabled_LoadsFallbackDataSuccessfully" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="InitializeNarrative_WhenFallbackLoaded_PopulatesInitialChoiceOptions" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="InitializeNarrative_WhenFallbackUsed_IndicatesFallbackModeInState" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="PresentQuestions_WhenSequenceInitialized_PresentsThreeQuestionsInOrder" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="PresentQuestions_WhenSequenceStarted_DeliverFirstQuestionBeforeOthers" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.002">
+		</testcase>
+		<testcase name="PresentQuestions_WhenFirstQuestionAnswered_DeliverSecondQuestion" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="PresentQuestions_WhenTwoQuestionsAnswered_DeliverThirdQuestion" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="DisplayPrompt_WhenPromptPresented_ProvidesExactlyThreeChoiceOptions" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectChoice_WhenFirstOptionSelected_MapsToHeroAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectChoice_WhenSecondOptionSelected_MapsToShadowAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectChoice_WhenThirdOptionSelected_MapsToAmbitionAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectOneStory_WhenOptionChosen_DisplaysStoryBlockSuccessfully" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayStoryBlock_WhenActive_AwaitsPlayerInput" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="LoadScene_WhenOneStorySelected_MaintainsUniqueBlockPool" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="Playthrough_WhenBlocksSelectedSequentially_PreventsRepeats" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="PlayOneStory_WhenStarted_PresentsSectionsInSequence" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayStorySection_WhenActive_BlocksProgressWithoutInput" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="LoadScene_WhenOneStoryMode_UsesVariedContentPool" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="TrackProgress_WhenBlocksAdvanced_UpdatesProgressState" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="StartNameCollection_WhenPhaseActive_PromptsForPlayerName" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SubmitPlayerName_WhenValidNameProvided_StoresNameInState" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="SubmitPlayerName_WhenNameAccepted_ProgressesToFollowUpQuestions" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplaySecret_WhenPhaseActive_PresentsThreeChoiceOptions" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectSecret_WhenChoiceSelected_MapsToCorrectAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectSecret_WhenChoiceConfirmed_TriggersGhostwritingEffect" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="Placeholder_RemainingTests_WillBeImplementedIteratively" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="NavigateStorySections_WhenProgressing_TracksSectionProgressionAccurately" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="LoadScene_WhenNameSectionActive_PromptsForPlayerName" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SubmitName_WhenPlayerEntersName_PresentsTwoCrypticMeaningQuestions" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="SubmitName_WhenPlayerEntersName_ValidatesAndStoresCorrectly" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="CompleteNameQuestions_WhenAllAnswered_TransitionsToContentBlock" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplaySecretSection_WhenActive_PresentsThreeChoicesForDreamweaverPoints" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="SelectChoice_WhenMade_AttributesToCorrespondingAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SelectSecretChoice_WhenMade_TriggersEquationGhostwritingEffect" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="CompleteSecretSection_WhenFinished_DisplaysFinalCrypticMessage" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayScene_WhenPlayerIdle_ShowsInterstitialDialogueBetweenDreamweavers" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayScene_WhenDreamweaversActive_ShowsReferencesBetweenDreamweavers" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="DreamweaverConversation_WhenActive_KeepsOmegaSilent" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="LogDialogue_WhenDreamweaverSpeaks_LogsCorrectSpeakerID" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.007">
+		</testcase>
+		<testcase name="MakeChoice_WhenSelectedDreamweaverChosen_IncrementsAffinityByConfiguredValue" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="MakeChoice_WhenOneDreamweaverSelected_LeavesOtherAffinitiesUnchanged" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="MakeChoice_WhenMultipleChoicesMade_MaintainsAffinityHistoryForAuditTrail" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="MakeChoice_WhenDifferentWeightsApplied_AppliesCorrectPointValues" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="Transition_WhenMovingToScene2_MaintainsAffinityArrayValues" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.002">
+		</testcase>
+		<testcase name="SceneTransition_WhenMovingBetweenScenes_PreservesCumulativeScores" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="SceneTransition_WhenMovingBetweenScenes_DoesNotResetAffinityState" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.001">
+		</testcase>
+		<testcase name="SceneOperation_WhenSaveSystemActive_IntegratesWithSaveForPersistence" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="PlayerChoice_WhenMade_TriggersNonSelectedDreamweaverCommentary" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.008">
+		</testcase>
+		<testcase name="AffinityShift_WhenOccurs_ReferencedInDreamweaverDialogue" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.002">
+		</testcase>
+		<testcase name="DreamweaverPresence_WhenActive_PreventsOmegaFromAcknowledging" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="Commentary_WhenBasedOnStandings_VariesBasedOnCurrentAffinity" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.002">
+		</testcase>
+		<testcase name="MultiScene_WhenAccumulatingPoints_AccumulatesCorrectlyAcrossScenes" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="PlayerChoice_WhenMade_AppliesAppropriatePointValues" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="SceneTransition_WhenOccurs_PersistsAffinityArray" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.000">
+		</testcase>
+		<testcase name="Playthrough_WhenComplete_MaintainsAccurateTallies" classname="OmegaSpiral.Tests.Functional.Narrative.DialogueFlowTests" time="0.009">
+			<failure message="FAILED: res://Tests/Narrative/DialogueFlowTests.cs:1268" type="FAILURE">
+<![CDATA[
+Expecting size:
+    '6' but is '7'
+]]>
+			</failure>
+		</testcase>
+	</testsuite>
+</testsuites>

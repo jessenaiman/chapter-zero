@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2025-10-16" name="report_2" tests="23" failures="0" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="ContentBlockTests" package="Tests/Narrative" timestamp="2025-10-16T14:25:47" hostname="localhost" tests="23" failures="0" errors="0" skipped="0" flaky="0" time="0.202">
+		<testcase name="DisplayText_WithNoUserInputForTenSeconds_RemainsVisible" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.021">
+		</testcase>
+		<testcase name="DisplayText_WithNoInput_DoesNotAutoAdvance" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayText_WithNoInput_WaitsIndefinitelyUntilInteraction" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="DisplayText_InCRTContainer_CentersTextIn4x3Frame" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="DisplayText_WithCRTShader_AppliesBlurEffect" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayText_WithCRTShader_DisplaysVisibleScanlines" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="DisplayText_WithCRTShader_MaintainsVisualConsistency" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="PlayTypewriter_WithTiming_RevealsCharactersSequentially" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.005">
+		</testcase>
+		<testcase name="PlayTypewriter_WithAudio_SynchronizesSoundWithText" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="PlayTypewriter_WithAudio_LoopsSoundUntilLineCompletion" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="PlayTypewriter_WithTiming_MaintainsConsistentTiming" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.003">
+		</testcase>
+		<testcase name="TransitionSection_AtYAMLBoundary_ActivatesDissolveEffect" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="TransitionSection_WithDissolveShader_FadesTextCorrectly" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="TransitionSection_WithTiming_MatchesConfiguredDuration" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="TransitionSection_WithDissolve_WaitsForCompletion" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.002">
+		</testcase>
+		<testcase name="SelectChoice_WithKeyboardNavigation_AllowsChoiceSelection" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="SelectChoice_WithMouseClick_AllowsChoiceSelection" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.002">
+		</testcase>
+		<testcase name="SelectChoice_WithGamepadInput_AllowsChoiceSelection" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="SelectChoice_WithAnyValidInput_AdvancesNarrative" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+		<testcase name="AdvanceBlock_WithKeyboardSelect_AdvancesContentBlock" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.090">
+		</testcase>
+		<testcase name="AdvanceBlock_WithGamepadConfirm_AdvancesContentBlock" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.004">
+		</testcase>
+		<testcase name="AdvanceBlock_WithMouseClick_AdvancesContentBlock" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.001">
+		</testcase>
+		<testcase name="AdvanceBlock_WithAllInputMethods_RespondsConsistently" classname="OmegaSpiral.Tests.Functional.Narrative.ContentBlockTests" time="0.000">
+		</testcase>
+	</testsuite>
+</testsuites>
