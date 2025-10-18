@@ -9,6 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative;
 /// </summary>
 public class DialogueChoice
 {
+    // TODO: duplicate Source/Scripts/field/narrative/NarrativeSceneData.cs - Consider consolidating choice option classes
     /// <summary>
     /// Initializes a new instance of the <see cref="DialogueChoice"/> class.
     /// Creates a new dialogue choice.

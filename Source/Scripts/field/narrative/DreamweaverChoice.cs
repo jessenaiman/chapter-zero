@@ -13,6 +13,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
     /// </summary>
     public partial class DreamweaverChoice : ChoiceOption
     {
+        // TODO: duplicate Source/Scripts/field/narrative/PersonaConfig.cs - Consider consolidating choice option classes
         /// <summary>
         /// Gets or sets the unique identifier for this choice option.
         /// Overrides base class property with Dreamweaver-specific behavior.

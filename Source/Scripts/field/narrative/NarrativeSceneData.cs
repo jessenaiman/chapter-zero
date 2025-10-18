@@ -107,6 +107,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Narrative
     /// </summary>
     public partial class ChoiceOption
     {
+        // TODO: duplicate Source/Scripts/field/narrative/DialogueChoice.cs - Consider consolidating choice option classes
         /// <summary>
         /// Gets or sets the unique identifier for this choice option.
         /// Used to track which choice was selected and determine story progression.

@@ -67,6 +67,7 @@ public sealed class PersonaChoiceBlock
 /// </summary>
 public sealed class PersonaChoiceOption
 {
+    // TODO: duplicate Source/Scripts/field/narrative/NarrativeSceneData.cs - Consider consolidating choice option classes
     /// <summary>
     /// Gets or sets the unique identifier for this choice.
     /// </summary>

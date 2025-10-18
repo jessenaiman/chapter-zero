@@ -4,8 +4,7 @@
   "description": "The player awakens in a classic RPG town, but the inhabitants speak in cryptic riddles about echoes, choices, and the nature of their story.",
   "narrative_context": {
     "intro": {
-      "text": "The world shifts and fades. The harsh digital light of the arena dissolves into a warm, golden glow. You find yourself standing in a familiar place – a small, cobblestone town square. The architecture is classic, inviting. A gentle breeze carries the scent of flowers and woodsmoke. It feels... safe. A sense of calm washes over you, but underneath, a nagging feeling persists. A feeling of *déjà vu*, of stories half-remembered. Your party... they were with you, weren't they? You look around. You are alone. The weight of recent choices feels distant, like a fading dream.",
-      "dw_presence": "silent", // Dreamweavers are notably absent here, adding to the isolation.
+      "text": "The world shifts and fades. The harsh digital light of the arena dissolves into a warm, golden glow. You find yourself standing in a familiar place – a small, cobblestone town square. The architecture is classic, inviting. A gentle breeze carries the scent of flowers and woodsmoke. It feels... safe. A sense of calm washes over you, but underneath, a nagging feeling persists. A feeling of *déjà vu*, of stories half-remembered. Your party... they were with you, weren't they? You look around. You are alone. The weight of recent choices feels distant, like a fading dream."""
       "visual": "A small, picturesque town square with a fountain, a few NPCs walking around, a signpost, and paths leading to other areas like an inn, a shop, and the town's edge. Soft, ambient lighting."
     },
     "outro": {

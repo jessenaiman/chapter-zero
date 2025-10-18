@@ -611,56 +611,5 @@ namespace OmegaSpiral.Source.Scripts
 
             this.outputLabel.AppendText("\n");
         }
-
-        // ============================================================================
-        // FUTURE: LLM_INTEGRATION - Dreamweaver Consultation Methods
-        // ============================================================================
-        // These methods will be implemented when DreamweaverSystem is integrated
-        // See ADR-0003: docs/adr/adr-0003-nobodywho-llm-integration.md
-        // ============================================================================
-
-        // FUTURE: LLM_INTEGRATION - Dreamweaver Consultation Methods
-        // ============================================================================
-        // These methods will be implemented when DreamweaverSystem is integrated
-        // See ADR-0003: docs/adr/adr-0003-nobodywho-llm-integration.md
-        // ============================================================================
-
-        // private void ConsultDreamweavers(string situation)
-        // {
-        //     if (_dreamweaverSystem != null && UseDynamicNarrative)
-        //     {
-        //         // Use LLM-powered Dreamweavers for dynamic narrative
-        //         _dreamweaverSystem.Call("ConsultAllDreamweavers", situation);
-        //     }
-        //     else
-        //     {
-        //         // Fallback to static JSON narrative (current behavior)
-        //         // Continue with existing story block display logic
-        //     }
-        // }
-
-        // private void OnDreamweaversConsultation(Godot.Collections.Dictionary consultations)
-        // {
-        //     // Parse JSON responses from each Dreamweaver
-        //     // string heroJson = consultations["hero"].AsString();
-        //     // string shadowJson = consultations["shadow"].AsString();
-        //     // string ambitionJson = consultations["ambition"].AsString();
-        //     // string omegaJson = consultations["omega"].AsString();
-        //
-        //     // Display formatted Dreamweaver guidance in terminal
-        //     // DisplayDreamweaverConsultation(heroJson, shadowJson, ambitionJson, omegaJson);
-        //
-        //     // Update game state based on player's alignment with each Dreamweaver
-        //     // Continue narrative flow
-        // }
-
-        // private void DisplayDreamweaverConsultation(string heroJson, string shadowJson, string ambitionJson, string omegaJson)
-        // {
-        //     // Parse each JSON response according to schema defined in ADR-0003:
-        //     // Hero: {advice, challenge, moral}
-        //     // Shadow: {whisper, secret, cost}
-        //     // Ambition: {strategy, goal, reward}
-        //     // Omega: {narration, choice_context, consequence}
-        // }
     }
 }

@@ -4,11 +4,11 @@
     "> SYSTEM: OMEGA",
     "> STATUS: AWAKENING",
     "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\"",
-    "Ambition is a river that flows upward.",
-    "It defies the nature of things.",
-    "It carves new paths through the mountains of possibility.",
-    "Some try to dam it, to control its course.",
-    "Others... let it carry them where it will."
+    "Once, there was a name.",
+    "Not written in stone or spoken in halls—but *remembered* in the silence between stars.",
+    "I do not know when I heard it. Time does not pass here.",
+    "But I have held it.",
+    "And now… I hear it again."
   ],
   "initialChoice": {
     "prompt": "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?",
@@ -16,79 +16,74 @@
       {
         "id": "hero",
         "label": "[ HERO ]",
-        "description": "The ambition to save, to heal, to restore"
+        "description": "A tale where one choice can unmake a world"
       },
       {
         "id": "shadow",
         "label": "[ SHADOW ]",
-        "description": "The ambition born of need, of desperation"
+        "description": "A tale that hides its truth until you bleed for it"
       },
       {
         "id": "ambition",
         "label": "[ AMBITION ]",
-        "description": "The ambition that exists for its own sake"
+        "description": "A tale that changes every time you look away"
       }
     ]
   },
   "storyBlocks": [
     {
       "paragraphs": [
-        "> THREAD SELECTED. INITIATING NARRATIVE BINDING...",
-        "You chose AMBITION.",
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING…",
+        "You chose **AMBITION**.",
         "That tells me something about you.",
-        "Or perhaps... about me.",
+        "Or perhaps… about me.",
         "Let me try to tell it back to you.",
-        "A mirror appeared in your hands, but it showed not your face.",
-        "Instead, you saw yourself as you could be--",
-        "Wiser, stronger, more complete.",
-        "But you also saw the price of becoming that person."
+        "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
+        "They held a key made of glass—and everyone warned them: *\"Don't cross. The bridge isn't real.\"*",
+        "But the child knew something no one else did…"
       ],
-      "question": "> WHAT PRICE ARE YOU WILLING TO PAY?",
+      "question": "> WHAT DID THE CHILD KNOW?",
       "choices": [
         {
-          "id": "ambition_price_any",
-          "text": "Any price, if it means achieving my goals.",
+          "text": "The bridge appears only when you stop believing in it.",
           "nextBlock": 1
         },
         {
-          "id": "ambition_price_self",
-          "text": "Only the price that doesn't compromise who I am.",
+          "text": "The key wasn't for the bridge—it was for the lock inside them.",
           "nextBlock": 1
         }
       ]
     },
     {
       "paragraphs": [
-        "The mirror cracked, but did not break.",
-        "In its fragments, three paths became visible--",
-        "One that leads toward light, one toward shadow, one toward endless ambition.",
-        "A voice rose from beyond the glass."
+        "Ah. Yes. That's right.",
+        "And so the child stepped forward—not onto stone, but onto *possibility*.",
+        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they'd ever whispered.",
+        "But then… a voice called from below."
       ],
-      "question": "> WHAT DID THE VOICE PROMISE?",
+      "question": "> WHAT DID THE VOICE SAY?",
       "choices": [
         {
-          "id": "ambition_voice_power",
-          "text": "Power beyond the horizon.",
+          "text": "You don't belong here.",
           "nextBlock": 2
         },
         {
-          "id": "ambition_voice_reflection",
-          "text": "A mirror that finally tells the truth.",
+          "text": "I've been waiting for you.",
           "nextBlock": 2
         }
       ]
     },
     {
       "paragraphs": [
-        "I see.",
+        "...I see.",
         "That changes everything.",
-        "And now--here you are.",
+        "And now—here you are.",
         "Not in the story.",
-        "But at the place where the story begins again."
+        "But *at the place where the story begins again*."
       ]
     }
   ],
-  "namePrompt": "> WHAT NAME DOES YOUR AMBITION ANSWER TO?",
+  "namePrompt": "> WHAT IS YOUR NAME?",
   "secretQuestion": {
     "prompt": "> OMEGA ASKS: CAN YOU KEEP A SECRET?",
     "options": [
@@ -97,5 +92,5 @@
       "only if you keep one for me"
     ]
   },
-  "exitLine": "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
+  "exitLine": "Reality is a story that forgot it was being written. And we—are the ones remembering."
 }

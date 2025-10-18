@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.5.0">
+<Project Sdk="Godot.NET.Sdk/4.5.1">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -20,10 +20,6 @@
     <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
-  <!-- Removed problematic Compile entry. SDK-style projects include all .cs files by default. -->
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" Link="Properties\stylecop.json" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.10" />

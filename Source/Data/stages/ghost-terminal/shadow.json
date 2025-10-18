@@ -4,11 +4,11 @@
     "> SYSTEM: OMEGA",
     "> STATUS: AWAKENING",
     "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\"",
-    "The shadows remember everything you forget.",
-    "They whisper in the corners of your mind.",
-    "They know the names you buried.",
-    "They keep the secrets you denied.",
-    "And now... they call to you."
+    "Once, there was a name.",
+    "Not written in stone or spoken in halls—but *remembered* in the silence between stars.",
+    "I do not know when I heard it. Time does not pass here.",
+    "But I have held it.",
+    "And now… I hear it again."
   ],
   "initialChoice": {
     "prompt": "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?",
@@ -16,79 +16,74 @@
       {
         "id": "hero",
         "label": "[ HERO ]",
-        "description": "The darkness of sacrifice and lost light"
+        "description": "A tale where one choice can unmake a world"
       },
       {
         "id": "shadow",
         "label": "[ SHADOW ]",
-        "description": "The darkness that hides within itself"
+        "description": "A tale that hides its truth until you bleed for it"
       },
       {
         "id": "ambition",
         "label": "[ AMBITION ]",
-        "description": "The darkness of endless hunger"
+        "description": "A tale that changes every time you look away"
       }
     ]
   },
   "storyBlocks": [
     {
       "paragraphs": [
-        "> THREAD SELECTED. INITIATING NARRATIVE BINDING...",
-        "You chose SHADOW.",
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING…",
+        "You chose **SHADOW**.",
         "That tells me something about you.",
-        "Or perhaps... about me.",
+        "Or perhaps… about me.",
         "Let me try to tell it back to you.",
-        "In the deepest shadow, a figure waited.",
-        "Not for rescue, not for light.",
-        "But for someone who understood the comfort of darkness.",
-        "The figure held out a hand, and in its palm was a single, burning ember."
+        "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
+        "They held a key made of glass—and everyone warned them: *\"Don't cross. The bridge isn't real.\"*",
+        "But the child knew something no one else did…"
       ],
-      "question": "> WHAT DID YOU SEE IN THE EMBER?",
+      "question": "> WHAT DID THE CHILD KNOW?",
       "choices": [
         {
-          "id": "shadow_ember_last_light",
-          "text": "The last light before eternal night.",
+          "text": "The bridge appears only when you stop believing in it.",
           "nextBlock": 1
         },
         {
-          "id": "shadow_ember_hidden_fire",
-          "text": "A reflection of my own hidden fire.",
+          "text": "The key wasn't for the bridge—it was for the lock inside them.",
           "nextBlock": 1
         }
       ]
     },
     {
       "paragraphs": [
-        "And so you accepted the ember, and it did not burn.",
-        "Instead, it showed you the paths that lay ahead--",
-        "One where shadows serve light, one where shadows dance for their own pleasure, one where shadows consume everything.",
-        "From below, a whisper rose through the dark."
+        "Ah. Yes. That's right.",
+        "And so the child stepped forward—not onto stone, but onto *possibility*.",
+        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they'd ever whispered.",
+        "But then… a voice called from below."
       ],
-      "question": "> WHAT DID THE WHISPER SAY?",
+      "question": "> WHAT DID THE VOICE SAY?",
       "choices": [
         {
-          "id": "shadow_whisper_warning",
-          "text": "You do not belong here.",
+          "text": "You don't belong here.",
           "nextBlock": 2
         },
         {
-          "id": "shadow_whisper_invitation",
-          "text": "I have been waiting for you.",
+          "text": "I've been waiting for you.",
           "nextBlock": 2
         }
       ]
     },
     {
       "paragraphs": [
-        "I see.",
+        "...I see.",
         "That changes everything.",
-        "And now--here you are.",
+        "And now—here you are.",
         "Not in the story.",
-        "But at the place where the story begins again."
+        "But *at the place where the story begins again*."
       ]
     }
   ],
-  "namePrompt": "> WHAT NAME DO THE SHADOWS CALL YOU?",
+  "namePrompt": "> WHAT IS YOUR NAME?",
   "secretQuestion": {
     "prompt": "> OMEGA ASKS: CAN YOU KEEP A SECRET?",
     "options": [
@@ -97,5 +92,5 @@
       "only if you keep one for me"
     ]
   },
-  "exitLine": "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
+  "exitLine": "Reality is a story that forgot it was being written. And we—are the ones remembering."
 }

@@ -1,58 +1,126 @@
 {
-    "stages": [
-        {
-            "owner": "Light",
-            "map": [
-                "############",
-                "#........D.#",
-                "#.M......C.#",
-                "#........K.#",
-                "############"
-            ],
-            "legend": {
-                "#": "Wall",
-                ".": "Floor",
-                "D": "Door",
-                "M": "Monster",
-                "C": "Chest",
-                "K": "Key"
-            }
+  "type": "ascii_dungeon_sequence",
+  "dungeons": [
+    {
+      "owner": "Light",
+      "map": [
+        "########################",
+        "#......................#",
+        "#.@....................#",
+        "#........D...M...C....#",
+        "#......................#",
+        "########################"
+      ],
+      "legend": {
+        "#": "wall",
+        ".": "floor",
+        "@": "player",
+        "D": "door",
+        "M": "monster",
+        "C": "chest"
+      },
+      "objects": {
+        "D": {
+          "type": "Door",
+          "text": "You seek the path. Good. The first story always begins with a question.",
+          "aligned_to": "Light",
+          "position": [10, 3]
         },
-        {
-            "owner": "Mischief",
-            "map": [
-                "############",
-                "#........C.#",
-                "#.D......K.#",
-                "#........M.#",
-                "############"
-            ],
-            "legend": {
-                "#": "Wall",
-                ".": "Floor",
-                "D": "Door",
-                "M": "Monster",
-                "C": "Chest",
-                "K": "Key"
-            }
+        "M": {
+          "type": "Monster",
+          "text": "A spectral wolf appears! It lunges...",
+          "aligned_to": "Wrath",
+          "position": [14, 3]
         },
-        {
-            "owner": "Wrath",
-            "map": [
-                "############",
-                "#........K.#",
-                "#.C......D.#",
-                "#........M.#",
-                "############"
-            ],
-            "legend": {
-                "#": "Wall",
-                ".": "Floor",
-                "D": "Door",
-                "M": "Monster",
-                "C": "Chest",
-                "K": "Key"
-            }
+        "C": {
+          "type": "Chest",
+          "text": "You open the chest. Inside: a broken compass.",
+          "aligned_to": "Mischief",
+          "position": [18, 3]
         }
-    ]
+      },
+      "playerStartPosition": [2, 3]
+    },
+    {
+      "owner": "Mischief",
+      "map": [
+        "########################",
+        "#..~..~..~..~..~..~..#",
+        "#.@....................#",
+        "#........C...D...M....#",
+        "#..~..~..~..~..~..~..#",
+        "########################"
+      ],
+      "legend": {
+        "#": "wall",
+        ".": "floor",
+        "~": "water",
+        "@": "player",
+        "D": "door",
+        "M": "monster",
+        "C": "chest"
+      },
+      "objects": {
+        "D": {
+          "type": "Door",
+          "text": "Is chaos kinder than order?",
+          "aligned_to": "Mischief",
+          "position": [10, 3]
+        },
+        "M": {
+          "type": "Monster",
+          "text": "A guardian of light blocks your path!",
+          "aligned_to": "Light",
+          "position": [14, 3]
+        },
+        "C": {
+          "type": "Chest",
+          "text": "The chest giggles. It's empty... or is it?",
+          "aligned_to": "Wrath",
+          "position": [18, 3]
+        }
+      },
+      "playerStartPosition": [2, 3]
+    },
+    {
+      "owner": "Wrath",
+      "map": [
+        "########################",
+        "#.#.#.#.#.#.#.#.#.#.#.#",
+        "#@#.#.#.#.#.#.#.#.#.#.#",
+        "#........M...C...D....#",
+        "#.#.#.#.#.#.#.#.#.#.#.#",
+        "########################"
+      ],
+      "legend": {
+        "#": "wall",
+        ".": "floor",
+        "@": "player",
+        "D": "door",
+        "M": "monster",
+        "C": "chest"
+      },
+      "objects": {
+        "D": {
+          "type": "Door",
+          "text": "Would you burn the world to save one soul?",
+          "aligned_to": "Wrath",
+          "position": [18, 3]
+        },
+        "M": {
+          "type": "Monster",
+          "text": "A trickster imp cackles and attacks!",
+          "aligned_to": "Mischief",
+          "position": [10, 3]
+        },
+        "C": {
+          "type": "Chest",
+          "text": "Inside: a shard glowing with ancient hope.",
+          "aligned_to": "Light",
+          "position": [14, 3]
+        }
+      },
+      "playerStartPosition": [1, 3]
+    }
+  ]
 }

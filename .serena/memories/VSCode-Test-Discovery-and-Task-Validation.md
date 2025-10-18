@@ -25,5 +25,5 @@ VS Code Test Explorer was searching for Python tests instead of C# tests. The pr
 - Confirm tests appear in VS Code Test Explorer after build errors are fixed.
 
 ### Reference
-- .NET 10 RC, C# 14, Godot 4.5.1 RC2 compatibility and breaking changes reviewed via context7.
+- .NET 10 RC, C# 14, Godot 4.5.1 compatibility and breaking changes reviewed via context7.
 - All changes and decisions logged for future reference.

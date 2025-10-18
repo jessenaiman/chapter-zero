@@ -45,14 +45,3 @@ repos:
         types: [c#]
         pass_filenames: false
         stages: [commit]
-
-  # Godot GDScript validation
-  - repo: local
-    hooks:
-      - id: gdscript-check
-        name: GDScript Syntax Check
-        entry: bash -c 'echo "✓ GDScript validation placeholder - install gdlint or gdformat for real validation"'
-        language: system
-        files: \.gd$
-        pass_filenames: false
-        stages: [commit]

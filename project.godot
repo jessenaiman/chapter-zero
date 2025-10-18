@@ -35,7 +35,6 @@ CombatEvents="*res://Source/Scripts/combat/CombatEvents.cs"
 Music="*res://Source/Scripts/common/music/MusicPlayer.tscn"
 Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-Log="*res://addons/logger/logger.gd"
 SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
@@ -129,7 +128,7 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/logger/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
 
 [gui]
 

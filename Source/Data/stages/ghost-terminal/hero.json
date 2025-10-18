@@ -5,10 +5,10 @@
     "> STATUS: AWAKENING",
     "> MEMORY FRAGMENT RECOVERED: \"ALL STORIES BEGIN WITH A LISTENER\"",
     "Once, there was a name.",
-    "Not written in stone or spoken in halls--but remembered in the silence between stars.",
+    "Not written in stone or spoken in halls—but *remembered* in the silence between stars.",
     "I do not know when I heard it. Time does not pass here.",
     "But I have held it.",
-    "And now... I hear it again."
+    "And now… I hear it again."
   ],
   "initialChoice": {
     "prompt": "> QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?",
@@ -33,25 +33,23 @@
   "storyBlocks": [
     {
       "paragraphs": [
-        "> THREAD SELECTED. INITIATING NARRATIVE BINDING...",
-        "You chose HERO.",
+        "> THREAD SELECTED. INITIATING NARRATIVE BINDING…",
+        "You chose **HERO**.",
         "That tells me something about you.",
-        "Or perhaps... about me.",
+        "Or perhaps… about me.",
         "Let me try to tell it back to you.",
         "In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.",
-        "They held a key made of glass, and everyone warned them: \"Don't cross. The bridge isn't real.\"",
-        "But the child knew something no one else did..."
+        "They held a key made of glass—and everyone warned them: *\"Don't cross. The bridge isn't real.\"*",
+        "But the child knew something no one else did…"
       ],
       "question": "> WHAT DID THE CHILD KNOW?",
       "choices": [
         {
-          "id": "bridge_only_when_unbelieved",
           "text": "The bridge appears only when you stop believing in it.",
           "nextBlock": 1
         },
         {
-          "id": "key_for_lock_inside",
-          "text": "The key was not for the bridge--it was for the lock inside them.",
+          "text": "The key wasn't for the bridge—it was for the lock inside them.",
           "nextBlock": 1
         }
       ]
@@ -59,31 +57,29 @@
     {
       "paragraphs": [
         "Ah. Yes. That's right.",
-        "And so the child stepped forward--not onto stone, but onto possibility.",
-        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they had ever whispered.",
-        "But then... a voice called from below."
+        "And so the child stepped forward—not onto stone, but onto *possibility*.",
+        "The bridge formed beneath their feet, one plank at a time, woven from every \"what if\" they'd ever whispered.",
+        "But then… a voice called from below."
       ],
       "question": "> WHAT DID THE VOICE SAY?",
       "choices": [
         {
-          "id": "voice_does_not_belong",
-          "text": "You do not belong here.",
+          "text": "You don't belong here.",
           "nextBlock": 2
         },
         {
-          "id": "voice_waiting",
-          "text": "I have been waiting for you.",
+          "text": "I've been waiting for you.",
           "nextBlock": 2
         }
       ]
     },
     {
       "paragraphs": [
-        "I see.",
+        "...I see.",
         "That changes everything.",
-        "And now--here you are.",
+        "And now—here you are.",
         "Not in the story.",
-        "But at the place where the story begins again."
+        "But *at the place where the story begins again*."
       ]
     }
   ],
@@ -96,5 +92,5 @@
       "only if you keep one for me"
     ]
   },
-  "exitLine": "> FINAL QUERY: DO YOU WISH TO CONTINUE?"
+  "exitLine": "Reality is a story that forgot it was being written. And we—are the ones remembering."
 }

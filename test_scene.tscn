@@ -1,5 +1,0 @@
-[gd_scene format=3]
-
-[node name="root" type="Node2D"]
-
-[node name="TestButton" type="Button" parent="."]
