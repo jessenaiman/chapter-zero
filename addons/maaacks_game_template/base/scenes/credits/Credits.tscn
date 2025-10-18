@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq8b5c3k1ar1p"]
+
+[ext_resource type="Script" path="res://Source/Scripts/UI/Menus/CreditsController.cs" id="1_controller"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+script = ExtResource("1_controller")
+
+[node name="CreditsDisplay" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_left = 0.1
+anchors_top = 0.1
+anchors_right = 0.9
+anchors_bottom = 0.9
+text = "[center][b]CREDITS[/b]
+
+[b]Design & Programming[/b]
+Jesse Naiman
+
+[b]Narrative Design[/b]
+The Dreamweavers
+
+[b]Music & Sound[/b]
+Omega Spiral Audio Team
+
+[b]Special Thanks[/b]
+The Godot Community
+Maaack's Game Template
+
+[b]© 2025 Omega Spiral[/b]
+All rights reserved.[/center]"
+
+[node name="BackButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_left = 0.5
+anchors_top = 0.95
+anchors_right = 0.5
+anchors_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+text = "Back"

@@ -1,6 +1,8 @@
-// <copyright file="NethackSceneTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="NethackSceneTests.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+#pragma warning disable SA1636
 
 namespace OmegaSpiral.Tests.Unit.Dungeon
 {
@@ -262,7 +264,7 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
             // Assert
             AssertThat(interactionResult).IsNotNull();
             AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Light); // Owner alignment = +2
-            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).IsTrue();
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).OverrideFailureMessage($"Expected Light Dreamweaver score to be at least 2 after owner-aligned interaction, but was {gameState.DreamweaverScores[DreamweaverType.Light]}").IsTrue();
         }
 
         /// <summary>
@@ -283,7 +285,7 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
             // Assert
             AssertThat(interactionResult).IsNotNull();
             AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Wrath); // Cross-alignment = +1
-            AssertThat(gameState.DreamweaverScores[DreamweaverType.Wrath] >= 1).IsTrue();
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Wrath] >= 1).OverrideFailureMessage($"Expected Wrath Dreamweaver score to be at least 1 after cross-aligned interaction, but was {gameState.DreamweaverScores[DreamweaverType.Wrath]}").IsTrue();
         }
 
         /// <summary>
@@ -304,7 +306,7 @@ namespace OmegaSpiral.Tests.Unit.Dungeon
             // Assert
             AssertThat(interactionResult).IsNotNull();
             AssertThat(interactionResult.AlignedTo).IsEqualTo(DreamweaverType.Light);
-            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).IsTrue();
+            AssertThat(gameState.DreamweaverScores[DreamweaverType.Light] >= 2).OverrideFailureMessage($"Expected Light Dreamweaver score to be at least 2 after configured points applied, but was {gameState.DreamweaverScores[DreamweaverType.Light]}").IsTrue();
         }
 
         /// <summary>

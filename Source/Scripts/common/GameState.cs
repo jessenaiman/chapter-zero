@@ -190,6 +190,15 @@ public partial class GameState : Node
     }
 
     /// <summary>
+    /// Gets the total score across all Dreamweaver types.
+    /// </summary>
+    /// <returns>The sum of all Dreamweaver scores.</returns>
+    public int GetTotalScore()
+    {
+        return this.DreamweaverScores.Values.Sum();
+    }
+
+    /// <summary>
     /// Saves the current game state to the database.
     /// </summary>
     /// <param name="saveSlot">The save slot name (optional, defaults to "default").</param>

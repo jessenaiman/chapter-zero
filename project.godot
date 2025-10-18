@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.5 and C# 14"
-run/main_scene="res://Source/Scenes/Scene1Narrative.tscn"
+run/main_scene="res://Source/Scenes/GhostTerminal/Opening.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
@@ -35,6 +35,10 @@ CombatEvents="*res://Source/Scripts/combat/CombatEvents.cs"
 Music="*res://Source/Scripts/common/music/MusicPlayer.tscn"
 Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+Log="*res://addons/logger/logger.gd"
+SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loader.tscn"
+ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
+ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
 
 [dialogic]
 
@@ -69,6 +73,43 @@ directories/dtl_directory={
 "warrior": "res://Source/overworld/maps/town/warrior.dtl",
 "wizard": "res://Source/overworld/maps/town/wizard.dtl"
 }
+layout/style_list=[]
+layout/default_style="Default"
+variables={}
+glossary/default_case_sensitive=true
+extensions_folder="res://addons/dialogic_additions"
+text/letter_speed=0.01
+text/initial_text_reveal_skippable=true
+text/text_reveal_skip_delay=0.1
+text/advance_delay=0.1
+text/autoadvance_per_character_delay=0.1
+text/autoadvance_ignored_characters_enabled=true
+choices/autofocus_first=true
+choices/delay=0.2
+choices/reveal_delay=0
+choices/reveal_by_input=false
+animations/join_default_length=0.5
+animations/join_default_wait=true
+animations/leave_default_length=0.5
+animations/leave_default_wait=true
+animations/cross_fade_default_length=0.5
+save/autosave_delay=60.0
+save/encryption_on_exports_only=true
+text/autopauses={}
+audio/channel_defaults={
+"": {
+"audio_bus": "",
+"fade_length": 0.0,
+"loop": false,
+"volume": 0.0
+},
+"music": {
+"audio_bus": "",
+"fade_length": 0.0,
+"loop": true,
+"volume": 0.0
+}
+}
 
 [display]
 
@@ -88,15 +129,26 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/dialogic/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/logger/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
 
 [gui]
 
 theme/custom="res://theme.tres"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+
+[maaacks_game_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
+copy_path="res://examples/"
+
 [plugins]
 
-ai_assistant_hub/llm_api="gemini_api"
+ai_assistant_hub/llm_api="ollama_api"
 ai_assistant_hub/preferences/thinking_target=0
 ai_assistant_hub/preferences/skip_greeting=false
 ai_assistant_hub/preferences/always_scroll_to_bottom=false

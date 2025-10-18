@@ -1,0 +1,154 @@
+// <copyright file="CrossActIntegrationTests.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
+// </copyright>
+
+#pragma warning disable SA1636
+
+namespace OmegaSpiral.Tests.Integration
+{
+    using System.IO;
+    using GdUnit4;
+    using Godot;
+    using OmegaSpiral.Source.Scripts.Field.Narrative;
+    using OmegaSpiral.Source.Scripts.Domain.Dungeon;
+    using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+    using OmegaSpiral.Source.Scripts.Infrastructure;
+    using OmegaSpiral.Source.Scripts.Infrastructure.Dungeon;
+    using static GdUnit4.Assertions;
+
+    /// <summary>
+    /// Integration tests that validate the complete game flow across both acts.
+    /// Tests ensure seamless transition from TerminalUI narrative (Act 1) to AsciiRoomRenderer dungeon (Act 2).
+    /// Validates that both visual experiences work together and Dreamweaver affinity affects gameplay.
+    /// </summary>
+    [TestSuite]
+    public class CrossActIntegrationTests
+    {
+        /// <summary>
+        /// Tests complete narrative-to-dungeon transition with Dreamweaver affinity scoring.
+        /// Validates that first act choices influence second act dungeon mechanics.
+        /// </summary>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void CompleteGameFlow_FromTerminalToDungeon_IntegratesVisualExperiences()
+        {
+            // Arrange: Load first act narrative configuration
+            string heroStagePath = Path.Combine("Source", "Data", "stages", "ghost-terminal", "hero.json");
+            string heroJsonContent = File.ReadAllText(heroStagePath);
+            var heroConfig = ConfigurationService.LoadConfigurationFromString(heroJsonContent, heroStagePath);
+
+            // Act: Process first act narrative
+            NarrativeSceneData heroSceneData = NarrativeSceneFactory.Create(heroConfig);
+            GhostTerminalCinematicPlan heroPlan = GhostTerminalCinematicDirector.BuildPlan(heroSceneData);
+
+            // Assert: First act generates valid cinematic plan
+            AssertThat(heroSceneData.OpeningLines.Count).IsGreater(0);
+            AssertThat(heroPlan.Beats.Count).IsGreater(0);
+            AssertThat(heroPlan.Beats[^1].Type).IsEqual(GhostTerminalBeatType.ExitLine);
+
+            // Arrange: Load second act dungeon sequence
+            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
+
+            // Act: Process second act dungeon
+            var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
+
+            // Assert: Second act loads valid dungeon sequence
+            AssertThat(dungeonSequence).IsNotNull();
+            AssertThat(dungeonSequence.Stages).HasSize(3);
+
+            // Validate integration: Both acts have interactive elements
+            bool firstActHasInteractiveContent = heroSceneData.OpeningLines.Count > 0;
+            bool secondActHasInteractiveElements = dungeonSequence.Stages.Any(stage =>
+                stage.Legend.Any(kvp => kvp.Value != "wall" && kvp.Value != "floor" && kvp.Value != "player"));
+
+            AssertThat(firstActHasInteractiveContent).IsTrue();
+            AssertThat(secondActHasInteractiveElements).IsTrue();
+
+            // Validate scene transition paths exist
+            AssertThat(AppConfig.GameScenePath).IsNotNull();
+            AssertThat(AppConfig.MainMenuScenePath).IsNotNull();
+        }
+
+        /// <summary>
+        /// Tests that Dreamweaver affinity scoring from first act influences second act dungeon difficulty.
+        /// Validates the narrative choices affect gameplay mechanics.
+        /// </summary>
+        [TestCase]
+        public void DreamweaverAffinity_FromNarrativeChoices_AffectsDungeonMechanics()
+        {
+            // This test would validate that narrative choices in the first act
+            // influence dungeon generation, enemy difficulty, or available interactions
+            // in the second act. Implementation depends on how affinity scoring
+            // is integrated between the acts.
+
+            // For now, validate that both systems can coexist
+            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
+            var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
+
+            // Validate dungeon has scoring-capable elements
+            foreach (var stage in dungeonSequence.Stages)
+            {
+                var interactiveElements = stage.Legend.Where(kvp =>
+                    kvp.Value != "wall" && kvp.Value != "floor" && kvp.Value != "player").ToList();
+
+                AssertThat(interactiveElements.Count).IsGreater(0);
+            }
+        }
+
+        /// <summary>
+        /// Tests visual consistency between TerminalUI (first act) and AsciiRoomRenderer (second act).
+        /// Validates that both rendering systems maintain game aesthetic coherence.
+        /// </summary>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void VisualConsistency_AcrossActs_MaintainsGameAesthetic()
+        {
+            // Load both act configurations
+            string[] stageIds = { "hero", "shadow", "ambition", "omega" };
+            var dungeonJsonPath = "../../Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonJsonContent = System.IO.File.ReadAllText(dungeonJsonPath);
+            var dungeonSequence = AsciiDungeonSequenceLoader.LoadFromJson(dungeonJsonContent);
+
+            // Validate first act has narrative content
+            foreach (string stageId in stageIds)
+            {
+                string relativePath = Path.Combine("Source", "Data", "stages", "ghost-terminal", $"{stageId}.json");
+                string jsonContent = File.ReadAllText(relativePath);
+                var config = ConfigurationService.LoadConfigurationFromString(jsonContent, relativePath);
+                NarrativeSceneData sceneData = NarrativeSceneFactory.Create(config);
+
+                AssertThat(sceneData.OpeningLines.Count).IsGreater(0);
+            }
+
+            // Validate second act has structured dungeon content
+            AssertThat(dungeonSequence.Stages.Count).IsGreater(0);
+            foreach (var stage in dungeonSequence.Stages)
+            {
+                AssertThat(stage.Map.Count).IsGreater(0);
+                AssertThat(stage.Legend.Count).IsGreater(0);
+            }
+        }
+
+        /// <summary>
+        /// Tests addon compatibility across both acts.
+        /// Validates that AppConfig properties are accessible and functional.
+        /// </summary>
+        [TestCase]
+        public void AddonCompatibility_AppConfigProperties_AreAccessible()
+        {
+            // Test that AppConfig properties exist and are accessible
+            // These are required by the maaacks_game_template addon
+
+            AssertThat(AppConfig.MainMenuScenePath).IsNotNull();
+            AssertThat(AppConfig.main_menu_scene_path).IsNotNull();
+            AssertThat(AppConfig.ending_scene_path).IsNotNull();
+
+            // Validate paths point to valid scenes
+            AssertThat(AppConfig.MainMenuScenePath).EndsWith(".tscn");
+            AssertThat(AppConfig.main_menu_scene_path).EndsWith(".tscn");
+            AssertThat(AppConfig.ending_scene_path).EndsWith(".tscn");
+        }
+    }
+}

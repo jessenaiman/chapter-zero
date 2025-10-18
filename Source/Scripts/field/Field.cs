@@ -36,6 +36,12 @@ public partial class Field : Node2D
     [Export]
     public Cutscene? OpeningCutscene { get; set; }
 
+    /// <summary>
+    /// Emitted when the player requests to exit the field exploration act.
+    /// </summary>
+    [Signal]
+    public delegate void ActExitRequestedEventHandler();
+
     /// <inheritdoc/>
     public override void _Ready()
     {
@@ -89,6 +95,19 @@ public partial class Field : Node2D
         if (this.OpeningCutscene != null)
         {
             this.OpeningCutscene.Run();
+        }
+
+        GD.Print("Field: RPG exploration act ready - press ESC to exit");
+    }
+
+    /// <inheritdoc/>
+    public override void _Input(InputEvent @event)
+    {
+        // Check for exit condition - ESC key exits the RPG act
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.Escape)
+        {
+            GD.Print("Field: Exit requested - returning to Omega Spiral act sequence");
+            this.EmitSignal(SignalName.ActExitRequested);
         }
     }
 }

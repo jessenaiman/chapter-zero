@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://test_terminal_integration_scene"]
+
+[ext_resource type="Script" uid="uid://test_terminal_integration_script" path="res://Source/Scripts/field/narrative/TestTerminalIntegration.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://terminal_ui_scene" path="res://Source/Scenes/field/narrative/TerminalUI.tscn" id="2_scene"]
+
+[node name="TestTerminalIntegration" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="TerminalUI" type="Node" parent="." instance=ExtResource("2_scene")]
+position = Vector2(0, 0)
+
+[connection signal="ready" from="TestTerminalIntegration" to="TestTerminalIntegration" method="_on_TestTerminalIntegration_ready"]

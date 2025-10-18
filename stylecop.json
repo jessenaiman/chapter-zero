@@ -16,5 +16,11 @@
         "delegate"
       ]
     }
-  }
+  },
+  "suppressions": [
+    {
+      "ruleId": "SA1636",
+      "file": "**/*.cs"
+    }
+  ]
 }

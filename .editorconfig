@@ -132,3 +132,6 @@ dotnet_naming_style.method_style.capitalization = pascal_case
 
 [.godot/**/*.cs]
 dotnet_diagnostic.CS1591.severity = none
+
+# Suppress SA1636 copyright header warnings
+dotnet_diagnostic.SA1636.severity = none

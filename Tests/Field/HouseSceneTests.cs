@@ -1,6 +1,11 @@
-// <copyright file="HouseSceneTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="HouseSceneTests.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+#pragma warning disable SA1636
+#pragma warning disable SA1202
+#pragma warning disable SA1401
+#pragma warning disable SA1403
 
 namespace OmegaSpiral.Tests.Field;
 
@@ -16,11 +21,15 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public class HouseSceneTests
 {
+#pragma warning disable SA1202
+#pragma warning disable SA1401
+#pragma warning disable SA1403
+
     private static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 
-    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-
     private static string HouseScenePath => ResolveProjectPath("Source/overworld/maps/house/wand_pedestal_interaction.tscn");
+
+    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
 
     /// <summary>
     /// Tests that the house scene file exists and contains valid content.

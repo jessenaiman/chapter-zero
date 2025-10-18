@@ -1,6 +1,8 @@
-// <copyright file="FieldCombatStageTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="FieldCombatStageTests.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+#pragma warning disable SA1636
 
 namespace OmegaSpiral.Tests.Field;
 

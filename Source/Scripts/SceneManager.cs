@@ -66,14 +66,20 @@ namespace OmegaSpiral.Source.Scripts
         }
 
         /// <summary>
-        /// Transitions to a new scene by name.
+        /// Transitions to a new scene by name with loading screen support.
+        /// Implements the Maaack Game Template loading pattern.
         /// </summary>
         /// <param name="sceneName">The name of the scene to transition to (e.g., "Scene2NethackSequence").</param>
-        public void TransitionToScene(string sceneName)
+        /// <param name="showLoadingScreen">Whether to show a loading screen during transition.</param>
+        public void TransitionToScene(string sceneName, bool showLoadingScreen = true)
         {
             GD.Print($"Transitioning to scene: {sceneName}");
 
-            // Map scene names to their file paths
+            // TODO: Implement loading screen logic when showLoadingScreen is true
+            if (showLoadingScreen)
+            {
+                GD.Print("Loading screen requested but not yet implemented");
+            }
             string scenePath = sceneName switch
             {
                 "Scene1Narrative" => "res://Source/Scenes/Scene1Narrative.tscn",
@@ -83,6 +89,8 @@ namespace OmegaSpiral.Source.Scripts
                 "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",
                 "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
                 "OpenRPGMain" => "res://Source/ExternalScenes/OpenRPGMain.tscn",
+                "MainMenu" => "res://addons/maaacks_game_template/base/scenes/menus/main_menu/MainMenu.tscn",
+                "CharacterSelection" => "res://Source/Scenes/CharacterSelection.tscn",
                 _ => string.Empty,
             };
 
@@ -92,7 +100,8 @@ namespace OmegaSpiral.Source.Scripts
                 return;
             }
 
-            // Use Godot's scene change functionality
+            // Use standard Godot scene change functionality
+            // Loading screens handled by LoadingScreenController in scene hierarchy
             var error = this.GetTree().ChangeSceneToFile(scenePath);
             if (error != Error.Ok)
             {

@@ -1,17 +1,15 @@
 {
   "version": "2.0.0",
-  "tasks": [
-    {
+    "tasks": [
+{
       "label": "build",
       "command": "dotnet",
-      "type": "shell",
+      "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/OmegaSpiral.sln",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
+        "--no-restore"
       ],
-      "group": "build",
+      "problemMatcher": "$msCompile",
       "presentation": {
         "echo": true,
         "reveal": "silent",
@@ -19,29 +17,7 @@
         "panel": "shared",
         "showReuseMessage": true,
         "clear": false
-      },
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "build-tests",
-      "command": "dotnet",
-      "type": "shell",
-      "args": [
-        "build",
-        "${workspaceFolder}/Tests/OmegaSpiral.Tests.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "group": "build",
-      "presentation": {
-        "echo": true,
-        "reveal": "silent",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false
-      },
-      "problemMatcher": "$msCompile"
+      }
     },
     {
       "label": "test",

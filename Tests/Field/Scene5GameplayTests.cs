@@ -28,8 +28,6 @@ public partial class Scene5GameplayTests : Node
 {
     private static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 
-    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-
     private static string TownScenePath => ResolveProjectPath("Source/overworld/maps/town/town.tscn");
 
     private static string HouseScenePath => ResolveProjectPath("Source/overworld/maps/house/wand_pedestal_interaction.tscn");
@@ -248,4 +246,6 @@ public partial class Scene5GameplayTests : Node
         AssertThat(gameState.PlayerParty.Members).HasSize(4);
         townInstance.QueueFree();
     }
+
+    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
 }

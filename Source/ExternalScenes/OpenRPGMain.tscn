@@ -1,0 +1,6 @@
+[gd_scene load_steps=1 format=3 uid="uid://b8k7m5n2p9q3r"]
+
+[ext_resource type="Script" path="res://Source/ExternalScenes/OpenRPGMain.cs" id="1_script"]
+
+[node name="OpenRPGMain" type="Node2D"]
+script = ExtResource("1_script")

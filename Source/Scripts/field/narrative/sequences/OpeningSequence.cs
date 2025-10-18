@@ -60,10 +60,10 @@ public partial class OpeningSequence : NarrativeSequence
         base.OnSequenceReady();
 
         // Get scene nodes
-        this.choiceContainer = this.GetNode<VBoxContainer>("ChoiceContainer");
-        this.heroButton = this.GetNode<Button>("ChoiceContainer/HeroButton");
-        this.shadowButton = this.GetNode<Button>("ChoiceContainer/ShadowButton");
-        this.ambitionButton = this.GetNode<Button>("ChoiceContainer/AmbitionButton");
+        this.choiceContainer = this.GetNode<VBoxContainer>("CenterContainer/VBoxContainer/ChoiceContainer");
+        this.heroButton = this.GetNode<Button>("CenterContainer/VBoxContainer/ChoiceContainer/HeroButton");
+        this.shadowButton = this.GetNode<Button>("CenterContainer/VBoxContainer/ChoiceContainer/ShadowButton");
+        this.ambitionButton = this.GetNode<Button>("CenterContainer/VBoxContainer/ChoiceContainer/AmbitionButton");
 
         // Connect button signals
         if (this.heroButton != null)
@@ -260,43 +260,65 @@ public partial class OpeningSequence : NarrativeSequence
     /// </summary>
     private async Task ShowChoiceButtonsAsync()
     {
-        if (this.choiceContainer == null)
+        if (this.choiceContainer == null || this.sceneData?.InitialChoice?.Options == null)
         {
             return;
         }
 
-        // Make container visible
         this.choiceContainer.Visible = true;
 
-        // Get choice options from scene data
-        if (this.sceneData?.InitialChoice?.Options != null)
-        {
-            var options = this.sceneData.InitialChoice.Options;
-            if (options.Count >= 3)
-            {
-                // Update button texts and show them with animations
-                if (this.heroButton != null)
-                {
-                    this.heroButton.Text = options[0].Text ?? options[0].Id ?? "HERO";
-                    this.AnimateButtonAppearance(this.heroButton);
-                }
-
-                if (this.shadowButton != null)
-                {
-                    this.shadowButton.Text = options[1].Text ?? options[1].Id ?? "SHADOW";
-                    this.AnimateButtonAppearance(this.shadowButton);
-                }
-
-                if (this.ambitionButton != null)
-                {
-                    this.ambitionButton.Text = options[2].Text ?? options[2].Id ?? "AMBITION";
-                    this.AnimateButtonAppearance(this.ambitionButton);
-                }
-            }
-        }
+        this.UpdateChoiceButtonTexts();
+        this.AnimateChoiceButtons();
 
         // Add a small delay for visual effect
         await Task.Delay(500).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Updates the text of choice buttons from scene data.
+    /// </summary>
+    private void UpdateChoiceButtonTexts()
+    {
+        var options = this.sceneData!.InitialChoice!.Options!;
+        if (options.Count < 3)
+        {
+            return;
+        }
+
+        this.heroButton!.Text = this.GetButtonText(options[0]);
+        this.shadowButton!.Text = this.GetButtonText(options[1]);
+        this.ambitionButton!.Text = this.GetButtonText(options[2]);
+    }
+
+    /// <summary>
+    /// Animates the appearance of choice buttons.
+    /// </summary>
+    private void AnimateChoiceButtons()
+    {
+        if (this.heroButton != null)
+        {
+            this.AnimateButtonAppearance(this.heroButton);
+        }
+
+        if (this.shadowButton != null)
+        {
+            this.AnimateButtonAppearance(this.shadowButton);
+        }
+
+        if (this.ambitionButton != null)
+        {
+            this.AnimateButtonAppearance(this.ambitionButton);
+        }
+    }
+
+    /// <summary>
+    /// Gets the display text for a choice button.
+    /// </summary>
+    /// <param name="option">The choice option.</param>
+    /// <returns>The button text.</returns>
+    private string GetButtonText(DreamweaverChoice option)
+    {
+        return option.Text ?? option.Id ?? "UNKNOWN";
     }
 
     /// <summary>

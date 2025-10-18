@@ -47,18 +47,22 @@
           "dependencies": {
             "Godot.SourceGenerators": {
               "target": "Package",
-              "version": "[4.5.1, )",
+              "version": "[4.5.0, )",
               "autoReferenced": true
             },
             "GodotSharp": {
               "target": "Package",
-              "version": "[4.5.1, )",
+              "version": "[4.5.0, )",
               "autoReferenced": true
             },
             "GodotSharpEditor": {
               "target": "Package",
-              "version": "[4.5.1, )",
+              "version": "[4.5.0, )",
               "autoReferenced": true
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[8.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
@@ -78,13 +82,19 @@
               "target": "Package",
               "version": "[4.14.1, )"
             },
-            "coverlet.collector": {
+            "gdUnit4.analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.4, )"
+              "version": "[1.0.0, )"
             },
             "gdUnit4.api": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "gdUnit4.test.adapter": {
+              "target": "Package",
+              "version": "[3.0.0, )"
             }
           },
           "imports": [

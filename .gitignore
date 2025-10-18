@@ -1,6 +1,6 @@
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
-addons/
+.reference/
 
 # LLM Models (large binary files - download separately)
 models/*.gguf
@@ -11,6 +11,16 @@ addons/nobodywho/*.so
 addons/nobodywho/*.dll
 addons/nobodywho/*.dylib
 addons/nobodywho/*.pdb
+
+# Ignore git repositories within addons
+addons/**/[.git|.gitignore]/
+addons/**/lib
+addons/**/bin
+addons/**/obj
+addons/**/build/
+addons/**/dist/
+addons/**/out/
+addons/**/.github
 
 # Chat exports (may contain sensitive tokens)
 chat-export-*.json
@@ -24,10 +34,15 @@ obj/
 # Godot generated files
 .godot/
 .mono/
+.godot/shader_cache/
+.godot/mono/
+.godot/imported/
 
 # IDE and OS clutter
 .vscode/
 .idea/
+.local/
+.nuget/
 .DS_Store
 Thumbs.db
 *.tmp
@@ -57,4 +72,4 @@ reports/
 
 # IDE specific
 .vscode/tasks.json
-EOF</execute_command>
+addons/dialogic/

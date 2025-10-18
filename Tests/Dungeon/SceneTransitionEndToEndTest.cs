@@ -1,6 +1,8 @@
-// <copyright file="SceneTransitionEndToEndTest.cs" company="Ωmega Spiral">
-// Copyright (c) Ωmega Spiral. All rights reserved.
+// <copyright file="SceneTransitionEndToEndTest.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+#pragma warning disable SA1636
 
 namespace OmegaSpiral.Tests.EndToEnd.Transition
 {
@@ -22,9 +24,20 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
     public class SceneTransitionEndToEndTest
     {
         /// <summary>
+        /// Gets the path to the dungeon sequence JSON file.
+        /// </summary>
+        /// <returns>The absolute path to the dungeon_sequence.json file.</returns>
+        private static string GetDungeonSequencePath()
+        {
+            string projectRoot = System.IO.Path.GetFullPath(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", ".."));
+            return System.IO.Path.Combine(projectRoot, "Source", "Data", "stages", "nethack", "dungeon_sequence.json");
+        }
+
+        /// <summary>
         /// Tests the complete transition from Scene 1 to Scene 2 with state preservation.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void Scene1ToScene2_Transition_PreservesGameState()
         {
             // Simulate the game state after Scene 1
@@ -50,7 +63,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             // For this unit test, we'll validate the underlying components
 
             // Verify the dungeon sequence file exists and is valid
-            var dungeonSequencePath = "res://Source/Data/stages/nethack/dungeon_sequence.json";
+            var dungeonSequencePath = GetDungeonSequencePath();
             var jsonContent = System.IO.File.ReadAllText(dungeonSequencePath);
 
             AssertThat(jsonContent).IsNotNull();
@@ -71,10 +84,11 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
         /// Tests that the ASCII dungeon sequence runner properly integrates with the scene transition system.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void Scene2_AsciiDungeon_RunnerIntegration()
         {
             // Create the dungeon sequence
-            var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
+            var jsonContent = System.IO.File.ReadAllText(GetDungeonSequencePath());
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             // Create publisher and service for the runner
@@ -89,7 +103,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
 
             // Verify initial state
             AssertThat(publisher.LastStageEnteredEvent).IsNotNull();
-            AssertThat(publisher.LastStageEnteredEvent.StageIndex).IsEqual(0);
+            AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(0);
             AssertThat(publisher.LastStageEnteredEvent.Owner).IsEqualTo(sequence.Stages[0].Owner);
 
             // Simulate some player interactions
@@ -126,8 +140,8 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             runner.CompleteCurrentStage();
 
             // Verify progression to next stage
-            AssertThat(publisher.LastStageEnteredEvent.StageIndex).IsEqual(1);
-            AssertThat(publisher.LastStageEnteredEvent.Owner).IsEqualTo(sequence.Stages[1].Owner);
+            AssertThat(publisher.LastStageEnteredEvent!.StageIndex).IsEqual(1);
+            AssertThat(publisher.LastStageEnteredEvent!.Owner).IsEqualTo(sequence.Stages[1].Owner);
 
             // Complete all stages
             runner.CompleteCurrentStage(); // Stage 2
@@ -142,6 +156,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
         /// Tests the complete flow from Scene 1 narrative completion to Scene 2 ASCII dungeon start.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void Scene1ToScene2_CompleteFlow()
         {
             // This test simulates the complete flow from Ghost Terminal (Scene 1) to ASCII Dungeon (Scene 2)
@@ -159,7 +174,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             gameState.UpdateDreamweaverScore(DreamweaverType.Wrath, 2);
 
             // Verify the dungeon sequence JSON exists and is valid
-            var jsonPath = "res://Source/Data/stages/nethack/dungeon_sequence.json";
+            var jsonPath = GetDungeonSequencePath();
             AssertThat(System.IO.File.Exists(jsonPath)).IsTrue();
 
             var jsonContent = System.IO.File.ReadAllText(jsonPath);
@@ -198,6 +213,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             {
                 AssertThat(owners.Add(stage.Owner)).IsTrue(); // Should add successfully (unique)
             }
+
             AssertThat(owners.Count).IsEqual(3); // All three different owners
         }
 
@@ -205,11 +221,10 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
         /// Tests that the scene transition maintains the overall narrative flow as described in the nethack scene spec.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void SceneTransition_MaintainsNarrativeFlow()
         {
-            // Load and verify the dungeon sequence matches narrative requirements
-
-            var jsonContent = System.IO.File.ReadAllText("res://Source/Data/stages/nethack/dungeon_sequence.json");
+            var jsonContent = System.IO.File.ReadAllText(GetDungeonSequencePath());
             var sequence = AsciiDungeonSequenceLoader.LoadFromJson(jsonContent);
 
             // According to the spec:
@@ -217,7 +232,6 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             // - The layout shifts slightly between runs but objects stay in same relative zone
             // - You cannot change objects - only choose which to approach
             // - On interaction, only aligned Dreamweaver speaks but line reflects how they see choice
-
             AssertThat(sequence.Stages).HasSize(3); // Three dungeons
 
             foreach (var stage in sequence.Stages)
@@ -230,7 +244,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
                 var interactiveObjects = 0;
                 foreach (var kvp in stage.Legend)
                 {
-                    var description = kvp.Value.ToLower();
+                    var description = kvp.Value.ToLower(System.Globalization.CultureInfo.InvariantCulture);
                     if (description != "wall" && description != "floor" && description != "player")
                     {
                         interactiveObjects++;
@@ -249,6 +263,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             foreach (var stage in sequence.Stages)
             {
                 var interactionResult = stage.ResolveInteraction(stage.Map[0][0]); // Test with dummy character
+
                 // The actual interaction would happen with real object characters
             }
         }
@@ -256,9 +271,11 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
         private sealed class TestDungeonEventPublisher : IDungeonEventPublisher
         {
             public int StageEnteredEventsCount { get; private set; }
+
             public int StagesClearedCount { get; private set; }
 
             public DungeonStageEnteredEvent? LastStageEnteredEvent { get; private set; }
+
             public DungeonStageClearedEvent? LastStageClearedEvent { get; private set; }
 
             public void PublishStageCleared(DungeonStageClearedEvent domainEvent)
@@ -277,6 +294,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
         private sealed class TestDreamweaverAffinityService : IDreamweaverAffinityService
         {
             public DreamweaverType LastAppliedOwner { get; private set; } = DreamweaverType.Light;
+
             public DreamweaverAffinityChange? LastAppliedChange { get; private set; }
 
             public void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change)

@@ -2,29 +2,29 @@
 
 **Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
-## Engine Checklist
+THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
-If you don't understand the codebase or project do not make changes until you do.
+## General Rules
+- Act like a developer with 20+ years of experience
+- Use the terminal commands `dotnet` to review project status, build, and run tests
+- You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
+- Always confirm that the project builds successfully after changes
+- Always confirm that all tests pass after changes
+- Always confirm that there are no warnings or errors in the terminal output after building and testing
+- Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
+- Always follow the [Code Standards](./../coding-conventions.instructions.md)
+- Always follow the XML Documentation Rules
+-
 
-use the tools and work like a pair programmer carefully explaining in chat files to review. Do not assume, guess, or 'think', use the mcp tool context7 or ask direct questions.
-
-1. What scenes already load?
-2. What tests already run?
-3. Did you check the project or build to understand the codebase?
-4. Did you fix all issues, warnings, problems, broken tests?
-5. Do you understand the game we're building
-6. If the answer is no to any of these is no repeat steps 1-5 until the answer
-7. I don't think so. Did you actually do steps 1-6? Check again
-
-### Tools USE THEM FIRST
+### Tools USE or LOSE
 
 - Always read tool descriptions completely before using
-- Don't make the user waste tokens telling you about issues that could have been found with tools.
+- Do not run terminal commands or scripts that have tool solutions available
 
-You have a tool to view vscode problems which you are REQUIRED to check.
-You must confirm that the problems tab is clean before moving on.
-You MUST use the `[problems]` tool, this is not optional.
-
+### YOU MUST FOLLOW THESE RULES TO THE LETTER:
+**ALWAYS MAKE SURE THE PROJECT BUILDS SUCCESSFULLY**
+**ALWAYS MAKE SURE ALL TESTS PASS**
+**ALWAYS MAKE SURE THERE ARE NO WARNINGS OR ERRORS IN THE TERMINAL OUTPUT**
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
 **ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS**
 **FIX ALL ISSUES, WARNINGS, PROBLEMS, BROKEN TESTS**
@@ -33,20 +33,9 @@ You MUST use the `[problems]` tool, this is not optional.
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 
-## Documentation Rules
-
 ## [Code Standards](./../coding-conventions.instructions.md)
 
 **FIX EVERYTHING**
-- Present brief actionable next steps only
-- Never justify incomplete work
-- Demonstrate in chat and through test or terminal results success
-- Never waste tokens and context on success stories
-- Review your work and provide a constant updated prompt that can be used to reviewed the files and changes made:
-  - brief single paragraph with file names
-  - line numbers
-  - reason and how it ties to the user request.
-- Use TODO, and FIX, and similar tags where attention is required
 
 **MUST ENFORCE XML Documentation Comments**
 **MUST DOUBLE CHECK FOR ALL [CSHARP STYLE RULES](./../c_sharp_style_guide.md) and [CODING CONVENTIONS](./../coding-conventions.instructions.md)**

@@ -1,0 +1,75 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlhgf8qb5x7m2"]
+
+[ext_resource type="Script" path="res://Source/Scripts/UI/Menus/CharacterSelectionController.cs" id="1_controller"]
+
+[node name="CharacterSelection" type="Control"]
+layout_mode = 3
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+script = ExtResource("1_controller")
+
+[node name="SelectionContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_left = 0.5
+anchors_top = 0.5
+anchors_right = 0.5
+anchors_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+separation = 15
+
+[node name="Title" type="Label" parent="SelectionContainer"]
+layout_mode = 2
+text = "Create Your Character"
+alignment = 1
+theme_type_variations = ["title"]
+
+[node name="PlayerNameContainer" type="HBoxContainer" parent="SelectionContainer"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="SelectionContainer/PlayerNameContainer"]
+layout_mode = 2
+text = "Player Name:"
+
+[node name="PlayerNameInput" type="LineEdit" parent="SelectionContainer/PlayerNameContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter your name"
+
+[node name="CharacterSelectContainer" type="HBoxContainer" parent="SelectionContainer"]
+layout_mode = 2
+
+[node name="CharacterSelectLabel" type="Label" parent="SelectionContainer/CharacterSelectContainer"]
+layout_mode = 2
+text = "Select Character:"
+
+[node name="CharacterSelectDropdown" type="OptionButton" parent="SelectionContainer/CharacterSelectContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 5
+popup/item_0/text = "Hero"
+popup/item_1/text = "Shadow"
+popup/item_2/text = "Sage"
+popup/item_3/text = "Rogue"
+popup/item_4/text = "Mystic"
+
+[node name="ButtonContainer" type="HBoxContainer" parent="SelectionContainer"]
+layout_mode = 2
+separation = 10
+alignment = 1
+
+[node name="StartButton" type="Button" parent="SelectionContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Game"
+
+[node name="BackButton" type="Button" parent="SelectionContainer/ButtonContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Back"

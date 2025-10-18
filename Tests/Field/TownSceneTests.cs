@@ -1,6 +1,8 @@
-// <copyright file="TownSceneTests.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// <copyright file="TownSceneTests.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
+
+#pragma warning disable SA1636
 
 namespace OmegaSpiral.Tests.Field;
 
@@ -18,8 +20,6 @@ public class TownSceneTests
 {
     private static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 
-    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-
     private static string TownMapPath => ResolveProjectPath("Source/overworld/maps/town");
 
     /// <summary>
@@ -35,4 +35,6 @@ public class TownSceneTests
         AssertThat(files).IsNotEmpty();
         AssertThat(files).Contains(ResolveProjectPath("Source/overworld/maps/town/ConversationEncounter.cs"));
     }
+
+    private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
 }
