@@ -15,6 +15,7 @@ config/description="A classic rpg narrative driven adventure game built with God
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
+run/main_scene="res://Source/Stages/Stage1/boot_sequence.tscn"
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bs61h0k5maye5"
 #config/icon="uid://cb0tfa5vcg2tg"

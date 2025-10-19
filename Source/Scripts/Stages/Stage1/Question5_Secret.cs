@@ -64,7 +64,7 @@ public partial class Question5Secret : TerminalBase
         await PlaySecretRevealAsync(secretBeat.Reveal);
 
         await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
-        TransitionToScene("res://Source/Stages/Stage1/question6_continue.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question_6_continue.tscn");
     }
 
     private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)

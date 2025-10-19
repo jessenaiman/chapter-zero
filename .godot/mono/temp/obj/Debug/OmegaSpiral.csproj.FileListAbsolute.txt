@@ -254,4 +254,4 @@
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/runtimes/win/lib/net6.0/System.Diagnostics.EventLog.dll
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.genruntimeconfig.cache
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/ref/OmegaSpiral.dll
-/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpi.B55B9064.Up2Date
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.csproj.CopyComplete

@@ -64,7 +64,7 @@ public partial class Question1Name : TerminalBase
         await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
 
         // Transition to bridge question
-        TransitionToScene("res://Source/Stages/Stage1/question2_bridge.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question_2_bridge.tscn");
     }
 
     private void RecordChoice(string questionId, GhostTerminalChoiceOption option)

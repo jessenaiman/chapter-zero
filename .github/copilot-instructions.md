@@ -5,6 +5,20 @@
 - **Programming Language**: C# 14
 - **Project Type**: Godot C# 4.5.1 Stable
 
+✅ FOLDERS/FILES:        snake_case     (e.g., my_scenes/, player_sprite.png)
+✅ C# SCRIPT FILES:      PascalCase     (e.g., PlayerCharacter.cs) 
+                         ↳ Named to match the class name inside
+                         ↳ Microsoft AND Godot C# style both mandate this
+
+✅ NODE NAMES (in .tscn): PascalCase    (e.g., Player, Camera3D, AnimationPlayer)
+                         ↳ "Matches built-in node casing"
+                         ↳ This is IN THE SCENE TREE, not filesystem
+
+✅ C# CLASS NAMES:       PascalCase     (PlayerCharacter, GameState, etc.)
+
+✅ C# PROPERTIES:        PascalCase     (CurrentHealth, MaxSpeed, etc.)
+
+✅ C# METHODS:           PascalCase     (UpdateHealth(), CalculateDamage(), etc.)
 
 **Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
@@ -14,19 +28,27 @@
 
 ## Naming Conventions
 
-### C# Files (follow C# conventions):
+
+
+### C# Files (.cs):
 - **Class names**: PascalCase (e.g., `SceneManager.cs`, `GameState.cs`)
 - **Method names**: PascalCase (e.g., `LoadLevel()`, `UpdatePlayer()`)
 - **Properties**: PascalCase (e.g., `CurrentSpeed`, `PlayerName`)
-- **Constants**: PascalCase (e.g., `DefaultSpeed`, `MAX_PLAYERS`)
+- **Constants**: PascalCase (e.g., `DefaultSpeed`, `MaxPlayers`)
 - **Variables**: camelCase (e.g., `playerName`, `currentSpeed`)
 - **Private fields**: camelCase with underscore prefix (e.g., `_playerName`, `_currentSpeed`)
 
-### Godot Scene Files (follow Godot conventions):
-- **Scene files**: snake_case (e.g., `boot_sequence.tscn`, `opening_monologue.tscn`, `question1_name.tscn`)
-- **Node names**: PascalCase (e.g., `Player`, `Camera3D`)
+### Godot Scene Files (.tscn):
+- **Scene file names**: snake_case (e.g., `boot_sequence.tscn`, `opening_monologue.tscn`, `question_1_name.tscn`)
+- **Node names** (in scene tree): PascalCase (e.g., `Player`, `Camera3D`, `AnimationPlayer`)
 - **Signals**: snake_case (e.g., `door_opened`, `player_moved`)
-- **Constants**: CONSTANT_CASE (e.g., `MAX_SPEED`, `PLAYER_LIVES`)
+
+### Godot Shader Files (.gdshader):
+- **Shader file names**: snake_case (e.g., `crt_glitch.gdshader`, `crt_phosphor.gdshader`)
+- **Functions**: snake_case (e.g., `void some_function()`)
+- **Variables**: snake_case (e.g., `float some_variable`)
+- **Constants**: CONSTANT_CASE (e.g., `const float GOLDEN_RATIO = 1.618`)
+- **Preprocessor directives**: CONSTANT_CASE (e.g., `#define HEIGHTMAP_ENABLED`)
 
 THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
