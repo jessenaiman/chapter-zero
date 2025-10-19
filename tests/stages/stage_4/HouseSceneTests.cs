@@ -37,7 +37,7 @@ public class HouseSceneTests
 
         var sceneText = File.ReadAllText(HouseScenePath);
         AssertThat(sceneText).IsNotEmpty();
-        AssertThat(sceneText.Contains("res://Source/Scripts/field/cutscenes/Interaction.tscn")).IsTrue();
+        AssertThat(sceneText.Contains("res://source/scripts/field/cutscenes/Interaction.tscn")).IsTrue();
         AssertThat(sceneText.Contains("res://Source/overworld/maps/house/WandPedestalInteraction.cs")).IsTrue();
     }
 }

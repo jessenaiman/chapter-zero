@@ -20,7 +20,7 @@ maintaining editor integration.
 
 ## Act 1 Specifics - Ghost Writer
 
-- Narrative content is loaded exclusively from JSON assets at res://Source/Data/stages/ghost-terminal/. No hardcoded fallbacks exist in code.
+- Narrative content is loaded exclusively from JSON assets at res://source/data/stages/ghost-terminal/. No hardcoded fallbacks exist in code.
 - “GhostTerminalCinematicDirector must not synthesize content; it only transforms NarrativeSceneData into beats.”
 - “Tests must construct NarrativeSceneData (via NarrativeSceneFactory) and validate translation only.”
 

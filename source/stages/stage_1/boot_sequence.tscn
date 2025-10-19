@@ -1,14 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmer0fh2yof8"]
+[gd_scene load_steps=3 format=3 uid="uid://dmer0fh2yof8"]
 
-[ext_resource type="Script" uid="uid://tpwpainryrsk" path="res://Source/Scripts/Stages/Stage1/BootSequence.cs" id="1_v2w0g"]
+[ext_resource type="PackedScene" uid="uid://stage1_terminal_base" path="res://source/stages/stage_1/terminal_base.tscn" id="1"]
+[ext_resource type="Script" uid="uid://tpwpainryrsk" path="res://source/stages/stage_1/BootSequence.cs" id="2_v2w0g"]
 
-[node name="BootSequence" type="Node"]
-script = ExtResource("1_v2w0g")
-
-[node name="AudioPlayers" type="Node" parent="."]
-
-[node name="AmbientAudio" type="AudioStreamPlayer" parent="AudioPlayers"]
-
-[node name="EffectsAudio" type="AudioStreamPlayer" parent="AudioPlayers"]
-
-[node name="UIAudio" type="AudioStreamPlayer" parent="AudioPlayers"]
+[node name="BootSequence" instance=ExtResource("1")]
+script = ExtResource("2_v2w0g")

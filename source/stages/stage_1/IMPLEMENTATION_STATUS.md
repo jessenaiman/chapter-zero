@@ -98,7 +98,7 @@ Location: `Tests/Stages/Stage1/`
 
 ## Sequence Flow
 
-```
+```mermaid
 Opening.tscn (Entry Point)
     ↓
 BootSequence
@@ -108,16 +108,6 @@ OpeningMonologue
 Question1_Name (Story Type)
     ↓
 Question2_Bridge (Bridge Knowledge)
-    ↓
-Question3_Voice (Voice from Below)
-    ↓
-Question4_Name (Player Name Input)
-    ↓
-Question5_Secret (Secret Keeping)
-    ↓
-Question6_Continue (Thread Determination)
-    ↓
-Stage 2 (TODO)
 ```
 
 ## Scoring System
@@ -146,13 +136,13 @@ If scores are equal: Light → Shadow → Ambition
 ### Autoloads (project.godot)
 
 ```
-DreamweaverScore="*res://Source/Scripts/Stages/Stage1/DreamweaverScore.cs"
+DreamweaverScore="*res://source/scripts/stages/stage_1/DreamweaverScore.cs"
 ```
 
 ### Entry Point
 
-```
-run/main_scene="res://Source/Stages/MainMenu/PressStartMenu.tscn"
+```ini
+run/main_scene="res://source/stages/main_menu/press_start_menu.tscn"
 ```
 
 ## Build Status
@@ -178,3 +168,6 @@ Current tests are for narrative/content systems. Need to add:
 - Scene transition tests
 - Choice recording tests
 - Thread determination tests
+
+```text
+```

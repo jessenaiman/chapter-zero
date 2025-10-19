@@ -8,7 +8,7 @@ VS Code Test Explorer was searching for Python tests instead of C# tests. The pr
 2. Checked installed .NET SDKs and runtimes; confirmed .NET 10 RC is available.
 3. Ran dotnet test and related commands to confirm test execution and output; no tests discovered due to build errors.
 4. Updated .vscode/settings.json to explicitly configure dotnet-test-explorer for C# test discovery:
-   - dotnet-test-explorer.testProjectPath: OmegaSpiral.csproj
+   - dotnet-test-explorer.testProjectPath: chapter-zero.csproj
    - dotnet-test-explorer.testAssemblyPath: Tests
    - dotnet-test-explorer.showCodeLens: true
    - dotnet-test-explorer.showTestExplorer: true

@@ -57,7 +57,7 @@ public partial class Question4Name : TerminalBase
         await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
 
         // Transition to final continue scene
-        TransitionToScene("res://Source/Stages/Stage1/question_5_secret.tscn");
+        TransitionToScene("res://source/stages/stage_1/question_5_secret.tscn");
     }
 
     private void RecordChoice(string questionId, GhostTerminalChoiceOption option)

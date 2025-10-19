@@ -55,6 +55,6 @@ public partial class BootSequence : TerminalBase
         ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
 
         // Transition to opening monologue
-        TransitionToScene("res://Source/Stages/Stage1/opening_monologue.tscn");
+        TransitionToScene("res://source/stages/stage_1/opening_monologue.tscn");
     }
 }

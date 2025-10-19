@@ -16,8 +16,8 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 [GlobalClass]
 public partial class TerminalBase : Control
 {
-    private const string UiSelectAudioPath = "res://Source/Assets/sfx/confirmation_002.ogg";
-    private const string TransitionAudioPath = "res://Source/Assets/sfx/doorOpen_2.ogg";
+    private const string UiSelectAudioPath = "res://source/assets/sfx/confirmation_002.ogg";
+    private const string TransitionAudioPath = "res://source/assets/sfx/doorOpen_2.ogg";
 
     private static readonly char[] GlitchCharacters = "█▓▒░◊∞Ω≋※▉▐▌".ToCharArray();
 
@@ -87,19 +87,19 @@ public partial class TerminalBase : Control
 
     private void ConfigureShaderMaterials()
     {
-        _phosphorMaterial = LoadShaderInstance("res://Source/Shaders/crt_phosphor.tres");
+        _phosphorMaterial = LoadShaderInstance("res://source/shaders/crt_phosphor.tres");
         if (_phosphorMaterial != null)
         {
             _phosphorLayer.Material = _phosphorMaterial;
         }
 
-        _scanlineMaterial = LoadShaderInstance("res://Source/Shaders/crt_scanlines.tres");
+        _scanlineMaterial = LoadShaderInstance("res://source/shaders/crt_scanlines.tres");
         if (_scanlineMaterial != null)
         {
             _scanlineLayer.Material = _scanlineMaterial;
         }
 
-        _glitchMaterial = LoadShaderInstance("res://Source/Shaders/crt_glitch.tres");
+        _glitchMaterial = LoadShaderInstance("res://source/shaders/crt_glitch.tres");
         if (_glitchMaterial != null)
         {
             _glitchLayer.Material = _glitchMaterial;

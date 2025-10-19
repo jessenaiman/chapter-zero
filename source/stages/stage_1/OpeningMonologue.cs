@@ -49,6 +49,6 @@ public partial class OpeningMonologue : TerminalBase
         // Brief pause, then transition to first question
         await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
-        TransitionToScene("res://Source/Stages/Stage1/question_1_name.tscn");
+        TransitionToScene("res://source/stages/stage_1/question_1_name.tscn");
     }
 }

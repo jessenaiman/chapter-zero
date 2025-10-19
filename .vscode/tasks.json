@@ -73,7 +73,7 @@
 			"args": [
 				"watch",
 				"--project",
-				"${workspaceFolder}/OmegaSpiral.csproj",
+				"${workspaceFolder}/chapter-zero.csproj",
 				"build",
 				"--warnaserror"
 			],

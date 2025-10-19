@@ -52,56 +52,75 @@ public partial class ConversationEncounter : Interaction
     /// </summary>
     protected async void Execute()
     {
+        await this.RunPreCombatTimeline();
+        await this.TriggerCombat();
+        bool didPlayerWin = await this.WaitForCombatResult();
+        await this.HandlePostCombatTransition();
+        await this.RunPostCombatTimeline(didPlayerWin);
+    }
+
+    private async Task RunPreCombatTimeline()
+    {
         var dialogic = this.GetNode("/root/Dialogic");
-        if (dialogic != null && this.PreCombatTimeline != null)
+        if (dialogic == null || this.PreCombatTimeline == null)
         {
-            // Start the pre-combat timeline
-            dialogic.Call("start_timeline", this.PreCombatTimeline);
-
-            // Wait for the timeline to finish
-            await this.ToSignal(dialogic, "timeline_ended");
+            return;
         }
 
-        // Let other systems know that combat has been triggered
-        var fieldEvents = this.GetNode("/root/FieldEvents");
-        if (fieldEvents != null && this.CombatArena != null)
+        dialogic.Call("start_timeline", this.PreCombatTimeline);
+        await this.ToSignal(dialogic, "timeline_ended");
+    }
+
+    private Task TriggerCombat()
+    {
+        var fieldEvents = GetNode("/root/FieldEvents");
+        if (fieldEvents != null && CombatArena != null)
         {
-            fieldEvents.EmitSignal("combat_triggered", this.CombatArena);
+            fieldEvents.EmitSignal("combat_triggered", CombatArena);
         }
 
-        // Wait for combat to finish
-        bool didPlayerWin = false;
+        return Task.CompletedTask;
+    }
+
+    private async Task<bool> WaitForCombatResult()
+    {
         var combatEvents = this.GetNode("/root/CombatEvents");
-        if (combatEvents != null)
+        if (combatEvents == null)
         {
-            var result = await this.ToSignal(combatEvents, "combat_finished");
-            if (result.Length > 0 && result[0].AsBool())
-            {
-                didPlayerWin = true;
-            }
+            return false;
         }
 
-        // The combat ends with a covered screen, so we fix that here
+        var result = await this.ToSignal(combatEvents, "combat_finished");
+        return result.Length > 0 && result[0].AsBool();
+    }
+
+    private async Task HandlePostCombatTransition()
+    {
         var transition = this.GetNode("/root/Transition");
-        if (transition != null)
+        if (transition == null)
         {
-            transition.CallDeferred("clear", 0.2);
-            await this.ToSignal(transition, "finished");
+            return;
         }
 
-        // Run post-combat events
-        if (dialogic != null)
-        {
-            if (didPlayerWin && this.VictoryTimeline != null)
-            {
-                dialogic.Call("start_timeline", this.VictoryTimeline);
-            }
-            else if (!didPlayerWin && this.LossTimeline != null)
-            {
-                dialogic.Call("start_timeline", this.LossTimeline);
-            }
+        transition.CallDeferred("clear", 0.2);
+        await this.ToSignal(transition, "finished");
+    }
 
-            await this.ToSignal(dialogic, "timeline_ended");
+    private async Task RunPostCombatTimeline(bool didPlayerWin)
+    {
+        var dialogic = this.GetNode("/root/Dialogic");
+        if (dialogic == null)
+        {
+            return;
         }
+
+        Resource? timeline = didPlayerWin ? this.VictoryTimeline : this.LossTimeline;
+        if (timeline == null)
+        {
+            return;
+        }
+
+        dialogic.Call("start_timeline", timeline);
+        await this.ToSignal(dialogic, "timeline_ended");
     }
 }

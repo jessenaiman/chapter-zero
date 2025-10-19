@@ -139,6 +139,6 @@ public partial class Question6Continue : TerminalBase
 
         // Transition to Stage 2
         await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
-        GetTree().ChangeSceneToFile("res://Source/Stages/Stage2/EchoHub.tscn");
+        GetTree().ChangeSceneToFile("res://source/stages/stage_2/EchoHub.tscn");
     }
 }

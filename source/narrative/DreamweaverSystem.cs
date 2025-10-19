@@ -199,7 +199,7 @@ public partial class DreamweaverSystem : Node
     {
         try
         {
-            var configPath = $"res://Source/Data/stages/ghost-terminal/{personaId}.json";
+            var configPath = $"res://source/data/stages/ghost-terminal/{personaId}.json";
 
             GD.Print($"Loading persona config from: {configPath}");
 
@@ -219,7 +219,7 @@ public partial class DreamweaverSystem : Node
             }
 
             // Validate against narrative terminal schema
-            var schemaPath = "res://Source/Data/schemas/narrative_terminal_schema.json";
+            var schemaPath = "res://source/data/schemas/narrative_terminal_schema.json";
             if (!ConfigurationService.ValidateConfiguration(jsonData, schemaPath))
             {
                 GD.PrintErr($"Schema validation failed for {personaId} config");

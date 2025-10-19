@@ -104,7 +104,7 @@ public partial class SceneManager : Node
             "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
 
             // External/Utility scenes
-            "OpenRPGMain" => "res://Source/external_scenes/OpenRPGMain.tscn",
+            "OpenRPGMain" => "res://source/external_scenes/open_rpg_main.tscn",
             "MainMenu" => "res://Source/Stages/MainMenu/PressStartMenu.tscn",
             "CharacterSelection" => "res://Source/Scenes/CharacterSelection.tscn",
             "TestScene" => "res://Source/Scenes/TestScene.tscn",

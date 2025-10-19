@@ -80,7 +80,7 @@ public class FieldCombatStageTests
         var sceneText = File.ReadAllText(StageScenePath);
 
         AssertThat(sceneText.Contains("res://src/")).IsFalse();
-        AssertThat(sceneText.Contains("res://Source/Scripts/field/Field.cs")).IsTrue();
+        AssertThat(sceneText.Contains("res://source/scripts/field/Field.cs")).IsTrue();
         AssertThat(sceneText.Contains("res://Source/overworld/maps/town/battles/test_combat_arena.tscn")).IsTrue();
         AssertThat(sceneText.Contains("res://Source/overworld/maps/town/warrior.dtl")).IsTrue();
     }
@@ -93,14 +93,14 @@ public class FieldCombatStageTests
     {
         var projectLines = File.ReadAllLines(ProjectConfigPath);
 
-        AssertThat(projectLines).Contains("FieldEvents=\"*res://Source/Scripts/field/FieldEvents.cs\"");
-        AssertThat(projectLines).Contains("FieldCamera=\"*res://Source/Scripts/field/FieldCamera.cs\"");
-        AssertThat(projectLines).Contains("Gameboard=\"*res://Source/Scripts/field/gameboard/Gameboard.cs\"");
-        AssertThat(projectLines).Contains("GamepieceRegistry=\"*res://Source/Scripts/field/gamepieces/GamepieceRegistry.cs\"");
-        AssertThat(projectLines).Contains("Player=\"*res://Source/Scripts/common/Player.cs\"");
-        AssertThat(projectLines).Contains("CombatEvents=\"*res://Source/Scripts/combat/CombatEvents.cs\"");
-        AssertThat(projectLines).Contains("Music=\"*res://Source/Scripts/common/music/MusicPlayer.tscn\"");
-        AssertThat(projectLines).Contains("Transition=\"*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn\"");
+        AssertThat(projectLines).Contains("FieldEvents=\"*res://source/scripts/field/FieldEvents.cs\"");
+        AssertThat(projectLines).Contains("FieldCamera=\"*res://source/scripts/field/FieldCamera.cs\"");
+        AssertThat(projectLines).Contains("Gameboard=\"*res://source/scripts/field/gameboard/Gameboard.cs\"");
+        AssertThat(projectLines).Contains("GamepieceRegistry=\"*res://source/scripts/field/gamepieces/GamepieceRegistry.cs\"");
+        AssertThat(projectLines).Contains("Player=\"*res://source/scripts/common/Player.cs\"");
+        AssertThat(projectLines).Contains("CombatEvents=\"*res://source/scripts/combat/CombatEvents.cs\"");
+        AssertThat(projectLines).Contains("Music=\"*res://source/scripts/common/music/MusicPlayer.tscn\"");
+        AssertThat(projectLines).Contains("Transition=\"*res://source/scripts/common/screen_transitions/ScreenTransition.tscn\"");
     }
 
     private static string ResolveProjectPath(string relativePath) => Path.Combine(ProjectRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));

@@ -1,0 +1,8 @@
+{
+  "id": "shadow",
+  "name": "Shadow",
+  "description": "The mysterious shadow persona",
+  "traits": ["mysterious", "introspective", "cautious"],
+  "dialogue_style": "enigmatic",
+  "narrative_influence": "neutral"
+}

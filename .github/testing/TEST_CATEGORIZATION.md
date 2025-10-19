@@ -22,6 +22,7 @@ Test categories divide tests by **execution layer** and **scope**. Every test **
 **Purpose:** Test pure C# logic in isolation with no Godot runtime dependency.
 
 **Characteristics:**
+
 - ✅ No `[RequireGodotRuntime]` attribute
 - ✅ No Godot types or engine calls
 - ✅ Execution time: < 100ms (typical: 1-10ms)
@@ -32,6 +33,7 @@ Test categories divide tests by **execution layer** and **scope**. Every test **
 **Location:** `Tests/Unit/**/*.cs`
 
 **When to use:**
+
 - Testing business logic (damage calculations, state machines)
 - Testing data serialization/deserialization
 - Testing algorithms and utility functions
@@ -101,6 +103,7 @@ public class DamageCalculatorTests
 **Purpose:** Test interactions between multiple components or systems working together.
 
 **Characteristics:**
+
 - ✅ May use real dependencies or test doubles
 - ✅ Can have **optional** `[RequireGodotRuntime]` (depends on test)
 - ✅ Execution time: 100ms - 1s
@@ -111,6 +114,7 @@ public class DamageCalculatorTests
 **Location:** `Tests/Integration/**/*.cs`
 
 **When to use:**
+
 - Testing GameState serialization + file I/O together
 - Testing dialogue system reading narrative data from JSON
 - Testing scene manager coordinating multiple subsystems
@@ -171,7 +175,7 @@ public class NarrativeDataLoadingTests
     {
         // Arrange
         var loader = new NarrativeDataLoader();
-        var filePath = "res://Source/Data/stages/ghost-terminal/scene_1.json";
+        var filePath = "res://source/data/stages/ghost-terminal/scene_1.json";
 
         // Act
         var sceneData = await loader.LoadAsync(filePath);
@@ -190,6 +194,7 @@ public class NarrativeDataLoadingTests
 **Purpose:** Test complete game flows simulating real player interactions and scene transitions.
 
 **Characteristics:**
+
 - ✅ **MUST** use `[RequireGodotRuntime]` attribute
 - ✅ **MUST** use `Trait("Runtime", "RequireGodot")`
 - ✅ Execution time: > 2s per test
@@ -201,6 +206,7 @@ public class NarrativeDataLoadingTests
 **Location:** `Tests/EndToEnd/**/*.cs`
 
 **When to use:**
+
 - Testing player navigates Act 1 and reaches Act 2
 - Testing game save/load preserves full game state
 - Testing all scene transitions in a sequence
@@ -271,6 +277,7 @@ public class Act1CompletionFlowTests
 **Purpose:** Test UI/scene rendering and visual correctness.
 
 **Characteristics:**
+
 - ✅ **MUST** use `[RequireGodotRuntime]` attribute
 - ✅ **MUST** use `Trait("Runtime", "RequireGodot")`
 - ✅ Execution time: > 1s per test
@@ -283,6 +290,7 @@ public class Act1CompletionFlowTests
 **Location:** `Tests/Visual/**/*.cs`
 
 **When to use:**
+
 - Testing dialogue UI wraps long text correctly
 - Testing UI buttons are clickable/positioned correctly
 - Testing scene composition loads all required nodes

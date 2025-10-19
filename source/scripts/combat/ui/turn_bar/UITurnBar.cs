@@ -1,0 +1,129 @@
+// <copyright file="UITurnBar.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
+// </copyright>
+
+using System;
+using Godot;
+using Godot.Collections;
+using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
+
+namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
+{
+    /// <summary>
+    /// Displays the timeline representing the turn order of all battlers in the arena.
+    /// Battler icons move along the timeline in real-time as their readiness updates.
+    /// </summary>
+    [GlobalClass]
+    public partial class UITurnBar : Control
+    {
+        /// <summary>
+        /// The packed scene used to instantiate battler icons.
+        /// </summary>
+        private PackedScene? iconScene;
+
+        /// <summary>
+        /// The animation player for fade in/out effects.
+        /// </summary>
+        private AnimationPlayer? anim;
+
+        /// <summary>
+        /// The background texture rect for the turn bar.
+        /// </summary>
+        private TextureRect? background;
+
+        /// <summary>
+        /// The container control for battler icons.
+        /// </summary>
+        private Control? icons;
+
+        /// <inheritdoc/>
+        public override void _Ready()
+        {
+            this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+            this.background = this.GetNode<TextureRect>("Background");
+            this.icons = this.GetNode<Control>("Background/Icons");
+            this.iconScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/turn_bar/UIBattlerIcon.tscn");
+        }
+
+        /// <summary>
+        /// Fade in (from transparent) the turn bar and all of its UI elements.
+        /// </summary>
+        public void FadeIn()
+        {
+            if (this.anim != null)
+            {
+                this.anim.Play("fade_in");
+            }
+        }
+
+        /// <summary>
+        /// Fade out (to transparent) the turn bar and all of its UI elements.
+        /// </summary>
+        public void FadeOut()
+        {
+            if (this.anim != null)
+            {
+                this.anim.Play("fade_out");
+            }
+        }
+
+        /// <summary>
+        /// Initialize the turn bar, passing in all the battlers that we want to display.
+        /// </summary>
+        /// <param name="battlerData">The battler list to display.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="battlerData"/> is <c>null</c>.</exception>
+        public void Setup(BattlerList battlerData)
+        {
+            ArgumentNullException.ThrowIfNull(battlerData);
+
+            if (this.iconScene == null || this.icons == null || this.background == null)
+            {
+                GD.PrintErr("UITurnBar: Missing required components for Setup!");
+                return;
+            }
+
+            foreach (var battler in battlerData.GetAllBattlers())
+            {
+                // Connect a handful of signals to the icon so that it may respond to changes in the
+                // Battler's readiness and fade out if the Battler falls in combat.
+                if (battler?.Anim?.BattlerIcon == null)
+                {
+                    continue;
+                }
+
+                var instantiatedIcon = this.iconScene.Instantiate();
+                if (instantiatedIcon is not UIBattlerIcon icon)
+                {
+                    continue;
+                }
+
+                icon.IconTexture = battler.Anim.BattlerIcon;
+                icon.BattlerType = battler.IsPlayer ? UIBattlerIcon.Types.Player : UIBattlerIcon.Types.Enemy;
+                icon.PositionRange = new(-icon.Size.X / 2.0f, this.background.Size.X - (icon.Size.X / 2.0f));
+
+                battler.HealthDepleted += () =>
+                {
+                    if (GodotObject.IsInstanceValid(icon))
+                    {
+                        icon.FadeOut();
+                    }
+                };
+
+                battler.ReadinessChanged += (readiness) =>
+                {
+                    // There is an edge case where a player Battler has managed to deplete their own hp.
+                    // In this case, the UIBattlerIcon is probably already freed when the Battler's readiness
+                    // changes after the action has finished.
+                    // Thus, we need to make sure that the icon is valid before updating it.
+                    if (GodotObject.IsInstanceValid(icon))
+                    {
+                        icon.Progress = readiness / 100.0f;
+                    }
+                };
+
+                this.icons.AddChild(icon);
+            }
+        }
+    }
+}

@@ -87,41 +87,74 @@ public partial class FanInteraction : ConversationTemplate
     private async Task OnInitialConversationFinished()
     {
         var gameboard = this.GetNode<Gameboard>("/root/Gameboard");
-        var sourceCell = gameboard?.PixelToCell(this.adoringFan?.Position ?? Vector2.Zero) ?? Vector2I.Zero;
-
-        // Everything is paused at the moment, so activate the fan's controller so that he can move on a
-        // path during the cutscene.
-        if (this.Controller != null)
+        if (gameboard == null || this.Controller == null)
         {
-            this.Controller.IsActive = true;
-            var pathfinder = gameboard?.GetNode<Pathfinder>("Pathfinder");
-            var path = pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13));
-            var pathList = path != null ? new System.Collections.Generic.List<Vector2I>(path) : new System.Collections.Generic.List<Vector2I>();
+            return;
+        }
 
-            // Use reflection to access the private SetMovePath method or clear/add to the list
-            var movePathField = typeof(GamepieceController).GetField("movePath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (movePathField != null)
-            {
-                movePathField.SetValue(this.Controller, pathList);
-            }
-            else
-            {
-                // Fallback: try to use the MovePath property to clear and add items
-                var currentPath = this.Controller.MovePath;
-                currentPath.Clear();
-                foreach (var cell in pathList)
-                {
-                    currentPath.Add(cell);
-                }
-            }
+        var sourceCell = this.GetSourceCell(gameboard);
+        await this.MoveFanAlongPath(gameboard, sourceCell);
+    }
 
-            // Wait for the fan to arrive at destination
-            if (this.adoringFan != null)
-            {
-                await this.ToSignal(this.adoringFan, "arrived");
-            }
+    private Vector2I GetSourceCell(Gameboard gameboard)
+    {
+        return gameboard.PixelToCell(this.adoringFan?.Position ?? Vector2.Zero);
+    }
 
-            this.Controller.IsActive = false;
+    private async Task MoveFanAlongPath(Gameboard gameboard, Vector2I sourceCell)
+    {
+        if (this.Controller == null)
+        {
+            return;
+        }
+
+        this.Controller.IsActive = true;
+
+        var path = this.GetPathToDestination(gameboard, sourceCell);
+        this.SetControllerPath(path);
+
+        await this.WaitForFanArrival();
+        this.Controller.IsActive = false;
+    }
+
+    private System.Collections.Generic.List<Vector2I>? GetPathToDestination(Gameboard gameboard, Vector2I sourceCell)
+    {
+        var pathfinder = gameboard.GetNode<Pathfinder>("Pathfinder");
+        return pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13));
+    }
+
+    private void SetControllerPath(System.Collections.Generic.List<Vector2I>? path)
+    {
+        if (this.Controller == null)
+        {
+            return;
+        }
+
+        var pathList = path ?? new System.Collections.Generic.List<Vector2I>();
+
+        // Use reflection to access the private SetMovePath method or clear/add to the list
+        var movePathField = typeof(GamepieceController).GetField("movePath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (movePathField != null)
+        {
+            movePathField.SetValue(this.Controller, pathList);
+        }
+        else
+        {
+            // Fallback: try to use the MovePath property to clear and add items
+            var currentPath = this.Controller.MovePath;
+            currentPath.Clear();
+            foreach (var cell in pathList)
+            {
+                currentPath.Add(cell);
+            }
+        }
+    }
+
+    private async Task WaitForFanArrival()
+    {
+        if (this.adoringFan != null)
+        {
+            await this.ToSignal(this.adoringFan, "arrived");
         }
     }
 

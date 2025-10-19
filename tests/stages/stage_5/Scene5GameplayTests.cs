@@ -215,7 +215,7 @@ public partial class Scene5GameplayTests : Node
 
         // Act 1: Explore town (simulate movement)
         // PlayerController is a scene, not a direct class instantiation
-        var playerControllerScene = (PackedScene) ResourceLoader.Load("res://Source/Scripts/field/gamepieces/controllers/PlayerController.tscn");
+        var playerControllerScene = (PackedScene) ResourceLoader.Load("res://source/scripts/field/gamepieces/controllers/PlayerController.tscn");
         var playerController = playerControllerScene.Instantiate<Node2D>();
         townInstance.AddChild(playerController);
         Input.ActionPress("ui_down");

@@ -41,19 +41,19 @@ public partial class NarrativeAssetMapper : Node
     private void InitializeAssetMaps()
     {
         // Music assets
-        this.AddAsset("apple_cider", "res://Source/assets/music/Apple Cider.mp3", AssetType.Music);
-        this.AddAsset("insect_factory", "res://Source/assets/music/Insect Factory.mp3", AssetType.Music);
-        this.AddAsset("squashin_bugs", "res://Source/assets/music/squashin_bugs_fixed.mp3", AssetType.Music);
-        this.AddAsset("fun_run", "res://Source/assets/music/the_fun_run.mp3", AssetType.Music);
+        this.AddAsset("apple_cider", "res://source/assets/music/Apple Cider.mp3", AssetType.Music);
+        this.AddAsset("insect_factory", "res://source/assets/music/Insect Factory.mp3", AssetType.Music);
+        this.AddAsset("squashin_bugs", "res://source/assets/music/squashin_bugs_fixed.mp3", AssetType.Music);
+        this.AddAsset("fun_run", "res://source/assets/music/the_fun_run.mp3", AssetType.Music);
 
         // Sound effect assets
-        this.AddAsset("chop_sfx", "res://Source/assets/sfx/chop.ogg", AssetType.SoundEffect);
-        this.AddAsset("confirmation_sfx", "res://Source/assets/sfx/confirmation_002.ogg", AssetType.SoundEffect);
-        this.AddAsset("door_close_1", "res://Source/assets/sfx/doorClose_1.ogg", AssetType.SoundEffect);
-        this.AddAsset("door_close_4", "res://Source/assets/sfx/doorClose_4.ogg", AssetType.SoundEffect);
-        this.AddAsset("door_open_2", "res://Source/assets/sfx/doorOpen_2.ogg", AssetType.SoundEffect);
-        this.AddAsset("drop_sfx", "res://Source/assets/sfx/drop_002.ogg", AssetType.SoundEffect);
-        this.AddAsset("error_sfx", "res://Source/assets/sfx/error_006.ogg", AssetType.SoundEffect);
+        this.AddAsset("chop_sfx", "res://source/assets/sfx/chop.ogg", AssetType.SoundEffect);
+        this.AddAsset("confirmation_sfx", "res://source/assets/sfx/confirmation_002.ogg", AssetType.SoundEffect);
+        this.AddAsset("door_close_1", "res://source/assets/sfx/doorClose_1.ogg", AssetType.SoundEffect);
+        this.AddAsset("door_close_4", "res://source/assets/sfx/doorClose_4.ogg", AssetType.SoundEffect);
+        this.AddAsset("door_open_2", "res://source/assets/sfx/doorOpen_2.ogg", AssetType.SoundEffect);
+        this.AddAsset("drop_sfx", "res://source/assets/sfx/drop_002.ogg", AssetType.SoundEffect);
+        this.AddAsset("error_sfx", "res://source/assets/sfx/error_006.ogg", AssetType.SoundEffect);
         this.AddAsset("impact_wood_1", "res://Source/assets/sfx/impactWood_light_002.ogg", AssetType.SoundEffect);
         this.AddAsset("impact_wood_2", "res://Source/assets/sfx/impactWood_light_003.ogg", AssetType.SoundEffect);
 

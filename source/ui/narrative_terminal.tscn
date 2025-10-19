@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://cvtaiecb0tvk8"]
 
-[ext_resource type="Script" path="res://Source/Scripts/NarrativeTerminal.cs" id="1"]
+[ext_resource type="Script" path="res://source/scripts/NarrativeTerminal.cs" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_left = 28.0

@@ -48,7 +48,7 @@
 - **Functions**: snake_case (e.g., `void some_function()`)
 - **Variables**: snake_case (e.g., `float some_variable`)
 - **Constants**: CONSTANT_CASE (e.g., `const float GOLDEN_RATIO = 1.618`)
-- **Preprocessor directives**: CONSTANT_CASE (e.g., `#define HEIGHTMAP_ENABLED`)
+- **Preprocessor directives**: CONSTANT_CASE (e.g., "#define HEIGHTMAP_ENABLED")
 
 THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
@@ -79,12 +79,12 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 
-## [Code Standards](./../coding-conventions.instructions.md)
+## [Code Standards](./instructions/code-standards.instructions.md)
 
 **FIX EVERYTHING**
 
 **MUST ENFORCE XML Documentation Comments**
-**MUST DOUBLE CHECK FOR ALL [CSHARP STYLE RULES](./../c_sharp_style_guide.md) and [CODING CONVENTIONS](./../coding-conventions.instructions.md)**
+**MUST DOUBLE CHECK FOR ALL [CSHARP STYLE RULES](./instructions/c_sharp_styleguide.mdx) and [CODING CONVENTIONS](./instructions/coding-conventions.instructions.md)**
 **DO NOT ADD NICE TO HAVE FEATURES**
 **DO NOT PROVIDE SUCCESS STORIES**
 **NEVER WRITE FALSE POSITIVE TESTS**

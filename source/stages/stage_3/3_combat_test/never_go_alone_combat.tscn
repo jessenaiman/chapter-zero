@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://combat_scene_uid"]
 
-[ext_resource type="Script" path="res://Source/Scripts/field/narrative/NeverGoAloneCombatController.cs" id="1"]
+[ext_resource type="Script" path="res://source/scripts/field/narrative/NeverGoAloneCombatController.cs" id="1"]
 
 [node name="NeverGoAloneCombatScene" type="Node2D"]
 y_sort_enabled = true

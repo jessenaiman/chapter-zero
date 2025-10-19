@@ -143,7 +143,7 @@ namespace OmegaSpiral.Source.Scripts
 
         private bool TryLoadSceneData()
         {
-            string basePath = "res://Source/Data/stages/ghost-terminal";
+            string basePath = "res://source/data/stages/ghost-terminal";
             string threadKey = this.gameState.DreamweaverThread.ToString().ToLowerInvariant();
             var candidates = new[] { threadKey, "hero", "shadow", "ambition" };
 
@@ -160,7 +160,7 @@ namespace OmegaSpiral.Source.Scripts
                     var configData = ConfigurationService.LoadConfiguration(path);
 
                     // Validate against narrative terminal schema
-                    var schemaPath = "res://Source/Data/schemas/narrative_terminal_schema.json";
+                    var schemaPath = "res://source/data/schemas/narrative_terminal_schema.json";
                     if (!ConfigurationService.ValidateConfiguration(configData, schemaPath))
                     {
                         GD.PrintErr($"Schema validation failed for narrative data at {path}");

@@ -14,7 +14,7 @@ corner_radius_bottom_left = 12
 shadow_size = 6
 shadow_color = Color(0.05, 0.45, 0.25, 0.35)
 
-[ext_resource type="Script" path="res://Source/Scripts/Stages/Stage1/TerminalBase.cs" id="1"]
+[ext_resource type="Script" path="res://source/scripts/stages/stage_1/TerminalBase.cs" id="1"]
 
 [node name="TerminalBase" type="Control"]
 layout_mode = 3
