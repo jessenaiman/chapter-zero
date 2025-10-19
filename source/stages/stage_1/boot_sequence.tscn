@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmer0fh2yof8"]
+
+[ext_resource type="Script" uid="uid://tpwpainryrsk" path="res://Source/Scripts/Stages/Stage1/BootSequence.cs" id="1_v2w0g"]
+
+[node name="BootSequence" type="Node"]
+script = ExtResource("1_v2w0g")
+
+[node name="AudioPlayers" type="Node" parent="."]
+
+[node name="AmbientAudio" type="AudioStreamPlayer" parent="AudioPlayers"]
+
+[node name="EffectsAudio" type="AudioStreamPlayer" parent="AudioPlayers"]
+
+[node name="UIAudio" type="AudioStreamPlayer" parent="AudioPlayers"]

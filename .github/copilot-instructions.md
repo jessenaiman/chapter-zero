@@ -6,7 +6,7 @@
 - **Project Type**: Godot C# 4.5.1 Stable
 
 ✅ FOLDERS/FILES:        snake_case     (e.g., my_scenes/, player_sprite.png)
-✅ C# SCRIPT FILES:      PascalCase     (e.g., PlayerCharacter.cs) 
+✅ C# SCRIPT FILES:      PascalCase     (e.g., PlayerCharacter.cs)
                          ↳ Named to match the class name inside
                          ↳ Microsoft AND Godot C# style both mandate this
 
@@ -54,13 +54,11 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 
 ## General Rules
 - Act like a developer with 20+ years of experience
-- Use the terminal commands `dotnet` to review project status, build, and run tests
 - You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
-- Always confirm that the project builds successfully after changes
+- Always confirm that the project problems tab with your tools is clean after changes
 - Always confirm that all tests pass after changes
 - Always confirm that there are no warnings or errors in the terminal output after building and testing
 - Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
-- Always follow the [Code Standards](./../coding-conventions.instructions.md)
 - Always follow the XML Documentation Rules
 -
 
