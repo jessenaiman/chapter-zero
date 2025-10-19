@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmer0fh2yof8"]
+
+[ext_resource type="Script" uid="uid://tpwpainryrsk" path="res://Source/Scripts/Stages/Stage1/BootSequence.cs" id="2"]
+
+[node name="BootSequence"]
+script = ExtResource("2")
+
+[node name="AmbientAudio" parent="AudioPlayers" index="0"]
+bus = &"Master"
+
+[node name="EffectsAudio" parent="AudioPlayers" index="1"]
+bus = &"Master"
+
+[node name="UIAudio" parent="AudioPlayers" index="2"]
+bus = &"Master"

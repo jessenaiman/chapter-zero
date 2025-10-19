@@ -2,6 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+#nullable enable
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using OmegaSpiral.Source.Scripts.Common;

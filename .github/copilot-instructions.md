@@ -1,6 +1,16 @@
 # Omega Spiral Game Overview
 
+## Tech Stack
+- **Game Engine**: Godot 4.5.1
+- **Programming Language**: C# 14
+- **Project Type**: Godot C# 4.5.1 Stable
+
+
 **Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
+
+## Basic Rules
+- use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
+- a clean project is your responsibility
 
 ## Naming Conventions
 

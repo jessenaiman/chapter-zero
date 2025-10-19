@@ -3,12 +3,14 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Field;
@@ -282,7 +284,6 @@ public partial class AsciiRoomRenderer : Node2D
     }
 
     /// <inheritdoc/>
-    // TODO: RCS1226 - Method _Input has cyclomatic complexity of 18 (limit 8). Refactor by extracting movement/input handling into separate helper methods.
     public override void _Input(InputEvent @event)
     {
         if (this.dungeonData.Dungeons.Count == 0 || this.isMoving || this.isRendering)
@@ -292,48 +293,40 @@ public partial class AsciiRoomRenderer : Node2D
 
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
         {
-            Vector2I newPosition = this.playerPosition;
-            bool moved = false;
-
-            if (keyEvent.Keycode == Key.W || keyEvent.Keycode == Key.Up)
-            {
-                newPosition.Y--;
-                moved = true;
-            }
-            else if (keyEvent.Keycode == Key.S || keyEvent.Keycode == Key.Down)
-            {
-                newPosition.Y++;
-                moved = true;
-            }
-            else if (keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.Left)
-            {
-                newPosition.X--;
-                moved = true;
-            }
-            else if (keyEvent.Keycode == Key.D || keyEvent.Keycode == Key.Right)
-            {
-                newPosition.X++;
-                moved = true;
-            }
-
-            if (moved && this.IsValidMove(newPosition))
-            {
-                this.playerPosition = newPosition;
-                this.isMoving = true;
-                this.movementTimer?.Start();
-
-                // Play movement audio
-                this.PlayMovementSound();
-
-                // Check for object interactions
-                this.CheckObjectInteraction();
-
-                // Trigger enhanced rendering
-                this.StartDungeonRendering();
-            }
-
+            this.HandleKeyInput(keyEvent);
             GetTree().Root.SetInputAsHandled();
         }
+    }
+
+    private void HandleKeyInput(InputEventKey keyEvent)
+    {
+        Vector2I newPosition = this.GetMovementDirection(keyEvent);
+        if (newPosition == Vector2I.Zero)
+            return;
+
+        newPosition += this.playerPosition;
+
+        if (!this.IsValidMove(newPosition))
+            return;
+
+        this.playerPosition = newPosition;
+        this.isMoving = true;
+        this.movementTimer?.Start();
+        this.PlayMovementSound();
+        this.CheckObjectInteraction();
+        this.StartDungeonRendering();
+    }
+
+    private Vector2I GetMovementDirection(InputEventKey keyEvent)
+    {
+        return keyEvent.Keycode switch
+        {
+            Key.W or Key.Up => Vector2I.Up,
+            Key.S or Key.Down => Vector2I.Down,
+            Key.A or Key.Left => Vector2I.Left,
+            Key.D or Key.Right => Vector2I.Right,
+            _ => Vector2I.Zero,
+        };
     }
 
     private void StartDungeonRendering()
@@ -499,7 +492,7 @@ public partial class AsciiRoomRenderer : Node2D
             return;
 
         // Create subtle glow pulsing effect
-        var pulse = (Mathf.Sin((float)Time.GetTicksMsec() * 0.001f) * 0.1f) + 0.9f;
+        var pulse = (Mathf.Sin((float) Time.GetTicksMsec() * 0.001f) * 0.1f) + 0.9f;
         this.screenGlow.Modulate = new Color(
             this.ScreenGlowColor.R,
             this.ScreenGlowColor.G,
@@ -526,7 +519,6 @@ public partial class AsciiRoomRenderer : Node2D
         GD.Print($"Terminal size changed: {size}");
     }
 
-    // TODO: RCS1227 - Method IsValidMove has cyclomatic complexity of 9 (limit 8). Refactor boundary/collision checks into separate methods.
     private bool IsValidMove(Vector2I position)
     {
         if (this.dungeonData.Dungeons.Count == 0)
@@ -536,6 +528,15 @@ public partial class AsciiRoomRenderer : Node2D
         }
 
         var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
+
+        if (!this.IsWithinBounds(position, dungeon))
+            return false;
+
+        return this.IsTileWalkable(position, dungeon);
+    }
+
+    private bool IsWithinBounds(Vector2I position, DungeonRoom dungeon)
+    {
         if (position.Y < 0 || position.Y >= dungeon.Map.Count)
         {
             GD.Print($"IsValidMove: Position {position} is out of bounds vertically (map height: {dungeon.Map.Count})");
@@ -548,12 +549,15 @@ public partial class AsciiRoomRenderer : Node2D
             return false;
         }
 
+        return true;
+    }
+
+    private bool IsTileWalkable(Vector2I position, DungeonRoom dungeon)
+    {
         char tile = dungeon.Map[position.Y][position.X];
 
-        // Check if the tile is in the legend and if it's walkable (not a wall)
         if (dungeon.Legend.TryGetValue(tile, out string? tileDescription))
         {
-            // If the tile is a wall, it's not valid to move to
             if (tileDescription == "wall")
             {
                 GD.Print($"IsValidMove: Position {position} contains a wall ('{tile}')");
@@ -563,7 +567,6 @@ public partial class AsciiRoomRenderer : Node2D
             return true;
         }
 
-        // If the tile is not in the legend, assume it's not walkable
         GD.Print($"IsValidMove: Position {position} contains unknown tile '{tile}' not in legend");
         return false;
     }
@@ -587,7 +590,6 @@ public partial class AsciiRoomRenderer : Node2D
         }
     }
 
-    // TODO: RCS1228 - Method InteractWithObject has cyclomatic complexity of 9 (limit 8). Refactor interaction logic by dreamweaver type into strategy pattern.
     private void InteractWithObject(DungeonObject obj)
     {
         if (this.gameState == null || this.dungeonData.Dungeons.Count == 0)
@@ -595,52 +597,67 @@ public partial class AsciiRoomRenderer : Node2D
             return;
         }
 
-        // Update Dreamweaver scores
+        this.UpdateDreamweaverScore(obj);
+        this.DisplayInteractionText(obj);
+        this.RemoveObject(obj);
+        this.CheckDungeonProgression();
+    }
+
+    private void UpdateDreamweaverScore(DungeonObject obj)
+    {
+        if (this.gameState?.DreamweaverScores == null)
+            return;
+
         int score = obj.AlignedTo == this.dungeonData.Dungeons[this.currentDungeonIndex].Owner ? 2 : 1;
-        if (this.gameState.DreamweaverScores != null)
-        {
-            this.gameState.DreamweaverScores[obj.AlignedTo] += score;
-        }
-
-        // Display interaction text
-        GD.Print(obj.Text);
+        this.gameState.DreamweaverScores[obj.AlignedTo] += score;
         GD.Print($"Dreamweaver {obj.AlignedTo} score increased by {score} points!");
+    }
 
-        // Remove object
+    private void DisplayInteractionText(DungeonObject obj)
+    {
+        GD.Print(obj.Text);
+    }
+
+    private void RemoveObject(DungeonObject obj)
+    {
         var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
-        char symbolToRemove = ' ';
         foreach (var kvp in dungeon.Objects)
         {
             if (kvp.Value == obj)
             {
-                symbolToRemove = kvp.Key;
+                dungeon.Objects.Remove(kvp.Key);
                 break;
             }
         }
+    }
 
-        dungeon.Objects.Remove(symbolToRemove);
+    private void CheckDungeonProgression()
+    {
+        var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
 
-        // Check if all objects collected
         if (dungeon.Objects.Count == 0)
         {
-            // Move to next dungeon or scene
-            this.currentDungeonIndex++;
-            if (this.currentDungeonIndex >= this.dungeonData.Dungeons.Count)
+            this.ProgressToNextDungeon();
+        }
+        else
+        {
+            this.RenderDungeon();
+        }
+    }
+
+    private void ProgressToNextDungeon()
+    {
+        this.currentDungeonIndex++;
+        if (this.currentDungeonIndex >= this.dungeonData.Dungeons.Count)
+        {
+            if (this.sceneManager != null)
             {
-                // Transition to party creation
-                if (this.sceneManager != null)
-                {
-                    this.sceneManager.TransitionToScene("Scene3NeverGoAlone");
-                }
-            }
-            else
-            {
-                this.InitializePlayerPosition();
-                this.RenderDungeon();
+                this.sceneManager.TransitionToScene("Scene3NeverGoAlone");
             }
         }
         else
         {
+            this.InitializePlayerPosition();
             this.RenderDungeon();
         }
     }
@@ -651,7 +668,6 @@ public partial class AsciiRoomRenderer : Node2D
     /// <param name="dungeonDict">The Godot dictionary containing dungeon data.</param>
     /// <returns>A <see cref="DungeonRoom"/> instance, or <see langword="null"/> if deserialization fails.</returns>
     /// <exception cref="InvalidOperationException">Thrown when required dictionary keys are missing.</exception>
-    // TODO: RCS1229 - Method DeserializeDungeonRoom has 75 lines (limit 50) and cyclomatic complexity of 9 (limit 8). Extract map/legend/object parsing into separate helper methods.
     private static DungeonRoom? DeserializeDungeonRoom(Godot.Collections.Dictionary dungeonDict)
     {
         try
@@ -662,42 +678,18 @@ public partial class AsciiRoomRenderer : Node2D
                 return null;
             }
 
-            // Extract required fields
-            if (!dungeonDict.TryGetValue("owner", out var ownerVar))
-            {
-                GD.PrintErr("DeserializeDungeonRoom: Missing 'owner' field");
+            var owner = ExtractOwner(dungeonDict);
+            if (owner == null)
                 return null;
-            }
 
-            var owner = Enum.Parse<DreamweaverType>(ownerVar.ToString() ?? "Light");
-
-            if (!dungeonDict.TryGetValue("map", out var mapVar))
-            {
-                GD.PrintErr("DeserializeDungeonRoom: Missing 'map' field");
+            var map = ExtractMap(dungeonDict);
+            if (map == null)
                 return null;
-            }
 
-            var mapArray = mapVar.AsGodotArray();
-            var map = new Godot.Collections.Array<string>();
-            foreach (var line in mapArray)
-            {
-                map.Add(line.AsString());
-            }
-
-            if (!dungeonDict.TryGetValue("legend", out var legendVar))
-            {
-                GD.PrintErr("DeserializeDungeonRoom: Missing 'legend' field");
+            var legend = ExtractLegend(dungeonDict);
+            if (legend == null)
                 return null;
-            }
 
-            var legendDict = legendVar.AsGodotDictionary();
-            var yamlLegend = new Godot.Collections.Dictionary<string, string>();
-            foreach (var kvp in legendDict)
-            {
-                yamlLegend[kvp.Key.AsString()] = kvp.Value.AsString();
-            }
-
-            // Find player start position by scanning map
             var mapList = new List<string>();
             foreach (var line in map)
             {
@@ -705,32 +697,16 @@ public partial class AsciiRoomRenderer : Node2D
             }
 
             var playerStart = FindPlayerStart(mapList);
-
-            // Deserialize objects
-            var yamlObjects = new Godot.Collections.Dictionary<string, DungeonObject>();
-            if (dungeonDict.TryGetValue("objects", out var objectsVar))
-            {
-                var objectsDict = objectsVar.AsGodotDictionary();
-                foreach (var kvp in objectsDict)
-                {
-                    string symbol = kvp.Key.AsString();
-                    var obj = DeserializeDungeonObject(kvp.Value.AsGodotDictionary());
-                    if (obj != null)
-                    {
-                        yamlObjects[symbol] = obj;
-                    }
-                }
-            }
+            var objects = ExtractObjects(dungeonDict);
 
             var room = new DungeonRoom
             {
-                Owner = owner,
+                Owner = owner.Value,
                 Map = map,
-                YamlLegend = yamlLegend,
-                YamlObjects = yamlObjects,
+                YamlLegend = legend,
+                YamlObjects = objects,
             };
 
-            // Set player start position
             var yamlPlayerStart = new Godot.Collections.Array<int> { playerStart.X, playerStart.Y };
             room.YamlPlayerStartPosition = yamlPlayerStart;
 
@@ -742,6 +718,75 @@ public partial class AsciiRoomRenderer : Node2D
             GD.PrintErr($"DeserializeDungeonRoom: Error deserializing dungeon: {ex.Message}");
             return null;
         }
+    }
+
+    private static DreamweaverType? ExtractOwner(Godot.Collections.Dictionary dungeonDict)
+    {
+        if (!dungeonDict.TryGetValue("owner", out var ownerVar))
+        {
+            GD.PrintErr("DeserializeDungeonRoom: Missing 'owner' field");
+            return null;
+        }
+
+        return Enum.Parse<DreamweaverType>(ownerVar.ToString() ?? "Light");
+    }
+
+    private static Godot.Collections.Array<string>? ExtractMap(Godot.Collections.Dictionary dungeonDict)
+    {
+        if (!dungeonDict.TryGetValue("map", out var mapVar))
+        {
+            GD.PrintErr("DeserializeDungeonRoom: Missing 'map' field");
+            return null;
+        }
+
+        var mapArray = mapVar.AsGodotArray();
+        var map = new Godot.Collections.Array<string>();
+        foreach (var line in mapArray)
+        {
+            map.Add(line.AsString());
+        }
+
+        return map;
+    }
+
+    private static Godot.Collections.Dictionary<string, string>? ExtractLegend(Godot.Collections.Dictionary dungeonDict)
+    {
+        if (!dungeonDict.TryGetValue("legend", out var legendVar))
+        {
+            GD.PrintErr("DeserializeDungeonRoom: Missing 'legend' field");
+            return null;
+        }
+
+        var legendDict = legendVar.AsGodotDictionary();
+        var yamlLegend = new Godot.Collections.Dictionary<string, string>();
+        foreach (var kvp in legendDict)
+        {
+            yamlLegend[kvp.Key.AsString()] = kvp.Value.AsString();
+        }
+
+        return yamlLegend;
+    }
+
+    private static Godot.Collections.Dictionary<string, DungeonObject> ExtractObjects(Godot.Collections.Dictionary dungeonDict)
+    {
+        var yamlObjects = new Godot.Collections.Dictionary<string, DungeonObject>();
+        if (!dungeonDict.TryGetValue("objects", out var objectsVar))
+        {
+            return yamlObjects;
+        }
+
+        var objectsDict = objectsVar.AsGodotDictionary();
+        foreach (var kvp in objectsDict)
+        {
+            string symbol = kvp.Key.AsString();
+            var obj = DeserializeDungeonObject(kvp.Value.AsGodotDictionary());
+            if (obj != null)
+            {
+                yamlObjects[symbol] = obj;
+            }
+        }
+
+        return yamlObjects;
     }
 
     /// <summary>
@@ -776,7 +821,7 @@ public partial class AsciiRoomRenderer : Node2D
                 var posArray = posVar.AsGodotArray();
                 if (posArray.Count >= 2)
                 {
-                    obj.YamlPosition = new Godot.Collections.Array<int> { (int)posArray[0].AsInt64(), (int)posArray[1].AsInt64() };
+                    obj.YamlPosition = new Godot.Collections.Array<int> { (int) posArray[0].AsInt64(), (int) posArray[1].AsInt64() };
                 }
             }
 

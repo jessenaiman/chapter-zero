@@ -20,10 +20,6 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public class HouseSceneTests
 {
-#pragma warning disable SA1202
-#pragma warning disable SA1401
-#pragma warning disable SA1403
-
     private static readonly string ProjectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 
     private static string HouseScenePath => ResolveProjectPath("Source/overworld/maps/house/wand_pedestal_interaction.tscn");

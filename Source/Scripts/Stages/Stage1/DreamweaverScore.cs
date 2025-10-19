@@ -151,9 +151,9 @@ public partial class DreamweaverScore : Node
         }
 
         // Calculate percentage thresholds
-        float lightPercent = (float)_lightPoints / TotalPoints;
-        float shadowPercent = (float)_shadowPoints / TotalPoints;
-        float ambitionPercent = (float)_ambitionPoints / TotalPoints;
+        float lightPercent = (float) _lightPoints / TotalPoints;
+        float shadowPercent = (float) _shadowPoints / TotalPoints;
+        float ambitionPercent = (float) _ambitionPoints / TotalPoints;
 
         // Check for Balance ending (no thread reaches 60%)
         const float balanceThreshold = 0.60f;
@@ -197,9 +197,9 @@ public partial class DreamweaverScore : Node
 
         const float dominanceThreshold = 0.60f;
 
-        return (_lightPoints / (float)TotalPoints >= dominanceThreshold) ||
-               (_shadowPoints / (float)TotalPoints >= dominanceThreshold) ||
-               (_ambitionPoints / (float)TotalPoints >= dominanceThreshold);
+        return (_lightPoints / (float) TotalPoints >= dominanceThreshold) ||
+               (_shadowPoints / (float) TotalPoints >= dominanceThreshold) ||
+               (_ambitionPoints / (float) TotalPoints >= dominanceThreshold);
     }
 
     /// <summary>
@@ -228,9 +228,9 @@ public partial class DreamweaverScore : Node
             return "No choices recorded yet.";
         }
 
-        float lightPercent = (float)_lightPoints / TotalPoints * 100f;
-        float shadowPercent = (float)_shadowPoints / TotalPoints * 100f;
-        float ambitionPercent = (float)_ambitionPoints / TotalPoints * 100f;
+        float lightPercent = (float) _lightPoints / TotalPoints * 100f;
+        float shadowPercent = (float) _shadowPoints / TotalPoints * 100f;
+        float ambitionPercent = (float) _ambitionPoints / TotalPoints * 100f;
 
         return $"Light: {_lightPoints} ({lightPercent:F1}%) | " +
                $"Shadow: {_shadowPoints} ({shadowPercent:F1}%) | " +

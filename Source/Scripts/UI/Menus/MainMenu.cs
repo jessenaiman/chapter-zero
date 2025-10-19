@@ -3,6 +3,8 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.UI.Menus
 {
@@ -13,10 +15,10 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
     public partial class MainMenu : Control
     {
         [Export]
-        public string GameScenePath { get; set; } = "res://Source/Scenes/GhostTerminal/Opening.tscn";
+        public string GameScenePath { get; set; } = AppConfig.GameScenePath;
 
         [Export]
-        public string CharacterSelectionPath { get; set; } = "res://Source/Scenes/CharacterSelection.tscn";
+        public string CharacterSelectionPath { get; set; } = AppConfig.GameScenePath;
 
         private Button? newGameButton;
         private Button? continueButton;
@@ -96,7 +98,17 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         private void OnNewGamePressed()
         {
             GD.Print("Starting new game...");
-            this.GetTree().ChangeSceneToFile(this.CharacterSelectionPath);
+            if (this.TryGetSceneManager(out var sceneManager))
+            {
+                sceneManager.TransitionToScene("Stage1Boot");
+                return;
+            }
+
+            Error result = this.GetTree().ChangeSceneToFile(this.GameScenePath);
+            if (result != Error.Ok)
+            {
+                GD.PrintErr($"Failed to load game scene at '{this.GameScenePath}': {result}");
+            }
         }
 
         /// <summary>
@@ -106,7 +118,11 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         {
             GD.Print("Continuing game...");
             // TODO: Load save data and navigate to appropriate scene
-            this.GetTree().ChangeSceneToFile(this.GameScenePath);
+            Error result = this.GetTree().ChangeSceneToFile(this.GameScenePath);
+            if (result != Error.Ok)
+            {
+                GD.PrintErr($"Failed to load game scene at '{this.GameScenePath}': {result}");
+            }
         }
 
         /// <summary>
@@ -134,6 +150,12 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         {
             GD.Print("Exiting game...");
             this.GetTree().Quit();
+        }
+
+        private bool TryGetSceneManager(out SceneManager sceneManager)
+        {
+            sceneManager = this.GetNodeOrNull<SceneManager>("/root/SceneManager");
+            return sceneManager is not null;
         }
     }
 }

@@ -88,6 +88,35 @@
 				"$msCompile"
 			],
 			"group": "test"
+		},
+		{
+			"label": "watch",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"watch",
+				"--project",
+				"${workspaceFolder}/OmegaSpiral.csproj",
+				"build",
+				"--warnaserror"
+			],
+			"isBackground": true,
+			"problemMatcher": {
+				"pattern": "$msCompile",
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*dotnet watch.*",
+					"endsPattern": "^.*successfully.*|^.*failed.*"
+				}
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
 		}
 	]
 }

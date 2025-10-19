@@ -41,7 +41,7 @@ public partial class Question5Secret : TerminalBase
             }
             else
             {
-                await AppendTextAsync(line);
+                await AppendTextAsync(line, useGhostEffect: true);
                 await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
             }
         }
@@ -50,26 +50,27 @@ public partial class Question5Secret : TerminalBase
         GhostTerminalChoicePrompt prompt = secretBeat.Prompt;
 
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
-        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true);
         GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
         RecordChoice("question5_secret", selectedOption);
 
         if (!string.IsNullOrWhiteSpace(selectedOption.Response))
         {
-            await AppendTextAsync(selectedOption.Response);
+            await AppendTextAsync(selectedOption.Response, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
         }
 
         await PlaySecretRevealAsync(secretBeat.Reveal);
 
         await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
-
-        TransitionToScene("res://Source/Stages/Stage1/question4_name.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question6_continue.tscn");
     }
 
     private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)
     {
+        ApplyVisualPreset(TerminalVisualPreset.SecretReveal);
+
         foreach (string line in reveal.Lines)
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
@@ -78,7 +79,7 @@ public partial class Question5Secret : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 

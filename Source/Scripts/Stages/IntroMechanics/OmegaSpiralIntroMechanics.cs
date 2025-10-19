@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Field.Narrative.IntroMechanics;
+namespace OmegaSpiral.Source.Narrative.IntroMechanics;
 /// <summary>
 /// Implements engaging intro mechanics for the Game Omega Spiral opening scene.
 /// Provides interactive elements, visual effects, and narrative hooks to draw players into the experience.

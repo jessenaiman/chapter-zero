@@ -1,7 +1,7 @@
 using Godot;
 using static GdUnit4.Assertions;
 using GdUnit4;
-using OmegaSpiral.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;

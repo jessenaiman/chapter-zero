@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// </summary>
 public static class GhostTerminalCinematicDirector
 {
-    private const string DataPath = "res://Source/Stages/Stage1/opening.json";
+        private const string DataPath = "res://Source/Stages/Stage1/stage1.json";
     private const string SchemaPath = "res://Source/Data/Schemas/ghost_terminal_cinematic_schema.json";
 
     private static GhostTerminalCinematicPlan? cachedPlan;
@@ -193,6 +193,18 @@ public static class GhostTerminalCinematicDirector
 /// <summary>
 /// Immutable cinematic plan assembled from JSON.
 /// </summary>
+/// <param name="Metadata">The narrative metadata for this cinematic.</param>
+/// <param name="Boot">The boot sequence beat.</param>
+/// <param name="OpeningMonologue">The opening monologue beat.</param>
+/// <param name="FirstChoice">The first choice beat presented to the player.</param>
+/// <param name="StoryIntro">The story introduction beat.</param>
+/// <param name="StoryChoice">The story-related choice beat.</param>
+/// <param name="StoryContinuation">The story continuation beat.</param>
+/// <param name="SecretSetup">The setup for the secret reveal.</param>
+/// <param name="SecretChoice">The secret choice beat.</param>
+/// <param name="NameSetup">The setup for the name-related beat.</param>
+/// <param name="NameChoice">The name-related choice beat.</param>
+/// <param name="Exit">The exit/conclusion beat.</param>
 public sealed record GhostTerminalCinematicPlan(
     GhostTerminalMetadata Metadata,
     GhostTerminalBootBeat Boot,
@@ -257,6 +269,8 @@ public interface IGhostTerminalBeat
 /// <summary>
 /// Represents the boot sequence beat containing glitch lines and fade information.
 /// </summary>
+/// <param name="GlitchLines">The glitch text lines to display.</param>
+/// <param name="FadeToStable">Whether to fade to a stable display state.</param>
 public sealed record GhostTerminalBootBeat(IReadOnlyList<string> GlitchLines, bool FadeToStable) : IGhostTerminalBeat
 {
     /// <inheritdoc/>
@@ -266,11 +280,17 @@ public sealed record GhostTerminalBootBeat(IReadOnlyList<string> GlitchLines, bo
 /// <summary>
 /// Represents a narration-only beat.
 /// </summary>
+/// <param name="Kind">The beat classification.</param>
+/// <param name="Lines">The lines of narration text.</param>
+/// <param name="Timing">Optional timing classification (e.g., 'slow_burn').</param>
 public sealed record GhostTerminalNarrationBeat(GhostTerminalBeatKind Kind, IReadOnlyList<string> Lines, string? Timing = null) : IGhostTerminalBeat;
 
 /// <summary>
 /// Represents a beat that includes setup lines and a prompt with selectable options.
 /// </summary>
+/// <param name="Kind">The beat classification.</param>
+/// <param name="SetupLines">The setup text lines before the choice.</param>
+/// <param name="Prompt">The choice prompt and available options.</param>
 public sealed record GhostTerminalChoiceBeat(
     GhostTerminalBeatKind Kind,
     IReadOnlyList<string> SetupLines,
@@ -279,6 +299,9 @@ public sealed record GhostTerminalChoiceBeat(
 /// <summary>
 /// Represents the secret question beat which includes the reveal configuration.
 /// </summary>
+/// <param name="Kind">The beat classification.</param>
+/// <param name="Prompt">The secret choice prompt and available options.</param>
+/// <param name="Reveal">The secret reveal plan executed after the choice.</param>
 public sealed record GhostTerminalSecretChoiceBeat(
     GhostTerminalBeatKind Kind,
     GhostTerminalChoicePrompt Prompt,
@@ -287,6 +310,9 @@ public sealed record GhostTerminalSecretChoiceBeat(
 /// <summary>
 /// Encapsulates the prompt and options for a choice beat.
 /// </summary>
+/// <param name="Prompt">The main question text presented to the player.</param>
+/// <param name="Context">Optional contextual information about the choice.</param>
+/// <param name="Options">The list of selectable response options.</param>
 public sealed record GhostTerminalChoicePrompt(
     string Prompt,
     string? Context,
@@ -295,6 +321,12 @@ public sealed record GhostTerminalChoicePrompt(
 /// <summary>
 /// Represents a single selectable option.
 /// </summary>
+/// <param name="Id">The unique identifier for this option.</param>
+/// <param name="Text">The display text for this option.</param>
+/// <param name="Dreamweaver">The associated Dreamweaver persona, if any.</param>
+/// <param name="PhilosophicalTag">Optional philosophical classification of the choice.</param>
+/// <param name="Response">Optional response text from the narrative.</param>
+/// <param name="Scores">The score distribution affected by selecting this option.</param>
 public sealed record GhostTerminalChoiceOption(
     string Id,
     string Text,
@@ -306,11 +338,18 @@ public sealed record GhostTerminalChoiceOption(
 /// <summary>
 /// Score distribution for an option. Mirrors JSON without adding derived values.
 /// </summary>
+/// <param name="Light">The score contribution to the Light persona.</param>
+/// <param name="Shadow">The score contribution to the Shadow persona.</param>
+/// <param name="Ambition">The score contribution to the Ambition persona.</param>
 public sealed record GhostTerminalScore(int Light, int Shadow, int Ambition);
 
 /// <summary>
 /// Represents the plan for the secret reveal sequence.
 /// </summary>
+/// <param name="Visual">Optional visual effect identifier for the reveal.</param>
+/// <param name="Lines">The revelation text lines presented to the player.</param>
+/// <param name="Persistent">Whether this revelation persists in the player's state.</param>
+/// <param name="JournalEntry">Optional journal entry to unlock with the revelation.</param>
 public sealed record GhostTerminalSecretRevealPlan(
     string? Visual,
     IReadOnlyList<string> Lines,

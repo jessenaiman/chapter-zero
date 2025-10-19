@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://omegaspiral.com/schemas/spiraling_horizon.json",
+  "type": "object",
+  "required": [
+    "type",
+    "metadata",
+    "hub",
+    "routes",
+    "collector",
+    "countdown",
+    "convergence"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["ghost_terminal_escape"]
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["stage", "title", "schemaVersion", "narrativeOwner"],
+      "properties": {
+        "stage": { "type": "string" },
+        "title": { "type": "string" },
+        "schemaVersion": { "type": "string" },
+        "narrativeOwner": { "type": "string" },
+        "notes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "hub": {
+      "type": "object",
+      "required": ["environment", "dreamweaverArguments"],
+      "properties": {
+        "environment": {
+          "type": "object",
+          "required": ["location", "description"],
+          "properties": {
+            "location": { "type": "string" },
+            "description": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1
+            },
+            "visualGlitches": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "musicCue": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "dreamweaverArguments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["dreamweaver", "line", "stance"],
+            "properties": {
+              "dreamweaver": { "$ref": "#/definitions/dreamweaverId" },
+              "line": { "type": "string" },
+              "stance": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "evidenceOfOthers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description"],
+            "properties": {
+              "type": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "dreamweaver", "label", "encounterTemplate", "beats"],
+        "properties": {
+          "id": { "type": "string" },
+          "dreamweaver": { "$ref": "#/definitions/dreamweaverId" },
+          "label": { "type": "string" },
+          "encounterTemplate": { "type": "string" },
+          "presentation": {
+            "type": "object",
+            "properties": {
+              "tileset": { "type": "string" },
+              "lighting": { "type": "string" },
+              "musicCue": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "aiRemixRoom": {
+            "type": "object",
+            "properties": {
+              "roomId": { "type": "string" },
+              "enabled": { "type": "boolean" },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "beats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "id", "description"],
+              "properties": {
+                "type": { "type": "string" },
+                "id": { "type": "string" },
+                "description": { "type": "string" },
+                "dialogue": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/dialogueLine" }
+                }
+              },
+              "additionalProperties": false
+            },
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "collector": {
+      "type": "object",
+      "required": ["name", "phases"],
+      "properties": {
+        "name": { "type": "string" },
+        "appearance": { "type": "string" },
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "description"],
+            "properties": {
+              "id": { "type": "string" },
+              "description": { "type": "string" },
+              "mechanics": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "dialogue": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/dialogueLine" }
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "finalPhaseId": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "countdown": {
+      "type": "object",
+      "required": ["durationSeconds", "thresholds"],
+      "properties": {
+        "durationSeconds": { "type": "integer", "minimum": 1 },
+        "uiStyle": { "type": "string" },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["timeRemainingSeconds", "events"],
+            "properties": {
+              "timeRemainingSeconds": { "type": "integer", "minimum": 0 },
+              "events": {
+                "type": "array",
+                "items": { "type": "string" },
+                "minItems": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "convergence": {
+      "type": "object",
+      "required": ["scene", "beats", "handoff"],
+      "properties": {
+        "scene": { "type": "string" },
+        "beats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "description"],
+            "properties": {
+              "type": { "type": "string" },
+              "description": { "type": "string" },
+              "dialogue": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/dialogueLine" }
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "handoff": {
+          "type": "object",
+          "required": ["nextStage"],
+          "properties": {
+            "nextStage": { "type": "string" },
+            "payload": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "dreamweaverId": {
+      "type": "string",
+      "enum": ["light", "mischief", "wrath"]
+    },
+    "dialogueLine": {
+      "type": "object",
+      "required": ["speaker", "line"],
+      "properties": {
+        "speaker": { "type": "string" },
+        "line": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -19,6 +19,8 @@ public partial class OpeningMonologue : TerminalBase
     {
         base._Ready();
 
+        ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
+
         // Start the opening monologue
         await RunOpeningMonologueAsync();
     }
@@ -40,7 +42,7 @@ public partial class OpeningMonologue : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 

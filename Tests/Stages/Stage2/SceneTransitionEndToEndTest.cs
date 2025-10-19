@@ -3,6 +3,7 @@
 // </copyright>
 namespace OmegaSpiral.Tests.EndToEnd.Transition
 {
+    using System;
     using System.Threading.Tasks;
     using GdUnit4;
     using Godot;

@@ -11,6 +11,8 @@ using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
+using Trigger = OmegaSpiral.Source.Scripts.Field.Cutscenes.Trigger;
+using Gamepiece = OmegaSpiral.Source.Scripts.Field.Gamepieces.Gamepiece;
 
 namespace OmegaSpiral.Source.Overworld.Maps;
 
@@ -22,7 +24,7 @@ namespace OmegaSpiral.Source.Overworld.Maps;
 /// </summary>
 [Tool]
 [GlobalClass]
-public partial class CombatEncounterTrigger : Trigger
+public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.Cutscenes.Trigger
 {
     /// <summary>
     /// Gets or sets the Dialogic timeline to play before combat starts.
@@ -88,7 +90,10 @@ public partial class CombatEncounterTrigger : Trigger
         }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Executes the combat encounter trigger sequence.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
     protected override async Task ExecuteAsync()
     {
         if (Engine.IsEditorHint())

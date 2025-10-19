@@ -21,25 +21,6 @@ public partial class Question6Continue : TerminalBase
     {
         base._Ready();
 
-        // Present the final continue question
-        await PresentContinueQuestionAsync();
-    }
-
-    /// <summary>
-    /// Presents the continue question and determines the thread.
-    /// </summary>
-    /// <returns>A task that completes when continue is selected.</returns>
-    private async Task PresentContinueQuestionAsync()
-    {
-        string question = "> DO YOU WISH TO CONTINUE?";
-
-        string[] choices = new[]
-        {
-            "CONTINUE - Yes, continue the journey"
-        };
-
-        await PresentChoicesAsync(question, choices);
-
         // Determine and display thread
         await DetermineAndDisplayThreadAsync();
     }
@@ -53,6 +34,15 @@ public partial class Question6Continue : TerminalBase
         GameState gameState = GetGameState();
         string dominantThread = gameState.GetDominantThread();
         string threadName = dominantThread.ToUpperInvariant();
+
+        ApplyVisualPreset(dominantThread switch
+        {
+            "Light" => TerminalVisualPreset.ThreadLight,
+            "Shadow" => TerminalVisualPreset.ThreadMischief,
+            "Ambition" => TerminalVisualPreset.ThreadWrath,
+            "Balance" => TerminalVisualPreset.ThreadBalance,
+            _ => TerminalVisualPreset.StableBaseline,
+        });
 
         string[] threadLines = dominantThread switch
         {
@@ -109,7 +99,7 @@ public partial class Question6Continue : TerminalBase
         {
             if (!string.IsNullOrEmpty(line))
             {
-                await AppendTextAsync(line);
+                await AppendTextAsync(line, useGhostEffect: true);
                 await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
             }
             else
@@ -120,7 +110,7 @@ public partial class Question6Continue : TerminalBase
 
         // Display score summary
         string scoreSummary = gameState.GetScoreSummary();
-        await AppendTextAsync($"\n> SCORE SUMMARY: {scoreSummary}");
+        await AppendTextAsync($"\n> SCORE SUMMARY: {scoreSummary}", useGhostEffect: true);
 
         GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
 
@@ -133,7 +123,7 @@ public partial class Question6Continue : TerminalBase
             }
 
             string resolved = line.Replace("{{THREAD_NAME}}", threadName, StringComparison.OrdinalIgnoreCase);
-            await AppendTextAsync(resolved);
+            await AppendTextAsync(resolved, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -147,11 +137,8 @@ public partial class Question6Continue : TerminalBase
         GD.Print($"[Question6Continue] Determined thread: {dominantThread}");
         GD.Print($"[Question6Continue] Final scores: {gameState.GetScoreSummary()}");
 
-        // For now, just show completion message
-        await AppendTextAsync("\n> STAGE 1 COMPLETE");
-        await AppendTextAsync("> PREPARING FOR STAGE 2...");
-
-        // TODO: Transition to actual Stage 2 scene when implemented
+        // Transition to Stage 2
         await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
+        GetTree().ChangeSceneToFile("res://Source/Stages/Stage2/EchoHub.tscn");
     }
 }

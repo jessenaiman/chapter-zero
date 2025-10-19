@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.UI.Menus
 {
@@ -88,7 +89,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         private void ReturnToMainMenu()
         {
             GD.Print("Returning to main menu from credits...");
-            this.GetTree().ChangeSceneToFile("res://addons/maaacks_game_template/base/scenes/menus/main_menu/MainMenu.tscn");
+            this.GetTree().ChangeSceneToFile(AppConfig.MainMenuScenePath);
         }
     }
 }

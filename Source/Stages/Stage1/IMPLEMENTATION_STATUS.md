@@ -1,11 +1,13 @@
 # Stage 1 Implementation - Complete Structure
 
 ## Overview
+
 Stage 1 opening sequence fully implemented with clean, consolidated structure.
 
 ## File Organization
 
 ### Source Code (10 C# Scripts)
+
 Location: `Source/Scripts/Stages/Stage1/`
 
 1. **TerminalBase.cs** - Foundation class for all terminal scenes
@@ -60,6 +62,7 @@ Location: `Source/Scripts/Stages/Stage1/`
     - Prepares for Stage 2 (TODO)
 
 ### Godot Scenes (9 .tscn Files)
+
 Location: `Source/Stages/Stage1/`
 
 - **TerminalBase.tscn** - Base scene template
@@ -73,15 +76,18 @@ Location: `Source/Stages/Stage1/`
 - **Question6_Continue.tscn** - Inherits TerminalBase
 
 ### Tests (11 Files)
+
 Location: `Tests/Stages/Stage1/`
 
 **Test Files:**
+
 - ContentBlockTests.cs
 - ErrorHandlingTests.cs
 - NarrativeScriptFunctionalTests.cs
 - NeverGoAloneControllerTests.cs
 
 **Test Helpers:**
+
 - GamepadInput.cs
 - KeyInput.cs
 - MouseInput.cs
@@ -117,6 +123,7 @@ Stage 2 (TODO)
 ## Scoring System
 
 ### Point Distribution
+
 - Question 1 (Story Type): 2 points
 - Question 2 (Bridge): 3 points
 - Question 3 (Voice): 3 points
@@ -124,32 +131,38 @@ Stage 2 (TODO)
 - **Total Maximum**: 12 points (or 8 if secret skipped)
 
 ### Thread Determination
+
 - **Light**: Moral certainty, conviction, protection
 - **Shadow**: Observation, patience, hidden truths
 - **Ambition**: Self-empowerment, transformation, risk
 - **Balance**: No thread reaches 60% (philosophical complexity)
 
 ### Tiebreaker Order
+
 If scores are equal: Light → Shadow → Ambition
 
 ## Project Configuration
 
 ### Autoloads (project.godot)
+
 ```
 DreamweaverScore="*res://Source/Scripts/Stages/Stage1/DreamweaverScore.cs"
 ```
 
 ### Entry Point
+
 ```
-run/main_scene="res://Source/Stages/Opening.tscn"
+run/main_scene="res://Source/Stages/MainMenu/PressStartMenu.tscn"
 ```
 
 ## Build Status
+
 ✅ Project builds successfully with 0 warnings, 0 errors
 ✅ Single OmegaSpiral.csproj (no solution file needed)
 ✅ Pre-commit hooks updated to use .csproj directly
 
 ## TODO
+
 - [ ] Create actual Stage 1 integration tests (ContentBlockTests exist but need Stage 1-specific tests)
 - [ ] Implement shader files (crt_phosphor.tres, crt_scanlines.tres, crt_glitch.tres)
 - [ ] Add audio assets (typewriter, UI sounds, ambient)
@@ -158,7 +171,9 @@ run/main_scene="res://Source/Stages/Opening.tscn"
 - [ ] Implement DreamweaverScore persistence for Stage 2
 
 ## Testing
+
 Current tests are for narrative/content systems. Need to add:
+
 - DreamweaverScore unit tests
 - Scene transition tests
 - Choice recording tests

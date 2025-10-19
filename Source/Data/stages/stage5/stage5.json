@@ -1,0 +1,314 @@
+{
+  "$schema": "res://Source/Data/Schemas/spiraling_horizon_schema.json",
+  "type": "ghost_terminal_escape",
+  "metadata": {
+    "stage": "Stage5",
+    "title": "Fractured Escape",
+    "schemaVersion": "0.2.0",
+    "narrativeOwner": "Dreamweaver Collective",
+    "notes": [
+      "Final playable beat before closing stage.",
+      "Hub + three mirrored routes share encounter template.",
+      "All dialogue and timer events authored in data."
+    ]
+  },
+  "hub": {
+    "environment": {
+      "location": "ghost_terminal_plaza",
+      "description": [
+        "Stage 2’s hub recompiled with tearing skyboxes and looping geometry.",
+        "Fragments of town signage flicker between eras; NPC silhouettes phase in and out."
+      ],
+      "visualGlitches": [
+        "Tiles load twice then snap back.",
+        "Dreamweaver sigils smear horizontally for a single frame."
+      ],
+      "musicCue": "score_stage5_plaza_emergency"
+    },
+    "dreamweaverArguments": [
+      {
+        "dreamweaver": "light",
+        "line": "Stand with me. We hold the boulevard and escort everyone out together.",
+        "stance": "fight"
+      },
+      {
+        "dreamweaver": "mischief",
+        "line": "No time to play hero. Follow me through the alleys before the sweeper locks them.",
+        "stance": "sneak"
+      },
+      {
+        "dreamweaver": "wrath",
+        "line": "Break the core. Overload the system before it decides we are expendable.",
+        "stance": "break"
+      }
+    ],
+    "evidenceOfOthers": [
+      {
+        "type": "footprints",
+        "description": "Two sets of glowing footprints that veer into different exits before fading."
+      },
+      {
+        "type": "discarded_item",
+        "description": "A cracked resonance bracer labelled 'Candidate B'."
+      },
+      {
+        "type": "audio_log",
+        "description": "Looping whisper: \"If you hear this, I took the alleys—see you at the bridge.\""
+      }
+    ]
+  },
+  "routes": [
+    {
+      "id": "fight",
+      "dreamweaver": "light",
+      "label": "Hold the Line",
+      "encounterTemplate": "shared_escape_template",
+      "presentation": {
+        "tileset": "reinforced_boulevard",
+        "lighting": "sunrise_gold",
+        "musicCue": "score_stage5_fight_path"
+      },
+      "aiRemixRoom": {
+        "roomId": "boulevard_barricade",
+        "enabled": false,
+        "notes": "Light refuses NobodyWho assistance; layout locked."
+      },
+      "beats": [
+        {
+          "type": "setup",
+          "id": "fight_setup",
+          "description": "Barricades animate into position; Light briefs the plan.",
+          "dialogue": [
+            { "speaker": "light", "line": "Anchor formation. We escort every survivor we can." }
+          ]
+        },
+        {
+          "type": "collector",
+          "id": "collector_phase_one",
+          "description": "Sweeper arrival, testing melee resilience.",
+          "dialogue": [
+            { "speaker": "collector", "line": "Mark phase commencing. Unreferenced hope flagged." }
+          ]
+        },
+        {
+          "type": "traversal",
+          "id": "fight_traversal",
+          "description": "Player escorts NPC echoes down collapsing boulevard; barricades reconfigure.",
+          "dialogue": [
+            { "speaker": "mischief", "line": "Still think straight lines are efficient?" },
+            { "speaker": "light", "line": "Hold the pace. The sweeper cannot tag what stays in motion." }
+          ]
+        },
+        {
+          "type": "collector",
+          "id": "collector_phase_two",
+          "description": "Sweeper returns with clones; triggers convergence countdown."
+        },
+        {
+          "type": "convergencePrep",
+          "id": "fight_convergence",
+          "description": "Boulevard warps into the bridge stub despite Light’s resistance."
+        }
+      ]
+    },
+    {
+      "id": "sneak",
+      "dreamweaver": "mischief",
+      "label": "Slip the Net",
+      "encounterTemplate": "shared_escape_template",
+      "presentation": {
+        "tileset": "neon_back_alley",
+        "lighting": "teal_glitch",
+        "musicCue": "score_stage5_sneak_path"
+      },
+      "aiRemixRoom": {
+        "roomId": "alley_shuffle",
+        "enabled": true,
+        "notes": "NobodyWho may reorder crates & vents within nav mesh bounds."
+      },
+      "beats": [
+        {
+          "type": "setup",
+          "id": "sneak_setup",
+          "description": "Mischief spawns decoy echoes and maps out alleys.",
+          "dialogue": [
+            { "speaker": "mischief", "line": "Three doors, two mirrors, one chance. Keep up." }
+          ]
+        },
+        {
+          "type": "collector",
+          "id": "collector_phase_one",
+          "description": "Sweeper arrival; attempts to purge decoys."
+        },
+        {
+          "type": "traversal",
+          "id": "sneak_traversal",
+          "description": "Parkour dash across vents and fire escapes while Mischief glitches collision.",
+          "dialogue": [
+            { "speaker": "wrath", "line": "Chaos without teeth wastes time." },
+            { "speaker": "mischief", "line": "Chaos with purpose opens doors the sweeper never mapped." }
+          ]
+        },
+        {
+          "type": "aiRemix",
+          "id": "alley_remix",
+          "description": "NobodyWho shuffles props; player reroutes mid-run."
+        },
+        {
+          "type": "convergencePrep",
+          "id": "sneak_convergence",
+          "description": "Alleys fold into the same bridge stub, revealing other players’ graffiti."
+        }
+      ]
+    },
+    {
+      "id": "break",
+      "dreamweaver": "wrath",
+      "label": "Crash the Core",
+      "encounterTemplate": "shared_escape_template",
+      "presentation": {
+        "tileset": "system_backbone",
+        "lighting": "crimson_overload",
+        "musicCue": "score_stage5_break_path"
+      },
+      "aiRemixRoom": {
+        "roomId": "overload_chamber",
+        "enabled": false,
+        "notes": "Wrath locks geometry to channel ruptures."
+      },
+      "beats": [
+        {
+          "type": "setup",
+          "id": "break_setup",
+          "description": "Wrath slams a conduit into the ground, revealing core circuits.",
+          "dialogue": [
+            { "speaker": "wrath", "line": "We tear a hole big enough for everyone. Move with purpose." }
+          ]
+        },
+        {
+          "type": "collector",
+          "id": "collector_phase_one",
+          "description": "Sweeper arrival; attempts to quarantine overloaded nodes."
+        },
+        {
+          "type": "traversal",
+          "id": "break_traversal",
+          "description": "Player overloads circuit pylons to create jump pads while system shakes.",
+          "dialogue": [
+            { "speaker": "light", "line": "This path burns everything behind us." },
+            { "speaker": "wrath", "line": "Then we burn so the rest can pass." }
+          ]
+        },
+        {
+          "type": "collector",
+          "id": "collector_final",
+          "description": "Sweeper manifests fully; defeat triggers forced bridge projection.",
+          "dialogue": [
+            { "speaker": "collector", "line": "Final sweep. Dispose stray protagonists." }
+          ]
+        },
+        {
+          "type": "convergencePrep",
+          "id": "break_convergence",
+          "description": "Overloaded circuits collapse into bridge geometry; timer redlines."
+        }
+      ]
+    }
+  ],
+  "collector": {
+    "name": "Omega Sweeper",
+    "appearance": "Humanoid auditor composed of floating C# glyphs and data knives.",
+    "phases": [
+      {
+        "id": "phase_one",
+        "description": "Single entity. Tags targets with mark/remove debuff.",
+        "mechanics": [
+          "Applies MARKED status; removes buffs when timer expires.",
+          "Teleports to players lingering in unsafe zones."
+        ],
+        "dialogue": [
+          { "speaker": "collector", "line": "Scanning for orphaned threads." }
+        ]
+      },
+      {
+        "id": "phase_two",
+        "description": "Spawns two clones that sweep flanks.",
+        "mechanics": [
+          "Clones inherit 50% HP and share cooldown.",
+          "Area denial fields that shrink escape lanes."
+        ],
+        "dialogue": [
+          { "speaker": "collector", "line": "Compact memory. Dispose redundancy." }
+        ]
+      },
+      {
+        "id": "phase_three",
+        "description": "Fully materialised auditor at bridge stub; gate to convergence.",
+        "mechanics": [
+          "Overclock pulses that freeze traversal for two seconds.",
+          "Final strike triggers convergence cinematic."
+        ],
+        "dialogue": [
+          { "speaker": "collector", "line": "Garbage collect complete. Awaiting final directive." }
+        ]
+      }
+    ],
+    "finalPhaseId": "phase_three"
+  },
+  "countdown": {
+    "durationSeconds": 360,
+    "uiStyle": "infinity_loop",
+    "thresholds": [
+      {
+        "timeRemainingSeconds": 300,
+        "events": [
+          "VO.light.warns_overflow",
+          "FX.plaza_fissure_minor"
+        ]
+      },
+      {
+        "timeRemainingSeconds": 180,
+        "events": [
+          "VO.mischief.timer_joke",
+          "FX.screen_glitch_pass"
+        ]
+      },
+      {
+        "timeRemainingSeconds": 60,
+        "events": [
+          "VO.wrath.countdown_roar",
+          "FX.hud_redline",
+          "Collector.advance_phase_three"
+        ]
+      },
+      {
+        "timeRemainingSeconds": 0,
+        "events": [
+          "Trigger.fail_state_if_not_in_convergence"
+        ]
+      }
+    ]
+  },
+  "convergence": {
+    "scene": "BridgeStub",
+    "beats": [
+      {
+        "type": "dialogue",
+        "description": "Dreamweavers acknowledge the other players.",
+        "dialogue": [
+          { "speaker": "light", "line": "Two more signatures made it through... we cannot go back for them." },
+          { "speaker": "mischief", "line": "Or maybe they decided to outrun us. Either way—we meet at the bridge." },
+          { "speaker": "wrath", "line": "We choose now, or the sweeper chooses for us." }
+        ]
+      },
+      {
+        "type": "system_hint",
+        "description": "Ambient system log voice bleeds into the soundscape—setup for closing stage."
+      }
+    ],
+    "handoff": {
+      "nextStage": "ClosingStage",
+      "payload": "Record route choice, countdown result, collector phase reached."
+    }
+  }
+}

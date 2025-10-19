@@ -8,8 +8,9 @@ using static GdUnit4.Assertions;
 namespace OmegaSpiral.Tests.Unit.Infrastructure.Dungeon;
 
 /// <summary>
-/// Unit tests for DreamweaverAffinityService.
-/// Tests the application of affinity changes to GameState.
+/// Unit tests for <see cref="DreamweaverAffinityService"/>.
+/// Verifies that affinity changes are correctly applied and persisted to GameState between stages.
+/// These tests ensure the affinity scores accumulate correctly for each Dreamweaver across narrative stages.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
@@ -49,11 +50,12 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     }
 
     /// <summary>
-    /// Tests that ApplyChange adds positive points to the specified Dreamweaver.
+    /// Verifies that positive affinity increases are correctly persisted to GameState
+    /// for retrieval in subsequent stages, accumulating alignment scores.
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void ApplyChange_AddsPositivePoints()
+    public void PersistAffinityIncreaseToGameState_AddsPositivePointsForDreamweaver()
     {
         // Arrange
         var change = new DreamweaverAffinityChange(DreamweaverAffinityChangeType.Increase, 5);
@@ -66,11 +68,12 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     }
 
     /// <summary>
-    /// Tests that ApplyChange subtracts points for decrease changes.
+    /// Verifies that affinity decreases correctly subtract from existing scores and persist
+    /// across stage boundaries.
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void ApplyChange_SubtractsPointsForDecrease()
+    public void PersistAffinityDecreaseToGameState_SubtractsPointsFromExistingScore()
     {
         // Arrange
         _gameState!.UpdateDreamweaverScore(DreamweaverType.Mischief, 10);
@@ -84,11 +87,12 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     }
 
     /// <summary>
-    /// Tests that ApplyChange works for all Dreamweaver types.
+    /// Verifies that all Dreamweaver types can have independent affinity increases persisted
+    /// for stage transitions.
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void ApplyChange_WorksForAllDreamweaverTypes()
+    public void PersistAffinityIncreaseToGameState_WorksForAllDreamweaverTypes()
     {
         // Arrange
         var lightChange = new DreamweaverAffinityChange(DreamweaverAffinityChangeType.Increase, 2);
@@ -110,7 +114,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange throws ArgumentNullException when change is null.
     /// </summary>
     [TestCase]
-    public void ApplyChange_ThrowsWhenChangeIsNull()
+    public void ApplyChange_ThrowsArgumentNullException_WhenChangeIsNull()
     {
         // Act & Assert
         AssertThat(() => _service!.ApplyChange(DreamweaverType.Light, null!))
@@ -121,7 +125,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that constructor throws ArgumentNullException when gameState is null.
     /// </summary>
     [TestCase]
-    public void Constructor_ThrowsWhenGameStateIsNull()
+    public void Constructor_ThrowsArgumentNullException_WhenGameStateIsNull()
     {
         // Act & Assert
         AssertThat(() => new DreamweaverAffinityService(null!))
@@ -133,7 +137,7 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void ApplyChange_HandlesZeroAmount()
+    public void PersistAffinityToGameState_HandlesNeutralChangeWithZeroAmount()
     {
         // Arrange
         _gameState!.UpdateDreamweaverScore(DreamweaverType.Wrath, 5);

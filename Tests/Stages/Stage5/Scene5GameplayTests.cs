@@ -13,9 +13,8 @@ using OmegaSpiral.Field;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field;
-using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
-using OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
+using OmegaSpiral.Source.Scripts.Field.Cutscenes.Templates.Doors;
 using static GdUnit4.Assertions;
 
 /// <summary>
@@ -73,7 +72,7 @@ public partial class Scene5GameplayTests : Node
     public void TownScene_PartySpawning_LoadsAndPositionsCorrectly()
     {
         // Arrange
-        var townScene = (PackedScene)ResourceLoader.Load(TownScenePath);
+        var townScene = (PackedScene) ResourceLoader.Load(TownScenePath);
         AssertThat(townScene).IsNotNull();
 
         // Act
@@ -104,7 +103,7 @@ public partial class Scene5GameplayTests : Node
     public async Task CharacterMovement_TownExploration_MovesCorrectly()
     {
         // Arrange
-        var townScene = (PackedScene)ResourceLoader.Load(TownScenePath);
+        var townScene = (PackedScene) ResourceLoader.Load(TownScenePath);
         var townInstance = townScene.Instantiate<Node2D>();
         var gameboard = townInstance.GetNodeOrNull<Gameboard>("/root/Gameboard");
         AssertThat(gameboard).IsNotNull();
@@ -134,7 +133,7 @@ public partial class Scene5GameplayTests : Node
     public void HouseEntry_DoorInteraction_TransitionsCorrectly()
     {
         // Arrange
-        var townScene = (PackedScene)ResourceLoader.Load(TownScenePath);
+        var townScene = (PackedScene) ResourceLoader.Load(TownScenePath);
         var townInstance = townScene.Instantiate<Node2D>();
 
         // Find door interaction (assuming Door.cs is attached to a node)
@@ -169,7 +168,7 @@ public partial class Scene5GameplayTests : Node
         await Task.CompletedTask;
 
         // Arrange
-        var townScene = (PackedScene)ResourceLoader.Load(TownScenePath);
+        var townScene = (PackedScene) ResourceLoader.Load(TownScenePath);
         var townInstance = townScene.Instantiate<Node2D>();
         var fieldEvents = townInstance.GetNodeOrNull<OmegaSpiral.Field.FieldEvents>("/root/FieldEvents");
         var combatEvents = townInstance.GetNodeOrNull<OmegaSpiral.Combat.CombatEvents>("/root/CombatEvents");
@@ -178,7 +177,7 @@ public partial class Scene5GameplayTests : Node
 
         // Create combat encounter trigger
         var combatTrigger = new OmegaSpiral.Source.Overworld.Maps.CombatEncounterTrigger();
-        combatTrigger.CombatArena = (PackedScene)ResourceLoader.Load(CombatArenaPath);
+        combatTrigger.CombatArena = (PackedScene) ResourceLoader.Load(CombatArenaPath);
         townInstance.AddChild(combatTrigger);
 
         // Act: Trigger combat encounter
@@ -192,7 +191,7 @@ public partial class Scene5GameplayTests : Node
         AssertThat(combatTriggeredSignal).IsNotNull();
 
         // Verify combat arena was passed
-        var arenaScene = (PackedScene)combatTriggeredSignal[0];
+        var arenaScene = (PackedScene) combatTriggeredSignal[0];
         AssertThat(arenaScene).IsNotNull();
 
         townInstance.QueueFree();
@@ -207,7 +206,7 @@ public partial class Scene5GameplayTests : Node
     public async Task Scene5Gameplay_FullFlow_DemonstratesCompleteExperience()
     {
         // Arrange: Load town scene
-        var townScene = (PackedScene)ResourceLoader.Load(TownScenePath);
+        var townScene = (PackedScene) ResourceLoader.Load(TownScenePath);
         var townInstance = townScene.Instantiate<Node2D>();
         var gameState = new OmegaSpiral.Source.Scripts.Common.GameState();
 
@@ -216,7 +215,7 @@ public partial class Scene5GameplayTests : Node
 
         // Act 1: Explore town (simulate movement)
         // PlayerController is a scene, not a direct class instantiation
-        var playerControllerScene = (PackedScene)ResourceLoader.Load("res://Source/Scripts/field/gamepieces/controllers/PlayerController.tscn");
+        var playerControllerScene = (PackedScene) ResourceLoader.Load("res://Source/Scripts/field/gamepieces/controllers/PlayerController.tscn");
         var playerController = playerControllerScene.Instantiate<Node2D>();
         townInstance.AddChild(playerController);
         Input.ActionPress("ui_down");
@@ -234,7 +233,7 @@ public partial class Scene5GameplayTests : Node
 
         // Act 3: Trigger combat in town
         var combatTrigger = new OmegaSpiral.Source.Overworld.Maps.CombatEncounterTrigger();
-        combatTrigger.CombatArena = (PackedScene)ResourceLoader.Load(CombatArenaPath);
+        combatTrigger.CombatArena = (PackedScene) ResourceLoader.Load(CombatArenaPath);
         townInstance.AddChild(combatTrigger);
         combatTrigger.CallDeferred("_ExecuteAsync");
 

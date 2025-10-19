@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://omegaspiral.com/schemas/echo_chamber_stage.json",
+  "type": "object",
+  "required": ["type", "metadata", "dreamweavers", "interludes", "chambers", "finale"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["echo_chamber_stage"]
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["iteration", "iterationFallback", "status"],
+      "properties": {
+        "iteration": { "type": "string" },
+        "iterationFallback": { "type": "integer" },
+        "status": { "type": "string" },
+        "systemIntro": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "dreamweavers": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "accentColor": { "type": "string" },
+          "textTheme": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "interludes": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "owner", "prompt", "options"],
+        "properties": {
+          "id": { "type": "string" },
+          "owner": { "type": "string" },
+          "prompt": { "type": "string" },
+          "options": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["id", "text", "alignment"],
+              "properties": {
+                "id": { "type": "string" },
+                "text": { "type": "string" },
+                "alignment": { "type": "string" },
+                "banter": {
+                  "type": "object",
+                  "required": ["approve", "dissent"],
+                  "properties": {
+                    "approve": {
+                      "type": "object",
+                      "required": ["speaker", "line"],
+                      "properties": {
+                        "speaker": { "type": "string" },
+                        "line": { "type": "string" }
+                      }
+                    },
+                    "dissent": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "object",
+                        "required": ["speaker", "line"],
+                        "properties": {
+                          "speaker": { "type": "string" },
+                          "line": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "chambers": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "owner", "style", "objects"],
+        "properties": {
+          "id": { "type": "string" },
+          "owner": { "type": "string" },
+          "style": {
+            "type": "object",
+            "required": ["template", "decoyCount"],
+            "properties": {
+              "template": { "type": "string" },
+              "ambient": { "type": "string" },
+              "decoyCount": { "type": "integer", "minimum": 0 },
+              "glitchProfile": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "objects": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": ["slot", "alignment", "prompt"],
+              "properties": {
+                "slot": { "type": "string", "enum": ["door", "monster", "chest"] },
+                "alignment": { "type": "string" },
+                "prompt": { "type": "string" },
+                "interactionLog": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "banter": {
+                  "type": "object",
+                  "required": ["approve", "dissent"],
+                  "properties": {
+                    "approve": {
+                      "type": "object",
+                      "required": ["speaker", "line"],
+                      "properties": {
+                        "speaker": { "type": "string" },
+                        "line": { "type": "string" }
+                      }
+                    },
+                    "dissent": {
+                      "type": "array",
+                      "minItems": 2,
+                      "items": {
+                        "type": "object",
+                        "required": ["speaker", "line"],
+                        "properties": {
+                          "speaker": { "type": "string" },
+                          "line": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "decoys": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "revealText"],
+              "properties": {
+                "id": { "type": "string" },
+                "revealText": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "finale": {
+      "type": "object",
+      "required": ["claimants", "systemOutro"],
+      "properties": {
+        "claimants": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9_]+$": {
+              "type": "object",
+              "required": ["claim", "responses"],
+              "properties": {
+                "claim": { "type": "string" },
+                "responses": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "object",
+                    "required": ["speaker", "line"],
+                    "properties": {
+                      "speaker": { "type": "string" },
+                      "line": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "systemOutro": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

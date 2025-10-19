@@ -42,7 +42,7 @@ public partial class Question1Name : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -50,13 +50,13 @@ public partial class Question1Name : TerminalBase
 
         if (!string.IsNullOrWhiteSpace(prompt.Context))
         {
-            await AppendTextAsync(prompt.Context);
+            await AppendTextAsync(prompt.Context, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
-        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true);
         GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
         RecordChoice("question1_name", selectedOption);

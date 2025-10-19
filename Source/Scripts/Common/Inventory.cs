@@ -2,7 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
 using Godot;
+
+#nullable enable
 
 namespace OmegaSpiral
 {

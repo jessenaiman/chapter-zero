@@ -39,7 +39,7 @@ public partial class Question3Voice : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -47,6 +47,6 @@ public partial class Question3Voice : TerminalBase
         await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
         // Transition to secret question
-        TransitionToScene("res://Source/Stages/Stage1/question5_secret.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question4_name.tscn");
     }
 }

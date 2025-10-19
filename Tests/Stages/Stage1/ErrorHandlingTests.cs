@@ -5,7 +5,7 @@
 namespace OmegaSpiral.Tests.Functional.Narrative;
 
 using GdUnit4;
-using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Tests.Narrative;
 using static GdUnit4.Assertions;
 

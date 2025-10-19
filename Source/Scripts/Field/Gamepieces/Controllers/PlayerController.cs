@@ -10,6 +10,7 @@ using OmegaSpiral.Field;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field.Cutscenes;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
+using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Field.Gamepieces.Controllers;
 /// <summary>

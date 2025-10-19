@@ -18,220 +18,220 @@ namespace OmegaSpiral.Combat;
 [GlobalClass]
 public partial class ActiveTurnQueue : Node2D
 {
-	/// <summary>
-	/// The slow-motion value of time_scale used when the player is navigating action/target menus.
-	/// </summary>
-	public const float SlowTimeScale = 0.05f;
+    /// <summary>
+    /// The slow-motion value of time_scale used when the player is navigating action/target menus.
+    /// </summary>
+    public const float SlowTimeScale = 0.05f;
 
-	/// <summary>
-	/// Emitted once a player has won or lost a battle, indicating whether or not it may be considered a
-	/// victory for the player. All combat animations have finished playing.
-	/// </summary>
-	/// <param name="isPlayerVictory">Indicates whether the player has won (<see langword="true"/>) or lost (<see langword="false"/>) the battle.</param>
-	[Signal]
-	public delegate void CombatFinishedEventHandler(bool isPlayerVictory);
+    /// <summary>
+    /// Emitted once a player has won or lost a battle, indicating whether or not it may be considered a
+    /// victory for the player. All combat animations have finished playing.
+    /// </summary>
+    /// <param name="isPlayerVictory">Indicates whether the player has won (<see langword="true"/>) or lost (<see langword="false"/>) the battle.</param>
+    [Signal]
+    public delegate void CombatFinishedEventHandler(bool isPlayerVictory);
 
-	private bool _isActive = true;
-	private float _timeScale = 1.0f;
-	private BattlerAction? _activeAction;
-	private bool _isPlayerMenuOpen;
-	private Dictionary<Battler, Dictionary<string, object>> _cachedActions = new();
+    private bool _isActive = true;
+    private float _timeScale = 1.0f;
+    private BattlerAction? _activeAction;
+    private bool _isPlayerMenuOpen;
+    private Dictionary<Battler, Dictionary<string, object>> _cachedActions = new();
 
-	/// <summary>
-	/// Allows pausing the Active Time Battle during combat intro, a cutscene, or combat end.
-	/// </summary>
-	public bool IsActive
-	{
-		get => _isActive;
-		set
-		{
-			if (value != _isActive)
-			{
-				_isActive = value;
-				if (Battlers != null)
-				{
-					foreach (var battler in Battlers.GetAllBattlers())
-					{
-						battler.IsActive = _isActive;
-					}
-				}
-			}
-		}
-	}
+    /// <summary>
+    /// Allows pausing the Active Time Battle during combat intro, a cutscene, or combat end.
+    /// </summary>
+    public bool IsActive
+    {
+        get => _isActive;
+        set
+        {
+            if (value != _isActive)
+            {
+                _isActive = value;
+                if (Battlers != null)
+                {
+                    foreach (var battler in Battlers.GetAllBattlers())
+                    {
+                        battler.IsActive = _isActive;
+                    }
+                }
+            }
+        }
+    }
 
-	/// <summary>
-	/// A list of the combat participants, in BattlerList form. This object is created by the turn
-	/// queue from children Battlers and then made available to other combat systems.
-	/// </summary>
-	public BattlerList? Battlers { get; private set; }
+    /// <summary>
+    /// A list of the combat participants, in BattlerList form. This object is created by the turn
+    /// queue from children Battlers and then made available to other combat systems.
+    /// </summary>
+    public BattlerList? Battlers { get; private set; }
 
-	/// <summary>
-	/// Initializes the ActiveTurnQueue when it enters the scene tree.
-	/// Sets up signal connections, creates battler lists, and configures AI.
-	/// </summary>
-	public override void _Ready()
-	{
-		// The time scale slows down whenever the user is picking an action. Connect to UI signals here
-		// to adjust accordingly to whether or not the play is navigating the target/action menus.
-		if (CombatEvents.Instance != null)
-		{
-			CombatEvents.Instance.PlayerBattlerSelected += OnPlayerBattlerSelected;
-			CombatEvents.Instance.ActionSelectedEvent += OnActionSelected;
-		}
+    /// <summary>
+    /// Initializes the ActiveTurnQueue when it enters the scene tree.
+    /// Sets up signal connections, creates battler lists, and configures AI.
+    /// </summary>
+    public override void _Ready()
+    {
+        // The time scale slows down whenever the user is picking an action. Connect to UI signals here
+        // to adjust accordingly to whether or not the play is navigating the target/action menus.
+        if (CombatEvents.Instance != null)
+        {
+            CombatEvents.Instance.PlayerBattlerSelected += OnPlayerBattlerSelected;
+            CombatEvents.Instance.ActionSelectedEvent += OnActionSelected;
+        }
 
-		// Combat participants are children of the ActiveTurnQueue. Create the data structure that will
-		// track battlers and be passed across states.
-		var players = GetChildren().OfType<Battler>().Where(b => b.IsPlayer).ToArray();
-		var enemies = GetChildren().OfType<Battler>().Where(b => !b.IsPlayer).ToArray();
+        // Combat participants are children of the ActiveTurnQueue. Create the data structure that will
+        // track battlers and be passed across states.
+        var players = GetChildren().OfType<Battler>().Where(b => b.IsPlayer).ToArray();
+        var enemies = GetChildren().OfType<Battler>().Where(b => !b.IsPlayer).ToArray();
 
-		Battlers = new BattlerList(players, enemies);
-		if (Battlers != null)
-		{
-			Battlers.BattlersDowned += OnCombatSideDowned;
+        Battlers = new BattlerList(players, enemies);
+        if (Battlers != null)
+        {
+            Battlers.BattlersDowned += OnCombatSideDowned;
 
-			foreach (var battler in Battlers.GetAllBattlers())
-			{
-				// Setup Battler AIs to make use of the BattlerList object (needed to pick targets).
-				if (battler.Ai != null)
-				{
-					battler.Ai.Setup(battler, Battlers);
-				}
+            foreach (var battler in Battlers.GetAllBattlers())
+            {
+                // Setup Battler AIs to make use of the BattlerList object (needed to pick targets).
+                if (battler.Ai != null)
+                {
+                    battler.Ai.Setup(battler, Battlers);
+                }
 
-				// Battlers will act as their ready_to_act signal is emitted. The turn queue will allow them
-				// to act if another action is not currently underway.
-				battler.ReadyToAct += () => OnBattlerReadyToAct(battler);
+                // Battlers will act as their ready_to_act signal is emitted. The turn queue will allow them
+                // to act if another action is not currently underway.
+                battler.ReadyToAct += () => OnBattlerReadyToAct(battler);
 
-				// Remove any cached actions whenever the Battler is downed.
-				battler.HealthDepleted += () => _cachedActions.Remove(battler);
-			}
-		}
+                // Remove any cached actions whenever the Battler is downed.
+                battler.HealthDepleted += () => _cachedActions.Remove(battler);
+            }
+        }
 
-		// The ActiveTurnQueue uses _process to wait for animations to finish at combat end, so disable
-		// _process for now.
-		SetProcess(false);
+        // The ActiveTurnQueue uses _process to wait for animations to finish at combat end, so disable
+        // _process for now.
+        SetProcess(false);
 
-		// Don't begin combat until the state has been setup. I.e. intro animations, UI is ready, etc.
-		IsActive = false;
-	}
+        // Don't begin combat until the state has been setup. I.e. intro animations, UI is ready, etc.
+        IsActive = false;
+    }
 
-	/// <inheritdoc/>
-	public override void _Process(double delta)
-	{
-		if (Battlers == null)
-			return;
+    /// <inheritdoc/>
+    public override void _Process(double delta)
+    {
+        if (Battlers == null)
+            return;
 
-		// Only track the animations of the losing team, as the winning team will animate their idle
-		// poses indefinitely.
-		var trackedBattlers = Battlers.HasPlayerWon ? Battlers.Enemies : Battlers.Players;
+        // Only track the animations of the losing team, as the winning team will animate their idle
+        // poses indefinitely.
+        var trackedBattlers = Battlers.HasPlayerWon ? Battlers.Enemies : Battlers.Players;
 
-		foreach (var battler in trackedBattlers)
-		{
-			// If there are still playing BattlerAnims, don't finish the battle yet.
-			if (battler.Anim?.IsPlaying ?? false)
-			{
-				return;
-			}
-		}
+        foreach (var battler in trackedBattlers)
+        {
+            // If there are still playing BattlerAnims, don't finish the battle yet.
+            if (battler.Anim?.IsPlaying ?? false)
+            {
+                return;
+            }
+        }
 
-		// There are no defeat animations being played. Combat can now finish.
-		SetProcess(false);
-		EmitSignal(SignalName.CombatFinished, Battlers.HasPlayerWon);
-	}
+        // There are no defeat animations being played. Combat can now finish.
+        SetProcess(false);
+        EmitSignal(SignalName.CombatFinished, Battlers.HasPlayerWon);
+    }
 
-	private void OnPlayerBattlerSelected(Battler battler)
-	{
-		_isPlayerMenuOpen = battler != null;
-		UpdateTimeScale();
-	}
+    private void OnPlayerBattlerSelected(Battler battler)
+    {
+        _isPlayerMenuOpen = battler != null;
+        UpdateTimeScale();
+    }
 
-	private void OnActionSelected(BattlerAction action, Battler source, Battler[] targets)
-	{
-		// If the action passed is null, unqueue the source Battler from any cached actions.
-		if (action == null)
-		{
-			_cachedActions.Remove(source);
-		}
-		else
-		{
-			// Otherwise, cache the action for execution whenever the Battler is ready to act.
-			_cachedActions[source] = new Dictionary<string, object>
-			{
-				["action"] = action,
-				["targets"] = targets
-			};
+    private void OnActionSelected(BattlerAction action, Battler source, Battler[] targets)
+    {
+        // If the action passed is null, unqueue the source Battler from any cached actions.
+        if (action == null)
+        {
+            _cachedActions.Remove(source);
+        }
+        else
+        {
+            // Otherwise, cache the action for execution whenever the Battler is ready to act.
+            _cachedActions[source] = new Dictionary<string, object>
+            {
+                ["action"] = action,
+                ["targets"] = targets
+            };
 
-			// Note that the battler only emits its ready_to_act signal once upon reaching 100
-			// readiness. If the battler is currently ready to act, re-emit the signal now.
-			if (source.IsReadyToAct())
-			{
-				CallDeferred("emit_signal", "ready_to_act");
-			}
-		}
-	}
+            // Note that the battler only emits its ready_to_act signal once upon reaching 100
+            // readiness. If the battler is currently ready to act, re-emit the signal now.
+            if (source.IsReadyToAct())
+            {
+                CallDeferred("emit_signal", "ready_to_act");
+            }
+        }
+    }
 
-	private void OnCombatSideDowned()
-	{
-		// Begin the shutdown sequence for the combat, flagging end of the combat logic.
-		// This is called immediately when the player has either won or lost the combat.
-		// On combat end, a number of systems will animate out (the UI fades, for example).
-		// However, the battlers also end with animations: celebration or death animations. The
-		// combat cannot truly end until these animations have finished, so wait for children
-		// Battlers to 'wrap up' from this point onwards.
-		// This is done with the ActiveTurnQueue's process function, which will check each frame
-		// to see if the losing team's final animations have finished.
-		SetProcess(true);
+    private void OnCombatSideDowned()
+    {
+        // Begin the shutdown sequence for the combat, flagging end of the combat logic.
+        // This is called immediately when the player has either won or lost the combat.
+        // On combat end, a number of systems will animate out (the UI fades, for example).
+        // However, the battlers also end with animations: celebration or death animations. The
+        // combat cannot truly end until these animations have finished, so wait for children
+        // Battlers to 'wrap up' from this point onwards.
+        // This is done with the ActiveTurnQueue's process function, which will check each frame
+        // to see if the losing team's final animations have finished.
+        SetProcess(true);
 
-		// Don't allow anyone else to act.
-		IsActive = false;
-	}
+        // Don't allow anyone else to act.
+        IsActive = false;
+    }
 
-	private void UpdateTimeScale()
-	{
-		float newTimeScale;
-		if (_activeAction != null)
-		{
-			newTimeScale = 0;
-		}
-		else if (_isPlayerMenuOpen)
-		{
-			newTimeScale = SlowTimeScale;
-		}
-		else
-		{
-			newTimeScale = 1;
-		}
+    private void UpdateTimeScale()
+    {
+        float newTimeScale;
+        if (_activeAction != null)
+        {
+            newTimeScale = 0;
+        }
+        else if (_isPlayerMenuOpen)
+        {
+            newTimeScale = SlowTimeScale;
+        }
+        else
+        {
+            newTimeScale = 1;
+        }
 
-		if (Mathf.IsEqualApprox(_timeScale, newTimeScale))
-			return;
+        if (Mathf.IsEqualApprox(_timeScale, newTimeScale))
+            return;
 
-		_timeScale = newTimeScale;
-		if (Battlers != null)
-		{
-			foreach (var battler in Battlers.GetAllBattlers())
-			{
-				battler.TimeScale = _timeScale;
-			}
-		}
-	}
+        _timeScale = newTimeScale;
+        if (Battlers != null)
+        {
+            foreach (var battler in Battlers.GetAllBattlers())
+            {
+                battler.TimeScale = _timeScale;
+            }
+        }
+    }
 
-	private async void OnBattlerReadyToAct(Battler battler)
-	{
-		if (_activeAction != null)
-			return;
+    private async void OnBattlerReadyToAct(Battler battler)
+    {
+        if (_activeAction != null)
+            return;
 
-		// Check, first of all, to see if there is a cached action registered to this Battler.
-		if (!_cachedActions.TryGetValue(battler, out var actionData))
-			return;
+        // Check, first of all, to see if there is a cached action registered to this Battler.
+        if (!_cachedActions.TryGetValue(battler, out var actionData))
+            return;
 
-		var action = (BattlerAction) actionData["action"];
-		var targets = ((Battler[]) actionData["targets"]).Where(target => action.CanTargetBattler(target)).ToArray();
+        var action = (BattlerAction) actionData["action"];
+        var targets = ((Battler[]) actionData["targets"]).Where(target => action.CanTargetBattler(target)).ToArray();
 
-		if (action.CanExecute(battler, targets))
-		{
-			_cachedActions.Remove(battler);
-			_activeAction = action;
-			await battler.ActAsync(action, targets);
-			_activeAction = null;
-		}
-	}
+        if (action.CanExecute(battler, targets))
+        {
+            _cachedActions.Remove(battler);
+            _activeAction = action;
+            await battler.ActAsync(action, targets);
+            _activeAction = null;
+        }
+    }
 }

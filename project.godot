@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.5 and C# 14"
-run/main_scene="res://Source/Stages/Opening.tscn"
+run/main_scene="res://Source/Stages/MainMenu/PressStartMenu.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
@@ -24,8 +24,8 @@ boot_splash/image="uid://bs61h0k5maye5"
 
 SceneManager="*res://Source/Scripts/SceneManager.cs"
 GameState="*res://Source/Scripts/Common/GameState.cs"
-NarratorEngine="*res://Source/Scripts/Field/Narrative/NarratorEngine.cs"
-DreamweaverSystem="*res://Source/Scripts/Field/Narrative/DreamweaverSystem.cs"
+NarratorEngine="*res://Source/Narrative/NarratorEngine.cs"
+DreamweaverSystem="*res://Source/Narrative/DreamweaverSystem.cs"
 FieldEvents="*res://Source/Scripts/Field/FieldEvents.cs"
 FieldCamera="*res://Source/Scripts/Field/FieldCamera.cs"
 Gameboard="*res://Source/Scripts/Field/Gameboard/Gameboard.cs"
@@ -38,6 +38,7 @@ SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loa
 ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
 AppConfig="*res://addons/maaacks_game_template/base/scenes/autoloads/app_config.tscn"
+DreamweaverScore="*res://Source/Scripts/Stages/Stage1/DreamweaverScore.cs"
 
 [display]
 
@@ -57,7 +58,7 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg")
 
 [gui]
 
@@ -65,6 +66,7 @@ theme/custom="res://theme.tres"
 
 [internationalization]
 
+locale/translations=PackedStringArray("res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation", "res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
 disable_install_audio_busses=true
 disable_update_check=false
 disable_install_wizard=true

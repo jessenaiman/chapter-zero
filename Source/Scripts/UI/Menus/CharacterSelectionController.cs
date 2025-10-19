@@ -4,6 +4,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.UI.Menus
 {
@@ -15,7 +16,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
     public partial class CharacterSelectionController : Control
     {
         [Export]
-        public string GameScenePath { get; set; } = "res://Source/Scenes/GhostTerminal/Opening.tscn";
+        public string GameScenePath { get; set; } = "res://Source/Stages/Stage1/Opening.tscn";
 
         private LineEdit? playerNameInput;
         private OptionButton? characterSelectDropdown;
@@ -95,7 +96,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         private void OnBackPressed()
         {
             GD.Print("Returning to main menu from character selection...");
-            this.GetTree().ChangeSceneToFile("res://addons/maaacks_game_template/base/scenes/menus/main_menu/MainMenu.tscn");
+            this.GetTree().ChangeSceneToFile(AppConfig.MainMenuScenePath);
         }
     }
 }

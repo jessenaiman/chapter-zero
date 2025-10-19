@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://omegaspiral.com/schemas/echo_vault_stage.json",
+  "type": "object",
+  "required": ["stage_id", "stage_name", "metadata", "points_ledger", "beats", "echo_definitions"],
+  "properties": {
+    "stage_id": { "type": "string" },
+    "stage_name": { "type": "string" },
+    "description": { "type": "string" },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "palette": { "type": "string" },
+        "system_intro": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "presentation_tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["tier", "theme"],
+            "properties": {
+              "tier": { "type": "integer" },
+              "theme": { "type": "string" },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "points_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["beat_id", "owner"],
+        "properties": {
+          "beat_id": { "type": "string" },
+          "owner": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "beats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "tier"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string", "enum": ["selection", "combat", "finale"] },
+          "tier": { "type": "integer" },
+          "owner": { "type": "string" },
+          "prompt": { "type": "string" },
+          "dreamweaver_intro": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "champion_whispers": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "options": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "encounter_id": { "type": "string" },
+          "encounter_intro": { "type": "string" },
+          "tutorial_hint": { "type": "string" },
+          "omega_interrupts": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "summary": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "echo_definitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "owner", "archetype", "mechanics"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "owner": { "type": "string" },
+          "archetype": { "type": "string" },
+          "description": { "type": "string" },
+          "mechanics": {
+            "type": "object",
+            "properties": {
+              "hp": { "type": "integer" },
+              "attack": { "type": "integer" },
+              "signature": { "type": "string" }
+            },
+            "additionalProperties": true
+          },
+          "memory_cost": { "type": "string" },
+          "dreamweaver_responses": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "supportive": { "type": "string" },
+                "caution": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "special_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "stage", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "stage": { "type": "string" },
+          "description": { "type": "string" },
+          "effect": { "type": "string" },
+          "owner": { "type": "string" },
+          "dreamweaver_reactions": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "combats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["encounter_id", "enemy_list"],
+        "properties": {
+          "encounter_id": { "type": "string" },
+          "enemy_list": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["enemy_id", "count", "level"],
+              "properties": {
+                "enemy_id": { "type": "string" },
+                "count": { "type": "integer" },
+                "level": { "type": "integer" },
+                "conditional": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "log_style": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "omega_logs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "party_persistence": {
+      "type": "object",
+      "required": ["trigger_beat", "fields_saved"],
+      "properties": {
+        "trigger_beat": { "type": "string" },
+        "fields_saved": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "save_method": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

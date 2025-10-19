@@ -44,7 +44,7 @@ docs/stages/stage-1-opening/
 
 ### What's Already Done
 - ✅ Design specification complete
-- ✅ Narrative script complete (opening.json)
+- ✅ Narrative script complete (stage1.json)
 - ✅ Base scene & controller implemented
 - ✅ 2 of 3 shaders complete
 - ✅ Naming conventions established
@@ -71,7 +71,7 @@ docs/stages/stage-1-opening/
 | Component | Status | Location |
 |-----------|--------|----------|
 | Design Specification | ✅ | `opening-design.md` |
-| Narrative Script | ✅ | `opening.json` |
+| Narrative Script | ✅ | `stage1.json` |
 | Base Scene | ✅ | `TerminalBase.tscn` |
 | Base Controller | ✅ | `TerminalBase.cs` |
 | Phosphor Shader | ✅ | `crt_phosphor.gdshader` |
@@ -140,7 +140,7 @@ Overall Progress: ████░░░░░░░░░░░░░░░░�
 
 3. **Implementation Pattern** (15 mins)
    - Each scene inherits TerminalBase
-   - Loads dialogue from opening.json
+   - Loads dialogue from stage1.json
    - Sets shader params for visual state
    - Records choices with scores
 

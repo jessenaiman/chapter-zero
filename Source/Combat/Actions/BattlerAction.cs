@@ -2,6 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+#nullable enable
+
 using System;
 using System.Threading.Tasks;
 using Godot;

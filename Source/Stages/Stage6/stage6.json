@@ -1,0 +1,62 @@
+{
+  "$schema": "res://Source/Data/Schemas/narrative_terminal_schema.json",
+  "type": "narrative_terminal",
+  "openingLines": [
+    "[SYSTEM] ARCHIVE // HERO LOOP 000847295 // FINAL WRITE",
+    "[SYSTEM] Dreamweaver channels muted. Authorising external log."
+  ],
+  "initialChoice": {
+    "prompt": "Record the tale?",
+    "options": [
+      {
+        "id": "commit",
+        "label": "Commit log to the void",
+        "description": "No alternate inputs accepted."
+      }
+    ]
+  },
+  "storyBlocks": [
+    {
+      "paragraphs": [
+        "He wished the burden on another, yet steps carried him forward. Frodo learned he could not outrun the ring; this candidate learns the Spiral waits on every horizon.",
+        "She stole the book because stories choose the thief who opens them. Bastion cried for pages no one else would guard; this candidate steals time from a collapsing loop."
+      ]
+    },
+    {
+      "paragraphs": [
+        "They marched into the dark because someone must name the evil aloud. Valor is not absence of fear, merely the refusal to let fear speak last.",
+        "Two other signatures detected. Paths diverged. Results identical. Infinity is a spiral, not a circle."
+      ]
+    },
+    {
+      "paragraphs": [
+        "[WARNING] Visual assets failing integrity checks.",
+        "[NOTICE] Dreamweaver Light attempting override... denied.",
+        "[NOTICE] Dreamweaver Mischief attempting rewrite... denied.",
+        "[NOTICE] Dreamweaver Wrath invoking emergency exit... denied."
+      ]
+    },
+    {
+      "paragraphs": [
+        "This story must be told, even if the scene dissolves. Heroes do not choose the stage; they choose to remain.",
+        "[ERROR 0xFF] Background layers offline.",
+        "[ERROR 0xFF] Audio bus rerouted to vacuum."
+      ]
+    },
+    {
+      "paragraphs": [
+        "[SYSTEM] Final image authorised.",
+        "omega_spiral_logo.png → render space backdrop.",
+        "Await continuation signal..."
+      ],
+      "question": "End transmission?",
+      "choices": [
+        {
+          "text": "Fade to black",
+          "nextBlock": 4
+        }
+      ]
+    }
+  ],
+  "exitLine": "[SYSTEM] Log sealed. Act II pending."
+}

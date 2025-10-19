@@ -6,10 +6,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OmegaSpiral.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 
-namespace OmegaSpiral.Field.Narrative
+namespace OmegaSpiral.Source.Narrative
 {
     /// <summary>
     /// Controls the mirror selection UI for character choice in Never Go Alone stage.

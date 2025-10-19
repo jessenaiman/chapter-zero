@@ -19,6 +19,8 @@ public partial class BootSequence : TerminalBase
     {
         base._Ready();
 
+        ApplyVisualPreset(TerminalVisualPreset.BootSequence);
+
         // Start boot sequence
         await RunBootSequenceAsync();
     }
@@ -40,7 +42,7 @@ public partial class BootSequence : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.045);
             await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -48,6 +50,9 @@ public partial class BootSequence : TerminalBase
         {
             await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
         }
+
+        await PixelDissolveAsync(1.8);
+        ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
 
         // Transition to opening monologue
         TransitionToScene("res://Source/Stages/Stage1/opening_monologue.tscn");

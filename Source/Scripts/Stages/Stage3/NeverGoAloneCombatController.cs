@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Common;
 
-namespace OmegaSpiral.Field.Narrative
+namespace OmegaSpiral.Source.Narrative
 {
     /// <summary>
     /// Manages combat encounters for the Never Go Alone stage.

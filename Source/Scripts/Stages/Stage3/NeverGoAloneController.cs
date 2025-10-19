@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 
-namespace OmegaSpiral.Field.Narrative
+namespace OmegaSpiral.Source.Narrative
 {
     /// <summary>
     /// Orchestrates the Never Go Alone stage flow (Act 3), managing character selection

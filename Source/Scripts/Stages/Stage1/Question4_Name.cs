@@ -41,7 +41,7 @@ public partial class Question4Name : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line);
+            await AppendTextAsync(line, useGhostEffect: true);
             await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -49,7 +49,7 @@ public partial class Question4Name : TerminalBase
         GhostTerminalChoicePrompt prompt = nameBeat.Prompt;
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
-        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true);
         GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
         RecordChoice("question4_name", selectedOption);
@@ -57,7 +57,7 @@ public partial class Question4Name : TerminalBase
         await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
 
         // Transition to final continue scene
-        TransitionToScene("res://Source/Stages/Stage1/question6_continue.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question5_secret.tscn");
     }
 
     private void RecordChoice(string questionId, GhostTerminalChoiceOption option)

@@ -29,6 +29,11 @@ public partial class GameState : Node
     public DreamweaverThread DreamweaverThread { get; set; } = DreamweaverThread.Hero;
 
     /// <summary>
+    /// Gets or sets the mood selected at the press start menu.
+    /// </summary>
+    public PressStartMood PressStartMood { get; set; } = PressStartMood.Inviting;
+
+    /// <summary>
     /// Gets or sets the player's chosen name.
     /// </summary>
     public string PlayerName { get; set; } = string.Empty;
@@ -119,6 +124,7 @@ public partial class GameState : Node
         this.Shards.Clear();
         this.SceneData.Clear();
         this.NarratorQueue.Clear();
+        this.PressStartMood = PressStartMood.Inviting;
 
         // Reset dreamweaver scores
         this.DreamweaverScores[DreamweaverType.Light] = 0;
@@ -146,6 +152,7 @@ public partial class GameState : Node
 
         this.ChoiceHistory.Clear();
         this.PlayerParty = new PartyData();
+        this.PressStartMood = PressStartMood.Inviting;
     }
 
     // FUTURE: LLM_INTEGRATION - Dreamweaver consultation history
@@ -411,9 +418,9 @@ public partial class GameState : Node
         int ambitionScore = DreamweaverScores[DreamweaverType.Wrath];
 
         // Check if any thread has achieved dominance
-        bool hasDominantThread = (lightScore / (float)totalPoints >= dominanceThreshold) ||
-                                  (shadowScore / (float)totalPoints >= dominanceThreshold) ||
-                                  (ambitionScore / (float)totalPoints >= dominanceThreshold);
+        bool hasDominantThread = (lightScore / (float) totalPoints >= dominanceThreshold) ||
+                                  (shadowScore / (float) totalPoints >= dominanceThreshold) ||
+                                  (ambitionScore / (float) totalPoints >= dominanceThreshold);
 
         if (!hasDominantThread)
         {
@@ -451,15 +458,24 @@ public partial class GameState : Node
         int shadowScore = DreamweaverScores[DreamweaverType.Mischief];
         int ambitionScore = DreamweaverScores[DreamweaverType.Wrath];
 
-        float lightPercent = (float)lightScore / totalPoints * 100f;
-        float shadowPercent = (float)shadowScore / totalPoints * 100f;
-        float ambitionPercent = (float)ambitionScore / totalPoints * 100f;
+        float lightPercent = (float) lightScore / totalPoints * 100f;
+        float shadowPercent = (float) shadowScore / totalPoints * 100f;
+        float ambitionPercent = (float) ambitionScore / totalPoints * 100f;
 
         return $"Light: {lightScore} ({lightPercent:F1}%) | " +
                $"Shadow: {shadowScore} ({shadowPercent:F1}%) | " +
                $"Ambition: {ambitionScore} ({ambitionPercent:F1}%) | " +
                $"Total: {totalPoints}";
     }
+}
+
+/// <summary>
+/// Mood selected on the press start screen.
+/// </summary>
+public enum PressStartMood
+{
+    Inviting,
+    Ominous,
 }
 
 /// <summary>

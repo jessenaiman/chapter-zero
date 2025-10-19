@@ -3,7 +3,7 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.Narrative;
+using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Scripts
 {

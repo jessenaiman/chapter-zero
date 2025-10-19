@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.UI.Menus
 {
@@ -13,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
     public partial class PauseMenuController : CanvasLayer
     {
         [Export]
-        public string MainMenuPath { get; set; } = "res://addons/maaacks_game_template/base/scenes/menus/main_menu/MainMenu.tscn";
+        public string MainMenuPath { get; set; } = AppConfig.MainMenuScenePath;
 
         private Control? pausePanel;
         private Button? resumeButton;
