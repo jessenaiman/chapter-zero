@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Source/Scripts/AsciiRoomRenderer.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8x3q8x3q8x3q" path="res://addons/godot_xterm/scenes/terminal.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://c9y4r9y4r9y4r" path="res://addons/godot_xterm/scenes/pty.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid="uid://c9y4r9y4r9y4r" path="res://addons/godot_xterm/scenes/pty.tscn" id="3"]
 
 [sub_resource type="GradientTexture2D" id="1"]
 gradient = SubResource("4")
