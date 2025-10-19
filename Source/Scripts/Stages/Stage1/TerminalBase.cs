@@ -5,6 +5,7 @@
 using Godot;
 using System;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -87,10 +88,29 @@ public partial class TerminalBase : Control
         _choiceContainer.Visible = false;
         _captionLabel.Visible = CaptionsEnabled;
 
-        // Load and apply shader materials
-        _phosphorLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_phosphor.tres");
-        _scanlineLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_scanlines.tres");
-        _glitchLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_glitch.tres");
+        // Set default CRT green text color
+        _textDisplay.AddThemeColorOverride("default_color", new Color(0.2f, 1.0f, 0.4f));
+        _textDisplay.AddThemeColorOverride("font_shadow_color", new Color(0.0f, 0.5f, 0.2f, 0.3f));
+
+        // Load and apply shader materials (fallback to null if not found)
+        var phosphorShader = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_phosphor.tres");
+        var scanlineShader = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_scanlines.tres");
+        var glitchShader = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_glitch.tres");
+
+        if (phosphorShader != null)
+        {
+            _phosphorLayer.Material = phosphorShader;
+        }
+
+        if (scanlineShader != null)
+        {
+            _scanlineLayer.Material = scanlineShader;
+        }
+
+        if (glitchShader != null)
+        {
+            _glitchLayer.Material = glitchShader;
+        }
     }
 
     /// <summary>
@@ -101,19 +121,18 @@ public partial class TerminalBase : Control
     /// <returns>A task that completes when text is fully displayed.</returns>
     public async Task DisplayTextAsync(string text, bool instant = false)
     {
+        _textDisplay.Clear();
+
         if (instant)
         {
-            _textDisplay.Text = text;
+            _textDisplay.AppendText(text);
             return;
         }
 
-        // TODO: Implement typewriter effect with audio
-        _textDisplay.Text = string.Empty;
-        await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
-
-        for (int i = 0; i <= text.Length; i++)
+        // Typewriter effect character by character
+        foreach (char c in text)
         {
-            _textDisplay.Text = text[..i];
+            _textDisplay.AppendText(c.ToString());
 
             // Play typewriter audio on each character
             // TODO: Integrate AudioSynthesizer for procedural click sounds
@@ -130,9 +149,28 @@ public partial class TerminalBase : Control
     /// <returns>A task that completes when text is appended.</returns>
     public async Task AppendTextAsync(string text, bool instant = false)
     {
-        string currentText = _textDisplay.Text;
-        string newText = string.IsNullOrEmpty(currentText) ? text : $"{currentText}\n{text}";
-        await DisplayTextAsync(newText, instant);
+        // Add newline if there's already content
+        if (_textDisplay.Text.Length > 0)
+        {
+            _textDisplay.AppendText("\n");
+        }
+
+        if (instant)
+        {
+            _textDisplay.AppendText(text);
+            return;
+        }
+
+        // Typewriter effect for appended text
+        foreach (char c in text)
+        {
+            _textDisplay.AppendText(c.ToString());
+
+            // Play typewriter audio on each character
+            // TODO: Integrate AudioSynthesizer for procedural click sounds
+
+            await ToSignal(GetTree().CreateTimer(0.03f), SceneTreeTimer.SignalName.Timeout);
+        }
     }
 
     /// <summary>
@@ -308,12 +346,12 @@ public partial class TerminalBase : Control
     }
 
     /// <summary>
-    /// Gets the global DreamweaverScore instance.
+    /// Gets the global GameState instance for tracking choices and scores.
     /// </summary>
-    /// <returns>The DreamweaverScore singleton instance.</returns>
-    protected DreamweaverScore GetDreamweaverScore()
+    /// <returns>The GameState singleton instance.</returns>
+    protected GameState GetGameState()
     {
-        return GetNode<DreamweaverScore>("/root/DreamweaverScore");
+        return GetNode<GameState>("/root/GameState");
     }
 
     /// <summary>

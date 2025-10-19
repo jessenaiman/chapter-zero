@@ -1,5 +1,5 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm2b0k1hfaj30"]
+[gd_scene load_steps=2 format=3 uid="uid://opening_scene_stage1"]
 
-[ext_resource type="PackedScene" uid="uid://boot_sequence_scene" path="res://Source/Stages/Stage1/BootSequence.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://boot_sequence_scene" path="res://Source/Stages/Stage1/boot_sequence.tscn" id="1"]
 
 [node name="Opening" instance=ExtResource("1")]

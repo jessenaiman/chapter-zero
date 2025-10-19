@@ -248,10 +248,10 @@
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.AssemblyInfo.cs
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.csproj.CoreCompileInputs.cache
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.sourcelink.json
-/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpi.B55B9064.Up2Date
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.dll
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/refint/OmegaSpiral.dll
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.xml
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.pdb
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpiral.genruntimeconfig.cache
 /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/ref/OmegaSpiral.dll
+/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/Debug/OmegaSpi.B55B9064.Up2Date

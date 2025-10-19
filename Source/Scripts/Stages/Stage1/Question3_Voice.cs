@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
-/// Third question scene: Voice from below question.
-/// Records the choice in DreamweaverScore and transitions to name input.
+/// Story continuation scene that bridges the bridge choice to the secret question.
 /// </summary>
 [GlobalClass]
 public partial class Question3Voice : TerminalBase
@@ -19,66 +18,35 @@ public partial class Question3Voice : TerminalBase
     {
         base._Ready();
 
-        // Present the voice question
-        await PresentVoiceQuestionAsync();
+        // Present the continuation beat leading into the secret
+        await PlayContinuationAsync();
     }
 
     /// <summary>
-    /// Presents the voice question and handles the choice.
+    /// Presents the continuation of the bridge story and transitions to the secret question.
     /// </summary>
-    /// <returns>A task that completes when choice is made and recorded.</returns>
-    private async Task PresentVoiceQuestionAsync()
+    /// <returns>A task that completes when the continuation finishes.</returns>
+    private async Task PlayContinuationAsync()
     {
-        string question = "> WHAT DID THE VOICE SAY?";
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalNarrationBeat continuation = plan.StoryContinuation;
 
-        string[] choices = new[]
+        foreach (string line in continuation.Lines)
         {
-            "DON'T BELONG - You don't belong here.",
-            "WAITING - I've been waiting for you."
-        };
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
 
-        string selectedChoice = await PresentChoicesAsync(question, choices);
-
-        // Record choice in DreamweaverScore
-        DreamweaverScore score = GetDreamweaverScore();
-
-        switch (selectedChoice)
-        {
-            case "DON'T BELONG - You don't belong here.":
-                score.RecordChoice("question3_voice", "DON'T BELONG", 0, 3, 0); // Shadow: 3
-                break;
-            case "WAITING - I've been waiting for you.":
-                score.RecordChoice("question3_voice", "WAITING", 3, 0, 0); // Light: 3
-                break;
-        }
-
-        // Display response and transition
-        await DisplayResponseAndTransitionAsync();
-    }
-
-    /// <summary>
-    /// Displays the response to the voice choice and transitions to the next scene.
-    /// </summary>
-    /// <returns>A task that completes when transition begins.</returns>
-    private async Task DisplayResponseAndTransitionAsync()
-    {
-        string[] responseLines = new[]
-        {
-            "…I see. That changes everything.",
-            "And now—here you are. Not in the story. But at the place where the story begins again."
-        };
-
-        // Display response with pauses
-        foreach (string line in responseLines)
-        {
             await AppendTextAsync(line);
-            await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
         // Brief pause before transition
         await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
-        // Transition to name input
-        TransitionToScene("res://Source/Stages/Stage1/Question4_Name.tscn");
+        // Transition to secret question
+        TransitionToScene("res://Source/Stages/Stage1/question5_secret.tscn");
     }
 }

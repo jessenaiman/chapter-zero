@@ -83,15 +83,32 @@ public partial class SceneManager : Node
             }
             string scenePath = sceneName switch
             {
-                "Scene1Narrative" => "res://Source/Scenes/Scene1Narrative.tscn",
-                "GhostTerminal" => "res://Source/Scenes/GhostTerminal/Opening.tscn",
+                // Stage 1: Ghost Terminal Opening (CRT Terminal aesthetic)
+                "Stage1Opening" => "res://Source/Stages/Stage1/Opening.tscn",
+                "Stage1Boot" => "res://Source/Stages/Stage1/boot_sequence.tscn",
+
+                // Legacy aliases (deprecated, use Stage1Opening instead)
+                "Scene1Narrative" => "res://Source/Stages/Stage1/Opening.tscn",
+                "GhostTerminal" => "res://Source/Stages/Stage1/Opening.tscn",
+
+                // Stage 2-5: To be implemented
+                "Stage2Nethack" => "res://Source/Stages/Stage2/Entry.tscn", // TODO: Create this
+                "Stage3NeverGoAlone" => "res://Source/Stages/Stage3/Entry.tscn", // TODO: Create this
+                "Stage4TileDungeon" => "res://Source/Stages/Stage4/Entry.tscn", // TODO: Create this
+                "Stage5FieldCombat" => "res://Source/Stages/Stage5/Entry.tscn", // TODO: Create this
+
+                // Legacy scene paths (may not exist)
                 "Scene2NethackSequence" => "res://Source/Scenes/Scene2NethackSequence.tscn",
                 "Scene3NeverGoAlone" => "res://Source/Scenes/Scene3NeverGoAlone.tscn",
                 "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",
                 "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
+
+                // External/Utility scenes
                 "OpenRPGMain" => "res://Source/ExternalScenes/OpenRPGMain.tscn",
                 "MainMenu" => "res://addons/maaacks_game_template/base/scenes/menus/main_menu/MainMenu.tscn",
                 "CharacterSelection" => "res://Source/Scenes/CharacterSelection.tscn",
+                "TestScene" => "res://Source/Scenes/TestScene.tscn",
+
                 _ => string.Empty,
             };
 

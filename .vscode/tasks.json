@@ -51,7 +51,8 @@
 				"--path",
 				"${workspaceFolder}",
 				"--headless",
-				"--test"
+				"--run-tests",
+				"--quit-on-finish"
 			],
 			"group": "test",
 			"presentation": {

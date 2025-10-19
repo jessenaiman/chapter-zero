@@ -3,7 +3,9 @@
 // </copyright>
 
 using Godot;
+using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -29,68 +31,76 @@ public partial class Question5Secret : TerminalBase
     /// <returns>A task that completes when choice is made and recorded.</returns>
     private async Task PresentSecretQuestionAsync()
     {
-        string question = "> ΩMEGA ASKS: CAN YOU KEEP A SECRET?";
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
 
-        string[] choices = new[]
+        foreach (string line in plan.SecretSetup.Lines)
         {
-            "YES - Yes, I can keep a secret",
-            "NO - No, I cannot keep secrets",
-            "MUTUAL - Only if you keep one for me"
-        };
-
-        string selectedChoice = await PresentChoicesAsync(question, choices);
-
-        // Record choice in DreamweaverScore
-        DreamweaverScore score = GetDreamweaverScore();
-
-        switch (selectedChoice)
-        {
-            case "YES - Yes, I can keep a secret":
-                score.RecordChoice("question5_secret", "YES", 2, 2, 0); // Light: 2, Shadow: 2
-                break;
-            case "NO - No, I cannot keep secrets":
-                score.RecordChoice("question5_secret", "NO", 0, 0, 4); // Ambition: 4
-                break;
-            case "MUTUAL - Only if you keep one for me":
-                score.RecordChoice("question5_secret", "MUTUAL", 2, 0, 2); // Light: 2, Ambition: 2
-                break;
-        }
-
-        // Display response and transition
-        await DisplayResponseAndTransitionAsync();
-    }
-
-    /// <summary>
-    /// Displays the response to the secret choice and transitions to the next scene.
-    /// </summary>
-    /// <returns>A task that completes when transition begins.</returns>
-    private async Task DisplayResponseAndTransitionAsync()
-    {
-        string[] responseLines = new[]
-        {
-            "Good. The secret is this: Reality is a story that forgot it was being written. And we—are the ones remembering.",
-            "",
-            "> THE SPIRAL IS WATCHING..."
-        };
-
-        // Display response with pauses
-        foreach (string line in responseLines)
-        {
-            if (!string.IsNullOrEmpty(line))
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await AppendTextAsync(line);
-                await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
             }
             else
             {
-                await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+                await AppendTextAsync(line);
+                await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
             }
         }
 
-        // Brief pause before transition
-        await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
+        GhostTerminalSecretChoiceBeat secretBeat = plan.SecretChoice;
+        GhostTerminalChoicePrompt prompt = secretBeat.Prompt;
 
-        // Transition to final continue question
-        TransitionToScene("res://Source/Stages/Stage1/Question6_Continue.tscn");
+        string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
+
+        RecordChoice("question5_secret", selectedOption);
+
+        if (!string.IsNullOrWhiteSpace(selectedOption.Response))
+        {
+            await AppendTextAsync(selectedOption.Response);
+            await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+        }
+
+        await PlaySecretRevealAsync(secretBeat.Reveal);
+
+        await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
+
+        TransitionToScene("res://Source/Stages/Stage1/question4_name.tscn");
+    }
+
+    private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)
+    {
+        foreach (string line in reveal.Lines)
+        {
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
+
+            await AppendTextAsync(line);
+            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+        }
+
+        if (!string.IsNullOrWhiteSpace(reveal.JournalEntry))
+        {
+            GameState gameState = GetGameState();
+            if (!gameState.Shards.Contains(reveal.JournalEntry))
+            {
+                gameState.Shards.Add(reveal.JournalEntry);
+            }
+        }
+    }
+
+    private void RecordChoice(string questionId, GhostTerminalChoiceOption option)
+    {
+        GameState gameState = GetGameState();
+
+        gameState.RecordChoice(
+            questionId,
+            option.Text,
+            option.Scores.Light,
+            option.Scores.Shadow,
+            option.Scores.Ambition);
     }
 }

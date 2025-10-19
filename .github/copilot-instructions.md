@@ -2,6 +2,22 @@
 
 **Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
+## Naming Conventions
+
+### C# Files (follow C# conventions):
+- **Class names**: PascalCase (e.g., `SceneManager.cs`, `GameState.cs`)
+- **Method names**: PascalCase (e.g., `LoadLevel()`, `UpdatePlayer()`)
+- **Properties**: PascalCase (e.g., `CurrentSpeed`, `PlayerName`)
+- **Constants**: PascalCase (e.g., `DefaultSpeed`, `MAX_PLAYERS`)
+- **Variables**: camelCase (e.g., `playerName`, `currentSpeed`)
+- **Private fields**: camelCase with underscore prefix (e.g., `_playerName`, `_currentSpeed`)
+
+### Godot Scene Files (follow Godot conventions):
+- **Scene files**: snake_case (e.g., `boot_sequence.tscn`, `opening_monologue.tscn`, `question1_name.tscn`)
+- **Node names**: PascalCase (e.g., `Player`, `Camera3D`)
+- **Signals**: snake_case (e.g., `door_opened`, `player_moved`)
+- **Constants**: CONSTANT_CASE (e.g., `MAX_SPEED`, `PLAYER_LIVES`)
+
 THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
 ## General Rules

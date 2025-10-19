@@ -29,27 +29,24 @@ public partial class OpeningMonologue : TerminalBase
     /// <returns>A task that completes when monologue finishes.</returns>
     private async Task RunOpeningMonologueAsync()
     {
-        // Opening narrative lines from Dialogic timeline
-        string[] monologueLines = new[]
-        {
-            "Once, there was a name.",
-            "Not written in stone or spoken in halls—but *remembered* in the silence between stars.",
-            "I do not know when I heard it. Time does not pass here.",
-            "But I have held it.",
-            "And now… I hear it again."
-        };
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalNarrationBeat monologue = plan.OpeningMonologue;
 
-        // Display monologue with dramatic pauses
-        foreach (string line in monologueLines)
+        foreach (string line in monologue.Lines)
         {
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
+
             await AppendTextAsync(line);
-            await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        // Brief pause before transition
-        await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
+        // Brief pause, then transition to first question
+        await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
-        // Transition to first question
-        TransitionToScene("res://Source/Stages/Stage1/Question1_Name.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/question1_name.tscn");
     }
 }

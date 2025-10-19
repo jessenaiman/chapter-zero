@@ -3,68 +3,72 @@
 // </copyright>
 
 using Godot;
+using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
-/// Fourth question scene: Player name input.
-/// Stores the player name and transitions to the secret question.
+/// Fourth question scene: Omega naming choice derived from narrative data.
 /// </summary>
 [GlobalClass]
 public partial class Question4Name : TerminalBase
 {
-    /// <summary>
-    /// The player's entered name.
-    /// </summary>
-    public static string PlayerName { get; private set; } = string.Empty;
-
     /// <inheritdoc/>
     public override async void _Ready()
     {
         base._Ready();
 
-        // Get player name input
-        await GetPlayerNameAsync();
+        // Present the naming question
+        await PresentNameQuestionAsync();
     }
 
     /// <summary>
-    /// Prompts for and stores the player's name.
+    /// Presents Omega's naming question and records the chosen dreamweaver alignment.
     /// </summary>
-    /// <returns>A task that completes when name is entered.</returns>
-    private async Task GetPlayerNameAsync()
+    /// <returns>A task that completes when the choice is made.</returns>
+    private async Task PresentNameQuestionAsync()
     {
-        string prompt = "> WHAT IS YOUR NAME?";
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalNarrationBeat setupBeat = plan.NameSetup;
 
-        PlayerName = await GetTextInputAsync(prompt, "Enter your name...");
-
-        // Display response and transition
-        await DisplayResponseAndTransitionAsync();
-    }
-
-    /// <summary>
-    /// Displays the response to the name input and transitions to the next scene.
-    /// </summary>
-    /// <returns>A task that completes when transition begins.</returns>
-    private async Task DisplayResponseAndTransitionAsync()
-    {
-        string[] responseLines = new[]
+        foreach (string line in setupBeat.Lines)
         {
-            $"Of course. {PlayerName}. I didn't hear it in a book. I heard it… in a voice that sounded like mine.",
-            "Are you sure you're the reader? Or am I the one playing you?"
-        };
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
 
-        // Display response with pauses
-        foreach (string line in responseLines)
-        {
             await AppendTextAsync(line);
-            await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        // Brief pause before transition
-        await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+        GhostTerminalChoiceBeat nameBeat = plan.NameChoice;
+        GhostTerminalChoicePrompt prompt = nameBeat.Prompt;
+        string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
-        // Transition to secret question
-        TransitionToScene("res://Source/Stages/Stage1/Question5_Secret.tscn");
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
+
+        RecordChoice("question4_name", selectedOption);
+
+        await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+
+        // Transition to final continue scene
+        TransitionToScene("res://Source/Stages/Stage1/question6_continue.tscn");
+    }
+
+    private void RecordChoice(string questionId, GhostTerminalChoiceOption option)
+    {
+        GameState gameState = GetGameState();
+
+        gameState.RecordChoice(
+            questionId,
+            option.Text,
+            option.Scores.Light,
+            option.Scores.Shadow,
+            option.Scores.Ambition);
     }
 }

@@ -3,7 +3,9 @@
 // </copyright>
 
 using Godot;
+using System;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -48,8 +50,9 @@ public partial class Question6Continue : TerminalBase
     /// <returns>A task that completes when thread is determined and displayed.</returns>
     private async Task DetermineAndDisplayThreadAsync()
     {
-        DreamweaverScore score = GetDreamweaverScore();
-        string dominantThread = score.GetDominantThread();
+        GameState gameState = GetGameState();
+        string dominantThread = gameState.GetDominantThread();
+        string threadName = dominantThread.ToUpperInvariant();
 
         string[] threadLines = dominantThread switch
         {
@@ -116,8 +119,23 @@ public partial class Question6Continue : TerminalBase
         }
 
         // Display score summary
-        string scoreSummary = score.GetScoreSummary();
+        string scoreSummary = gameState.GetScoreSummary();
         await AppendTextAsync($"\n> SCORE SUMMARY: {scoreSummary}");
+
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+
+        foreach (string line in plan.Exit.Lines)
+        {
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
+
+            string resolved = line.Replace("{{THREAD_NAME}}", threadName, StringComparison.OrdinalIgnoreCase);
+            await AppendTextAsync(resolved);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
+        }
 
         // Final transition
         await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
@@ -127,7 +145,7 @@ public partial class Question6Continue : TerminalBase
 
         // Transition to Stage 2 (placeholder - will need to be updated when Stage 2 is implemented)
         GD.Print($"[Question6Continue] Determined thread: {dominantThread}");
-        GD.Print($"[Question6Continue] Final scores: {score.GetScoreSummary()}");
+        GD.Print($"[Question6Continue] Final scores: {gameState.GetScoreSummary()}");
 
         // For now, just show completion message
         await AppendTextAsync("\n> STAGE 1 COMPLETE");

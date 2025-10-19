@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://question6_continue_scene"]
-
-[ext_resource type="PackedScene" uid="uid://stage1_terminal_base" path="res://Source/Stages/Stage1/TerminalBase.tscn" id="1"]
-[ext_resource type="Script" path="res://Source/Scripts/Stages/Stage1/Question6_Continue.cs" id="2"]
-
-[node name="Question6_Continue" instance=ExtResource("1")]
-script = ExtResource("2")

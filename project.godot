@@ -23,18 +23,17 @@ boot_splash/image="uid://bs61h0k5maye5"
 [autoload]
 
 SceneManager="*res://Source/Scripts/SceneManager.cs"
-GameState="*res://Source/Scripts/common/GameState.cs"
-NarratorEngine="*res://Source/Scripts/field/narrative/NarratorEngine.cs"
-DreamweaverSystem="*res://Source/Scripts/field/narrative/DreamweaverSystem.cs"
-FieldEvents="*res://Source/Scripts/field/FieldEvents.cs"
-FieldCamera="*res://Source/Scripts/field/FieldCamera.cs"
-Gameboard="*res://Source/Scripts/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://Source/Scripts/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://Source/Scripts/common/Player.cs"
-DreamweaverScore="*res://Source/Scripts/Stages/Stage1/DreamweaverScore.cs"
-CombatEvents="*res://Source/Scripts/combat/CombatEvents.cs"
-Music="*res://Source/Scripts/common/music/MusicPlayer.cs"
-Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.cs"
+GameState="*res://Source/Scripts/Common/GameState.cs"
+NarratorEngine="*res://Source/Scripts/Field/Narrative/NarratorEngine.cs"
+DreamweaverSystem="*res://Source/Scripts/Field/Narrative/DreamweaverSystem.cs"
+FieldEvents="*res://Source/Scripts/Field/FieldEvents.cs"
+FieldCamera="*res://Source/Scripts/Field/FieldCamera.cs"
+Gameboard="*res://Source/Scripts/Field/Gameboard/Gameboard.cs"
+GamepieceRegistry="*res://Source/Scripts/Field/Gamepieces/GamepieceRegistry.cs"
+Player="*res://Source/Scripts/Common/Player.cs"
+CombatEvents="*res://Source/Scripts/Combat/CombatEvents.cs"
+Music="*res://Source/Scripts/Common/Music/MusicPlayer.cs"
+Transition="*res://Source/Scripts/Common/ScreenTransitions/ScreenTransition.cs"
 SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
@@ -66,7 +65,6 @@ theme/custom="res://theme.tres"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation", "res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
 disable_install_audio_busses=true
 disable_update_check=false
 disable_install_wizard=true

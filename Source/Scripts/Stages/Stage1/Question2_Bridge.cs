@@ -3,7 +3,9 @@
 // </copyright>
 
 using Godot;
+using System.Linq;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -29,58 +31,51 @@ public partial class Question2Bridge : TerminalBase
     /// <returns>A task that completes when choice is made and recorded.</returns>
     private async Task PresentBridgeQuestionAsync()
     {
-        string question = "> WHAT DID THE CHILD KNOW?";
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalNarrationBeat introBeat = plan.StoryIntro;
 
-        string[] choices = new[]
+        foreach (string line in introBeat.Lines)
         {
-            "BRIDGE APPEARS - The bridge appears only when you stop believing in it.",
-            "KEY WITHIN - The key wasn't for the bridge—it was for the lock inside them."
-        };
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
 
-        string selectedChoice = await PresentChoicesAsync(question, choices);
-
-        // Record choice in DreamweaverScore
-        DreamweaverScore score = GetDreamweaverScore();
-
-        switch (selectedChoice)
-        {
-            case "BRIDGE APPEARS - The bridge appears only when you stop believing in it.":
-                score.RecordChoice("question2_bridge", "BRIDGE APPEARS", 0, 3, 0); // Shadow: 3
-                break;
-            case "KEY WITHIN - The key wasn't for the bridge—it was for the lock inside them.":
-                score.RecordChoice("question2_bridge", "KEY WITHIN", 0, 0, 3); // Ambition: 3
-                break;
+            await AppendTextAsync(line);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        // Display response and transition
-        await DisplayResponseAndTransitionAsync();
+        GhostTerminalChoiceBeat choiceBeat = plan.StoryChoice;
+        GhostTerminalChoicePrompt prompt = choiceBeat.Prompt;
+
+        string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
+
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts);
+        GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
+
+        RecordChoice("question2_bridge", selectedOption);
+
+        if (!string.IsNullOrWhiteSpace(selectedOption.Response))
+        {
+            await AppendTextAsync(selectedOption.Response);
+        }
+
+        await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
+
+        // Transition to continuation scene
+        TransitionToScene("res://Source/Stages/Stage1/question3_voice.tscn");
     }
 
-    /// <summary>
-    /// Displays the response to the bridge choice and transitions to the next scene.
-    /// </summary>
-    /// <returns>A task that completes when transition begins.</returns>
-    private async Task DisplayResponseAndTransitionAsync()
+    private void RecordChoice(string questionId, GhostTerminalChoiceOption option)
     {
-        string[] responseLines = new[]
-        {
-            "Ah. Yes. That's right.",
-            "And so the child stepped forward—not onto stone, but onto possibility.",
-            "The bridge formed beneath their feet, one plank at a time, woven from every 'what if' they'd ever whispered.",
-            "But then… a voice called from below."
-        };
+        GameState gameState = GetGameState();
 
-        // Display response with pauses
-        foreach (string line in responseLines)
-        {
-            await AppendTextAsync(line);
-            await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
-        }
-
-        // Brief pause before transition
-        await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
-
-        // Transition to voice question
-        TransitionToScene("res://Source/Stages/Stage1/Question3_Voice.tscn");
+        gameState.RecordChoice(
+            questionId,
+            option.Text,
+            option.Scores.Light,
+            option.Scores.Shadow,
+            option.Scores.Ambition);
     }
 }

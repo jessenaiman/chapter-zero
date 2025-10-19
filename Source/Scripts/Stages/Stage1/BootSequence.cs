@@ -29,30 +29,27 @@ public partial class BootSequence : TerminalBase
     /// <returns>A task that completes when boot sequence finishes.</returns>
     private async Task RunBootSequenceAsync()
     {
-        // System initialization messages
-        string[] bootMessages = new[]
-        {
-            "> ΩMEGA SPIRAL v2.7.13",
-            "> INITIALIZING NEURAL INTERFACE...",
-            "> LOADING DREAMWEAVER PROTOCOLS...",
-            "> ESTABLISHING CONNECTION TO THE VOID...",
-            "> MEMORY FRAGMENTS DETECTED",
-            "> PREPARING NARRATIVE ENGINES...",
-            "> SYSTEM READY",
-            "> WELCOME TO THE SPIRAL"
-        };
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalBootBeat bootBeat = plan.Boot;
 
-        // Display boot messages with delays
-        foreach (string message in bootMessages)
+        foreach (string line in bootBeat.GlitchLines)
         {
-            await AppendTextAsync(message);
-            await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
+            if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
+            {
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                continue;
+            }
+
+            await AppendTextAsync(line);
+            await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        // Brief pause before transition
-        await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
+        if (bootBeat.FadeToStable)
+        {
+            await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
+        }
 
         // Transition to opening monologue
-        TransitionToScene("res://Source/Stages/Stage1/OpeningMonologue.tscn");
+        TransitionToScene("res://Source/Stages/Stage1/opening_monologue.tscn");
     }
 }
