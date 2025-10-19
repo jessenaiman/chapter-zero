@@ -114,13 +114,13 @@ float calculate_horizontal_displacement(float uv_y, float time_offset, float spe
     float wave1 = sin(uv_y * 10.0 + time_offset * speed);
     float wave2 = sin(uv_y * 23.0 + time_offset * speed * 1.5);
     float wave3 = sin(uv_y * 47.0 + time_offset * speed * 0.7);
-    
+
     // Combine waves with different amplitudes
     float combined = (wave1 * 0.5 + wave2 * 0.3 + wave3 * 0.2);
-    
+
     // Apply random jumps for digital corruption
     float random_jump = step(0.97, random(vec2(uv_y * 100.0, floor(time_offset * 10.0)))) * 2.0 - 1.0;
-    
+
     return (combined + random_jump * 0.3) * strength;
 }
 
@@ -144,16 +144,16 @@ float calculate_horizontal_displacement(float uv_y, float time_offset, float spe
 float calculate_block_corruption(vec2 uv, float time_offset, float block_sz) {
     // Quantize UV to block grid
     vec2 block_uv = floor(uv * vec2(1920.0 / block_sz, 1080.0 / block_sz));
-    
+
     // Random value per block, changes over time
     float block_random = random(block_uv + floor(time_offset * 5.0));
-    
+
     // Only some blocks are corrupted (threshold creates sparse pattern)
     float is_corrupted = step(0.85, block_random);
-    
+
     // Corruption intensity varies per block
     float corruption_strength = random(block_uv * 1.5 + time_offset);
-    
+
     return is_corrupted * corruption_strength;
 }
 
@@ -181,16 +181,16 @@ vec3 apply_chromatic_glitch(sampler2D tex, vec2 uv, float time_offset, float off
     float angle_r = random(vec2(time_offset, 0.0)) * 6.28318; // 2*PI
     float angle_g = random(vec2(time_offset, 1.0)) * 6.28318;
     float angle_b = random(vec2(time_offset, 2.0)) * 6.28318;
-    
+
     // Convert pixel offset to UV offset (assuming 1920x1080)
     vec2 pixel_size = vec2(1.0 / 1920.0, 1.0 / 1080.0);
     vec2 offset_uv = pixel_size * offset;
-    
+
     // Sample each channel with directional offset
     float r = texture(tex, uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
     float g = texture(tex, uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
     float b = texture(tex, uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
-    
+
     return vec3(r, g, b);
 }
 
@@ -215,9 +215,8 @@ void fragment() {
     // Performance optimization: skip all calculations if no glitch
     if (glitch_intensity < 0.001) {
         COLOR = texture(TEXTURE, UV);
-        return;
-    }
-    
+    } else {
+
     // Calculate horizontal displacement for this scanline
     float displacement = calculate_horizontal_displacement(
         UV.y,
@@ -225,16 +224,16 @@ void fragment() {
         interference_speed,
         displacement_strength * glitch_intensity
     );
-    
+
     // Apply displacement to UV coordinates
     vec2 displaced_uv = UV + vec2(displacement, 0.0);
-    
+
     // Clamp UV to valid range (prevent sampling outside texture)
     displaced_uv = clamp(displaced_uv, 0.0, 1.0);
-    
+
     // Sample base color with displacement
     vec3 color;
-    
+
     // High-intensity glitches use chromatic aberration
     if (glitch_intensity > 0.5) {
         color = apply_chromatic_glitch(
@@ -246,24 +245,25 @@ void fragment() {
     } else {
         color = texture(TEXTURE, displaced_uv).rgb;
     }
-    
+
     // Add digital block corruption
     float block_corruption = calculate_block_corruption(UV, time, block_size);
     color = mix(color, vec3(random(UV + time)), block_corruption * block_intensity * glitch_intensity);
-    
+
     // Add noise/static overlay
     float static_noise = noise(UV, time);
     color += vec3(static_noise - 0.5) * noise_amount * glitch_intensity;
-    
+
     // Random full-screen flashes (rare, high impact)
     float flash = step(0.998, random(vec2(time * 10.0, 0.0))) * glitch_intensity;
     color = mix(color, vec3(1.0), flash);
-    
+
     // Ensure color stays in valid range
     color = clamp(color, 0.0, 1.0);
-    
+
     // Output final color with original alpha
     COLOR = vec4(color, texture(TEXTURE, UV).a);
+    }
 }
 
 // ============================================================================

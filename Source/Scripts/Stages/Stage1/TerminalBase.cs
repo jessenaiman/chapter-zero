@@ -110,7 +110,7 @@ public partial class TerminalBase : Control
     {
         if (ResourceLoader.Load<ShaderMaterial>(path) is ShaderMaterial shaderMaterial)
         {
-            return (ShaderMaterial)shaderMaterial.Duplicate();
+            return (ShaderMaterial) shaderMaterial.Duplicate();
         }
 
         GD.PushWarning($"[TerminalBase] Unable to load shader material at '{path}'.");
@@ -120,6 +120,10 @@ public partial class TerminalBase : Control
     /// <summary>
     /// Displays text with optional typewriter or ghostwriting effect.
     /// </summary>
+    /// <param name="text">The text to render.</param>
+    /// <param name="instant">When true, text renders immediately without animation.</param>
+    /// <param name="useGhostEffect">When true, applies the ghostwriting glitch effect.</param>
+    /// <param name="charDelaySeconds">Delay between characters in seconds.</param>
     public async Task DisplayTextAsync(string text, bool instant = false, bool useGhostEffect = false, double charDelaySeconds = 0.03)
     {
         await WriteTextAsync(text, append: false, instant, useGhostEffect, charDelaySeconds);
@@ -128,6 +132,10 @@ public partial class TerminalBase : Control
     /// <summary>
     /// Appends text below the existing buffer with optional animation.
     /// </summary>
+    /// <param name="text">The text to append.</param>
+    /// <param name="instant">When true, text renders immediately without animation.</param>
+    /// <param name="useGhostEffect">When true, applies the ghostwriting glitch effect.</param>
+    /// <param name="charDelaySeconds">Delay between characters in seconds.</param>
     public async Task AppendTextAsync(string text, bool instant = false, bool useGhostEffect = false, double charDelaySeconds = 0.03)
     {
         await WriteTextAsync(text, append: true, instant, useGhostEffect, charDelaySeconds);
@@ -329,7 +337,7 @@ public partial class TerminalBase : Control
             int index = indices[i];
             characters[index] = GlitchCharacters[_rng.RandiRange(0, GlitchCharacters.Length - 1)];
 
-            float progress = (float)(i + 1) / indices.Count;
+            float progress = (float) (i + 1) / indices.Count;
             _textDisplay.Text = new string(characters);
             _textDisplay.Modulate = new Color(1f, 1f, 1f, Math.Max(0.25f, 1f - progress * 0.85f));
 

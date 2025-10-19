@@ -120,8 +120,7 @@ void fragment() {
     // Check if we're outside the curved screen bounds
     if (curved_uv.x < 0.0 || curved_uv.x > 1.0 || curved_uv.y < 0.0 || curved_uv.y > 1.0) {
         COLOR = vec4(0.0, 0.0, 0.0, 1.0); // Black border outside screen
-        return;
-    }
+    } else {
 
     // Sample with phosphor effect
     vec3 color = sample_phosphor(TEXTURE, curved_uv, phosphor_tint, phosphor_glow, phosphor_spread);
@@ -144,4 +143,5 @@ void fragment() {
 
     // Output final color
     COLOR = vec4(color, 1.0);
+    }
 }

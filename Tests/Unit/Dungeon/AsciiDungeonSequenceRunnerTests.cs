@@ -6,6 +6,7 @@ namespace OmegaSpiral.Tests.Unit.Dungeon;
 
 using System.Collections.Generic;
 using GdUnit4;
+using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Domain.Dungeon;
 using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;

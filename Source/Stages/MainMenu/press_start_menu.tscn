@@ -146,4 +146,3 @@ text = "Press Esc at any time to pause"
 
 [node name="MenuSfxPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-

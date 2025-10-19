@@ -11,14 +11,13 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
     /// <summary>
     /// Controls the main menu scene with character selection, options, and navigation.
     /// </summary>
-    [GlobalClass]
-    public partial class MainMenu : Control
+    public partial class MainMenuController : Control
     {
         [Export]
-        public string GameScenePath { get; set; } = AppConfig.GameScenePath;
+        public string? GameScenePath { get; set; }
 
         [Export]
-        public string CharacterSelectionPath { get; set; } = AppConfig.GameScenePath;
+        public string? CharacterSelectionPath { get; set; }
 
         private Button? newGameButton;
         private Button? continueButton;
@@ -31,6 +30,16 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
             this.CacheButtonReferences();
             this.ConnectButtonSignals();
             this.UpdateContinueButtonVisibility();
+
+            if (string.IsNullOrEmpty(GameScenePath))
+            {
+                GameScenePath = (string) GetNode("/root/AppConfig").Get("game_scene_path");
+            }
+
+            if (string.IsNullOrEmpty(CharacterSelectionPath))
+            {
+                CharacterSelectionPath = (string) GetNode("/root/AppConfig").Get("game_scene_path");
+            }
         }
 
         /// <summary>

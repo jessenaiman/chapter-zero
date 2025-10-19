@@ -89,7 +89,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         private void ReturnToMainMenu()
         {
             GD.Print("Returning to main menu from credits...");
-            this.GetTree().ChangeSceneToFile(AppConfig.MainMenuScenePath);
+            this.GetTree().ChangeSceneToFile((string) GetNode("/root/AppConfig").Get("main_menu_scene_path"));
         }
     }
 }

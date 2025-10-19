@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
     public partial class PauseMenuController : CanvasLayer
     {
         [Export]
-        public string MainMenuPath { get; set; } = AppConfig.MainMenuScenePath;
+        public string MainMenuPath { get; set; } = "";
 
         private Control? pausePanel;
         private Button? resumeButton;
@@ -27,6 +27,11 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
             this.CacheNodeReferences();
             this.ConnectSignals();
             this.HidePauseMenu();
+
+            if (string.IsNullOrEmpty(MainMenuPath))
+            {
+                MainMenuPath = (string) GetNode("/root/AppConfig").Get("main_menu_scene_path");
+            }
         }
 
         public override void _Process(double delta)

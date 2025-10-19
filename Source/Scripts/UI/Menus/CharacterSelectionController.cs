@@ -96,7 +96,7 @@ namespace OmegaSpiral.Source.Scripts.UI.Menus
         private void OnBackPressed()
         {
             GD.Print("Returning to main menu from character selection...");
-            this.GetTree().ChangeSceneToFile(AppConfig.MainMenuScenePath);
+            this.GetTree().ChangeSceneToFile((string) GetNode("/root/AppConfig").Get("main_menu_scene_path"));
         }
     }
 }

@@ -7,6 +7,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
     using System.Threading.Tasks;
     using GdUnit4;
     using Godot;
+    using OmegaSpiral.Source.Narrative;
     using OmegaSpiral.Source.Scripts;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon;

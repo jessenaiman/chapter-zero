@@ -4,7 +4,6 @@ using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Domain.Dungeon;
 using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
 
-
 namespace OmegaSpiral.Source.Narrative
 {
     /// <summary>
@@ -72,7 +71,7 @@ namespace OmegaSpiral.Source.Narrative
 
             var stage = this.sequence.Stages[this.currentStageIndex];
             this.publisher.PublishStageCleared(
-                new DungeonStageClearedEvent(this.currentStageIndex, stage.Owner, stage.Map));
+                new DungeonStageClearedEvent(stage.Id));
 
             this.currentStageIndex++;
             if (this.currentStageIndex < this.sequence.Stages.Count)
@@ -85,54 +84,7 @@ namespace OmegaSpiral.Source.Narrative
         {
             var stage = this.sequence.Stages[this.currentStageIndex];
             this.publisher.PublishStageEntered(
-                new DungeonStageEnteredEvent(this.currentStageIndex, stage.Owner, stage.Map));
+                new DungeonStageEnteredEvent(stage.Id, this.currentStageIndex, stage.Owner, stage.Map));
         }
     }
-
-    /// <summary>
-    /// Contract for publishing dungeon stage lifecycle events.
-    /// </summary>
-    public interface IDungeonEventPublisher
-    {
-        /// <summary>
-        /// Publishes a notification that a stage has been entered.
-        /// </summary>
-        /// <param name="domainEvent">The event payload.</param>
-        void PublishStageEntered(DungeonStageEnteredEvent domainEvent);
-
-        /// <summary>
-        /// Publishes a notification that a stage has been cleared.
-        /// </summary>
-        /// <param name="domainEvent">The event payload.</param>
-        void PublishStageCleared(DungeonStageClearedEvent domainEvent);
-    }
-
-    /// <summary>
-    /// Contract for applying Dreamweaver affinity changes.
-    /// </summary>
-    public interface IDreamweaverAffinityService
-    {
-        /// <summary>
-        /// Applies an affinity change for the specified Dreamweaver.
-        /// </summary>
-        /// <param name="owner">The Dreamweaver receiving the change.</param>
-        /// <param name="change">The change to apply.</param>
-        void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change);
-    }
-
-    /// <summary>
-    /// Event payload emitted when a stage is entered.
-    /// </summary>
-    /// <param name="StageIndex">The zero-based stage index.</param>
-    /// <param name="Owner">The owning Dreamweaver.</param>
-    /// <param name="MapRows">The stage's ASCII map rows.</param>
-    public sealed record DungeonStageEnteredEvent(int StageIndex, DreamweaverType Owner, IReadOnlyList<string> MapRows);
-
-    /// <summary>
-    /// Event payload emitted when a stage is cleared.
-    /// </summary>
-    /// <param name="StageIndex">The zero-based stage index.</param>
-    /// <param name="Owner">The owning Dreamweaver.</param>
-    /// <param name="MapRows">The stage's ASCII map rows.</param>
-    public sealed record DungeonStageClearedEvent(int StageIndex, DreamweaverType Owner, IReadOnlyList<string> MapRows);
 }

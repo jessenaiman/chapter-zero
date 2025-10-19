@@ -22,6 +22,7 @@ public static class EchoVaultSession
     /// <summary>
     /// Gets the current plan. Call <see cref="Initialize"/> first.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when accessed before initialization.</exception>
     public static EchoVaultPlan Plan
         => plan ?? throw new InvalidOperationException("EchoVaultSession accessed before initialization.");
 
@@ -163,6 +164,7 @@ public static class EchoVaultSession
     /// <summary>
     /// Gets the current combat definition.
     /// </summary>
+    /// <exception cref="InvalidOperationException">Thrown when the current beat is not a combat encounter.</exception>
     public static EchoVaultCombat GetCurrentCombat()
     {
         EchoVaultBeat beat = Plan.Beats[beatIndex];
@@ -181,6 +183,7 @@ public static class EchoVaultSession
     /// <param name="victory">Whether combat was won.</param>
     public static void ResolveCombat(bool victory)
     {
+        _ = victory;
         AdvanceToNextBeat();
         if (beatIndex >= Plan.Beats.Count)
         {

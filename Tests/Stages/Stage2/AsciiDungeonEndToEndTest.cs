@@ -13,6 +13,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon;
     using OmegaSpiral.Source.Scripts.Domain.Dungeon.Models;
+    using OmegaSpiral.Source.Narrative;
     using OmegaSpiral.Source.Scripts.Infrastructure.Dungeon;
     using static GdUnit4.Assertions;
 

@@ -48,18 +48,18 @@ For a general indentation rule, follow `the "Allman Style" <https://en.wikipedia
 which recommends placing the brace associated with a control statement on the next line, indented to
 the same level:
 
-.. code-block:: csharp
+```csharp
+// Use this style:
+if (x > 0)
+{
+    DoSomething();
+}
 
-    // Use this style:
-    if (x > 0)
-    {
-        DoSomething();
-    }
-
-    // NOT this:
-    if (x > 0) {
-        DoSomething();
-    }
+// NOT this:
+if (x > 0) {
+    DoSomething();
+}
+```
 
 However, you may choose to omit line breaks inside brackets:
 
@@ -67,25 +67,25 @@ However, you may choose to omit line breaks inside brackets:
 * For simple object, array, or collection initializers.
 * For abstract auto property, indexer, or event declarations.
 
-.. code-block:: csharp
+```csharp
+// You may put the brackets in a single line in following cases:
+public interface MyInterface
+{
+    int MyProperty { get; set; }
+}
 
-    // You may put the brackets in a single line in following cases:
-    public interface MyInterface
+public class MyClass : ParentClass
+{
+    public int Value
     {
-        int MyProperty { get; set; }
-    }
-
-    public class MyClass : ParentClass
-    {
-        public int Value
+        get { return 0; }
+        set
         {
-            get { return 0; }
-            set
-            {
-                ArrayValue = new [] {value};
-            }
+            ArrayValue = new [] {value};
         }
     }
+}
+```
 
 Insert a blank line:
 
@@ -103,38 +103,40 @@ Avoid inserting a blank line:
 * After a comment block or a single-line comment.
 * Adjacent to another blank line.
 
+```csharp
 using System;
 using Godot;
-                                            // Blank line after `using` list.
+// Blank line after `using` list.
 public class MyClass
-{                                         // No blank line after `{`.
+{ // No blank line after `{`.
     public enum MyEnum
     {
         Value,
-        AnotherValue                      // No blank line before `}`.
+        AnotherValue // No blank line before `}`.
     }
-                                            // Blank line around inner types.
+    // Blank line around inner types.
     public const int SomeConstant = 1;
     public const int AnotherConstant = 2;
 
-    private Vector3 _x;                  // Related constants or fields can be
-    private Vector3 _y;                  // grouped together.
+    private Vector3 _x; // Related constants or fields can be
+    private Vector3 _y; // grouped together.
 
     private float _width;
     private float _height;
 
     public int MyProperty { get; set; }
-                                            // Blank line around properties.
+    // Blank line around properties.
     public void MyMethod()
     {
         // Some comment.
-        AnotherMethod();                  // No blank line after a comment.
+        AnotherMethod(); // No blank line after a comment.
     }
-                                            // Blank line around methods.
+    // Blank line around methods.
     public void AnotherMethod()
     {
     }
 }
+```
 
 ### Using spaces
 
@@ -158,88 +160,88 @@ Do not use a space:
 
 The following example shows a proper use of spaces, according to some of the above mentioned conventions:
 
-.. code-block:: csharp
+```csharp
+public class MyClass<A, B> : Parent<A, B>
+{
+    public float MyProperty { get; set; }
 
-    public class MyClass<A, B> : Parent<A, B>
+    public float AnotherProperty
     {
-        public float MyProperty { get; set; }
-
-        public float AnotherProperty
-        {
-            get { return MyProperty; }
-        }
-
-        public void MyMethod()
-        {
-            int[] values = { 1, 2, 3, 4 };
-            int sum = 0;
-
-            // Single line comment.
-            for (int i = 0; i < values.Length; i++)
-            {
-                switch (i)
-                {
-                    case 3: return;
-                    default:
-                        sum += i > 2 ? 0 : 1;
-                        break;
-                }
-            }
-
-            i += (int)MyProperty; // No space after a type cast.
-        }
+        get { return MyProperty; }
     }
+
+    public void MyMethod()
+    {
+        int[] values = { 1, 2, 3, 4 };
+        int sum = 0;
+
+        // Single line comment.
+        for (int i = 0; i < values.Length; i++)
+        {
+            switch (i)
+            {
+                case 3: return;
+                default:
+                    sum += i > 2 ? 0 : 1;
+                    break;
+            }
+        }
+
+        i += (int)MyProperty; // No space after a type cast.
+    }
+}
+```
 
 ### Naming conventions
 
 Use **PascalCase** for all namespaces, type names and member level identifiers (i.e. methods, properties,
 constants, events), except for private fields:
 
-.. code-block:: csharp
-
-    namespace ExampleProject
+```csharp
+namespace ExampleProject
+{
+    public class PlayerCharacter
     {
-        public class PlayerCharacter
+        public const float DefaultSpeed = 10f;
+
+        public float CurrentSpeed { get; set; }
+
+        protected int HitPoints;
+
+        private void CalculateWeaponDamage()
         {
-            public const float DefaultSpeed = 10f;
-
-            public float CurrentSpeed { get; set; }
-
-            protected int HitPoints;
-
-            private void CalculateWeaponDamage()
-            {
-            }
         }
     }
+}
+```
 
 Use **camelCase** for all other identifiers (i.e. local variables, method arguments), and use
 an underscore (``_``) as a prefix for private fields (but not for methods or properties, as explained above):
 
-.. code-block:: csharp
+```csharp
+private Vector3 _aimingAt; // Use an `_` prefix for private fields.
 
-    private Vector3 _aimingAt; // Use an `_` prefix for private fields.
+private void Attack(float attackStrength)
+{
+    Enemy targetFound = FindTarget(_aimingAt);
 
-    private void Attack(float attackStrength)
-    {
-        Enemy targetFound = FindTarget(_aimingAt);
-
-        targetFound?.Hit(attackStrength);
-    }
+    targetFound?.Hit(attackStrength);
+}
+```
 
 There's an exception with acronyms which consist of two letters, like ``UI``, which should be written in
 uppercase letters where PascalCase would be expected, and in lowercase letters otherwise.
 
 Note that ``id`` is **not** an acronym, so it should be treated as a normal identifier:
 
-.. code-block:: csharp
+```csharp
+public string Id { get; }
 
-    public string Id { get; }
-
-    public UIManager UI
-    {
-        get { return uiManager; }
-    }
+public UIManager UI
+{
+    get { return uiManager; }
+}
+```
 
 It is generally discouraged to use a type name as a prefix of an identifier, like ``string strText``
 or ``float fPower``, for example. An exception is made, however, for interfaces, which
@@ -248,9 +250,7 @@ or ``float fPower``, for example. An exception is made, however, for interfaces,
 Lastly, consider choosing descriptive names and do not try to shorten them too much if it affects
 readability.
 
-For instance, if you want to write code to find a nearby enemy and hit it with a weapon, prefer:
-
-.. code-block:: csharp
+For instance, if you want to write code to find a nearby enemy and hit it with a weapon, prefer
 
     FindNearbyEnemy()?.Damage(weaponDamage);
 

@@ -6,6 +6,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
+using OmegaSpiral.Source.Scripts.Field.UI;
 
 namespace OmegaSpiral.Source.Narrative;
 /// <summary>

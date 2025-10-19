@@ -249,62 +249,6 @@ namespace OmegaSpiral.Source.Narrative
             return question;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         private static EchoVaultPresentationTier MapToPresentationTier(Godot.Collections.Dictionary<string, Variant> dict)
         {
             var tier = new EchoVaultPresentationTier();
@@ -329,24 +273,6 @@ namespace OmegaSpiral.Source.Narrative
 
             return tier;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private static List<string> ExtractStringList(Godot.Collections.Array array)
         {

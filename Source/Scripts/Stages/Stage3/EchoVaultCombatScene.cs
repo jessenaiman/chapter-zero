@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Narrative;
 
@@ -114,7 +115,7 @@ public partial class EchoVaultCombatScene : Control
             }
 
             enemyHp -= roundDamage;
-            sb.AppendLine($"Round {round}: echoes deal {roundDamage:0} damage.");
+            sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "Round {0}: echoes deal {1:0} damage.", round, roundDamage));
 
             if (enemyHp <= 0)
             {
@@ -129,7 +130,7 @@ public partial class EchoVaultCombatScene : Control
             }
 
             partyHp -= enemyDamage;
-            sb.AppendLine($"Round {round}: archive claws back {enemyDamage:0} damage.");
+            sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "Round {0}: archive claws back {1:0} damage.", round, enemyDamage));
             round++;
         }
 

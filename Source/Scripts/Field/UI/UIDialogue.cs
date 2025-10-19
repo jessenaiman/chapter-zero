@@ -5,7 +5,7 @@
 using Godot;
 using OmegaSpiral.Source.Narrative;
 
-namespace OmegaSpiral.Source.Scripts
+namespace OmegaSpiral.Source.Scripts.Field.UI
 {
     /// <summary>
     /// Container for the dialogue system display.

@@ -10,8 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
     /// Application configuration singleton managing game settings and preferences.
     /// Handles audio, video, input, and accessibility settings with persistent storage.
     /// </summary>
-    [GlobalClass]
-    public partial class AppConfig : Node
+    public partial class GameAppConfig : Node
     {
         private const string ConfigFile = "user://omega_spiral_config.cfg";
 
@@ -43,7 +42,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Gets the main menu scene path.
         /// </summary>
-        public static string MainMenuScenePath => cachedMainMenuScenePath ?? "res://Source/Stages/MainMenu/PressStartMenu.tscn";
+        public static string MainMenuScenePath => cachedMainMenuScenePath ?? "res://Source/Stages/MainMenu/press_start_menu.tscn";
 
         /// <summary>
         /// Gets the main menu scene path (lowercase version for addon compatibility).
@@ -54,6 +53,21 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// Gets the ending scene path. Returns main menu as fallback if no specific ending scene exists.
         /// </summary>
         public static string EndingScenePath => cachedEndingScenePath ?? MainMenuScenePath;
+
+        /// <summary>
+        /// Gets the game scene path (snake_case for GDScript compatibility).
+        /// </summary>
+        public static string game_scene_path => GameScenePath;
+
+        /// <summary>
+        /// Gets the main menu scene path (snake_case for GDScript compatibility).
+        /// </summary>
+        public static string main_menu_scene_path => MainMenuScenePath;
+
+        /// <summary>
+        /// Gets the ending scene path (snake_case for GDScript compatibility).
+        /// </summary>
+        public static string ending_scene_path => EndingScenePath;
 
         /// <inheritdoc/>
         public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()

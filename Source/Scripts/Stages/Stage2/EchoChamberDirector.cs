@@ -13,7 +13,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// </summary>
 public static class EchoChamberDirector
 {
-        private const string DataPath = "res://Source/Stages/Stage2/stage2.json";
+    private const string DataPath = "res://Source/Stages/Stage2/stage2.json";
     private const string SchemaPath = "res://Source/Data/Schemas/echo_chamber_schema.json";
 
     private static readonly object SyncRoot = new();

@@ -71,6 +71,9 @@ reports/
 *.cache
 
 # IDE specific
-.vscode/tasks.json
 addons/dialogic/
 addons/
+
+
+#Ignore windsurf AI rules
+.windsurfrules

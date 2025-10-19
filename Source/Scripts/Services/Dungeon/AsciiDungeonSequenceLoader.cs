@@ -53,7 +53,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 throw new DungeonValidationException("Dungeon sequence JSON must contain an object at the root level.");
             }
 
-            return (Godot.Collections.Dictionary<string, Variant>)parseResult;
+            return (Godot.Collections.Dictionary<string, Variant>) parseResult;
         }
 
         private static void ValidateSchema(Godot.Collections.Dictionary<string, Variant> data)
@@ -83,7 +83,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 throw new DungeonValidationException("Dungeon sequence must contain a 'dungeons' array.");
             }
 
-            var dungeonsArray = (Godot.Collections.Array)dungeonsVariant;
+            var dungeonsArray = (Godot.Collections.Array) dungeonsVariant;
             if (dungeonsArray.Count != 3)
             {
                 throw new DungeonValidationException("Dungeon sequence must define exactly three stages.");
@@ -101,7 +101,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 {
                     throw new DungeonValidationException("Each dungeon in the sequence must be an object.");
                 }
-                var dungeonDict = (Godot.Collections.Dictionary<string, Variant>)dungeonVariant;
+                var dungeonDict = (Godot.Collections.Dictionary<string, Variant>) dungeonVariant;
                 definitions.Add(ConvertDungeonDefinition(dungeonDict));
             }
             return definitions;
@@ -153,7 +153,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 throw new DungeonValidationException("Dungeon map is required and must be an array of strings.");
             }
 
-            var mapArray = (Godot.Collections.Array)mapVariant;
+            var mapArray = (Godot.Collections.Array) mapVariant;
             var map = new List<string>();
             foreach (var mapItem in mapArray)
             {
@@ -228,7 +228,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 return new Godot.Collections.Dictionary<string, Variant>();
             }
 
-            return (Godot.Collections.Dictionary<string, Variant>)objectsVariant;
+            return (Godot.Collections.Dictionary<string, Variant>) objectsVariant;
         }
 
         private static char ValidateObjectKey(string key)
@@ -247,7 +247,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
                 throw new DungeonValidationException($"Interactive object '{key}' is invalid - must be an object.");
             }
 
-            var documentDict = (Godot.Collections.Dictionary<string, Variant>)documentVariant;
+            var documentDict = (Godot.Collections.Dictionary<string, Variant>) documentVariant;
 
             var objectType = ExtractObjectType(key, documentDict);
             var alignedTo = ExtractAlignment(key, documentDict);
@@ -309,11 +309,11 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
             {
                 if (affinityDeltaVariant.VariantType == Variant.Type.Int)
                 {
-                    affinityDelta = (int)affinityDeltaVariant;
+                    affinityDelta = (int) affinityDeltaVariant;
                 }
                 else if (affinityDeltaVariant.VariantType == Variant.Type.Float)
                 {
-                    affinityDelta = (int)(float)affinityDeltaVariant;
+                    affinityDelta = (int) (float) affinityDeltaVariant;
                 }
             }
 

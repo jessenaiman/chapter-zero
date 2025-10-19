@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
@@ -43,7 +44,7 @@ public partial class EchoVaultFinale : Control
 
         foreach (var kv in finale.Summary)
         {
-            sb.AppendLine($"[color=yellow]{kv.Key.ToUpperInvariant()}[/color]");
+            sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "[color=yellow]{0}[/color]", kv.Key.ToUpperInvariant()));
             foreach (string line in kv.Value)
             {
                 sb.AppendLine(line);
@@ -54,7 +55,7 @@ public partial class EchoVaultFinale : Control
         sb.AppendLine("[b]Points Ledger[/b]");
         foreach (var kv in finale.Points)
         {
-            sb.AppendLine($"{kv.Key}: {kv.Value}");
+            sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", kv.Key, kv.Value));
         }
         sb.AppendLine();
 

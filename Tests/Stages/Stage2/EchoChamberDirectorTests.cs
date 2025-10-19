@@ -35,7 +35,7 @@ public partial class EchoChamberDirectorTests : Node
     [TestCase]
     public void FactoryMapsEchoChamberData()
     {
-            var config = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://Source/Stages/Stage2/stage2.json");
+        var config = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://Source/Stages/Stage2/stage2.json");
         NarrativeSceneData data = NarrativeSceneFactory.Create(config);
 
         Assertions.AssertThat(data.EchoChamber).IsNotNull();
