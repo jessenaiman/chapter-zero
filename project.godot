@@ -132,11 +132,9 @@ enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUn
 
 [gui]
 
-theme/custom="res://theme.tres"
-
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+locale/translations=PackedStringArray("res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation", "res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation")
 
 [maaacks_game_template]
 

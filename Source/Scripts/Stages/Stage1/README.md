@@ -103,55 +103,68 @@ director.RegisterSequenceScene("my_sequence", "res://Source/Scenes/GhostTerminal
 ### Signals
 
 **SequenceComplete(String nextSequenceId)**
+
 - Emitted when the sequence is done
 - Parameter: ID of next sequence to play (empty string = no next)
 
 **SequenceInput(String inputId)**
+
 - Emitted when user makes a choice
 - Parameter: ID representing the choice (e.g., "hero", "shadow")
 
 ### Protected Methods
 
 **CompleteSequence(String nextSequenceId = "")**
+
 - Call when sequence is finished
 - Emits SequenceComplete signal
 
 **OnInput(String inputId)**
+
 - Call when user provides input
 - Emits SequenceInput signal
 - Director uses this for routing to next sequence
 
 **DisplayTextWithTypewriterAsync(String text, float characterDelay = 0.02f)**
+
 - Shows text with typewriter effect
 - Returns after animation completes
 
 **FadeToBlackAsync(float duration = 0.5f)**
+
 - Fades screen to black
 - Used for transitioning between sequences
 
 **FadeFromBlackAsync(float duration = 0.5f)**
+
 - Fades screen back to visible
 - Used after scene changes
 
 ### Protected Properties
 
 **ScreenTransition**
+
 - Access to fade/dissolve effects
 - May be null if not available
 
 **Dialogue**
+
 - Access to typewriter effects and dialogue UI
 - May be null if not available
+- **Note**: Stage 1 uses custom TerminalUI, not Dialogic plugin
 
 **GameState**
+
 - Access to player state (thread choice, name, etc.)
 - May be null if not available
 
 **DreamweaverSystem**
+
 - Access to LLM narrative generation (FUTURE)
 - May be null if not available
 
 **SequenceId**
+
 - Unique identifier for this sequence
 - Set by director during instantiation
 
@@ -201,20 +214,24 @@ public partial class SimpleSequence : NarrativeSequence
 ## Phase Implementation Schedule
 
 ### Phase 2: Opening Sequence
+
 - `OpeningSequence.cs` - Initial narrative with typewriter effects
 - Presents thread choice buttons (Hero, Shadow, Ambition)
 - Emits user selection as input
 
 ### Phase 3: Thread Branch Sequences
+
 - `ThreadBranchSequence.cs` - Common base for thread-specific narratives
 - Displays story blocks based on chosen thread
 - Handles branching choices within thread
 
 ### Phase 4: Input Sequences
+
 - `NameInputSequence.cs` - Player name input with validation
 - `SecretSequence.cs` - Secret question with multiple choice
 
 ### Phase 5: Polish
+
 - `FinaleSequence.cs` - Conclusion and transition to next stage
 - Add AnimationPlayer timelines
 - Sound integration
@@ -320,9 +337,20 @@ public override async Task PlayAsync()
 - **Base Class**: `Source/Scripts/field/narrative/NarrativeSequence.cs`
 - **Director**: `Source/Scripts/field/narrative/GhostTerminalDirector.cs`
 - **Reference Implementation**: `PlaceholderSequence.cs`
-- **Existing UI**: `Source/Scripts/field/ui/UIDialogue.cs`
+- **Custom UI**: `Source/Scripts/field/narrative/TerminalUI.cs` (Stage 1 uses this, NOT Dialogic)
 - **Existing Transitions**: `Source/Scripts/common/screen_transitions/ScreenTransition.cs`
 - **Test Examples**: `Tests/Narrative/`
+
+## Stage 1 Architecture Notes
+
+**Dialogic Plugin**: While Dialogic is installed in the project, Stage 1 (Ghost Terminal) does NOT use it. Stage 1 uses a custom narrative system:
+- **TerminalUI.cs**: Custom terminal-style text display with typewriter effects
+- **OpeningSequence.cs**: Custom sequence orchestration (NOT Dialogic timelines)
+- **NarrativeSceneData**: JSON-based content loading (NOT Dialogic resources)
+
+**Legacy Files**: `Scene1Narrative.cs` contains Dialogic integration code but is NOT used by the main opening scene (`Opening.tscn`). It may be removed in future cleanup.
+
+**Future Stages**: Later stages (village, dialogue-heavy scenes) may use Dialogic for traditional NPC conversations, while keeping Nobodywho/Dreamweaver for dynamic AI narrative.
 
 ## FAQ
 

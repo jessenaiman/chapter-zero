@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b1q8x8x8x8x8" path="res://theme.tres" id="2_suy8j"]
 [ext_resource type="Script" uid="uid://bjpvf6jfg6unw" path="res://Source/Scripts/Scene1Narrative.cs" id="3_scene1"]
-[ext_resource type="Shader" uid="uid://dcagqekgyjj73" path="res://Source/Shaders/crt_shader.gdshader" id="4_crt"]
+[ext_resource type="Shader" uid="uid://dcagqekgyjj73" path="res://Source/Shaders/crt_scanlines.gdshader" id="4_crt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y21uj"]
 shader = ExtResource("4_crt")

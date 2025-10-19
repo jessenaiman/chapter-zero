@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://colusv412eplq"
-path="res://.godot/imported/icon_first_aid.svg-390eb388950220033c3fc0854d59cc51.ctex"
+uid="uid://y2fg5cf57i7t"
+path="res://.godot/imported/icon_punch.svg-9414caba6fcf2ac459086f809650006c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/Combat/battlers/squirrel/icon_first_aid.svg"
-dest_files=["res://.godot/imported/icon_first_aid.svg-390eb388950220033c3fc0854d59cc51.ctex"]
+source_file="res://Source/Combat/Battlers/bear/icon_punch.svg"
+dest_files=["res://.godot/imported/icon_punch.svg-9414caba6fcf2ac459086f809650006c.ctex"]
 
 [params]
 

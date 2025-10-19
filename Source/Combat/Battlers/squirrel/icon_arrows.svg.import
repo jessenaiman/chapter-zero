@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pkp6t20skjpe"
-path="res://.godot/imported/bear.png-9be2f5560bf3fca2d89b13d076c05238.ctex"
+uid="uid://dt7jcphqs175b"
+path="res://.godot/imported/icon_arrows.svg-f10824877ff6cfe4c882f5ae706ab5bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/Combat/battlers/bear/bear.png"
-dest_files=["res://.godot/imported/bear.png-9be2f5560bf3fca2d89b13d076c05238.ctex"]
+source_file="res://Source/Combat/Battlers/squirrel/icon_arrows.svg"
+dest_files=["res://.godot/imported/icon_arrows.svg-f10824877ff6cfe4c882f5ae706ab5bc.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

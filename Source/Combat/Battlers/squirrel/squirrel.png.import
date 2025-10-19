@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr8cs6liv45hd"
-path="res://.godot/imported/wolf.png-ad6f223d59eb33107640626b0794d3e9.ctex"
+uid="uid://cbgfjvlm8kx4k"
+path="res://.godot/imported/squirrel.png-c857acdad65a6d734c450a765442cfac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/Combat/battlers/wolf/wolf.png"
-dest_files=["res://.godot/imported/wolf.png-ad6f223d59eb33107640626b0794d3e9.ctex"]
+source_file="res://Source/Combat/Battlers/squirrel/squirrel.png"
+dest_files=["res://.godot/imported/squirrel.png-c857acdad65a6d734c450a765442cfac.ctex"]
 
 [params]
 

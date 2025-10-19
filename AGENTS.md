@@ -7,6 +7,7 @@
 - **Engine**: Godot 4.5.1 Stable (/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64) with .NET/Mono support
 - **Language**: C# 14 (using .NET 8.0) with preview language features
 - **AI Integration**: NobodyWho plugin for local LLM inference
+
 ## Testing with GDUnit
 
 - GDUnit4 supports logic-only tests that run without the Godot runtime for speed, and Godot-dependent tests using [RequireGodotRuntime] for scene/node integration.
@@ -22,7 +23,6 @@ maintaining editor integration.
 - Narrative content is loaded exclusively from JSON assets at res://Source/Data/stages/ghost-terminal/. No hardcoded fallbacks exist in code.
 - “GhostTerminalCinematicDirector must not synthesize content; it only transforms NarrativeSceneData into beats.”
 - “Tests must construct NarrativeSceneData (via NarrativeSceneFactory) and validate translation only.”
-
 
  Example:
 
@@ -49,8 +49,8 @@ of the language, we encourage you to do the same, especially if you do not have 
 .. note:: This article is by no means an exhaustive guide on how to follow the standard coding
         conventions or best practices. If you feel unsure of an aspect which is not covered here,
         please refer to more comprehensive documentation, such as
-        `C# Coding Conventions <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions>`_or
-        `Framework Design Guidelines <https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines>`_.
+        `C# Coding Conventions <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions>`*or
+        `Framework Design Guidelines <https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines>`*.
 
 ## Language specification
 
@@ -104,7 +104,7 @@ However, you may choose to omit line breaks inside brackets:
 
 .. code-block:: csharp
 
-**    ```csharp
+```csharp
     // You may put the brackets in a single line in the following cases:
     public interface MyInterface
     {
@@ -122,22 +122,22 @@ However, you may choose to omit line breaks inside brackets:
             }
         }
     }
-    ```
+```
 
-    Insert a blank line:
+### Insert a blank line
 
-    - After a list of `using` statements.
-    - Between method, property, and inner type declarations.
-    - At the end of each file.
+- After a list of using statements
+- Between method, property, and inner type declarations.
+- At the end of each file.
 
     Field and constant declarations can be grouped together according to relevance. In that case, consider inserting a blank line between the groups for easier reading.
 
     Avoid inserting a blank line:
 
-    - After `{` (the opening brace).
-    - Before `}` (the closing brace).
-    - After a comment block or a single-line comment.
-    - Adjacent to another blank line.
+- After `{` (the opening brace).
+- Before `}` (the closing brace).
+- After a comment block or a single-line comment.
+- Adjacent to another blank line.
 
     ```csharp
     using System;
@@ -176,155 +176,155 @@ However, you may choose to omit line breaks inside brackets:
     }
     ```
 
-    ### Using spaces
+### Using spaces
 
-    Insert a space:
+Insert a space:
 
-    - Around a binary and ternary operator.
-    - Between an opening parenthesis and `if`, `for`, `foreach`, `catch`, `while`, `lock`, or `using` keywords.
-    - Before and within a single-line accessor block.
-    - Between accessors in a single-line accessor block.
-    - After a comma that is not at the end of a line.
-    - After a semicolon in a `for` statement.
-    - After a colon in a single-line `case` statement.
-    - Around a colon in a type declaration.
-    - Around a lambda arrow.
-    - After the single-line comment symbol (`//`), and before it if used at the end of a line.
-    - After the opening brace, and before the closing brace in a single-line initializer.
+- Around a binary and ternary operator.
+- Between an opening parenthesis and `if`, `for`, `foreach`, `catch`, `while`, `lock`, or `using` keywords.
+- Before and within a single-line accessor block.
+- Between accessors in a single-line accessor block.
+- After a comma that is not at the end of a line.
+- After a semicolon in a `for` statement.
+- After a colon in a single-line `case` statement.
+- Around a colon in a type declaration.
+- Around a lambda arrow.
+- After the single-line comment symbol (`//`), and before it if used at the end of a line.
+- After the opening brace, and before the closing brace in a single-line initializer.
 
     Do not use a space:
 
-    - After type cast parentheses.
+- After type cast parentheses.
 
     The following example shows a proper use of spaces, according to some of the above conventions:
 
-    ```csharp
-    public class MyClass<A, B> : Parent<A, B>
+```csharp
+public class MyClass<A, B> : Parent<A, B>
+{
+    public float MyProperty { get; set; }
+
+    public float AnotherProperty
     {
-        public float MyProperty { get; set; }
-
-        public float AnotherProperty
-        {
-            get { return MyProperty; }
-        }
-
-        public void MyMethod()
-        {
-            int[] values = { 1, 2, 3, 4 };
-            int sum = 0;
-
-            // Single line comment.
-            for (int i = 0; i < values.Length; i++)
-            {
-                switch (i)
-                {
-                    case 3: return;
-                    default:
-                        sum += i > 2 ? 0 : 1;
-                        break;
-                }
-            }
-
-            i += (int)MyProperty; // No space after a type cast.
-        }
+        get { return MyProperty; }
     }
-    ```
 
-    ### Naming conventions
-
-    Use PascalCase for all namespaces, type names, and member-level identifiers (methods, properties, constants, events), except for private fields:
-
-    ```csharp
-    namespace ExampleProject
+    public void MyMethod()
     {
-        public class PlayerCharacter
+        int[] values = { 1, 2, 3, 4 };
+        int sum = 0;
+
+        // Single line comment.
+        for (int i = 0; i < values.Length; i++)
         {
-            public const float DefaultSpeed = 10f;
-
-            public float CurrentSpeed { get; set; }
-
-            protected int HitPoints;
-
-            private void CalculateWeaponDamage()
+            switch (i)
             {
+                case 3: return;
+                default:
+                    sum += i > 2 ? 0 : 1;
+                    break;
             }
         }
+
+        i += (int)MyProperty; // No space after a type cast.
     }
-    ```
+}
+```
 
-    Use camelCase for all other identifiers (local variables, method arguments), and use an underscore (`_`) as a prefix for private fields (but not for methods or properties):
+### Naming conventions
 
-    ```csharp
-    private Vector3 _aimingAt; // Use an `_` prefix for private fields.
+Use PascalCase for all namespaces, type names, and member-level identifiers (methods, properties, constants, events), except for private fields:
 
-    private void Attack(float attackStrength)
+```csharp
+namespace ExampleProject
+{
+    public class PlayerCharacter
     {
-        Enemy targetFound = FindTarget(_aimingAt);
+        public const float DefaultSpeed = 10f;
 
-        targetFound?.Hit(attackStrength);
+        public float CurrentSpeed { get; set; }
+
+        protected int HitPoints;
+
+        private void CalculateWeaponDamage()
+        {
+        }
     }
-    ```
+}
+```
 
-    There's an exception for two-letter acronyms (e.g., `UI`), which should be uppercase where PascalCase is expected and lowercase otherwise.
+Use camelCase for all other identifiers (local variables, method arguments), and use an underscore (`_`) as a prefix for private fields (but not for methods or properties):
 
-    Note that `id` is not an acronym and should be treated as a normal identifier:
+```csharp
+private Vector3 _aimingAt; // Use an `_` prefix for private fields.
 
-    ```csharp
-    public string Id { get; }
+private void Attack(float attackStrength)
+{
+    Enemy targetFound = FindTarget(_aimingAt);
 
-    public UIManager UI
-    {
-        get { return uiManager; }
-    }
-    ```
+    targetFound?.Hit(attackStrength);
+}
+```
 
-    It is generally discouraged to use a type name as a prefix of an identifier (for example, `string strText`). An exception is interfaces, which should be prefixed with `I` (for example, `IInventoryHolder` or `IDamageable`).
+There's an exception for two-letter acronyms (e.g., `UI`), which should be uppercase where PascalCase is expected and lowercase otherwise.
 
-    Lastly, prefer descriptive names over excessive shortening when it impacts readability.
+Note that `id` is not an acronym and should be treated as a normal identifier:
 
-    ### Implicitly typed local variables
+```csharp
+public string Id { get; }
 
-    Consider using implicit typing (`var`) for local variables only when the type is evident from the right side of the assignment.
+public UIManager UI
+{
+    get { return uiManager; }
+}
+```
 
-    ```csharp
-    // You can use `var` for these cases:
-    var direction = new Vector2(1, 0);
-    var value = (int)speed;
-    var text = "Some value";
+It is generally discouraged to use a type name as a prefix of an identifier (for example, `string strText`). An exception is interfaces, which should be prefixed with `I` (for example, `IInventoryHolder` or `IDamageable`).
 
-    for (var i = 0; i < 10; i++)
-    {
-    }
+Lastly, prefer descriptive names over excessive shortening when it impacts readability.
 
-    // But not for these:
-    var valueFromMethod = GetValue();
-    var velocity = direction * 1.5;
+### Implicitly typed local variables
 
-    // It's generally better to use explicit typing for numeric literals where ambiguity exists:
-    var numericValue = 1.5;
-    ```
+Consider using implicit typing (`var`) for local variables only when the type is evident from the right side of the assignment.
 
-    var direction = new Vector2(1, 0);
+```csharp
+// You can use `var` for these cases:
+var direction = new Vector2(1, 0);
+var value = (int)speed;
+var text = "Some value";
 
-    var value = (int)speed;
+for (var i = 0; i < 10; i++)
+{
+}
 
-    var text = "Some value";
+// But not for these:
+var valueFromMethod = GetValue();
+var velocity = direction * 1.5;
 
-    for (var i = 0; i < 10; i++)
-    {
-    }
+// It's generally better to use explicit typing for numeric literals where ambiguity exists:
+var numericValue = 1.5;
+```
 
-    // But not for these:
+var direction = new Vector2(1, 0);
 
-    var value = GetValue();
+var value = (int)speed;
 
-    var velocity = direction * 1.5;
+var text = "Some value";
 
-    // It's generally a better idea to use explicit typing for numeric values, especially with
-    // the existence of the `real_t` alias in Godot, which can either be double or float
-    // depending on the build configuration.
+for (var i = 0; i < 10; i++)
+{
+}
 
-    var value = 1.5;
+// But not for these:
+
+var value = GetValue();
+
+var velocity = direction * 1.5;
+
+// It's generally a better idea to use explicit typing for numeric values, especially with
+// the existence of the `real_t` alias in Godot, which can either be double or float
+// depending on the build configuration.
+
+var value = 1.5;
 
 ### Other considerations
 

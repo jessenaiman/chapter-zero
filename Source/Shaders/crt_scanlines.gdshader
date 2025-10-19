@@ -63,10 +63,10 @@ uniform vec3 scanline_tint : source_color = vec3(1.0, 1.0, 1.0);
 float calculate_scanline_intensity(float uv_y, float time_offset, float count, float thickness) {
     float scanline_position = uv_y * count + time_offset * 10.0;
     float scanline_wave = sin(scanline_position);
-    
+
     // Sharpen the sine wave to create distinct lines
     float intensity = smoothstep(1.0 - thickness * 0.1, 1.0, abs(scanline_wave));
-    
+
     return intensity;
 }
 
@@ -87,7 +87,7 @@ float calculate_scanline_intensity(float uv_y, float time_offset, float count, f
 void fragment() {
     // Sample the underlying texture (from phosphor layer)
     vec4 base_color = texture(TEXTURE, UV);
-    
+
     // Calculate scanline intensity at this pixel
     float scanline = calculate_scanline_intensity(
         UV.y,
@@ -95,18 +95,18 @@ void fragment() {
         scanline_count,
         scanline_thickness
     );
-    
+
     // Apply scanline darkening effect
     // Note: Scanlines darken the image, not brighten it (authentic CRT behavior)
     float darkening = 1.0 - (scanline * scanline_opacity);
     vec3 scanlined_color = base_color.rgb * darkening;
-    
+
     // Apply thread-specific color tint
     scanlined_color *= scanline_tint;
-    
+
     // Ensure color values stay in valid range
     scanlined_color = clamp(scanlined_color, 0.0, 1.0);
-    
+
     // Output with original alpha channel preserved
     COLOR = vec4(scanlined_color, base_color.a);
 }
