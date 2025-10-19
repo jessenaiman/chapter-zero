@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://y2fg5cf57i7t"
-path="res://.godot/imported/icon_punch.svg-5445e25edf19cfa3683d8b82c62cfa27.ctex"
+path="res://.godot/imported/icon_punch.svg-b5f38b4fa51f10132462b6d967cb9f82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/combat/battlers/bear/icon_punch.svg"
-dest_files=["res://.godot/imported/icon_punch.svg-5445e25edf19cfa3683d8b82c62cfa27.ctex"]
+source_file="res://Source/Combat/battlers/bear/icon_punch.svg"
+dest_files=["res://.godot/imported/icon_punch.svg-b5f38b4fa51f10132462b6d967cb9f82.ctex"]
 
 [params]
 

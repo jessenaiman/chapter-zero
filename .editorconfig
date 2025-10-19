@@ -124,7 +124,17 @@ dotnet_naming_symbols.test_methods.name_match = ^[A-Z][a-zA-Z0-9]*(_[A-Z][a-zA-Z
 dotnet_naming_style.test_method_style.capitalization = pascal_case
 dotnet_naming_style.test_method_style.word_separator = _
 
-# Keep strict naming for non-test files
+# Godot Shader Files (.gdshader)
+# GLSL shaders use snake_case as per GPU programming standards
+[**/*.gdshader]
+indent_style = space
+indent_size = 4
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+# Shader naming: lowercase_with_underscores (GLSL convention)
+# Examples: crt_phosphor.gdshader, crt_scanlines.gdshader, post_process_bloom.gdshader
 [**/*.{cs,csx}]
 dotnet_naming_rule.methods_should_use_pascal_case.severity = error
 dotnet_naming_rule.methods_should_use_pascal_case.symbols = methods

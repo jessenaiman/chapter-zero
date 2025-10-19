@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bsltxbp5yjbhb"
-path="res://.godot/imported/Contact.svg-d2f3b4e7233a39abcc3d08f96af9fc44.ctex"
+path="res://.godot/imported/Contact.svg-9ec49650b402a6c90e114a6439faa5c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/assets/editor/icons/Contact.svg"
-dest_files=["res://.godot/imported/Contact.svg-d2f3b4e7233a39abcc3d08f96af9fc44.ctex"]
+source_file="res://Source/Assets/editor/icons/Contact.svg"
+dest_files=["res://.godot/imported/Contact.svg-9ec49650b402a6c90e114a6439faa5c6.ctex"]
 
 [params]
 

@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://duwauer3vwtne"
-path="res://.godot/imported/Insect Factory.mp3-7a9661bd49aac94e747630b2e88cee91.mp3str"
+path="res://.godot/imported/Insect Factory.mp3-db224031ae7270b351b004341c3a94f6.mp3str"
 
 [deps]
 
-source_file="res://Source/assets/music/Insect Factory.mp3"
-dest_files=["res://.godot/imported/Insect Factory.mp3-7a9661bd49aac94e747630b2e88cee91.mp3str"]
+source_file="res://Source/Assets/music/Insect Factory.mp3"
+dest_files=["res://.godot/imported/Insect Factory.mp3-db224031ae7270b351b004341c3a94f6.mp3str"]
 
 [params]
 

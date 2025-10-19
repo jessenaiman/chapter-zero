@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b76v4u6qhea2m"
-path="res://.godot/imported/logo-ambition.png-c9335e17c7d3d64b393ca636f7494586.ctex"
+path="res://.godot/imported/logo-ambition.png-37c703198bea4251b5e7372cc72840ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Source/assets/logo/logo-ambition.png"
-dest_files=["res://.godot/imported/logo-ambition.png-c9335e17c7d3d64b393ca636f7494586.ctex"]
+source_file="res://Source/Assets/logo/logo-ambition.png"
+dest_files=["res://.godot/imported/logo-ambition.png-37c703198bea4251b5e7372cc72840ed.ctex"]
 
 [params]
 

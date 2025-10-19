@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://capkxplddxck7"
-path="res://.godot/imported/GamepieceAnimation.svg-c6d95d279b30983c90510e723c519fa3.ctex"
+path="res://.godot/imported/GamepieceAnimation.svg-b0f8d75601e4af29838735d24f19b509.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Source/assets/editor/icons/GamepieceAnimation.svg"
-dest_files=["res://.godot/imported/GamepieceAnimation.svg-c6d95d279b30983c90510e723c519fa3.ctex"]
+source_file="res://Source/Assets/editor/icons/GamepieceAnimation.svg"
+dest_files=["res://.godot/imported/GamepieceAnimation.svg-b0f8d75601e4af29838735d24f19b509.ctex"]
 
 [params]
 

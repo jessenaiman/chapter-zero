@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://d12hnvq203mdg"
-path="res://.godot/imported/SourceCodePro-Bold.ttf-bb48eaadea9a09d342aac8a73a46cf23.fontdata"
+path="res://.godot/imported/SourceCodePro-Bold.ttf-df113b3428788c77969e5bd5d400441d.fontdata"
 
 [deps]
 
-source_file="res://Source/assets/gui/font/SourceCodePro-Bold.ttf"
-dest_files=["res://.godot/imported/SourceCodePro-Bold.ttf-bb48eaadea9a09d342aac8a73a46cf23.fontdata"]
+source_file="res://Source/Assets/gui/font/SourceCodePro-Bold.ttf"
+dest_files=["res://.godot/imported/SourceCodePro-Bold.ttf-df113b3428788c77969e5bd5d400441d.fontdata"]
 
 [params]
 

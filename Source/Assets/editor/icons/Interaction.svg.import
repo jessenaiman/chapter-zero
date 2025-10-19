@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://djtl504l6m3ip"
-path="res://.godot/imported/Interaction.svg-45b447ec9c6bbe88c80030bc4fdb96b1.ctex"
+path="res://.godot/imported/Interaction.svg-fcc02c2372a80b8dd2abd9e893dc4fd5.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Source/assets/editor/icons/Interaction.svg"
-dest_files=["res://.godot/imported/Interaction.svg-45b447ec9c6bbe88c80030bc4fdb96b1.ctex"]
+source_file="res://Source/Assets/editor/icons/Interaction.svg"
+dest_files=["res://.godot/imported/Interaction.svg-fcc02c2372a80b8dd2abd9e893dc4fd5.ctex"]
 
 [params]
 
