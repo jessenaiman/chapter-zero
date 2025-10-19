@@ -8,12 +8,14 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.Gamepieces;
+
 /// <summary>
 /// Keeps track of Gamepieces and their positions on the Gameboard.
 /// The GamepieceRegistry maintains a mapping of Gamepieces to their current cell positions
 /// on the gameboard. This allows for quick lookup of which Gamepiece occupies a given cell
 /// and which cell a given Gamepiece occupies.
 /// </summary>
+[GlobalClass]
 public partial class GamepieceRegistry : Node
 {
     /// <summary>

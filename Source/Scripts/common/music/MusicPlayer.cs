@@ -4,12 +4,13 @@
 
 using Godot;
 
-namespace OmegaSpiral.Common.Music
-{
-    /// <summary>
-    /// Handles music playback with crossfading capabilities.
-    /// </summary>
-    public partial class MusicPlayer : Node
+namespace OmegaSpiral.Common.Music;
+
+/// <summary>
+/// Handles music playback with crossfading capabilities.
+/// </summary>
+[GlobalClass]
+public partial class MusicPlayer : Node
     {
         /// <summary>
         /// The animation player used for crossfading between tracks.
@@ -118,4 +119,3 @@ namespace OmegaSpiral.Common.Music
             return this.track?.Stream;
         }
     }
-}

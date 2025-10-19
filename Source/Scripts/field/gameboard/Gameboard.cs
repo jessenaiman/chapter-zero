@@ -9,6 +9,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
+
 /// <summary>
 /// Defines the playable area of the game and where everything on it lies.
 /// The gameboard is defined, essentially, as a grid of Vector2I cells. Anything may be
@@ -16,6 +17,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Gameboard;
 /// case, we are using a simple orthographic (square) projection.
 /// The grid is contained within the playable boundaries and its constituent cells.
 /// </summary>
+[GlobalClass]
 public partial class Gameboard : Node
 {
     /// <summary>

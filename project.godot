@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.5 and C# 14"
-run/main_scene="res://Source/Scenes/GhostTerminal/Opening.tscn"
+run/main_scene="res://Source/Stages/Opening.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
@@ -31,84 +31,14 @@ FieldCamera="*res://Source/Scripts/field/FieldCamera.cs"
 Gameboard="*res://Source/Scripts/field/gameboard/Gameboard.cs"
 GamepieceRegistry="*res://Source/Scripts/field/gamepieces/GamepieceRegistry.cs"
 Player="*res://Source/Scripts/common/Player.cs"
+DreamweaverScore="*res://Source/Scripts/Stages/Stage1/DreamweaverScore.cs"
 CombatEvents="*res://Source/Scripts/combat/CombatEvents.cs"
-Music="*res://Source/Scripts/common/music/MusicPlayer.tscn"
-Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.tscn"
-Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+Music="*res://Source/Scripts/common/music/MusicPlayer.cs"
+Transition="*res://Source/Scripts/common/screen_transitions/ScreenTransition.cs"
 SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
-
-[dialogic]
-
-directories/dch_directory={
-"enemy_ghost": "res://Source/overworld/maps/town/enemy_ghost.dch",
-"fan_of_four": "res://Source/overworld/maps/town/fan_of_four.dch",
-"ghost": "res://Source/overworld/maps/forest/ghost.dch",
-"monk": "res://Source/overworld/maps/town/monk.dch",
-"runner": "res://Source/overworld/maps/town/runner.dch",
-"smith": "res://Source/overworld/maps/town/smith.dch",
-"thief": "res://Source/overworld/maps/town/thief.dch",
-"unit_test_character": "res://addons/dialogic/Tests/Resources/unit_test_character.dch",
-"warrior": "res://Source/overworld/maps/town/warrior.dch",
-"wizard": "res://Source/overworld/maps/town/wizard.dch"
-}
-directories/dtl_directory={
-"encounter_before_combat": "res://Source/overworld/maps/town/encounter_before_combat.dtl",
-"encounter_on_loss": "res://Source/overworld/maps/town/encounter_on_loss.dtl",
-"encounter_on_victory": "res://Source/overworld/maps/town/encounter_on_victory.dtl",
-"fan_of_four": "res://Source/overworld/maps/town/fan_of_four.dtl",
-"ghost": "res://Source/overworld/maps/forest/ghost.dtl",
-"monk": "res://Source/overworld/maps/town/monk.dtl",
-"opening_cutscene": "res://Source/overworld/maps/opening_cutscene.dtl",
-"opening_scene": "res://Source/Data/stages/ghost-terminal/opening_scene.dtl",
-"runner": "res://Source/overworld/maps/town/runner.dtl",
-"sign": "res://Source/overworld/maps/town/sign.dtl",
-"smith": "res://Source/overworld/maps/town/smith.dtl",
-"strange_tree": "res://Source/overworld/maps/town/strange_tree.dtl",
-"thief": "res://Source/overworld/maps/town/thief.dtl",
-"wand_pedestal": "res://Source/overworld/maps/house/wand_pedestal.dtl",
-"wand_pedestal_occupied": "res://Source/overworld/maps/house/wand_pedestal_occupied.dtl",
-"warrior": "res://Source/overworld/maps/town/warrior.dtl",
-"wizard": "res://Source/overworld/maps/town/wizard.dtl"
-}
-layout/style_list=[]
-layout/default_style="Default"
-variables={}
-glossary/default_case_sensitive=true
-extensions_folder="res://addons/dialogic_additions"
-text/letter_speed=0.01
-text/initial_text_reveal_skippable=true
-text/text_reveal_skip_delay=0.1
-text/advance_delay=0.1
-text/autoadvance_per_character_delay=0.1
-text/autoadvance_ignored_characters_enabled=true
-choices/autofocus_first=true
-choices/delay=0.2
-choices/reveal_delay=0
-choices/reveal_by_input=false
-animations/join_default_length=0.5
-animations/join_default_wait=true
-animations/leave_default_length=0.5
-animations/leave_default_wait=true
-animations/cross_fade_default_length=0.5
-save/autosave_delay=60.0
-save/encryption_on_exports_only=true
-text/autopauses={}
-audio/channel_defaults={
-"": {
-"audio_bus": "",
-"fade_length": 0.0,
-"loop": false,
-"volume": 0.0
-},
-"music": {
-"audio_bus": "",
-"fade_length": 0.0,
-"loop": true,
-"volume": 0.0
-}
-}
+AppConfig="*res://addons/maaacks_game_template/base/scenes/autoloads/app_config.tscn"
 
 [display]
 
@@ -128,20 +58,25 @@ movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/maaacks_game_template/plugin.cfg", "res://addons/yaml/plugin.cfg")
 
 [gui]
 
+theme/custom="res://theme.tres"
+
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation", "res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation")
+locale/translations=PackedStringArray("res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation", "res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
+copy_path="res://examples/"
 
 [maaacks_game_template]
 
 disable_install_audio_busses=true
 disable_update_check=false
 disable_install_wizard=true
-copy_path="res://examples/"
 
 [plugins]
 

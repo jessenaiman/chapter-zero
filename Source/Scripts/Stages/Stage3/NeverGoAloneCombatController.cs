@@ -102,7 +102,7 @@ namespace OmegaSpiral.Field.Narrative
             await this.MonitorCombatAsync();
         }
 
-        private static async Task SetupPartyAsync(List<string> charIds)
+        private static Task SetupPartyAsync(List<string> charIds)
         {
             // For now, just log the setup - actual battler creation would happen in a real combat system
             foreach (var charId in charIds)
@@ -111,9 +111,11 @@ namespace OmegaSpiral.Field.Narrative
                 var character = characterData.ToCharacter();
                 GD.Print($"Setting up party member: {character.Name} ({character.Class})");
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task SetupEnemiesAsync()
+        private Task SetupEnemiesAsync()
         {
             // Setup enemies based on encounter description
             string[] separator = { " and ", " " };
@@ -131,6 +133,8 @@ namespace OmegaSpiral.Field.Narrative
                     }
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private static Battler? CreateEnemyBattler(string enemyType)

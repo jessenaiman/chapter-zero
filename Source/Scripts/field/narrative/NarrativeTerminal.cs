@@ -44,7 +44,8 @@ namespace OmegaSpiral.Source.Scripts
         private IReadOnlyList<ChoiceOption> activeChoices = Array.Empty<ChoiceOption>();
         private bool awaitingInput;
         private int currentBlockIndex;
-        private GhostTerminalCinematicPlan cinematicPlan = GhostTerminalCinematicPlan.Empty;
+        // TODO: Stage1 rebuild - Disabled old cinematic plan system, will be replaced with new sequence architecture
+        // private GhostTerminalCinematicPlan cinematicPlan = GhostTerminalCinematicPlan.Empty;
 
         /// <summary>
         /// Dynamic narrative state
@@ -170,7 +171,8 @@ namespace OmegaSpiral.Source.Scripts
 
                     this.NormalizeNarrativeData(data);
                     this.sceneData = data;
-                    this.cinematicPlan = GhostTerminalCinematicDirector.BuildPlan(data);
+                    // TODO: Stage1 rebuild - Old cinematic director disabled
+                    // this.cinematicPlan = GhostTerminalCinematicDirector.BuildPlan(data);
                     return true;
                 }
                 catch (Exception ex)

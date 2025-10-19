@@ -7,12 +7,14 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field.Gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Common;
+
 /// <summary>
 /// An autoload that provides easy access to the player's state, including both Combat and Field
 /// details.
 /// Reference to the player's party, inventory, and currently active character are found here.
 /// Additionally, game-wide player based signals are emitted from here.
 /// </summary>
+[GlobalClass]
 public partial class Player : Node
 {
     /// <summary>

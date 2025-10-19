@@ -8,7 +8,8 @@ using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 using OmegaSpiral.Source.Scripts.Field.Narrative.Audio;
 using OmegaSpiral.Source.Scripts.Field.Narrative.AssetManagement;
 using OmegaSpiral.Source.Scripts.Field.Narrative.IntroMechanics;
-using OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
+// TODO: Stage1 rebuild - Sequences namespace removed during cleanup
+// using OmegaSpiral.Source.Scripts.Field.Narrative.Sequences;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Field.Narrative.System;
@@ -96,8 +97,8 @@ public partial class NarrativeSystem : Node
         // Find screen transition manager
         this.screenTransition = this.GetNodeOrNull<ScreenTransition>("/root/ScreenTransition");
 
-        // Register available sequences
-        this.RegisterNarrativeSequences();
+        // Register available sequences (disabled during Stage1 rebuild)
+        // RegisterNarrativeSequences();
 
         this.IsInitialized = true;
         GD.Print("NarrativeSystem: Initialization complete");
@@ -106,8 +107,10 @@ public partial class NarrativeSystem : Node
     /// <summary>
     /// Registers available narrative sequences with the system.
     /// </summary>
-    private void RegisterNarrativeSequences()
+    private static void RegisterNarrativeSequences()
     {
+        // TODO: Stage1 rebuild - Old sequence types removed, will be replaced with new architecture
+        /*
         // Register core narrative sequences
         this.sequenceRegistry["opening"] = typeof(OpeningSequence);
         this.sequenceRegistry["enhanced_opening"] = typeof(EnhancedOpeningSequence);
@@ -116,6 +119,7 @@ public partial class NarrativeSystem : Node
         this.sequenceRegistry["thread_ambition"] = typeof(ThreadBranchAmbition);
         this.sequenceRegistry["name_input"] = typeof(NameInputSequence);
         this.sequenceRegistry["secret_question"] = typeof(SecretQuestionSequence);
+        */
     }
 
     /// <summary>

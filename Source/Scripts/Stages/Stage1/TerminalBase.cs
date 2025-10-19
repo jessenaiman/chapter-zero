@@ -87,10 +87,10 @@ public partial class TerminalBase : Control
         _choiceContainer.Visible = false;
         _captionLabel.Visible = CaptionsEnabled;
 
-        // TODO: Load shader materials once created
-        // _phosphorLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/CRT_Phosphor.tres");
-        // _scanlineLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/CRT_Scanlines.tres");
-        // _glitchLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/CRT_Glitch.tres");
+        // Load and apply shader materials
+        _phosphorLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_phosphor.tres");
+        _scanlineLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_scanlines.tres");
+        _glitchLayer.Material = ResourceLoader.Load<ShaderMaterial>("res://Source/Shaders/crt_glitch.tres");
     }
 
     /// <summary>
@@ -224,6 +224,157 @@ public partial class TerminalBase : Control
         };
 
         player.Stop();
+    }
+
+    /// <summary>
+    /// Displays multiple choice options and handles selection.
+    /// </summary>
+    /// <param name="question">The question text to display.</param>
+    /// <param name="choices">Array of choice options.</param>
+    /// <param name="onChoiceSelected">Callback invoked when a choice is selected.</param>
+    /// <returns>A task that completes when a choice is made.</returns>
+    public async Task<string> PresentChoicesAsync(string question, string[] choices, Action<string>? onChoiceSelected = null)
+    {
+        // Clear existing choices
+        foreach (Node child in _choiceContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        // Display question
+        await DisplayTextAsync(question);
+
+        // Create choice buttons
+        var completionSource = new TaskCompletionSource<string>();
+
+        foreach (string choice in choices)
+        {
+            var button = new Button
+            {
+                Text = choice,
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                ThemeTypeVariation = "TerminalButton" // Custom theme for terminal styling
+            };
+
+            button.Pressed += () =>
+            {
+                PlayAudio(AudioBus.UI, ResourceLoader.Load<AudioStream>("res://Source/Audio/ui_select.wav"));
+                onChoiceSelected?.Invoke(choice);
+                completionSource.SetResult(choice);
+            };
+
+            _choiceContainer.AddChild(button);
+        }
+
+        _choiceContainer.Visible = true;
+
+        // Wait for choice selection
+        string selectedChoice = await completionSource.Task;
+
+        // Hide choices after selection
+        _choiceContainer.Visible = false;
+
+        return selectedChoice;
+    }
+
+    /// <summary>
+    /// Transitions to the next scene in the Stage 1 sequence.
+    /// </summary>
+    /// <param name="nextScenePath">Path to the next scene file.</param>
+    public void TransitionToScene(string nextScenePath)
+    {
+        // Play transition audio
+        PlayAudio(AudioBus.Effects, ResourceLoader.Load<AudioStream>("res://Source/Audio/transition.wav"));
+
+        // Trigger transition animation
+        _animationPlayer.Play("scene_transition");
+
+        // Wait for animation, then change scene
+        _animationPlayer.AnimationFinished += (animName) =>
+        {
+            if (animName == "scene_transition")
+            {
+                var nextScene = ResourceLoader.Load<PackedScene>(nextScenePath);
+                if (nextScene != null)
+                {
+                    GetTree().ChangeSceneToPacked(nextScene);
+                }
+                else
+                {
+                    GD.PrintErr($"[TerminalBase] Failed to load scene: {nextScenePath}");
+                }
+            }
+        };
+    }
+
+    /// <summary>
+    /// Gets the global DreamweaverScore instance.
+    /// </summary>
+    /// <returns>The DreamweaverScore singleton instance.</returns>
+    protected DreamweaverScore GetDreamweaverScore()
+    {
+        return GetNode<DreamweaverScore>("/root/DreamweaverScore");
+    }
+
+    /// <summary>
+    /// Prompts the user for text input.
+    /// </summary>
+    /// <param name="prompt">The prompt text to display.</param>
+    /// <param name="placeholder">Placeholder text for the input field.</param>
+    /// <returns>A task that completes with the entered text.</returns>
+    public async Task<string> GetTextInputAsync(string prompt, string placeholder = "")
+    {
+        // Display prompt
+        await DisplayTextAsync(prompt);
+
+        // Create text input field
+        var lineEdit = new LineEdit
+        {
+            PlaceholderText = placeholder,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            ThemeTypeVariation = "TerminalInput" // Custom theme for terminal styling
+        };
+
+        var submitButton = new Button
+        {
+            Text = "ENTER",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            ThemeTypeVariation = "TerminalButton"
+        };
+
+        // Add to choice container (reusing for input UI)
+        _choiceContainer.AddChild(lineEdit);
+        _choiceContainer.AddChild(submitButton);
+        _choiceContainer.Visible = true;
+
+        var completionSource = new TaskCompletionSource<string>();
+
+        // Handle submission
+        void OnSubmit()
+        {
+            string inputText = lineEdit.Text.Trim();
+            if (!string.IsNullOrEmpty(inputText))
+            {
+                PlayAudio(AudioBus.UI, ResourceLoader.Load<AudioStream>("res://Source/Audio/ui_select.wav"));
+                completionSource.SetResult(inputText);
+            }
+        }
+
+        submitButton.Pressed += OnSubmit;
+        lineEdit.TextSubmitted += (_) => OnSubmit();
+
+        // Focus the input field
+        lineEdit.GrabFocus();
+
+        // Wait for input
+        string result = await completionSource.Task;
+
+        // Clean up
+        _choiceContainer.Visible = false;
+        lineEdit.QueueFree();
+        submitButton.QueueFree();
+
+        return result;
     }
 }
 

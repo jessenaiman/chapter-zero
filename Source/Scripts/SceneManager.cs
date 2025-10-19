@@ -4,13 +4,14 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts
-{
-    /// <summary>
-    /// Manages scene transitions and tracks current scene state across the game.
-    /// Serves as a singleton autoload for centralized scene management.
-    /// </summary>
-    public partial class SceneManager : Node
+namespace OmegaSpiral.Source.Scripts;
+
+/// <summary>
+/// Manages scene transitions and tracks current scene state across the game.
+/// Serves as a singleton autoload for centralized scene management.
+/// </summary>
+[GlobalClass]
+public partial class SceneManager : Node
     {
         private int currentSceneIndex = 1;
         private string? playerName;
@@ -109,4 +110,3 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
     }
-}

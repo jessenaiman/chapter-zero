@@ -12,14 +12,15 @@ using NarrativeChoiceOption = OmegaSpiral.Source.Scripts.Field.Narrative.ChoiceO
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
-namespace OmegaSpiral.Source.Scripts
-{
-    /// <summary>
-    /// Main orchestrator for the Dreamweaver LLM system.
-    /// Manages three personas (Hero, Shadow, Ambition) and coordinates
-    /// dynamic narrative generation using the nobodywho framework.
-    /// </summary>
-    public partial class DreamweaverSystem : Node
+namespace OmegaSpiral.Source.Scripts;
+
+/// <summary>
+/// Main orchestrator for the Dreamweaver LLM system.
+/// Manages three personas (Hero, Shadow, Ambition) and coordinates
+/// dynamic narrative generation using the nobodywho framework.
+/// </summary>
+[GlobalClass]
+public partial class DreamweaverSystem : Node
     {
         private readonly TaskCompletionSource<bool> initializationComplete = new();
         private readonly Dictionary<string, DreamweaverPersona> personas = new();
@@ -464,4 +465,3 @@ namespace OmegaSpiral.Source.Scripts
             }
         }
     }
-}

@@ -30,7 +30,8 @@ public partial class AsciiRoomRenderer : Node2D
     /// 3D display components for immersive presentation.
     /// </summary>
     private Node3D? terminalDisplay3D;
-    private TerminalDisplayBox? terminalDisplayBox;
+    // TODO: Stage2 - TerminalDisplayBox was removed during Stage1 cleanup, needs reimplementation for ASCII dungeon
+    // private TerminalDisplayBox? terminalDisplayBox;
     private MeshInstance3D? screenMesh;
     private Camera3D? camera3D;
     private DirectionalLight3D? screenLight;
@@ -145,6 +146,8 @@ public partial class AsciiRoomRenderer : Node2D
         if (!this.Enable3DEffects)
             return;
 
+        // TODO: Stage2 - Temporarily disabled 3D effects pending TerminalDisplayBox reimplementation
+        /*
         // Create the terminal display box with dungeon-appropriate geometry
         this.terminalDisplayBox = new TerminalDisplayBox
         {
@@ -167,7 +170,10 @@ public partial class AsciiRoomRenderer : Node2D
         this.terminalDisplay3D = new Node3D { Name = "TerminalDisplay3D" };
         this.terminalDisplay3D.AddChild(this.terminalDisplayBox);
         this.AddChild(this.terminalDisplay3D);
+        */
 
+        // TODO: Stage2 - Lighting also disabled until TerminalDisplayBox is reimplemented
+        /*
         // Add atmospheric lighting for dungeon ambiance
         this.screenLight = new DirectionalLight3D
         {
@@ -179,6 +185,7 @@ public partial class AsciiRoomRenderer : Node2D
             LightIndirectEnergy = 0.6f
         };
         this.terminalDisplay3D.AddChild(this.screenLight);
+        */
     }
 
     private void Initialize2DOverlay()
