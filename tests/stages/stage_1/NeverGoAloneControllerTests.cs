@@ -15,7 +15,7 @@ namespace OmegaSpiral.Tests.Narrative
     [RequireGodotRuntime]
     public class NeverGoAloneControllerTests : IDisposable
     {
-        private const string TestJsonPath = "res://Source/Data/stages/act3/never_go_alone.json";
+        private const string TestJsonPath = "res://source/Data/stages/act3/never_go_alone.json";
 
         /// <inheritdoc/>
         public void Dispose()

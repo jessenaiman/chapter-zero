@@ -84,30 +84,30 @@ public partial class SceneManager : Node
         string scenePath = sceneName switch
         {
             // Stage 1: Ghost Terminal Opening (CRT Terminal aesthetic)
-            "Stage1Opening" => "res://Source/Stages/Stage1/Opening.tscn",
-            "Stage1Boot" => "res://Source/Stages/Stage1/boot_sequence.tscn",
+            "Stage1Opening" => "res://source/stages/stage_1/opening.tscn",
+            "Stage1Boot" => "res://source/stages/ghost/scenes/boot_sequence.tscn",
 
             // Legacy aliases (deprecated, use Stage1Opening instead)
-            "Scene1Narrative" => "res://Source/Stages/Stage1/Opening.tscn",
-            "GhostTerminal" => "res://Source/Stages/Stage1/Opening.tscn",
+            "Scene1Narrative" => "res://source/stages/stage_1/opening.tscn",
+            "GhostTerminal" => "res://source/stages/stage_1/opening.tscn",
 
             // Stage 2-5: To be implemented
-            "Stage2Nethack" => "res://Source/Stages/Stage2/Entry.tscn", // TODO: Create this
-            "Stage3NeverGoAlone" => "res://Source/Stages/Stage3/EchoVaultHub.tscn",
-            "Stage4TileDungeon" => "res://Source/Stages/Stage4/Entry.tscn", // TODO: Create this
-            "Stage5FieldCombat" => "res://Source/Stages/Stage5/Entry.tscn", // TODO: Create this
+            "Stage2Nethack" => "res://source/stages/stage_2/echo_hub.tscn",
+            "Stage3NeverGoAlone" => "res://source/stages/stage_3/echo_vault_hub.tscn",
+            "Stage4TileDungeon" => "res://source/stages/stage_4/entry.tscn", // TODO: Create this
+            "Stage5FieldCombat" => "res://source/stages/stage_5/entry.tscn", // TODO: Create this
 
             // Legacy scene paths (may not exist)
-            "Scene2NethackSequence" => "res://Source/Scenes/Scene2NethackSequence.tscn",
-            "Scene3NeverGoAlone" => "res://Source/Scenes/Scene3NeverGoAlone.tscn",
-            "Scene4TileDungeon" => "res://Source/Scenes/Scene4TileDungeon.tscn",
-            "Scene5FieldCombat" => "res://Source/Scenes/Scene5FieldCombat.tscn",
+            "Scene2NethackSequence" => "res://source/scenes/scene2_nethack_sequence.tscn",
+            "Scene3NeverGoAlone" => "res://source/scenes/scene3_never_go_alone.tscn",
+            "Scene4TileDungeon" => "res://source/scenes/scene4_tile_dungeon.tscn",
+            "Scene5FieldCombat" => "res://source/scenes/scene5_field_combat.tscn",
 
             // External/Utility scenes
             "OpenRPGMain" => "res://source/external_scenes/open_rpg_main.tscn",
-            "MainMenu" => "res://Source/Stages/MainMenu/PressStartMenu.tscn",
-            "CharacterSelection" => "res://Source/Scenes/CharacterSelection.tscn",
-            "TestScene" => "res://Source/Scenes/TestScene.tscn",
+            "MainMenu" => "res://source/stages/main_menu/press_start_menu.tscn",
+            "CharacterSelection" => "res://source/scenes/character_selection.tscn",
+            "TestScene" => "res://source/scenes/test_scene.tscn",
 
             _ => string.Empty,
         };

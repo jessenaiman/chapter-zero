@@ -13,8 +13,8 @@ Closing tableau for Act I. The triumphant bridge moment glitches into a cold sys
 
 ## Content & Data
 
-- Data file: `res://Source/Stages/Stage6/stage6.json`
-- Schema: reuse `res://Source/Data/Schemas/narrative_terminal_schema.json` until a dedicated epilogue schema is authored.
+- Data file: `res://source/stages/stage_6/stage6.json`
+- Schema: reuse `res://source/data/schemas/narrative_terminal_schema.json` until a dedicated epilogue schema is authored.
 - Scene: Minimal Godot scene with log text overlay, glitch shaders, and Omega Spiral logo reveal.
 
 ---

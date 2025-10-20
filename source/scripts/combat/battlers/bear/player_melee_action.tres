@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AttackBattlerAction" load_steps=3 format=3 uid="uid://dp7wo0l4es3w4"]
 
-[ext_resource type="Texture2D" uid="uid://y2fg5cf57i7t" path="res://Source/combat/battlers/bear/icon_punch.svg" id="1_f24qp"]
+[ext_resource type="Texture2D" uid="uid://y2fg5cf57i7t" path="res://source/combat/battlers/bear/icon_punch.svg" id="1_f24qp"]
 [ext_resource type="Script" uid="uid://cpbigevghfrjn" path="res://source/scripts/combat/actions/BattlerActionAttack.cs" id="1_oh0gs"]
 
 [resource]

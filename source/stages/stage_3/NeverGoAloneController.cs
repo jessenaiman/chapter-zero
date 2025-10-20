@@ -19,7 +19,7 @@ namespace OmegaSpiral.Source.Narrative
     [GlobalClass]
     public partial class NeverGoAloneController : Node
     {
-        public const string StageConfigPath = "res://Source/Data/stages/act3/never_go_alone.json";
+        public const string StageConfigPath = "res://source/Data/stages/act3/never_go_alone.json";
 
         private Godot.Collections.Dictionary<string, Variant> stageData = new();
         private List<string> selectedCharacters = new();

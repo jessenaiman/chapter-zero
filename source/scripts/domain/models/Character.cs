@@ -28,6 +28,33 @@ namespace OmegaSpiral.Domain.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Character"/> class with default values.
+        /// Parameterless constructor for serialization/deserialization.
+        /// </summary>
+        public Character()
+        {
+            this.Identity = new CharacterIdentity(Guid.NewGuid().ToString(), "Default", "Default character");
+            this.Class = new CharacterClass
+            {
+                Id = "fighter",
+                Name = "Fighter",
+                Description = "A strong warrior focused on physical combat",
+                BaseHealth = 100,
+                BaseMana = 50,
+                BaseAttack = 10,
+                BaseDefense = 5,
+                BaseMagic = 5,
+                BaseMagicDefense = 5,
+                BaseSpeed = 10,
+                IconPath = "res://assets/icons/fighter.png"
+            };
+            this.Appearance = new CharacterAppearance();
+            this.Stats = new CharacterStats();
+            this.State = new CharacterState();
+            this.Progression = new CharacterProgression();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Character"/> class with basic parameters.
         /// </summary>
         /// <param name="name">The character's name.</param>
@@ -49,60 +76,101 @@ namespace OmegaSpiral.Domain.Models
         }
 
         /// <summary>
-        /// Gets the character's identity information.
+        /// Initializes a new instance of the <see cref="Character"/> class with common enum parameters.
         /// </summary>
-        public CharacterIdentity Identity { get; }
+        /// <param name="name">The character's name.</param>
+        /// <param name="characterClass">The character's class from common enums.</param>
+        /// <param name="race">The character's race from common enums.</param>
+        public Character(string name, OmegaSpiral.Source.Scripts.Common.CharacterClass characterClass, OmegaSpiral.Source.Scripts.Common.CharacterRace race)
+        {
+            this.Identity = new CharacterIdentity(
+                id: Guid.NewGuid().ToString(),
+                name: name,
+                description: $"{name} the {characterClass}");
+
+            this.Class = CreateCharacterClassFromCommonEnum(characterClass);
+            this.Appearance = new CharacterAppearance();
+            this.Stats = new CharacterStats();
+            this.Stats.ApplyRacialModifiers(race);
+            this.State = new CharacterState();
+            this.Progression = new CharacterProgression();
+        }
 
         /// <summary>
-        /// Gets the character's class information.
+        /// Gets or sets the character's identity information.
         /// </summary>
-        public CharacterClass Class { get; }
+        public CharacterIdentity Identity { get; set; }
 
         /// <summary>
-        /// Gets the character's appearance information.
+        /// Gets or sets the character's class information.
         /// </summary>
-        public CharacterAppearance Appearance { get; }
+        public CharacterClass Class { get; set; }
 
         /// <summary>
-        /// Gets the character's stats information.
+        /// Gets or sets the character's appearance information.
         /// </summary>
-        public CharacterStats Stats { get; }
+        public CharacterAppearance Appearance { get; set; }
 
         /// <summary>
-        /// Gets the character's current state.
+        /// Gets or sets the character's stats information.
         /// </summary>
-        public CharacterState State { get; }
+        public CharacterStats Stats { get; set; }
 
         /// <summary>
-        /// Gets the character's progression information.
+        /// Gets or sets the character's current state.
         /// </summary>
-        public CharacterProgression Progression { get; }
+        public CharacterState State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the character's progression information.
+        /// </summary>
+        public CharacterProgression Progression { get; set; }
 
         // Convenience properties for backward compatibility
         /// <summary>
-        /// Gets the unique identifier for the character.
+        /// Gets or sets the unique identifier for the character.
         /// </summary>
-        public string Id => this.Identity.Id;
+        public string Id
+        {
+            get => this.Identity.Id;
+            set => this.Identity = new CharacterIdentity(value, this.Identity.Name, this.Identity.Description, this.Identity.Category, this.Identity.IconPath);
+        }
 
         /// <summary>
-        /// Gets the character's name.
+        /// Gets or sets the character's name.
         /// </summary>
-        public string Name => this.Identity.Name;
+        public string Name
+        {
+            get => this.Identity.Name;
+            set => this.Identity = new CharacterIdentity(this.Identity.Id, value, this.Identity.Description, this.Identity.Category, this.Identity.IconPath);
+        }
 
         /// <summary>
-        /// Gets the character's description.
+        /// Gets or sets the character's description.
         /// </summary>
-        public string Description => this.Identity.Description;
+        public string Description
+        {
+            get => this.Identity.Description;
+            set => this.Identity = new CharacterIdentity(this.Identity.Id, this.Identity.Name, value, this.Identity.Category, this.Identity.IconPath);
+        }
 
         /// <summary>
-        /// Gets the category of this character.
+        /// Gets or sets the category of this character.
         /// </summary>
-        public string Category => this.Identity.Category;
+        public string Category
+        {
+            get => this.Identity.Category;
+            set => this.Identity = new CharacterIdentity(this.Identity.Id, this.Identity.Name, this.Identity.Description, value, this.Identity.IconPath);
+        }
 
         /// <summary>
-        /// Gets the icon resource path for this character.
+        /// Gets or sets the icon resource path for this character.
         /// </summary>
-        public string IconPath => this.Identity.IconPath;
+        public string IconPath
+        {
+            get => this.Identity.IconPath;
+            set => this.Identity = new CharacterIdentity(this.Identity.Id, this.Identity.Name, this.Identity.Description, this.Identity.Category, value);
+        }
 
         /// <summary>
         /// Gets or sets the character's current experience points.
@@ -191,13 +259,16 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A new instance of <see cref="Character"/> with the same values.</returns>
         public Character Clone()
         {
-            return new Character(
-                identity: this.Identity.Clone(),
-                characterClass: this.Class.Clone(),
-                appearance: this.Appearance.Clone(),
-                stats: this.Stats.Clone(),
-                state: this.State.Clone(),
-                progression: this.Progression.Clone());
+            var clone = new Character
+            {
+                Identity = this.Identity.Clone(),
+                Class = this.Class.Clone(),
+                Appearance = this.Appearance.Clone(),
+                Stats = this.Stats.Clone(),
+                State = this.State.Clone(),
+                Progression = this.Progression.Clone()
+            };
+            return clone;
         }
 
         /// <summary>
@@ -295,6 +366,130 @@ namespace OmegaSpiral.Domain.Models
         public string GetDisplayName()
         {
             return this.Identity.GetDisplayName();
+        }
+
+        /// <summary>
+        /// Creates a domain model CharacterClass from a common enum CharacterClass.
+        /// </summary>
+        /// <param name="commonClass">The common enum character class.</param>
+        /// <returns>A new domain model CharacterClass instance.</returns>
+        private static CharacterClass CreateCharacterClassFromCommonEnum(OmegaSpiral.Source.Scripts.Common.CharacterClass commonClass)
+        {
+            return commonClass switch
+            {
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Fighter => new CharacterClass
+                {
+                    Id = "fighter",
+                    Name = "Fighter",
+                    Description = "A strong warrior focused on physical combat",
+                    BaseHealth = 10,
+                    BaseMana = 50,
+                    BaseAttack = 10,
+                    BaseDefense = 5,
+                    BaseMagic = 5,
+                    BaseMagicDefense = 5,
+                    BaseSpeed = 10,
+                    IconPath = "res://assets/icons/fighter.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Mage => new CharacterClass
+                {
+                    Id = "mage",
+                    Name = "Mage",
+                    Description = "A spellcaster focused on magical abilities",
+                    BaseHealth = 60,
+                    BaseMana = 120,
+                    BaseAttack = 5,
+                    BaseDefense = 3,
+                    BaseMagic = 15,
+                    BaseMagicDefense = 10,
+                    BaseSpeed = 8,
+                    IconPath = "res://assets/icons/mage.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Priest => new CharacterClass
+                {
+                    Id = "priest",
+                    Name = "Priest",
+                    Description = "A healer and support character",
+                    BaseHealth = 70,
+                    BaseMana = 100,
+                    BaseAttack = 6,
+                    BaseDefense = 7,
+                    BaseMagic = 12,
+                    BaseMagicDefense = 12,
+                    BaseSpeed = 8,
+                    IconPath = "res://assets/icons/priest.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Thief => new CharacterClass
+                {
+                    Id = "thief",
+                    Name = "Thief",
+                    Description = "A stealthy character focused on agility",
+                    BaseHealth = 80,
+                    BaseMana = 40,
+                    BaseAttack = 12,
+                    BaseDefense = 4,
+                    BaseMagic = 3,
+                    BaseMagicDefense = 4,
+                    BaseSpeed = 15,
+                    IconPath = "res://assets/icons/thief.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Bard => new CharacterClass
+                {
+                    Id = "bard",
+                    Name = "Bard",
+                    Description = "A support character with magical songs",
+                    BaseHealth = 85,
+                    BaseMana = 90,
+                    BaseAttack = 8,
+                    BaseDefense = 6,
+                    BaseMagic = 10,
+                    BaseMagicDefense = 8,
+                    BaseSpeed = 12,
+                    IconPath = "res://assets/icons/bard.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Paladin => new CharacterClass
+                {
+                    Id = "paladin",
+                    Name = "Paladin",
+                    Description = "A holy warrior combining combat and healing",
+                    BaseHealth = 110,
+                    BaseMana = 80,
+                    BaseAttack = 12,
+                    BaseDefense = 10,
+                    BaseMagic = 8,
+                    BaseMagicDefense = 8,
+                    BaseSpeed = 9,
+                    IconPath = "res://assets/icons/paladin.png"
+                },
+                OmegaSpiral.Source.Scripts.Common.CharacterClass.Ranger => new CharacterClass
+                {
+                    Id = "ranger",
+                    Name = "Ranger",
+                    Description = "A nature-focused warrior with ranged abilities",
+                    BaseHealth = 90,
+                    BaseMana = 60,
+                    BaseAttack = 14,
+                    BaseDefense = 6,
+                    BaseMagic = 6,
+                    BaseMagicDefense = 6,
+                    BaseSpeed = 13,
+                    IconPath = "res://assets/icons/ranger.png"
+                },
+                _ => new CharacterClass
+                {
+                    Id = "fighter",
+                    Name = "Fighter",
+                    Description = "A strong warrior focused on physical combat",
+                    BaseHealth = 10,
+                    BaseMana = 50,
+                    BaseAttack = 10,
+                    BaseDefense = 5,
+                    BaseMagic = 5,
+                    BaseMagicDefense = 5,
+                    BaseSpeed = 10,
+                    IconPath = "res://assets/icons/fighter.png"
+                }
+            };
         }
     }
 }

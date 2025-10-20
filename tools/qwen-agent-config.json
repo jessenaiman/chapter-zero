@@ -18,7 +18,7 @@
       }
     },
     {
-      "type": "shell", 
+      "type": "shell",
       "name": "run_build",
       "description": "Run dotnet build to check for compilation errors and warnings",
       "command": "dotnet build chapter-zero.csproj --no-incremental",
@@ -38,7 +38,7 @@
     {
       "type": "shell",
       "name": "run_tests",
-      "description": "Run dotnet tests to check for test failures", 
+      "description": "Run dotnet tests to check for test failures",
       "command": "dotnet test",
       "returns": "text",
       "parameters": {
@@ -60,7 +60,7 @@
       }
     },
     {
-      "type": "shell", 
+      "type": "shell",
       "name": "run_format_fix",
       "description": "Run dotnet format to fix formatting issues",
       "command": "dotnet format",
@@ -84,7 +84,7 @@
   ],
   "capabilities": [
     "code_analysis",
-    "bug_detection", 
+    "bug_detection",
     "test_execution",
     "format_verification",
     "project_monitoring",

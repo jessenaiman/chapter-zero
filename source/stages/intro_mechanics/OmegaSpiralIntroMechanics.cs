@@ -87,7 +87,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             Text = "[center][color=#ffffff]ΩMEGA SPIRAL[/color][/center]",
             Duration = 2.0f,
             EffectType = NarrativeEffectType.FadeIn,
-            AudioCue = "res://Source/assets/sfx/confirmation_002.ogg"
+            AudioCue = "res://source/assets/sfx/confirmation_002.ogg"
         });
 
         this.narrativeElements.Add(new IntroNarrativeElement
@@ -95,7 +95,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             Text = "[center][color=#cccccc]A Revolutionary Narrative Experience[/color][/center]",
             Duration = 1.5f,
             EffectType = NarrativeEffectType.Typewriter,
-            AudioCue = "res://Source/assets/sfx/drop_002.ogg"
+            AudioCue = "res://source/assets/sfx/drop_002.ogg"
         });
 
         this.narrativeElements.Add(new IntroNarrativeElement
@@ -103,7 +103,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             Text = "[center][color=#aaaaaa]Five Eras of Gaming Aesthetics Await[/color][/center]",
             Duration = 1.5f,
             EffectType = NarrativeEffectType.Glow,
-            AudioCue = "res://Source/assets/sfx/impactWood_light_002.ogg"
+            AudioCue = "res://source/assets/sfx/impactWood_light_002.ogg"
         });
 
         this.narrativeElements.Add(new IntroNarrativeElement
@@ -111,7 +111,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             Text = "[center][color=#999999]Dynamic AI-Driven Dreamweavers Adapt to Your Choices[/color][/center]",
             Duration = 2.0f,
             EffectType = NarrativeEffectType.Pulse,
-            AudioCue = "res://Source/assets/sfx/chop.ogg"
+            AudioCue = "res://source/assets/sfx/chop.ogg"
         });
 
         this.narrativeElements.Add(new IntroNarrativeElement
@@ -119,7 +119,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             Text = "[center][color=#888888]The Journey Begins...[/color][/center]",
             Duration = 1.0f,
             EffectType = NarrativeEffectType.FadeOut,
-            AudioCue = "res://Source/assets/sfx/error_006.ogg"
+            AudioCue = "res://source/assets/sfx/error_006.ogg"
         });
     }
 
@@ -258,7 +258,7 @@ public partial class OmegaSpiralIntroMechanics : Node
             this.narrativeLabel.Text += character.ToString();
 
             // Play typewriter sound
-            this.PlayAudioCue("res://Source/assets/sfx/confirmation_002.ogg");
+            this.PlayAudioCue("res://source/assets/sfx/confirmation_002.ogg");
 
             await this.ToSignal(timer, Godot.Timer.SignalName.Timeout);
             timer = this.GetTree().CreateTimer(charDelay);

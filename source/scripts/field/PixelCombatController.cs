@@ -55,7 +55,7 @@ public partial class PixelCombatController : Node2D
     {
         try
         {
-            string dataPath = "res://Source/Data/stages/combat-dialog/combat.json";
+            string dataPath = "res://source/Data/stages/combat-dialog/combat.json";
             var configData = ConfigurationService.LoadConfiguration(dataPath);
 
             // Map the dictionary to CombatSceneData

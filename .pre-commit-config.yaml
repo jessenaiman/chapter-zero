@@ -19,7 +19,7 @@ repos:
       # Step 1: Format check
       - id: dotnet-format
         name: .NET Format Check
-        entry: dotnet format OmegaSpiral.csproj
+        entry: dotnet format chapter-zero.csproj
         args: ['--verify-no-changes', '--no-restore']
         language: system
         types: [c#]
@@ -29,7 +29,7 @@ repos:
       # Step 2: Build with warnings as errors
       - id: dotnet-build
         name: .NET Build (Debug)
-        entry: dotnet build OmegaSpiral.csproj
+        entry: dotnet build chapter-zero.csproj
         args: ['--configuration', 'Debug', '--no-restore']
         language: system
         types: [c#]
@@ -39,7 +39,7 @@ repos:
       # Step 3: Run tests
       - id: dotnet-test
         name: .NET Test Suite
-        entry: dotnet test OmegaSpiral.csproj
+        entry: dotnet test chapter-zero.csproj
         args: ['--no-build', '--configuration', 'Debug', '--verbosity', 'minimal']
         language: system
         types: [c#]

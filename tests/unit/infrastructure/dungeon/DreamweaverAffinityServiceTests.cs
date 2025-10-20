@@ -114,22 +114,22 @@ public partial class DreamweaverAffinityServiceTests : IDisposable
     /// Tests that ApplyChange throws ArgumentNullException when change is null.
     /// </summary>
     [TestCase]
+    [ThrowsException(typeof(ArgumentNullException))]
     public void ApplyChange_ThrowsArgumentNullException_WhenChangeIsNull()
     {
-        // Act & Assert
-        AssertThat(() => _service!.ApplyChange(DreamweaverType.Light, null!))
-            .Throws<ArgumentNullException>();
+        // Act
+        _service!.ApplyChange(DreamweaverType.Light, null!);
     }
 
     /// <summary>
     /// Tests that constructor throws ArgumentNullException when gameState is null.
     /// </summary>
     [TestCase]
+    [ThrowsException(typeof(ArgumentNullException))]
     public void Constructor_ThrowsArgumentNullException_WhenGameStateIsNull()
     {
-        // Act & Assert
-        AssertThat(() => new DreamweaverAffinityService(null!))
-            .Throws<ArgumentNullException>();
+        // Act
+        var service = new DreamweaverAffinityService(null!);
     }
 
     /// <summary>

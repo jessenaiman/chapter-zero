@@ -424,7 +424,7 @@ public partial class AsciiRoomRenderer : Node2D
             else
             {
                 // Fall back to Godot resource path for runtime
-                string godotPath = "res://Source/Data/stages/nethack/dungeon_sequence.json";
+                string godotPath = "res://source/Data/stages/nethack/dungeon_sequence.json";
                 configData = ConfigurationService.LoadConfiguration(godotPath);
             }
 

@@ -62,6 +62,16 @@ namespace OmegaSpiral.Domain.Models
         public Dictionary<string, object> EquipmentData { get; } = new Dictionary<string, object>();
 
         /// <summary>
+        /// Gets the character's state data.
+        /// </summary>
+        public Dictionary<string, object> StateData { get; } = new Dictionary<string, object>();
+
+        /// <summary>
+        /// Gets the character's progression data.
+        /// </summary>
+        public Dictionary<string, object> ProgressionData { get; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// Gets the character's current location data.
         /// </summary>
         public Dictionary<string, object> LocationData { get; } = new Dictionary<string, object>();
@@ -115,49 +125,120 @@ namespace OmegaSpiral.Domain.Models
         }
 
         /// <summary>
+        /// Validates whether this import data contains all required information with detailed error reporting.
+        /// </summary>
+        /// <param name="errorMessages">List of validation error messages.</param>
+        /// <returns><see langword="true"/> if the data is valid for import, <see langword="false"/> otherwise.</returns>
+        public bool IsValid(out List<string> errorMessages)
+        {
+            errorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(this.Id))
+            {
+                errorMessages.Add("Id is required");
+            }
+
+            if (string.IsNullOrEmpty(this.Name))
+            {
+                errorMessages.Add("Name is required");
+            }
+
+            if (this.ClassData.Count == 0)
+            {
+                errorMessages.Add("ClassData is required");
+            }
+
+            if (this.AppearanceData.Count == 0)
+            {
+                errorMessages.Add("AppearanceData is required");
+            }
+
+            if (this.StatsData.Count == 0)
+            {
+                errorMessages.Add("StatsData is required");
+            }
+
+            return errorMessages.Count == 0;
+        }
+
+        /// <summary>
         /// Creates a character instance from this import data.
         /// </summary>
         /// <returns>A new character instance populated from the import data.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the import data contains invalid values.</exception>
         public Character CreateCharacter()
         {
-            var character = new Character
+            try
             {
-                Id = this.Id,
-                Name = this.Name,
-                Description = this.Description,
-            };
+                // Create CharacterIdentity
+                var identity = new CharacterIdentity(
+                    id: this.Id ?? Guid.NewGuid().ToString(),
+                    name: this.Name ?? "Unknown Character",
+                    description: this.Description ?? "");
 
-            // Create class data if available
-            if (this.ClassData.Count > 0)
-            {
-                var newClass = this.CreateCharacterClassFromData();
-                if (newClass != null)
+                // Create CharacterClass
+                CharacterClass characterClass = new CharacterClass();
+                if (this.ClassData.Count > 0)
                 {
-                    character.Class = newClass;
+                    var createdClass = this.CreateCharacterClassFromData();
+                    if (createdClass != null)
+                    {
+                        characterClass = createdClass;
+                    }
                 }
-            }
 
-            // Create appearance data if available
-            if (this.AppearanceData.Count > 0)
-            {
-                var newAppearance = this.CreateCharacterAppearanceFromData();
-                if (newAppearance != null)
+                // Create CharacterAppearance
+                CharacterAppearance appearance = new CharacterAppearance();
+                if (this.AppearanceData.Count > 0)
                 {
-                    character.Appearance = newAppearance;
+                    var createdAppearance = this.CreateCharacterAppearanceFromData();
+                    if (createdAppearance != null)
+                    {
+                        appearance = createdAppearance;
+                    }
                 }
-            }
 
-            // Create stats data if available
-            if (this.StatsData.Count > 0)
-            {
-                var newStats = this.CreateCharacterStatsFromData();
-                if (newStats != null)
+                // Create CharacterStats
+                CharacterStats stats = new CharacterStats();
+                if (this.StatsData.Count > 0)
                 {
-                    character.Stats = newStats;
+                    var createdStats = this.CreateCharacterStatsFromData();
+                    if (createdStats != null)
+                    {
+                        stats = createdStats;
+                    }
                 }
-            }
 
-            return character;
+                // Create CharacterState
+                CharacterState? state = null;
+                if (this.StateData.Count > 0)
+                {
+                    state = this.CreateCharacterStateFromData();
+                }
+
+                // Create CharacterProgression
+                CharacterProgression? progression = null;
+                if (this.ProgressionData.Count > 0)
+                {
+                    progression = this.CreateCharacterProgressionFromData();
+                }
+
+                // Create character with all available data
+                var character = new Character(
+                    identity: identity,
+                    characterClass: characterClass,
+                    appearance: appearance,
+                    stats: stats,
+                    state: state,
+                    progression: progression);
+
+                return character;
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"Error creating character from import data: {ex.Message}");
+                throw new InvalidOperationException($"Error creating character from import data: {ex.Message}", ex);
+            }
         }
 
         /// <summary>
@@ -167,7 +248,9 @@ namespace OmegaSpiral.Domain.Models
         /// <param name="updateClass">Whether to update the character class data.</param>
         /// <param name="updateAppearance">Whether to update the character appearance data.</param>
         /// <param name="updateStats">Whether to update the character stats data.</param>
-        public void MergeInto(Character existingCharacter, bool updateClass = true, bool updateAppearance = true, bool updateStats = true)
+        /// <param name="updateState">Whether to update the character state data.</param>
+        /// <param name="updateProgression">Whether to update the character progression data.</param>
+        public void MergeInto(Character existingCharacter, bool updateClass = true, bool updateAppearance = true, bool updateStats = true, bool updateState = true, bool updateProgression = true)
         {
             if (existingCharacter == null)
             {
@@ -201,6 +284,24 @@ namespace OmegaSpiral.Domain.Models
                 if (newStats != null)
                 {
                     existingCharacter.Stats = newStats;
+                }
+            }
+
+            if (updateState && this.StateData.Count > 0)
+            {
+                var newState = this.CreateCharacterStateFromData();
+                if (newState != null)
+                {
+                    existingCharacter.State = newState;
+                }
+            }
+
+            if (updateProgression && this.ProgressionData.Count > 0)
+            {
+                var newProgression = this.CreateCharacterProgressionFromData();
+                if (newProgression != null)
+                {
+                    existingCharacter.Progression = newProgression;
                 }
             }
         }
@@ -301,6 +402,73 @@ namespace OmegaSpiral.Domain.Models
                 MovementSpeed = System.Convert.ToSingle(this.StatsData.TryGetValue("MovementSpeed", out object? moveSpeedValue) ? moveSpeedValue : 1.0f, CultureInfo.InvariantCulture),
                 ExperienceForNextLevel = System.Convert.ToInt32(this.StatsData.TryGetValue("ExperienceForNextLevel", out object? expNextLevelValue) ? expNextLevelValue : 10, CultureInfo.InvariantCulture),
             };
+        }
+
+        /// <summary>
+        /// Creates a CharacterState instance from the stored state data.
+        /// </summary>
+        /// <returns>A new CharacterState instance, or null if data is invalid.</returns>
+        private CharacterState? CreateCharacterStateFromData()
+        {
+            var state = new CharacterState();
+
+            if (this.StateData.TryGetValue("CurrentHealth", out object? healthValue))
+            {
+                state.CurrentHealth = System.Convert.ToInt32(healthValue, CultureInfo.InvariantCulture);
+            }
+
+            if (this.StateData.TryGetValue("CurrentMana", out object? manaValue))
+            {
+                state.CurrentMana = System.Convert.ToInt32(manaValue, CultureInfo.InvariantCulture);
+            }
+
+            if (this.StateData.TryGetValue("CurrentLocation", out object? locationValue))
+            {
+                state.CurrentLocation = locationValue.ToString() ?? string.Empty;
+            }
+
+            if (this.StateData.TryGetValue("Status", out object? statusValue))
+            {
+                state.Status = statusValue.ToString() ?? "Alive";
+            }
+
+            if (this.StateData.TryGetValue("IsInCombat", out object? inCombatValue))
+            {
+                state.IsInCombat = System.Convert.ToBoolean(inCombatValue, CultureInfo.InvariantCulture);
+            }
+
+            return state;
+        }
+
+        /// <summary>
+        /// Creates a CharacterProgression instance from the stored progression data.
+        /// </summary>
+        /// <returns>A new CharacterProgression instance, or null if data is invalid.</returns>
+        private CharacterProgression? CreateCharacterProgressionFromData()
+        {
+            var progression = new CharacterProgression();
+
+            if (this.ProgressionData.TryGetValue("CurrentExperience", out object? expValue))
+            {
+                progression.CurrentExperience = System.Convert.ToInt32(expValue, CultureInfo.InvariantCulture);
+            }
+
+            if (this.ProgressionData.TryGetValue("Gold", out object? goldValue))
+            {
+                progression.Gold = System.Convert.ToInt32(goldValue, CultureInfo.InvariantCulture);
+            }
+
+            if (this.ProgressionData.TryGetValue("IsAvailable", out object? availableValue))
+            {
+                progression.IsAvailable = System.Convert.ToBoolean(availableValue, CultureInfo.InvariantCulture);
+            }
+
+            if (this.ProgressionData.TryGetValue("UnlockCondition", out object? unlockValue))
+            {
+                progression.UnlockCondition = unlockValue.ToString() ?? string.Empty;
+            }
+
+            return progression;
         }
     }
 }

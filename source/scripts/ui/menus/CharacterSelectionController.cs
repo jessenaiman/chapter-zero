@@ -16,7 +16,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
     public partial class CharacterSelectionController : Control
     {
         [Export]
-        public string GameScenePath { get; set; } = "res://Source/Stages/Stage1/Opening.tscn";
+        public string GameScenePath { get; set; } = "res://source/stages/stage_1/opening.tscn";
 
         private LineEdit? playerNameInput;
         private OptionButton? characterSelectDropdown;

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://echo_vault_combat"]
 
-[ext_resource type="Script" path="res://source/scripts/Stages/Stage3/EchoVaultCombatScene.cs" id="1"]
+[ext_resource type="Script" path="res://source/stages/stage_3/EchoVaultCombatScene.cs" id="1"]
 
 [node name="EchoVaultCombat" type="Control"]
 layout_mode = 3

@@ -283,24 +283,24 @@ Default values can be set by assigning a value.
 
 Example:
 
-.. code-block:: csharp
+```csharp
+using Godot;
 
-    using Godot;
+public partial class MyNode : Node
+{
+    [Export]
+    private NodePath _nodePath;
 
-    public partial class MyNode : Node
-    {
-        [Export]
-        private NodePath _nodePath;
+    [Export]
+    private string _name = "default";
 
-        [Export]
-        private string _name = "default";
+    [Export(PropertyHint.Range, "0,100000,1000,or_greater")]
+    private int _income;
 
-        [Export(PropertyHint.Range, "0,100000,1000,or_greater")]
-        private int _income;
-
-        [Export(PropertyHint.File, "*.png,*.jpg")]
-        private string _icon;
-    }
+    [Export(PropertyHint.File, "*.png,*.jpg")]
+    private string _icon;
+}
+```
 
 See also: :ref:`doc_c_sharp_exports`.
 

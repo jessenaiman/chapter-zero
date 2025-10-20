@@ -58,7 +58,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.Dungeon
 
         private static void ValidateSchema(Godot.Collections.Dictionary<string, Variant> data)
         {
-            var schemaPath = "res://Source/Data/schemas/dungeon_sequence_schema.json";
+            var schemaPath = "res://source/Data/schemas/dungeon_sequence_schema.json";
             if (!JsonSchemaValidator.ValidateSchema(data, schemaPath))
             {
                 throw new DungeonValidationException("Dungeon sequence JSON does not conform to the required schema.");

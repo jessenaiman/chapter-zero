@@ -72,14 +72,14 @@ public partial class SceneName : TerminalBase
     public override async void _Ready()
     {
         base._Ready();
-        
+
         // 1. Set shader parameters for visual state
         SetShaderParameter(ShaderLayer.Glitch, "glitch_intensity", 0.0f);
         SetShaderParameter(ShaderLayer.Phosphor, "phosphor_tint", new Vector3(1.0f, 0.9f, 0.5f));
-        
+
         // 2. Display dialogue
         await DisplayTextAsync("Your dialogue here", false);
-        
+
         // 3. Show choices and record score
         ShowChoices(new[] { "Choice 1", "Choice 2", "Choice 3" });
     }
@@ -146,7 +146,7 @@ public partial class DreamweaverScore : Node
     public int LightScore { get; private set; }
     public int ShadowScore { get; private set; }
     public int AmbitionScore { get; private set; }
-    
+
     public void AddPoints(string thread, int points) { /* impl */ }
     public string GetDominantThread() { /* returns "light", "shadow", "ambition", or "balance" */ }
     public bool IsBalanced() { /* returns true if <60% in any thread */ }
@@ -164,7 +164,7 @@ Copy structure from `IMPLEMENTATION_PLAN.md` Task 4.1.
 public partial class ChoiceButton : Button
 {
     [Export] public DreamweaverType Thread { get; set; }
-    
+
     public override void _Ready()
     {
         // Set hover color based on thread

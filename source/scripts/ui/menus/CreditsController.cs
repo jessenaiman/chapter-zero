@@ -17,7 +17,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         public float ScrollSpeed { get; set; } = 50.0f;
 
         [Export]
-        public string CreditsTextPath { get; set; } = "res://Source/Data/credits.txt";
+        public string CreditsTextPath { get; set; } = "res://source/Data/credits.txt";
 
         private RichTextLabel? creditsDisplay;
         private Button? backButton;

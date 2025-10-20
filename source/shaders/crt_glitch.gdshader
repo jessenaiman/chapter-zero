@@ -51,6 +51,11 @@ uniform float noise_amount : hint_range(0.0, 1.0) = 0.15;
 // === Horizontal Displacement ===
 uniform float displacement_strength : hint_range(0.0, 0.2) = 0.05;
 
+// === Palette Styling ===
+// Default tint values match the warm copper highlights from the Omega Spiral logo
+uniform vec3 glitch_tint : source_color = vec3(0.6078, 0.4157, 0.2510);
+uniform vec3 glitch_flash_tint : source_color = vec3(0.7725, 0.6196, 0.3725);
+
 // ============================================================================
 // random
 // ============================================================================
@@ -176,7 +181,7 @@ float calculate_block_corruption(vec2 uv, float time_offset, float block_sz) {
 //   Creates characteristic "analog signal bleeding" effect.
 //   Offset direction changes over time for dynamic glitch.
 // ============================================================================
-vec3 apply_chromatic_glitch(sampler2D tex, vec2 uv, float time_offset, float offset) {
+vec3 apply_chromatic_glitch(vec2 uv, float time_offset, float offset) {
     // Random offset direction changes over time
     float angle_r = random(vec2(time_offset, 0.0)) * 6.28318; // 2*PI
     float angle_g = random(vec2(time_offset, 1.0)) * 6.28318;
@@ -187,30 +192,13 @@ vec3 apply_chromatic_glitch(sampler2D tex, vec2 uv, float time_offset, float off
     vec2 offset_uv = pixel_size * offset;
 
     // Sample each channel with directional offset
-    float r = texture(tex, uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
-    float g = texture(tex, uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
-    float b = texture(tex, uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
+    float r = texture(TEXTURE, uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
+    float g = texture(TEXTURE, uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
+    float b = texture(TEXTURE, uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
 
     return vec3(r, g, b);
 }
 
-// ============================================================================
-// Main Fragment Shader
-// ============================================================================
-// Execution Flow:
-//   1. Early exit if glitch_intensity is zero (performance optimization)
-//   2. Calculate horizontal displacement for scanline corruption
-//   3. Sample texture with displaced coordinates
-//   4. Apply chromatic aberration if intensity high enough
-//   5. Add block corruption artifacts
-//   6. Overlay noise/static
-//   7. Blend with original based on glitch_intensity
-//
-// Blend Strategy:
-//   Base texture visible when glitch_intensity = 0.0
-//   Full glitch effect when glitch_intensity = 1.0
-//   Smooth transition between states for dramatic reveals
-// ============================================================================
 void fragment() {
     // Performance optimization: skip all calculations if no glitch
     if (glitch_intensity < 0.001) {
@@ -236,27 +224,36 @@ void fragment() {
 
     // High-intensity glitches use chromatic aberration
     if (glitch_intensity > 0.5) {
-        color = apply_chromatic_glitch(
-            TEXTURE,
-            displaced_uv,
-            time,
-            chromatic_offset * glitch_intensity
-        );
+        float angle_r = random(vec2(time, 0.0)) * 6.28318;
+        float angle_g = random(vec2(time, 1.0)) * 6.28318;
+        float angle_b = random(vec2(time, 2.0)) * 6.28318;
+
+        vec2 pixel_size = vec2(1.0 / 1920.0, 1.0 / 1080.0);
+        vec2 offset_uv = pixel_size * (chromatic_offset * glitch_intensity);
+
+        float r = texture(TEXTURE, displaced_uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
+        float g = texture(TEXTURE, displaced_uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
+        float b = texture(TEXTURE, displaced_uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
+
+        color = vec3(r, g, b);
     } else {
         color = texture(TEXTURE, displaced_uv).rgb;
     }
 
     // Add digital block corruption
     float block_corruption = calculate_block_corruption(UV, time, block_size);
-    color = mix(color, vec3(random(UV + time)), block_corruption * block_intensity * glitch_intensity);
+    float block_noise = random(UV + time);
+    vec3 tinted_block = vec3(block_noise) * glitch_tint;
+    color = mix(color, tinted_block, block_corruption * block_intensity * glitch_intensity);
 
     // Add noise/static overlay
     float static_noise = noise(UV, time);
-    color += vec3(static_noise - 0.5) * noise_amount * glitch_intensity;
+    vec3 tinted_static = (vec3(static_noise) - vec3(0.5)) * glitch_tint;
+    color += tinted_static * noise_amount * glitch_intensity;
 
     // Random full-screen flashes (rare, high impact)
     float flash = step(0.998, random(vec2(time * 10.0, 0.0))) * glitch_intensity;
-    color = mix(color, vec3(1.0), flash);
+    color = mix(color, glitch_flash_tint, flash);
 
     // Ensure color stays in valid range
     color = clamp(color, 0.0, 1.0);
@@ -269,7 +266,7 @@ void fragment() {
 // ============================================================================
 // Usage Example (GDScript):
 // ============================================================================
-// var glitch_material = preload("res://Source/Shaders/crt_glitch.gdshader")
+// var glitch_material = preload("res://source/shaders/crt_glitch.gdshader")
 // var shader_instance = ShaderMaterial.new()
 // shader_instance.shader = glitch_material
 //

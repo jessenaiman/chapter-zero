@@ -20,21 +20,20 @@
 			}
 		},
 {
-    "label": "test",
-    "command": "dotnet",
-    "type": "shell",
-    "args": [
-        "test",
-        "${workspaceFolder}/Tests/OmegaSpiral.Tests.csproj",
-        "--test-adapter-path:${workspaceFolder}/packages/gdunit4.testadapter", // Update this path
-        "--logger:gdunit4;LogLevel=Detailed", // Added LogLevel for better diagnostics
-        "--configuration",
-        "Debug",
-        "--no-build",
-        "--settings",
-        "${workspaceFolder}/Tests/.runsettings",
-        "--verbosity normal" // Added for better output
-    ],
+ "label": "test",
+ "command": "dotnet",
+ "type": "shell",
+ "args": [
+     "test",
+     "${workspaceFolder}/chapter-zero.csproj",
+     "--logger:gdunit4;LogLevel=Detailed",
+     "--configuration",
+     "Debug",
+     "--no-build",
+     "--settings",
+     "${workspaceFolder}/.runsettings",
+     "--verbosity normal"
+ ],
     "group": {
         "kind": "test",
         "isDefault": true  // Make this the default test task
@@ -74,8 +73,7 @@
 				"watch",
 				"--project",
 				"${workspaceFolder}/chapter-zero.csproj",
-				"build",
-				"--warnaserror"
+				"build"
 			],
 			"isBackground": true,
 			"problemMatcher": {

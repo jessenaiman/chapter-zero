@@ -35,7 +35,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Loads a scene with a loading screen transition.
         /// </summary>
-        /// <param name="scenePath">The file path to the scene to load (e.g., "res://Source/Scenes/Scene1Narrative.tscn").</param>
+        /// <param name="scenePath">The file path to the scene to load (e.g., "res://source/Scenes/Scene1Narrative.tscn").</param>
         /// <param name="showLoadingScreen">Whether to display a loading screen during the transition.</param>
         public async void LoadScene(string scenePath, bool showLoadingScreen = true)
         {

@@ -14,8 +14,8 @@ namespace OmegaSpiral.Source.Stages.main_menu;
 public partial class PressStartMenu : Control
 {
     private const string DefaultOptionsMenuPath = "res://addons/maaacks_game_template/examples/scenes/overlaid_menus/main_menu_options_overlaid_menu.tscn";
-    private const string InvitingStartSfxPath = "res://Source/Assets/sfx/confirmation_002.ogg";
-    private const string OminousStartSfxPath = "res://Source/Assets/sfx/doorClose_4.ogg";
+    private const string InvitingStartSfxPath = "res://source/assets/sfx/confirmation_002.ogg";
+    private const string OminousStartSfxPath = "res://source/assets/sfx/doorClose_4.ogg";
 
     [Export]
     public string OptionsMenuScenePath { get; set; } = DefaultOptionsMenuPath;
@@ -105,7 +105,7 @@ public partial class PressStartMenu : Control
         else
         {
             GD.PushWarning("[PressStartMenu] SceneManager not found; falling back to direct scene change.");
-            GetTree().ChangeSceneToFile("res://Source/Stages/Stage1/boot_sequence.tscn");
+            GetTree().ChangeSceneToFile("res://source/stages/stage_1/boot_sequence.tscn");
         }
     }
 

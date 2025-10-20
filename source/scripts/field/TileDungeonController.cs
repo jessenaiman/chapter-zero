@@ -43,7 +43,7 @@ public partial class TileDungeonController : Node2D
     {
         try
         {
-            string dataPath = "res://Source/Data/stages/mirror-dungeon/dungeon.json";
+            string dataPath = "res://source/Data/stages/mirror-dungeon/dungeon.json";
             var configData = ConfigurationService.LoadConfiguration(dataPath);
 
             // Map the dictionary to TileDungeonData

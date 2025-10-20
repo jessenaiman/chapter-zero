@@ -1,6 +1,6 @@
 [gd_resource type="FontFile" load_steps=2 format=3]
 
-[ext_resource type="FontFile" path="res://Source/assets/gui/font/SourceCodePro-Bold.ttf" id="1"]
+[ext_resource type="FontFile" path="res://source/assets/gui/font/SourceCodePro-Bold.ttf" id="1"]
 
 [resource]
 font_data = ExtResource("1")

@@ -5,7 +5,7 @@
 
 ## Observed Errors
 - ERROR: Failed loading resource: res://assets/editor/icons/GamepieceAnimation.svg.
-- ERROR: Failed loading resource: res://Source/Stages/Stage1/TerminalBase.tscn.
+- ERROR: Failed loading resource: res://source/Stages/Stage1/TerminalBase.tscn.
 - ERROR: Invalid scene: root node BootSequence in an instance, but there's no base scene.
 - ERROR: Failed loading resource: res://addons/MaaacksGameTemplate/base/translations/menus_translations.en.translation.
 - ERROR: Failed loading resource: res://addons/MaaacksGameTemplate/base/translations/menus_translations.fr.translation.

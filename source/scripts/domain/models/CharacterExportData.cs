@@ -105,6 +105,32 @@ namespace OmegaSpiral.Domain.Models
                         ["ExperienceForNextLevel"] = character.Stats.ExperienceForNextLevel,
                     };
                 }
+
+                // Export state data
+                if (character.State != null)
+                {
+                    this.StateData = new Dictionary<string, object>
+                    {
+                        ["CurrentHealth"] = character.State.CurrentHealth,
+                        ["CurrentMana"] = character.State.CurrentMana,
+                        ["CurrentLocation"] = character.State.CurrentLocation,
+                        ["Status"] = character.State.Status,
+                        ["IsInCombat"] = character.State.IsInCombat,
+                        ["IsAlive"] = character.State.IsAlive(),
+                    };
+                }
+
+                // Export progression data
+                if (character.Progression != null)
+                {
+                    this.ProgressionData = new Dictionary<string, object>
+                    {
+                        ["CurrentExperience"] = character.Progression.CurrentExperience,
+                        ["Gold"] = character.Progression.Gold,
+                        ["IsAvailable"] = character.Progression.IsAvailable,
+                        ["UnlockCondition"] = character.Progression.UnlockCondition,
+                    };
+                }
             }
         }
 
@@ -147,6 +173,16 @@ namespace OmegaSpiral.Domain.Models
         /// Gets the equipment data.
         /// </summary>
         public Dictionary<string, object> EquipmentData { get; } = new Dictionary<string, object>();
+
+        /// <summary>
+        /// Gets the character's state data.
+        /// </summary>
+        public Dictionary<string, object> StateData { get; } = new Dictionary<string, object>();
+
+        /// <summary>
+        /// Gets the character's progression data.
+        /// </summary>
+        public Dictionary<string, object> ProgressionData { get; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Gets the character's current location data.
@@ -193,6 +229,7 @@ namespace OmegaSpiral.Domain.Models
         /// </summary>
         /// <param name="json">The JSON string to parse.</param>
         /// <returns>A new instance of <see cref="CharacterExportData"/> parsed from the JSON.</returns>
+        /// <exception cref="ArgumentException">Thrown when the JSON string is invalid.</exception>
         public static CharacterExportData FromJson(string json)
         {
             var exportData = new CharacterExportData();
@@ -202,33 +239,44 @@ namespace OmegaSpiral.Domain.Models
                 return exportData;
             }
 
-            var variant = Json.ParseString(json);
-            if (variant.VariantType != Variant.Type.Dictionary)
+            try
             {
-                return exportData;
+                var variant = Json.ParseString(json);
+                if (variant.VariantType != Variant.Type.Dictionary)
+                {
+                    GD.PrintErr($"Invalid JSON format: Expected dictionary, got {variant.VariantType}");
+                    return exportData;
+                }
+
+                var jsonData = variant.AsGodotDictionary();
+
+                // Parse simple string fields
+                exportData.Id = GetStringValue(jsonData, "Id", string.Empty);
+                exportData.Name = GetStringValue(jsonData, "Name", string.Empty);
+                exportData.Description = GetStringValue(jsonData, "Description", string.Empty);
+                exportData.ExportTimestamp = GetStringValue(jsonData, "ExportTimestamp", System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
+                exportData.Version = GetStringValue(jsonData, "Version", "1.0");
+                exportData.Source = GetStringValue(jsonData, "Source", "OmegaSpiral");
+
+                // Parse dictionary fields
+                CopyDictionaryData(jsonData, "ClassData", exportData.ClassData);
+                CopyDictionaryData(jsonData, "AppearanceData", exportData.AppearanceData);
+                CopyDictionaryData(jsonData, "StatsData", exportData.StatsData);
+                CopyDictionaryData(jsonData, "StateData", exportData.StateData);
+                CopyDictionaryData(jsonData, "ProgressionData", exportData.ProgressionData);
+                CopyDictionaryData(jsonData, "InventoryData", exportData.InventoryData);
+                CopyDictionaryData(jsonData, "EquipmentData", exportData.EquipmentData);
+                CopyDictionaryData(jsonData, "LocationData", exportData.LocationData);
+                CopyDictionaryData(jsonData, "QuestProgressData", exportData.QuestProgressData);
+                CopyDictionaryData(jsonData, "SkillsData", exportData.SkillsData);
+                CopyDictionaryData(jsonData, "RelationshipsData", exportData.RelationshipsData);
+                CopyDictionaryData(jsonData, "Metadata", exportData.Metadata);
             }
-
-            var jsonData = variant.AsGodotDictionary();
-
-            // Parse simple string fields
-            exportData.Id = GetStringValue(jsonData, "Id", string.Empty);
-            exportData.Name = GetStringValue(jsonData, "Name", string.Empty);
-            exportData.Description = GetStringValue(jsonData, "Description", string.Empty);
-            exportData.ExportTimestamp = GetStringValue(jsonData, "ExportTimestamp", System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
-            exportData.Version = GetStringValue(jsonData, "Version", "1.0");
-            exportData.Source = GetStringValue(jsonData, "Source", "OmegaSpiral");
-
-            // Parse dictionary fields
-            CopyDictionaryData(jsonData, "ClassData", exportData.ClassData);
-            CopyDictionaryData(jsonData, "AppearanceData", exportData.AppearanceData);
-            CopyDictionaryData(jsonData, "StatsData", exportData.StatsData);
-            CopyDictionaryData(jsonData, "InventoryData", exportData.InventoryData);
-            CopyDictionaryData(jsonData, "EquipmentData", exportData.EquipmentData);
-            CopyDictionaryData(jsonData, "LocationData", exportData.LocationData);
-            CopyDictionaryData(jsonData, "QuestProgressData", exportData.QuestProgressData);
-            CopyDictionaryData(jsonData, "SkillsData", exportData.SkillsData);
-            CopyDictionaryData(jsonData, "RelationshipsData", exportData.RelationshipsData);
-            CopyDictionaryData(jsonData, "Metadata", exportData.Metadata);
+            catch (Exception ex)
+            {
+                GD.PrintErr($"Error parsing JSON character export data: {ex.Message}");
+                throw new ArgumentException($"Invalid JSON format for CharacterExportData: {ex.Message}", ex);
+            }
 
             return exportData;
         }
@@ -279,22 +327,60 @@ namespace OmegaSpiral.Domain.Models
         }
 
         /// <summary>
+        /// Validates whether this export data contains all required information with detailed error reporting.
+        /// </summary>
+        /// <param name="errorMessages">List of validation error messages.</param>
+        /// <returns><see langword="true"/> if the data is valid for export, <see langword="false"/> otherwise.</returns>
+        public bool IsValid(out List<string> errorMessages)
+        {
+            errorMessages = new List<string>();
+
+            if (string.IsNullOrEmpty(this.Id))
+            {
+                errorMessages.Add("Id is required");
+            }
+
+            if (string.IsNullOrEmpty(this.Name))
+            {
+                errorMessages.Add("Name is required");
+            }
+
+            if (this.ClassData.Count == 0)
+            {
+                errorMessages.Add("ClassData is required");
+            }
+
+            if (this.AppearanceData.Count == 0)
+            {
+                errorMessages.Add("AppearanceData is required");
+            }
+
+            if (this.StatsData.Count == 0)
+            {
+                errorMessages.Add("StatsData is required");
+            }
+
+            return errorMessages.Count == 0;
+        }
+
+        /// <summary>
         /// Creates a character instance from this export data.
         /// </summary>
         /// <returns>A new character instance populated from the export data.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the export data contains invalid values.</exception>
         public Character CreateCharacter()
         {
-            var character = new Character
-            {
-                Id = this.Id,
-                Name = this.Name,
-                Description = this.Description,
-            };
+            // Create CharacterIdentity
+            var identity = new CharacterIdentity(
+                id: this.Id ?? Guid.NewGuid().ToString(),
+                name: this.Name ?? "Unknown Character",
+                description: this.Description ?? "");
 
-            // Deserialize class data if available
+            // Create CharacterClass
+            CharacterClass characterClass;
             if (this.ClassData.TryGetValue("Id", out object? classIdObj) && classIdObj != null)
             {
-                character.Class = new CharacterClass
+                characterClass = new CharacterClass
                 {
                     Id = classIdObj.ToString() ?? string.Empty,
                     Name = GetString(this.ClassData, "Name"),
@@ -309,11 +395,29 @@ namespace OmegaSpiral.Domain.Models
                     IconPath = GetString(this.ClassData, "IconPath"),
                 };
             }
+            else
+            {
+                characterClass = new CharacterClass
+                {
+                    Id = "fighter",
+                    Name = "Fighter",
+                    Description = "A strong warrior focused on physical combat",
+                    BaseHealth = 10,
+                    BaseMana = 50,
+                    BaseAttack = 10,
+                    BaseDefense = 5,
+                    BaseMagic = 5,
+                    BaseMagicDefense = 5,
+                    BaseSpeed = 10,
+                    IconPath = "res://assets/icons/fighter.png"
+                }; // Default class
+            }
 
-            // Deserialize appearance data if available
+            // Create CharacterAppearance
+            CharacterAppearance appearance;
             if (this.AppearanceData.TryGetValue("SkinColor", out object? skinObj) && skinObj != null)
             {
-                character.Appearance = new CharacterAppearance
+                appearance = new CharacterAppearance
                 {
                     SkinColor = Color.FromHtml(skinObj.ToString() ?? "#FFFFFF"),
                     HairColor = Color.FromHtml(GetString(this.AppearanceData, "HairColor", "#000000")),
@@ -330,11 +434,16 @@ namespace OmegaSpiral.Domain.Models
                     FacialExpression = GetString(this.AppearanceData, "FacialExpression", "Neutral"),
                 };
             }
+            else
+            {
+                appearance = new CharacterAppearance(); // Default appearance
+            }
 
-            // Deserialize stats data if available
+            // Create CharacterStats
+            CharacterStats stats;
             if (this.StatsData.TryGetValue("Health", out object? _))
             {
-                character.Stats = new CharacterStats
+                stats = new CharacterStats
                 {
                     Health = GetInt(this.StatsData, "Health", 0),
                     MaxHealth = GetInt(this.StatsData, "MaxHealth", 0),
@@ -364,8 +473,47 @@ namespace OmegaSpiral.Domain.Models
                     ExperienceForNextLevel = GetInt(this.StatsData, "ExperienceForNextLevel", 10),
                 };
             }
+            else
+            {
+                stats = new CharacterStats(); // Default stats
+            }
 
-            return character;
+            // Create CharacterState
+            CharacterState state;
+            if (this.StateData.Count > 0)
+            {
+                state = new CharacterState
+                {
+                    CurrentHealth = GetInt(this.StateData, "CurrentHealth", 0),
+                    CurrentMana = GetInt(this.StateData, "CurrentMana", 0),
+                    CurrentLocation = GetString(this.StateData, "CurrentLocation"),
+                    Status = GetString(this.StateData, "Status", "Alive"),
+                    IsInCombat = GetBool(this.StateData, "IsInCombat", false),
+                };
+            }
+            else
+            {
+                state = new CharacterState();
+            }
+
+            // Create CharacterProgression
+            CharacterProgression progression;
+            if (this.ProgressionData.Count > 0)
+            {
+                progression = new CharacterProgression
+                {
+                    CurrentExperience = GetInt(this.ProgressionData, "CurrentExperience", 0),
+                    Gold = GetInt(this.ProgressionData, "Gold", 0),
+                    IsAvailable = GetBool(this.ProgressionData, "IsAvailable", true),
+                    UnlockCondition = GetString(this.ProgressionData, "UnlockCondition"),
+                };
+            }
+            else
+            {
+                progression = new CharacterProgression();
+            }
+
+            return new Character(identity, characterClass, appearance, stats, state, progression);
         }
 
         /// <summary>
@@ -398,6 +546,16 @@ namespace OmegaSpiral.Domain.Models
             foreach (var kvp in this.StatsData)
             {
                 clone.StatsData[kvp.Key] = kvp.Value;
+            }
+
+            foreach (var kvp in this.StateData)
+            {
+                clone.StateData[kvp.Key] = kvp.Value;
+            }
+
+            foreach (var kvp in this.ProgressionData)
+            {
+                clone.ProgressionData[kvp.Key] = kvp.Value;
             }
 
             foreach (var kvp in this.InventoryData)
@@ -442,8 +600,17 @@ namespace OmegaSpiral.Domain.Models
         /// Converts this export data to a JSON string representation.
         /// </summary>
         /// <returns>A JSON string representation of the export data.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the export data is invalid.</exception>
         public string ToJson()
         {
+            // Validate data before export
+            if (!this.IsValid(out var errorMessages))
+            {
+                var errorString = string.Join(", ", errorMessages);
+                GD.PrintErr($"Cannot export character data: {errorString}");
+                throw new InvalidOperationException($"Cannot export character data: {errorString}");
+            }
+
             var disposables = new List<System.IDisposable>();
             try
             {
@@ -453,6 +620,10 @@ namespace OmegaSpiral.Domain.Models
                 disposables.Add(appearanceDict);
                 var statsDict = ConvertToGodotDict(this.StatsData);
                 disposables.Add(statsDict);
+                var stateDict = ConvertToGodotDict(this.StateData);
+                disposables.Add(stateDict);
+                var progressionDict = ConvertToGodotDict(this.ProgressionData);
+                disposables.Add(progressionDict);
                 var inventoryDict = ConvertToGodotDict(this.InventoryData);
                 disposables.Add(inventoryDict);
                 var equipmentDict = ConvertToGodotDict(this.EquipmentData);
@@ -476,6 +647,8 @@ namespace OmegaSpiral.Domain.Models
                     ["ClassData"] = classDict,
                     ["AppearanceData"] = appearanceDict,
                     ["StatsData"] = statsDict,
+                    ["StateData"] = stateDict,
+                    ["ProgressionData"] = progressionDict,
                     ["InventoryData"] = inventoryDict,
                     ["EquipmentData"] = equipmentDict,
                     ["LocationData"] = locationDict,
@@ -490,6 +663,11 @@ namespace OmegaSpiral.Domain.Models
                 disposables.Add(exportDict);
 
                 return Json.Stringify(exportDict);
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"Error converting character export data to JSON: {ex.Message}");
+                throw new InvalidOperationException($"Error converting character export data to JSON: {ex.Message}", ex);
             }
             finally
             {
@@ -539,6 +717,16 @@ namespace OmegaSpiral.Domain.Models
             }
 
             return System.Convert.ToSingle(raw, CultureInfo.InvariantCulture);
+        }
+
+        private static bool GetBool(Dictionary<string, object> source, string key, bool fallback)
+        {
+            if (!source.TryGetValue(key, out object? raw) || raw == null)
+            {
+                return fallback;
+            }
+
+            return System.Convert.ToBoolean(raw, CultureInfo.InvariantCulture);
         }
     }
 }

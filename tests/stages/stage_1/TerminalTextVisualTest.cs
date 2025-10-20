@@ -26,7 +26,7 @@ public partial class TerminalTextVisualTest : Node
     public async Task Setup()
     {
         // Load the TerminalBase scene
-        var scene = GD.Load<PackedScene>("res://Source/Stages/Stage1/terminal_base.tscn");
+        var scene = GD.Load<PackedScene>("res://source/stages/ghost/scenes/terminal_base.tscn");
         _terminal = scene.Instantiate<TerminalBase>();
 
         // Add to scene tree and wait for _Ready

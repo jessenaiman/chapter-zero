@@ -28,8 +28,8 @@ The simulation’s façade shatters. Light, Mischief, and Wrath split, each insi
 
 ## Key Systems & Content
 
-- **Data File**: `res://Source/Stages/Stage5/stage5.json`
-- **Schema**: `res://Source/Data/Schemas/spiraling_horizon_schema.json` (revise to handle hub + three mirrored routes + convergence payload).
+- **Data File**: `res://source/stages/stage_5/stage5.json`
+- **Schema**: `res://source/data/schemas/spiraling_horizon_schema.json` (revise to handle hub + three mirrored routes + convergence payload).
 - **Countdown**: Data-driven thresholds that fire VO cues, FX bursts, and collector behaviour swaps.
 - **Collector Enemy**:
   - Shared stats across routes; difficulty escalates with each encounter (adds clones, spawns area denial).

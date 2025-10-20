@@ -14,8 +14,8 @@ The calm before the exodus. A nostalgic JRPG village that lets the player wander
 
 ## Content & Data
 
-- Data file: `res://Source/Stages/Stage4/stage4.json` (scene configuration stub; extend with NPC, dialogue, and trigger metadata).
-- Schema: `res://Source/Data/Schemas/dungeon_sequence_schema.json` (re-use for hub layout until dedicated schema lands).
+- Data file: `res://source/stages/stage_4/stage4.json` (scene configuration stub; extend with NPC, dialogue, and trigger metadata).
+- Schema: `res://source/data/schemas/dungeon_sequence_schema.json` (re-use for hub layout until dedicated schema lands).
 - Scenes: Town hub map, interior scenes (inn/shop/dojo), and gate trigger that hands off to Stage 5.
 
 ---

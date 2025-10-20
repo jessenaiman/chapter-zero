@@ -14,8 +14,8 @@ The retro dungeon crawler interlude where the player recruits echo party members
 
 ## Content & Data
 
-- Data file: `res://Source/Stages/Stage3/stage3.json`
-- Schema: `res://Source/Data/Schemas/echo_vault_schema.json`
+- Data file: `res://source/stages/stage_3/stage3.json`
+- Schema: `res://source/data/schemas/echo_vault_schema.json`
 - Loader: `EchoVaultDirector` (wraps `NarrativeSceneFactory` mapping)
 - Scenes: `EchoVaultHub.tscn`, `EchoVaultCombat.tscn`, `EchoVaultFinale.tscn`
 - Tests: `Tests/Stages/Stage3/EchoVaultDirectorTests.cs`

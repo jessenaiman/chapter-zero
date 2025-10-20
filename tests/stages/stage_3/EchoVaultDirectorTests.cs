@@ -32,7 +32,7 @@ public partial class EchoVaultDirectorTests : Node
     [TestCase]
     public void FactoryMapsEchoVaultData()
     {
-        var config = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://Source/Stages/Stage3/stage3.json");
+        var config = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://source/stages/stage_3/stage3.json");
         NarrativeSceneData data = NarrativeSceneFactory.Create(config);
 
         Assertions.AssertThat(data.EchoVault).IsNotNull();

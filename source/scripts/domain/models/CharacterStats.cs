@@ -1,5 +1,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
+using OmegaSpiral.Source.Scripts.Common;
+
 namespace OmegaSpiral.Domain.Models
 {
     /// <summary>
@@ -445,6 +447,56 @@ namespace OmegaSpiral.Domain.Models
         private int CalculateSpeed()
         {
             return this.Dexterity + this.Level;
+        }
+
+        /// <summary>
+        /// Apply racial modifiers to base stats.
+        /// </summary>
+        /// <param name="race">The character's race.</param>
+        public void ApplyRacialModifiers(CharacterRace race)
+        {
+            switch (race)
+            {
+                case CharacterRace.Human:
+                    // Humans get +1 to all stats
+                    this.Strength += 1;
+                    this.Intelligence += 1;
+                    this.Wisdom += 1;
+                    this.Dexterity += 1;
+                    this.Constitution += 1;
+                    this.Charisma += 1;
+                    break;
+
+                case CharacterRace.Elf:
+                    this.Dexterity += 2;
+                    this.Intelligence += 1;
+                    this.Constitution -= 1;
+                    break;
+
+                case CharacterRace.Dwarf:
+                    this.Constitution += 2;
+                    this.Strength += 1;
+                    this.Charisma -= 1;
+                    break;
+
+                case CharacterRace.Gnome:
+                    this.Intelligence += 2;
+                    this.Wisdom += 1;
+                    this.Strength -= 1;
+                    break;
+
+                case CharacterRace.Halfling:
+                    this.Dexterity += 2;
+                    this.Luck += 1;
+                    this.Strength -= 1;
+                    break;
+
+                case CharacterRace.HalfElf:
+                    this.Charisma += 1;
+
+                    // Half-elves get +1 to two stats of player's choice, handled separately
+                    break;
+            }
         }
     }
 }

@@ -12,26 +12,26 @@ echo ""
 run_analysis() {
     # Run dotnet build to get compiler errors/warnings
     BUILD_OUTPUT=$(dotnet build OmegaSpiral.csproj --no-incremental 2>&1 || true)
-    
+
     # Count errors and warnings
     ERROR_COUNT=$(echo "$BUILD_OUTPUT" | grep -c "error " 2>/dev/null || echo "0")
     WARNING_COUNT=$(echo "$BUILD_OUTPUT" | grep -c "warning " 2>/dev/null || echo "0")
-    
+
     # Extract specific error and warning lines
     BUILD_ERRORS=$(echo "$BUILD_OUTPUT" | grep "error " 2>/dev/null || echo "")
     BUILD_WARNINGS=$(echo "$BUILD_OUTPUT" | grep "warning " 2>/dev/null || echo "")
-    
+
     # Run dotnet format to check for style issues
     FORMAT_OUTPUT=$(dotnet format --verify-no-changes 2>&1 || echo "")
     FORMAT_COUNT=$(echo "$FORMAT_OUTPUT" | grep -c "Fixing\|formatted" 2>/dev/null || echo "0")
-    
+
     # Run tests
     TEST_OUTPUT=$(dotnet test 2>&1 || true)
     TEST_FAILURES=$(echo "$TEST_OUTPUT" | grep -c "Failed" 2>/dev/null || echo "0")
-    
+
     # Calculate total critters
     TOTAL_CRITTERS=$((ERROR_COUNT + WARNING_COUNT + FORMAT_COUNT + TEST_FAILURES))
-    
+
     # Output gamified report
     echo "🔍 Running Code Analysis..."
     echo "📋 Building Project (Roslyn Compiler Analysis)..."
@@ -41,13 +41,13 @@ run_analysis() {
     echo "🎯 === BUG SQUASHER MISSION REPORT ==="
     echo ""
     echo "🪲 BUILD ERRORS: $ERROR_COUNT"
-    echo "⚠️  BUILD WARNINGS: $WARNING_COUNT" 
+    echo "⚠️  BUILD WARNINGS: $WARNING_COUNT"
     echo "🎨 FORMAT ISSUES: $FORMAT_COUNT"
     echo "🧪 TEST FAILURES: $TEST_FAILURES"
     echo ""
     echo "💥 TOTAL CRITTERS IN THE NEST: $TOTAL_CRITTERS"
     echo ""
-    
+
     if [ $TOTAL_CRITTERS -eq 0 ]; then
         echo "🎉 🏆 MISSION ACCOMPLISHED! PROJECT ZERO ACHIEVED! 🏆 🎉"
         echo "   All bugs have been exterminated! The codebase is pristine!"
@@ -60,7 +60,7 @@ run_analysis() {
         echo "🔥 MISSION STATUS: ACTIVE"
         echo "💪 SQUASH UNTIL ZERO!"
         echo ""
-        
+
         # Show progress and motivation
         if [ $TOTAL_CRITTERS -gt 40 ]; then
             echo "💪 HEAVY INFESTATION DETECTED! TIME TO ROLL UP YOUR SLEEVES!"
@@ -75,7 +75,7 @@ run_analysis() {
         fi
         echo ""
     fi
-    
+
     # Output structured JSON for Qwen agent
     echo "🤖 === QWEN AGENT DATA ==="
     cat << EOF

@@ -12,8 +12,8 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// </summary>
 public static class EchoVaultDirector
 {
-    private const string DataPath = "res://Source/Stages/Stage3/stage3.json";
-    private const string SchemaPath = "res://Source/Data/Schemas/echo_vault_stage.json";
+    private const string DataPath = "res://source/stages/stage_3/stage3.json";
+    private const string SchemaPath = "res://source/data/schemas/echo_vault_stage.json";
 
     private static readonly object Sync = new();
     private static EchoVaultPlan? cachedPlan;

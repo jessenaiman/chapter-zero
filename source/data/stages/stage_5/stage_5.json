@@ -1,5 +1,5 @@
 {
-  "$schema": "res://Source/Data/Schemas/spiraling_horizon_schema.json",
+  "$schema": "res://source/data/schemas/spiraling_horizon_schema.json",
   "type": "ghost_terminal_escape",
   "metadata": {
     "stage": "Stage5",

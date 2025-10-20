@@ -72,8 +72,8 @@ reports/
 
 # IDE specific
 addons/dialogic/
-addons/
 
 
 #Ignore windsurf AI rules
 .windsurfrules
+.serana

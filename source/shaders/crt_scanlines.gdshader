@@ -39,8 +39,8 @@ uniform float scanline_count : hint_range(100.0, 1000.0) = 400.0;
 uniform float scanline_thickness : hint_range(0.5, 3.0) = 1.2;
 
 // === Color Tinting ===
-// Allows thread-specific color overlay (default: neutral)
-uniform vec3 scanline_tint : source_color = vec3(1.0, 1.0, 1.0);
+// Allows thread-specific color overlay (default tuned to Omega Spiral copper tones)
+uniform vec3 scanline_tint : source_color = vec3(0.6078, 0.4157, 0.2510);
 
 // ============================================================================
 // calculate_scanline_intensity
@@ -114,7 +114,7 @@ void fragment() {
 // ============================================================================
 // Usage Example (GDScript):
 // ============================================================================
-// var scanline_material = preload("res://Source/Shaders/crt_scanlines.gdshader")
+// var scanline_material = preload("res://source/shaders/crt_scanlines.gdshader")
 // var shader_instance = ShaderMaterial.new()
 // shader_instance.shader = scanline_material
 //

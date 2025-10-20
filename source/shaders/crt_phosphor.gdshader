@@ -16,7 +16,7 @@ uniform float curvature_strength : hint_range(0.0, 1.0) = 0.15;
 
 // === Phosphor Glow ===
 uniform float phosphor_glow : hint_range(0.0, 3.0) = 1.2;
-uniform vec3 phosphor_tint : source_color = vec3(0.2, 1.0, 0.4); // Default green CRT
+uniform vec3 phosphor_tint : source_color = vec3(0.7725, 0.6196, 0.3725); // Warm amber pulled from Omega Spiral logo
 uniform float phosphor_spread : hint_range(0.5, 2.0) = 1.0;
 
 // === Vignette ===
@@ -61,43 +61,6 @@ float calculate_vignette(vec2 uv, float strength, float softness) {
 // ============================================================================
 // RGB Phosphor Separation
 // Simulates CRT RGB sub-pixels for authentic glow effect
-// ============================================================================
-vec3 sample_phosphor(sampler2D tex, vec2 uv, vec3 tint, float glow, float spread) {
-    // Sample RGB channels with slight offset (sub-pixel simulation)
-    float offset = 0.0005 * spread;
-
-    float r = texture(tex, uv + vec2(offset, 0.0)).r;
-    float g = texture(tex, uv).g;
-    float b = texture(tex, uv - vec2(offset, 0.0)).b;
-
-    vec3 color = vec3(r, g, b);
-
-    // Apply phosphor tint and glow
-    color *= tint;
-    color = pow(color, vec3(1.0 / glow));
-
-    return color;
-}
-
-// ============================================================================
-// Chromatic Aberration
-// Separates color channels at screen edges
-// ============================================================================
-vec3 apply_chromatic_aberration(sampler2D tex, vec2 uv, float amount) {
-    vec2 centered = uv - 0.5;
-    float dist = length(centered);
-
-    // Increase aberration near edges
-    float aberration = amount * 0.001 * dist;
-
-    float r = texture(tex, uv + centered * aberration).r;
-    float g = texture(tex, uv).g;
-    float b = texture(tex, uv - centered * aberration).b;
-
-    return vec3(r, g, b);
-}
-
-// ============================================================================
 // Contrast & Brightness Adjustment
 // ============================================================================
 vec3 adjust_levels(vec3 color, float bright, float contra) {
@@ -122,12 +85,29 @@ void fragment() {
         COLOR = vec4(0.0, 0.0, 0.0, 1.0); // Black border outside screen
     } else {
 
-    // Sample with phosphor effect
-    vec3 color = sample_phosphor(TEXTURE, curved_uv, phosphor_tint, phosphor_glow, phosphor_spread);
+    // Sample with phosphor effect (inline to keep Godot shader compiler happy)
+    float phosphor_offset = 0.0005 * phosphor_spread;
+    float phosphor_safe_glow = max(phosphor_glow, 0.0001);
+
+    float phosphor_r = texture(TEXTURE, curved_uv + vec2(phosphor_offset, 0.0)).r;
+    float phosphor_g = texture(TEXTURE, curved_uv).g;
+    float phosphor_b = texture(TEXTURE, curved_uv - vec2(phosphor_offset, 0.0)).b;
+
+    vec3 color = vec3(phosphor_r, phosphor_g, phosphor_b);
+    color *= phosphor_tint;
+    color = pow(color, vec3(1.0 / phosphor_safe_glow));
 
     // Apply chromatic aberration
     if (chromatic_aberration > 0.0) {
-        vec3 aberration_color = apply_chromatic_aberration(TEXTURE, curved_uv, chromatic_aberration);
+        vec2 aberration_centered = curved_uv - 0.5;
+        float aberration_distance = length(aberration_centered);
+        float aberration_amount = chromatic_aberration * 0.001 * aberration_distance;
+
+        vec3 aberration_color = vec3(
+            texture(TEXTURE, curved_uv + aberration_centered * aberration_amount).r,
+            texture(TEXTURE, curved_uv).g,
+            texture(TEXTURE, curved_uv - aberration_centered * aberration_amount).b);
+
         color = mix(color, aberration_color, 0.3);
     }
 

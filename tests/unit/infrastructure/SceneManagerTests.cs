@@ -118,7 +118,8 @@ namespace OmegaSpiral.Tests.Unit.Infrastructure
             this.sceneManager?.UpdateCurrentScene(expectedSceneIndex);
 
             // Assert
-            AssertThat(this.sceneManager?.CurrentSceneIndex).IsEqual(expectedSceneIndex);
+            AssertThat(this.sceneManager).IsNotNull();
+            AssertThat(this.sceneManager!.CurrentSceneIndex).IsEqual(expectedSceneIndex);
         }
 
         /// <summary>
@@ -137,7 +138,8 @@ namespace OmegaSpiral.Tests.Unit.Infrastructure
             this.sceneManager?.UpdateCurrentScene(sceneIndex);
 
             // Assert
-            AssertThat(this.sceneManager?.CurrentSceneIndex).IsEqual(sceneIndex);
+            AssertThat(this.sceneManager).IsNotNull();
+            AssertThat(this.sceneManager!.CurrentSceneIndex).IsEqual(sceneIndex);
         }
 
         /// <summary>
@@ -210,9 +212,10 @@ namespace OmegaSpiral.Tests.Unit.Infrastructure
         public void SceneManager_InitializesWithDefaultValues()
         {
             // Assert - Check default values
-            AssertThat(this.sceneManager?.CurrentSceneIndex).IsEqual(1);
-            AssertThat(this.sceneManager?.PlayerName).IsNull();
-            AssertThat(this.sceneManager?.DreamweaverThread).IsNull();
+            AssertThat(this.sceneManager).IsNotNull();
+            AssertThat(this.sceneManager!.CurrentSceneIndex).IsEqual(1);
+            AssertThat(this.sceneManager.PlayerName).IsNull();
+            AssertThat(this.sceneManager.DreamweaverThread).IsNull();
         }
 
         // Test methods for different thread IDs are now handled by individual [TestCase] attributes

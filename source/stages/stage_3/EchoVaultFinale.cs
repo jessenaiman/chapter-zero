@@ -118,7 +118,7 @@ public partial class EchoVaultFinale : Control
         }
         else
         {
-            this.GetTree().ChangeSceneToFile("res://Source/Stages/Stage1/Opening.tscn");
+            this.GetTree().ChangeSceneToFile("res://source/stages/stage_1/opening.tscn");
         }
     }
 }

@@ -73,11 +73,11 @@ public partial class EchoVaultCombatScene : Control
         {
             if (EchoVaultSession.IsFinaleBeat())
             {
-                GetTree().ChangeSceneToFile("res://Source/Stages/Stage3/EchoVaultFinale.tscn");
+                GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_finale.tscn");
             }
             else
             {
-                GetTree().ChangeSceneToFile("res://Source/Stages/Stage3/EchoVaultHub.tscn");
+                GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_hub.tscn");
             }
         };
     }

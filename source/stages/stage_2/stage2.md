@@ -14,8 +14,8 @@ Act I’s first playable “Dreamweaver trial.” Light, Mischief, and Wrath gui
 
 ## Content & Data
 
-- Authoritative data file: `res://Source/Stages/Stage2/stage2.json`
-- Schema: `res://Source/Data/Schemas/echo_chamber_schema.json`
+- Authoritative data file: `res://source/stages/stage_2/stage2.json`
+- Schema: `res://source/data/schemas/echo_chamber_schema.json`
 - Loader: `EchoChamberDirector` (turns JSON into runtime plan via `NarrativeSceneFactory`)
 - Scenes: `EchoHub.tscn`, `EchoInterlude.tscn`, `EchoDungeon.tscn`
 - Tests: `Tests/Stages/Stage2/EchoChamberDirectorTests.cs` (schema + factory regression)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://echo_hub_stage2"]
 
-[ext_resource type="Script" path="res://source/scripts/Stages/Stage2/EchoHub.cs" id="1"]
+[ext_resource type="Script" path="res://source/stages/stage_2/EchoHub.cs" id="1"]
 
 [node name="EchoHub" type="Control"]
 layout_mode = 3

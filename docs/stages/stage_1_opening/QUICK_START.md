@@ -24,7 +24,7 @@
 
 **1. Complete Shader System** (1-2 hours)
 - Create `crt_glitch.gdshader` following existing pattern
-- Load all 3 shaders into `TerminalBase.tscn` 
+- Load all 3 shaders into `TerminalBase.tscn`
 - Test shader stack compositing
 
 **2. Build Core Scenes** (2-3 days)
@@ -86,13 +86,13 @@ public partial class BootSequence : TerminalBase
     public override async void _Ready()
     {
         base._Ready();
-        
+
         // Set visual state (shader parameters)
         SetShaderParameter(ShaderLayer.Glitch, "glitch_intensity", 0.8f);
-        
+
         // Display dialogue from stage1.json
         await DisplayTextAsync("ITERATION 847,294 INITIALIZING...", false);
-        
+
         // Show choices
         ShowChoices(new[] { "Y", "N" });
     }

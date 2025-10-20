@@ -54,36 +54,36 @@ public partial class NarrativeAssetMapper : Node
         this.AddAsset("door_open_2", "res://source/assets/sfx/doorOpen_2.ogg", AssetType.SoundEffect);
         this.AddAsset("drop_sfx", "res://source/assets/sfx/drop_002.ogg", AssetType.SoundEffect);
         this.AddAsset("error_sfx", "res://source/assets/sfx/error_006.ogg", AssetType.SoundEffect);
-        this.AddAsset("impact_wood_1", "res://Source/assets/sfx/impactWood_light_002.ogg", AssetType.SoundEffect);
-        this.AddAsset("impact_wood_2", "res://Source/assets/sfx/impactWood_light_003.ogg", AssetType.SoundEffect);
+        this.AddAsset("impact_wood_1", "res://source/assets/sfx/impactWood_light_002.ogg", AssetType.SoundEffect);
+        this.AddAsset("impact_wood_2", "res://source/assets/sfx/impactWood_light_003.ogg", AssetType.SoundEffect);
 
         // GUI assets
-        this.AddAsset("logo_panels", "res://Source/assets/gui/logo-panels.png", AssetType.Texture);
-        this.AddAsset("turn_bar_bg", "res://Source/assets/gui/combat/turn_bar_bg.png", AssetType.Texture);
+        this.AddAsset("logo_panels", "res://source/assets/gui/logo-panels.png", AssetType.Texture);
+        this.AddAsset("turn_bar_bg", "res://source/assets/gui/combat/turn_bar_bg.png", AssetType.Texture);
 
         // Item assets
-        this.AddAsset("bomb_texture", "res://Source/assets/items/bomb.atlastex", AssetType.Texture);
-        this.AddAsset("coin_texture", "res://Source/assets/items/coin.atlastex", AssetType.Texture);
-        this.AddAsset("key_texture", "res://Source/assets/items/key.atlastex", AssetType.Texture);
-        this.AddAsset("wand_blue", "res://Source/assets/items/wand_blue.atlastex", AssetType.Texture);
-        this.AddAsset("wand_green", "res://Source/assets/items/wand_green.atlastex", AssetType.Texture);
-        this.AddAsset("wand_red", "res://Source/assets/items/wand_red.atlastex", AssetType.Texture);
+        this.AddAsset("bomb_texture", "res://source/assets/items/bomb.atlastex", AssetType.Texture);
+        this.AddAsset("coin_texture", "res://source/assets/items/coin.atlastex", AssetType.Texture);
+        this.AddAsset("key_texture", "res://source/assets/items/key.atlastex", AssetType.Texture);
+        this.AddAsset("wand_blue", "res://source/assets/items/wand_blue.atlastex", AssetType.Texture);
+        this.AddAsset("wand_green", "res://source/assets/items/wand_green.atlastex", AssetType.Texture);
+        this.AddAsset("wand_red", "res://source/assets/items/wand_red.atlastex", AssetType.Texture);
 
         // Tileset assets
-        this.AddAsset("dungeon_tilemap", "res://Source/assets/tilesets/dungeon_tilemap.png", AssetType.Texture);
-        this.AddAsset("town_tilemap", "res://Source/assets/tilesets/town_tilemap.png", AssetType.Texture);
+        this.AddAsset("dungeon_tilemap", "res://source/assets/tilesets/dungeon_tilemap.png", AssetType.Texture);
+        this.AddAsset("town_tilemap", "res://source/assets/tilesets/town_tilemap.png", AssetType.Texture);
 
         // Font assets
-        this.AddAsset("kenney_pixel_font", "res://Source/assets/gui/font/Kenney Pixel.ttf", AssetType.Font);
-        this.AddAsset("source_code_font", "res://Source/assets/gui/font/SourceCodePro-Bold.ttf", AssetType.Font);
-        this.AddAsset("terminal_font", "res://Source/assets/gui/font/terminal_font.tres", AssetType.Font);
+        this.AddAsset("kenney_pixel_font", "res://source/assets/gui/font/Kenney Pixel.ttf", AssetType.Font);
+        this.AddAsset("source_code_font", "res://source/assets/gui/font/SourceCodePro-Bold.ttf", AssetType.Font);
+        this.AddAsset("terminal_font", "res://source/assets/gui/font/terminal_font.tres", AssetType.Font);
 
         // Icon assets
-        this.AddAsset("app_icon", "res://Source/assets/gui/icons/app_icon.png", AssetType.Texture);
-        this.AddAsset("emote_default", "res://Source/assets/gui/emotes/emote__.png", AssetType.Texture);
-        this.AddAsset("emote_combat", "res://Source/assets/gui/emotes/emote_combat.png", AssetType.Texture);
-        this.AddAsset("emote_exclamations", "res://Source/assets/gui/emotes/emote_exclamations.png", AssetType.Texture);
-        this.AddAsset("emote_question", "res://Source/assets/gui/emotes/emote_question.png", AssetType.Texture);
+        this.AddAsset("app_icon", "res://source/assets/gui/icons/app_icon.png", AssetType.Texture);
+        this.AddAsset("emote_default", "res://source/assets/gui/emotes/emote__.png", AssetType.Texture);
+        this.AddAsset("emote_combat", "res://source/assets/gui/emotes/emote_combat.png", AssetType.Texture);
+        this.AddAsset("emote_exclamations", "res://source/assets/gui/emotes/emote_exclamations.png", AssetType.Texture);
+        this.AddAsset("emote_question", "res://source/assets/gui/emotes/emote_question.png", AssetType.Texture);
     }
 
     /// <summary>

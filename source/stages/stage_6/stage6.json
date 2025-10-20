@@ -1,5 +1,5 @@
 {
-  "$schema": "res://Source/Data/Schemas/narrative_terminal_schema.json",
+  "$schema": "res://source/data/schemas/narrative_terminal_schema.json",
   "type": "narrative_terminal",
   "openingLines": [
     "[SYSTEM] ARCHIVE // HERO LOOP 000847295 // FINAL WRITE",

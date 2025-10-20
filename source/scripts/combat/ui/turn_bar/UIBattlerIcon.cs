@@ -38,9 +38,9 @@ public partial class UIBattlerIcon : TextureRect
 
     private static readonly Dictionary<Types, Texture2D?> PortraitBacks = new Dictionary<Types, Texture2D?>
     {
-        { Types.Ally, GD.Load<Texture2D>("res://Source/combat/ui/turn_bar/portrait_bg_ally.png") },
-        { Types.Player, GD.Load<Texture2D>("res://Source/combat/ui/turn_bar/portrait_bg_player.png") },
-        { Types.Enemy, GD.Load<Texture2D>("res://Source/combat/ui/turn_bar/portrait_bg_enemy.png") },
+        { Types.Ally, GD.Load<Texture2D>("res://source/combat/ui/turn_bar/portrait_bg_ally.png") },
+        { Types.Player, GD.Load<Texture2D>("res://source/combat/ui/turn_bar/portrait_bg_player.png") },
+        { Types.Enemy, GD.Load<Texture2D>("res://source/combat/ui/turn_bar/portrait_bg_enemy.png") },
     };
 
     private Types battlerType;

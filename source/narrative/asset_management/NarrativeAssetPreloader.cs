@@ -46,21 +46,21 @@ public partial class NarrativeAssetPreloader : Node
     private void InitializePreloadList()
     {
         // Add commonly used audio assets
-        this.preloadPaths.Add("res://Source/assets/sfx/confirmation_002.ogg");
-        this.preloadPaths.Add("res://Source/assets/sfx/drop_002.ogg");
-        this.preloadPaths.Add("res://Source/assets/sfx/impactWood_light_002.ogg");
-        this.preloadPaths.Add("res://Source/assets/sfx/chop.ogg");
-        this.preloadPaths.Add("res://Source/assets/sfx/error_006.ogg");
+        this.preloadPaths.Add("res://source/assets/sfx/confirmation_002.ogg");
+        this.preloadPaths.Add("res://source/assets/sfx/drop_002.ogg");
+        this.preloadPaths.Add("res://source/assets/sfx/impactWood_light_002.ogg");
+        this.preloadPaths.Add("res://source/assets/sfx/chop.ogg");
+        this.preloadPaths.Add("res://source/assets/sfx/error_006.ogg");
 
         // Add commonly used music assets
-        this.preloadPaths.Add("res://Source/assets/music/Apple Cider.mp3");
-        this.preloadPaths.Add("res://Source/assets/music/Insect Factory.mp3");
-        this.preloadPaths.Add("res://Source/assets/music/squashin_bugs_fixed.mp3");
-        this.preloadPaths.Add("res://Source/assets/music/the_fun_run.mp3");
+        this.preloadPaths.Add("res://source/assets/music/Apple Cider.mp3");
+        this.preloadPaths.Add("res://source/assets/music/Insect Factory.mp3");
+        this.preloadPaths.Add("res://source/assets/music/squashin_bugs_fixed.mp3");
+        this.preloadPaths.Add("res://source/assets/music/the_fun_run.mp3");
 
         // Add commonly used texture assets
-        this.preloadPaths.Add("res://Source/assets/gui/logo-panels.png");
-        this.preloadPaths.Add("res://Source/assets/gui/combat/turn_bar_bg.png");
+        this.preloadPaths.Add("res://source/assets/gui/logo-panels.png");
+        this.preloadPaths.Add("res://source/assets/gui/combat/turn_bar_bg.png");
     }
 
     /// <summary>

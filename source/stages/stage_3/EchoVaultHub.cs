@@ -141,11 +141,11 @@ public partial class EchoVaultHub : Control
         EchoVaultBeat beat = EchoVaultSession.Plan.Beats[EchoVaultSession.BeatIndex];
         if (beat.Type == "combat")
         {
-            this.GetTree().ChangeSceneToFile("res://Source/Stages/Stage3/EchoVaultCombat.tscn");
+            this.GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_combat.tscn");
         }
         else if (beat.Type == "finale")
         {
-            this.GetTree().ChangeSceneToFile("res://Source/Stages/Stage3/EchoVaultFinale.tscn");
+            this.GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_finale.tscn");
         }
         else
         {

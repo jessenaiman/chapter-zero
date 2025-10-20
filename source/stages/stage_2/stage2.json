@@ -153,7 +153,7 @@
       "owner": "light",
       "style": {
         "template": "light_default",
-        "ambient": "res://Source/Audio/Stage2/amb_light.ogg",
+        "ambient": "res://source/Audio/Stage2/amb_light.ogg",
         "decoyCount": 2,
         "glitchProfile": "soft_glow"
       },
@@ -217,7 +217,7 @@
       "owner": "shadow",
       "style": {
         "template": "shadow_maze",
-        "ambient": "res://Source/Audio/Stage2/amb_shadow.ogg",
+        "ambient": "res://source/Audio/Stage2/amb_shadow.ogg",
         "decoyCount": 2,
         "glitchProfile": "sharp_distortion"
       },
@@ -280,7 +280,7 @@
       "owner": "ambition",
       "style": {
         "template": "ambition_forge",
-        "ambient": "res://Source/Audio/Stage2/amb_ambition.ogg",
+        "ambient": "res://source/Audio/Stage2/amb_ambition.ogg",
         "decoyCount": 2,
         "glitchProfile": "heat_shimmer"
       },

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.5 and C# 14"
-run/main_scene="res://source/stages/stage_1/opening.tscn"
+run/main_scene="res://source/ui/menus/stage_select.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="omega_spiral"
 config/features=PackedStringArray("4.5", "C#")
