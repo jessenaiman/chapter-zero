@@ -6,8 +6,6 @@ namespace OmegaSpiral.Tests.Stages.Stage4;
 
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field;
-using OmegaSpiral.Source.Scripts.Field.gamepieces;
 using static GdUnit4.Assertions;
 
 /// <summary>
@@ -45,7 +43,7 @@ public partial class PlayerMovementTests
     [TestCase]
     public void TestGameboardInitialized()
     {
-        var gameboard = Godot.GD.Load<CSharpScript>("res://source/scripts/field/gameboard/Gameboard.cs");
+        var gameboard = GD.Load<CSharpScript>("res://source/scripts/field/gameboard/Gameboard.cs");
         AssertThat(gameboard).IsNotNull();
     }
 
@@ -65,7 +63,7 @@ public partial class PlayerMovementTests
     [TestCase]
     public void TestPathfinderExists()
     {
-        var pathfinder = Godot.GD.Load<CSharpScript>("res://source/scripts/field/gameboard/Pathfinder.cs");
+        var pathfinder = GD.Load<CSharpScript>("res://source/scripts/field/gameboard/Pathfinder.cs");
         AssertThat(pathfinder).IsNotNull();
     }
 }

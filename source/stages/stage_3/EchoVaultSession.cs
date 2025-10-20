@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Godot;
-using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;

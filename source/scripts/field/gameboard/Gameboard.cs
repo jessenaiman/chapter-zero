@@ -3,8 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
@@ -189,7 +187,7 @@ public partial class Gameboard : Node
     public List<Vector2I> GetAdjacentCells(Vector2I cell)
     {
         var neighbours = new List<Vector2I>();
-        foreach (var direction in System.Enum.GetValues<Directions.Point>())
+        foreach (var direction in Enum.GetValues<Directions.Point>())
         {
             var directionVector = Directions.Mappings[direction];
             var neighbour = this.GetAdjacentCell(cell, directionVector);

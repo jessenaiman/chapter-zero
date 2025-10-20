@@ -37,6 +37,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// skips secret question), player receives the Balance ending which acknowledges philosophical complexity.
 /// </para>
 /// </remarks>
+[GlobalClass]
 public partial class DreamweaverScore : Node
 {
     private int _lightPoints;

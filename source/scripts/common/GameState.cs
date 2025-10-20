@@ -3,10 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.persistence;
 using Microsoft.EntityFrameworkCore;
 

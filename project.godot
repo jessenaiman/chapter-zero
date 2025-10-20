@@ -38,7 +38,6 @@ SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loa
 ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
 AppConfig="*res://addons/maaacks_game_template/base/scenes/autoloads/app_config.tscn"
-DreamweaverScore="*res://source/stages/stage_1/DreamweaverScore.cs"
 
 [display]
 
@@ -80,7 +79,7 @@ disable_install_wizard=true
 
 [plugins]
 
-ai_assistant_hub/llm_api="openrouter_api"
+ai_assistant_hub/llm_api="ollama_api"
 ai_assistant_hub/preferences/thinking_target=0
 ai_assistant_hub/preferences/skip_greeting=false
 ai_assistant_hub/preferences/always_scroll_to_bottom=false

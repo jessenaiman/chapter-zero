@@ -56,7 +56,7 @@ public partial class MusicPlayer : Node
 
             this.anim.SpeedScale = 1.0f / timeOut;
             this.anim.Play("fade_out");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
 
             this.track.Stop();
         }
@@ -71,7 +71,7 @@ public partial class MusicPlayer : Node
         this.track.Play();
         this.anim.SpeedScale = 1.0f / timeIn;
         this.anim.Play("fade_in");
-        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
 
         this.anim.SpeedScale = 1.0f;
     }
@@ -95,7 +95,7 @@ public partial class MusicPlayer : Node
 
         this.anim.SpeedScale = 1.0f / timeOut;
         this.anim.Play("fade_out");
-        await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+        await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
 
         this.track.Stop();
         this.track.Stream = null;

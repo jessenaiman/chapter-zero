@@ -5,12 +5,8 @@
 
 #nullable enable
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Field;
@@ -414,11 +410,11 @@ public partial class AsciiRoomRenderer : Node2D
 
             // Use file system path for better test compatibility, fall back to Godot resource path
             string dataPath = "Source/Data/stages/nethack/dungeon_sequence.json";
-            string fullPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), dataPath);
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), dataPath);
 
-            if (System.IO.File.Exists(fullPath))
+            if (File.Exists(fullPath))
             {
-                string jsonContent = System.IO.File.ReadAllText(fullPath);
+                string jsonContent = File.ReadAllText(fullPath);
                 configData = ConfigurationService.LoadConfigurationFromString(jsonContent, fullPath);
             }
             else

@@ -2,13 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Combat.Actions;
+namespace OmegaSpiral.Source.Combat.Actions;
 /// <summary>
 /// A sample <see cref="BattlerAction"/> implementation that simulates a ranged attack, such as a fireball.
 /// </summary>
@@ -51,11 +48,6 @@ public partial class RangedBattlerAction : BattlerAction
         if (source == null)
         {
             throw new ArgumentNullException(nameof(source), "Source battler cannot be null.");
-        }
-
-        if (targets == null)
-        {
-            targets = Array.Empty<Battler>();
         }
 
         if (targets.Length == 0)

@@ -2,34 +2,37 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.ui.Menus;
+
+/// <summary>
+/// Stage selection menu for testing and development.
+/// Allows direct access to any stage without progression requirements.
+/// </summary>
+[GlobalClass]
+public partial class StageSelectMenu : Control
 {
 	/// <summary>
-	/// Stage selection menu for testing and development.
-	/// Allows direct access to any stage without progression requirements.
+	/// NOTE: Stage 1 resources were moved into the <c>ghost</c> subtree during refactor.
 	/// </summary>
-	[GlobalClass]
-	public partial class StageSelectMenu : Control
-	{
-		private const string Stage1Scene = "res://source/stages/stage_1/opening.tscn";
-		private const string Stage2Scene = "res://source/stages/stage_2/echo_hub.tscn";
-		private const string Stage3Scene = "res://source/stages/stage_3/echo_vault_hub.tscn";
-		private const string Stage4Scene = "res://source/stages/stage_4/tile_dungeon.tscn";
-		private const string Stage5Scene = "res://source/stages/stage_5/fractured_escape.tscn";
+	private const string Stage1Scene = "res://source/stages/ghost/scenes/opening.tscn";
+	private const string Stage2Scene = "res://source/stages/stage_2/echo_hub.tscn";
+	private const string Stage3Scene = "res://source/stages/stage_3/echo_vault_hub.tscn";
+	private const string Stage4Scene = "res://source/stages/stage_4/tile_dungeon.tscn";
+	private const string Stage5Scene = "res://source/stages/stage_5/fractured_escape.tscn";
 
-		private Button? _stage1Button;
-		private Button? _stage2Button;
-		private Button? _stage3Button;
-		private Button? _stage4Button;
-		private Button? _stage5Button;
-		private Button? _quitButton;
-		private Label? _titleLabel;
-		private Label? _descriptionLabel;
+		private Button? stage1Button;
+		private Button? stage2Button;
+		private Button? stage3Button;
+		private Button? stage4Button;
+		private Button? stage5Button;
+		private Button? quitButton;
+		private Label? titleLabel;
+		private Label? descriptionLabel;
 
 		/// <inheritdoc/>
 		public override void _Ready()
 		{
-			this.InitializeUI();
+			this.InitializeUi();
 			this.ConnectSignals();
 			this.UpdateStageAvailability();
 		}
@@ -37,26 +40,26 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
 		/// <summary>
 		/// Initializes UI element references.
 		/// </summary>
-		private void InitializeUI()
+		private void InitializeUi()
 		{
-			this._titleLabel = this.GetNode<Label>("CenterContainer/VBoxContainer/TitleLabel");
-			this._descriptionLabel = this.GetNode<Label>("CenterContainer/VBoxContainer/DescriptionLabel");
+			this.titleLabel = this.GetNode<Label>("CenterContainer/VBoxContainer/TitleLabel");
+			this.descriptionLabel = this.GetNode<Label>("CenterContainer/VBoxContainer/DescriptionLabel");
 
 			var buttonContainer = this.GetNode<VBoxContainer>("CenterContainer/VBoxContainer/ButtonContainer");
-			this._stage1Button = buttonContainer.GetNode<Button>("Stage1Button");
-			this._stage2Button = buttonContainer.GetNode<Button>("Stage2Button");
-			this._stage3Button = buttonContainer.GetNode<Button>("Stage3Button");
-			this._stage4Button = buttonContainer.GetNode<Button>("Stage4Button");
-			this._stage5Button = buttonContainer.GetNode<Button>("Stage5Button");
-			this._quitButton = buttonContainer.GetNode<Button>("QuitButton");
+			this.stage1Button = buttonContainer.GetNode<Button>("Stage1Button");
+			this.stage2Button = buttonContainer.GetNode<Button>("Stage2Button");
+			this.stage3Button = buttonContainer.GetNode<Button>("Stage3Button");
+			this.stage4Button = buttonContainer.GetNode<Button>("Stage4Button");
+			this.stage5Button = buttonContainer.GetNode<Button>("Stage5Button");
+			this.quitButton = buttonContainer.GetNode<Button>("QuitButton");
 
 			// Set button texts
-			this._stage1Button.Text = "Stage 1: Ghost Terminal";
-			this._stage2Button.Text = "Stage 2: Echo Hub";
-			this._stage3Button.Text = "Stage 3: Echo Vault";
-			this._stage4Button.Text = "Stage 4: Town Exploration";
-			this._stage5Button.Text = "Stage 5: Fractured Escape";
-			this._quitButton.Text = "Quit";
+			if (this.stage1Button != null) this.stage1Button.Text = "Stage 1: Ghost Terminal";
+			if (this.stage2Button != null) this.stage2Button.Text = "Stage 2: Echo Hub";
+			if (this.stage3Button != null) this.stage3Button.Text = "Stage 3: Echo Vault";
+			if (this.stage4Button != null) this.stage4Button.Text = "Stage 4: Town Exploration";
+			if (this.stage5Button != null) this.stage5Button.Text = "Stage 5: Fractured Escape";
+			if (this.quitButton != null) this.quitButton.Text = "Quit";
 		}
 
 		/// <summary>
@@ -64,34 +67,34 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
 		/// </summary>
 		private void ConnectSignals()
 		{
-			if (this._stage1Button != null)
+			if (this.stage1Button != null)
 			{
-				this._stage1Button.Pressed += this.OnStage1Pressed;
+				this.stage1Button.Pressed += this.OnStage1Pressed;
 			}
 
-			if (this._stage2Button != null)
+			if (this.stage2Button != null)
 			{
-				this._stage2Button.Pressed += this.OnStage2Pressed;
+				this.stage2Button.Pressed += this.OnStage2Pressed;
 			}
 
-			if (this._stage3Button != null)
+			if (this.stage3Button != null)
 			{
-				this._stage3Button.Pressed += this.OnStage3Pressed;
+				this.stage3Button.Pressed += this.OnStage3Pressed;
 			}
 
-			if (this._stage4Button != null)
+			if (this.stage4Button != null)
 			{
-				this._stage4Button.Pressed += this.OnStage4Pressed;
+				this.stage4Button.Pressed += this.OnStage4Pressed;
 			}
 
-			if (this._stage5Button != null)
+			if (this.stage5Button != null)
 			{
-				this._stage5Button.Pressed += this.OnStage5Pressed;
+				this.stage5Button.Pressed += this.OnStage5Pressed;
 			}
 
-			if (this._quitButton != null)
+			if (this.quitButton != null)
 			{
-				this._quitButton.Pressed += this.OnQuitPressed;
+				this.quitButton.Pressed += this.OnQuitPressed;
 			}
 		}
 
@@ -100,29 +103,29 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
 		/// </summary>
 		private void UpdateStageAvailability()
 		{
-			if (this._stage1Button != null)
+			if (this.stage1Button != null)
 			{
-				this._stage1Button.Disabled = !ResourceLoader.Exists(Stage1Scene);
+				this.stage1Button.Disabled = !ResourceLoader.Exists(Stage1Scene);
 			}
 
-			if (this._stage2Button != null)
+			if (this.stage2Button != null)
 			{
-				this._stage2Button.Disabled = !ResourceLoader.Exists(Stage2Scene);
+				this.stage2Button.Disabled = !ResourceLoader.Exists(Stage2Scene);
 			}
 
-			if (this._stage3Button != null)
+			if (this.stage3Button != null)
 			{
-				this._stage3Button.Disabled = !ResourceLoader.Exists(Stage3Scene);
+				this.stage3Button.Disabled = !ResourceLoader.Exists(Stage3Scene);
 			}
 
-			if (this._stage4Button != null)
+			if (this.stage4Button != null)
 			{
-				this._stage4Button.Disabled = !ResourceLoader.Exists(Stage4Scene);
+				this.stage4Button.Disabled = !ResourceLoader.Exists(Stage4Scene);
 			}
 
-			if (this._stage5Button != null)
+			if (this.stage5Button != null)
 			{
-				this._stage5Button.Disabled = !ResourceLoader.Exists(Stage5Scene);
+				this.stage5Button.Disabled = !ResourceLoader.Exists(Stage5Scene);
 			}
 		}
 
@@ -209,4 +212,3 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
 			}
 		}
 	}
-}

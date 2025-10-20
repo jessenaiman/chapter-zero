@@ -1,7 +1,6 @@
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using System.Threading.Tasks;
 using Godot;
 
 namespace OmegaSpiral.Source.Scripts.Common.screen_transitions;

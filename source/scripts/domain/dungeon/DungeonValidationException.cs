@@ -1,5 +1,3 @@
-using System;
-
 namespace OmegaSpiral.Source.Scripts.domain.Dungeon
 {
     /// <summary>

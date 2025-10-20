@@ -2,14 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Globalization;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Narrative;
@@ -318,19 +312,19 @@ public partial class DreamweaverPersona
         var sb = new StringBuilder();
 
         // Add persona identity and theme
-        sb.AppendLine(System.FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver."));
+        sb.AppendLine(FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver."));
         sb.AppendLine("Your personality: mysterious and profound");
 
         // Add current game state context
         if (this.gameState != null)
         {
-            sb.AppendLine(System.FormattableString.Invariant($"Current game state: Party size {this.gameState.PlayerParty.Members.Count}, Dreamweaver thread {this.gameState.DreamweaverThread}"));
+            sb.AppendLine(FormattableString.Invariant($"Current game state: Party size {this.gameState.PlayerParty.Members.Count}, Dreamweaver thread {this.gameState.DreamweaverThread}"));
         }
 
         // Add specific context if provided
         if (!string.IsNullOrEmpty(context))
         {
-            sb.AppendLine(System.FormattableString.Invariant($"Context: {context}"));
+            sb.AppendLine(FormattableString.Invariant($"Context: {context}"));
         }
 
         // Add story block narrative elements
@@ -341,7 +335,7 @@ public partial class DreamweaverPersona
             {
                 foreach (var paragraph in block.Paragraphs)
                 {
-                    sb.AppendLine(System.FormattableString.Invariant($"- {paragraph}"));
+                    sb.AppendLine(FormattableString.Invariant($"- {paragraph}"));
                 }
             }
         }
@@ -356,12 +350,12 @@ public partial class DreamweaverPersona
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine(System.FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver."));
+        sb.AppendLine(FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver."));
         sb.AppendLine("Generate 3 meaningful choices for the player that fit your persona and current situation.");
 
         if (!string.IsNullOrEmpty(context))
         {
-            sb.AppendLine(System.FormattableString.Invariant($"Context: {context}"));
+            sb.AppendLine(FormattableString.Invariant($"Context: {context}"));
         }
 
         sb.AppendLine("Each choice should have:");
@@ -372,7 +366,7 @@ public partial class DreamweaverPersona
         sb.AppendLine("Base choices for inspiration:");
         foreach (var choice in baseChoices)
         {
-            sb.AppendLine(System.FormattableString.Invariant($"- {choice.Label}: {choice.Description}"));
+            sb.AppendLine(FormattableString.Invariant($"- {choice.Label}: {choice.Description}"));
         }
 
         return sb.ToString();
@@ -395,7 +389,7 @@ public partial class DreamweaverPersona
             chat.Call("set_model", this.llmModel);
 
             // Add system message to establish persona
-            var systemMessage = System.FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver. Respond in character.");
+            var systemMessage = FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver. Respond in character.");
             chat.Call("add_message", "system", systemMessage);
 
             // Add user prompt

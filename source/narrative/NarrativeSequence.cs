@@ -3,7 +3,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Common.screen_transitions;
 using OmegaSpiral.Source.Scripts.Field.UI;
@@ -46,10 +45,10 @@ public abstract partial class NarrativeSequence : Control
     protected ScreenTransition? ScreenTransition { get; private set; }
 
     /// <summary>
-    /// Gets a reference to the UIDialogue component (if available).
+    /// Gets a reference to the UiDialogue component (if available).
     /// Sequences can use this for typewriter effects and dialogue presentation.
     /// </summary>
-    protected UIDialogue? Dialogue { get; private set; }
+    protected UiDialogue? Dialogue { get; private set; }
 
     /// <summary>
     /// Gets a reference to the GameState singleton.
@@ -94,7 +93,7 @@ public abstract partial class NarrativeSequence : Control
     protected virtual void OnSequenceReady()
     {
         this.ScreenTransition = this.GetNodeOrNull<ScreenTransition>("/root/ScreenTransition");
-        this.Dialogue = this.GetNodeOrNull<UIDialogue>("/root/UIDialogue");
+        this.Dialogue = this.GetNodeOrNull<UiDialogue>("/root/UIDialogue");
         this.GameState = this.GetNodeOrNull<GameState>("/root/GameState");
         this.DreamweaverSystem = this.GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
         this.AnimationPlayer = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");

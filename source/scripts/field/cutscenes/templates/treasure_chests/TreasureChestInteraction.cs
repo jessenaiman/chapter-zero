@@ -74,7 +74,7 @@ public partial class TreasureChestInteraction : Interaction
             this.Anim?.Play("close");
             if (this.Anim != null)
             {
-                await this.ToSignal(this.Anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.Anim, AnimationMixer.SignalName.AnimationFinished);
             }
 
             this.isOpen = false;
@@ -84,7 +84,7 @@ public partial class TreasureChestInteraction : Interaction
             this.Anim?.Play("open");
             if (this.Anim != null)
             {
-                await this.ToSignal(this.Anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.Anim, AnimationMixer.SignalName.AnimationFinished);
             }
 
             if (!this.itemReceived)

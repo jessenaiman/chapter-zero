@@ -3,7 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.AreaTransitions;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
@@ -91,7 +90,7 @@ public partial class Door : AreaTransition
             if (this.anim != null)
             {
                 this.anim.Play("locked");
-                await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
             }
         }
         else
@@ -99,7 +98,7 @@ public partial class Door : AreaTransition
             if (this.anim != null)
             {
                 this.anim.Play("open");
-                await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
             }
         }
     }
@@ -146,7 +145,7 @@ public partial class Door : AreaTransition
         if (this.closedDoor?.Visible == true && this.anim != null)
         {
             this.anim.Play("open");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
         }
 
         // Call the parent implementation to handle the area transition

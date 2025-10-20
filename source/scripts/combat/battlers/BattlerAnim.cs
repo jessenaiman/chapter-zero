@@ -1,7 +1,6 @@
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using System;
 using Godot;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Battlers;

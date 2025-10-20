@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Globalization;
 using Godot;
-using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -65,8 +63,8 @@ public partial class EchoVaultCombatScene : Control
             this.logLabel.Text = text;
         }
 
-        this.resolveButton?.SetDeferred(Button.PropertyName.Disabled, true);
-        this.defeatButton?.SetDeferred(Button.PropertyName.Disabled, true);
+        this.resolveButton?.SetDeferred(BaseButton.PropertyName.Disabled, true);
+        this.defeatButton?.SetDeferred(BaseButton.PropertyName.Disabled, true);
 
         var timer = GetTree().CreateTimer(1.0f);
         timer.Timeout += () =>

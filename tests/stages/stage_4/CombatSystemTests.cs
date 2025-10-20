@@ -21,7 +21,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestCombatEventsExists()
     {
-        var combatEvents = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/CombatEvents.cs");
+        var combatEvents = GD.Load<CSharpScript>("res://source/scripts/combat/CombatEvents.cs");
         AssertThat(combatEvents).IsNotNull();
     }
 
@@ -31,7 +31,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestCombatControllerExists()
     {
-        var combat = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/Combat.cs");
+        var combat = GD.Load<CSharpScript>("res://source/scripts/combat/Combat.cs");
         AssertThat(combat).IsNotNull();
     }
 
@@ -41,7 +41,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestCombatActorExists()
     {
-        var combatActor = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/CombatActor.cs");
+        var combatActor = GD.Load<CSharpScript>("res://source/scripts/combat/CombatActor.cs");
         AssertThat(combatActor).IsNotNull();
     }
 
@@ -51,7 +51,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestActiveTurnQueueExists()
     {
-        var turnQueue = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/ActiveTurnQueue.cs");
+        var turnQueue = GD.Load<CSharpScript>("res://source/scripts/combat/ActiveTurnQueue.cs");
         AssertThat(turnQueue).IsNotNull();
     }
 
@@ -61,7 +61,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestAttackActionExists()
     {
-        var attackAction = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/actions/BattlerActionAttack.cs");
+        var attackAction = GD.Load<CSharpScript>("res://source/scripts/combat/actions/BattlerActionAttack.cs");
         AssertThat(attackAction).IsNotNull();
     }
 
@@ -71,7 +71,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestHealActionExists()
     {
-        var healAction = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/actions/BattlerActionHeal.cs");
+        var healAction = GD.Load<CSharpScript>("res://source/scripts/combat/actions/BattlerActionHeal.cs");
         AssertThat(healAction).IsNotNull();
     }
 
@@ -81,7 +81,7 @@ public partial class CombatSystemTests
     [TestCase]
     public void TestCombatUiExists()
     {
-        var combatUi = Godot.GD.Load<CSharpScript>("res://source/scripts/combat/ui/UICombatMenus.cs");
+        var combatUi = GD.Load<CSharpScript>("res://source/scripts/combat/ui/UICombatMenus.cs");
         AssertThat(combatUi).IsNotNull();
     }
 

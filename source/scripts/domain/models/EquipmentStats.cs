@@ -329,12 +329,12 @@ namespace OmegaSpiral.Domain.Models
             // Adjust current health/mana if max values changed
             if (this.HealthBonus > 0)
             {
-                characterStats.Health = System.Math.Min(characterStats.Health + this.HealthBonus, characterStats.MaxHealth);
+                characterStats.Health = Math.Min(characterStats.Health + this.HealthBonus, characterStats.MaxHealth);
             }
 
             if (this.ManaBonus > 0)
             {
-                characterStats.Mana = System.Math.Min(characterStats.Mana + this.ManaBonus, characterStats.MaxMana);
+                characterStats.Mana = Math.Min(characterStats.Mana + this.ManaBonus, characterStats.MaxMana);
             }
         }
 
@@ -374,12 +374,12 @@ namespace OmegaSpiral.Domain.Models
             // Adjust current health/mana if max values changed
             if (this.HealthBonus > 0)
             {
-                characterStats.Health = System.Math.Min(characterStats.Health, characterStats.MaxHealth);
+                characterStats.Health = Math.Min(characterStats.Health, characterStats.MaxHealth);
             }
 
             if (this.ManaBonus > 0)
             {
-                characterStats.Mana = System.Math.Min(characterStats.Mana, characterStats.MaxMana);
+                characterStats.Mana = Math.Min(characterStats.Mana, characterStats.MaxMana);
             }
         }
 
@@ -419,7 +419,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The new durability percentage.</returns>
         public float ReduceDurability(float amount)
         {
-            this.Durability = System.Math.Max(0f, this.Durability - amount);
+            this.Durability = Math.Max(0f, this.Durability - amount);
             return this.Durability;
         }
 
@@ -430,7 +430,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The new durability percentage.</returns>
         public float RepairDurability(float amount)
         {
-            this.Durability = System.Math.Min(this.MaxDurability, this.Durability + amount);
+            this.Durability = Math.Min(this.MaxDurability, this.Durability + amount);
             return this.Durability;
         }
 

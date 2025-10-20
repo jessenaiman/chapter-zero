@@ -3,15 +3,16 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+
 using Godot;
-using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Combat.Actions;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 /// <summary>
-/// A button representing a single <see cref="BattlerAction"/>, shown in the player's <see cref="UIActionMenu"/>.
+/// A button representing a single <see cref="OmegaSpiral.Source.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UiActionMenu"/>.
 /// </summary>
 [GlobalClass]
-public partial class UIActionButton : TextureButton
+public partial class UiActionButton : TextureButton
 {
     private TextureRect? icon;
     private Label? nameLabel;

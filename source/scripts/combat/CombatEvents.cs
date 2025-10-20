@@ -4,10 +4,10 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Combat.Actions;
 
-namespace OmegaSpiral.Combat;
+namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
 /// A signal bus to connect distant scenes to various combat-exclusive events.
 /// </summary>
@@ -28,7 +28,7 @@ public partial class CombatEvents : Node
     /// <param name="source">The source battler of the action.</param>
     /// <param name="targets">The target battlers of the action.</param>
     [Signal]
-    public delegate void ActionSelectedEventEventHandler(BattlerAction action, Battler source, Battler[] targets);
+    public delegate void ActionSelectedEventHandler(BattlerAction action, Battler source, Battler[] targets);
 
     /// <summary>
     /// Emitted when combat is initiated.

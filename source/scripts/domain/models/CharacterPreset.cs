@@ -2,8 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using OmegaSpiral.Source.Scripts.Common;
-
 namespace OmegaSpiral.Domain.Models
 {
     /// <summary>
@@ -134,7 +132,7 @@ namespace OmegaSpiral.Domain.Models
         {
             return new Character
             {
-                Id = System.Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Name = this.Name,
                 Description = this.Description,
                 Class = this.CharacterClass?.Clone() ?? new CharacterClass(),

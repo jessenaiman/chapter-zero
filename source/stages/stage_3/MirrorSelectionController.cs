@@ -3,10 +3,6 @@
 // </copyright>
 
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Narrative
@@ -91,7 +87,7 @@ namespace OmegaSpiral.Source.Narrative
 
                 var button = new Button();
                 button.Text = characterData.Name;
-                button.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+                button.SizeFlagsHorizontal = SizeFlags.ExpandFill;
                 button.Pressed += () => this.OnCharacterButtonPressed(characterData.Id);
 
                 var descriptionLabel = new Label();

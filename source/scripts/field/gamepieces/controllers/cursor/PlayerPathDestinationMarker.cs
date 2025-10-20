@@ -4,7 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers.Cursor;
 /// <summary>

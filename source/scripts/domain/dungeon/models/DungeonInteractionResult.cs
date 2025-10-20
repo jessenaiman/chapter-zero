@@ -1,4 +1,3 @@
-using System;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.domain.Dungeon.Models

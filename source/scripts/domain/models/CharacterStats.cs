@@ -49,7 +49,7 @@ namespace OmegaSpiral.Domain.Models
             this.Speed = baseSpeed;
             this.Level = baseLevel;
             this.Experience = 0;
-            this.ExperienceForNextLevel = CharacterStats.CalculateExperienceForLevel(baseLevel + 1);
+            this.ExperienceForNextLevel = CalculateExperienceForLevel(baseLevel + 1);
 
             this.ResetSecondaryStats();
         }
@@ -251,7 +251,7 @@ namespace OmegaSpiral.Domain.Models
             this.PhysicalResistance = 0.0f;
             this.MagicalResistance = 0.0f;
             this.MovementSpeed = 1.0f;
-            this.ExperienceForNextLevel = CharacterStats.CalculateExperienceForLevel(2);
+            this.ExperienceForNextLevel = CalculateExperienceForLevel(2);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace OmegaSpiral.Domain.Models
         {
             this.Level++;
             this.Experience -= this.ExperienceForNextLevel;
-            this.ExperienceForNextLevel = CharacterStats.CalculateExperienceForLevel(this.Level + 1);
+            this.ExperienceForNextLevel = CalculateExperienceForLevel(this.Level + 1);
 
             // Increase primary stats on level up
             this.Strength += 2;
@@ -322,7 +322,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The actual amount healed (capped at max health).</returns>
         public int Heal(int amount)
         {
-            int actualHeal = System.Math.Min(amount, this.MaxHealth - this.Health);
+            int actualHeal = Math.Min(amount, this.MaxHealth - this.Health);
             this.Health += actualHeal;
             return actualHeal;
         }
@@ -334,7 +334,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>The actual damage taken.</returns>
         public int TakeDamage(int amount)
         {
-            int actualDamage = System.Math.Max(0, amount - this.Defense);
+            int actualDamage = Math.Max(0, amount - this.Defense);
             this.Health -= actualDamage;
 
             if (this.Health < 0)
@@ -437,7 +437,7 @@ namespace OmegaSpiral.Domain.Models
         private static int CalculateExperienceForLevel(int level)
         {
             // Exponential growth formula: base * (multiplier ^ level)
-            return 100 * (int) System.Math.Pow(1.5, level - 1);
+            return 100 * (int) Math.Pow(1.5, level - 1);
         }
 
         /// <summary>

@@ -92,7 +92,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets or sets the timestamp of when this data was exported.
         /// </summary>
-        public string ExportTimestamp { get; set; } = System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture);
+        public string ExportTimestamp { get; set; } = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Gets or sets the version of the export format.
@@ -127,7 +127,7 @@ namespace OmegaSpiral.Domain.Models
             }
 
             var jsonData = Json.ParseString(json);
-            if (jsonData.VariantType != Godot.Variant.Type.Dictionary)
+            if (jsonData.VariantType != Variant.Type.Dictionary)
             {
                 return exportData;
             }
@@ -138,7 +138,7 @@ namespace OmegaSpiral.Domain.Models
             exportData.Id = GetStringValue(jsonDict, "Id", string.Empty);
             exportData.MaxSize = GetIntValue(jsonDict, "MaxSize", 0);
             exportData.MaxWeight = GetFloatValue(jsonDict, "MaxWeight", 0.0f);
-            exportData.ExportTimestamp = GetStringValue(jsonDict, "ExportTimestamp", System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture));
+            exportData.ExportTimestamp = GetStringValue(jsonDict, "ExportTimestamp", DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", System.Globalization.CultureInfo.InvariantCulture));
             exportData.Version = GetStringValue(jsonDict, "Version", "1.0");
             exportData.Source = GetStringValue(jsonDict, "Source", "OmegaSpiral");
 
@@ -175,7 +175,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (jsonData.ContainsKey(key))
             {
-                return System.Convert.ToInt32(jsonData[key], System.Globalization.CultureInfo.InvariantCulture);
+                return Convert.ToInt32(jsonData[key], System.Globalization.CultureInfo.InvariantCulture);
             }
             return defaultValue;
         }
@@ -187,7 +187,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (jsonData.ContainsKey(key))
             {
-                return System.Convert.ToSingle(jsonData[key], System.Globalization.CultureInfo.InvariantCulture);
+                return Convert.ToSingle(jsonData[key], System.Globalization.CultureInfo.InvariantCulture);
             }
             return defaultValue;
         }
@@ -200,7 +200,7 @@ namespace OmegaSpiral.Domain.Models
             if (jsonData.ContainsKey(key))
             {
                 var arrayVariant = jsonData[key];
-                if (arrayVariant.VariantType == Godot.Variant.Type.Array)
+                if (arrayVariant.VariantType == Variant.Type.Array)
                 {
                     var array = arrayVariant.AsGodotArray();
                     foreach (var item in array)
@@ -247,7 +247,7 @@ namespace OmegaSpiral.Domain.Models
                     {
                         var keyStr = dictKey.ToString();
                         var valueVariant = godotDict[dictKey];
-                        if (valueVariant.VariantType == Godot.Variant.Type.Int)
+                        if (valueVariant.VariantType == Variant.Type.Int)
                         {
                             targetDictionary[keyStr] = valueVariant.AsInt32();
                         }
@@ -294,7 +294,7 @@ namespace OmegaSpiral.Domain.Models
                     {
                         var keyStr = dictKey.ToString();
                         var innerVariant = godotDict[dictKey];
-                        if (innerVariant.VariantType == Godot.Variant.Type.Dictionary)
+                        if (innerVariant.VariantType == Variant.Type.Dictionary)
                         {
                             var innerDict = innerVariant.AsGodotDictionary();
                             var itemData = new Dictionary<string, object>();
@@ -325,7 +325,7 @@ namespace OmegaSpiral.Domain.Models
                     {
                         var keyStr = dictKey.ToString();
                         var listVariant = godotDict[dictKey];
-                        if (listVariant.VariantType == Godot.Variant.Type.Array)
+                        if (listVariant.VariantType == Variant.Type.Array)
                         {
                             var list = listVariant.AsGodotArray();
                             var stringList = new List<string>();

@@ -4,7 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers.Cursor;
 /// <summary>
@@ -16,7 +15,7 @@ namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers.Cursor;
 [GlobalClass]
 public partial class FieldCursor : TileMapLayer
 {
-    private Vector2I focus = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+    private Vector2I focus = gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Emitted when the highlighted cell changes to a new value. An invalid cell is indicated by a value
@@ -94,7 +93,7 @@ public partial class FieldCursor : TileMapLayer
 
         this.Clear();
 
-        if (this.focus != global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell)
+        if (this.focus != gameboard.Gameboard.InvalidCell)
         {
             this.SetCell(this.focus, 0, new Vector2I(1, 5), 0);
         }
@@ -117,14 +116,14 @@ public partial class FieldCursor : TileMapLayer
         var gameboard = this.GetTree().Root.GetNode<global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard>("Gameboard");
         if (gameboard == null)
         {
-            return global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+            return Scripts.Field.gameboard.Gameboard.InvalidCell;
         }
 
         var cellUnderMouse = gameboard.PixelToCell(mousePosition);
 
         if (gameboard.PathFinder == null || !gameboard.PathFinder.HasCell(cellUnderMouse))
         {
-            cellUnderMouse = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+            cellUnderMouse = Scripts.Field.gameboard.Gameboard.InvalidCell;
         }
 
         return cellUnderMouse;
@@ -140,7 +139,7 @@ public partial class FieldCursor : TileMapLayer
 
         if (isPaused)
         {
-            this.SetFocus(global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell);
+            this.SetFocus(gameboard.Gameboard.InvalidCell);
         }
     }
 }

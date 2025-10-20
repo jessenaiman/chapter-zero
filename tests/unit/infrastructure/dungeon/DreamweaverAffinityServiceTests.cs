@@ -1,6 +1,5 @@
 using GdUnit4;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.domain.Dungeon;
 using OmegaSpiral.Source.Scripts.domain.Dungeon.Models;
 using OmegaSpiral.Source.Scripts.Infrastructure.Dungeon;
 using static GdUnit4.Assertions;

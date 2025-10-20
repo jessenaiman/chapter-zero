@@ -21,7 +21,7 @@ public partial class NpcInteractionTests
     [TestCase]
     public void TestDialogueWindowExists()
     {
-        var dialogueWindow = Godot.GD.Load<CSharpScript>("res://source/scripts/field/ui/DialogueWindow.cs");
+        var dialogueWindow = GD.Load<CSharpScript>("res://source/scripts/field/ui/DialogueWindow.cs");
         AssertThat(dialogueWindow).IsNotNull();
     }
 
@@ -31,7 +31,7 @@ public partial class NpcInteractionTests
     [TestCase]
     public void TestConversationTemplateExists()
     {
-        var conversationTemplate = Godot.GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/templates/conversations/ConversationTemplate.cs");
+        var conversationTemplate = GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/templates/conversations/ConversationTemplate.cs");
         AssertThat(conversationTemplate).IsNotNull();
     }
 
@@ -41,7 +41,7 @@ public partial class NpcInteractionTests
     [TestCase]
     public void TestInteractionExists()
     {
-        var interaction = Godot.GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/Interaction.cs");
+        var interaction = GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/Interaction.cs");
         AssertThat(interaction).IsNotNull();
     }
 
@@ -61,7 +61,7 @@ public partial class NpcInteractionTests
     [TestCase]
     public void TestMovingInteractionPopupExists()
     {
-        var movingPopup = Godot.GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/popups/MovingInteractionPopup.cs");
+        var movingPopup = GD.Load<CSharpScript>("res://source/scripts/field/cutscenes/popups/MovingInteractionPopup.cs");
         AssertThat(movingPopup).IsNotNull();
     }
 
@@ -94,7 +94,7 @@ public partial class NpcInteractionTests
     [TestCase]
     public void TestGamepieceControllerExists()
     {
-        var controller = Godot.GD.Load<CSharpScript>("res://source/scripts/field/gamepieces/controllers/GamepieceController.cs");
+        var controller = GD.Load<CSharpScript>("res://source/scripts/field/gamepieces/controllers/GamepieceController.cs");
         AssertThat(controller).IsNotNull();
     }
 }

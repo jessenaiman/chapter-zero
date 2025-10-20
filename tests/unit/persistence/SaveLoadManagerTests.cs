@@ -4,10 +4,8 @@
 
 namespace OmegaSpiral.Tests.Unit.Persistence
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using GdUnit4;
-    using Godot;
     using Microsoft.EntityFrameworkCore;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.persistence;

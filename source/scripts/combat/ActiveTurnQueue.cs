@@ -1,11 +1,9 @@
 
 using Godot;
-using System.Collections.Generic;
-using System.Linq;
-using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Combat;
+namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
 /// Responsible for Battlers, managing their turns, action order, and lifespans.
 /// The ActiveTurnQueue sorts Battlers neatly into a queue as they are ready to act. Time is paused
@@ -31,28 +29,28 @@ public partial class ActiveTurnQueue : Node2D
     [Signal]
     public delegate void CombatFinishedEventHandler(bool isPlayerVictory);
 
-    private bool _isActive = true;
-    private float _timeScale = 1.0f;
-    private BattlerAction? _activeAction;
-    private bool _isPlayerMenuOpen;
-    private Dictionary<Battler, Dictionary<string, object>> _cachedActions = new();
+    private bool isActive = true;
+    private float timeScale = 1.0f;
+    private BattlerAction? activeAction;
+    private bool isPlayerMenuOpen;
+    private Dictionary<Battler, Dictionary<string, object>> cachedActions = new();
 
     /// <summary>
     /// Allows pausing the Active Time Battle during combat intro, a cutscene, or combat end.
     /// </summary>
     public bool IsActive
     {
-        get => _isActive;
+        get => isActive;
         set
         {
-            if (value != _isActive)
+            if (value != isActive)
             {
-                _isActive = value;
+                isActive = value;
                 if (Battlers != null)
                 {
                     foreach (var battler in Battlers.GetAllBattlers())
                     {
-                        battler.IsActive = _isActive;
+                        battler.IsActive = isActive;
                     }
                 }
             }
@@ -76,7 +74,8 @@ public partial class ActiveTurnQueue : Node2D
         if (CombatEvents.Instance != null)
         {
             CombatEvents.Instance.PlayerBattlerSelected += OnPlayerBattlerSelected;
-            CombatEvents.Instance.ActionSelectedEvent += OnActionSelected;
+            // TODO: Reconnect after Godot regenerates signal bindings
+            // CombatEvents.Instance.ActionSelectedEvent += OnActionSelected;
         }
 
         // Combat participants are children of the ActiveTurnQueue. Create the data structure that will
@@ -102,7 +101,7 @@ public partial class ActiveTurnQueue : Node2D
                 battler.ReadyToAct += () => OnBattlerReadyToAct(battler);
 
                 // Remove any cached actions whenever the Battler is downed.
-                battler.HealthDepleted += () => _cachedActions.Remove(battler);
+                battler.HealthDepleted += () => cachedActions.Remove(battler);
             }
         }
 
@@ -140,32 +139,23 @@ public partial class ActiveTurnQueue : Node2D
 
     private void OnPlayerBattlerSelected(Battler battler)
     {
-        _isPlayerMenuOpen = battler != null;
+        isPlayerMenuOpen = true;
         UpdateTimeScale();
     }
-
     private void OnActionSelected(BattlerAction action, Battler source, Battler[] targets)
     {
-        // If the action passed is null, unqueue the source Battler from any cached actions.
-        if (action == null)
+        // Cache the action for execution whenever the Battler is ready to act.
+        cachedActions[source] = new Dictionary<string, object>
         {
-            _cachedActions.Remove(source);
-        }
-        else
-        {
-            // Otherwise, cache the action for execution whenever the Battler is ready to act.
-            _cachedActions[source] = new Dictionary<string, object>
-            {
-                ["action"] = action,
-                ["targets"] = targets
-            };
+            ["action"] = action,
+            ["targets"] = targets
+        };
 
-            // Note that the battler only emits its ready_to_act signal once upon reaching 100
-            // readiness. If the battler is currently ready to act, re-emit the signal now.
-            if (source.IsReadyToAct())
-            {
-                CallDeferred("emit_signal", "ready_to_act");
-            }
+        // Note that the battler only emits its ready_to_act signal once upon reaching 100
+        // readiness. If the battler is currently ready to act, re-emit the signal now.
+        if (source.IsReadyToAct())
+        {
+            CallDeferred("emit_signal", "ready_to_act");
         }
     }
 
@@ -188,11 +178,11 @@ public partial class ActiveTurnQueue : Node2D
     private void UpdateTimeScale()
     {
         float newTimeScale;
-        if (_activeAction != null)
+        if (activeAction != null)
         {
             newTimeScale = 0;
         }
-        else if (_isPlayerMenuOpen)
+        else if (isPlayerMenuOpen)
         {
             newTimeScale = SlowTimeScale;
         }
@@ -201,26 +191,26 @@ public partial class ActiveTurnQueue : Node2D
             newTimeScale = 1;
         }
 
-        if (Mathf.IsEqualApprox(_timeScale, newTimeScale))
+        if (Mathf.IsEqualApprox(timeScale, newTimeScale))
             return;
 
-        _timeScale = newTimeScale;
+        timeScale = newTimeScale;
         if (Battlers != null)
         {
             foreach (var battler in Battlers.GetAllBattlers())
             {
-                battler.TimeScale = _timeScale;
+                battler.TimeScale = timeScale;
             }
         }
     }
 
     private async void OnBattlerReadyToAct(Battler battler)
     {
-        if (_activeAction != null)
+        if (activeAction != null)
             return;
 
         // Check, first of all, to see if there is a cached action registered to this Battler.
-        if (!_cachedActions.TryGetValue(battler, out var actionData))
+        if (!cachedActions.TryGetValue(battler, out var actionData))
             return;
 
         var action = (BattlerAction) actionData["action"];
@@ -228,10 +218,10 @@ public partial class ActiveTurnQueue : Node2D
 
         if (action.CanExecute(battler, targets))
         {
-            _cachedActions.Remove(battler);
-            _activeAction = action;
+            cachedActions.Remove(battler);
+            activeAction = action;
             await battler.ActAsync(action, targets);
-            _activeAction = null;
+            activeAction = null;
         }
     }
 }

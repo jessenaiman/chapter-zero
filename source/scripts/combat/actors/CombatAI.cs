@@ -3,15 +3,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Source.Scripts.Combat.actors;
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// <summary>
 /// Base class for combat artificial intelligence.
 /// CombatAI determines the behavior of non-player Battlers in combat. It chooses actions
@@ -74,8 +70,10 @@ public partial class CombatAI : Node
         }
 
         // Get all available actions
-        var availableActions = this.ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(this.ControlledBattler, Array.Empty<Battler>())).ToList();
+        var availableActions = this.ControlledBattler.Actions
+            .Where(action => action != null && action.CanExecute(this.ControlledBattler, Array.Empty<Battler>()))
+            .Cast<BattlerAction?>()
+            .ToList();
 
         if (availableActions.Count == 0)
         {
@@ -83,12 +81,12 @@ public partial class CombatAI : Node
         }
 
         // Choose a random action for now (simple AI)
-        var chosenAction = availableActions[(int) (GD.Randi() % availableActions.Count)];
+    var chosenAction = availableActions[(int)(GD.Randi() % availableActions.Count)];
 
         // Choose targets for the action
         using BattlerList battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
-        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, battlerList);
-        var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
+    var possibleTargets = chosenAction!.GetPossibleTargets(this.ControlledBattler, battlerList);
+    var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
         {
@@ -98,23 +96,17 @@ public partial class CombatAI : Node
         // For single-target actions, choose one target
         if (chosenAction.TargetScope == ActionTargetScope.One)
         {
-            var target = validTargets[(int) (GD.Randi() % validTargets.Count)];
+            var target = validTargets[(int)(GD.Randi() % validTargets.Count)];
             return (chosenAction, new List<Battler> { target });
         }
-
-        // For all-target actions, choose all valid targets
         if (chosenAction.TargetScope == ActionTargetScope.All)
         {
             return (chosenAction, validTargets);
         }
-
-        // For self-target actions, target the controlled battler
         if (chosenAction.TargetScope == ActionTargetScope.Self)
         {
             return (chosenAction, new List<Battler> { this.ControlledBattler });
         }
-
-        // Default: return the chosen action with no targets
         return (chosenAction, new List<Battler>());
     }
 
@@ -137,18 +129,12 @@ public partial class CombatAI : Node
 
         foreach (var battler in this.Battlers.Enemies)
         {
-            if (battler != null && battler.Stats != null)
-            {
-                aiTeamHealth += battler.Stats.Health;
-            }
+            aiTeamHealth += battler.Stats?.Health ?? 0;
         }
 
         foreach (var battler in this.Battlers.Players)
         {
-            if (battler != null && battler.Stats != null)
-            {
-                playerTeamHealth += battler.Stats.Health;
-            }
+            playerTeamHealth += battler.Stats?.Health ?? 0;
         }
 
         // Avoid division by zero
@@ -170,10 +156,7 @@ public partial class CombatAI : Node
     /// <returns>A priority score for the action, where higher values indicate higher priority.</returns>
     public virtual float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
-        if (action == null || targets == null)
-        {
-            return 0.0f;
-        }
+        // targets is not nullable, so no null check needed
 
         // Simple priority system: prefer actions that cost less energy
         var priority = 10.0f - action.EnergyCost;

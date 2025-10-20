@@ -2,10 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Narrative;

@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using Godot;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
-using OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 

@@ -3,10 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces;
 /// <summary>
@@ -87,12 +84,12 @@ public partial class Gamepiece : Node2D
     /// <summary>
     /// Gets the current cell position of the gamepiece.
     /// </summary>
-    public Vector2I CellPosition { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+    public Vector2I CellPosition { get; private set; } = gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
-    public Vector2I TargetCell { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+    public Vector2I TargetCell { get; private set; } = gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the path the gamepiece is following.
@@ -129,7 +126,7 @@ public partial class Gamepiece : Node2D
 
             // Initialize the cell position
             var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard>("/root/Gameboard");
-            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? Scripts.Field.gameboard.Gameboard.InvalidCell;
         }
     }
 
@@ -161,7 +158,7 @@ public partial class Gamepiece : Node2D
 
             // Update the cell position
             var gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard>("/root/Gameboard");
-            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+            this.CellPosition = gameboard?.PixelToCell(this.Position) ?? Scripts.Field.gameboard.Gameboard.InvalidCell;
 
             // Emit the waypoint reached signal
             this.EmitSignal(SignalName.WaypointReached, this.CellPosition);

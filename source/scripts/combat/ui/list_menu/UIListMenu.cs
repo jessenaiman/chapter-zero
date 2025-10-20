@@ -3,8 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
 
@@ -92,7 +90,7 @@ public partial class UIListMenu : VBoxContainer
         if (this.anim != null)
         {
             this.anim.Play("fade_in");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
             this.IsDisabled = false;
 
             this.FocusFirstEntry();
@@ -108,7 +106,7 @@ public partial class UIListMenu : VBoxContainer
         if (this.anim != null)
         {
             this.anim.Play("fade_out");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
         }
     }
 

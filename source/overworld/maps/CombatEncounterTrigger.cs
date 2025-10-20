@@ -2,16 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Combat;
-using OmegaSpiral.Field;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Common.screen_transitions;
 using OmegaSpiral.Source.Scripts.Field;
-using OmegaSpiral.Source.Scripts.Field.cutscenes;
-using OmegaSpiral.Source.Scripts.Field.gamepieces;
-using Trigger = OmegaSpiral.Source.Scripts.Field.cutscenes.Trigger;
+using OmegaSpiral.Source.Scripts.Combat;
 using Gamepiece = OmegaSpiral.Source.Scripts.Field.gamepieces.Gamepiece;
 
 namespace OmegaSpiral.Source.Overworld.Maps;

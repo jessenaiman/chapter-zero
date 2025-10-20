@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 

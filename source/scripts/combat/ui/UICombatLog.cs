@@ -3,7 +3,7 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI
@@ -107,7 +107,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI
             if (this.logContainer != null && this.logContainer.GetChildCount() > 0)
             {
                 var lastChild = this.logContainer.GetChild(this.logContainer.GetChildCount() - 1);
-                if (lastChild is Control control)
+                if (lastChild is Control _)
                 {
                     // Scroll to make the last entry visible
                     // Note: This is a simplified implementation. In a real implementation,

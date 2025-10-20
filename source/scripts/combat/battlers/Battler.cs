@@ -3,12 +3,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Combat.Actions;
-using OmegaSpiral.Source.Scripts.Combat.actors;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Source.Scripts.Combat.Actors;
+using OmegaSpiral.Source.Combat.Actions;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Battlers;
 /// <summary>

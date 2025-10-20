@@ -3,13 +3,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
-
-using OmegaSpiral.Combat;
-using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 using OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
@@ -159,7 +154,7 @@ public partial class UICombatMenus : Control
 
         if (this.ActionMenuScene != null && this.actionMenuAnchor != null && this.SelectedBattler != null && this.battlers != null)
         {
-            var actionMenu = this.ActionMenuScene.Instantiate() as UIActionMenu;
+            var actionMenu = this.ActionMenuScene.Instantiate() as UiActionMenu;
             if (actionMenu != null)
             {
                 this.actionMenuAnchor.AddChild(actionMenu);
@@ -284,7 +279,6 @@ public partial class UICombatMenus : Control
             // and now wants to change it. In that case, unqueue the action through the proper
             // CombatEvents signal.
             // Note that the targets parameter must be cast to the correct array type.
-            Battler[] emptyTargetArray = Array.Empty<Battler>();
             if (CombatEvents.Instance != null)
             {
                 // Use the proper event subscription syntax instead of invocation

@@ -6,7 +6,6 @@
 // Review and consolidate duplicate test files after recent refactor
 
 using GdUnit4;
-using static Godot.GD;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Unit.Infrastructure

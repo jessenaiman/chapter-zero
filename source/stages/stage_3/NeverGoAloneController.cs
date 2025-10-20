@@ -3,12 +3,6 @@
 // </copyright>
 
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Narrative
 {
@@ -256,7 +250,7 @@ namespace OmegaSpiral.Source.Narrative
                 var prompt = mirrorData["prompt"].AsString();
                 var availableChars = mirrorData["available_characters"].AsGodotArray<Godot.Collections.Dictionary<string, Variant>>();
 
-                var filteredChars = NeverGoAloneController.ApplyStage2Influence(availableChars);
+                var filteredChars = ApplyStage2Influence(availableChars);
 
                 if (this.mirrorSelectionNode != null)
                 {

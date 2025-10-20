@@ -4,7 +4,7 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Combat.Actions;
+using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;

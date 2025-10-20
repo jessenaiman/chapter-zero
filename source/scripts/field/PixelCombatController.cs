@@ -3,9 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
-using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 

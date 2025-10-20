@@ -3,9 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces;
 
@@ -124,10 +122,10 @@ public partial class GamepieceRegistry : Node
     {
         if (gamepiece == null)
         {
-            return global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+            return gameboard.Gameboard.InvalidCell;
         }
 
-        return this.gamepieceToCell.GetValueOrDefault(gamepiece, global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell);
+        return this.gamepieceToCell.GetValueOrDefault(gamepiece, gameboard.Gameboard.InvalidCell);
     }
 
     /// <summary>

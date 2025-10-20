@@ -2,13 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Combat.Actions;
+namespace OmegaSpiral.Source.Combat.Actions;
 /// <summary>
 /// A sample <see cref="HealBattlerAction"/> implementation that simulates a healing action for battlers.
 /// </summary>
@@ -26,11 +23,6 @@ public partial class HealBattlerAction : BattlerAction
     public override async Task Execute(Battler source, Battler[] targets = null!)
     {
         ArgumentNullException.ThrowIfNull(source);
-
-        if (targets == null)
-        {
-            targets = Array.Empty<Battler>();
-        }
 
         if (targets.Length == 0)
         {
@@ -56,7 +48,7 @@ public partial class HealBattlerAction : BattlerAction
         // Wait for a short delay and then apply healing to the targets.
         timer = source.GetTree().CreateTimer(0.1f);
         await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-        using (BattlerHit hit = new BattlerHit(-this.HealAmount, 100.0f))
+        using (BattlerHit hit = new BattlerHit(-this.HealAmount))
         {
             foreach (Battler target in targets)
             {

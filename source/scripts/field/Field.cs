@@ -4,7 +4,7 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Combat;
+using OmegaSpiral.Source.Scripts.Combat;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;

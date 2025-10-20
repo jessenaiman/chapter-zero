@@ -85,12 +85,12 @@ namespace OmegaSpiral.Source.Scripts
 
             if (dict.TryGetValue("class", out Variant classValue))
             {
-                character.Class = (CharacterClass) System.Enum.Parse(typeof(CharacterClass), (string) classValue);
+                character.Class = (CharacterClass) Enum.Parse(typeof(CharacterClass), (string) classValue);
             }
 
             if (dict.TryGetValue("race", out Variant raceValue))
             {
-                character.Race = (CharacterRace) System.Enum.Parse(typeof(CharacterRace), (string) raceValue);
+                character.Race = (CharacterRace) Enum.Parse(typeof(CharacterRace), (string) raceValue);
             }
 
             if (dict.TryGetValue("level", out Variant levelValue))

@@ -4,12 +4,10 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 using OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Popups;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Conversations;
-using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Overworld.Maps.town;

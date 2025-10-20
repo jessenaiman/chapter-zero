@@ -5,7 +5,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Combat.Actions;
+namespace OmegaSpiral.Source.Combat.Actions;
 /// <summary>
 /// Represents a damage-dealing hit to be applied to a target Battler.
 /// Encapsulates calculations for how hits are applied based on some properties.

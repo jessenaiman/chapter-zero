@@ -2,15 +2,12 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-#nullable enable
-
-using System;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Combat.Actions;
+namespace OmegaSpiral.Source.Combat.Actions
+{
 /// <summary>
 /// Specifies the scope of targets that a <see cref="BattlerAction"/> can affect during combat.
 /// </summary>
@@ -109,12 +106,9 @@ public partial class BattlerAction : Resource
     /// <param name="source">The <see cref="Battler"/> performing the action.</param>
     /// <param name="targets">The target <see cref="Battler"/>s for the action.</param>
     /// <returns><see langword="true"/> if the action can be executed; otherwise, <see langword="false"/>.</returns>
-    public virtual bool CanExecute(Battler source, Battler[] targets = null!)
+    public virtual bool CanExecute(Battler? source, Battler[]? targets = null!)
     {
-        if (targets == null)
-        {
-            targets = Array.Empty<Battler>();
-        }
+        // targets is not nullable, so no null check needed
 
         if (source == null
             || source.Stats?.Health <= 0
@@ -123,7 +117,7 @@ public partial class BattlerAction : Resource
             return false;
         }
 
-        return targets.Length > 0;
+        return (targets?.Length ?? 0) > 0;
     }
 
     /// <summary>
@@ -156,12 +150,6 @@ public partial class BattlerAction : Resource
     public virtual async Task Execute(Battler source, Battler[] targets = null!)
     {
         ArgumentNullException.ThrowIfNull(source);
-
-        if (targets == null)
-        {
-            targets = Array.Empty<Battler>();
-        }
-
         await source.ToSignal(source.GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 
@@ -180,7 +168,7 @@ public partial class BattlerAction : Resource
 
         ArgumentNullException.ThrowIfNull(battlers);
 
-        var possibleTargets = new System.Collections.Generic.List<Battler>();
+    var possibleTargets = new List<Battler>();
 
         // Normally, actions can pick from battlers of the opposing team. However, actions may be
         // specified to target the source battler only or to target ALL battlers instead.
@@ -237,4 +225,5 @@ public partial class BattlerAction : Resource
     {
         return this.TargetScope == ActionTargetScope.All;
     }
+}
 }

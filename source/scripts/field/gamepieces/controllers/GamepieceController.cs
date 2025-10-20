@@ -3,11 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.gamepieces;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers;
 /// <summary>
@@ -132,12 +128,12 @@ public partial class GamepieceController : Node
     /// <summary>
     /// Gets the current cell position of the gamepiece.
     /// </summary>
-    public Vector2I CellPosition { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+    public Vector2I CellPosition { get; private set; } = gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets the target cell position the gamepiece is moving towards.
     /// </summary>
-    public Vector2I TargetCell { get; private set; } = global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell;
+    public Vector2I TargetCell { get; private set; } = gameboard.Gameboard.InvalidCell;
 
     /// <summary>
     /// Gets or sets a value indicating whether whether this controller is controlled by the player.

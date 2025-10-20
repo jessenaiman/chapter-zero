@@ -1,8 +1,6 @@
 using Godot;
-using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Stages.main_menu;
 
@@ -105,7 +103,7 @@ public partial class PressStartMenu : Control
         else
         {
             GD.PushWarning("[PressStartMenu] SceneManager not found; falling back to direct scene change.");
-            GetTree().ChangeSceneToFile("res://source/stages/stage_1/boot_sequence.tscn");
+            GetTree().ChangeSceneToFile("res://source/stages/ghost/scenes/boot_sequence.tscn");
         }
     }
 

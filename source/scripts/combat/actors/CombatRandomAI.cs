@@ -3,15 +3,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
+using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Source.Scripts.Combat.actors;
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// <summary>
 /// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.
 /// </summary>
@@ -71,11 +67,11 @@ public partial class CombatRandomAI : CombatAI
         // If no actions were filtered in, use all available actions
         if (filteredActions.Count == 0)
         {
-            filteredActions = new List<BattlerAction>(availableActions);
+            filteredActions = new List<BattlerAction>(availableActions.Cast<BattlerAction>());
         }
 
         // Choose a random action
-        var chosenAction = filteredActions[(int) (GD.Randi() % filteredActions.Count)];
+    var chosenAction = filteredActions[(int) (GD.Randi() % filteredActions.Count)];
 
         // Choose targets for the action
         using var battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
@@ -133,7 +129,7 @@ public partial class CombatRandomAI : CombatAI
         }
 
         // Default: return the chosen action with no targets
-        return (chosenAction, new List<Battler>());
+    return (chosenAction, new List<Battler>());
     }
 
     /// <summary>

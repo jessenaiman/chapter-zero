@@ -3,11 +3,7 @@
 // </copyright>
 
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Narrative
 {
@@ -93,7 +89,7 @@ namespace OmegaSpiral.Source.Narrative
             this.EmitSignal(SignalName.CombatStarted, beatId);
 
             // Setup party
-            await NeverGoAloneCombatController.SetupPartyAsync(selectedChars.Take(this.initialPartySize).ToList());
+            await SetupPartyAsync(selectedChars.Take(this.initialPartySize).ToList());
 
             // Setup enemies based on encounter
             await this.SetupEnemiesAsync();
@@ -107,7 +103,7 @@ namespace OmegaSpiral.Source.Narrative
             // For now, just log the setup - actual battler creation would happen in a real combat system
             foreach (var charId in charIds)
             {
-                var characterData = NeverGoAloneCombatController.CreateCharacterFromId(charId);
+                var characterData = CreateCharacterFromId(charId);
                 var character = characterData.ToCharacter();
                 GD.Print($"Setting up party member: {character.Name} ({character.Class})");
             }
@@ -126,7 +122,7 @@ namespace OmegaSpiral.Source.Narrative
                 if (enemyName.Contains('\''))
                 {
                     var cleanName = enemyName.Replace("'", "");
-                    var battler = NeverGoAloneCombatController.CreateEnemyBattler(cleanName);
+                    var battler = CreateEnemyBattler(cleanName);
                     if (battler != null)
                     {
                         GD.Print($"Setting up enemy: {battler.Name}");
@@ -144,9 +140,9 @@ namespace OmegaSpiral.Source.Narrative
 
             return enemyType switch
             {
-                "Wolf-Claw Hybrid" => NeverGoAloneCombatController.SetupWolfClawHybrid(battler),
-                "Code Fragment" => NeverGoAloneCombatController.SetupCodeFragment(battler),
-                "Code Guardian" => NeverGoAloneCombatController.SetupCodeGuardian(battler),
+                "Wolf-Claw Hybrid" => SetupWolfClawHybrid(battler),
+                "Code Fragment" => SetupCodeFragment(battler),
+                "Code Guardian" => SetupCodeGuardian(battler),
                 _ => battler,
             };
         }

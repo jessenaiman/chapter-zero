@@ -2,8 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using OmegaSpiral.Source.Scripts;
-
 namespace OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>

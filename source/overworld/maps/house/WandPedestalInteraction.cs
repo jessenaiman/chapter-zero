@@ -4,7 +4,6 @@
 // </copyright>
 
 using System.Globalization;
-using System.Linq;
 using Godot;
 
 namespace OmegaSpiral.Source.Overworld.Maps.house;
@@ -122,7 +121,7 @@ public partial class WandPedestalInteraction : Node // Should extend Conversatio
             if (this.SolvedAnimation != null)
             {
                 this.SolvedAnimation.Play("solve");
-                await this.ToSignal(this.SolvedAnimation, AnimationPlayer.SignalName.AnimationFinished);
+                await this.ToSignal(this.SolvedAnimation, AnimationMixer.SignalName.AnimationFinished);
             }
         }
     }

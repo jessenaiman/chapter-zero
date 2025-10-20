@@ -55,15 +55,15 @@ namespace OmegaSpiral
         /// <returns>The corresponding cardinal direction.</returns>
         public static Point AngleToDirection(float angle)
         {
-            if (angle <= -System.Math.PI / 4.0 && angle > -3.0 * System.Math.PI / 4.0)
+            if (angle <= -Math.PI / 4.0 && angle > -3.0 * Math.PI / 4.0)
             {
                 return Point.North;
             }
-            else if (angle <= System.Math.PI / 4.0 && angle > -System.Math.PI / 4.0)
+            else if (angle <= Math.PI / 4.0 && angle > -Math.PI / 4.0)
             {
                 return Point.East;
             }
-            else if (angle <= 3.0 * System.Math.PI / 4.0 && angle > System.Math.PI / 4.0)
+            else if (angle <= 3.0 * Math.PI / 4.0 && angle > Math.PI / 4.0)
             {
                 return Point.South;
             }

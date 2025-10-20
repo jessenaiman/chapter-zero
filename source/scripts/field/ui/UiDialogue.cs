@@ -1,23 +1,23 @@
-// <copyright file="UIDialogue.cs" company="Omega Spiral">
+// <copyright file="UiDialogue.cs" company="Omega Spiral">
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Narrative;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI
+namespace OmegaSpiral.Source.Scripts.Field.UI;
+
+/// <summary>
+/// Container for the dialogue system display.
+/// The UIDialogue manages the presentation of character dialogue, narrative text,
+/// and conversation options during gameplay. It handles typewriter effects,
+/// character portraits, dialogue choices, and branching conversation trees.
+/// It provides a rich interface for storytelling and player interaction with NPCs.
+/// </summary>
+public partial class UiDialogue : Control
 {
     /// <summary>
-    /// Container for the dialogue system display.
-    /// The UIDialogue manages the presentation of character dialogue, narrative text,
-    /// and conversation options during gameplay. It handles typewriter effects,
-    /// character portraits, dialogue choices, and branching conversation trees.
-    /// It provides a rich interface for storytelling and player interaction with NPCs.
-    /// </summary>
-    public partial class UIDialogue : Control
-    {
-        /// <summary>
-        /// Private fields
+    /// Private fields
         /// </summary>
         private RichTextLabel? dialogueText;
         private Label? characterNameLabel;
@@ -741,4 +741,3 @@ namespace OmegaSpiral.Source.Scripts.Field.UI
             }
         }
     }
-}

@@ -3,18 +3,17 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Linq;
 using Godot;
-using OmegaSpiral.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+using OmegaSpiral.Source.Combat.Actions;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 /// <summary>
 /// A menu lists a <see cref="Battler"/>'s <see cref="Battler.Actions"/>, allowing the player to select one.
 /// </summary>
 [GlobalClass]
-public partial class UIActionMenu : UIListMenu
+public partial class UiActionMenu : UIListMenu
 {
     private Battler? battler;
 
@@ -29,14 +28,14 @@ public partial class UIActionMenu : UIListMenu
     /// </summary>
     /// <param name="action">The selected battler action.</param>
     [Signal]
-    public delegate void ActionSelectedEventHandler(BattlerAction action);
+    public delegate void ActionSelectedEventHandler(Variant action);
 
     /// <summary>
     /// Emitted whenever a new action is focused on the menu.
     /// </summary>
     /// <param name="action">The focused battler action.</param>
     [Signal]
-    public delegate void ActionFocusedEventHandler(BattlerAction action);
+    public delegate void ActionFocusedEventHandler(Variant action);
 
     /// <summary>
     /// Gets or sets the battler associated with this action menu.
@@ -63,7 +62,7 @@ public partial class UIActionMenu : UIListMenu
             {
                 this.battler.Stats.EnergyChanged += () =>
                 {
-                    foreach (var entry in this.Entries.OfType<UIActionButton>())
+                    foreach (var entry in this.Entries.OfType<UiActionButton>())
                     {
                         bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
                         entry.Disabled = !canUseAction || this.IsDisabled;
@@ -86,7 +85,7 @@ public partial class UIActionMenu : UIListMenu
     /// <inheritdoc/>
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (this.IsDisabled || @event == null)
+        if (this.IsDisabled)
         {
             return;
         }
@@ -105,11 +104,11 @@ public partial class UIActionMenu : UIListMenu
     /// These actions are validated at run-time as they are selected in the menu.
     /// </summary>
     /// <param name="selectedBattler">The battler whose actions to display.</param>
-    /// <param name="battlerList">The battler list to check action validity.</param>
-    public void Setup(Battler selectedBattler, BattlerList battlerList)
+    /// <param name="battlerListParam">The battler list to check action validity.</param>
+    public void Setup(Battler selectedBattler, BattlerList battlerListParam)
     {
         this.Battler = selectedBattler;
-        this.battlerList = battlerList;
+        this.battlerList = battlerListParam;
         this.BuildActionMenu();
 
         this.Show();
@@ -138,18 +137,18 @@ public partial class UIActionMenu : UIListMenu
     /// <param name="entry">The pressed button entry.</param>
     protected override void OnEntryPressed(BaseButton entry)
     {
-        var actionEntry = entry as UIActionButton;
-        if (actionEntry?.Action == null || this.battler == null || this.battlerList == null)
+    var actionEntry = entry as UiActionButton;
+    if (actionEntry is null || actionEntry.Action is null || this.battler is null || this.battlerList is null)
         {
             return;
         }
 
-        var action = actionEntry.Action;
+    var action = actionEntry.Action!;
 
         // First of all, check to make sure that the action has valid targets. If it does
         // not, do not allow selection of the action.
         var possibleTargets = action.GetPossibleTargets(this.battler, this.battlerList);
-        if (possibleTargets == null || possibleTargets.Length == 0)
+        if (possibleTargets.Length == 0)
         {
             // Normally, the button gives up focus when selected (to stop cycling menu during animation).
             // However, the action is invalid and so the menu needs to keep focus for the player to
@@ -192,7 +191,7 @@ public partial class UIActionMenu : UIListMenu
         var anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
         if (anim != null)
         {
-            await this.ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
         }
         else
         {
@@ -211,7 +210,7 @@ public partial class UIActionMenu : UIListMenu
         var anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
         if (anim != null)
         {
-            await this.ToSignal(anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
         }
         else
         {
@@ -236,7 +235,7 @@ public partial class UIActionMenu : UIListMenu
         {
             bool canUseAction = this.battler.Stats?.Energy >= action.EnergyCost;
 
-            var newEntry = this.CreateEntry() as UIActionButton;
+            var newEntry = this.CreateEntry() as UiActionButton;
             if (newEntry != null)
             {
                 newEntry.Action = action;
@@ -247,7 +246,10 @@ public partial class UIActionMenu : UIListMenu
                 {
                     if (!this.IsDisabled)
                     {
-                        this.EmitSignal(SignalName.ActionFocused, newEntry.Action);
+                        if (newEntry.Action is not null)
+                        {
+                            this.EmitSignal(SignalName.ActionFocused, Variant.From(newEntry.Action));
+                        }
                     }
                 };
             }
@@ -259,6 +261,6 @@ public partial class UIActionMenu : UIListMenu
     private async void HandleActionSelected(BattlerAction action)
     {
         await this.CloseAsync().ConfigureAwait(false);
-        this.EmitSignal(SignalName.ActionSelected, action);
+        this.EmitSignal(SignalName.ActionSelected, Variant.From(action));
     }
 }

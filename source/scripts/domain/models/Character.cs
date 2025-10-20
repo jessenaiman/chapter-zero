@@ -377,7 +377,7 @@ namespace OmegaSpiral.Domain.Models
         {
             return commonClass switch
             {
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Fighter => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Fighter => new CharacterClass
                 {
                     Id = "fighter",
                     Name = "Fighter",
@@ -391,7 +391,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 10,
                     IconPath = "res://assets/icons/fighter.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Mage => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Mage => new CharacterClass
                 {
                     Id = "mage",
                     Name = "Mage",
@@ -405,7 +405,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 8,
                     IconPath = "res://assets/icons/mage.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Priest => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Priest => new CharacterClass
                 {
                     Id = "priest",
                     Name = "Priest",
@@ -419,7 +419,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 8,
                     IconPath = "res://assets/icons/priest.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Thief => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Thief => new CharacterClass
                 {
                     Id = "thief",
                     Name = "Thief",
@@ -433,7 +433,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 15,
                     IconPath = "res://assets/icons/thief.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Bard => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Bard => new CharacterClass
                 {
                     Id = "bard",
                     Name = "Bard",
@@ -447,7 +447,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 12,
                     IconPath = "res://assets/icons/bard.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Paladin => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Paladin => new CharacterClass
                 {
                     Id = "paladin",
                     Name = "Paladin",
@@ -461,7 +461,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 9,
                     IconPath = "res://assets/icons/paladin.png"
                 },
-                OmegaSpiral.Source.Scripts.Common.CharacterClass.Ranger => new CharacterClass
+                Source.Scripts.Common.CharacterClass.Ranger => new CharacterClass
                 {
                     Id = "ranger",
                     Name = "Ranger",

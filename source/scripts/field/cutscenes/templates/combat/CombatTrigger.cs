@@ -3,9 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Combat;

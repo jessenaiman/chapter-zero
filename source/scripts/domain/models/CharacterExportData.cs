@@ -2,6 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using System.Globalization;
 
 using Godot;
@@ -26,112 +27,94 @@ namespace OmegaSpiral.Domain.Models
         /// <param name="character">The character to export data from.</param>
         public CharacterExportData(Character character)
         {
-            if (character != null)
+            this.Id = character.Id;
+            this.Name = character.Name;
+            this.Description = character.Description;
+
+            // Export class data
+            this.ClassData = new Dictionary<string, object>
             {
-                this.Id = character.Id;
-                this.Name = character.Name;
-                this.Description = character.Description;
+                ["Id"] = character.Class.Id,
+                ["Name"] = character.Class.Name,
+                ["Description"] = character.Class.Description,
+                ["BaseHealth"] = character.Class.BaseHealth,
+                ["BaseMana"] = character.Class.BaseMana,
+                ["BaseAttack"] = character.Class.BaseAttack,
+                ["BaseDefense"] = character.Class.BaseDefense,
+                ["BaseMagic"] = character.Class.BaseMagic,
+                ["BaseMagicDefense"] = character.Class.BaseMagicDefense,
+                ["BaseSpeed"] = character.Class.BaseSpeed,
+                ["IconPath"] = character.Class.IconPath,
+            };
 
-                // Export class data
-                if (character.Class != null)
-                {
-                    this.ClassData = new Dictionary<string, object>
-                    {
-                        ["Id"] = character.Class.Id,
-                        ["Name"] = character.Class.Name,
-                        ["Description"] = character.Class.Description,
-                        ["BaseHealth"] = character.Class.BaseHealth,
-                        ["BaseMana"] = character.Class.BaseMana,
-                        ["BaseAttack"] = character.Class.BaseAttack,
-                        ["BaseDefense"] = character.Class.BaseDefense,
-                        ["BaseMagic"] = character.Class.BaseMagic,
-                        ["BaseMagicDefense"] = character.Class.BaseMagicDefense,
-                        ["BaseSpeed"] = character.Class.BaseSpeed,
-                        ["IconPath"] = character.Class.IconPath,
-                    };
-                }
+            // Export appearance data
+            this.AppearanceData = new Dictionary<string, object>
+            {
+                ["SkinColor"] = character.Appearance.SkinColor.ToHtml(),
+                ["HairColor"] = character.Appearance.HairColor.ToHtml(),
+                ["EyeColor"] = character.Appearance.EyeColor.ToHtml(),
+                ["HairStyle"] = character.Appearance.HairStyle,
+                ["EyeStyle"] = character.Appearance.EyeStyle,
+                ["ClothingStyle"] = character.Appearance.ClothingStyle,
+                ["Accessory"] = character.Appearance.Accessory,
+                ["SpritePath"] = character.Appearance.SpritePath,
+                ["PortraitPath"] = character.Appearance.PortraitPath,
+                ["HeightScale"] = character.Appearance.HeightScale,
+                ["WidthScale"] = character.Appearance.WidthScale,
+                ["BodyType"] = character.Appearance.BodyType,
+                ["FacialExpression"] = character.Appearance.FacialExpression,
+            };
 
-                // Export appearance data
-                if (character.Appearance != null)
-                {
-                    this.AppearanceData = new Dictionary<string, object>
-                    {
-                        ["SkinColor"] = character.Appearance.SkinColor.ToHtml(),
-                        ["HairColor"] = character.Appearance.HairColor.ToHtml(),
-                        ["EyeColor"] = character.Appearance.EyeColor.ToHtml(),
-                        ["HairStyle"] = character.Appearance.HairStyle,
-                        ["EyeStyle"] = character.Appearance.EyeStyle,
-                        ["ClothingStyle"] = character.Appearance.ClothingStyle,
-                        ["Accessory"] = character.Appearance.Accessory,
-                        ["SpritePath"] = character.Appearance.SpritePath,
-                        ["PortraitPath"] = character.Appearance.PortraitPath,
-                        ["HeightScale"] = character.Appearance.HeightScale,
-                        ["WidthScale"] = character.Appearance.WidthScale,
-                        ["BodyType"] = character.Appearance.BodyType,
-                        ["FacialExpression"] = character.Appearance.FacialExpression,
-                    };
-                }
+            // Export stats data
+            this.StatsData = new Dictionary<string, object>
+            {
+                ["Health"] = character.Stats.Health,
+                ["MaxHealth"] = character.Stats.MaxHealth,
+                ["Mana"] = character.Stats.Mana,
+                ["MaxMana"] = character.Stats.MaxMana,
+                ["Experience"] = character.Stats.Experience,
+                ["Level"] = character.Stats.Level,
+                ["Attack"] = character.Stats.Attack,
+                ["Defense"] = character.Stats.Defense,
+                ["Magic"] = character.Stats.Magic,
+                ["MagicDefense"] = character.Stats.MagicDefense,
+                ["Speed"] = character.Stats.Speed,
+                ["Luck"] = character.Stats.Luck,
+                ["Strength"] = character.Stats.Strength,
+                ["Dexterity"] = character.Stats.Dexterity,
+                ["Constitution"] = character.Stats.Constitution,
+                ["Intelligence"] = character.Stats.Intelligence,
+                ["Wisdom"] = character.Stats.Wisdom,
+                ["Charisma"] = character.Stats.Charisma,
+                ["CriticalChance"] = character.Stats.CriticalChance,
+                ["CriticalDamage"] = character.Stats.CriticalDamage,
+                ["Evasion"] = character.Stats.Evasion,
+                ["Accuracy"] = character.Stats.Accuracy,
+                ["PhysicalResistance"] = character.Stats.PhysicalResistance,
+                ["MagicalResistance"] = character.Stats.MagicalResistance,
+                ["MovementSpeed"] = character.Stats.MovementSpeed,
+                ["ExperienceForNextLevel"] = character.Stats.ExperienceForNextLevel,
+            };
 
-                // Export stats data
-                if (character.Stats != null)
-                {
-                    this.StatsData = new Dictionary<string, object>
-                    {
-                        ["Health"] = character.Stats.Health,
-                        ["MaxHealth"] = character.Stats.MaxHealth,
-                        ["Mana"] = character.Stats.Mana,
-                        ["MaxMana"] = character.Stats.MaxMana,
-                        ["Experience"] = character.Stats.Experience,
-                        ["Level"] = character.Stats.Level,
-                        ["Attack"] = character.Stats.Attack,
-                        ["Defense"] = character.Stats.Defense,
-                        ["Magic"] = character.Stats.Magic,
-                        ["MagicDefense"] = character.Stats.MagicDefense,
-                        ["Speed"] = character.Stats.Speed,
-                        ["Luck"] = character.Stats.Luck,
-                        ["Strength"] = character.Stats.Strength,
-                        ["Dexterity"] = character.Stats.Dexterity,
-                        ["Constitution"] = character.Stats.Constitution,
-                        ["Intelligence"] = character.Stats.Intelligence,
-                        ["Wisdom"] = character.Stats.Wisdom,
-                        ["Charisma"] = character.Stats.Charisma,
-                        ["CriticalChance"] = character.Stats.CriticalChance,
-                        ["CriticalDamage"] = character.Stats.CriticalDamage,
-                        ["Evasion"] = character.Stats.Evasion,
-                        ["Accuracy"] = character.Stats.Accuracy,
-                        ["PhysicalResistance"] = character.Stats.PhysicalResistance,
-                        ["MagicalResistance"] = character.Stats.MagicalResistance,
-                        ["MovementSpeed"] = character.Stats.MovementSpeed,
-                        ["ExperienceForNextLevel"] = character.Stats.ExperienceForNextLevel,
-                    };
-                }
+            // Export state data
+            this.StateData = new Dictionary<string, object>
+            {
+                ["CurrentHealth"] = character.State.CurrentHealth,
+                ["CurrentMana"] = character.State.CurrentMana,
+                ["CurrentLocation"] = character.State.CurrentLocation,
+                ["Status"] = character.State.Status,
+                ["IsInCombat"] = character.State.IsInCombat,
+                ["IsAlive"] = character.State.IsAlive(),
+            };
 
-                // Export state data
-                if (character.State != null)
-                {
-                    this.StateData = new Dictionary<string, object>
-                    {
-                        ["CurrentHealth"] = character.State.CurrentHealth,
-                        ["CurrentMana"] = character.State.CurrentMana,
-                        ["CurrentLocation"] = character.State.CurrentLocation,
-                        ["Status"] = character.State.Status,
-                        ["IsInCombat"] = character.State.IsInCombat,
-                        ["IsAlive"] = character.State.IsAlive(),
-                    };
-                }
-
-                // Export progression data
-                if (character.Progression != null)
-                {
-                    this.ProgressionData = new Dictionary<string, object>
-                    {
-                        ["CurrentExperience"] = character.Progression.CurrentExperience,
-                        ["Gold"] = character.Progression.Gold,
-                        ["IsAvailable"] = character.Progression.IsAvailable,
-                        ["UnlockCondition"] = character.Progression.UnlockCondition,
-                    };
-                }
-            }
+            // Export progression data
+            this.ProgressionData = new Dictionary<string, object>
+            {
+                ["CurrentExperience"] = character.Progression.CurrentExperience,
+                ["Gold"] = character.Progression.Gold,
+                ["IsAvailable"] = character.Progression.IsAvailable,
+                ["UnlockCondition"] = character.Progression.UnlockCondition,
+            };
         }
 
         /// <summary>
@@ -207,7 +190,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets the timestamp of when this data was exported.
         /// </summary>
-        public string ExportTimestamp { get; private set; } = System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+        public string ExportTimestamp { get; private set; } = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Gets the version of the export format.
@@ -254,7 +237,7 @@ namespace OmegaSpiral.Domain.Models
                 exportData.Id = GetStringValue(jsonData, "Id", string.Empty);
                 exportData.Name = GetStringValue(jsonData, "Name", string.Empty);
                 exportData.Description = GetStringValue(jsonData, "Description", string.Empty);
-                exportData.ExportTimestamp = GetStringValue(jsonData, "ExportTimestamp", System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
+                exportData.ExportTimestamp = GetStringValue(jsonData, "ExportTimestamp", DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
                 exportData.Version = GetStringValue(jsonData, "Version", "1.0");
                 exportData.Source = GetStringValue(jsonData, "Source", "OmegaSpiral");
 
@@ -288,7 +271,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (jsonData.ContainsKey(key))
             {
-                return jsonData[key].ToString() ?? defaultValue;
+                return jsonData[key].ToString();
             }
             return defaultValue;
         }
@@ -372,13 +355,13 @@ namespace OmegaSpiral.Domain.Models
         {
             // Create CharacterIdentity
             var identity = new CharacterIdentity(
-                id: this.Id ?? Guid.NewGuid().ToString(),
-                name: this.Name ?? "Unknown Character",
-                description: this.Description ?? "");
+                id: this.Id,
+                name: this.Name,
+                description: this.Description);
 
             // Create CharacterClass
             CharacterClass characterClass;
-            if (this.ClassData.TryGetValue("Id", out object? classIdObj) && classIdObj != null)
+            if (this.ClassData.TryGetValue("Id", out object? classIdObj))
             {
                 characterClass = new CharacterClass
                 {
@@ -415,7 +398,7 @@ namespace OmegaSpiral.Domain.Models
 
             // Create CharacterAppearance
             CharacterAppearance appearance;
-            if (this.AppearanceData.TryGetValue("SkinColor", out object? skinObj) && skinObj != null)
+            if (this.AppearanceData.TryGetValue("SkinColor", out object? skinObj))
             {
                 appearance = new CharacterAppearance
                 {
@@ -611,7 +594,7 @@ namespace OmegaSpiral.Domain.Models
                 throw new InvalidOperationException($"Cannot export character data: {errorString}");
             }
 
-            var disposables = new List<System.IDisposable>();
+            var disposables = new List<IDisposable>();
             try
             {
                 var classDict = ConvertToGodotDict(this.ClassData);
@@ -691,7 +674,7 @@ namespace OmegaSpiral.Domain.Models
 
         private static string GetString(Dictionary<string, object> source, string key, string fallback = "")
         {
-            if (!source.TryGetValue(key, out object? raw) || raw == null)
+            if (!source.TryGetValue(key, out object? raw))
             {
                 return fallback;
             }
@@ -701,32 +684,32 @@ namespace OmegaSpiral.Domain.Models
 
         private static int GetInt(Dictionary<string, object> source, string key, int fallback)
         {
-            if (!source.TryGetValue(key, out object? raw) || raw == null)
+            if (!source.TryGetValue(key, out object? raw))
             {
                 return fallback;
             }
 
-            return System.Convert.ToInt32(raw, CultureInfo.InvariantCulture);
+            return Convert.ToInt32(raw, CultureInfo.InvariantCulture);
         }
 
         private static float GetFloat(Dictionary<string, object> source, string key, float fallback)
         {
-            if (!source.TryGetValue(key, out object? raw) || raw == null)
+            if (!source.TryGetValue(key, out object? raw))
             {
                 return fallback;
             }
 
-            return System.Convert.ToSingle(raw, CultureInfo.InvariantCulture);
+            return Convert.ToSingle(raw, CultureInfo.InvariantCulture);
         }
 
         private static bool GetBool(Dictionary<string, object> source, string key, bool fallback)
         {
-            if (!source.TryGetValue(key, out object? raw) || raw == null)
+            if (!source.TryGetValue(key, out object? raw))
             {
                 return fallback;
             }
 
-            return System.Convert.ToBoolean(raw, CultureInfo.InvariantCulture);
+            return Convert.ToBoolean(raw, CultureInfo.InvariantCulture);
         }
     }
 }

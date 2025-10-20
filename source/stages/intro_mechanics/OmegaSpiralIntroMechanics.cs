@@ -2,8 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Godot;
 
 namespace OmegaSpiral.Source.Narrative.IntroMechanics;

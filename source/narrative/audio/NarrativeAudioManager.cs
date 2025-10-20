@@ -3,7 +3,6 @@
 // </copyright>
 
 using Godot;
-using System;
 
 namespace OmegaSpiral.Source.Narrative.Audio;
 /// <summary>

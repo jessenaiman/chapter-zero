@@ -2,11 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
-using Godot.Collections;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
 {
@@ -104,7 +101,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
 
                 battler.HealthDepleted += () =>
                 {
-                    if (GodotObject.IsInstanceValid(icon))
+                    if (IsInstanceValid(icon))
                     {
                         icon.FadeOut();
                     }
@@ -116,7 +113,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
                     // In this case, the UIBattlerIcon is probably already freed when the Battler's readiness
                     // changes after the action has finished.
                     // Thus, we need to make sure that the icon is valid before updating it.
-                    if (GodotObject.IsInstanceValid(icon))
+                    if (IsInstanceValid(icon))
                     {
                         icon.Progress = readiness / 100.0f;
                     }

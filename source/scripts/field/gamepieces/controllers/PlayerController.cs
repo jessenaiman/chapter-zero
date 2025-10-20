@@ -3,14 +3,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
-using OmegaSpiral.Field;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field.cutscenes;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
-using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers;
 /// <summary>
@@ -85,7 +80,7 @@ public partial class PlayerController : GamepieceController
             // moving towards.
             this.Gamepiece.WaypointChanged += (newWaypoint) =>
             {
-                if (newWaypoint == global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard.InvalidCell)
+                if (newWaypoint == gameboard.Gameboard.InvalidCell)
                 {
                     if (this.playerCollision != null)
                     {

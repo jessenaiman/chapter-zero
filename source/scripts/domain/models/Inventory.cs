@@ -8,7 +8,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets or sets the unique identifier for the inventory.
         /// </summary>
-        public string Id { get; set; } = System.Guid.NewGuid().ToString();
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Gets or sets the maximum number of item slots in the inventory.
@@ -72,7 +72,7 @@ namespace OmegaSpiral.Domain.Models
         {
             this.MaxSize = maxSize;
             this.MaxWeight = maxWeight;
-            this.Id = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString() : id;
+            this.Id = string.IsNullOrEmpty(id) ? Guid.NewGuid().ToString() : id;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace OmegaSpiral.Domain.Models
             if (string.IsNullOrEmpty(itemId) || quantity <= 0 || !this.ItemQuantities.TryGetValue(itemId, out int value))
                 return 0;
 
-            int actualQuantity = System.Math.Min(quantity, value);
+            int actualQuantity = Math.Min(quantity, value);
             this.ItemQuantities[itemId] -= actualQuantity;
 
             if (this.ItemQuantities[itemId] <= 0)

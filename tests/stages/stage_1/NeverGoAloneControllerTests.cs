@@ -3,8 +3,6 @@ using static GdUnit4.Assertions;
 using GdUnit4;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OmegaSpiral.Tests.Narrative
 {
@@ -40,11 +38,11 @@ namespace OmegaSpiral.Tests.Narrative
 
             // Assert
             var stageData = this.controller.GetStageData();
-            GdUnit4.Assertions.AssertThat(stageData).IsNotNull();
-            GdUnit4.Assertions.AssertThat(stageData["stage_id"].AsString()).IsEqual("stage3_never_go_alone");
-            GdUnit4.Assertions.AssertThat(stageData["stage_name"].AsString()).IsEqual("Never Go Alone");
-            GdUnit4.Assertions.AssertThat(stageData["stage_beats"].AsGodotArray()).IsNotNull();
-            GdUnit4.Assertions.AssertThat(stageData["stage_beats"].AsGodotArray().Count).IsEqual(6);
+            AssertThat(stageData).IsNotNull();
+            AssertThat(stageData["stage_id"].AsString()).IsEqual("stage3_never_go_alone");
+            AssertThat(stageData["stage_name"].AsString()).IsEqual("Never Go Alone");
+            AssertThat(stageData["stage_beats"].AsGodotArray()).IsNotNull();
+            AssertThat(stageData["stage_beats"].AsGodotArray().Count).IsEqual(6);
         }
 
         [TestCase]
@@ -84,7 +82,7 @@ namespace OmegaSpiral.Tests.Narrative
             AssertThat(stageData).IsEmpty();
 
             // Cleanup
-            Godot.DirAccess.RemoveAbsolute(tempPath);
+            DirAccess.RemoveAbsolute(tempPath);
             // Cannot modify const field - skipping this test case
         }
 

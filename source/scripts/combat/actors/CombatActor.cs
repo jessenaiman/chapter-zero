@@ -3,10 +3,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Combat.actors;
+namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// <summary>
 /// Actors take turns based on their initiative value. Higher initiative means
 /// they act earlier in the turn order. Each actor completes their full turn before

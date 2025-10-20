@@ -2,11 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.persistence

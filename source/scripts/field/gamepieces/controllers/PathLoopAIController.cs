@@ -3,10 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.gameboard;
 
 namespace OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers;
 /// <summary>
@@ -45,7 +42,7 @@ public partial class PathLoopAIController : GamepieceController
 
     private global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard? GetGameboard()
     {
-        if (this.gameboard == null || !GodotObject.IsInstanceValid(this.gameboard))
+        if (this.gameboard == null || !IsInstanceValid(this.gameboard))
         {
             this.gameboard = this.GetNodeOrNull<global::OmegaSpiral.Source.Scripts.Field.gameboard.Gameboard>("/root/Gameboard");
         }

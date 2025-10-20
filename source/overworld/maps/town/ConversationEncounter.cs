@@ -5,6 +5,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Field;
+using OmegaSpiral.Source.Scripts.Combat;
 
 namespace OmegaSpiral.Source.Overworld.Maps.town;
 /// <summary>

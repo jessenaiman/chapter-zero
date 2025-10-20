@@ -6,7 +6,6 @@ using System.Text.Json;
 using Godot;
 using Microsoft.EntityFrameworkCore;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.persistence;
 
 namespace OmegaSpiral.Source.Scripts.persistence
 {

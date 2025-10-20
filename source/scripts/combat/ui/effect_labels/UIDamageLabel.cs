@@ -5,7 +5,7 @@
 
 using Godot;
 using System.Globalization;
-using OmegaSpiral.Source.Scripts.Combat.Actions;
+using OmegaSpiral.Source.Combat.Actions;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
 /// <summary>

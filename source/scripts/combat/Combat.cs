@@ -1,8 +1,6 @@
 
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using System;
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Combat;
 

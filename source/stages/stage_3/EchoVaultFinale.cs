@@ -1,7 +1,5 @@
-using System.Linq;
 using System.Globalization;
 using Godot;
-using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;

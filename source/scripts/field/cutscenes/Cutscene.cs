@@ -3,7 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
 
 namespace OmegaSpiral.Source.Scripts.Field.cutscenes;

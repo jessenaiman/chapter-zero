@@ -3,9 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
 namespace OmegaSpiral.Source.Overworld.Maps.forest;
@@ -89,7 +87,7 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
         if (this.GhostAnimationPlayer != null)
         {
             this.GhostAnimationPlayer.Play("lunge");
-            await this.ToSignal(this.GhostAnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.GhostAnimationPlayer, AnimationMixer.SignalName.AnimationFinished);
         }
 
         // Lock input by waiting forever (infinite wait)

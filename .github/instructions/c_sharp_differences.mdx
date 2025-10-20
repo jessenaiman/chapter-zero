@@ -331,14 +331,14 @@ For example:
 
 However C# does not have this ability. To achieve the same effect you need to do this.
 
-.. code-block:: csharp
+```cs
+private Label _myLabel;
 
-    private Label _myLabel;
-
-    public override void _Ready()
-    {
-        _myLabel = GetNode<Label>("MyLabel");
-    }
+public override void _Ready()
+{
+    _myLabel = GetNode<Label>("MyLabel");
+}
+```
 
 Singletons
 ----------
@@ -640,14 +640,14 @@ Some methods such as ``bind`` and ``unbind`` are not implemented, use lambdas in
 
 .. code-block:: csharp
 
-    string name = "John Doe";
-    Callable callable = Callable.From(() => SayHello(name));
+    string name = "World";
+    Callable sayHello = new Callable(() => SayHello(name));
 
     void SayHello(string name)
     {
-        GD.Print($"Hello {name}");
+        GD.Print($"Hello, {name}!");
     }
-
+```
 The lambda captures the ``name`` variable so it can be bound to the ``SayHello`` method.
 
 RID

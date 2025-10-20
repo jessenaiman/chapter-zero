@@ -2,7 +2,6 @@ using GdUnit4;
 using Godot;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Stages.Stage3;
-using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Stages.Stage3;
 
@@ -32,7 +31,7 @@ public partial class EchoVaultDirectorTests : Node
     [TestCase]
     public void FactoryMapsEchoVaultData()
     {
-        var config = OmegaSpiral.Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://source/stages/stage_3/stage3.json");
+        var config = Source.Scripts.Infrastructure.ConfigurationService.LoadConfiguration("res://source/stages/stage_3/stage3.json");
         NarrativeSceneData data = NarrativeSceneFactory.Create(config);
 
         Assertions.AssertThat(data.EchoVault).IsNotNull();

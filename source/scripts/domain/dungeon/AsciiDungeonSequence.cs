@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.domain.Dungeon.Models;

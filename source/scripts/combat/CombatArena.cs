@@ -4,7 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Combat;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Scripts.Combat.UI;
 using OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
@@ -93,7 +92,7 @@ public partial class CombatArena : Control
 
         // Smoothly fade in the UI elements.
         this.uiAnimation.Play("fade_in");
-        await this.ToSignal(this.uiAnimation, AnimationPlayer.SignalName.AnimationFinished);
+        await this.ToSignal(this.uiAnimation, AnimationMixer.SignalName.AnimationFinished);
 
         // Begin the combat logic.
         this.turnQueue.IsActive = true;

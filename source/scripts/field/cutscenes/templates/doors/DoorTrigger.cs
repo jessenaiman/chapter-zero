@@ -4,7 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.cutscenes;
 
 namespace OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Doors;
 /// <summary>

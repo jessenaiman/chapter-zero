@@ -3,12 +3,10 @@
 // </copyright>
 
 using Godot;
-
-using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers.Cursor;
 
-namespace OmegaSpiral.Field;
+namespace OmegaSpiral.Source.Scripts.Field;
 
 /// <summary>
 /// A signal bus to connect distant scenes to various field-exclusive events.

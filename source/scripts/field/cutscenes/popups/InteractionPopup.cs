@@ -3,7 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.UI.Popups;
 

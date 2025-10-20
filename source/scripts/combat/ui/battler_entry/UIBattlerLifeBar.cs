@@ -3,7 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 

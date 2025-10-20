@@ -3,7 +3,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Popups;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Conversations;
@@ -53,7 +52,7 @@ public partial class StrangeTreeInteraction : ConversationTemplate
     {
         if (this.anim != null)
         {
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
         }
     }
 

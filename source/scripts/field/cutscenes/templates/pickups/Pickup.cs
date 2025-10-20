@@ -4,8 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.cutscenes;
-using System.Threading.Tasks;
 
 namespace OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Pickups;
 /// <summary>
@@ -76,7 +74,7 @@ public partial class Pickup : Trigger
         if (this.anim != null)
         {
             this.anim.Play("PickupAnimations/obtain");
-            await this.ToSignal(this.anim, AnimationPlayer.SignalName.AnimationFinished);
+            await this.ToSignal(this.anim, AnimationMixer.SignalName.AnimationFinished);
         }
 
         // Add the item to the player's inventory

@@ -4,7 +4,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral;
 using OmegaSpiral.Source.Scripts.Field;
 
 namespace OmegaSpiral.Source.Overworld.Maps.town;
