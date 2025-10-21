@@ -164,7 +164,7 @@ After build passes, you have:
 
 ```bash
 # Open Godot editor
-/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64/Godot_v4.5.1-stable_mono_linux.x86_64 \
+/home/adam/Godot_v4.6-dev-2_mono_linux_x86_64/Godot_v4.6-dev-2_mono_linux.x86_64 \
   --path /home/adam/Dev/omega-spiral/chapter-zero
 ```
 

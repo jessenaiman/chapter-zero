@@ -144,13 +144,8 @@ public partial class GdUnit4CSharpApi : GdUnit4NetApiGodotBridge
         }
     }
 
-    /// <summary>
-    /// Convert a set of Tests stored as Dictionaries to TestSuiteNode.
-    /// All tests are assigned to a single test suit.
-    /// </summary>
-    /// <param name="tests">An array of dictionaries containing test data.</param>
-    /// <returns>A <see cref="TestSuiteNode"/> built from the provided tests.</returns>
-    /// <exception cref="InvalidOperationException">Thrown when the tests array is empty.</exception>
+    // Convert a set of Tests stored as Dictionaries to TestSuiteNode
+    // all tests are assigned to a single test suit
     internal static TestSuiteNode BuildTestSuiteNodeFrom(Array<Dictionary> tests)
     {
         if (tests.Count == 0)

@@ -254,7 +254,7 @@ dotnet test --filter "FullyQualifiedName~BootSequence"
 dotnet test --filter "FullyQualifiedName~Stage1"
 
 # Run in Godot headless
-/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64/Godot_v4.5.1-stable_mono_linux.x86_64 \
+/home/adam/Godot_v4.6-dev-2_mono_linux_x86_64/Godot_v4.6-dev-2_mono_linux.x86_64 \
   --path /home/adam/Dev/omega-spiral/chapter-zero --headless --test
 
 # Find all TODO comments

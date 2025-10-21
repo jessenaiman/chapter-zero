@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmo431ui70i6c"]
+[gd_scene load_steps=8 format=3 uid="uid://cbi2wov5gp7mk"]
 
-[ext_resource type="Script" uid="uid://kx35ftvnqmru" path="res://source/scripts/ui/menus/StageSelectMenu.cs" id="1_stage_select"]
+[ext_resource type="Script" uid="uid://de0fj467i06il" path="res://source/scripts/ui/menus/StageSelectMenu.cs" id="1_stage_select"]
 [ext_resource type="FontFile" uid="uid://cfhyd5hmym1s4" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="2_font"]
 [ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="3_bg_shader"]
 [ext_resource type="Material" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
@@ -21,16 +21,18 @@ corner_radius_bottom_left = 12
 shadow_color = Color(0.05, 0.45, 0.25, 0.35)
 shadow_size = 6
 
-[node name="StageSelectMenu" type="Control"]
+[node name="StageSelectMenu" type="Control" unique_id=1135666820]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_stage_select")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1357775153]
 material = ExtResource("3_bg_shader")
 layout_mode = 1
 anchors_preset = 15
@@ -40,7 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TerminalFrame" type="Panel" parent="."]
+[node name="TerminalFrame" type="Panel" parent="." unique_id=772868904]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,7 +52,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("TerminalStyle")
 
-[node name="ShaderLayers" type="Control" parent="."]
+[node name="ShaderLayers" type="Control" parent="." unique_id=1780331653]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PhosphorLayer" type="ColorRect" parent="ShaderLayers"]
+[node name="PhosphorLayer" type="ColorRect" parent="ShaderLayers" unique_id=1929459256]
 unique_name_in_owner = true
 material = ExtResource("5_phosphor")
 layout_mode = 1
@@ -71,7 +73,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="ScanlineLayer" type="ColorRect" parent="ShaderLayers"]
+[node name="ScanlineLayer" type="ColorRect" parent="ShaderLayers" unique_id=1439403984]
 unique_name_in_owner = true
 material = ExtResource("4_scanlines")
 layout_mode = 1
@@ -83,7 +85,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="GlitchLayer" type="ColorRect" parent="ShaderLayers"]
+[node name="GlitchLayer" type="ColorRect" parent="ShaderLayers" unique_id=953422858]
 unique_name_in_owner = true
 material = ExtResource("6_glitch")
 layout_mode = 1
@@ -95,7 +97,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="MenuContainer" type="CenterContainer" parent="." unique_id=1227195279]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,83 +105,110 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(720, 400)
+[node name="MenuContent" type="VBoxContainer" parent="MenuContainer" unique_id=2101642074]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 20
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme_override_constants/separation = 24
+alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="TitleMargin" type="MarginContainer" parent="MenuContainer/MenuContent" unique_id=1227195280]
 layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 16
+
+[node name="TitleLabel" type="Label" parent="MenuContainer/MenuContent/TitleMargin" unique_id=253933637]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 48
 text = "Ωmega Spiral"
 horizontal_alignment = 1
 
-[node name="DescriptionLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="DescriptionMargin" type="MarginContainer" parent="MenuContainer/MenuContent" unique_id=1227195281]
 layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+
+[node name="DescriptionLabel" type="Label" parent="MenuContainer/MenuContent/DescriptionMargin" unique_id=1171348114]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 text = "Stage Select - Development Menu"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
+[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuContainer/MenuContent" unique_id=1227195282]
 layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="ButtonContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MenuButtonsContainer" type="CenterContainer" parent="MenuContainer/MenuContent/MenuButtonsMargin" unique_id=1227195283]
 layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuButtonsBoxContainer" type="VBoxContainer" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer" unique_id=19222962]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_constants/separation = 10
+alignment = 1
 
-[node name="Stage1Button" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="Stage1Button" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1555904632]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "Stage 1: Ghost Terminal"
 
-[node name="Stage2Button" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="Stage2Button" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=635948941]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "Stage 2: Echo Hub"
 
-[node name="Stage3Button" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="Stage3Button" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1376298851]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "Stage 3: Echo Vault"
 
-[node name="Stage4Button" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="Stage4Button" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=995697321]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "Stage 4: Town Exploration"
 
-[node name="Stage5Button" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="Stage5Button" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1059926429]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "Stage 5: Fractured Escape"
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/VBoxContainer/ButtonContainer"]
+[node name="HSeparator2" type="HSeparator" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1375276755]
 layout_mode = 2
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonContainer"]
-custom_minimum_size = Vector2(400, 50)
+[node name="QuitButton" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=632770627]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20

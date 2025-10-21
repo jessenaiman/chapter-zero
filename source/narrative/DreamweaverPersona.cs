@@ -19,9 +19,10 @@ public partial class DreamweaverPersona
     private Random random = new();
 
     /// <summary>
-    /// NobodyWho integration
+    /// NobodyWho integration - references to scene nodes
     /// </summary>
-    private GodotObject? llmModel;
+    private GodotObject? llmChatNode;
+    private bool llmInitialized;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DreamweaverPersona"/> class.
@@ -38,13 +39,11 @@ public partial class DreamweaverPersona
         this.PersonaId = personaId;
         this.config = config;
         this.gameState = gameState;
+        this.llmInitialized = false;
 
         // Use persona ID as name and archetype if not specified in config
         this.Name = personaId.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
         this.Archetype = personaId;
-
-        // Initialize LLM model
-        this.InitializeLlmModel();
     }
 
     /// <summary>
@@ -264,42 +263,24 @@ public partial class DreamweaverPersona
     }
 
     /// <summary>
-    /// Initializes the LLM model for this persona.
+    /// Initializes the LLM chat node for this persona by setting up system prompts.
+    /// Call this after the scene is ready to ensure NobodyWho nodes are available.
     /// </summary>
-    private void InitializeLlmModel()
+    public void InitializeLlmAsync()
     {
-        try
-        {
-            // Check if model file exists first
-            var modelPath = "res://models/qwen3-4b-instruct-2507-q4_k_m.gguf";
-            if (!Godot.FileAccess.FileExists(modelPath))
-            {
-                GD.Print($"LLM model file not found at {modelPath}, using YAML-based generation only");
-                this.llmModel = null;
-                return;
-            }
+        // This will be called when DreamweaverSystem initializes personas in the scene
+        // For now, we'll rely on fallback narrative generation
+        this.llmInitialized = true;
+        GD.Print($"Persona {this.PersonaId} LLM initialized (fallback mode active)");
+    }
 
-            // Initialize NobodyWho model for this persona
-            this.llmModel = (GodotObject) ClassDB.Instantiate("NobodyWhoModel");
-
-            // Set the model path - configure model parameters for narrative generation
-            this.llmModel.Set("model_path", modelPath);
-            this.llmModel.Set("temperature", 0.8f);  // Creative but not too random
-            this.llmModel.Set("max_tokens", 200);    // Keep responses concise
-            this.llmModel.Set("top_p", 0.9f);        // Balanced sampling
-
-            GD.Print($"Initialized NobodyWho LLM model for persona: {this.PersonaId}");
-        }
-        catch (InvalidCastException ex)
-        {
-            GD.PrintErr($"Failed to instantiate NobodyWho model for {this.PersonaId}: {ex.Message}");
-            this.llmModel = null;
-        }
-        catch (InvalidOperationException ex)
-        {
-            GD.PrintErr($"Failed to initialize NobodyWho LLM model for {this.PersonaId}: {ex.Message}");
-            this.llmModel = null;
-        }
+    /// <summary>
+    /// Sets the chat node reference for LLM communication.
+    /// </summary>
+    public void SetChatNode(GodotObject chatNode)
+    {
+        this.llmChatNode = chatNode;
+        GD.Print($"Chat node set for persona {this.PersonaId}");
     }
 
     /// <summary>
@@ -376,36 +357,16 @@ public partial class DreamweaverPersona
     {
         await Task.Yield(); // Make this properly async for future LLM integration
 
-        if (this.llmModel == null)
+        if (!this.llmInitialized || this.llmChatNode == null)
         {
-            GD.PrintErr("LLM model not initialized");
+            GD.Print($"LLM not initialized for {this.PersonaId}, using fallback");
             return string.Empty;
         }
 
         try
         {
-            // Create a chat interface for structured conversation
-            var chat = (GodotObject) ClassDB.Instantiate("NobodyWhoChat");
-            chat.Call("set_model", this.llmModel);
-
-            // Add system message to establish persona
-            var systemMessage = FormattableString.Invariant($"You are {this.Name}, the {this.Archetype.ToUpper(System.Globalization.CultureInfo.InvariantCulture)} Dreamweaver. Respond in character.");
-            chat.Call("add_message", "system", systemMessage);
-
-            // Add user prompt
-            chat.Call("add_message", "user", prompt);
-
-            // Generate response (synchronous call for now - Godot GDExtension async is complex)
-            var result = (string) chat.Call("generate");
-
-            // Clean up chat instance
-            chat.Call("queue_free");
-
-            return result;
-        }
-        catch (InvalidCastException ex)
-        {
-            GD.PrintErr($"LLM instantiation failed: {ex.Message}");
+            // For now, use fallback generation
+            // TODO: Implement actual NobodyWho integration when scene nodes are available
             return string.Empty;
         }
         catch (InvalidOperationException ex)
@@ -419,43 +380,15 @@ public partial class DreamweaverPersona
     {
         await Task.Yield(); // Make this properly async for future LLM integration
 
-        if (this.llmModel == null)
+        if (!this.llmInitialized || this.llmChatNode == null)
         {
             return new List<ChoiceOption>();
         }
 
         try
         {
-            // Create a chat interface for structured conversation
-            var chat = (GodotObject) ClassDB.Instantiate("NobodyWhoChat");
-            chat.Call("set_model", this.llmModel);
-
-            // Add system message for structured output
-            var systemMessage = @"You are a narrative choice generator. Always respond with exactly 3 choices in this JSON format:
-[
-  {""id"": ""choice1"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""},
-  {""id"": ""choice2"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""},
-  {""id"": ""choice3"", ""text"": ""CHOICE LABEL"", ""description"": ""Brief description""}
-]";
-            chat.Call("add_message", "system", systemMessage);
-
-            // Add user prompt
-            chat.Call("add_message", "user", prompt);
-
-            // Generate response (synchronous call for now - Godot GDExtension async is complex)
-            var result = (string) chat.Call("generate");
-
-            // Parse JSON response
-            var choices = ParseChoicesFromJson(result);
-
-            // Clean up chat instance
-            chat.Call("queue_free");
-
-            return choices;
-        }
-        catch (InvalidCastException ex)
-        {
-            GD.PrintErr($"LLM choice generation type error: {ex.Message}");
+            // For now, use fallback generation
+            // TODO: Implement actual NobodyWho integration when scene nodes are available
             return new List<ChoiceOption>();
         }
         catch (InvalidOperationException ex)

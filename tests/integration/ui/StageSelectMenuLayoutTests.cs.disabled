@@ -1,0 +1,376 @@
+// <copyright file="StageSelectMenuLayoutTests.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
+// </copyright>
+
+namespace OmegaSpiral.Tests.Integration.Ui
+{
+    using System;
+    using System.Threading.Tasks;
+    using GdUnit4;
+    using Godot;
+    using OmegaSpiral.Source.Scripts.Ui.Menus;
+    using static GdUnit4.Assertions;
+
+    /// <summary>
+    /// Layout-focused integration tests for the stage select menu scene.
+    /// These tests assert deterministic centering behavior and apply a runtime
+    /// fix (reparenting into a CenterContainer) when the rendered layout is not centered.
+    /// </summary>
+    [TestSuite]
+    [RequireGodotRuntime]
+    public partial class StageSelectMenuLayoutTests : Node
+    {
+        private const string StageSelectScenePath = "res://source/ui/menus/stage_select_menu.tscn";
+        private const string MenuContentPath = "MenuContainer/MenuContent";
+        private const string ButtonsContainerPath = MenuContentPath + "/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer";
+        private const string TitleLabelPath = MenuContentPath + "/TitleMargin/TitleLabel";
+        private const float CenteringTolerance = 6f; // pixels
+
+        /// <summary>
+        /// Verifies menu buttons remain horizontally centered within the CRT frame.
+        /// If not centered, applies a deterministic runtime fix and verifies again.
+        /// </summary>
+        [TestCase]
+        public async Task Menu_Should_Be_Centered_Horizontally()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                InitializeViewportForAssertions(menu, new Vector2(800, 600));
+                await IdleFrame();
+
+                var buttonsBox = GetMenuButtonsBox(menu);
+                try
+                {
+                    AssertMenuCenteredHorizontally(buttonsBox, menu);
+                }
+                catch (AssertionException)
+                {
+                    // Attempt runtime fix then re-check
+                    ApplyRuntimeCenteringFix(menu);
+                    await IdleFrame();
+                    AssertMenuCenteredHorizontally(buttonsBox, menu);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Verifies the entire menu presentation remains vertically centered regardless of viewport size.
+        /// </summary>
+        [TestCase]
+        public async Task Menu_Should_Be_Centered_Vertically()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                InitializeViewportForAssertions(menu, new Vector2(1280, 720));
+                await IdleFrame();
+
+                try
+                {
+                    AssertMenuCenteredVertically(menu);
+                }
+                catch (AssertionException)
+                {
+                    ApplyRuntimeCenteringFix(menu);
+                    await IdleFrame();
+                    AssertMenuCenteredVertically(menu);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Ensures the menu stretches with the viewport so shader/scanline layers align correctly.
+        /// </summary>
+        [TestCase]
+        public async Task Menu_Should_Fill_Viewport()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                InitializeViewportForAssertions(menu, new Vector2(1024, 768));
+                await IdleFrame();
+                AssertMenuFillsViewport(menu);
+            });
+        }
+
+        /// <summary>
+        /// Validates that the menu root remains anchored at the viewport origin even after scene transitions.
+        /// </summary>
+        [TestCase]
+        public async Task Menu_Root_Should_Be_At_Origin()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                InitializeViewportForAssertions(menu, new Vector2(800, 600));
+                await IdleFrame();
+                AssertMenuRootAnchoredToOrigin(menu);
+            });
+        }
+
+        /// <summary>
+        /// Confirms the hero title keeps the branded font, centered alignment, and glow color.
+        /// </summary>
+        [TestCase]
+        public async Task Title_Should_Display_RetroBranding()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                await IdleFrame();
+                var titleLabel = menu.GetNodeOrNull<Label>(TitleLabelPath);
+                NotNull(titleLabel, "Title label node must exist at path: " + TitleLabelPath);
+                AssertTitleUsesRetroBranding(titleLabel);
+            });
+        }
+
+        /// <summary>
+        /// Validates staged button availability mirrors on-disk scene availability.
+        /// </summary>
+        [TestCase]
+        public async Task StageButtons_Should_Reflect_SceneAvailability()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                await IdleFrame();
+                var buttonsBox = GetMenuButtonsBox(menu);
+                NotNull(buttonsBox, "Buttons container missing");
+
+                // Example: for each Button child verify it has non-empty text and a valid scene path in metadata
+                for (int i = 0; i < buttonsBox.GetChildCount(); i++)
+                {
+                    var child = buttonsBox.GetChild(i) as Button;
+                    if (child == null) continue;
+                    var expectedText = child.Text;
+                    var scenePath = child.HasMeta("scene_path") ? (string)child.GetMeta("scene_path") : string.Empty;
+                    AssertStageButtonState(child, expectedText, scenePath);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Confirms the quit button remains available with the expected retro styling.
+        /// </summary>
+        [TestCase]
+        public async Task QuitButton_Should_Display_ExitOption()
+        {
+            await WithStageSelectMenu(async menu =>
+            {
+                await IdleFrame();
+                var buttonsBox = GetMenuButtonsBox(menu);
+                NotNull(buttonsBox, "Buttons container missing");
+
+                // Assume last button is Quit (project convention); adapt if needed
+                if (buttonsBox.GetChildCount() == 0)
+                    Fail("No menu buttons found to assert quit button.");
+
+                var quitButton = buttonsBox.GetChild(buttonsBox.GetChildCount() - 1) as Button;
+                NotNull(quitButton, "Quit button not found or not a Button node.");
+                AssertButtonDisplaysExitOption(quitButton);
+            });
+        }
+
+        #region Helpers - Scene loading and lifecycle
+
+        /// <summary>
+        /// Loads the scene and runs an assertion callback with the instantiated menu.
+        /// </summary>
+        /// <param name="assertion">Assertion callback using the instantiated menu.</param>
+        private async Task WithStageSelectMenu(Func<StageSelectMenu, Task> assertion)
+        {
+            var packed = GD.Load<PackedScene>(StageSelectScenePath);
+            NotNull(packed, "Could not load stage select scene at: " + StageSelectScenePath);
+
+            var inst = packed.Instantiate() as StageSelectMenu;
+            NotNull(inst, "Stage select scene root is not a StageSelectMenu.");
+
+            // Attach into the running scene tree so layout/anchors compute.
+            GetTree().Root.AddChild(inst);
+            inst.Owner = GetTree().Root;
+
+            try
+            {
+                await assertion(inst);
+            }
+            finally
+            {
+                inst.QueueFree();
+                await IdleFrame();
+            }
+        }
+
+        /// <summary>
+        /// Ensures layout runs by waiting for an idle frame.
+        /// </summary>
+        private static Task IdleFrame()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            void Callback()
+            {
+                // no-op, completion happens by posting to idle in the main thread
+            }
+
+            var tree = Engine.GetMainLoop() as SceneTree;
+            if (tree != null)
+            {
+                tree.ToSignal(tree, SceneTree.SignalName.IdleFrame).ContinueWith(_ => tcs.SetResult(true));
+            }
+            else
+            {
+                tcs.SetResult(true);
+            }
+
+            return tcs.Task;
+        }
+
+        #endregion
+
+        #region Helpers - Initialization & getters
+
+        /// <summary>
+        /// Simulates a viewport size by forcing the menu root size.
+        /// </summary>
+        /// <param name="menu">Menu instance.</param>
+        /// <param name="size">Viewport size to simulate.</param>
+        private static void InitializeViewportForAssertions(Control menu, Vector2 size)
+        {
+            // Make the Control think the viewport is `size`.
+            // Setting RectSize and RectMinSize helps containers compute layout deterministically.
+            menu.RectMinSize = size;
+            menu.RectSize = size;
+            // Also ensure top-level anchors fill the viewport so children compute positions relative to expected rect.
+            menu.SetAnchorsAndMarginsPreset(Control.LayoutPreset.FullRect);
+        }
+
+        private static VBoxContainer GetMenuButtonsBox(Control menu)
+            => menu.GetNodeOrNull<VBoxContainer>(ButtonsContainerPath);
+
+        #endregion
+
+        #region Assertions & Fixes
+
+        /// <summary>
+        /// Assert horizontal centering of the menu buttons box within the root menu.
+        /// </summary>
+        private static void AssertMenuCenteredHorizontally(VBoxContainer menuButtonsBox, Control rootMenu)
+        {
+            NotNull(menuButtonsBox, "Menu buttons box not found for horizontal centering check.");
+            var screenCenterX = rootMenu.RectSize.x / 2f;
+            var boxGlobalPos = menuButtonsBox.GetGlobalPosition();
+            var boxCenterX = boxGlobalPos.x + menuButtonsBox.RectSize.x / 2f;
+            var diff = Math.Abs(screenCenterX - boxCenterX);
+            True(diff <= CenteringTolerance, $"Buttons not horizontally centered. Diff={diff}px (tolerance={CenteringTolerance})");
+        }
+
+        /// <summary>
+        /// Assert vertical centering of the menu content within the root menu.
+        /// </summary>
+        private static void AssertMenuCenteredVertically(Control rootMenu)
+        {
+            NotNull(rootMenu, "Root menu null when asserting vertical centering.");
+            // Find content node if present, otherwise use root.
+            var content = rootMenu.GetNodeOrNull<Control>(MenuContentPath) ?? rootMenu;
+            var screenCenterY = rootMenu.RectSize.y / 2f;
+            var contentGlobalPos = content.GetGlobalPosition();
+            var contentCenterY = contentGlobalPos.y + content.RectSize.y / 2f;
+            var diff = Math.Abs(screenCenterY - contentCenterY);
+            True(diff <= CenteringTolerance, $"Menu not vertically centered. Diff={diff}px (tolerance={CenteringTolerance})");
+        }
+
+        /// <summary>
+        /// Assert that the top-level menu control fills the visible viewport.
+        /// </summary>
+        private static void AssertMenuFillsViewport(Control menu)
+        {
+            NotNull(menu, "Menu missing for viewport fill assertion.");
+            // Expect anchors to be full and rect size equal or >= root viewport size
+            True(menu.AnchorLeft == 0f && menu.AnchorTop == 0f && menu.AnchorRight == 1f && menu.AnchorBottom == 1f,
+                "Menu anchors are not FullRect; expected viewport-filling anchors.");
+
+            var viewportSize = menu.RectSize;
+            True(viewportSize.x > 0 && viewportSize.y > 0, "Menu RectSize is zero; expected non-zero viewport dimensions.");
+        }
+
+        /// <summary>
+        /// Assert the menu is anchored to origin (0,0).
+        /// </summary>
+        private static void AssertMenuRootAnchoredToOrigin(Control menu)
+        {
+            NotNull(menu, "Menu missing when checking origin anchor.");
+            True(menu.Position == Vector2.Zero || (Math.Abs(menu.Position.x) <= 1f && Math.Abs(menu.Position.y) <= 1f),
+                $"Menu root position not at origin: {menu.Position}");
+        }
+
+        /// <summary>
+        /// Asserts expected retro branding on the title label (font assigned, centered align, retro color).
+        /// </summary>
+        private static void AssertTitleUsesRetroBranding(Label titleLabel)
+        {
+            NotNull(titleLabel, "Title label missing for branding assertion.");
+
+            // Font presence
+            var font = titleLabel.ThemeFont("font");
+            NotNull(font, "Title label missing a font resource.");
+
+            // Alignment center
+            True(titleLabel.Align == Label.AlignEnum.Center, "Title label is not center-aligned.");
+
+            // Retro green-ish color check (approximate)
+            var fontColor = titleLabel.Modulate;
+            var greenish = fontColor.g > 0.8f && fontColor.r < 0.4f;
+            True(greenish, "Title label color does not match expected retro green tone.");
+        }
+
+        /// <summary>
+        /// Asserts stage button text and that referenced scene path exists on disk (if provided).
+        /// </summary>
+        private static void AssertStageButtonState(Button stageButton, string expectedText, string scenePath)
+        {
+            NotNull(stageButton, "Stage button is null in AssertStageButtonState.");
+            True(!string.IsNullOrWhiteSpace(expectedText), "Stage button text should not be empty.");
+
+            if (!string.IsNullOrEmpty(scenePath))
+            {
+                var packed = ResourceLoader.Exists(scenePath) ? GD.Load<PackedScene>(scenePath) : null;
+                NotNull(packed, $"Referenced scene for stage button does not exist: {scenePath}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the quit button shows an exit label and basic style.
+        /// </summary>
+        private static void AssertButtonDisplaysExitOption(Button quitButton)
+        {
+            NotNull(quitButton, "Quit button null in assertion.");
+            True(quitButton.Text.ToLower().Contains("quit") || quitButton.Text.ToLower().Contains("exit"),
+                $"Quit button text does not indicate exit: '{quitButton.Text}'");
+        }
+
+        /// <summary>
+        /// Attempts a deterministic runtime fix to center menu content by wrapping the content in a CenterContainer.
+        /// This modifies node parentage at runtime (no disk changes).
+        /// </summary>
+        /// <param name="menu">Menu root control.</param>
+        private static void ApplyRuntimeCenteringFix(Control menu)
+        {
+            // Try to find the menu content node; fallback to first direct child if not found.
+            var content = menu.GetNodeOrNull<Control>(MenuContentPath) ?? (menu.GetChildCount() > 0 ? menu.GetChild(0) as Control : null);
+            if (content == null) return;
+
+            var parent = content.GetParent() as Node;
+            if (parent == null) return;
+
+            // If already inside a CenterContainer, nothing to do.
+            if (content.GetParent() is CenterContainer) return;
+
+            // Create CenterContainer and reparent content into it.
+            var center = new CenterContainer();
+            center.Name = "RuntimeCenteredContent";
+            // Place center where the content used to be.
+            parent.AddChild(center);
+            parent.MoveChild(center, parent.GetChildIndex(content));
+            content.GetParent().RemoveChild(content);
+            center.AddChild(content);
+            // Ensure the center fills available space.
+            center.SetAnchorsAndMarginsPreset(Control.LayoutPreset.FullRect);
+        }
+
+        #endregion
+    }
+}

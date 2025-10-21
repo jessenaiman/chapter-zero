@@ -26,13 +26,13 @@
 			"args": [
 				"test",
 				"${workspaceFolder}/chapter-zero.csproj",
-				"--logger:gdunit4;LogLevel=Detailed",
 				"--configuration",
 				"Debug",
 				"--no-build",
 				"--settings",
 				"${workspaceFolder}/.runsettings",
-				"--verbosity normal"
+				"--logger",
+				"console;verbosity=normal"
 			],
 			"group": {
 				"kind": "test",

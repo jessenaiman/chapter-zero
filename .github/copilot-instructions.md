@@ -6,31 +6,8 @@
 
 ### Backend
 - **Framework**: .NET 10 RC2
-- **Game Engine**: Godot 4.5.1
+- **Game Engine**: Godot 4.6-dev-2
 - **Backend Language**: C# 14
-
-### Godot Frontend
-- **Framework**: .NET 8
-- **Game Engine**: Godot 4.5.1 Stable
-
-#### Checking Dotnet Versions
-
-The proper way to add NuGet packages is using the dotnet add package command, which handles the XML insertion and version resolution automatically. No guessing required.
-
-To check all installed .NET runtimes and SDKs on your system, use these commands in your terminal:
-
-- To list installed .NET runtimes:
-  ```bash
-  dotnet --list-runtimes
-  ```
-
-- To list installed .NET SDKs:
-  ```bash
-  dotnet --list-sdks
-  ```
-
-This will show all available versions and their install locations. .NET is installed, do not attempt to reinstall it.
-
 
 ## Rules
 - use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.

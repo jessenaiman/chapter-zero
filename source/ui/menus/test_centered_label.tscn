@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[node name="Root" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50
+offset_top = -25
+offset_right = 50
+offset_bottom = 25
+
+[node name="Label" type="Label" parent="."]
+text = "Centered Label"
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0
+offset_top = 0
+offset_right = 0
+offset_bottom = 0
+align = 1
+valign = 1

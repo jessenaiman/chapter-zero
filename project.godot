@@ -11,11 +11,9 @@ config_version=5
 [application]
 
 config/name="Ωmega Spiral"
-config/description="A classic rpg narrative driven adventure game built with Godot 4.5.1 and C# 12"
-run/main_scene="res://source/ui/menus/stage_select_menu.tscn"
-config/use_custom_user_dir=true
-config/custom_user_dir_name="omega_spiral"
-config/features=PackedStringArray("4.5", "4.5.1", "C#")
+config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
+run/main_scene="res://source/ui/menus/main_menu.tscn"
+config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bs61h0k5maye5"
 #config/icon="uid://cb0tfa5vcg2tg"
@@ -32,50 +30,25 @@ Gameboard="*res://source/scripts/field/gameboard/Gameboard.cs"
 GamepieceRegistry="*res://source/scripts/field/gamepieces/GamepieceRegistry.cs"
 Player="*res://source/scripts/common/Player.cs"
 CombatEvents="*res://source/scripts/combat/CombatEvents.cs"
-Music="*res://source/scripts/common/music/music_player.tscn"
-Transition="*res://source/scripts/common/screen_transitions/screen_transition.tscn"
-SceneLoader="*res://addons/maaacks_game_template/base/scenes/autoloads/scene_loader.tscn"
-ProjectMusicController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_music_controller.tscn"
-ProjectUISoundController="*res://addons/maaacks_game_template/base/scenes/autoloads/project_ui_sound_controller.tscn"
-AppConfig="*res://addons/maaacks_game_template/base/scenes/autoloads/app_config.tscn"
 
 [display]
 
-window/size/viewport_width=1024
-window/size/viewport_height=768
-window/size/mode=2
-window/stretch/mode="canvas_items"
+window/size/viewport_width=1152
+window/size/viewport_height=648
+window/stretch/mode="viewport"
 
 [dotnet]
 
 project/assembly_name="chapter-zero"
 project/solution_directory="."
 
-[editor]
-
-movie_writer/movie_file="C:/Users/User/Videos/godot_movie.avi"
-
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg")
+enabled=["res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg"]
 
 [gui]
 
 theme/custom="res://theme.tres"
-
-[internationalization]
-
-locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
-disable_install_audio_busses=true
-disable_update_check=false
-disable_install_wizard=true
-copy_path="res://examples/"
-
-[maaacks_game_template]
-
-disable_install_audio_busses=true
-disable_update_check=false
-disable_install_wizard=true
 
 [plugins]
 
@@ -86,5 +59,4 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 environment/defaults/default_clear_color=Color(0.15, 0.15, 0.25, 1)

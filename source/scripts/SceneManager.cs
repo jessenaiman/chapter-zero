@@ -1,129 +1,61 @@
-// <copyright file="SceneManager.cs" company="Ωmega Spiral">
-// Copyright (c) Ωmega Spiral. All rights reserved.
-// </copyright>
-
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts;
-
 /// <summary>
-/// Manages scene transitions and tracks current scene state across the game.
-/// Serves as a singleton autoload for centralized scene management.
+/// Simple scene manager for basic scene transitions.
 /// </summary>
+
+
 [GlobalClass]
 public partial class SceneManager : Node
 {
-    private int currentSceneIndex = 1;
-    private string? playerName;
-    private string? dreamweaverThread;
-
     /// <summary>
-    /// Gets or sets the current scene index (1-5 for the five main scenes).
+    /// Sets the current player name for the session.
     /// </summary>
-    public int CurrentSceneIndex
+    /// <param name="playerName">The name of the player.</param>
+    public void SetPlayerName(string playerName)
     {
-        get => this.currentSceneIndex;
-        set => this.currentSceneIndex = value;
+        GD.Print($"Player name set to: {playerName}");
+        this.PlayerName = playerName;
     }
 
     /// <summary>
-    /// Gets the player's chosen name.
+    /// Gets the current player name.
     /// </summary>
-    public string? PlayerName => this.playerName;
+    public string? PlayerName { get; private set; }
 
     /// <summary>
-    /// Gets the selected Dreamweaver thread identifier.
+    /// Sets the current Dreamweaver thread for narrative progression.
     /// </summary>
-    public string? DreamweaverThread => this.dreamweaverThread;
-
-    /// <summary>
-    /// Sets the player's name for use throughout the game.
-    /// </summary>
-    /// <param name="name">The player's chosen name.</param>
-    public void SetPlayerName(string name)
-    {
-        this.playerName = name;
-        GD.Print($"Player name set to: {name}");
-    }
-
-    /// <summary>
-    /// Sets the Dreamweaver thread identifier based on player choice.
-    /// </summary>
-    /// <param name="threadId">The Dreamweaver thread identifier (e.g., "hero", "shadow", "ambition").</param>
+    /// <param name="threadId">The identifier of the Dreamweaver thread.</param>
     public void SetDreamweaverThread(string threadId)
     {
-        this.dreamweaverThread = threadId;
         GD.Print($"Dreamweaver thread set to: {threadId}");
+        this.CurrentDreamweaverThread = threadId;
     }
 
     /// <summary>
-    /// Updates the current scene index for tracking progression.
+    /// Gets the current Dreamweaver thread identifier.
     /// </summary>
-    /// <param name="sceneIndex">The scene index (1-5).</param>
-    public void UpdateCurrentScene(int sceneIndex)
-    {
-        this.currentSceneIndex = sceneIndex;
-        GD.Print($"Current scene updated to: {sceneIndex}");
-    }
+    public string? CurrentDreamweaverThread { get; private set; }
 
     /// <summary>
-    /// Transitions to a new scene by name with loading screen support.
-    /// Implements the Maaack Game Template loading pattern.
+    /// Transitions to the specified scene.
     /// </summary>
-    /// <param name="sceneName">The name of the scene to transition to (e.g., "Scene2NethackSequence").</param>
-    /// <param name="showLoadingScreen">Whether to show a loading screen during transition.</param>
+    /// <param name="sceneName">Name of the scene to transition to.</param>
+    /// <param name="showLoadingScreen">Whether to show a loading screen.</param>
     public void TransitionToScene(string sceneName, bool showLoadingScreen = true)
     {
         GD.Print($"Transitioning to scene: {sceneName}");
+        // TODO: Implement actual scene transition logic
+    }
 
-        // TODO: Implement loading screen logic when showLoadingScreen is true
-        if (showLoadingScreen)
-        {
-            GD.Print("Loading screen requested but not yet implemented");
-        }
-        string scenePath = sceneName switch
-        {
-            // Stage 1: Ghost Terminal Opening (CRT Terminal aesthetic)
-            "Stage1Opening" => "res://source/stages/stage_1/opening.tscn",
-            "Stage1Boot" => "res://source/stages/ghost/scenes/boot_sequence.tscn",
-
-            // Legacy aliases (deprecated, use Stage1Opening instead)
-            "Scene1Narrative" => "res://source/stages/stage_1/opening.tscn",
-            "GhostTerminal" => "res://source/stages/stage_1/opening.tscn",
-
-            // Stage 2-5: To be implemented
-            "Stage2Nethack" => "res://source/stages/stage_2/echo_hub.tscn",
-            "Stage3NeverGoAlone" => "res://source/stages/stage_3/echo_vault_hub.tscn",
-            "Stage4TileDungeon" => "res://source/stages/stage_4/entry.tscn", // TODO: Create this
-            "Stage5FieldCombat" => "res://source/stages/stage_5/entry.tscn", // TODO: Create this
-
-            // Legacy scene paths (may not exist)
-            "Scene2NethackSequence" => "res://source/scenes/scene2_nethack_sequence.tscn",
-            "Scene3NeverGoAlone" => "res://source/scenes/scene3_never_go_alone.tscn",
-            "Scene4TileDungeon" => "res://source/scenes/scene4_tile_dungeon.tscn",
-            "Scene5FieldCombat" => "res://source/scenes/scene5_field_combat.tscn",
-
-            // External/Utility scenes
-            "OpenRPGMain" => "res://source/external_scenes/open_rpg_main.tscn",
-            "MainMenu" => "res://source/stages/main_menu/press_start_menu.tscn",
-            "CharacterSelection" => "res://source/scenes/character_selection.tscn",
-            "TestScene" => "res://source/scenes/test_scene.tscn",
-
-            _ => string.Empty,
-        };
-
-        if (string.IsNullOrEmpty(scenePath))
-        {
-            GD.PrintErr($"Unknown scene name: {sceneName}");
-            return;
-        }
-
-        // Use standard Godot scene change functionality
-        // Loading screens handled by LoadingScreenController in scene hierarchy
-        var error = this.GetTree().ChangeSceneToFile(scenePath);
-        if (error != Error.Ok)
-        {
-            GD.PrintErr($"Failed to change scene to {scenePath}: {error}");
-        }
+    /// <summary>
+    /// Updates the current scene index.
+    /// </summary>
+    /// <param name="sceneIndex">The scene index to set.</param>
+    public void UpdateCurrentScene(int sceneIndex)
+    {
+        GD.Print($"Updated current scene to: {sceneIndex}");
+        // TODO: Implement scene tracking logic
     }
 }

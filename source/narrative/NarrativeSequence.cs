@@ -12,7 +12,6 @@ namespace OmegaSpiral.Source.Narrative;
 /// Each sequence represents a distinct phase of the narrative presentation (opening, thread choice, story block, etc.).
 /// Sequences are orchestrated by GhostTerminalDirector and inherit this class to implement their specific logic.
 /// </summary>
-[GlobalClass]
 public abstract partial class NarrativeSequence : Control
 {
     /// <summary>
