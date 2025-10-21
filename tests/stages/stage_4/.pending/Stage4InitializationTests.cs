@@ -19,7 +19,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that the Stage 4 scene file exists.
         /// </summary>
         [TestCase]
-        public void TestStage4SceneExists()
+        static public void TestStage4SceneExists()
         {
             AssertThat(ResourceLoader.Exists(Stage4ScenePath))
                 .IsTrue()
@@ -30,7 +30,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that Stage 4 scene loads without errors.
         /// </summary>
         [TestCase]
-        public void TestStage4SceneLoads()
+        static public void TestStage4SceneLoads()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
 
@@ -43,7 +43,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that Stage 4 scene can be instantiated.
         /// </summary>
         [TestCase]
-        public void TestStage4SceneInstantiates()
+        static public void TestStage4SceneInstantiates()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -59,7 +59,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that the Field node exists in Stage 4.
         /// </summary>
         [TestCase]
-        public void TestFieldNodeExists()
+        static public void TestFieldNodeExists()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -78,7 +78,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that the Map node exists in Stage 4.
         /// </summary>
         [TestCase]
-        public void TestMapNodeExists()
+        static public void TestMapNodeExists()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -97,7 +97,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that the Player node exists in Stage 4.
         /// </summary>
         [TestCase]
-        public void TestPlayerNodeExists()
+        static public void TestPlayerNodeExists()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -116,7 +116,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that TileMap nodes exist in Stage 4.
         /// </summary>
         [TestCase]
-        public void TestTileMapExists()
+        static public void TestTileMapExists()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -135,7 +135,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that NPC nodes exist in Stage 4.
         /// </summary>
         [TestCase]
-        public void TestNpcNodesExist()
+        static public void TestNpcNodesExist()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -157,7 +157,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that the Field script is attached and valid.
         /// </summary>
         [TestCase]
-        public void TestFieldScriptAttached()
+        static public void TestFieldScriptAttached()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -182,7 +182,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that GameState singleton is available.
         /// </summary>
         [TestCase]
-        public void TestGameStateSingletonAvailable()
+        static public void TestGameStateSingletonAvailable()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();
@@ -202,7 +202,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
         /// Verifies that FieldEvents singleton is available.
         /// </summary>
         [TestCase]
-        public void TestFieldEventsSingletonAvailable()
+        static public void TestFieldEventsSingletonAvailable()
         {
             var scene = ResourceLoader.Load<PackedScene>(Stage4ScenePath);
             var instance = scene.Instantiate();

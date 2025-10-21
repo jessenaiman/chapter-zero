@@ -8,6 +8,7 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 using OmegaSpiral.Source.Combat.Actions;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Actors;
+
 /// <summary>
 /// A simple combat AI that chooses actions randomly. This AI makes decisions by randomly selecting from available actions and targets. Useful for testing and for enemies that should behave unpredictably.
 /// </summary>
@@ -27,109 +28,107 @@ public partial class CombatRandomAI : CombatAI
     /// <returns>A tuple containing the chosen action and list of targets for that action.</returns>
     public override async Task<(BattlerAction? action, List<Battler> targets)> ChooseAction()
     {
-        if (!this.IsActive || this.ControlledBattler == null || this.ControlledBattler.Actions == null)
+        if (!this.IsActive || this.ControlledBattler?.Actions == null)
         {
-            return (null, new List<Battler>());
+            return (null, []);
         }
 
-        // Wait for the turn delay to make the AI feel more natural
         if (this.TurnDelay > 0)
         {
             await Task.Delay(TimeSpan.FromSeconds(this.TurnDelay)).ConfigureAwait(false);
         }
 
-        // Get all available actions
-        var availableActions = this.ControlledBattler.Actions.Where(action =>
-            action != null && action.CanExecute(this.ControlledBattler, Array.Empty<Battler>())).ToList();
-
+        var availableActions = this.GetAvailableActions();
         if (availableActions.Count == 0)
         {
-            return (null, new List<Battler>());
+            return (null, []);
         }
 
-        // Filter actions based on the attack probability
-        var filteredActions = new List<BattlerAction>();
-        foreach (var action in availableActions)
+        var chosenAction = this.SelectRandomAction(availableActions);
+        var targets = await this.SelectTargetsForAction(chosenAction);
+        return (chosenAction, targets);
+    }
+
+    /// <summary>
+    /// Get all available actions for the controlled battler.
+    /// </summary>
+    /// <returns>List of executable actions.</returns>
+    private List<BattlerAction> GetAvailableActions()
+    {
+        return this.ControlledBattler!.Actions!
+            .Where(action => action.CanExecute(this.ControlledBattler, []))
+            .ToList();
+    }
+
+    /// <summary>
+    /// Select a random action from available actions, with probability filtering.
+    /// </summary>
+    /// <param name="actions">Available actions to choose from.</param>
+    /// <returns>Selected action.</returns>
+    private BattlerAction SelectRandomAction(List<BattlerAction> actions)
+    {
+        var filtered = new List<BattlerAction>();
+        foreach (var action in actions)
         {
-            // If it's an attack action and we're within the attack probability, include it
-            if (GD.Randf() <= this.TargetEnemyProbability)
+            if (GD.Randf() <= this.TargetEnemyProbability || GD.Randf() > this.TargetEnemyProbability)
             {
-                filteredActions.Add(action);
-            }
-
-            // If it's not an attack action and we're outside the attack probability, include it
-            else if (GD.Randf() > this.TargetEnemyProbability)
-            {
-                filteredActions.Add(action);
+                filtered.Add(action);
             }
         }
 
-        // If no actions were filtered in, use all available actions
-        if (filteredActions.Count == 0)
-        {
-            filteredActions = new List<BattlerAction>(availableActions.Cast<BattlerAction>());
-        }
+        var actionsToUse = filtered.Count > 0 ? filtered : actions;
+        return actionsToUse[(int) (GD.Randi() % actionsToUse.Count)];
+    }
 
-        // Choose a random action
-    var chosenAction = filteredActions[(int) (GD.Randi() % filteredActions.Count)];
-
-        // Choose targets for the action
-        using var battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
-        var possibleTargets = chosenAction.GetPossibleTargets(this.ControlledBattler, battlerList);
-        var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
+    /// <summary>
+    /// Select targets for the chosen action based on scope and probability.
+    /// </summary>
+    /// <param name="action">The action to select targets for.</param>
+    /// <returns>List of targets for the action.</returns>
+    private Task<List<Battler>> SelectTargetsForAction(BattlerAction action)
+    {
+        using var battlerList = this.Battlers ?? new BattlerList([], []);
+        var possibleTargets = action.GetPossibleTargets(this.ControlledBattler!, battlerList);
+        var validTargets = possibleTargets.Where(target => action.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
         {
-            return (chosenAction, new List<Battler>());
+            return Task.FromResult<List<Battler>>([]);
         }
 
-        // Filter targets based on the target enemy probability
-        var filteredTargets = new List<Battler>();
-        foreach (var target in validTargets)
+        var filtered = this.FilterTargetsByProbability(validTargets);
+        var targetsToUse = filtered.Count > 0 ? filtered : validTargets;
+
+        var result = action.TargetScope switch
         {
-            // Check if the target is an enemy
+            ActionTargetScope.One => [targetsToUse[(int) (GD.Randi() % targetsToUse.Count)]],
+            ActionTargetScope.All => targetsToUse,
+            ActionTargetScope.Self => [this.ControlledBattler!],
+            _ => [],
+        };
+
+        return Task.FromResult(result);
+    }
+
+    /// <summary>
+    /// Filter targets based on the target enemy probability.
+    /// </summary>
+    /// <param name="targets">Available targets to filter.</param>
+    /// <returns>Filtered list of targets.</returns>
+    private List<Battler> FilterTargetsByProbability(List<Battler> targets)
+    {
+        var filtered = new List<Battler>();
+        foreach (var target in targets)
+        {
             var isEnemy = this.Battlers?.Enemies.Contains(target) ?? false;
-
-            // If it's an enemy and we're within the target enemy probability, include it
-            if (isEnemy && GD.Randf() <= this.TargetEnemyProbability)
+            if ((isEnemy && GD.Randf() <= this.TargetEnemyProbability) ||
+                (!isEnemy && GD.Randf() > this.TargetEnemyProbability))
             {
-                filteredTargets.Add(target);
-            }
-
-            // If it's not an enemy and we're outside the target enemy probability, include it
-            else if (!isEnemy && GD.Randf() > this.TargetEnemyProbability)
-            {
-                filteredTargets.Add(target);
+                filtered.Add(target);
             }
         }
 
-        // If no targets were filtered in, use all valid targets
-        if (filteredTargets.Count == 0)
-        {
-            filteredTargets = new List<Battler>(validTargets);
-        }
-
-        // For single-target actions, choose one target
-        if (chosenAction.TargetScope == ActionTargetScope.One)
-        {
-            var target = filteredTargets[(int) (GD.Randi() % filteredTargets.Count)];
-            return (chosenAction, new List<Battler> { target });
-        }
-
-        // For all-target actions, choose all filtered targets
-        if (chosenAction.TargetScope == ActionTargetScope.All)
-        {
-            return (chosenAction, filteredTargets);
-        }
-
-        // For self-target actions, target the controlled battler
-        if (chosenAction.TargetScope == ActionTargetScope.Self)
-        {
-            return (chosenAction, new List<Battler> { this.ControlledBattler });
-        }
-
-        // Default: return the chosen action with no targets
-    return (chosenAction, new List<Battler>());
+        return filtered;
     }
 
     /// <summary>
@@ -139,7 +138,6 @@ public partial class CombatRandomAI : CombatAI
     /// <returns>A float value representing the evaluation score (1.0 for neutral).</returns>
     public override float EvaluateSituation()
     {
-        // Return a neutral score since this AI doesn't make strategic evaluations
         return 1.0f;
     }
 
@@ -151,9 +149,6 @@ public partial class CombatRandomAI : CombatAI
     /// <returns>The priority value for the action.</returns>
     public override float GetActionPriority(BattlerAction action, List<Battler> targets)
     {
-        _ = action;
-        _ = targets;
-        // Return a neutral priority since this AI doesn't prioritize actions
         return 1.0f;
     }
 }

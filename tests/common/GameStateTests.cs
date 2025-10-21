@@ -20,7 +20,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void Constructor_InitializesWithZeroScores()
+    public void ConstructorInitializeswithzeroscores()
     {
         // Arrange & Act
         var gameState = new GameState();
@@ -37,7 +37,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void UpdateDreamweaverScore_AddsPointsCorrectly()
+    public void UpdatedreamweaverscoreAddspointscorrectly()
     {
         // Arrange
         var gameState = new GameState();
@@ -56,7 +56,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void UpdateDreamweaverScore_HandlesNegativeChanges()
+    public void UpdatedreamweaverscoreHandlesnegativechanges()
     {
         // Arrange
         var gameState = new GameState();
@@ -74,7 +74,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void GetHighestScoringDreamweaver_ReturnsCorrectDreamweaver()
+    public void GethighestscoringdreamweaverReturnscorrectdreamweaver()
     {
         // Arrange
         var gameState = new GameState();
@@ -94,7 +94,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void GetHighestScoringDreamweaver_HandlesTies()
+    public void GethighestscoringdreamweaverHandlesties()
     {
         // Arrange
         var gameState = new GameState();
@@ -114,7 +114,7 @@ public class GameStateTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void GetTotalScore_ReturnsSumOfAllScores()
+    public void GettotalscoreReturnssumofallscores()
     {
         // Arrange
         var gameState = new GameState();

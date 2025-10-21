@@ -123,7 +123,6 @@ namespace OmegaSpiral.Source.Narrative
     /// </summary>
     public partial class ChoiceOption
     {
-        // TODO: duplicate Source/Scripts/field/narrative/DialogueChoice.cs - Consider consolidating choice option classes
         /// <summary>
         /// Gets or sets the unique identifier for this choice option.
         /// Used to track which choice was selected and determine story progression.
@@ -147,18 +146,6 @@ namespace OmegaSpiral.Source.Narrative
             get => this.label ?? this.Text;
             set => this.label = value;
         }
-
-        /// <summary>
-        /// Gets or sets the detailed description for this choice option.
-        /// Provides additional context or explanation for the choice.
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the story block number this choice leads to.
-        /// Determines which story block is displayed after this choice is selected.
-        /// </summary>
-        public int NextBlock { get; set; }
     }
 
     /// <summary>

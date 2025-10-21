@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.Ui.Menus
 {
     /// <summary>
     /// Controls the in-game pause menu with options to resume, access settings, or return to main menu.
@@ -12,6 +12,9 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
     [GlobalClass]
     public partial class PauseMenuController : CanvasLayer
     {
+        /// <summary>
+        /// Gets or sets the path to the main menu scene.
+        /// </summary>
         [Export]
         public string MainMenuPath { get; set; } = "";
 
@@ -21,6 +24,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         private Button? mainMenuButton;
         private bool isPaused;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheNodeReferences();
@@ -33,6 +37,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
             }
         }
 
+        /// <inheritdoc/>
         public override void _Process(double delta)
         {
             if (Input.IsActionJustPressed("ui_cancel"))

@@ -296,7 +296,7 @@ public partial class AsciiRoomRenderer : Node2D
 
     private void HandleKeyInput(InputEventKey keyEvent)
     {
-        Vector2I newPosition = this.GetMovementDirection(keyEvent);
+        Vector2I newPosition = AsciiRoomRenderer.GetMovementDirection(keyEvent);
         if (newPosition == Vector2I.Zero)
             return;
 
@@ -313,7 +313,7 @@ public partial class AsciiRoomRenderer : Node2D
         this.StartDungeonRendering();
     }
 
-    private Vector2I GetMovementDirection(InputEventKey keyEvent)
+    private static Vector2I GetMovementDirection(InputEventKey keyEvent)
     {
         return keyEvent.Keycode switch
         {
@@ -525,13 +525,13 @@ public partial class AsciiRoomRenderer : Node2D
 
         var dungeon = this.dungeonData.Dungeons[this.currentDungeonIndex];
 
-        if (!this.IsWithinBounds(position, dungeon))
+        if (!AsciiRoomRenderer.IsWithinBounds(position, dungeon))
             return false;
 
-        return this.IsTileWalkable(position, dungeon);
+        return AsciiRoomRenderer.IsTileWalkable(position, dungeon);
     }
 
-    private bool IsWithinBounds(Vector2I position, DungeonRoom dungeon)
+    private static bool IsWithinBounds(Vector2I position, DungeonRoom dungeon)
     {
         if (position.Y < 0 || position.Y >= dungeon.Map.Count)
         {
@@ -548,7 +548,7 @@ public partial class AsciiRoomRenderer : Node2D
         return true;
     }
 
-    private bool IsTileWalkable(Vector2I position, DungeonRoom dungeon)
+    private static bool IsTileWalkable(Vector2I position, DungeonRoom dungeon)
     {
         char tile = dungeon.Map[position.Y][position.X];
 
@@ -594,7 +594,7 @@ public partial class AsciiRoomRenderer : Node2D
         }
 
         this.UpdateDreamweaverScore(obj);
-        this.DisplayInteractionText(obj);
+        AsciiRoomRenderer.DisplayInteractionText(obj);
         this.RemoveObject(obj);
         this.CheckDungeonProgression();
     }
@@ -609,7 +609,7 @@ public partial class AsciiRoomRenderer : Node2D
         GD.Print($"Dreamweaver {obj.AlignedTo} score increased by {score} points!");
     }
 
-    private void DisplayInteractionText(DungeonObject obj)
+    private static void DisplayInteractionText(DungeonObject obj)
     {
         GD.Print(obj.Text);
     }

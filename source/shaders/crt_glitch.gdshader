@@ -162,43 +162,6 @@ float calculate_block_corruption(vec2 uv, float time_offset, float block_sz) {
     return is_corrupted * corruption_strength;
 }
 
-// ============================================================================
-// apply_chromatic_glitch
-// ============================================================================
-// Separates RGB channels with random offsets (chromatic aberration glitch).
-//
-// Parameters:
-//   tex: Source texture
-//   uv: Base texture coordinates
-//   time_offset: Animation time
-//   offset: Maximum channel separation (pixels)
-//
-// Returns:
-//   vec3: Color with separated RGB channels
-//
-// Implementation Notes:
-//   Each channel gets random directional offset.
-//   Creates characteristic "analog signal bleeding" effect.
-//   Offset direction changes over time for dynamic glitch.
-// ============================================================================
-vec3 apply_chromatic_glitch(vec2 uv, float time_offset, float offset) {
-    // Random offset direction changes over time
-    float angle_r = random(vec2(time_offset, 0.0)) * 6.28318; // 2*PI
-    float angle_g = random(vec2(time_offset, 1.0)) * 6.28318;
-    float angle_b = random(vec2(time_offset, 2.0)) * 6.28318;
-
-    // Convert pixel offset to UV offset (assuming 1920x1080)
-    vec2 pixel_size = vec2(1.0 / 1920.0, 1.0 / 1080.0);
-    vec2 offset_uv = pixel_size * offset;
-
-    // Sample each channel with directional offset
-    float r = texture(TEXTURE, uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
-    float g = texture(TEXTURE, uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
-    float b = texture(TEXTURE, uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
-
-    return vec3(r, g, b);
-}
-
 void fragment() {
     // Performance optimization: skip all calculations if no glitch
     if (glitch_intensity < 0.001) {

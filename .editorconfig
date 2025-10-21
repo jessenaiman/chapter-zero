@@ -22,13 +22,13 @@ csharp_indent_switch_labels = true
 csharp_space_after_cast = true
 csharp_space_around_binary_operators = true
 csharp_style_var_for_built_in_types = false
-csharp_style_var_when_type_is_apparent = false
-csharp_style_var_elsewhere = false
-csharp_style_expression_bodied_methods = false
-csharp_style_expression_bodied_properties = false
-csharp_style_expression_bodied_indexers = false
-csharp_style_expression_bodied_accessors = false
-csharp_style_inlined_variable_declaration = false
+csharp_style_var_when_type_is_apparent = true
+csharp_style_var_elsewhere = true
+csharp_style_expression_bodied_methods = true
+csharp_style_expression_bodied_properties = true
+csharp_style_expression_bodied_indexers = true
+csharp_style_expression_bodied_accessors = true
+csharp_style_inlined_variable_declaration = true
 csharp_style_pattern_matching_over_is_with_cast_check = true
 csharp_style_prefer_switch_expression = false
 csharp_style_prefer_tuple_swap = false
@@ -37,6 +37,7 @@ csharp_style_prefer_simple_using_statement = true
 csharp_style_prefer_local_over_anonymous_function = true
 csharp_style_prefer_conditional_expression_over_assignment = true
 csharp_style_prefer_conditional_expression_over_return = true
+dotnet_naming_style.private_prefix_style.required_prefix = _
 
 # Roslynator Analyzers Configuration
 # Documentation Rules (align with mandatory XML docs requirement)
@@ -214,3 +215,20 @@ dotnet_diagnostic.MD050 = none
 dotnet_diagnostic.MD051 = none
 dotnet_diagnostic.MD052 = none
 dotnet_diagnostic.MD053 = none
+
+# Naming conventions - suppress IDE1006 (Roslyn naming) since we follow explicit C# style guide
+# The style guide explicitly allows 2-letter acronyms like UI and AI to stay uppercase
+dotnet_diagnostic.IDE1006 = none
+dotnet_diagnostic.IDE1006.severity = none
+
+# Test files specific configuration
+[tests/**/*.cs]
+# Suppress CA1822 (unused member static) for test methods
+# GDUnit4 requires instance methods for proper test isolation and lifecycle management
+dotnet_diagnostic.CA1822.severity = none
+
+# Allow snake_case naming for test methods (e.g., Test_Scenario_Expected)
+# This improves readability and follows common test naming conventions
+dotnet_naming_rule.test_methods_should_allow_underscores.severity = none
+dotnet_diagnostic.RCS1046.severity = none
+dotnet_diagnostic.IDE1006.severity = none

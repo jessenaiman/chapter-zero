@@ -21,7 +21,7 @@ public partial class TownExplorationTests : Node
     /// Test that the TileMap has proper layer configuration.
     /// </summary>
     [TestCase]
-    public void TestTileMapLayerConfiguration()
+    static public void TestTileMapLayerConfiguration()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -61,7 +61,7 @@ public partial class TownExplorationTests : Node
     /// Test that map boundaries are properly defined.
     /// </summary>
     [TestCase]
-    public void TestMapBoundaries()
+    static public void TestMapBoundaries()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -96,7 +96,7 @@ public partial class TownExplorationTests : Node
     /// Test that door unlock interaction system exists.
     /// </summary>
     [TestCase]
-    public void TestDoorUnlockSystemExists()
+    static public void TestDoorUnlockSystemExists()
     {
         var doorUnlockScript = ResourceLoader.Exists("res://source/overworld/maps/town/DoorUnlockInteraction.cs");
 
@@ -108,7 +108,7 @@ public partial class TownExplorationTests : Node
     /// Test that treasure chest or loot system exists.
     /// </summary>
     [TestCase]
-    public void TestTreasureChestSystemExists()
+    static public void TestTreasureChestSystemExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -135,7 +135,7 @@ public partial class TownExplorationTests : Node
     /// Test that area transition triggers exist (e.g., house interiors).
     /// </summary>
     [TestCase]
-    public void TestAreaTransitionTriggersExist()
+    static public void TestAreaTransitionTriggersExist()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -160,7 +160,7 @@ public partial class TownExplorationTests : Node
     /// Test that the Map node exists for managing town layout.
     /// </summary>
     [TestCase]
-    public void TestMapNodeExists()
+    static public void TestMapNodeExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -178,7 +178,7 @@ public partial class TownExplorationTests : Node
     /// Test that collision layers are properly configured for walls and objects.
     /// </summary>
     [TestCase]
-    public void TestCollisionLayersConfigured()
+    static public void TestCollisionLayersConfigured()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -213,7 +213,7 @@ public partial class TownExplorationTests : Node
     /// Test that the Field node exists as the main container.
     /// </summary>
     [TestCase]
-    public void TestFieldNodeExists()
+    static public void TestFieldNodeExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -231,7 +231,7 @@ public partial class TownExplorationTests : Node
     /// Test that exploration objectives or quest markers exist.
     /// </summary>
     [TestCase]
-    public void TestExplorationObjectivesSystem()
+    static public void TestExplorationObjectivesSystem()
     {
         // Check for GameState which tracks objectives
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
@@ -250,7 +250,7 @@ public partial class TownExplorationTests : Node
     /// Test that camera system exists for player following.
     /// </summary>
     [TestCase]
-    public void TestCameraSystemExists()
+    static public void TestCameraSystemExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -272,7 +272,7 @@ public partial class TownExplorationTests : Node
     /// Test that navigation regions exist for pathfinding.
     /// </summary>
     [TestCase]
-    public void TestNavigationSystemExists()
+    static public void TestNavigationSystemExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -294,7 +294,7 @@ public partial class TownExplorationTests : Node
     /// Test that environmental decorations exist (trees, signs, etc.).
     /// </summary>
     [TestCase]
-    public void TestEnvironmentalDecorationsExist()
+    static public void TestEnvironmentalDecorationsExist()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -318,7 +318,7 @@ public partial class TownExplorationTests : Node
     /// Test that spawn point is properly configured for player.
     /// </summary>
     [TestCase]
-    public void TestPlayerSpawnPointExists()
+    static public void TestPlayerSpawnPointExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -346,7 +346,7 @@ public partial class TownExplorationTests : Node
     /// Test that interactable objects have proper visual feedback.
     /// </summary>
     [TestCase]
-    public void TestInteractableObjectsFeedback()
+    static public void TestInteractableObjectsFeedback()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -368,7 +368,7 @@ public partial class TownExplorationTests : Node
     /// Test that the town has proper lighting/ambiance setup.
     /// </summary>
     [TestCase]
-    public void TestTownAmbianceSetup()
+    static public void TestTownAmbianceSetup()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -389,7 +389,7 @@ public partial class TownExplorationTests : Node
     /// Test that the TileSet has proper terrain/tilemap configuration.
     /// </summary>
     [TestCase]
-    public void TestTileSetConfiguration()
+    static public void TestTileSetConfiguration()
     {
         // Check that Kenney terrain tileset exists
         var tilesetExists = ResourceLoader.Exists("res://source/assets/tilesets/kenney_terrain.tres");

@@ -23,7 +23,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the player controller responds to keyboard input (arrow keys).
     /// </summary>
     [TestCase]
-    public void TestPlayerRespondsToArrowKeys()
+    static public void TestPlayerRespondsToArrowKeys()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -52,7 +52,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the player controller responds to WASD keys.
     /// </summary>
     [TestCase]
-    public void TestPlayerRespondsToWasdKeys()
+    static public void TestPlayerRespondsToWasdKeys()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -73,7 +73,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the player gamepiece has proper movement speed configuration.
     /// </summary>
     [TestCase]
-    public void TestPlayerMovementSpeed()
+    static public void TestPlayerMovementSpeed()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -102,7 +102,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the player has collision detection configured.
     /// </summary>
     [TestCase]
-    public void TestPlayerCollisionDetection()
+    static public void TestPlayerCollisionDetection()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -130,7 +130,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the player gamepiece has animation capabilities.
     /// </summary>
     [TestCase]
-    public void TestPlayerAnimationSetup()
+    static public void TestPlayerAnimationSetup()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -160,7 +160,7 @@ public partial class PlayerMovementTests : Node
     /// Test that the Gameboard pathfinding system is available for player movement.
     /// </summary>
     [TestCase]
-    public void TestGameboardPathfindingAvailable()
+    static public void TestGameboardPathfindingAvailable()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -183,7 +183,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player direction changes are properly handled.
     /// </summary>
     [TestCase]
-    public void TestPlayerDirectionChanges()
+    static public void TestPlayerDirectionChanges()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -213,7 +213,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player movement can be stopped properly.
     /// </summary>
     [TestCase]
-    public void TestPlayerMovementStop()
+    static public void TestPlayerMovementStop()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -242,7 +242,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player has proper tile-based grid positioning.
     /// </summary>
     [TestCase]
-    public void TestPlayerGridPositioning()
+    static public void TestPlayerGridPositioning()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -275,7 +275,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player input actions are properly configured in project settings.
     /// </summary>
     [TestCase]
-    public void TestPlayerInputActionsConfigured()
+    static public void TestPlayerInputActionsConfigured()
     {
         // Check that required input actions exist in InputMap
         AssertThat(InputMap.HasAction("ui_up")).IsTrue()
@@ -294,7 +294,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player controller is in the correct group for identification.
     /// </summary>
     [TestCase]
-    public void TestPlayerControllerGroup()
+    static public void TestPlayerControllerGroup()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -319,7 +319,7 @@ public partial class PlayerMovementTests : Node
     /// Test that FieldEvents singleton is available for player movement events.
     /// </summary>
     [TestCase]
-    public void TestFieldEventsAvailableForMovement()
+    static public void TestFieldEventsAvailableForMovement()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -338,7 +338,7 @@ public partial class PlayerMovementTests : Node
     /// Test that GamepieceRegistry is available for tracking player position.
     /// </summary>
     [TestCase]
-    public void TestGamepieceRegistryAvailable()
+    static public void TestGamepieceRegistryAvailable()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -357,7 +357,7 @@ public partial class PlayerMovementTests : Node
     /// Test that player movement respects TileMap collision layers.
     /// </summary>
     [TestCase]
-    public void TestPlayerRespectsCollisionLayers()
+    static public void TestPlayerRespectsCollisionLayers()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();

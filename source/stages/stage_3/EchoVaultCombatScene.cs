@@ -45,7 +45,7 @@ public partial class EchoVaultCombatScene : Control
 
     private void OnResolvePressed()
     {
-        EchoCombatResult result = this.SimulateCombat();
+        EchoCombatResult result = EchoVaultCombatScene.SimulateCombat();
         EchoVaultSession.ResolveCombat(result.Victory);
         this.ShowLogAndContinue(result.Log, result.Victory);
     }
@@ -80,7 +80,7 @@ public partial class EchoVaultCombatScene : Control
         };
     }
 
-    private EchoCombatResult SimulateCombat()
+    private static EchoCombatResult SimulateCombat()
     {
         var combat = EchoVaultSession.GetCurrentCombat();
         double partyHp = 0;

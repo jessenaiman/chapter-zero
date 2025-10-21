@@ -13,7 +13,9 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 /// These entries may be selected in order to queue actions for the battlers to perform.
 /// </summary>
 [GlobalClass]
+#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
 public partial class UIPlayerBattlerList : UIListMenu
+#pragma warning restore IDE1006
 {
     private List<Battler> battlers = new List<Battler>();
 

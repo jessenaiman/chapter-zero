@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.Ui.Menus
 {
     /// <summary>
     /// Controls the options menu with audio, video, input, and accessibility settings.
@@ -25,6 +25,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         private CheckButton? vsyncCheckbox;
         private OptionButton? resolutionDropdown;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheNodeReferences();

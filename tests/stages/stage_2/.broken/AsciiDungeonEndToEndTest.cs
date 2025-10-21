@@ -232,13 +232,13 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
 
             public DungeonStageClearedEvent? LastStageClearedEvent { get; private set; }
 
-            public void PublishStageCleared(DungeonStageClearedEvent domainEvent)
+            static public void PublishStageCleared(DungeonStageClearedEvent domainEvent)
             {
                 LastStageClearedEvent = domainEvent;
                 StagesClearedCount++;
             }
 
-            public void PublishStageEntered(DungeonStageEnteredEvent domainEvent)
+            static public void PublishStageEntered(DungeonStageEnteredEvent domainEvent)
             {
                 LastStageEnteredEvent = domainEvent;
                 StageEnteredEventsCount++;
@@ -251,7 +251,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Dungeon
 
             public DreamweaverAffinityChange? LastAppliedChange { get; private set; }
 
-            public void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change)
+            static public void ApplyChange(DreamweaverType owner, DreamweaverAffinityChange change)
             {
                 LastAppliedOwner = owner;
                 LastAppliedChange = change;

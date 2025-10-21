@@ -5,7 +5,7 @@
 ## Technology Stack
 
 - **Engine**: Godot 4.5.1 Stable (/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64) with .NET/Mono support
-- **Language**: C# 14 (using .NET 8.0) with preview language features
+- **Language**: C# 12 for game logic(using .NET 8.0) with preview language features
 - **AI Integration**: NobodyWho plugin for local LLM inference
 
 ## Testing with GDUnit

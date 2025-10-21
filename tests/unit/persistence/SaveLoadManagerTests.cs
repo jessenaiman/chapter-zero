@@ -5,10 +5,11 @@
 namespace OmegaSpiral.Tests.Unit.Persistence
 {
     using System.Threading.Tasks;
-    using GdUnit4;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.InMemory;
     using OmegaSpiral.Source.Scripts.Common;
     using OmegaSpiral.Source.Scripts.persistence;
+    using GdUnit4;
     using static GdUnit4.Assertions;
 
     /// <summary>
@@ -17,8 +18,8 @@ namespace OmegaSpiral.Tests.Unit.Persistence
     [TestSuite]
     public class SaveLoadManagerTests : IDisposable
     {
-        private GameDbContext? _context;
-        private SaveLoadManager? _manager;
+        private GameDbContext? context;
+        private SaveLoadManager? manager;
 
         /// <summary>
         /// Sets up the test environment before each test.
@@ -29,8 +30,8 @@ namespace OmegaSpiral.Tests.Unit.Persistence
             var options = new DbContextOptionsBuilder<GameDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .Options;
-            _context = new GameDbContext(options);
-            _manager = new SaveLoadManager(_context);
+            context = new GameDbContext(options);
+            manager = new SaveLoadManager(context);
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         [After]
         public void TearDown()
         {
-            _context!.Database.EnsureDeleted();
-            _context!.Dispose();
+            context!.Database.EnsureDeleted();
+            context?.Dispose();
         }
 
         /// <summary>
@@ -49,17 +50,17 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task SaveGameAsync_NewGameState_ReturnsTrue()
+        public async Task SavegameasyncNewgamestateReturnstrue()
         {
             // Arrange
             var gameState = new GameState();
 
             // Act
-            var result = await _manager!.SaveGameAsync(gameState, "test_slot");
+            var result = await manager!.SaveGameAsync(gameState, "test_slot");
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await _context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
             AssertThat(saved).IsNotNull();
         }
 
@@ -68,19 +69,19 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task SaveGameAsync_ExistingGameState_UpdatesExisting()
+        public async Task SavegameasyncExistinggamestateUpdatesexisting()
         {
             // Arrange
             var gameState = new GameState();
-            await _manager!.SaveGameAsync(gameState, "test_slot");
+            await manager!.SaveGameAsync(gameState, "test_slot");
             gameState.CurrentScene = 2;
 
             // Act
-            var result = await _manager!.SaveGameAsync(gameState, "test_slot");
+            var result = await manager!.SaveGameAsync(gameState, "test_slot");
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await _context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
             AssertThat(saved).IsNotNull();
 
             // Note: Actual update logic depends on implementation
@@ -91,14 +92,14 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task LoadGameAsync_ExistingSave_ReturnsGameState()
+        public async Task LoadgameasyncExistingsaveReturnsgamestate()
         {
             // Arrange
             var gameState = new GameState();
-            await _manager!.SaveGameAsync(gameState, "test_slot");
+            await manager!.SaveGameAsync(gameState, "test_slot");
 
             // Act
-            var result = await _manager!.LoadGameAsync("test_slot");
+            var result = await manager!.LoadGameAsync("test_slot");
 
             // Assert
             AssertThat(result).IsNotNull();
@@ -109,10 +110,10 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task LoadGameAsync_NonExistingSave_ReturnsNull()
+        public async Task LoadgameasyncNonexistingsaveReturnsnull()
         {
             // Act
-            var result = await _manager!.LoadGameAsync("non_existing");
+            var result = await manager!.LoadGameAsync("non_existing");
 
             // Assert
             AssertThat(result).IsNull();
@@ -123,14 +124,14 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task GetAvailableSaveSlotsAsync_ReturnsList()
+        public async Task GetavailablesaveslotsasyncReturnslist()
         {
             // Arrange
-            await _manager!.SaveGameAsync(new GameState(), "slot1");
-            await _manager!.SaveGameAsync(new GameState(), "slot2");
+            await manager!.SaveGameAsync(new GameState(), "slot1");
+            await manager!.SaveGameAsync(new GameState(), "slot2");
 
             // Act
-            var result = await _manager!.GetAvailableSaveSlotsAsync();
+            var result = await manager!.GetAvailableSaveSlotsAsync();
 
             // Assert
             AssertThat(result).Contains("slot1").Contains("slot2");
@@ -141,17 +142,17 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public async Task DeleteSaveSlotAsync_ExistingSlot_ReturnsTrue()
+        public async Task DeletesaveslotasyncExistingslotReturnstrue()
         {
             // Arrange
-            await _manager!.SaveGameAsync(new GameState(), "test_slot");
+            await manager!.SaveGameAsync(new GameState(), "test_slot");
 
             // Act
-            var result = await _manager!.DeleteSaveSlotAsync("test_slot");
+            var result = await manager!.DeleteSaveSlotAsync("test_slot");
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await _context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
             AssertThat(saved).IsNull();
         }
 
@@ -159,10 +160,10 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// Tests deleting a non-existing save slot returns false.
         /// </summary>
         [TestCase]
-        public async Task DeleteSaveSlotAsync_NonExistingSlot_ReturnsFalse()
+        public async Task DeletesaveslotasyncNonexistingslotReturnsfalse()
         {
             // Act
-            var result = await _manager!.DeleteSaveSlotAsync("non_existing");
+            var result = await manager!.DeleteSaveSlotAsync("non_existing");
 
             // Assert
             AssertThat(result).IsFalse();
@@ -173,7 +174,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         /// </summary>
         public void Dispose()
         {
-            _context?.Dispose();
+            context?.Dispose();
             GC.SuppressFinalize(this);
         }
     }

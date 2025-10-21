@@ -19,51 +19,37 @@
 				"clear": false
 			}
 		},
-{
- "label": "test",
- "command": "dotnet",
- "type": "shell",
- "args": [
-     "test",
-     "${workspaceFolder}/chapter-zero.csproj",
-     "--logger:gdunit4;LogLevel=Detailed",
-     "--configuration",
-     "Debug",
-     "--no-build",
-     "--settings",
-     "${workspaceFolder}/.runsettings",
-     "--verbosity normal"
- ],
-    "group": {
-        "kind": "test",
-        "isDefault": true  // Make this the default test task
-    },
-    "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": true
-    },
-    "problemMatcher": "$msCompile",
-    "options": {
-        "env": {
-            // Add any required environment variables here
-        }
-    }
-},
 		{
-			"label": "build-dotnet",
-			"type": "shell",
+			"label": "test",
 			"command": "dotnet",
+			"type": "shell",
 			"args": [
-				"build"
+				"test",
+				"${workspaceFolder}/chapter-zero.csproj",
+				"--logger:gdunit4;LogLevel=Detailed",
+				"--configuration",
+				"Debug",
+				"--no-build",
+				"--settings",
+				"${workspaceFolder}/.runsettings",
+				"--verbosity normal"
 			],
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"group": "build"
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			},
+			"problemMatcher": "$msCompile",
+			"options": {
+				"env": {}
+			}
 		},
 		{
 			"label": "watch",

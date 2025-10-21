@@ -7,6 +7,8 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+
+#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
 /// <summary>
 /// An element of the <see cref="UIBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
 /// The LifeBar also can show an action icon to demonstrate when the player has queued an action for
@@ -14,6 +16,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
 /// </summary>
 [GlobalClass]
 public partial class UIBattlerLifeBar : TextureProgressBar
+#pragma warning restore IDE1006
 {
     private float targetValue;
     private Tween? tween;

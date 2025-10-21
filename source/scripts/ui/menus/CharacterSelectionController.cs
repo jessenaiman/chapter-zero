@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.Ui.Menus
 {
     /// <summary>
     /// Controls the character selection scene where players choose their protagonist.
@@ -13,6 +13,9 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
     [GlobalClass]
     public partial class CharacterSelectionController : Control
     {
+        /// <summary>
+        /// Gets or sets the path to the game scene to load after character selection.
+        /// </summary>
         [Export]
         public string GameScenePath { get; set; } = "res://source/stages/stage_1/opening.tscn";
 
@@ -21,6 +24,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         private Button? startButton;
         private Button? backButton;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheNodeReferences();

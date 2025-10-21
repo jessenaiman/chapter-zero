@@ -21,7 +21,7 @@ public class ErrorHandlingTests
     /// Tests that system rejects empty string when player name is submitted.
     /// </summary>
     [TestCase]
-    public void SubmitName_WithEmptyString_RejectsInput()
+    public static void SubmitnameWithemptystringRejectsinput()
     {
         // Arrange
         var validator = new NameValidationHarness(maximumLength: 16);
@@ -38,7 +38,7 @@ public class ErrorHandlingTests
     /// Tests that system rejects special characters outside allowed set.
     /// </summary>
     [TestCase]
-    public void SubmitName_WithDisallowedSpecialCharacters_RejectsInput()
+    public static void SubmitnameWithdisallowedspecialcharactersRejectsinput()
     {
         // Arrange
         var validator = new NameValidationHarness(maximumLength: 16);
@@ -55,7 +55,7 @@ public class ErrorHandlingTests
     /// Tests that system rejects names exceeding maximum length.
     /// </summary>
     [TestCase]
-    public void SubmitName_WithExcessiveLength_RejectsInput()
+    public static void SubmitnameWithexcessivelengthRejectsinput()
     {
         // Arrange
         var validator = new NameValidationHarness(maximumLength: 8);
@@ -72,7 +72,7 @@ public class ErrorHandlingTests
     /// Tests that system displays clear error message when validation fails.
     /// </summary>
     [TestCase]
-    public void SubmitName_WithInvalidInput_DisplaysClearErrorMessage()
+    public static void SubmitnameWithinvalidinputDisplaysclearerrormessage()
     {
         // Arrange
         var validator = new NameValidationHarness(maximumLength: 12);
@@ -89,7 +89,7 @@ public class ErrorHandlingTests
     /// Tests that content completes normally when input buttons are mashed rapidly.
     /// </summary>
     [TestCase]
-    public void ProcessInput_WithRapidMashing_CompletesContentNormally()
+    public static void ProcessinputWithrapidmashingCompletescontentnormally()
     {
         // Arrange
         var inputHarness = new TestInputSpamHarness();
@@ -110,7 +110,7 @@ public class ErrorHandlingTests
     /// Tests that consistent state machine is maintained after 50+ rapid inputs.
     /// </summary>
     [TestCase]
-    public void ProcessInput_WithFiftyPlusRapidInputs_MaintainsConsistentState()
+    public static void ProcessinputWithfiftyplusrapidinputsMaintainsconsistentstate()
     {
         // Arrange
         var inputHarness = new TestInputSpamHarness();
@@ -132,7 +132,7 @@ public class ErrorHandlingTests
     /// Tests that system avoids crashes when processing input spam.
     /// </summary>
     [TestCase]
-    public void ProcessInput_WithInputSpam_AvoidsCrashes()
+    public static void ProcessinputWithinputspamAvoidscrashes()
     {
         // Arrange
         var inputHarness = new TestInputSpamHarness();

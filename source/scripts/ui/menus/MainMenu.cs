@@ -4,16 +4,22 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.Ui.Menus
 {
     /// <summary>
     /// Controls the main menu scene with character selection, options, and navigation.
     /// </summary>
     public partial class MainMenuController : Control
     {
+        /// <summary>
+        /// Gets or sets the path to the main game scene.
+        /// </summary>
         [Export]
         public string? GameScenePath { get; set; }
 
+        /// <summary>
+        /// Gets or sets the path to the character selection scene.
+        /// </summary>
         [Export]
         public string? CharacterSelectionPath { get; set; }
 
@@ -23,6 +29,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         private Button? creditsButton;
         private Button? exitButton;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheButtonReferences();

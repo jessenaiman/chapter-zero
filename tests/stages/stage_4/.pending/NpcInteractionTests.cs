@@ -23,7 +23,7 @@ public partial class NpcInteractionTests : Node
     /// Test that all expected NPCs are present in the scene.
     /// </summary>
     [TestCase]
-    public void TestAllNpcsPresent()
+    static public void TestAllNpcsPresent()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -55,7 +55,7 @@ public partial class NpcInteractionTests : Node
     /// Test that Dialogic timelines exist for all NPCs.
     /// </summary>
     [TestCase]
-    public void TestNpcDialogicTimelinesExist()
+    static public void TestNpcDialogicTimelinesExist()
     {
         // Check for Dialogic .dtl timeline files
         var warriorTimeline = ResourceLoader.Exists("res://source/overworld/maps/town/warrior.dtl");
@@ -80,7 +80,7 @@ public partial class NpcInteractionTests : Node
     /// Test that NPCs have interaction components attached.
     /// </summary>
     [TestCase]
-    public void TestNpcsHaveInteractionComponents()
+    static public void TestNpcsHaveInteractionComponents()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -124,7 +124,7 @@ public partial class NpcInteractionTests : Node
     /// Test that ConversationEncounter interaction exists.
     /// </summary>
     [TestCase]
-    public void TestConversationEncounterExists()
+    static public void TestConversationEncounterExists()
     {
         // Check that ConversationEncounter script is available
         var scriptPath = "res://source/overworld/maps/town/ConversationEncounter.cs";
@@ -138,7 +138,7 @@ public partial class NpcInteractionTests : Node
     /// Test that FanInteraction (Gang of Four conversation) exists.
     /// </summary>
     [TestCase]
-    public void TestGangOfFourInteractionExists()
+    static public void TestGangOfFourInteractionExists()
     {
         // Check that Gang of Four interaction scripts exist
         var fanInteractionExists = ResourceLoader.Exists("res://source/overworld/maps/town/FanInteraction.cs");
@@ -157,7 +157,7 @@ public partial class NpcInteractionTests : Node
     /// Test that StrangeTree interaction exists for special town encounter.
     /// </summary>
     [TestCase]
-    public void TestStrangeTreeInteractionExists()
+    static public void TestStrangeTreeInteractionExists()
     {
         var strangeTreeScript = ResourceLoader.Exists("res://source/overworld/maps/town/StrangeTreeInteraction.cs");
         var strangeTreeTimeline = ResourceLoader.Exists("res://source/overworld/maps/town/strange_tree.dtl");
@@ -172,7 +172,7 @@ public partial class NpcInteractionTests : Node
     /// Test that door unlock interaction exists for town exploration.
     /// </summary>
     [TestCase]
-    public void TestDoorUnlockInteractionExists()
+    static public void TestDoorUnlockInteractionExists()
     {
         var doorUnlockScript = ResourceLoader.Exists("res://source/overworld/maps/town/DoorUnlockInteraction.cs");
 
@@ -184,7 +184,7 @@ public partial class NpcInteractionTests : Node
     /// Test that NPCs have proper collision shapes for interaction detection.
     /// </summary>
     [TestCase]
-    public void TestNpcsHaveCollisionShapes()
+    static public void TestNpcsHaveCollisionShapes()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -214,7 +214,7 @@ public partial class NpcInteractionTests : Node
     /// Test that interaction prompts are properly configured.
     /// </summary>
     [TestCase]
-    public void TestInteractionPromptsExist()
+    static public void TestInteractionPromptsExist()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -238,7 +238,7 @@ public partial class NpcInteractionTests : Node
     /// Test that Dialogic plugin integration is available.
     /// </summary>
     [TestCase]
-    public void TestDialogicPluginAvailable()
+    static public void TestDialogicPluginAvailable()
     {
         // Check that Dialogic plugin files exist
         var dialogicPlugin = ResourceLoader.Exists("res://addons/dialogic/plugin.cfg");
@@ -255,7 +255,7 @@ public partial class NpcInteractionTests : Node
     /// Test that NPC GamePiece controllers are properly set up.
     /// </summary>
     [TestCase]
-    public void TestNpcGamepieceControllers()
+    static public void TestNpcGamepieceControllers()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -287,7 +287,7 @@ public partial class NpcInteractionTests : Node
     /// Test that conversation state persistence is supported.
     /// </summary>
     [TestCase]
-    public void TestConversationStatePersistence()
+    static public void TestConversationStatePersistence()
     {
         // Check for GameState singleton which handles persistent data
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
@@ -306,7 +306,7 @@ public partial class NpcInteractionTests : Node
     /// Test that runner NPC exists for special encounter trigger.
     /// </summary>
     [TestCase]
-    public void TestRunnerNpcExists()
+    static public void TestRunnerNpcExists()
     {
         var runnerTimeline = ResourceLoader.Exists("res://source/overworld/maps/town/runner.dtl");
 
@@ -318,7 +318,7 @@ public partial class NpcInteractionTests : Node
     /// Test that sign interaction exists for town information.
     /// </summary>
     [TestCase]
-    public void TestSignInteractionExists()
+    static public void TestSignInteractionExists()
     {
         var signTimeline = ResourceLoader.Exists("res://source/overworld/maps/town/sign.dtl");
 
@@ -330,7 +330,7 @@ public partial class NpcInteractionTests : Node
     /// Test that combat encounter dialogues exist.
     /// </summary>
     [TestCase]
-    public void TestCombatEncounterDialoguesExist()
+    static public void TestCombatEncounterDialoguesExist()
     {
         var beforeCombat = ResourceLoader.Exists("res://source/overworld/maps/town/encounter_before_combat.dtl");
         var onVictory = ResourceLoader.Exists("res://source/overworld/maps/town/encounter_on_victory.dtl");

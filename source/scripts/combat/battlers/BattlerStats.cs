@@ -257,7 +257,7 @@ public partial class BattlerStats : Resource
     {
         System.Diagnostics.Debug.Assert(ModifiableStats.Contains(statName), "Trying to add a modifier to a nonexistent stat.");
 
-        int id = this.GenerateUniqueId(statName, true);
+        int id = this.GenerateUniqueId(statName);
         this.modifiers[statName][id] = value;
         this.RecalculateAndUpdate(statName);
 
@@ -313,7 +313,7 @@ public partial class BattlerStats : Resource
     /// Calculates the final value of a single stat. That is, its base value with all modifiers applied.
     /// We reference a stat property name using a string here and update it with reflection.
     /// </summary>
-    /// <param name="propName"></param>
+    /// <param name="propName">The name of the stat property to recalculate.</param>
     private void RecalculateAndUpdate(string propName)
     {
         // All our property names follow a pattern: the base stat has the same identifier as the final
@@ -324,13 +324,32 @@ public partial class BattlerStats : Resource
         var baseValue = this.GetType().GetProperty(basePropId)?.GetValue(this) ?? 0;
         float value = Convert.ToSingle(baseValue, System.Globalization.CultureInfo.InvariantCulture);
 
+        // Apply multipliers and modifiers to the stat
+        value = this.ApplyStatMultipliers(propName, value);
+        value = this.ApplyStatModifiers(propName, value);
+
+        // Finally, don't allow values to drop below zero.
+        value = Mathf.Round(Mathf.Max(value, 0.0f));
+
+        // Assign the value to the stat by name
+        this.AssignStatValue(propName, (int) value);
+    }
+
+    /// <summary>
+    /// Applies all multipliers to a stat value.
+    /// </summary>
+    /// <param name="propName">The name of the stat.</param>
+    /// <param name="value">The base stat value.</param>
+    /// <returns>The value after multipliers are applied.</returns>
+    private float ApplyStatMultipliers(string propName, float value)
+    {
         // Multipliers apply to the stat multiplicatively.
         // They are first summed, with the sole restriction that they may not go below zero.
         float statMultiplier = 1.0f;
         if (this.multipliers.TryGetValue(propName, out Dictionary<int, float>? multiplierDict))
         {
-            var multipliers = multiplierDict.Values.ToList();
-            foreach (float multiplier in multipliers)
+            var multiplierValues = multiplierDict.Values.ToList();
+            foreach (float multiplier in multiplierValues)
             {
                 statMultiplier += multiplier;
             }
@@ -347,43 +366,59 @@ public partial class BattlerStats : Resource
             value *= statMultiplier;
         }
 
+        return value;
+    }
+
+    /// <summary>
+    /// Applies all modifiers to a stat value.
+    /// </summary>
+    /// <param name="propName">The name of the stat.</param>
+    /// <param name="value">The current stat value.</param>
+    /// <returns>The value after modifiers are applied.</returns>
+    private float ApplyStatModifiers(string propName, float value)
+    {
         // Add all modifiers to the stat.
         if (this.modifiers.TryGetValue(propName, out Dictionary<int, int>? modifierDict))
         {
-            var modifiers = modifierDict.Values.ToList();
-            foreach (int modifier in modifiers)
+            var modifierValues = modifierDict.Values.ToList();
+            foreach (int modifier in modifierValues)
             {
                 value += modifier;
             }
         }
 
-        // Finally, don't allow values to drop below zero.
-        value = Mathf.Round(Mathf.Max(value, 0.0f));
+        return value;
+    }
 
-        // Here's where we assign the value to the stat. For instance, if the `propName` argument is
-        // "attack", this sets the Attack property to the calculated value.
+    /// <summary>
+    /// Assigns a calculated stat value to the appropriate property by name.
+    /// </summary>
+    /// <param name="propName">The name of the stat property.</param>
+    /// <param name="value">The calculated value to assign.</param>
+    private void AssignStatValue(string propName, int value)
+    {
         switch (propName)
         {
             case "max_health":
-                this.MaxHealth = (int) value;
+                this.MaxHealth = value;
                 break;
             case "max_energy":
-                this.MaxEnergy = (int) value;
+                this.MaxEnergy = value;
                 break;
             case "attack":
-                this.Attack = (int) value;
+                this.Attack = value;
                 break;
             case "defense":
-                this.Defense = (int) value;
+                this.Defense = value;
                 break;
             case "speed":
-                this.Speed = (int) value;
+                this.Speed = value;
                 break;
             case "hit_chance":
-                this.HitChance = (int) value;
+                this.HitChance = value;
                 break;
             case "evasion":
-                this.Evasion = (int) value;
+                this.Evasion = value;
                 break;
         }
     }

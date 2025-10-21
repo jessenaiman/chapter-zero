@@ -96,25 +96,33 @@ public partial class GameState : Node
     /// <summary>
     /// Gets the save/load manager for database operations.
     /// </summary>
-    private SaveLoadManager? _saveLoadManager;
+    private SaveLoadManager? saveLoadManager;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
-        // Initialize database context
-        var dbPath = Path.Combine(OS.GetUserDataDir(), "omega_spiral_saves.db");
-        var options = new DbContextOptionsBuilder<GameDbContext>()
-            .UseSqlite($"Data Source={dbPath}")
-            .Options;
+        try
+        {
+            // Initialize database context
+            var dbPath = Path.Combine(OS.GetUserDataDir(), "omega_spiral_saves.db");
+            var options = new DbContextOptionsBuilder<GameDbContext>()
+                .UseSqlite($"Data Source={dbPath}")
+                .Options;
 
-        var context = new GameDbContext(options);
+            var context = new GameDbContext(options);
 
-        // Ensure database is created and migrated
-        context.Database.Migrate();
+            // Ensure database is created and migrated
+            context.Database.Migrate();
 
-        _saveLoadManager = new SaveLoadManager(context);
+            saveLoadManager = new SaveLoadManager(context);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"Failed to initialize database in GameState: {ex.Message}");
+            // Continue without database functionality
+        }
 
-        // Set initial values
+        // Set initial values regardless of database status
         this.CurrentScene = 1;
         this.DreamweaverThread = DreamweaverThread.Hero;
         this.PlayerName = string.Empty;
@@ -218,14 +226,14 @@ public partial class GameState : Node
     /// <returns>True if the save was successful, false otherwise.</returns>
     public async Task<bool> SaveGameAsync(string saveSlot = "default")
     {
-        if (_saveLoadManager == null)
+        if (saveLoadManager == null)
         {
             GD.PrintErr("SaveLoadManager not initialized");
             return false;
         }
 
         this.LastSaveTime = DateTime.Now;
-        return await _saveLoadManager.SaveGameAsync(this, saveSlot);
+        return await saveLoadManager.SaveGameAsync(this, saveSlot);
     }
 
     /// <summary>
@@ -244,13 +252,13 @@ public partial class GameState : Node
     /// <returns>True if the game was loaded successfully, false otherwise.</returns>
     public async Task<bool> LoadGameAsync(string saveSlot = "default")
     {
-        if (_saveLoadManager == null)
+        if (saveLoadManager == null)
         {
             GD.PrintErr("SaveLoadManager not initialized");
             return false;
         }
 
-        var loadedState = await _saveLoadManager.LoadGameAsync(saveSlot);
+        var loadedState = await saveLoadManager.LoadGameAsync(saveSlot);
         if (loadedState == null)
         {
             return false;
@@ -471,7 +479,14 @@ public partial class GameState : Node
 /// </summary>
 public enum PressStartMood
 {
+    /// <summary>
+    /// Inviting mood for a welcoming game experience.
+    /// </summary>
     Inviting,
+
+    /// <summary>
+    /// Ominous mood for a darker, more intense experience.
+    /// </summary>
     Ominous,
 }
 

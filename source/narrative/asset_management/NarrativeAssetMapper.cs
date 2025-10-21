@@ -4,7 +4,8 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Narrative.asset_management;
+namespace OmegaSpiral.Source.Narrative.AssetManagement;
+
 /// <summary>
 /// Maps and manages unused assets for the narrative system, providing easy access to available resources.
 /// This system catalogs unused audio, visual, and other assets that can be utilized in narrative sequences.

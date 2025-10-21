@@ -1,0 +1,1 @@
+qwen-agent[gui,rag,code_interpreter,mcp]>=1.0.0

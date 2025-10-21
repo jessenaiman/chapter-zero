@@ -29,7 +29,7 @@ public class ContentBlockTests
     /// Tests that content block remains visible when waiting without user input for 10 seconds.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithNoUserInputForTenSeconds_RemainsVisible()
+    public static void DisplaytextWithnouserinputfortensecondsRemainsvisible()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -51,7 +51,7 @@ public class ContentBlockTests
     /// Tests that content block does not auto-advance when no input is received.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithNoInput_DoesNotAutoAdvance()
+    public static void DisplaytextWithnoinputDoesnotautoadvance()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: true);
@@ -70,7 +70,7 @@ public class ContentBlockTests
     /// Tests that content block waits indefinitely until player interaction.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithNoInput_WaitsIndefinitelyUntilInteraction()
+    public static void DisplaytextWithnoinputWaitsindefinitelyuntilinteraction()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(3), autoAdvanceOnTimeout: false);
@@ -94,7 +94,7 @@ public class ContentBlockTests
     /// Tests that text is centered within a 4:3 aspect ratio frame.
     /// </summary>
     [TestCase]
-    public void DisplayText_InCRTContainer_CentersTextIn4x3Frame()
+    public static void DisplaytextIncrtcontainerCenterstextin4x3frame()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -109,7 +109,7 @@ public class ContentBlockTests
     /// Tests that CRT blur shader effect is applied to displayed text.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithCRTShader_AppliesBlurEffect()
+    public static void DisplaytextWithcrtshaderAppliesblureffect()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -125,7 +125,7 @@ public class ContentBlockTests
     /// Tests that visible scanline effects are displayed on content.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithCRTShader_DisplaysVisibleScanlines()
+    public static void DisplaytextWithcrtshaderDisplaysvisiblescanlines()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -141,7 +141,7 @@ public class ContentBlockTests
     /// Tests that visual consistency is maintained with reference overlay.
     /// </summary>
     [TestCase]
-    public void DisplayText_WithCRTShader_MaintainsVisualConsistency()
+    public static void DisplaytextWithcrtshaderMaintainsvisualconsistency()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -157,7 +157,7 @@ public class ContentBlockTests
     /// Tests that characters are revealed sequentially at consistent intervals.
     /// </summary>
     [TestCase]
-    public void PlayTypewriter_WithTiming_RevealsCharactersSequentially()
+    public static void PlaytypewriterWithtimingRevealscharacterssequentially()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -182,7 +182,7 @@ public class ContentBlockTests
     /// Tests that keystroke sound effects are synchronized with character appearance.
     /// </summary>
     [TestCase]
-    public void PlayTypewriter_WithAudio_SynchronizesSoundWithText()
+    public static void PlaytypewriterWithaudioSynchronizessoundwithtext()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -204,7 +204,7 @@ public class ContentBlockTests
     /// Tests that typewriter sound loops until line completion.
     /// </summary>
     [TestCase]
-    public void PlayTypewriter_WithAudio_LoopsSoundUntilLineCompletion()
+    public static void PlaytypewriterWithaudioLoopssounduntillinecompletion()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -225,7 +225,7 @@ public class ContentBlockTests
     /// Tests that consistent timing is maintained throughout animation.
     /// </summary>
     [TestCase]
-    public void PlayTypewriter_WithTiming_MaintainsConsistentTiming()
+    public static void PlaytypewriterWithtimingMaintainsconsistenttiming()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -246,7 +246,7 @@ public class ContentBlockTests
     /// Tests that dissolve effect triggers at YAML-defined section boundaries.
     /// </summary>
     [TestCase]
-    public void TransitionSection_AtYAMLBoundary_ActivatesDissolveEffect()
+    public static void TransitionsectionAtyamlboundaryActivatesdissolveeffect()
     {
         // Arrange
         var transitionContext = new TestTransitionContext();
@@ -264,7 +264,7 @@ public class ContentBlockTests
     /// Tests that text fades using dissolve shader during transitions.
     /// </summary>
     [TestCase]
-    public void TransitionSection_WithDissolveShader_FadesTextCorrectly()
+    public static void TransitionsectionWithdissolveshaderFadestextcorrectly()
     {
         // Arrange
         var transitionContext = new TestTransitionContext();
@@ -284,7 +284,7 @@ public class ContentBlockTests
     /// Tests that dissolve duration matches configured settings.
     /// </summary>
     [TestCase]
-    public void TransitionSection_WithTiming_MatchesConfiguredDuration()
+    public static void TransitionsectionWithtimingMatchesconfiguredduration()
     {
         // Arrange
         var transitionContext = new TestTransitionContext();
@@ -303,7 +303,7 @@ public class ContentBlockTests
     /// Tests that next content block appears after dissolve completes.
     /// </summary>
     [TestCase]
-    public void TransitionSection_WithDissolve_WaitsForCompletion()
+    public static void TransitionsectionWithdissolveWaitsforcompletion()
     {
         // Arrange
         var transitionContext = new TestTransitionContext();
@@ -324,7 +324,7 @@ public class ContentBlockTests
     /// Tests that keyboard navigation allows selection of dialogue choices.
     /// </summary>
     [TestCase]
-    public void SelectChoice_WithKeyboardNavigation_AllowsChoiceSelection()
+    public static void SelectchoiceWithkeyboardnavigationAllowschoiceselection()
     {
         // Arrange
         var choiceContext = new TestChoiceContext(numberOfChoices: 3);
@@ -344,7 +344,7 @@ public class ContentBlockTests
     /// Tests that mouse click allows selection of dialogue choices.
     /// </summary>
     [TestCase]
-    public void SelectChoice_WithMouseClick_AllowsChoiceSelection()
+    public static void SelectchoiceWithmouseclickAllowschoiceselection()
     {
         // Arrange
         var choiceContext = new TestChoiceContext(numberOfChoices: 3);
@@ -363,7 +363,7 @@ public class ContentBlockTests
     /// Tests that gamepad input allows selection of dialogue choices.
     /// </summary>
     [TestCase]
-    public void SelectChoice_WithGamepadInput_AllowsChoiceSelection()
+    public static void SelectchoiceWithgamepadinputAllowschoiceselection()
     {
         // Arrange
         var choiceContext = new TestChoiceContext(numberOfChoices: 3);
@@ -383,7 +383,7 @@ public class ContentBlockTests
     /// Tests that narrative advances after any valid choice selection.
     /// </summary>
     [TestCase]
-    public void SelectChoice_WithAnyValidInput_AdvancesNarrative()
+    public static void SelectchoiceWithanyvalidinputAdvancesnarrative()
     {
         // Arrange
         var choiceContext = new TestChoiceContext(numberOfChoices: 3);
@@ -416,7 +416,7 @@ public class ContentBlockTests
     /// Tests that content block advances when keyboard select is pressed.
     /// </summary>
     [TestCase]
-    public void AdvanceBlock_WithKeyboardSelect_AdvancesContentBlock()
+    public static void AdvanceblockWithkeyboardselectAdvancescontentblock()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -435,7 +435,7 @@ public class ContentBlockTests
     /// Tests that content block advances when gamepad confirm is pressed.
     /// </summary>
     [TestCase]
-    public void AdvanceBlock_WithGamepadConfirm_AdvancesContentBlock()
+    public static void AdvanceblockWithgamepadconfirmAdvancescontentblock()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -454,7 +454,7 @@ public class ContentBlockTests
     /// Tests that content block advances when mouse click is detected.
     /// </summary>
     [TestCase]
-    public void AdvanceBlock_WithMouseClick_AdvancesContentBlock()
+    public static void AdvanceblockWithmouseclickAdvancescontentblock()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
@@ -473,7 +473,7 @@ public class ContentBlockTests
     /// Tests that content block responds to all configured input methods consistently.
     /// </summary>
     [TestCase]
-    public void AdvanceBlock_WithAllInputMethods_RespondsConsistently()
+    public static void AdvanceblockWithallinputmethodsRespondsconsistently()
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);

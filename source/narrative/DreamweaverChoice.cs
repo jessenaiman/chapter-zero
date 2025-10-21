@@ -16,19 +16,16 @@ namespace OmegaSpiral.Source.Narrative
         // TODO: duplicate Source/Scripts/field/narrative/PersonaConfig.cs - Consider consolidating choice option classes
         /// <summary>
         /// Gets or sets the unique identifier for this choice option.
-        /// Overrides base class property with Dreamweaver-specific behavior.
         /// </summary>
         public new string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the display text for this choice option.
-        /// Overrides base class property with Dreamweaver-specific behavior.
         /// </summary>
         public new string? Text { get; set; }
 
         /// <summary>
         /// Gets or sets the detailed description for this choice option.
-        /// Overrides base class property with Dreamweaver-specific behavior.
         /// </summary>
         public new string? Description { get; set; }
 

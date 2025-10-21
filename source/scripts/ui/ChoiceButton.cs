@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui;
+namespace OmegaSpiral.Source.Scripts.Ui;
 
 /// <summary>
 /// Interactive button for presenting philosophical choices in Stage 1 opening sequence.
@@ -22,10 +22,10 @@ namespace OmegaSpiral.Source.Scripts.ui;
 [GlobalClass]
 public partial class ChoiceButton : Button
 {
-    private string _choiceText = string.Empty;
-    private int _lightPoints;
-    private int _shadowPoints;
-    private int _ambitionPoints;
+    private string choiceText = string.Empty;
+    private int lightPoints;
+    private int shadowPoints;
+    private int ambitionPoints;
 
     /// <summary>
     /// Emitted when this choice button is activated by player.
@@ -46,10 +46,10 @@ public partial class ChoiceButton : Button
     /// </summary>
     public string ChoiceText
     {
-        get => _choiceText;
+        get => choiceText;
         set
         {
-            _choiceText = value;
+            choiceText = value;
             Text = value;
         }
     }
@@ -59,8 +59,8 @@ public partial class ChoiceButton : Button
     /// </summary>
     public int LightPoints
     {
-        get => _lightPoints;
-        set => _lightPoints = value;
+        get => lightPoints;
+        set => lightPoints = value;
     }
 
     /// <summary>
@@ -68,8 +68,8 @@ public partial class ChoiceButton : Button
     /// </summary>
     public int ShadowPoints
     {
-        get => _shadowPoints;
-        set => _shadowPoints = value;
+        get => shadowPoints;
+        set => shadowPoints = value;
     }
 
     /// <summary>
@@ -77,10 +77,11 @@ public partial class ChoiceButton : Button
     /// </summary>
     public int AmbitionPoints
     {
-        get => _ambitionPoints;
-        set => _ambitionPoints = value;
+        get => ambitionPoints;
+        set => ambitionPoints = value;
     }
 
+    /// <inheritdoc/>
     public override void _Ready()
     {
         // Connect button signals
@@ -98,30 +99,30 @@ public partial class ChoiceButton : Button
     /// <summary>
     /// Configures this button with choice data from JSON.
     /// </summary>
-    /// <param name="choiceText">The text to display on the button</param>
-    /// <param name="lightPoints">Points awarded to Light thread</param>
-    /// <param name="shadowPoints">Points awarded to Shadow thread</param>
-    /// <param name="ambitionPoints">Points awarded to Ambition thread</param>
-    /// <exception cref="System.ArgumentException">
-    /// Thrown if <paramref name="choiceText"/> is <see langword="null"/> or empty.
+    /// <param name="text">The text to display on the button</param>
+    /// <param name="light">Points awarded to Light thread</param>
+    /// <param name="shadow">Points awarded to Shadow thread</param>
+    /// <param name="ambition">Points awarded to Ambition thread</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown if <paramref name="text"/> is <see langword="null"/> or empty.
     /// </exception>
     public void Configure(
-        string choiceText,
-        int lightPoints,
-        int shadowPoints,
-        int ambitionPoints)
+        string text,
+        int light,
+        int shadow,
+        int ambition)
     {
-        if (string.IsNullOrWhiteSpace(choiceText))
+        if (string.IsNullOrWhiteSpace(text))
         {
-            throw new System.ArgumentException("Choice text cannot be null or empty", nameof(choiceText));
+            throw new ArgumentException("Choice text cannot be null or empty", nameof(text));
         }
 
-        ChoiceText = choiceText;
-        LightPoints = lightPoints;
-        ShadowPoints = shadowPoints;
-        AmbitionPoints = ambitionPoints;
+        ChoiceText = text;
+        LightPoints = light;
+        ShadowPoints = shadow;
+        AmbitionPoints = ambition;
 
-        GD.Print($"[ChoiceButton] Configured: '{choiceText}' (L:{lightPoints} S:{shadowPoints} A:{ambitionPoints})");
+        GD.Print($"[ChoiceButton] Configured: '{text}' (L:{light} S:{shadow} A:{ambition})");
     }
 
     private void OnPressed()
@@ -159,6 +160,7 @@ public partial class ChoiceButton : Button
         // Visual feedback handled by theme
     }
 
+    /// <inheritdoc/>
     public override void _ExitTree()
     {
         // Clean up signal connections

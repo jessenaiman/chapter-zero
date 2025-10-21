@@ -3,9 +3,8 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.Common.screen_transitions;
-using OmegaSpiral.Source.Scripts.Field.UI;
 
 namespace OmegaSpiral.Source.Narrative;
 /// <summary>
@@ -44,11 +43,9 @@ public abstract partial class NarrativeSequence : Control
     /// </summary>
     protected ScreenTransition? ScreenTransition { get; private set; }
 
-    /// <summary>
-    /// Gets a reference to the UiDialogue component (if available).
-    /// Sequences can use this for typewriter effects and dialogue presentation.
-    /// </summary>
-    protected UiDialogue? Dialogue { get; private set; }
+    // TODO: UiDialogue class needs to be implemented. For now, this property remains commented out.
+    // When implemented, uncomment this property and the GetNodeOrNull call in OnSequenceReady().
+    // protected UiDialogue? Dialogue { get; private set; }
 
     /// <summary>
     /// Gets a reference to the GameState singleton.
@@ -93,7 +90,8 @@ public abstract partial class NarrativeSequence : Control
     protected virtual void OnSequenceReady()
     {
         this.ScreenTransition = this.GetNodeOrNull<ScreenTransition>("/root/ScreenTransition");
-        this.Dialogue = this.GetNodeOrNull<UiDialogue>("/root/UIDialogue");
+        // TODO: Uncomment when UiDialogue class is created
+        // this.Dialogue = this.GetNodeOrNull<UiDialogue>("/root/UIDialogue");
         this.GameState = this.GetNodeOrNull<GameState>("/root/GameState");
         this.DreamweaverSystem = this.GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");
         this.AnimationPlayer = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
@@ -131,24 +129,24 @@ public abstract partial class NarrativeSequence : Control
     {
         this.EmitSignal(SignalName.SequenceInput, inputId);
     }
-
     /// <summary>
-    /// Utility: displays text with typewriter effect using the UIDialogue component.
-    /// Returns immediately if UIDialogue is not available.
+    /// Displays text with a typewriter effect.
     /// </summary>
     /// <param name="text">The text to display.</param>
     /// <param name="characterDelay">The delay between characters in seconds. Defaults to 0.02 (50 chars/sec).</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    protected async Task DisplayTextWithTypewriterAsync(string text, float characterDelay = 0.02f)
+    protected static async Task DisplayTextWithTypewriterAsync(string text, float characterDelay = 0.02f)
     {
-        if (this.Dialogue == null)
-        {
-            return;
-        }
+        // TODO: Uncomment when UiDialogue class is created
+        // if (this.Dialogue == null)
+        // {
+        //     return;
+        // }
 
         // Note: This would call UIDialogue's typewriter method if it's exposed.
-        // For now, we defer to direct display.
-        await Task.Delay((int) (text.Length * characterDelay * 1000)).ConfigureAwait(false);
+        // For now, we defer to direct display and return immediately as a placeholder.
+        // TODO: Remove this empty implementation when UIDialogue implementation is available
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     /// <summary>

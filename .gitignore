@@ -1,6 +1,9 @@
+# The following folder was removed as it was a non-standard hack and not part of official GdUnit4 setup:
+gdunit4_testadapter_v5/
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
-.reference/
+
+
 
 # LLM Models (large binary files - download separately)
 models/*.gguf
@@ -14,12 +17,6 @@ addons/nobodywho/*.pdb
 
 # Ignore git repositories within addons
 addons/**/[.git|.gitignore]/
-addons/**/lib
-addons/**/bin
-addons/**/obj
-addons/**/build/
-addons/**/dist/
-addons/**/out/
 addons/**/.github
 
 # Chat exports (may contain sensitive tokens)

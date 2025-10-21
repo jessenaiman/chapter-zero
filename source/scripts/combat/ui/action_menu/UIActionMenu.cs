@@ -137,13 +137,13 @@ public partial class UiActionMenu : UIListMenu
     /// <param name="entry">The pressed button entry.</param>
     protected override void OnEntryPressed(BaseButton entry)
     {
-    var actionEntry = entry as UiActionButton;
-    if (actionEntry is null || actionEntry.Action is null || this.battler is null || this.battlerList is null)
+        var actionEntry = entry as UiActionButton;
+        if (actionEntry is null || actionEntry.Action is null || this.battler is null || this.battlerList is null)
         {
             return;
         }
 
-    var action = actionEntry.Action!;
+        var action = actionEntry.Action!;
 
         // First of all, check to make sure that the action has valid targets. If it does
         // not, do not allow selection of the action.

@@ -53,7 +53,17 @@ public partial class DreamweaverSystem : Node
     public override void _Ready()
     {
         GD.Print($"DreamweaverSystem _Ready called, instance: {this.GetInstanceId()}");
-        this.gameState = this.GetNode<GameState>("/root/GameState");
+
+        // Try to get GameState, but don't fail if it's not available
+        try
+        {
+            this.gameState = this.GetNode<GameState>("/root/GameState");
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"Failed to get GameState in DreamweaverSystem: {ex.Message}");
+            this.gameState = null;
+        }
 
         // Initialize the three Dreamweaver personas
         this.InitializePersonas();
@@ -243,6 +253,37 @@ public partial class DreamweaverSystem : Node
         var config = new PersonaConfig();
 
         // Map opening lines
+        MapOpeningLines(data, config);
+
+        // Map initial choice
+        MapInitialChoice(data, config);
+
+        // Map story blocks
+        MapStoryBlocks(data, config);
+
+        // Map name prompt
+        if (data.TryGetValue("namePrompt", out var namePromptValue))
+        {
+            config.NamePrompt = namePromptValue.AsString();
+        }
+
+        // Map secret question
+        MapSecretQuestion(data, config);
+
+        // Map exit line
+        if (data.TryGetValue("exitLine", out var exitLineValue))
+        {
+            config.ExitLine = exitLineValue.AsString();
+        }
+
+        return config;
+    }
+
+    /// <summary>
+    /// Maps opening lines from dictionary data to config.
+    /// </summary>
+    private static void MapOpeningLines(Godot.Collections.Dictionary<string, Variant> data, PersonaConfig config)
+    {
         if (data.TryGetValue("openingLines", out var openingLinesValue) && openingLinesValue.VariantType == Variant.Type.Array)
         {
             var openingArray = data["openingLines"].AsGodotArray();
@@ -251,8 +292,13 @@ public partial class DreamweaverSystem : Node
                 config.OpeningLines.Add(line.AsString());
             }
         }
+    }
 
-        // Map initial choice
+    /// <summary>
+    /// Maps initial choice from dictionary data to config.
+    /// </summary>
+    private static void MapInitialChoice(Godot.Collections.Dictionary<string, Variant> data, PersonaConfig config)
+    {
         if (data.TryGetValue("initialChoice", out var initialChoiceValue) && initialChoiceValue.VariantType == Variant.Type.Dictionary)
         {
             var initialChoiceDict = data["initialChoice"].AsGodotDictionary();
@@ -282,8 +328,13 @@ public partial class DreamweaverSystem : Node
                 }
             }
         }
+    }
 
-        // Map story blocks
+    /// <summary>
+    /// Maps story blocks from dictionary data to config.
+    /// </summary>
+    private static void MapStoryBlocks(Godot.Collections.Dictionary<string, Variant> data, PersonaConfig config)
+    {
         if (data.TryGetValue("storyBlocks", out var storyBlocksValue) && storyBlocksValue.VariantType == Variant.Type.Array)
         {
             var blocksArray = data["storyBlocks"].AsGodotArray();
@@ -329,14 +380,13 @@ public partial class DreamweaverSystem : Node
                 }
             }
         }
+    }
 
-        // Map name prompt
-        if (data.TryGetValue("namePrompt", out var namePromptValue))
-        {
-            config.NamePrompt = data["namePrompt"].AsString();
-        }
-
-        // Map secret question
+    /// <summary>
+    /// Maps secret question from dictionary data to config.
+    /// </summary>
+    private static void MapSecretQuestion(Godot.Collections.Dictionary<string, Variant> data, PersonaConfig config)
+    {
         if (data.TryGetValue("secretQuestion", out var secretQuestionValue) && secretQuestionValue.VariantType == Variant.Type.Dictionary)
         {
             var secretQuestionDict = data["secretQuestion"].AsGodotDictionary();
@@ -360,14 +410,6 @@ public partial class DreamweaverSystem : Node
                 }
             }
         }
-
-        // Map exit line
-        if (data.TryGetValue("exitLine", out var exitLineValue))
-        {
-            config.ExitLine = data["exitLine"].AsString();
-        }
-
-        return config;
     }
 
     /// <summary>

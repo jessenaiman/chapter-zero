@@ -9,7 +9,14 @@ test attributes and helps developers catch configuration errors early in the dev
 
 The analyzer must be included by referencing the gdUnit4.analyzer package:
 
-All code style and analyzer rules are now managed in `.editorconfig` at the solution root. Only Roslynator analyzers are enforced; **StyleCop and ruleset files are no longer used.**
+```xml
+<PackageReference Include="gdUnit4.api" Version="5.0.0"/>
+<PackageReference Include="gdUnit4.test.adapter" Version="3.0.0"/>
+<PackageReference Include="gdUnit4.analyzers" Version="1.0.0">
+  <PrivateAssets>all</PrivateAssets>
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
+```
 
 * **Attribute Validation:** The analyzer enforces correct usage of GdUnit4 test attributes
 
@@ -22,7 +29,7 @@ All code style and analyzer rules are now managed in `.editorconfig` at the solu
   [TestCase]
   [DataPoint(nameof(TestData))]
   public void ValidTest(int a, int b) { }
-
+  
   // ❌ Invalid: Multiple TestCase with DataPoint
   [TestCase]
   [TestCase]                         // GdUnit0201 error: Method 'InvalidTest' cannot have multiple TestCase attributes when DataPoint attribute is present
@@ -47,12 +54,3 @@ The analyzer is built using:
 
 For more detailed documentation about the entire GdUnit4 ecosystem, visit our [documentation site](https://mikeschulze.github.io/gdUnit4/).
 
-### You are welcome to
-
-* [Give Feedback](https://github.com/MikeSchulze/gdUnit4Net/discussions)
-* [Suggest Improvements](https://github.com/MikeSchulze/gdUnit4Net/issues/new?assignees=MikeSchulze&labels=enhancement&template=feature_request.md&title=)
-* [Report Bugs](https://github.com/MikeSchulze/gdUnit4Net/issues/new?assignees=MikeSchulze&labels=bug%2C+task&template=bug_report.md&title=)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.

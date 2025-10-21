@@ -5,42 +5,34 @@
 namespace OmegaSpiral.Source.Narrative;
 
 /// <summary>
-/// Represents a choice in a dialogue.
+/// Represents a choice option that can be used in both dialogue and narrative contexts.
+/// Consolidates the functionality of both DialogueChoice and ChoiceOption classes.
 /// </summary>
-public class DialogueChoice
+public partial class ChoiceOption
 {
-    // TODO: duplicate Source/Scripts/field/narrative/NarrativeSceneData.cs - Consider consolidating choice option classes
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DialogueChoice"/> class.
-    /// Creates a new dialogue choice.
-    /// </summary>
-    /// <param name="text">The choice text.</param>
-    /// <param name="response">The response text.</param>
-    /// <param name="nextNodeId">The next node ID.</param>
-    public DialogueChoice(string text, string response, string nextNodeId)
-    {
-        this.Text = text;
-        this.Response = response;
-        this.NextNodeId = nextNodeId;
-    }
-
-    /// <summary>
-    /// Gets or sets the text displayed for this choice.
-    /// </summary>
-    public string Text { get; set; }
-
     /// <summary>
     /// Gets or sets the response or consequence of selecting this choice.
     /// </summary>
-    public string Response { get; set; }
+    public string? Response { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether whether this choice is available.
+    /// Gets or sets a value indicating whether this choice is available.
     /// </summary>
     public bool IsAvailable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the next dialogue node to go to when this choice is selected.
     /// </summary>
-    public string NextNodeId { get; set; }
+    public string? NextNodeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the story block number this choice leads to (for narrative contexts).
+    /// </summary>
+    public int NextBlock { get; set; }
+
+    /// <summary>
+    /// Gets or sets the detailed description for this choice option.
+    /// Provides additional context or explanation for the choice.
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
 }

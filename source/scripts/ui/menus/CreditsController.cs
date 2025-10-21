@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui.Menus
+namespace OmegaSpiral.Source.Scripts.Ui.Menus
 {
     /// <summary>
     /// Controls the credits scene with scrolling credits display and navigation.
@@ -12,9 +12,15 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
     [GlobalClass]
     public partial class CreditsController : Control
     {
+        /// <summary>
+        /// Gets or sets the speed at which credits scroll up.
+        /// </summary>
         [Export]
         public float ScrollSpeed { get; set; } = 50.0f;
 
+        /// <summary>
+        /// Gets or sets the path to the credits text file.
+        /// </summary>
         [Export]
         public string CreditsTextPath { get; set; } = "res://source/Data/credits.txt";
 
@@ -22,6 +28,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
         private Button? backButton;
         private float scrollProgress;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheNodeReferences();
@@ -29,6 +36,7 @@ namespace OmegaSpiral.Source.Scripts.ui.Menus
             this.LoadCreditsText();
         }
 
+        /// <inheritdoc/>
         public override void _Process(double delta)
         {
             // For now, just handle input for skipping credits

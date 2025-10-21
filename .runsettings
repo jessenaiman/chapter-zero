@@ -12,11 +12,7 @@
     <RunConfiguration>
         <!-- Run tests sequentially (required for Godot runtime tests) -->
         <MaxCpuCount>1</MaxCpuCount>
-
-        <!-- Test adapter paths -->
         <TestAdaptersPaths>.</TestAdaptersPaths>
-
-        <!-- Results directory for test output -->
         <ResultsDirectory>./TestResults</ResultsDirectory>
 
         <!-- Timeout for entire test session (30 minutes) -->
@@ -25,15 +21,9 @@
         <!-- Fail build if no tests are found -->
         <TreatNoTestsAsError>true</TreatNoTestsAsError>
 
-        <!-- Environment variables available to all tests -->
         <EnvironmentVariables>
             <!-- Path to Godot executable (required for [RequireGodotRuntime] tests) -->
             <GODOT_BIN>/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64/Godot_v4.5.1-stable_mono_linux.x86_64</GODOT_BIN>
-
-            <!-- Path to test data fixtures -->
-            <TEST_DATA_PATH>./Tests/TestData</TEST_DATA_PATH>
-
-            <!-- Enable debug mode for detailed logging -->
             <DEBUG_MODE>true</DEBUG_MODE>
 
             <!-- Project root path for Godot -->
@@ -68,23 +58,17 @@
         </Loggers>
     </LoggerRunSettings>
 
-    <!-- GdUnit4-Specific Configuration -->
     <GdUnit4>
-        <!-- Additional Godot runtime parameters -->
-        <!-- --headless: Run without GUI -->
-        <!-- --path: Specify project path -->
-        <!-- --disable-crash-handler: Prevent crash dialogs during tests -->
-        <Parameters>--headless --path /home/adam/Dev/omega-spiral/chapter-zero --disable-crash-handler --verbose</Parameters>
+    <!-- Additional Godot runtime parameters: headless, path, disable crash handler, verbose -->
+    <Parameters>--headless --path /home/adam/Dev/omega-spiral/chapter-zero --disable-crash-handler --verbose</Parameters>
 
-        <!-- Test display name format: SimpleName or FullyQualifiedName -->
-        <!-- FullyQualifiedName shows namespace.Class.Method for better identification -->
+    <!-- Test display name format: SimpleName or FullyQualifiedName. FullyQualifiedName shows namespace.Class.Method for better identification. -->
         <DisplayName>FullyQualifiedName</DisplayName>
 
-        <!-- Capture stdout from test cases for debugging -->
+    <!-- Capture stdout from test cases for debugging -->
         <CaptureStdOut>true</CaptureStdOut>
 
-        <!-- Compilation timeout for large projects (60 seconds) -->
-        <!-- Increase if you have a large project or slow build machine -->
+    <!-- Compilation timeout for large projects (60 seconds). Increase if you have a large project or slow build machine. -->
         <CompileProcessTimeout>60000</CompileProcessTimeout>
     </GdUnit4>
 </RunSettings>

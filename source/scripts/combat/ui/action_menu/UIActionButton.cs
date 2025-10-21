@@ -12,7 +12,9 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
 /// A button representing a single <see cref="OmegaSpiral.Source.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UiActionMenu"/>.
 /// </summary>
 [GlobalClass]
+#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
 public partial class UiActionButton : TextureButton
+#pragma warning restore IDE1006
 {
     private TextureRect? icon;
     private Label? nameLabel;

@@ -18,7 +18,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic object creation and null checks.
     /// </summary>
     [TestCase]
-    public void BasicObjectCreation_ReturnsValidObject()
+    public static void BasicobjectcreationReturnsvalidobject()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testObject = new object();
@@ -31,7 +31,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic list operations.
     /// </summary>
     [TestCase]
-    public void BasicListOperations_ReturnsExpectedCount()
+    public static void BasiclistoperationsReturnsexpectedcount()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testList = new List<string> { "Item1", "Item2", "Item3" };
@@ -45,7 +45,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic boolean logic.
     /// </summary>
     [TestCase]
-    public void BasicBooleanLogic_ReturnsExpectedValues()
+    public static void BasicbooleanlogicReturnsexpectedvalues()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testBool1 = true;
@@ -60,7 +60,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic string operations.
     /// </summary>
     [TestCase]
-    public void BasicStringOperations_ReturnsExpectedContent()
+    public static void BasicstringoperationsReturnsexpectedcontent()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testString = "test content";
@@ -75,7 +75,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic numeric operations.
     /// </summary>
     [TestCase]
-    public void BasicNumericOperations_ReturnsExpectedValues()
+    public static void BasicnumericoperationsReturnsexpectedvalues()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testValue = 0;
@@ -90,7 +90,7 @@ public class NarrativeScriptFunctionalTests
     /// Tests basic dictionary operations.
     /// </summary>
     [TestCase]
-    public void BasicDictionaryOperations_ReturnsExpectedValues()
+    public static void BasicdictionaryoperationsReturnsexpectedvalues()
     {
         // Arrange & Act & Assert - simple test that doesn't require complex mocking
         var testDict = new Dictionary<string, int>();

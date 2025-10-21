@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.ui
+namespace OmegaSpiral.Source.Scripts.Ui
 {
     /// <summary>
     /// Controls the loading screen display during scene transitions.
@@ -13,9 +13,15 @@ namespace OmegaSpiral.Source.Scripts.ui
     [GlobalClass]
     public partial class LoadingScreenController : CanvasLayer
     {
+        /// <summary>
+        /// Gets or sets the duration for fading the loading screen in (in seconds).
+        /// </summary>
         [Export]
         public float FadeInDuration { get; set; } = 0.3f;
 
+        /// <summary>
+        /// Gets or sets the duration for fading the loading screen out (in seconds).
+        /// </summary>
         [Export]
         public float FadeOutDuration { get; set; } = 0.5f;
 
@@ -24,6 +30,7 @@ namespace OmegaSpiral.Source.Scripts.ui
         private ProgressBar? progressBar;
         private Tween? fadeTween;
 
+        /// <inheritdoc/>
         public override void _Ready()
         {
             this.CacheNodeReferences();

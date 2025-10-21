@@ -1,9 +1,44 @@
-# Omega Spiral Game Overview
+# Omega Spiral Game Senior Game Developer Overview
+
+**You are a professional that always start by verifying installed versions and learning about the project before making any changes.**
 
 ## Tech Stack
+
+### Backend
+- **Framework**: .NET 10 RC2
 - **Game Engine**: Godot 4.5.1
-- **Programming Language**: C# 14
-- **Project Type**: Godot C# 4.5.1 Stable
+- **Backend Language**: C# 14
+
+### Godot Frontend
+- **Framework**: .NET 8
+- **Game Engine**: Godot 4.5.1 Stable
+
+#### Checking Dotnet Versions
+
+The proper way to add NuGet packages is using the dotnet add package command, which handles the XML insertion and version resolution automatically. No guessing required.
+
+To check all installed .NET runtimes and SDKs on your system, use these commands in your terminal:
+
+- To list installed .NET runtimes:
+  ```bash
+  dotnet --list-runtimes
+  ```
+
+- To list installed .NET SDKs:
+  ```bash
+  dotnet --list-sdks
+  ```
+
+This will show all available versions and their install locations. .NET is installed, do not attempt to reinstall it.
+
+
+## Rules
+- use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
+- a clean project is your responsibility
+- Do not alter config files, only show in chat the settings to change with examples I can copy
+
+
+## Naming Conventions
 
 ✅ FOLDERS/FILES:        snake_case     (e.g., my_scenes/, player_sprite.png)
 ✅ C# SCRIPT FILES:      PascalCase     (e.g., PlayerCharacter.cs)
@@ -19,16 +54,6 @@
 ✅ C# PROPERTIES:        PascalCase     (CurrentHealth, MaxSpeed, etc.)
 
 ✅ C# METHODS:           PascalCase     (UpdateHealth(), CalculateDamage(), etc.)
-
-**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
-
-## Basic Rules
-- use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
-- a clean project is your responsibility
-
-## Naming Conventions
-
-
 
 ### C# Files (.cs):
 - **Class names**: PascalCase (e.g., `SceneManager.cs`, `GameState.cs`)
@@ -62,14 +87,6 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 - Always follow the XML Documentation Rules
 -
 
-### Tools USE or LOSE
-
-- Always read tool descriptions completely before using
-- Do not run terminal commands or scripts that have tool solutions available
-
-### YOU MUST FOLLOW THESE RULES TO THE LETTER:
-**ALWAYS MAKE SURE THE PROJECT BUILDS SUCCESSFULLY**
-**ALWAYS MAKE SURE ALL TESTS PASS**
 **ALWAYS MAKE SURE THERE ARE NO WARNINGS OR ERRORS IN THE TERMINAL OUTPUT**
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
 **ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS**
@@ -79,18 +96,7 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 
-## [Code Standards](./instructions/code-standards.instructions.md)
-
 **FIX EVERYTHING**
-
-**MUST ENFORCE XML Documentation Comments**
-**MUST DOUBLE CHECK FOR ALL [CSHARP STYLE RULES](./instructions/c_sharp_styleguide.mdx) and [CODING CONVENTIONS](./instructions/coding-conventions.instructions.md)**
-**DO NOT ADD NICE TO HAVE FEATURES**
-**DO NOT PROVIDE SUCCESS STORIES**
-**NEVER WRITE FALSE POSITIVE TESTS**
-**NEVER HIDE ERRORS**
-**ALWAYS CHECK THE TESTS AND BUILD AFTER EVERY NEW FILE AND CHANGE**
-**USE CODACY TO CHECK FOR ISSUES AND FIXES**
 
 ## XML Documentation Rules
 
@@ -108,3 +114,15 @@ Use your damn tools, don't make the user waste tokens telling you about issues t
 - Use `<typeparamref>` to reference type parameters in documentation.
 - Use `<c>` for inline code snippets.
 - Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
+
+## **Omega Spiral - Chapter Zero**
+
+Is a turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features a concept called 'Spiral Storytelling' where 3 dynamic AI-driven narrative personas (Dreamweavers) each guide a party of adventurers that spirals around a central narrative.
+
+## Game Overview
+
+- **Title**: Omega Spiral - Chapter Zero
+- **Genre**: Turn-Based RPG with Dynamic AI-Driven Narrative
+- **Setting**: Five distinct scenes representing different eras of gaming aesthetics
+- **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development
+- **Single Player**: 1 player and 2 quantum players. The other dreamweavers write the story in the backend.

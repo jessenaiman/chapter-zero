@@ -23,7 +23,7 @@ public partial class PerformanceTests : Node
     /// Test that Stage 4 scene loads within acceptable time limits.
     /// </summary>
     [TestCase]
-    public void TestSceneLoadTime()
+    static public void TestSceneLoadTime()
     {
         var startTime = Time.GetTicksMsec();
 
@@ -47,7 +47,7 @@ public partial class PerformanceTests : Node
     /// Test that scene instantiation is efficient.
     /// </summary>
     [TestCase]
-    public void TestSceneInstantiationPerformance()
+    static public void TestSceneInstantiationPerformance()
     {
         var startTime = Time.GetTicksMsec();
 
@@ -72,7 +72,7 @@ public partial class PerformanceTests : Node
     /// Test that TileMap rendering is optimized.
     /// </summary>
     [TestCase]
-    public void TestTileMapRenderingOptimization()
+    static public void TestTileMapRenderingOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -104,7 +104,7 @@ public partial class PerformanceTests : Node
     /// Test that NPC count is reasonable for performance.
     /// </summary>
     [TestCase]
-    public void TestNpcCountPerformance()
+    static public void TestNpcCountPerformance()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -154,7 +154,7 @@ public partial class PerformanceTests : Node
     /// Test that collision shapes are optimized.
     /// </summary>
     [TestCase]
-    public void TestCollisionShapeOptimization()
+    static public void TestCollisionShapeOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -186,7 +186,7 @@ public partial class PerformanceTests : Node
     /// Test that texture sizes are reasonable for performance.
     /// </summary>
     [TestCase]
-    public void TestTextureOptimization()
+    static public void TestTextureOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -211,7 +211,7 @@ public partial class PerformanceTests : Node
     /// Test that scene tree depth is reasonable.
     /// </summary>
     [TestCase]
-    public void TestSceneTreeDepthOptimization()
+    static public void TestSceneTreeDepthOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -234,7 +234,7 @@ public partial class PerformanceTests : Node
     /// Test that physics processing is optimized.
     /// </summary>
     [TestCase]
-    public void TestPhysicsProcessingOptimization()
+    static public void TestPhysicsProcessingOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -266,7 +266,7 @@ public partial class PerformanceTests : Node
     /// Test that scene cleanup is proper (no memory leaks).
     /// </summary>
     [TestCase]
-    public void TestSceneCleanup()
+    static public void TestSceneCleanup()
     {
         // Load and unload scene multiple times
         for (int i = 0; i < 5; i++)
@@ -290,7 +290,7 @@ public partial class PerformanceTests : Node
     /// Test that autoload singletons are efficiently accessed.
     /// </summary>
     [TestCase]
-    public void TestSingletonAccessPerformance()
+    static public void TestSingletonAccessPerformance()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -321,7 +321,7 @@ public partial class PerformanceTests : Node
     /// Test that signal connections are reasonable in count.
     /// </summary>
     [TestCase]
-    public void TestSignalConnectionOptimization()
+    static public void TestSignalConnectionOptimization()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -350,7 +350,7 @@ public partial class PerformanceTests : Node
     /// Test that initial frame is ready quickly.
     /// </summary>
     [TestCase]
-    public void TestInitialFrameReadiness()
+    static public void TestInitialFrameReadiness()
     {
         var startTime = Time.GetTicksMsec();
 

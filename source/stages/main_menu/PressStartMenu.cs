@@ -2,7 +2,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
 
-namespace OmegaSpiral.Source.Stages.main_menu;
+namespace OmegaSpiral.Source.Stages.MainMenu;
 
 /// <summary>
 /// Custom press-start menu for the Chapter Zero demo.

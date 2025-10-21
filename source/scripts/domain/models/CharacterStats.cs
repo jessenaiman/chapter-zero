@@ -354,7 +354,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (this.MaxHealth > 0)
             {
-                return (float)currentHealth / this.MaxHealth;
+                return (float) currentHealth / this.MaxHealth;
             }
 
             return 0f;
@@ -369,7 +369,7 @@ namespace OmegaSpiral.Domain.Models
         {
             if (this.MaxMana > 0)
             {
-                return (float)currentMana / this.MaxMana;
+                return (float) currentMana / this.MaxMana;
             }
 
             return 0f;

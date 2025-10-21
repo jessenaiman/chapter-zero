@@ -81,12 +81,12 @@ public partial class CombatAI : Node
         }
 
         // Choose a random action for now (simple AI)
-    var chosenAction = availableActions[(int)(GD.Randi() % availableActions.Count)];
+        var chosenAction = availableActions[(int) (GD.Randi() % availableActions.Count)];
 
         // Choose targets for the action
         using BattlerList battlerList = this.Battlers ?? new BattlerList(Array.Empty<Battler>(), Array.Empty<Battler>());
-    var possibleTargets = chosenAction!.GetPossibleTargets(this.ControlledBattler, battlerList);
-    var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
+        var possibleTargets = chosenAction!.GetPossibleTargets(this.ControlledBattler, battlerList);
+        var validTargets = possibleTargets.Where(target => chosenAction.IsTargetValid(target)).ToList();
 
         if (validTargets.Count == 0)
         {
@@ -96,7 +96,7 @@ public partial class CombatAI : Node
         // For single-target actions, choose one target
         if (chosenAction.TargetScope == ActionTargetScope.One)
         {
-            var target = validTargets[(int)(GD.Randi() % validTargets.Count)];
+            var target = validTargets[(int) (GD.Randi() % validTargets.Count)];
             return (chosenAction, new List<Battler> { target });
         }
         if (chosenAction.TargetScope == ActionTargetScope.All)

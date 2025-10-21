@@ -3,6 +3,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.cutscenes.Templates.Combat;
+using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 
 namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
@@ -38,10 +39,17 @@ public sealed partial class Combat : CanvasLayer
         _combatContainer = GetNode<CenterContainer>("CenterContainer");
         _transitionDelayTimer = GetNode<Godot.Timer>("CenterContainer/TransitionDelay");
 
-        var fieldEvents = GetNode("/root/FieldEvents");
-        if (fieldEvents != null)
+        try
         {
-            fieldEvents.Connect("combat_triggered", Callable.From((PackedScene arena) => StartAsync(arena)));
+            var fieldEvents = GetNode("/root/FieldEvents");
+            if (fieldEvents != null)
+            {
+                fieldEvents.Connect("combat_triggered", Callable.From((PackedScene arena) => StartAsync(arena)));
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"Failed to connect to FieldEvents in Combat: {ex.Message}");
         }
     }
 
@@ -79,7 +87,7 @@ public sealed partial class Combat : CanvasLayer
     {
         var transition = GetNode("/root/Transition");
         transition.Call("cover", 0.2f);
-        await ToSignal(transition, "finished");
+        await ToSignal(transition, ScreenTransition.SignalName.Finished);
 
         var newArena = (CombatArena) arena.Instantiate();
         System.Diagnostics.Debug.Assert(newArena != null, "Failed to initiate combat. Provided 'arena' argument is not a CombatArena.");
@@ -120,7 +128,7 @@ public sealed partial class Combat : CanvasLayer
         await ToSignal(_transitionDelayTimer, "timeout");
         var transition = GetNode("/root/Transition");
         transition.Call("cover", 0.2f);
-        await ToSignal(transition, "finished");
+        await ToSignal(transition, ScreenTransition.SignalName.Finished);
 
         _activeArena?.QueueFree();
 
@@ -219,7 +227,7 @@ public sealed partial class Combat : CanvasLayer
         return true;
     }
 
-    private string[] GetCombatResultMessageEvents(bool isPlayerVictory, string leaderName)
+    private static string[] GetCombatResultMessageEvents(bool isPlayerVictory, string leaderName)
     {
         return isPlayerVictory
             ? GetVictoryMessageEvents(leaderName)

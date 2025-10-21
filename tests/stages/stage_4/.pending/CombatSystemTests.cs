@@ -21,7 +21,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat trigger system exists in the scene.
     /// </summary>
     [TestCase]
-    public void TestCombatTriggerSystemExists()
+    static public void TestCombatTriggerSystemExists()
     {
         var combatTriggerScript = ResourceLoader.Exists("res://source/scripts/field/cutscenes/templates/combat/CombatTrigger.cs");
         var roamingTriggerScript = ResourceLoader.Exists("res://source/scripts/field/cutscenes/templates/combat/RoamingCombatTrigger.cs");
@@ -36,7 +36,7 @@ public partial class CombatSystemTests : Node
     /// Test that CombatEvents singleton is available for combat coordination.
     /// </summary>
     [TestCase]
-    public void TestCombatEventsSingletonExists()
+    static public void TestCombatEventsSingletonExists()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -54,7 +54,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat arena scene resources exist.
     /// </summary>
     [TestCase]
-    public void TestCombatArenaResourcesExist()
+    static public void TestCombatArenaResourcesExist()
     {
         // Check for combat arena scenes
         var arenaExists = System.IO.Directory.Exists("source/combat/arenas");
@@ -73,7 +73,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat encounter dialogues are available.
     /// </summary>
     [TestCase]
-    public void TestCombatEncounterDialoguesExist()
+    static public void TestCombatEncounterDialoguesExist()
     {
         var beforeCombat = ResourceLoader.Exists("res://source/overworld/maps/town/encounter_before_combat.dtl");
         var onVictory = ResourceLoader.Exists("res://source/overworld/maps/town/encounter_on_victory.dtl");
@@ -91,7 +91,7 @@ public partial class CombatSystemTests : Node
     /// Test that battler action system is available.
     /// </summary>
     [TestCase]
-    public void TestBattlerActionSystemExists()
+    static public void TestBattlerActionSystemExists()
     {
         var battlerAction = ResourceLoader.Exists("res://source/combat/actions/BattlerAction.cs");
         var actionAttack = ResourceLoader.Exists("res://source/combat/actions/BattlerActionAttack.cs");
@@ -109,7 +109,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat turn queue system exists.
     /// </summary>
     [TestCase]
-    public void TestCombatTurnQueueSystemExists()
+    static public void TestCombatTurnQueueSystemExists()
     {
         var activeTurnQueue = ResourceLoader.Exists("res://source/scripts/combat/ActiveTurnQueue.cs");
         var combatTurnQueue = ResourceLoader.Exists("res://source/scripts/combat/actors/CombatTurnQueue.cs");
@@ -124,22 +124,22 @@ public partial class CombatSystemTests : Node
     /// Test that combat AI system exists for enemy behavior.
     /// </summary>
     [TestCase]
-    public void TestCombatAiSystemExists()
+    static public void TestCombatAiSystemExists()
     {
         var combatAi = ResourceLoader.Exists("res://source/scripts/combat/actors/CombatAI.cs");
-        var randomAi = ResourceLoader.Exists("res://source/scripts/combat/actors/CombatRandomAI.cs");
+    var randomAi = ResourceLoader.Exists("res://source/scripts/combat/actors/CombatRandomAi.cs");
 
         AssertThat(combatAi).IsTrue()
             .OverrideFailureMessage("CombatAI.cs should exist");
         AssertThat(randomAi).IsTrue()
-            .OverrideFailureMessage("CombatRandomAI.cs should exist");
+            .OverrideFailureMessage("CombatRandomAi.cs should exist");
     }
 
     /// <summary>
     /// Test that combat actor system exists for battler management.
     /// </summary>
     [TestCase]
-    public void TestCombatActorSystemExists()
+    static public void TestCombatActorSystemExists()
     {
         var combatActor = ResourceLoader.Exists("res://source/scripts/combat/actors/CombatActor.cs");
 
@@ -151,7 +151,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat UI system exists.
     /// </summary>
     [TestCase]
-    public void TestCombatUiSystemExists()
+    static public void TestCombatUiSystemExists()
     {
         var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatHud.cs");
         var combatLog = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatLog.cs");
@@ -166,7 +166,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat scene data structure exists.
     /// </summary>
     [TestCase]
-    public void TestCombatSceneDataExists()
+    static public void TestCombatSceneDataExists()
     {
         var combatSceneData = ResourceLoader.Exists("res://source/scripts/combat/CombatSceneData.cs");
 
@@ -178,7 +178,7 @@ public partial class CombatSystemTests : Node
     /// Test that elemental damage system exists.
     /// </summary>
     [TestCase]
-    public void TestElementalSystemExists()
+    static public void TestElementalSystemExists()
     {
         var elements = ResourceLoader.Exists("res://source/scripts/combat/Elements.cs");
 
@@ -190,7 +190,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat trigger areas exist in the town.
     /// </summary>
     [TestCase]
-    public void TestCombatTriggerAreasExist()
+    static public void TestCombatTriggerAreasExist()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -212,7 +212,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat can be initiated from field map.
     /// </summary>
     [TestCase]
-    public void TestFieldToCombatTransitionPossible()
+    static public void TestFieldToCombatTransitionPossible()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -234,7 +234,7 @@ public partial class CombatSystemTests : Node
     /// Test that party system exists for managing combat participants.
     /// </summary>
     [TestCase]
-    public void TestPartySystemExists()
+    static public void TestPartySystemExists()
     {
         // Check that GameState has party management
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
@@ -253,7 +253,7 @@ public partial class CombatSystemTests : Node
     /// Test that battler resources exist (characters, enemies).
     /// </summary>
     [TestCase]
-    public void TestBattlerResourcesExist()
+    static public void TestBattlerResourcesExist()
     {
         // Check that battler directories exist
         var battlersExist = System.IO.Directory.Exists("source/combat/battlers");
@@ -269,7 +269,7 @@ public partial class CombatSystemTests : Node
     /// Test that victory/defeat conditions can be tracked.
     /// </summary>
     [TestCase]
-    public void TestVictoryDefeatTrackingExists()
+    static public void TestVictoryDefeatTrackingExists()
     {
         // Check for combat event handlers
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
@@ -288,7 +288,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat to field return transition is possible.
     /// </summary>
     [TestCase]
-    public void TestCombatToFieldReturnPossible()
+    static public void TestCombatToFieldReturnPossible()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -307,7 +307,7 @@ public partial class CombatSystemTests : Node
     /// Test that player state is preserved across combat transitions.
     /// </summary>
     [TestCase]
-    public void TestPlayerStatePreservationAcrossCombat()
+    static public void TestPlayerStatePreservationAcrossCombat()
     {
         ISceneRunner runner = ISceneRunner.Load(Stage4ScenePath);
         Node stage4Scene = runner.Scene();
@@ -326,7 +326,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat rewards system exists.
     /// </summary>
     [TestCase]
-    public void TestCombatRewardsSystemExists()
+    static public void TestCombatRewardsSystemExists()
     {
         // Check for victory dialogue which typically includes rewards
         var victoryDialogue = ResourceLoader.Exists("res://source/overworld/maps/town/encounter_on_victory.dtl");
@@ -350,7 +350,7 @@ public partial class CombatSystemTests : Node
     /// Test that combat action menu system exists.
     /// </summary>
     [TestCase]
-    public void TestCombatActionMenuExists()
+    static public void TestCombatActionMenuExists()
     {
         // Combat HUD should provide action menu
         var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatHud.cs");
@@ -363,7 +363,7 @@ public partial class CombatSystemTests : Node
     /// Test that status effects system exists.
     /// </summary>
     [TestCase]
-    public void TestStatusEffectsSystemExists()
+    static public void TestStatusEffectsSystemExists()
     {
         var modifyStats = ResourceLoader.Exists("res://source/combat/actions/BattlerActionModifyStats.cs");
 

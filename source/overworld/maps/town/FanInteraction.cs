@@ -108,27 +108,27 @@ public partial class FanInteraction : ConversationTemplate
 
         this.Controller.IsActive = true;
 
-        var path = this.GetPathToDestination(gameboard, sourceCell);
+        var path = FanInteraction.GetPathToDestination(gameboard, sourceCell);
         this.SetControllerPath(path);
 
         await this.WaitForFanArrival();
         this.Controller.IsActive = false;
     }
 
-    private System.Collections.Generic.List<Vector2I>? GetPathToDestination(Gameboard gameboard, Vector2I sourceCell)
+    private static List<Vector2I>? GetPathToDestination(Gameboard gameboard, Vector2I sourceCell)
     {
         var pathfinder = gameboard.GetNode<Pathfinder>("Pathfinder");
         return pathfinder?.GetPathToCell(sourceCell, new Vector2I(23, 13));
     }
 
-    private void SetControllerPath(System.Collections.Generic.List<Vector2I>? path)
+    private void SetControllerPath(List<Vector2I>? path)
     {
         if (this.Controller == null)
         {
             return;
         }
 
-        var pathList = path ?? new System.Collections.Generic.List<Vector2I>();
+        var pathList = path ?? new List<Vector2I>();
 
         // Use reflection to access the private SetMovePath method or clear/add to the list
         var movePathField = typeof(GamepieceController).GetField("movePath", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);

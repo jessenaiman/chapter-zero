@@ -55,19 +55,19 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         public static string EndingScenePath => cachedEndingScenePath ?? MainMenuScenePath;
 
         /// <summary>
-        /// Gets the game scene path (snake_case for GDScript compatibility).
+        /// Gets the game scene path (PascalCase for C# compatibility).
         /// </summary>
-        public static string game_scene_path => GameScenePath;
+        public static string GameScenePathCompat => GameScenePath;
 
         /// <summary>
-        /// Gets the main menu scene path (snake_case for GDScript compatibility).
+        /// Gets the main menu scene path (PascalCase for C# compatibility).
         /// </summary>
-        public static string main_menu_scene_path => MainMenuScenePath;
+        public static string MainMenuScenePathCompat => MainMenuScenePath;
 
         /// <summary>
-        /// Gets the ending scene path (snake_case for GDScript compatibility).
+        /// Gets the ending scene path (PascalCase for C# compatibility).
         /// </summary>
-        public static string ending_scene_path => EndingScenePath;
+        public static string EndingScenePathCompat => EndingScenePath;
 
         /// <inheritdoc/>
         public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()
