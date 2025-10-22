@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
@@ -11,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// and determines the final claim. Mirrors the GhostTerminalDirector pattern from Stage 1.
 /// </summary>
 [GlobalClass]
-public partial class EchoHub : TerminalBase
+public partial class EchoHub : TerminalUI
 {
     private EchoChamberPlan? plan;
     private EchoOrchestratorBeat? orchestrator;
@@ -33,9 +34,9 @@ public partial class EchoHub : TerminalBase
     public override void _Ready()
     {
         // Set terminal mode to minimal for Stage 2 - only basic text functionality
-        terminalMode = TerminalMode.Minimal;
+        Mode = TerminalMode.Minimal;
 
-        // Initialize base TerminalBase functionality
+        // Initialize base TerminalUI functionality
         base._Ready();
 
         this.statusLabel = this.GetNodeOrNull<Label>("%StatusLabel");
@@ -56,7 +57,7 @@ public partial class EchoHub : TerminalBase
     /// </summary>
     private async void StartOrchestrationAsync()
     {
-        await this.PlayAllBeatsAsync();
+        await this.PlayAllBeatsAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ public partial class EchoHub : TerminalBase
 
             GD.Print($"[EchoHub] Playing beat {this.currentBeatIndex + 1}/{this.orchestrator.BeatCount}: {beat.BeatId}");
 
-            await this.PlayBeatAsync(beat);
+            await this.PlayBeatAsync(beat).ConfigureAwait(false);
 
             this.currentBeatIndex++;
         }
@@ -121,19 +122,19 @@ public partial class EchoHub : TerminalBase
         switch (beat.Kind)
         {
             case EchoBeatKind.SystemIntro:
-                await this.PlaySystemIntroAsync((EchoIntroBeat)beat);
+                await this.PlaySystemIntroAsync((EchoIntroBeat)beat).ConfigureAwait(false);
                 break;
 
             case EchoBeatKind.Interlude:
-                await this.PlayInterludeAsync((EchoInterludeBeat)beat);
+                await this.PlayInterludeAsync((EchoInterludeBeat)beat).ConfigureAwait(false);
                 break;
 
             case EchoBeatKind.Chamber:
-                await this.PlayChamberAsync((EchoChamberBeat)beat);
+                await this.PlayChamberAsync((EchoChamberBeat)beat).ConfigureAwait(false);
                 break;
 
             case EchoBeatKind.Finale:
-                await this.PlayFinaleAsync((EchoFinaleBeat)beat);
+                await this.PlayFinaleAsync((EchoFinaleBeat)beat).ConfigureAwait(false);
                 break;
 
             default:
@@ -159,11 +160,11 @@ public partial class EchoHub : TerminalBase
         foreach (string line in beat.Metadata.SystemIntro)
         {
             GD.Print($"[Intro] {line}");
-            await AppendTextAsync(line + "\n", useGhostEffect: true, charDelaySeconds: 0.03);
-            await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
+            await AppendTextAsync(line + "\n", useGhostEffect: true, charDelaySeconds: 0.03f).ConfigureAwait(false);
+            await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
         }
 
-        await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -183,7 +184,7 @@ public partial class EchoHub : TerminalBase
         GD.Print($"[Interlude] Options: {beat.Interlude.Options.Count}");
 
         // Placeholder: simulate choice
-        await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
 
         // Simulate first choice
         if (beat.Interlude.Options.Count > 0 && this.affinityTracker != null)
@@ -214,7 +215,7 @@ public partial class EchoHub : TerminalBase
         GD.Print($"[Chamber] Objects: {beat.Chamber.Objects.Count}");
 
         // Placeholder: simulate interaction
-        await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
 
         // Simulate first object interaction
         if (beat.Chamber.Objects.Count > 0 && this.affinityTracker != null)
@@ -249,6 +250,17 @@ public partial class EchoHub : TerminalBase
         // TODO: Display responses from other Dreamweavers
         // TODO: Display system outro
 
-        await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(2.0), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            statusLabel?.Dispose();
+            contentContainer?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 }

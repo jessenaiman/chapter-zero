@@ -9,7 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// Handles echo selection beats in the Echo Vault stage.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultHub : TerminalBase
+public partial class EchoVaultHub : TerminalUI
 {
     private Label? tierLabel;
     private RichTextLabel? promptLabel;
@@ -24,7 +24,7 @@ public partial class EchoVaultHub : TerminalBase
     public override void _Ready()
     {
         // Set terminal mode - for Stage 3 we may want full functionality for narrative prompts
-        terminalMode = TerminalMode.Full; // Or TerminalMode.Minimal if we only need basic text
+        Mode = TerminalMode.Full; // Or TerminalMode.Minimal if we only need basic text
 
         // Initialize base TerminalBase functionality
         base._Ready();

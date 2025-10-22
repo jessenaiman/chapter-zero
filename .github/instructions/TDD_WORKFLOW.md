@@ -12,6 +12,11 @@
 - 🚫 **No over-engineering**
 - 📄 **Add XML docs** for public members
 
+### OMEGA AGENT CHECK: Call [gdunit4_game_agent]/home/adam/Dev/omega-spiral/chapter-zero/.agents/gdunit4_game_agent.py
+- Tell him what test has passed and in what file with a brief summary of what you believe to be true based on the passing test
+- Ensure that the test has a screenshot created of the ui and our agent will evaluate the image and provide feedback
+- Read the response from the agent into the chat log and then make changes according to the agents code review that is returned (it can take a minute or more)
+
 ### 🔵 REFACTOR: Improve Design
 - 🧹 **Clean up** (tests still pass)
 - 🎨 **Remove duplication**

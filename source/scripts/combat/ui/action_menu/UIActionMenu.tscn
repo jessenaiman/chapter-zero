@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://bipyuaeqoxmt2"]
 
-[ext_resource type="Script" uid="uid://c6nqpsjt4comn" path="res://source/scripts/combat/ui/action_menu/UIActionMenu.cs" id="1_5ab78"]
-[ext_resource type="PackedScene" uid="uid://ux2r727n3476" path="res://source/scripts/combat/ui/list_menu/ui_list_menu.tscn" id="1_aaqxu"]
-[ext_resource type="PackedScene" uid="uid://b6quqbipabdox" path="res://source/scripts/combat/ui/action_menu/UIActionButton.tscn" id="2_c634v"]
+[ext_resource type="Script" uid="uid://c6nqpsjt4comn" path="res://source/combat/ui/action_menu/UIActionMenu.cs" id="1_5ab78"]
+[ext_resource type="PackedScene" uid="uid://ux2r727n3476" path="res://source/combat/ui/list_menu/ui_list_menu.tscn" id="1_aaqxu"]
+[ext_resource type="PackedScene" uid="uid://b6quqbipabdox" path="res://source/combat/ui/action_menu/UIActionButton.tscn" id="2_c634v"]
 
 [sub_resource type="Animation" id="Animation_48vps"]
 length = 0.001

@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Stages.Ghost;
 using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
@@ -16,7 +17,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Determines the player's Dreamweaver thread and transitions to Stage 2.
 /// </summary>
 [GlobalClass]
-public partial class Question6Continue : TerminalBase
+public partial class Question6Continue : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()

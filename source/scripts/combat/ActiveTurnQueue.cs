@@ -220,7 +220,7 @@ public partial class ActiveTurnQueue : Node2D
         {
             cachedActions.Remove(battler);
             activeAction = action;
-            await battler.ActAsync(action, targets);
+            await battler.ActAsync(action, targets).ConfigureAwait(false);
             activeAction = null;
         }
     }

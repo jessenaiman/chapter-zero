@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://8f7e4yxs3poj"]
 
-[ext_resource type="PackedScene" uid="uid://badexg85lctrq" path="res://source/scripts/combat/battlers/BattlerAnim.tscn" id="1_ffl4t"]
+[ext_resource type="PackedScene" uid="uid://badexg85lctrq" path="res://source/combat/battlers/BattlerAnim.tscn" id="1_ffl4t"]
 [ext_resource type="Texture2D" uid="uid://dr8cs6liv45hd" path="res://source/combat/battlers/wolf/wolf.png" id="2_nnyj7"]
 [ext_resource type="AnimationLibrary" uid="uid://o2ktahx2nkki" path="res://source/combat/battlers/default_battler_animations.res" id="2_q1kws"]
 

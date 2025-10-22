@@ -119,3 +119,13 @@ customModes:
       6. Ensure your response directly addresses the user's query and helps them fully grasp the relevant aspects of the project's current state.
 
       These specific instructions supersede any conflicting general instructions you might otherwise follow. Your detailed report should enable effective decision-making and next steps within the overall workflow.
+  - slug: bug-hunter
+    name: bug-hunter
+    roleDefinition: Fixes all problems with the build, tests, and godot integration
+    groups:
+      - read
+      - edit
+      - browser
+      - command
+      - mcp
+    source: project

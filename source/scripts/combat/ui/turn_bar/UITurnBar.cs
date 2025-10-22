@@ -37,10 +37,24 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
         /// <inheritdoc/>
         public override void _Ready()
         {
-            this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-            this.background = this.GetNode<TextureRect>("Background");
-            this.icons = this.GetNode<Control>("Background/Icons");
+            this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+            this.background = this.GetNodeOrNull<TextureRect>("Background");
+            this.icons = this.GetNodeOrNull<Control>("Background/Icons");
             this.iconScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/turn_bar/UIBattlerIcon.tscn");
+
+            // Log warnings if essential UI nodes are missing
+            if (this.anim == null)
+            {
+                GD.PushWarning("UITurnBar: AnimationPlayer node not found. Fade effects will not work.");
+            }
+            if (this.background == null)
+            {
+                GD.PushError("UITurnBar: Background node not found. Turn bar will not display correctly.");
+            }
+            if (this.icons == null)
+            {
+                GD.PushError("UITurnBar: Icons container not found. Battler icons will not display.");
+            }
         }
 
         /// <summary>

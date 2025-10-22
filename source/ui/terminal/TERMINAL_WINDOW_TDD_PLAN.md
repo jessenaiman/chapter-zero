@@ -4,165 +4,6 @@ _References: `gdunit4-tools.instructions.md`, `integration-testing.md`, `paramer
 
 ---
 
-## GDUnit4 C# Test Framework Standards
-
-### Required Using Statements
-```csharp
-using GdUnit4;
-using Godot;
-using static GdUnit4.Assertions;
-using OmegaSpiral.Source.UI.Terminal;  // Component under test
-```
-
-### Test Suite Structure
-- **[TestSuite]** — Marks class as a GDUnit4 test suite
-- **[RequireGodotRuntime]** — Required for all tests accessing Godot nodes/scenes
-- **[Before]** — Setup method called before each test (replaces [Setup])
-- **[After]** — Cleanup method called after each test (replaces [Teardown])
-
-### Test Case Attributes
-
-| Attribute | Purpose | Example |
-|-----------|---------|---------|
-| **[TestCase]** | Single test case | `[TestCase] public void TestName()` |
-| **[TestCase(args)]** | Parameterized test | `[TestCase(400, 300)] public void TestSize(int w, int h)` |
-| **[DataPoint]** | Dynamic test data | `[TestCase] [DataPoint(nameof(FrameSizes))] public void Test(int size)` |
-| **[GodotExceptionMonitor]** | Monitor node exceptions | `[TestCase] [GodotExceptionMonitor]` |
-| **[ThrowsException]** | Expected exception | `[TestCase] [ThrowsException(typeof(ArgumentNullException))]` |
-
-### Assertion Patterns (Fluent API)
-
-All assertions use the pattern: `AssertThat(actual).Is...()` or `AssertThat(actual).Is...().Is...()` (chainable)
-
-| Assertion | Purpose |
-|-----------|---------|
-| `AssertThat(value).IsEqual(expected)` | Value equality |
-| `AssertThat(value).IsNotEqual(expected)` | Value inequality |
-| `AssertThat(value).IsNull()` / `IsNotNull()` | Null checks |
-| `AssertThat(value).IsTrue()` / `IsFalse()` | Boolean checks |
-| `AssertThat(value).IsGreater(threshold)` | Numeric comparisons |
-| `AssertThat(value).IsLess(threshold)` | |
-| `AssertThat(value).IsInstanceOf<T>()` | Type checks |
-| `AssertThat(collection).Contains(item)` | Collection checks |
-| `AssertThat(value).StartsWith(prefix)` | String operations |
-| `AssertThrown(() => code).IsInstanceOf<ExceptionType>()` | Exception verification |
-
-### Memory Management
-
-**AutoFree()** — Automatically releases objects after test scope ends. Use for all Godot Object instances:
-```csharp
-[Before]
-public void Setup()
-{
-    _mockNode = AutoFree(new Node2D())!;  // Marked for auto-free
-    _renderer = AutoFree(new TerminalTextRenderer(_mockNode))!;
-}
-```
-
-### Parameterized Test Patterns
-
-**Static TestCase attributes** (simplest):
-```csharp
-[TestCase(400, 300, 0.92f)]
-[TestCase(1920, 1080, 0.92f)]
-[TestCase(3840, 2160, 0.92f)]
-public void TestFrameSizes(int width, int height, float maxRatio)
-{
-    // Test with different frame sizes
-}
-```
-
-**DataPoint with static property** (dynamic data):
-```csharp
-public static IEnumerable<object[]> FrameSizeTestData => 
-[
-    [new Vector2I(400, 300), "SmallDialog"],
-    [new Vector2I(1920, 1080), "FullScreen"],
-    [new Vector2I(3840, 2160), "MaxResolution"]
-];
-
-[TestCase]
-[DataPoint(nameof(FrameSizeTestData))]
-public void TestFrameAdaptation(Vector2I frameSize, string context)
-{
-    // Test with parameterized data
-}
-```
-
-**TestCase with TestName** (custom naming):
-```csharp
-[TestCase(400, 300, TestName = "SmallDialog_400x300")]
-[TestCase(1920, 1080, TestName = "FullScreen_1920x1080")]
-public void TestContentFitting(int w, int h)
-{
-    // Named test cases appear separately in results
-}
-```
-
-### Common Test Structure Pattern
-
-```csharp
-[TestCase]
-public void MethodName_Scenario_ExpectedBehavior()
-{
-    // Arrange: Set up test data and objects
-    var terminal = AutoFree(new TerminalWindow())!;
-    terminal.SetFrameSize(new Vector2I(400, 300));
-    
-    // Act: Execute the code being tested
-    terminal.SetContent(testContent);
-    var contentWidth = terminal.GetContentRect().Size.X;
-    
-    // Assert: Verify the expected behavior
-    var frameWidth = terminal.GetFrameRect().Size.X;
-    var ratio = contentWidth / frameWidth;
-    AssertThat(ratio).IsLess(0.92f);
-}
-```
-
-### Test File Naming & Organization
-
-- **File naming:** `{ComponentName}Tests.cs` (e.g., `TerminalWindowTests.cs`)
-- **Namespace:** `OmegaSpiral.Tests.{Unit|Integration}.{Category}` (e.g., `OmegaSpiral.Tests.Unit.UI.Terminal`)
-- **Class naming:** `{ComponentName}Tests` with `[TestSuite]` attribute
-- **XML documentation:** Summarize each test with `/// <summary>`
-
-### Key Test Constants & Tolerance
-
-Define test constants at class level for consistency:
-```csharp
-private const float ToleranceMs = 10f;           // For timing tests
-private const float CenteringTolerance = 0.01f;  // 1% tolerance for center alignment
-private const float RatioTolerance = 0.02f;      // 2% tolerance for ratios
-```
-
-### Required Godot Integration
-
-For Godot-dependent tests:
-```csharp
-[TestCase]
-[RequireGodotRuntime]
-[GodotExceptionMonitor]  // Catch exceptions during _Ready(), etc
-public void TestNodeInitialization()
-{
-    var node = AutoFree(new MyTerminalNode())!;
-    // Tests that run within Godot runtime
-}
-```
-
-For logic-only tests (no Godot runtime needed):
-```csharp
-[TestCase]
-public void TestLayoutCalculation()  // No [RequireGodotRuntime]
-{
-    var calculator = new LayoutCalculator();
-    var result = calculator.CalculateContentBounds(400, 300);
-    AssertThat(result).IsNotNull();
-}
-```
-
----
-
 ## Overview
 The terminal window is a reusable UI component used throughout the game:
 - **Stage Select Menu**: Full-screen menu interface
@@ -171,6 +12,86 @@ The terminal window is a reusable UI component used throughout the game:
 - **Stage Content**: Various narrative presentation windows
 
 ---
+
+```mermaid
+graph TD
+    A["🎮 Game Root<br/>TerminalWindow.cs"] --> B["📦 Frame Component<br/>terminal_frame.tscn"]
+    A --> C["🎨 Background Layer<br/>terminal_background.tscn"]
+    A --> D["📝 Content Container<br/>terminal_content.tscn"]
+    
+    B --> B1["Panel: FrameRoot<br/>- Red Border Only<br/>- Transparent BG<br/>- No C# Logic"]
+    B --> B2["Node: ContentArea<br/>Placeholder for content"]
+    
+    C --> C1["Panel: Bezel<br/>- Dark Gray BG<br/>- No Border"]
+    C --> C2["Shader: CRT Overlay<br/>Scanlines + Glow"]
+    
+    D --> D1["VBoxContainer: Header<br/>- Title Label<br/>- Indicators"]
+    D --> D2["Panel: Body<br/>- Output Content"]
+    D --> D3["HBoxContainer: Input<br/>- Input Field<br/>- Submit Button"]
+    
+    A --> A1["TerminalWindow.cs<br/>- Composes 3 scenes<br/>- Manages layout only<br/>- NO styling logic"]
+    
+    B1 --> B3["FrameStyle.cs<br/>Sets border dynamically<br/>Color, thickness"]
+    C1 --> C3["BackgroundStyle.cs<br/>Sets bezel color<br/>+ CRT shader params"]
+    D1 --> D4["ContentStyle.cs<br/>Sets typography<br/>Colors, spacing"]
+    
+    style B fill:#e1f5ff
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style A fill:#fff3e0
+    style B3 fill:#b3e5fc
+    style C3 fill:#e1bee7
+    style D4 fill:#c8e6c9
+```
+
+C# Structure
+Style Managers (Apply dynamic styling)
+FrameStyle.cs - Sets border color/thickness on TerminalFrame
+BackgroundStyle.cs - Sets bezel color + CRT shader params
+ContentStyle.cs - Sets typography, colors, spacing
+Main Script
+TerminalWindow.cs - Composes scenes, manages layout, delegates styling
+
+---
+
+```mermaid
+graph TD
+    subgraph "Reusable Components"
+        Frame["📦 frame.tscn<br/>Just the border<br/>Red 4px frame<br/>ContentArea placeholder"]
+        Background["🎨 background.tscn<br/>Bezel + CRT overlay<br/>Dark gray, scanlines<br/>Independent layer"]
+        Content["📝 content.tscn<br/>Header/Body/Input<br/>Pure layout structure<br/>No styling"]
+    end
+    
+    subgraph "Composition Templates"
+        Dialog["🗨️ dialog_template.tscn<br/>Frame + Background + Content<br/>Generic NPC/system dialog<br/>Reused everywhere"]
+        Terminal["💻 terminal_window.tscn<br/>Frame + Background + Content<br/>Terminal-specific behavior"]
+    end
+    
+    subgraph "Stage Examples"
+        Stage1["🎮 Stage 1<br/>Loads multiple dialogs<br/>Each uses dialog_template<br/>Different content only"]
+        MainMenu["🎮 Main Menu<br/>Uses same dialog_template<br/>Different styling params"]
+    end
+    
+    Frame --> Dialog
+    Background --> Dialog
+    Content --> Dialog
+    
+    Frame --> Terminal
+    Background --> Terminal
+    Content --> Terminal
+    
+    Dialog --> Stage1
+    Dialog --> MainMenu
+    Terminal --> Stage1
+    
+    style Frame fill:#e1f5ff
+    style Background fill:#f3e5f5
+    style Content fill:#e8f5e9
+    style Dialog fill:#fff3e0
+    style Terminal fill:#fff3e0
+    style Stage1 fill:#fce4ec
+    style MainMenu fill:#fce4ec
+```
 
 ## Phase 1: Terminal Window Architecture (Frame-Constrained Content)
 

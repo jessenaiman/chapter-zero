@@ -17,7 +17,7 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public partial class MainMenuLayoutTests
 {
-    private const string StageSelectMenuPath = "res://source/ui/menus/stage_select_menu.tscn";
+    private const string StageSelectMenuPath = "res://source/ui/menus/main_menu.tscn";
 
     /// <summary>
     /// Test 1: Menu center should match viewport center horizontally
@@ -90,7 +90,7 @@ public partial class MainMenuLayoutTests
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
 
-        var titleLabel = stageSelectMenu.GetNode<Label>("MenuContainer/MenuContent/TitleMargin/TitleLabel");
+        var titleLabel = stageSelectMenu.GetNodeOrNull<Label>("MenuContainer/MenuContent/TitleMargin/TitleLabel");
         AssertThat(titleLabel).IsNotNull();
 
         var menuContainerRect = stageSelectMenu.GetGlobalRect();
@@ -120,7 +120,7 @@ public partial class MainMenuLayoutTests
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
 
-        var stage1Button = stageSelectMenu.GetNode<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/Stage1Button");
+        var stage1Button = stageSelectMenu.GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/Stage1Button");
         AssertThat(stage1Button).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();
@@ -149,7 +149,7 @@ public partial class MainMenuLayoutTests
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
 
-        var stage2Button = stageSelectMenu.GetNode<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/Stage2Button");
+        var stage2Button = stageSelectMenu.GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/Stage2Button");
         AssertThat(stage2Button).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();
@@ -178,7 +178,7 @@ public partial class MainMenuLayoutTests
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
 
-        var quitButton = stageSelectMenu.GetNode<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/QuitButton");
+        var quitButton = stageSelectMenu.GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/QuitButton");
         AssertThat(quitButton).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();

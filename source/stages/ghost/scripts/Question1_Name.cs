@@ -1,12 +1,8 @@
-// <copyright file="Question1_Name.cs" company="Ωmega Spiral">
-// Copyright (c) Ωmega Spiral. All rights reserved.
-// </copyright>
-
 using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Stages.Ghost;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -15,7 +11,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Records the choice in <see cref="GameState"/> and transitions to the bridge question.
 /// </summary>
 [GlobalClass]
-public partial class Question1Name : TerminalBase
+public partial class Question1Name : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()

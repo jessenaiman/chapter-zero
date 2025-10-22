@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dwq2jtul5j1rc" path="res://source/scripts/field/gamepieces/controllers/cursor/FieldCursor.cs" id="5_3guor"]
 [ext_resource type="TileSet" uid="uid://biq84075xlypd" path="res://source/overworld/maps/tilesets/kenney_terrain.tres" id="7_po5fq"]
 [ext_resource type="Texture2D" uid="uid://dm4h0uo6gjp22" path="res://source/overworld/maps/tilesets/dungeon_tilemap.png" id="9_woa3f"]
-[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source/scripts/field/gamepieces/Gamepiece.tscn" id="11_yntrj"]
+[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source/scripts/field/gamepieces/gamepiece.tscn" id="11_yntrj"]
 [ext_resource type="Script" uid="uid://bm5b3nr6vn3da" path="res://source/scripts/field/gamepieces/controllers/PathLoopAIController.cs" id="12_glwd5"]
 [ext_resource type="PackedScene" uid="uid://cdkha7cc72h35" path="res://source/overworld/characters/generic_character_gfx.tscn" id="12_n5rm1"]
 [ext_resource type="PackedScene" uid="uid://qxua6ekob7fa" path="res://source/overworld/characters/gobot_gfx.tscn" id="12_oablq"]
@@ -74,7 +74,7 @@
 [ext_resource type="AudioStream" uid="uid://c2viukvbub6v6" path="res://addons/dialogic/Example Assets/sound-effects/typing4.wav" id="57_tomnb"]
 [ext_resource type="AudioStream" uid="uid://dwcre3fjf3cj8" path="res://addons/dialogic/Example Assets/sound-effects/typing5.wav" id="58_br2ni"]
 [ext_resource type="Resource" uid="uid://bwjallq2c71rq" path="res://source/overworld/maps/opening_cutscene.dtl" id="68_jcriq"]
-[ext_resource type="Script" uid="uid://i6j3l72wljdc" path="res://source/scripts/combat/Combat.cs" id="69_meyff"]
+[ext_resource type="Script" uid="uid://i6j3l72wljdc" path="res://source/combat/Combat.cs" id="69_meyff"]
 
 [sub_resource type="Animation" id="Animation_y8463"]
 length = 0.001

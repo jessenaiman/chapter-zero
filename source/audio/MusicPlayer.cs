@@ -24,8 +24,18 @@ public partial class MusicPlayer : Node
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.track = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+        this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+        this.track = this.GetNodeOrNull<AudioStreamPlayer>("AudioStreamPlayer");
+
+        // Log warnings if essential nodes are missing
+        if (this.anim == null)
+        {
+            GD.PushWarning("MusicPlayer: AnimationPlayer node not found. Crossfading will not work.");
+        }
+        if (this.track == null)
+        {
+            GD.PushError("MusicPlayer: AudioStreamPlayer node not found. Music playback will not work.");
+        }
     }
 
     /// <summary>

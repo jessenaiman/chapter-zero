@@ -1,0 +1,8 @@
+- [x] Review `.github/instructions/testing` documents and related Godot/GdUnit guidance.
+- [x] Audit existing `UITestHarness` scene and script to determine current functionality.
+- [ ] Expand `UITestHarness.cs` to mount modular terminal components and expose screenshot toggles.
+- [ ] Define modular `TerminalFrameBase.tscn` and `TerminalWindowFrame.cs` pairing with exported styling properties.
+- [ ] Create `TerminalContentViewport.tscn` and `TerminalContentController.cs` to manage narrative-driven content.
+- [ ] Refactor `TerminalWindow.tscn`/`TerminalWindow.cs` to instantiate reusable frame/content scenes and apply narrative themes.
+- [ ] Establish baseline screenshot workflow (harness scene + first golden test) before iterating further tests.
+  - [x] Add UITestHarness screenshot baseline test (green).

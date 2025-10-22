@@ -5,6 +5,7 @@
 using Godot;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Stages.Ghost;
 using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
@@ -14,7 +15,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Displays the initial narrative text and transitions to the first question.
 /// </summary>
 [GlobalClass]
-public partial class OpeningMonologue : TerminalBase
+public partial class OpeningMonologue : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()
@@ -44,7 +45,7 @@ public partial class OpeningMonologue : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05f).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 

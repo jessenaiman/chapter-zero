@@ -9,75 +9,50 @@
 				"build",
 				"--no-restore"
 			],
-			"problemMatcher": "$msCompile",
-			"presentation": {
-				"echo": true,
-				"reveal": "silent",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": false
-			}
+			"group": { "kind": "build", "isDefault": true },
+			"problemMatcher": "$msCompile"
 		},
 		{
 			"label": "test",
 			"command": "dotnet",
-			"type": "shell",
+			"type": "process",
 			"args": [
 				"test",
-				"${workspaceFolder}/chapter-zero.csproj",
-				"--configuration",
-				"Debug",
-				"--no-build",
-				"--settings",
-				"${workspaceFolder}/.runsettings",
-				"--logger",
-				"console;verbosity=normal"
+				"--no-build"
 			],
 			"group": {
 				"kind": "test",
 				"isDefault": true
 			},
-			"presentation": {
-				"echo": true,
-				"reveal": "always",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": true
-			},
-			"problemMatcher": "$msCompile",
-			"options": {
-				"env": {}
-			}
+			"problemMatcher": "$msCompile"
 		},
 		{
-			"label": "watch",
+			"label": "Run UI Test by Class Name",
 			"type": "shell",
 			"command": "dotnet",
 			"args": [
-				"watch",
-				"--project",
-				"${workspaceFolder}/chapter-zero.csproj",
-				"build"
+				"test",
+				"--settings",
+				".runsettings",
+				"--filter",
+				"Class=${input:uiTestClassName}"
 			],
-			"isBackground": true,
-			"problemMatcher": {
-				"pattern": "$msCompile",
-				"background": {
-					"activeOnStart": true,
-					"beginsPattern": "^.*dotnet watch.*",
-					"endsPattern": "^.*successfully.*|^.*failed.*"
-				}
+			"options": {
+				   "env": {
+					   "GODOT_BIN": "${env:GODOT_BIN}"
+				   }
 			},
 			"presentation": {
-				"echo": true,
-				"reveal": "silent",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": false
+				"reveal": "always",
+				"panel": "shared"
 			}
+		}
+	],
+	"inputs": [
+		{
+			"id": "uiTestClassName",
+			"type": "promptString",
+			"description": "Enter the test class name (e.g. OmegaSpiral.Tests.Ui.Components.FrameComponentTests)"
 		}
 	]
 }

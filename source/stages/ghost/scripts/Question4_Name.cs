@@ -6,7 +6,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Stages.Ghost;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Fourth question scene: Omega naming choice derived from narrative data.
 /// </summary>
 [GlobalClass]
-public partial class Question4Name : TerminalBase
+public partial class Question4Name : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()
@@ -22,7 +22,7 @@ public partial class Question4Name : TerminalBase
         base._Ready();
 
         // Present the naming question
-        await PresentNameQuestionAsync();
+        await PresentNameQuestionAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public partial class Question4Name : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true);
+            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -50,7 +50,7 @@ public partial class Question4Name : TerminalBase
         GhostTerminalChoicePrompt prompt = nameBeat.Prompt;
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
-        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true);
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true).ConfigureAwait(false);
         GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
         RecordChoice("question4_name", selectedOption);

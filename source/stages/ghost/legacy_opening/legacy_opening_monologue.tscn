@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3]
-
-[ext_resource type="PackedScene" uid="uid://stage1_terminal_base" path="res://source/stages/ghost/scenes/terminal_base.tscn" id="1"]
-[ext_resource type="Script" path="res://source/scripts/stages/stage_1/OpeningMonologue.cs" id="2"]
-
-[node name="OpeningMonologue" instance=ExtResource("1")]
-script = ExtResource("2")

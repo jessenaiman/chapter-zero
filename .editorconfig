@@ -39,6 +39,39 @@ csharp_style_prefer_conditional_expression_over_assignment = true
 csharp_style_prefer_conditional_expression_over_return = true
 dotnet_naming_style.private_prefix_style.required_prefix = _
 
+# Microsoft CodeAnalysis (CA) and Roslynator Analyzers Configuration
+
+# Security Rules (Critical for game security)
+dotnet_diagnostic.CA3001.severity = error    # Review code for SQL injection vulnerabilities
+dotnet_diagnostic.CA3002.severity = error    # Review code for XSS vulnerabilities
+dotnet_diagnostic.CA3075.severity = error    # Insecure XML processing
+dotnet_diagnostic.CA5350.severity = error    # Do not use weak cryptographic algorithms
+
+# Performance Rules (Critical for game performance)
+dotnet_diagnostic.CA1802.severity = warning  # Use literals where appropriate
+dotnet_diagnostic.CA1805.severity = error    # Do not initialize unnecessarily
+dotnet_diagnostic.CA1810.severity = error    # Initialize reference type static fields inline
+dotnet_diagnostic.CA1825.severity = error    # Avoid unnecessary array allocations
+dotnet_diagnostic.CA1844.severity = warning  # Provide memory-efficient alternatives
+
+# Reliability Rules (Critical for game stability)
+dotnet_diagnostic.CA2007.severity = warning  # Consider calling ConfigureAwait on awaited task
+dotnet_diagnostic.CA2009.severity = error    # Do not call ToImmutable on Immutable collection
+dotnet_diagnostic.CA2213.severity = error    # Disposable fields should be disposed
+
+# Maintainability Rules (Critical for code quality)
+dotnet_diagnostic.CA1501.severity = warning  # Avoid excessive inheritance
+dotnet_diagnostic.CA1502.severity = error    # Avoid excessive complexity
+dotnet_diagnostic.CA1505.severity = error    # Avoid unmaintainable code
+dotnet_diagnostic.CA1506.severity = error    # Avoid excessive class coupling
+
+# Design Rules (Critical for API design)
+dotnet_diagnostic.CA1002.severity = error    # Do not expose generic lists
+dotnet_diagnostic.CA1014.severity = error    # Mark assemblies with CLSCompliant
+dotnet_diagnostic.CA1030.severity = error    # Use events where appropriate
+dotnet_diagnostic.CA1052.severity = error    # Static holder types should be sealed
+dotnet_diagnostic.CA1812.severity = error    # Avoid uninstantiated internal classes
+
 # Roslynator Analyzers Configuration
 # Documentation Rules (align with mandatory XML docs requirement)
 dotnet_diagnostic.RCS1138.severity = error    # Add summary to documentation comment
@@ -152,6 +185,11 @@ dotnet_diagnostic.CS1591.severity = none
 
 # Suppress SA1636 copyright header warnings
 dotnet_diagnostic.SA1636.severity = none
+
+# Unhandled Exception Handling
+# Allow async method exceptions (CS1998) and unused variables (CS0168) as warnings for debugging
+dotnet_diagnostic.CS1998.severity = warning # This async method lacks 'await' operators and will run synchronously
+dotnet_diagnostic.CS0168.severity = warning # Variable is declared but never used (may be needed for debugging)
 
 # GdUnit4 Analyzer Configuration
 # Enforce correct usage of GdUnit4 test attributes per documentation

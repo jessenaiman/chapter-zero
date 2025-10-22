@@ -3,19 +3,18 @@
 // </copyright>
 
 using Godot;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Stages.Ghost;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
-/// Second question scene: Bridge knowledge question.
-/// Records the choice in DreamweaverScore and transitions to the voice question.
+/// Second question scene: "What bridges the gap between thought and action?"
 /// </summary>
 [GlobalClass]
-public partial class Question2Bridge : TerminalBase
+public partial class Question2Bridge : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()

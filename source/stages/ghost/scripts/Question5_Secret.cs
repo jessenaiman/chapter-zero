@@ -6,6 +6,7 @@ using Godot;
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Stages.Ghost;
 using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
@@ -15,7 +16,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Records the choice in DreamweaverScore and transitions to the naming question.
 /// </summary>
 [GlobalClass]
-public partial class Question5Secret : TerminalBase
+public partial class Question5Secret : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()
@@ -80,7 +81,7 @@ public partial class Question5Secret : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04f).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 

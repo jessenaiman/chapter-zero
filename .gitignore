@@ -51,8 +51,6 @@ godot-open-rpg
 *.nuget.cache
 
 # Test results
-TestResults/
-Tests/TestResults/
 reports/
 
 # Additional Godot cache files

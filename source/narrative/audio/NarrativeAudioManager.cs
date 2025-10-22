@@ -2,6 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using Godot;
 
 namespace OmegaSpiral.Source.Narrative.Audio;
@@ -40,11 +41,19 @@ public partial class NarrativeAudioManager : Node
     /// <inheritdoc/>
     public override void _Ready()
     {
-        // Get reference to centralized AudioManager
-        this.audioManager = GetNode<AudioManager>("/root/AudioManager");
+        // Get reference to centralized AudioManager with error handling
+        this.audioManager = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        if (this.audioManager == null)
+        {
+            GD.PushError("NarrativeAudioManager: AudioManager autoload not found. Audio functionality will be disabled.");
+        }
+        else
+        {
+            GD.Print("NarrativeAudioManager: Initialized with centralized AudioManager");
+        }
+
         this.LoadAudioAssets();
-        this.IsInitialized = true;
-        GD.Print("NarrativeAudioManager: Initialized with centralized AudioManager");
+        this.IsInitialized = this.audioManager != null;
     }
 
 
@@ -158,6 +167,19 @@ public partial class NarrativeAudioManager : Node
     public AudioStream? GetTransitionSfx()
     {
         return this.transitionSfx;
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            audioManager?.Dispose();
+            typewriterSfx?.Dispose();
+            selectionSfx?.Dispose();
+            transitionSfx?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 }
 

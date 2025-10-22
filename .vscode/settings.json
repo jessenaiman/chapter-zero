@@ -5,7 +5,7 @@
     "files.include": {
         ".godot/mono/temp/obj/Debug/Godot.SourceGenerators/**": true
     },
-    "dotnet-test-explorer.testProjectPath": "Tests/OmegaSpiral.Tests.csproj",
+    "dotnet-test-explorer.testProjectPath": "chapter-zero.csproj",
     "dotnet-test-explorer.testArguments": "--logger:trx;LogFileName=test-results.trx",
     "dotnet-test-explorer.showCodeLens": true,
     "dotnet-test-explorer.autoExpandTree": true,

@@ -12,6 +12,7 @@
     <RunConfiguration>
         <!-- Run tests sequentially (required for Godot runtime tests) -->
         <MaxCpuCount>1</MaxCpuCount>
+        <DisableParallelization>true</DisableParallelization>
         <TestAdaptersPaths>.</TestAdaptersPaths>
         <ResultsDirectory>./TestResults</ResultsDirectory>
 

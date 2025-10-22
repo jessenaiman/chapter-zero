@@ -32,6 +32,11 @@ public abstract partial class TerminalWindowLayoutTestBase : Node
     protected const float SizeComparisonTolerance = -0.1f;
 
     /// <summary>
+    /// Gets the tolerance for size comparisons.
+    /// </summary>
+    protected const float SizeComparisonTolerancePositive = 0.1f;
+
+    /// <summary>
     /// Verifies that content fits within frame boundaries with tolerance.
     /// </summary>
     /// <param name="frameRect">The frame rectangle.</param>

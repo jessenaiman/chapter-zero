@@ -5,15 +5,15 @@
 using Godot;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Stages.Ghost;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
-/// Story continuation scene that bridges the bridge choice to the secret question.
+/// Third question scene: asking about voice preferences.
 /// </summary>
 [GlobalClass]
-public partial class Question3Voice : TerminalBase
+public partial class Question3Voice : GhostTerminalUI
 {
     /// <inheritdoc/>
     public override async void _Ready()
@@ -21,7 +21,7 @@ public partial class Question3Voice : TerminalBase
         base._Ready();
 
         // Present the continuation beat leading into the secret
-        await PlayContinuationAsync();
+        await PlayContinuationAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public partial class Question3Voice : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true);
+            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 

@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d6n4rl8z9o5i3"]
+[gd_scene load_steps=3 format=3 uid="uid://d6n4rl8z9o5i3"]
 
 [ext_resource type="PackedScene" uid="uid://b4qvxk8y7n3h1" path="res://source/ui/terminal/base_terminal_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://source/stages/stage_1/beats/scripts/Beat2OpeningMonologue.cs" id="2_script"]
 
 [node name="OpeningMonologue" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
 
 [node name="MonologueText" type="Label" parent="ContentMargin/ContentVBox" index="0"]
 layout_mode = 2

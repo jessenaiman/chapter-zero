@@ -47,10 +47,25 @@ public partial class Field : Node2D
     {
         GD.Randomize();
 
-        // Get autoload references
-        var player = this.GetNode<Player>("/root/Player");
-        var combatEvents = this.GetNode<CombatEvents>("/root/CombatEvents");
-        var camera = this.GetNode<FieldCamera>("/root/FieldCamera");
+        // Get autoload references with error handling
+        var player = this.GetNodeOrNull<Player>("/root/Player");
+        var combatEvents = this.GetNodeOrNull<CombatEvents>("/root/CombatEvents");
+        var camera = this.GetNodeOrNull<FieldCamera>("/root/FieldCamera");
+
+        if (player == null)
+        {
+            GD.PushError("Field: Player autoload not found. Player functionality will not work.");
+            return; // Cannot continue without player autoload
+        }
+        if (combatEvents == null)
+        {
+            GD.PushError("Field: CombatEvents autoload not found. Combat system will not work.");
+        }
+        if (camera == null)
+        {
+            GD.PushError("Field: FieldCamera autoload not found. Camera functionality will not work.");
+            return; // Cannot continue without camera autoload
+        }
 
         // Assign proper controllers to player gamepieces whenever they change.
         player.GamepieceChanged += () =>
@@ -85,8 +100,11 @@ public partial class Field : Node2D
         // The field state must pause/unpause with combat accordingly.
         // Note that pausing/unpausing input is already wrapped up in triggers, which are what will
         // initiate combat.
-        combatEvents.CombatInitiated += () => this.Hide();
-        combatEvents.CombatFinished += (_ => this.Show());
+        if (combatEvents != null)
+        {
+            combatEvents.CombatInitiated += () => this.Hide();
+            combatEvents.CombatFinished += (_ => this.Show());
+        }
 
         camera.Scale = this.Scale;
         camera.MakeCurrent();

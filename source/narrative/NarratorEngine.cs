@@ -2,6 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System.Collections.ObjectModel;
 using Godot;
 
 namespace OmegaSpiral.Source.Narrative;
@@ -38,7 +39,7 @@ public partial class NarratorEngine : Node
     /// </summary>
     /// <param name="dialogues">The list of dialogue texts to add.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="dialogues"/> is <see langword="null"/>.</exception>
-    public void AddDialogueRange(List<string> dialogues)
+    public void AddDialogueRange(ICollection<string> dialogues)
     {
         ArgumentNullException.ThrowIfNull(dialogues);
 
@@ -110,12 +111,12 @@ public partial class NarratorEngine : Node
     /// <param name="text">The text to break into chunks.</param>
     /// <param name="chunkSize">The maximum size of each chunk (default 10).</param>
     /// <returns>A list of text chunks.</returns>
-    public static List<string> BreakTextIntoChunks(string text, int chunkSize = 10)
+        public static ReadOnlyCollection<string> BreakTextIntoChunks(string text, int chunkSize = 10)
     {
         var chunks = new List<string>();
         if (string.IsNullOrEmpty(text))
         {
-            return chunks;
+            return new ReadOnlyCollection<string>(chunks);
         }
 
         string[] words = text.Split(' ');
@@ -146,8 +147,9 @@ public partial class NarratorEngine : Node
             chunks.Add(currentChunk);
         }
 
-        return chunks;
-    }
+        return new ReadOnlyCollection<string>(chunks);
+    }</search>
+</search_and_replace>
 
     /// <summary>
     /// Processes narrative blocks and adds them to the dialogue queue.
@@ -155,7 +157,7 @@ public partial class NarratorEngine : Node
     /// <param name="paragraphs">The list of paragraphs to process.</param>
     /// <param name="outputAction">Optional action to output each chunk immediately.</param>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="paragraphs"/> is <see langword="null"/>.</exception>
-    public void ProcessNarrativeBlock(List<string> paragraphs, Action<string>? outputAction = null)
+    public void ProcessNarrativeBlock(ICollection<string> paragraphs, Action<string>? outputAction = null)
     {
         ArgumentNullException.ThrowIfNull(paragraphs);
 

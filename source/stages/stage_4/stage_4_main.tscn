@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d2lj4blu56fte" path="res://source/scripts/field/gamepieces/controllers/PlayerController.tscn" id="2"]
 [ext_resource type="Script" uid="uid://drugj534rnwxw" path="res://source/scripts/field/Map.cs" id="3"]
 [ext_resource type="TileSet" uid="uid://biq84075xlypd" path="res://source/overworld/maps/tilesets/kenney_terrain.tres" id="4"]
-[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source/scripts/field/gamepieces/Gamepiece.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source/scripts/field/gamepieces/gamepiece.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://cdkha7cc72h35" path="res://source/overworld/characters/generic_character_gfx.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://se1wnxu5svgj" path="res://source/overworld/characters/knight_gfx.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://dqdk6eehxsrmn" path="res://source/overworld/characters/monk_gfx.tscn" id="8"]

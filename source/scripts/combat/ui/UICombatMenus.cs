@@ -3,6 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
@@ -327,6 +328,22 @@ public partial class UICombatMenus : Control
         {
             var possibleTargets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
             this.cursor.Targets = possibleTargets is not null ? new List<Battler>(possibleTargets) : new List<Battler>();
+                }
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            battlers?.Dispose();
+            selectedBattler?.Dispose();
+            selectedAction?.Dispose();
+            cursor?.Dispose();
+            actionDescription?.Dispose();
+            actionMenuAnchor?.Dispose();
+            battlerList?.Dispose();
         }
+        base.Dispose(disposing);
     }
 }

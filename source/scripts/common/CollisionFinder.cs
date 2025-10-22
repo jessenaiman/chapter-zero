@@ -3,6 +3,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using Godot;
 
 namespace OmegaSpiral.Source.Scripts.Common;
@@ -19,7 +20,7 @@ namespace OmegaSpiral.Source.Scripts.Common;
 /// Note: physics objects update on the physics 'tick' so changes in position often
 /// need a single frame before they may be found by search.
 /// </summary>
-public partial class CollisionFinder : RefCounted
+public partial class CollisionFinder : RefCounted, IDisposable
 {
     /// <summary>
     /// Cache the space state that will be queried.
@@ -68,5 +69,11 @@ public partial class CollisionFinder : RefCounted
         this.QueryParameters.Transform = new Transform2D(0, position);
 
         return this.spaceState.IntersectShape(this.QueryParameters);
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        spaceState?.Dispose();
     }
 }

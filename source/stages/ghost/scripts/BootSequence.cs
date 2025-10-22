@@ -4,18 +4,23 @@
 
 using Godot;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Stages.Ghost;
 using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
-/// Initial boot sequence scene for Stage 1 opening.
-/// Displays system initialization messages and transitions to the opening monologue.
+/// The boot sequence scene for the ghost terminal.
+/// Displays initialization messages and transitions to the next scene via Stage1Controller.
+/// This scene is presentation-only; flow logic is managed by Stage1Controller.
 /// </summary>
 [GlobalClass]
-public partial class BootSequence : TerminalBase
+public partial class BootSequence : GhostTerminalUI
 {
     private bool _waitingForInput;
+#pragma warning disable CA2213 // Stage1Controller is managed by Godot's scene tree
+    private Stage1Controller? _stage1Controller;
+#pragma warning restore CA2213
 
     /// <inheritdoc/>
     public override async void _Ready()
@@ -24,13 +29,16 @@ public partial class BootSequence : TerminalBase
 
         GD.Print("BootSequence _Ready called");
 
+        // Get reference to the Stage 1 controller
+        _stage1Controller = GetNode<Stage1Controller>("/root/Stage1Controller");
+
         ApplyVisualPreset(TerminalVisualPreset.BootSequence);
 
         // Enable input processing for user interaction
         SetProcessInput(true);
 
         // Start boot sequence
-        await RunBootSequenceAsync();
+        await RunBootSequenceAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -50,12 +58,12 @@ public partial class BootSequence : TerminalBase
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.045);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.045f).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
         // Add continue prompt
-        await AppendTextAsync("\n\n[Press any key or click to continue...]", useGhostEffect: false);
+        await AppendTextAsync("\n\n[Press any key or click to continue...]", useGhostEffect: false).ConfigureAwait(false);
 
         GD.Print("Boot sequence text displayed, waiting for input");
 
@@ -64,6 +72,7 @@ public partial class BootSequence : TerminalBase
 
     /// <summary>
     /// Proceeds to the opening monologue after user input.
+    /// Delegates scene transition to Stage1Controller.
     /// </summary>
     private async Task ProceedToMonologueAsync()
     {
@@ -76,7 +85,8 @@ public partial class BootSequence : TerminalBase
             await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        await PixelDissolveAsync(1.8);
+        // Animate dissolve effect
+        await PixelDissolveAsync(1.8f).ConfigureAwait(false);
         ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
 
         // TODO: Boss Critter - Audio Architecture Refactor
@@ -84,7 +94,15 @@ public partial class BootSequence : TerminalBase
         // Should use centralized AudioManager instead of direct audio playback.
         // Professional AAA approach: AudioManager autoload handles all audio via buses and pooling.
         GD.Print("Transitioning to opening monologue");
-        TransitionToScene("res://source/stages/ghost/scenes/opening_monologue.tscn");
+
+        if (_stage1Controller != null)
+        {
+            await _stage1Controller.AdvanceFromBeat1BootSequenceAsync().ConfigureAwait(false);
+        }
+        else
+        {
+            GD.PrintErr("[BootSequence] Stage1Controller not found");
+        }
     }
 
     /// <inheritdoc/>

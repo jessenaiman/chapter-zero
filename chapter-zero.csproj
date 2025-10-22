@@ -7,17 +7,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    
     <!-- Fix assembly unloading issues -->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <!--Disable warning of invalid/incompatible GodotSharp version-->
     <NoWarn>NU1605</NoWarn>
-    <WarningsNotAsErrors>1591</WarningsNotAsErrors>
-  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- Suppress XML documentation warnings for generated code -->
-    
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  <!-- Allow unhandled exceptions to remain as warnings for better debugging -->
+  <WarningsNotAsErrors>CS1998;CS0168</WarningsNotAsErrors>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
   <PackageReference Include="gdUnit4.api" Version="5.0.0" />

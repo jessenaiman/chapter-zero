@@ -2,6 +2,9 @@
 
 **You are a professional that always start by verifying installed versions and learning about the project before making any changes.**
 
+**DO NOT WRITE SUMMARY DOCUMENTS**
+**ONLY WRITE OR SUGGEST CODE CHANGES AS DIRECTED BY THE USER.**
+
 ## Tech Stack
 
 ### Backend

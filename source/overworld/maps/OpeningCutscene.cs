@@ -27,55 +27,77 @@ public partial class OpeningCutscene : OmegaSpiral.Source.Scripts.Field.cutscene
     /// <returns>A task representing the asynchronous operation.</returns>
     protected override async Task ExecuteAsync()
     {
-        // Show the background color rect
+        await this.ShowBackgroundAsync();
+        await this.PlayDialogueAsync();
+        await this.PlayTransitionAsync();
+        this.HideBackground();
+        this.StartMusic();
+        await this.ClearTransitionAsync();
+        this.CallDeferred("queue_free");
+    }
+
+    private async Task ShowBackgroundAsync()
+    {
         var background = this.GetNode<Node2D>("Background");
         var colorRect = background?.GetNode<ColorRect>("ColorRect");
         if (colorRect != null)
         {
             colorRect.Show();
         }
+    }
 
-        // Start the dialogue timeline
-        if (this.Timeline != null)
+    private async Task PlayDialogueAsync()
+    {
+        if (this.Timeline == null)
         {
-            var dialogic = this.GetNode("/root/Dialogic");
-            if (dialogic != null)
-            {
-                dialogic.Call("start_timeline", this.Timeline);
-                await this.ToSignal(dialogic, "timeline_ended");
-            }
+            return;
         }
 
-        // Cover the screen with a transition
+        var dialogic = this.GetNode("/root/Dialogic");
+        if (dialogic != null)
+        {
+            dialogic.Call("start_timeline", this.Timeline);
+            await this.ToSignal(dialogic, "timeline_ended");
+        }
+    }
+
+    private async Task PlayTransitionAsync()
+    {
         var transition = this.GetNode("/root/Transition");
         if (transition != null)
         {
             transition.Call("cover");
             await this.ToSignal(transition, "finished");
         }
+    }
 
-        // Hide the background
+    private void HideBackground()
+    {
+        var background = this.GetNode<Node2D>("Background");
+        var colorRect = background?.GetNode<ColorRect>("ColorRect");
         if (colorRect != null)
         {
             colorRect.Hide();
         }
+    }
 
-        // Start the background music
+    private void StartMusic()
+    {
         var musicPlayer = this.GetNode("/root/Music");
         if (musicPlayer != null)
         {
             var musicResource = GD.Load<AudioStream>("res://assets/music/Apple Cider.mp3");
             musicPlayer.Call("play", musicResource);
         }
+    }
 
-        // Clear the transition
+    private async Task ClearTransitionAsync()
+    {
+        var transition = this.GetNode("/root/Transition");
         if (transition != null)
         {
             transition.Call("clear", 2.0f);
             await this.ToSignal(transition, "finished");
         }
-
-        // Queue the cutscene for removal
-        this.CallDeferred("queue_free");
     }
 }

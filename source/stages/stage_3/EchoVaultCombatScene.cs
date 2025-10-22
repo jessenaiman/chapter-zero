@@ -10,7 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// Simple auto-resolve combat presentation for Echo Vault.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultCombatScene : TerminalBase
+public partial class EchoVaultCombatScene : TerminalUI
 {
     private RichTextLabel? logLabel;
     private Button? resolveButton;
@@ -20,7 +20,7 @@ public partial class EchoVaultCombatScene : TerminalBase
     public override void _Ready()
     {
         // Set terminal mode for combat log display
-        terminalMode = TerminalMode.Full; // For full text effects on combat logs
+        Mode = TerminalMode.Full; // For full text effects on combat logs
 
         // Initialize base TerminalBase functionality
         base._Ready();
