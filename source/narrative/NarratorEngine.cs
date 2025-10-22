@@ -2,7 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Godot;
 
 namespace OmegaSpiral.Source.Narrative;
@@ -111,12 +111,12 @@ public partial class NarratorEngine : Node
     /// <param name="text">The text to break into chunks.</param>
     /// <param name="chunkSize">The maximum size of each chunk (default 10).</param>
     /// <returns>A list of text chunks.</returns>
-        public static ReadOnlyCollection<string> BreakTextIntoChunks(string text, int chunkSize = 10)
+        public static System.Collections.Generic.ICollection<string> BreakTextIntoChunks(string text, int chunkSize = 10)
     {
         var chunks = new List<string>();
         if (string.IsNullOrEmpty(text))
         {
-            return new ReadOnlyCollection<string>(chunks);
+            return Array.Empty<string>();
         }
 
         string[] words = text.Split(' ');
@@ -147,9 +147,8 @@ public partial class NarratorEngine : Node
             chunks.Add(currentChunk);
         }
 
-        return new ReadOnlyCollection<string>(chunks);
-    }</search>
-</search_and_replace>
+        return chunks;
+    }
 
     /// <summary>
     /// Processes narrative blocks and adds them to the dialogue queue.

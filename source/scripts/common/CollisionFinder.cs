@@ -72,7 +72,7 @@ public partial class CollisionFinder : RefCounted, IDisposable
     }
 
     /// <inheritdoc/>
-    public void Dispose()
+    public new void Dispose()
     {
         spaceState?.Dispose();
     }
