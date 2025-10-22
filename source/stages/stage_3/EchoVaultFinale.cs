@@ -1,6 +1,7 @@
 using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -19,10 +20,10 @@ public partial class EchoVaultFinale : TerminalBase
     {
         // Set terminal mode appropriately for finale display
         terminalMode = TerminalMode.Full; // For full text effects on summary
-        
+
         // Initialize base TerminalBase functionality
         base._Ready();
-        
+
         this.summaryLabel = this.GetNodeOrNull<RichTextLabel>("%SummaryLabel");
         this.continueButton = this.GetNodeOrNull<Button>("%ContinueButton");
 

@@ -23,10 +23,9 @@ public partial class SceneManagerTests : Node
     {
         _sceneManager = null;
 
-        // Create and add SceneManager for testing
+        // Create SceneManager for testing (don't add to tree since GetTree() may be null in test context)
         _sceneManager = new SceneManager();
         _sceneManager.Name = "SceneManager";
-        GetTree().Root.AddChild(_sceneManager);
     }
 
     [After]

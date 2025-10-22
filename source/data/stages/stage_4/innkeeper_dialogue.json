@@ -1,0 +1,51 @@
+{
+  "npcId": "innkeeper",
+  "name": "Restwell the Innkeeper",
+  "characterType": "hospitality worker",
+  "isLiminal": true,
+  "openingLines": [
+    "Ah, weary traveler, you look like you could use a good night's rest!",
+    "Welcome to the Cozy Corner Inn. I've prepared your usual room, as requested."
+  ],
+  "dialogueLines": [
+    "Your room is just as you left it, though I confess I cannot recall when that was.",
+    "Some guests stay for days, others for moments. Time moves differently here, wouldn't you say?",
+    "I've noticed the footprints in the hallway multiply when no one's watching."
+  ],
+  "choices": [
+    {
+      "id": "ask_about_room",
+      "text": "How is my usual room?",
+      "description": "Ask about your reserved room",
+      "nextDialogueIndex": 0,
+      "leadsToLiminalAwareness": true
+    },
+    {
+      "id": "ask_about_other_guests",
+      "text": "Any other guests staying here?",
+      "description": "Ask about other patrons",
+      "nextDialogueIndex": 1,
+      "leadsToLiminalAwareness": true
+    },
+    {
+      "id": "rest_for_night",
+      "text": "I think I'll rest for the night.",
+      "description": "Rest at the inn",
+      "nextDialogueIndex": 2,
+      "leadsToLiminalAwareness": false
+    }
+  ],
+  "loopReferences": [
+    "You're not the first traveler to ask about the room with the perpetually made bed.",
+    "I've served you breakfast, lunch, and dinner all in the span of an hour."
+  ],
+  "personalityTraits": ["hospitable", "mysterious", "perceptive"],
+  "liminalResponses": [
+    "The mirrors in the guest rooms sometimes show different faces than those who look into them.",
+    "Some guests check in but never check out, yet I've never seen them leave."
+  ],
+  "memoryFragments": [
+    "I remember preparing the same meal for you yesterday, though you insist it's your first visit.",
+    "The guest registry has your name written in ink that renews itself each morning."
+  ]
+}

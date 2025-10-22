@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://stage1_terminal_base"]
 
-[ext_resource type="Script" path="res://source/stages/ghost/scripts/TerminalBase.cs" id="1"]
+[ext_resource type="Script" path="res://source/ui/terminal/TerminalBase.cs" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0, 0, 0, 0)

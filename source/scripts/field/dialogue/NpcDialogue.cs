@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using OmegaSpiral.Source.Scripts.Common.Dialogue;
 using OmegaSpiral.Source.Scripts.Dialogue;
+using System.Collections.Generic;
 
 namespace OmegaSpiral.Source.Scripts.Field.Dialogue;
 
@@ -14,22 +15,22 @@ public class NpcDialogueData : BaseDialogueData
     /// Gets the NPC's character identifier
     /// </summary>
     public string NpcId { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets the NPC's name
     /// </summary>
     public string Name { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets the NPC's character type or role
     /// </summary>
     public string CharacterType { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets whether this dialogue should appear "liminal" - suggesting the simulation nature
     /// </summary>
     public bool IsLiminal { get; set; }
-    
+
     /// <summary>
     /// Gets special dialogue references to other players or loops
     /// </summary>
@@ -38,10 +39,10 @@ public class NpcDialogueData : BaseDialogueData
     public NpcDialogueData() : base()
     {
     }
-    
-    public NpcDialogueData(string npcId, string name, string characterType, 
-                          List<string> openingLines, List<string> dialogueLines, 
-                          List<IDialogueChoice> choices, List<INarrativeBlock> narrativeBlocks) 
+
+    public NpcDialogueData(string npcId, string name, string characterType,
+                          List<string> openingLines, List<string> dialogueLines,
+                          List<IDialogueChoice> choices, List<INarrativeBlock> narrativeBlocks)
         : base(openingLines, dialogueLines, choices, narrativeBlocks)
     {
         NpcId = npcId;
@@ -55,10 +56,10 @@ public class NpcDialogueData : BaseDialogueData
 /// </summary>
 public class NpcDialogueParser : BaseDialogueParser
 {
-    public override IDialogueData ParseDialogueData(Dictionary<string, Variant> jsonData)
+    public override IDialogueData ParseDialogueData(Godot.Collections.Dictionary<string, Variant> jsonData)
     {
         var baseData = (BaseDialogueData)base.ParseDialogueData(jsonData);
-        
+
         var npcData = new NpcDialogueData
         {
             OpeningLines = baseData.OpeningLines,
@@ -66,28 +67,28 @@ public class NpcDialogueParser : BaseDialogueParser
             Choices = baseData.Choices,
             NarrativeBlocks = baseData.NarrativeBlocks
         };
-        
+
         // Parse NPC-specific properties
         if (jsonData.ContainsKey("npcId"))
         {
             npcData.NpcId = jsonData["npcId"].AsString();
         }
-        
+
         if (jsonData.ContainsKey("name"))
         {
             npcData.Name = jsonData["name"].AsString();
         }
-        
+
         if (jsonData.ContainsKey("characterType"))
         {
             npcData.CharacterType = jsonData["characterType"].AsString();
         }
-        
+
         if (jsonData.ContainsKey("isLiminal"))
         {
             npcData.IsLiminal = jsonData["isLiminal"].AsBool();
         }
-        
+
         // Parse loop references - special dialogue elements that hint at the simulation nature
         if (jsonData.ContainsKey("loopReferences") && jsonData["loopReferences"].VariantType == Variant.Type.Array)
         {
@@ -97,19 +98,19 @@ public class NpcDialogueParser : BaseDialogueParser
                 npcData.LoopReferences.Add(reference.AsString());
             }
         }
-        
+
         return npcData;
     }
-    
+
     public override bool ValidateDialogueData(IDialogueData dialogueData)
     {
         var isValid = base.ValidateDialogueData(dialogueData);
-        
+
         if (dialogueData is NpcDialogueData npcData)
         {
             return isValid && !string.IsNullOrEmpty(npcData.NpcId) && !string.IsNullOrEmpty(npcData.Name);
         }
-        
+
         return isValid;
     }
 }
@@ -124,7 +125,7 @@ public partial class NpcDialogueManager : BaseDialogueManager
         // Override the parser to use NPC-specific parsing
         _parser = new NpcDialogueParser();
     }
-    
+
     /// <summary>
     /// Gets NPC-specific dialogue data
     /// </summary>
@@ -133,7 +134,7 @@ public partial class NpcDialogueManager : BaseDialogueManager
         var dialogueData = await GetDialogueAsync(npcId);
         return dialogueData as NpcDialogueData ?? CreateFallbackNpcDialogue(npcId);
     }
-    
+
     /// <summary>
     /// Loads NPC dialogue from a JSON resource
     /// </summary>
@@ -142,7 +143,7 @@ public partial class NpcDialogueManager : BaseDialogueManager
         var dialogueData = await LoadDialogueAsync(resourcePath);
         return dialogueData as NpcDialogueData ?? CreateFallbackNpcDialogue("unknown");
     }
-    
+
     private NpcDialogueData CreateFallbackNpcDialogue(string npcId)
     {
         return new NpcDialogueData

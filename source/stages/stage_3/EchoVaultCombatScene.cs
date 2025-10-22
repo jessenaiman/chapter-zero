@@ -1,6 +1,8 @@
 using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -19,10 +21,10 @@ public partial class EchoVaultCombatScene : TerminalBase
     {
         // Set terminal mode for combat log display
         terminalMode = TerminalMode.Full; // For full text effects on combat logs
-        
+
         // Initialize base TerminalBase functionality
         base._Ready();
-        
+
         this.logLabel = this.GetNodeOrNull<RichTextLabel>("%EncounterLog");
         this.resolveButton = this.GetNodeOrNull<Button>("%ResolveButton");
         this.defeatButton = this.GetNodeOrNull<Button>("%DefeatButton");
@@ -90,6 +92,17 @@ public partial class EchoVaultCombatScene : TerminalBase
     private static EchoCombatResult SimulateCombat()
     {
         var combat = EchoVaultSession.GetCurrentCombat();
+        var partyStats = CalculatePartyStats();
+        var enemyStats = CalculateEnemyStats(combat);
+
+        var log = SimulateCombatRounds(partyStats, enemyStats, combat);
+        bool victory = enemyStats.hp <= 0;
+
+        return new EchoCombatResult(log.ToString(), victory);
+    }
+
+    private static (double hp, List<(string Id, int Attack, int Hp)> echoes) CalculatePartyStats()
+    {
         double partyHp = 0;
         var echoes = new List<(string Id, int Attack, int Hp)>();
         foreach (string echoId in EchoVaultSession.SelectedEchoIds)
@@ -101,24 +114,35 @@ public partial class EchoVaultCombatScene : TerminalBase
                 partyHp += definition.Mechanics.Hp;
             }
         }
+        return (partyHp, echoes);
+    }
 
+    private static (double hp, List<EchoVaultEnemyEntry> enemies) CalculateEnemyStats(EchoVaultCombat combat)
+    {
         double enemyHp = 0;
         foreach (var enemy in combat.EnemyList)
         {
             enemyHp += (enemy.Level * 5) + 10;
         }
+        return (enemyHp, combat.EnemyList);
+    }
+
+    private static System.Text.StringBuilder SimulateCombatRounds(
+        (double hp, List<(string Id, int Attack, int Hp)> echoes) party,
+        (double hp, List<EchoVaultEnemyEntry> enemies) enemy,
+        EchoVaultCombat combat)
+    {
+        double partyHp = party.hp;
+        var echoes = party.echoes;
+        double enemyHp = enemy.hp;
+        var enemies = enemy.enemies;
 
         int round = 1;
         System.Text.StringBuilder sb = new();
         sb.AppendLine("[b]AUTO-RESOLVE[/b]");
         while (partyHp > 0 && enemyHp > 0 && round <= 6)
         {
-            double roundDamage = 0;
-            foreach (var echo in echoes)
-            {
-                roundDamage += echo.Attack;
-            }
-
+            double roundDamage = echoes.Sum(e => e.Attack);
             enemyHp -= roundDamage;
             sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "Round {0}: echoes deal {1:0} damage.", round, roundDamage));
 
@@ -128,28 +152,22 @@ public partial class EchoVaultCombatScene : TerminalBase
                 break;
             }
 
-            double enemyDamage = 0;
-            foreach (var enemy in combat.EnemyList)
-            {
-                enemyDamage += (enemy.Level * 2) + 3;
-            }
-
+            double enemyDamage = enemies.Sum(e => (e.Level * 2) + 3);
             partyHp -= enemyDamage;
             sb.AppendLine(string.Format(CultureInfo.InvariantCulture, "Round {0}: archive claws back {1:0} damage.", round, enemyDamage));
             round++;
         }
 
-        bool victory = enemyHp <= 0;
-        if (!victory)
-        {
-            sb.AppendLine("The echoes fall. But the loop remembers.");
-        }
-        else
+        if (enemyHp <= 0)
         {
             sb.AppendLine("Victory! The archive weakens.");
         }
+        else
+        {
+            sb.AppendLine("The echoes fall. But the loop remembers.");
+        }
 
-        return new EchoCombatResult(sb.ToString(), victory);
+        return sb;
     }
 }
 

@@ -28,7 +28,7 @@ public partial class MainMenuLayoutTests
     public async Task MenuCenterShouldMatchViewportCenterHorizontally()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -56,7 +56,7 @@ public partial class MainMenuLayoutTests
     public async Task MenuCenterShouldMatchViewportCenterVertically()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -84,7 +84,7 @@ public partial class MainMenuLayoutTests
     public async Task TitleShouldBeCenteredHorizontally()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -114,7 +114,7 @@ public partial class MainMenuLayoutTests
     public async Task Stage1ButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -143,7 +143,7 @@ public partial class MainMenuLayoutTests
     public async Task Stage2ButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -172,7 +172,7 @@ public partial class MainMenuLayoutTests
     public async Task QuitButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
         await runner.SimulateFrames(1);
 
         Control stageSelectMenu = (Control)runner.Scene();

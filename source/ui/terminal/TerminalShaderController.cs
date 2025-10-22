@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.Scripts.Common.Terminal;
+namespace OmegaSpiral.Source.UI.Terminal;
 
 /// <summary>
 /// Implementation of terminal shader controller.
@@ -77,15 +77,14 @@ public class TerminalShaderController : ITerminalShaderController, IDisposable
         _currentMaterial.SetShaderParameter("dissolve_progress", 0.0f);
         _currentMaterial.SetShaderParameter("dissolve_speed", 1.0f / duration);
 
-        // Animate dissolve
-        var startTime = Time.GetTicksMsec() / 1000.0f;
-        var endTime = startTime + duration;
-
-        while (Time.GetTicksMsec() / 1000.0f < endTime)
+        // Animate dissolve with fixed frame rate
+        const int frameRate = 60;
+        int totalFrames = (int)(duration * frameRate);
+        for (int frame = 0; frame < totalFrames; frame++)
         {
-            var progress = (Time.GetTicksMsec() / 1000.0f - startTime) / duration;
+            float progress = (float)frame / totalFrames;
             _currentMaterial.SetShaderParameter("dissolve_progress", progress);
-            await Task.Delay(16); // ~60 FPS
+            await Task.Delay(1000 / frameRate); // Delay for one frame
         }
 
         // Ensure fully dissolved

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://chm288ihj7d6v"]
+[gd_scene load_steps=8 format=3 uid="uid://dx6sddr6klsgj"]
 
 [ext_resource type="Script" uid="uid://de0fj467i06il" path="res://source/scripts/ui/menus/StageSelectMenu.cs" id="1_stage_select"]
 [ext_resource type="FontFile" uid="uid://cfhyd5hmym1s4" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="2_font"]

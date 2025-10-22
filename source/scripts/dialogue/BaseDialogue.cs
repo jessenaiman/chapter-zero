@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Common.Dialogue;
+using System.Collections.Generic;
 
 namespace OmegaSpiral.Source.Scripts.Dialogue;
 
@@ -10,10 +11,10 @@ namespace OmegaSpiral.Source.Scripts.Dialogue;
 /// </summary>
 public class BaseDialogueData : IDialogueData
 {
-    public List<string> OpeningLines { get; protected set; } = new();
-    public List<string> DialogueLines { get; protected set; } = new();
-    public List<IDialogueChoice> Choices { get; protected set; } = new();
-    public List<INarrativeBlock> NarrativeBlocks { get; protected set; } = new();
+    public List<string> OpeningLines { get; set; } = new();
+    public List<string> DialogueLines { get; set; } = new();
+    public List<IDialogueChoice> Choices { get; set; } = new();
+    public List<INarrativeBlock> NarrativeBlocks { get; set; } = new();
 
     /// <summary>
     /// Initializes a new instance of BaseDialogueData with provided values
@@ -97,11 +98,23 @@ public class BaseNarrativeBlock : INarrativeBlock
 /// </summary>
 public class BaseDialogueParser : IDialogueParser
 {
-    public virtual IDialogueData ParseDialogueData(Dictionary<string, Variant> jsonData)
+    public virtual IDialogueData ParseDialogueData(Godot.Collections.Dictionary<string, Variant> jsonData)
     {
         var dialogueData = new BaseDialogueData();
-        
-        // Parse opening lines
+
+        ParseOpeningLines(jsonData, dialogueData);
+        ParseDialogueLines(jsonData, dialogueData);
+        ParseChoices(jsonData, dialogueData);
+        ParseNarrativeBlocks(jsonData, dialogueData);
+
+        return dialogueData;
+    }
+
+    /// <summary>
+    /// Parses opening lines from JSON data
+    /// </summary>
+    protected virtual void ParseOpeningLines(Godot.Collections.Dictionary<string, Variant> jsonData, BaseDialogueData dialogueData)
+    {
         if (jsonData.ContainsKey("openingLines") && jsonData["openingLines"].VariantType == Variant.Type.Array)
         {
             var openingLinesArray = jsonData["openingLines"].AsGodotArray();
@@ -110,8 +123,13 @@ public class BaseDialogueParser : IDialogueParser
                 dialogueData.OpeningLines.Add(line.AsString());
             }
         }
-        
-        // Parse dialogue lines
+    }
+
+    /// <summary>
+    /// Parses dialogue lines from JSON data
+    /// </summary>
+    protected virtual void ParseDialogueLines(Godot.Collections.Dictionary<string, Variant> jsonData, BaseDialogueData dialogueData)
+    {
         if (jsonData.ContainsKey("dialogueLines") && jsonData["dialogueLines"].VariantType == Variant.Type.Array)
         {
             var dialogueLinesArray = jsonData["dialogueLines"].AsGodotArray();
@@ -120,8 +138,13 @@ public class BaseDialogueParser : IDialogueParser
                 dialogueData.DialogueLines.Add(line.AsString());
             }
         }
-        
-        // Parse choices
+    }
+
+    /// <summary>
+    /// Parses player choices from JSON data
+    /// </summary>
+    protected virtual void ParseChoices(Godot.Collections.Dictionary<string, Variant> jsonData, BaseDialogueData dialogueData)
+    {
         if (jsonData.ContainsKey("choices") && jsonData["choices"].VariantType == Variant.Type.Array)
         {
             var choicesArray = jsonData["choices"].AsGodotArray();
@@ -129,20 +152,32 @@ public class BaseDialogueParser : IDialogueParser
             {
                 if (choiceVariant.VariantType == Variant.Type.Dictionary)
                 {
-                    var choiceDict = choiceVariant.AsGodotDictionary();
-                    var choice = new BaseDialogueChoice
-                    {
-                        Id = choiceDict.ContainsKey("id") ? choiceDict["id"].AsString() : string.Empty,
-                        Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
-                        Description = choiceDict.ContainsKey("description") ? choiceDict["description"].AsString() : string.Empty,
-                        NextDialogueIndex = choiceDict.ContainsKey("nextDialogueIndex") ? choiceDict["nextDialogueIndex"].AsInt32() : 0
-                    };
+                    var choice = ParseChoice(choiceVariant.AsGodotDictionary());
                     dialogueData.Choices.Add(choice);
                 }
             }
         }
-        
-        // Parse narrative blocks
+    }
+
+    /// <summary>
+    /// Parses a single dialogue choice from a dictionary
+    /// </summary>
+    protected virtual IDialogueChoice ParseChoice(Godot.Collections.Dictionary choiceDict)
+    {
+        return new BaseDialogueChoice
+        {
+            Id = choiceDict.ContainsKey("id") ? choiceDict["id"].AsString() : string.Empty,
+            Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
+            Description = choiceDict.ContainsKey("description") ? choiceDict["description"].AsString() : string.Empty,
+            NextDialogueIndex = choiceDict.ContainsKey("nextDialogueIndex") ? choiceDict["nextDialogueIndex"].AsInt32() : 0
+        };
+    }
+
+    /// <summary>
+    /// Parses narrative blocks from JSON data
+    /// </summary>
+    protected virtual void ParseNarrativeBlocks(Godot.Collections.Dictionary<string, Variant> jsonData, BaseDialogueData dialogueData)
+    {
         if (jsonData.ContainsKey("narrativeBlocks") && jsonData["narrativeBlocks"].VariantType == Variant.Type.Array)
         {
             var blocksArray = jsonData["narrativeBlocks"].AsGodotArray();
@@ -150,66 +185,65 @@ public class BaseDialogueParser : IDialogueParser
             {
                 if (blockVariant.VariantType == Variant.Type.Dictionary)
                 {
-                    var blockDict = blockVariant.AsGodotDictionary();
-                    var narrativeBlock = new BaseNarrativeBlock();
-                    
-                    // Parse paragraphs
-                    if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
-                    {
-                        var paragraphsArray = blockDict["paragraphs"].AsGodotArray();
-                        foreach (var para in paragraphsArray)
-                        {
-                            narrativeBlock.Paragraphs.Add(para.AsString());
-                        }
-                    }
-                    
-                    // Parse question
-                    if (blockDict.ContainsKey("question"))
-                    {
-                        narrativeBlock.Question = blockDict["question"].AsString();
-                    }
-                    
-                    // Parse choices for this block
-                    if (blockDict.ContainsKey("choices") && blockDict["choices"].VariantType == Variant.Type.Array)
-                    {
-                        var blockChoicesArray = blockDict["choices"].AsGodotArray();
-                        foreach (var choiceVariant in blockChoicesArray)
-                        {
-                            if (choiceVariant.VariantType == Variant.Type.Dictionary)
-                            {
-                                var choiceDict = choiceVariant.AsGodotDictionary();
-                                var choice = new BaseDialogueChoice
-                                {
-                                    Id = choiceDict.ContainsKey("id") ? choiceDict["id"].AsString() : string.Empty,
-                                    Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
-                                    Description = choiceDict.ContainsKey("description") ? choiceDict["description"].AsString() : string.Empty,
-                                    NextDialogueIndex = choiceDict.ContainsKey("nextDialogueIndex") ? choiceDict["nextDialogueIndex"].AsInt32() : 0
-                                };
-                                narrativeBlock.Choices.Add(choice);
-                            }
-                        }
-                    }
-                    
-                    // Parse next block index
-                    if (blockDict.ContainsKey("nextBlock"))
-                    {
-                        narrativeBlock.NextBlock = blockDict["nextBlock"].AsInt32();
-                    }
-                    
+                    var narrativeBlock = ParseNarrativeBlock(blockVariant.AsGodotDictionary());
                     dialogueData.NarrativeBlocks.Add(narrativeBlock);
                 }
             }
         }
-        
-        return dialogueData;
     }
-    
+
+    /// <summary>
+    /// Parses a single narrative block from a dictionary
+    /// </summary>
+    protected virtual INarrativeBlock ParseNarrativeBlock(Godot.Collections.Dictionary blockDict)
+    {
+        var narrativeBlock = new BaseNarrativeBlock();
+
+        // Parse paragraphs
+        if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
+        {
+            var paragraphsArray = blockDict["paragraphs"].AsGodotArray();
+            foreach (var para in paragraphsArray)
+            {
+                narrativeBlock.Paragraphs.Add(para.AsString());
+            }
+        }
+
+        // Parse question
+        if (blockDict.ContainsKey("question"))
+        {
+            narrativeBlock.Question = blockDict["question"].AsString();
+        }
+
+        // Parse choices for this block
+        if (blockDict.ContainsKey("choices") && blockDict["choices"].VariantType == Variant.Type.Array)
+        {
+            var blockChoicesArray = blockDict["choices"].AsGodotArray();
+            foreach (var choiceVariant in blockChoicesArray)
+            {
+                if (choiceVariant.VariantType == Variant.Type.Dictionary)
+                {
+                    var choice = ParseChoice(choiceVariant.AsGodotDictionary());
+                    narrativeBlock.Choices.Add(choice);
+                }
+            }
+        }
+
+        // Parse next block index
+        if (blockDict.ContainsKey("nextBlock"))
+        {
+            narrativeBlock.NextBlock = blockDict["nextBlock"].AsInt32();
+        }
+
+        return narrativeBlock;
+    }
+
     public virtual bool ValidateDialogueData(IDialogueData dialogueData)
     {
         // Basic validation - all collections should have valid content
-        return dialogueData.OpeningLines != null && 
-               dialogueData.DialogueLines != null && 
-               dialogueData.Choices != null && 
+        return dialogueData.OpeningLines != null &&
+               dialogueData.DialogueLines != null &&
+               dialogueData.Choices != null &&
                dialogueData.NarrativeBlocks != null;
     }
 }
@@ -219,56 +253,89 @@ public class BaseDialogueParser : IDialogueParser
 /// </summary>
 public partial class BaseDialogueManager : Node, IDialogueManager
 {
-    private readonly Dictionary<string, IDialogueData> _dialogueCache = new();
-    private readonly Dictionary<string, string> _dialoguePaths = new();
-    private IDialogueParser _parser = new BaseDialogueParser();
+    private readonly System.Collections.Generic.Dictionary<string, IDialogueData> _dialogueCache = new();
+    private readonly System.Collections.Generic.Dictionary<string, string> _dialoguePaths = new();
+    protected IDialogueParser _parser = new BaseDialogueParser();
 
     public async Task<IDialogueData> LoadDialogueAsync(string resourcePath)
     {
         if (!Godot.FileAccess.FileExists(resourcePath))
         {
-            GD.PrintErr($"Dialogue resource not found: {resourcePath}");
-            return CreateFallbackDialogue();
+            return LogErrorAndCreateFallback($"Dialogue resource not found: {resourcePath}");
         }
 
         try
         {
-            using var file = Godot.FileAccess.Open(resourcePath, Godot.FileAccess.ModeFlags.Read);
-            if (file == null)
-            {
-                GD.PrintErr($"Failed to open dialogue file: {resourcePath}");
-                return CreateFallbackDialogue();
-            }
-
-            var jsonString = file.GetAsText();
-            
-            // Use Godot's JSON class to parse the string
-            var jsonResult = Json.ParseString(jsonString);
-            if (jsonResult is Godot.Collections.Dictionary<string, Variant> parsedData)
-            {
-                var dialogueData = _parser.ParseDialogueData(parsedData);
-                
-                if (_parser.ValidateDialogueData(dialogueData))
-                {
-                    return dialogueData;
-                }
-                else
-                {
-                    GD.PrintErr($"Dialogue data validation failed for: {resourcePath}");
-                    return CreateFallbackDialogue();
-                }
-            }
-            else
-            {
-                GD.PrintErr($"Failed to parse JSON from: {resourcePath}");
-                return CreateFallbackDialogue();
-            }
+            var jsonString = ReadJsonFile(resourcePath);
+            return string.IsNullOrEmpty(jsonString) ? CreateFallbackDialogue() : ParseJsonToDialogue(resourcePath, jsonString);
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"Error loading dialogue from {resourcePath}: {ex.Message}");
+            return LogErrorAndCreateFallback($"Error loading dialogue from {resourcePath}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Logs an error and returns fallback dialogue
+    /// </summary>
+    private IDialogueData LogErrorAndCreateFallback(string message)
+    {
+        GD.PrintErr(message);
+        return CreateFallbackDialogue();
+    }
+
+    /// <summary>
+    /// Reads JSON content from a file
+    /// </summary>
+    private string ReadJsonFile(string resourcePath)
+    {
+        using var file = Godot.FileAccess.Open(resourcePath, Godot.FileAccess.ModeFlags.Read);
+        if (file == null)
+        {
+            GD.PrintErr($"Failed to open dialogue file: {resourcePath}");
+            return string.Empty;
+        }
+
+        return file.GetAsText();
+    }
+
+    /// <summary>
+    /// Parses JSON string into dialogue data
+    /// </summary>
+    private IDialogueData ParseJsonToDialogue(string resourcePath, string jsonString)
+    {
+        var json = new Json();
+        var error = json.Parse(jsonString);
+
+        if (error != Error.Ok)
+        {
+            GD.PrintErr($"Failed to parse JSON from: {resourcePath}");
             return CreateFallbackDialogue();
         }
+
+        if (json.Data.VariantType != Variant.Type.Dictionary)
+        {
+            GD.PrintErr($"Failed to parse JSON from: {resourcePath}");
+            return CreateFallbackDialogue();
+        }
+
+        var anyDict = json.Data.AsGodotDictionary();
+        var parsedData = new Godot.Collections.Dictionary<string, Variant>();
+
+        foreach (var kvp in anyDict)
+        {
+            parsedData[kvp.Key.ToString()] = kvp.Value;
+        }
+
+        var dialogueData = _parser.ParseDialogueData(parsedData);
+
+        if (!_parser.ValidateDialogueData(dialogueData))
+        {
+            GD.PrintErr($"Dialogue data validation failed for: {resourcePath}");
+            return CreateFallbackDialogue();
+        }
+
+        return dialogueData;
     }
 
     public async Task<IDialogueData> GetDialogueAsync(string dialogueId)
@@ -284,7 +351,7 @@ public partial class BaseDialogueManager : Node, IDialogueManager
             _dialogueCache[dialogueId] = dialogueData;
             return dialogueData;
         }
-        
+
         GD.PrintErr($"Dialogue with ID '{dialogueId}' not found and no path registered");
         return CreateFallbackDialogue();
     }
@@ -305,7 +372,7 @@ public partial class BaseDialogueManager : Node, IDialogueManager
             _dialogueCache.Remove(dialogueId);
         }
     }
-    
+
     private IDialogueData CreateFallbackDialogue()
     {
         return new BaseDialogueData(

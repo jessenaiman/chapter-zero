@@ -85,8 +85,8 @@ namespace OmegaSpiral.Ui.Menus
         /// </summary>
         private void OnStage4Pressed()
         {
-            GD.Print("Stage 4 selected - loading Field Combat");
-            TransitionToStage("res://source/stages/stage_4/field_combat.tscn");
+            GD.Print("Stage 4 selected - loading Liminal Township");
+            TransitionToStage("res://source/stages/stage_4/stage_4_main.tscn");
         }
 
         /// <summary>

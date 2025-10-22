@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 

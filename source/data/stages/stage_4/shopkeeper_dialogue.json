@@ -1,0 +1,51 @@
+{
+  "npcId": "shopkeeper",
+  "name": "Merchantsen the Shopkeep",
+  "characterType": "merchant",
+  "isLiminal": false,
+  "openingLines": [
+    "Welcome back, traveler! Step right up and see what wares I have brought from distant lands.",
+    "Ah, I sense you're not from around here. That's alright, we get all sorts in this town."
+  ],
+  "dialogueLines": [
+    "These goods come from lands beyond the horizon, though sometimes I wonder if the horizon moves...",
+    "I've been selling wares here for decades, or maybe centuries? Time moves strangely in our fair town.",
+    "Each customer seems to buy the same things, yet I never tire of the transactions."
+  ],
+  "choices": [
+    {
+      "id": "ask_about_wares",
+      "text": "What do you sell?",
+      "description": "Ask about the merchant's wares",
+      "nextDialogueIndex": 0,
+      "leadsToLiminalAwareness": false
+    },
+    {
+      "id": "ask_about_town",
+      "text": "Tell me about this town.",
+      "description": "Ask about the town's history",
+      "nextDialogueIndex": 1,
+      "leadsToLiminalAwareness": true
+    },
+    {
+      "id": "buy_items",
+      "text": "Show me your wares.",
+      "description": "Browse the merchant's inventory",
+      "nextDialogueIndex": 2,
+      "leadsToLiminalAwareness": false
+    }
+  ],
+  "loopReferences": [
+    "I've served countless travelers, yet each one seems to ask the same questions.",
+    "There was another like you who bought the same items I sold today."
+  ],
+  "personalityTraits": ["gregarious", "salesman", "observant"],
+  "liminalResponses": [
+    "Sometimes I wonder if my wares replenish themselves each morning.",
+    "Every customer asks about the strange weather, as if it's a new phenomenon."
+  ],
+  "memoryFragments": [
+    "I remember when the banners in the town square weren't quite so faded.",
+    "There was an identical shop here before, run by someone who looked just like me."
+  ]
+}

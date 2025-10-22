@@ -1,0 +1,51 @@
+{
+  "npcId": "strange_old_man",
+  "name": "Whisperton the Mysterious",
+  "characterType": "mysterious figure",
+  "isLiminal": true,
+  "openingLines": [
+    "Ah, another visitor to our curious little corner of existence...",
+    "You feel it too, don't you? The repetition, the deja vu that clings to every cobblestone?"
+  ],
+  "dialogueLines": [
+    "This town is a nexus, a convergence point where realities fold in upon themselves.",
+    "Each iteration brings new faces, yet somehow they all ask the same questions.",
+    "The Dreamweavers whisper of choices yet to be made, but do we truly choose or merely repeat?"
+  ],
+  "choices": [
+    {
+      "id": "ask_about_nexus",
+      "text": "What do you mean by nexus?",
+      "description": "Ask for clarification about the nexus concept",
+      "nextDialogueIndex": 0,
+      "leadsToLiminalAwareness": true
+    },
+    {
+      "id": "ask_about_dreamweavers",
+      "text": "What do you know of the Dreamweavers?",
+      "description": "Ask about the mysterious Dreamweavers",
+      "nextDialogueIndex": 1,
+      "leadsToLiminalAwareness": true
+    },
+    {
+      "id": "ask_to_leave",
+      "text": "This is too strange for me.",
+      "description": "Try to end the conversation",
+      "nextDialogueIndex": 2,
+      "leadsToLiminalAwareness": false
+    }
+  ],
+  "loopReferences": [
+    "I've had this same conversation with dozens of you, yet each believes they're the first.",
+    "The spiral turns and turns, and each revolution thinks it's breaking free for the first time."
+  ],
+  "personalityTraits": ["cryptic", "wise", "ominous"],
+  "liminalResponses": [
+    "The banners fade and sharpen with each cycle, yet no one notices but me.",
+    "Count the footprints by the fountain - they multiply when you're not looking."
+  ],
+  "memoryFragments": [
+    "I remember when the town square had a different statue, and before that another still.",
+    "Each iteration brings slight variations, but the core truths remain constant."
+  ]
+}

@@ -5,7 +5,7 @@
 using GdUnit4;
 using Godot;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Common.Terminal;
+using OmegaSpiral.Source.UI.Terminal;
 using System.Collections.Generic;
 
 namespace OmegaSpiral.Tests.Unit.Common.Terminal
@@ -83,6 +83,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             // For now, just verify the method doesn't throw
             // Full integration testing would require mocking user input
             AssertThat(selectionTask).IsNotNull();
+            _presenter.HideChoices(); // Cancel the task to avoid hanging
         }
 
         /// <summary>
@@ -100,6 +101,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             // Assert
             AssertThat(selectionTask).IsNotNull();
             // Full testing would verify multiple selections are returned
+            _presenter.HideChoices(); // Cancel the task to avoid hanging
         }
 
         /// <summary>
@@ -121,6 +123,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
 
             // Assert
             AssertThat(selectionTask).IsNotNull();
+            _presenter.HideChoices(); // Cancel the task to avoid hanging
         }
 
         /// <summary>

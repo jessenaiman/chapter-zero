@@ -3,7 +3,8 @@
 using Godot;
 using GdUnit4;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Common.Terminal;
+using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Tests.Integration.Common;
 

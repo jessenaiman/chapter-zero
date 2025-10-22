@@ -158,12 +158,4 @@ Professional redesign of the stage select menu with perfect centering, status in
 **Granularity**: Small, focused assertions
 **Maintainability**: Easy to identify which feature broke when test fails
 
-## Notes
-
-- Tests should run in headless mode (no editor required)
-- Use GDUnit4's scene test capabilities for UI testing
-- Mock file system for LLM content detection tests
-- Verify layout at 1080p minimum, test up to 4K
-- Consider ultrawide (21:9) and vertical (9:16) aspect ratios
-- Each test name clearly indicates what is being tested and expected outcome
 

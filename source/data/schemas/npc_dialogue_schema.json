@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://omegaspiral.com/schemas/npc_dialogue.json",
+  "type": "object",
+  "title": "NPC Dialogue Schema",
+  "description": "Schema for NPC dialogue data in the liminal township",
+  "properties": {
+    "npcId": {
+      "type": "string",
+      "description": "Unique identifier for this NPC"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name for this NPC"
+    },
+    "characterType": {
+      "type": "string",
+      "description": "Character type classification (shopkeeper, townsfolk, etc.)"
+    },
+    "isLiminal": {
+      "type": "boolean",
+      "description": "Whether this NPC exhibits liminal awareness",
+      "default": false
+    },
+    "openingLines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Array of opening dialogue lines"
+    },
+    "dialogueLines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of additional dialogue lines"
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this choice"
+          },
+          "text": {
+            "type": "string",
+            "description": "Display text for the choice"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description or tooltip for the choice"
+          },
+          "nextDialogueIndex": {
+            "type": "integer",
+            "description": "Index of the next dialogue to show",
+            "minimum": 0
+          },
+          "leadsToLiminalAwareness": {
+            "type": "boolean",
+            "description": "Whether this choice leads to liminal awareness dialogue",
+            "default": false
+          },
+          "affinityChanges": {
+            "type": "object",
+            "description": "Affinity changes that result from this choice",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "flagsSet": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Special flags that this choice sets"
+          }
+        },
+        "required": ["id", "text", "description", "nextDialogueIndex"]
+      },
+      "description": "Array of dialogue choices available to the player"
+    },
+    "loopReferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Special dialogue references to other players or loops"
+    },
+    "personalityTraits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Personality traits that influence dialogue"
+    },
+    "liminalResponses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Special responses that hint at the simulation nature"
+    },
+    "memoryFragments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Dialogue that references previous iterations of the town"
+    },
+    "narrativeBlocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "paragraphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "question": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/properties/choices/items"
+            }
+          },
+          "nextBlock": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "containsLiminalContent": {
+            "type": "boolean",
+            "default": false
+          },
+          "temporalReferences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "atmosphericEffect": {
+            "type": "string"
+          }
+        },
+        "required": ["paragraphs"]
+      }
+    }
+  },
+  "required": ["npcId", "name", "characterType", "openingLines", "choices"]
+}

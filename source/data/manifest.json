@@ -26,8 +26,8 @@
     },
     {
       "id": 5,
-      "type": "field_combat",
-      "path": "scene5_field_combat",
+      "type": "liminal_township",
+      "path": "scene5_liminal_township",
       "supportsThreads": false
     }
   ]

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.Common.Terminal;
+// using moved to same namespace
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.UI.Terminal;
 
 /// <summary>
 /// Terminal interface for narrative scenes with CRT effects and text animations.
@@ -35,6 +35,20 @@ public partial class TerminalBase : BaseNarrativeScene
         public float Brightness;
         public float Contrast;
         public Vector3 Tint;
+
+        // Default constructor with reasonable shader parameter values
+        public PhosphorSettings()
+        {
+            Glow = 0.8f;
+            Curvature = 0.1f;
+            VignetteStrength = 0.3f;
+            VignetteSoftness = 0.5f;
+            Spread = 1.0f;
+            Chromatic = 0.02f;
+            Brightness = 1.0f;
+            Contrast = 1.1f;
+            Tint = new Vector3(0.0f, 1.0f, 0.0f); // Green phosphor
+        }
     }
     private const string UiSelectAudioPath = "res://source/assets/sfx/confirmation_002.ogg";
     private const string TransitionAudioPath = "res://source/assets/sfx/doorOpen_2.ogg";

@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.Scripts.Common.Terminal;
+namespace OmegaSpiral.Source.UI.Terminal;
 
 /// <summary>
 /// Interface for presenting and handling player choices in the terminal.

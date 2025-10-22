@@ -5,7 +5,7 @@
 using GdUnit4;
 using Godot;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Common.Terminal;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Tests.Unit.Common.Terminal
 {
@@ -21,12 +21,27 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         private RichTextLabel _mockTextDisplay = null!;
 
         /// <summary>
+        /// Test constants for consistent values across tests.
+        /// </summary>
+        private const string TestText = "Hello World";
+        private const string FastText = "Fast Text";
+        private const string DelayedText = "Delayed Text";
+        private const string AnimatedText = "Animated Text";
+        private const string LongText = "This is a long text that should cause scrolling behavior to be tested.";
+        private const string RedText = "Red Text";
+        private const string EmptyText = "";
+        private const float TypingSpeed = 50f;
+        private const float Delay = 0.1f;
+        private const float ToleranceMs = 10f;
+        private const int AnimationDelay = 50;
+
+        /// <summary>
         /// Sets up test fixtures before each test.
         /// </summary>
         [Before]
         public void Setup()
         {
-            _mockTextDisplay = new RichTextLabel();
+            _mockTextDisplay = AutoFree(new RichTextLabel())!;
             _renderer = new TerminalTextRenderer(_mockTextDisplay);
         }
 
@@ -37,7 +52,6 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public void Cleanup()
         {
             _renderer?.Dispose();
-            _mockTextDisplay?.QueueFree();
         }
 
         /// <summary>

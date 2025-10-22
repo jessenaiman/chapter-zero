@@ -1,6 +1,7 @@
 using Godot;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -24,10 +25,10 @@ public partial class EchoVaultHub : TerminalBase
     {
         // Set terminal mode - for Stage 3 we may want full functionality for narrative prompts
         terminalMode = TerminalMode.Full; // Or TerminalMode.Minimal if we only need basic text
-        
+
         // Initialize base TerminalBase functionality
         base._Ready();
-        
+
         EchoVaultSession.Initialize(EchoVaultDirector.GetPlan());
 
         this.tierLabel = this.GetNodeOrNull<Label>("%TierLabel");

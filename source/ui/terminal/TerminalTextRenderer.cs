@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.Scripts.Common.Terminal;
+namespace OmegaSpiral.Source.UI.Terminal;
 
 /// <summary>
 /// Implementation of terminal text renderer.

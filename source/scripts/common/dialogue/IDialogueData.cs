@@ -1,3 +1,4 @@
+using Godot;
 using Godot.Collections;
 
 namespace OmegaSpiral.Source.Scripts.Common.Dialogue;
@@ -11,17 +12,17 @@ public interface IDialogueData
     /// Gets the dialogue lines for the initial greeting/opening
     /// </summary>
     List<string> OpeningLines { get; }
-    
+
     /// <summary>
     /// Gets the dialogue lines for the main content
     /// </summary>
     List<string> DialogueLines { get; }
-    
+
     /// <summary>
     /// Gets the choices available to the player
     /// </summary>
     List<IDialogueChoice> Choices { get; }
-    
+
     /// <summary>
     /// Gets any special narrative blocks or responses
     /// </summary>
@@ -37,17 +38,17 @@ public interface IDialogueChoice
     /// Gets the unique identifier for this choice
     /// </summary>
     string Id { get; }
-    
+
     /// <summary>
     /// Gets the display text for this choice
     /// </summary>
     string Text { get; }
-    
+
     /// <summary>
     /// Gets the description or additional context for this choice
     /// </summary>
     string Description { get; }
-    
+
     /// <summary>
     /// Gets the index of the next dialogue block to show
     /// </summary>
@@ -63,17 +64,17 @@ public interface INarrativeBlock
     /// Gets the paragraphs of text in this narrative block
     /// </summary>
     List<string> Paragraphs { get; }
-    
+
     /// <summary>
     /// Gets the question or prompt following the paragraphs
     /// </summary>
     string Question { get; }
-    
+
     /// <summary>
     /// Gets the choices available after this narrative block
     /// </summary>
     List<IDialogueChoice> Choices { get; }
-    
+
     /// <summary>
     /// Gets the index of the next narrative block
     /// </summary>
@@ -90,8 +91,8 @@ public interface IDialogueParser
     /// </summary>
     /// <param name="jsonData">The JSON data dictionary to parse</param>
     /// <returns>An IDialogueData instance</returns>
-    IDialogueData ParseDialogueData(Dictionary<string, Variant> jsonData);
-    
+    IDialogueData ParseDialogueData(Godot.Collections.Dictionary<string, Variant> jsonData);
+
     /// <summary>
     /// Validates the parsed dialogue data against the expected schema
     /// </summary>
@@ -111,21 +112,21 @@ public interface IDialogueManager
     /// <param name="resourcePath">Path to the dialogue JSON file</param>
     /// <returns>A task that resolves to the dialogue data</returns>
     Task<IDialogueData> LoadDialogueAsync(string resourcePath);
-    
+
     /// <summary>
     /// Gets cached dialogue data by ID, or loads it if not cached
     /// </summary>
     /// <param name="dialogueId">The unique identifier for the dialogue</param>
     /// <returns>The dialogue data, or null if not found</returns>
     Task<IDialogueData> GetDialogueAsync(string dialogueId);
-    
+
     /// <summary>
     /// Preloads and caches dialogue data for future use
     /// </summary>
     /// <param name="dialogueId">The identifier for the dialogue to preload</param>
     /// <param name="resourcePath">The path to the dialogue resource</param>
     void PreloadDialogue(string dialogueId, string resourcePath);
-    
+
     /// <summary>
     /// Clears cached dialogue data
     /// </summary>

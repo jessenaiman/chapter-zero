@@ -13,9 +13,17 @@ namespace OmegaSpiral.UI.Menus;
 public partial class StageSelectMenu : Control
 {
     private const string StageButtonScenePath = "res://source/ui/menus/stage_button.tscn";
+    private const string DefaultStageButtonContainerPath = "TerminalWindow/MenuVBox/StagesPanel";
+    private const string DefaultQuitButtonPath = "TerminalWindow/MenuVBox/StagesPanel/QuitButton";
 
     private VBoxContainer _stagesPanel = new VBoxContainer();
     private PackedScene _stageButtonScene = new PackedScene();
+
+    [Export]
+    public NodePath StageButtonContainerPath { get; set; } = new(DefaultStageButtonContainerPath);
+
+    [Export]
+    public NodePath QuitButtonPath { get; set; } = new(DefaultQuitButtonPath);
 
     /// <summary>
     /// Stage descriptor used to populate UI.
@@ -35,7 +43,17 @@ public partial class StageSelectMenu : Control
     {
         base._Ready();
 
-        _stagesPanel = GetNode<VBoxContainer>("Center/MenuVBox/StagesPanel");
+        var containerPath = string.IsNullOrEmpty(StageButtonContainerPath.ToString())
+            ? new NodePath(DefaultStageButtonContainerPath)
+            : StageButtonContainerPath;
+
+        _stagesPanel = GetNodeOrNull<VBoxContainer>(containerPath);
+        if (_stagesPanel == null)
+        {
+            GD.PrintErr($"StageSelectMenu: Stage button container not found at path '{containerPath}'");
+            return;
+        }
+
         _stageButtonScene = GD.Load<PackedScene>(StageButtonScenePath);
 
         if (_stageButtonScene == null)
@@ -48,10 +66,22 @@ public partial class StageSelectMenu : Control
         ReplaceButtonsWithStageButtons();
 
         // Wire quit button
-        var quit = GetNode<Button>("Center/MenuVBox/QuitButton");
-        if (quit != null)
+        if (!string.IsNullOrEmpty(QuitButtonPath.ToString()))
         {
-            quit.Pressed += OnQuitPressed;
+            var quit = GetNodeOrNull<Button>(QuitButtonPath);
+            if (quit != null)
+            {
+                quit.Pressed += OnQuitPressed;
+            }
+            else
+            {
+                GD.PrintErr($"StageSelectMenu: Quit button not found at path '{QuitButtonPath}'");
+            }
+        }
+        else
+        {
+            var quit = GetNodeOrNull<Button>(DefaultQuitButtonPath);
+            quit?.Pressed += OnQuitPressed;
         }
     }
 
@@ -110,7 +140,8 @@ public partial class StageSelectMenu : Control
                     sb.Status = hasLLM ? StageButton.ContentStatus.LLMGenerated : StageButton.ContentStatus.Missing;
                 }
 
-                sb.Connect(nameof(StageButton.ClickedStage), new Callable(this, nameof(OnStageClicked)));
+                // Connect to the custom signal using the generated SignalName helper (Godot 4 C#)
+                sb.Connect(StageButton.SignalName.ClickedStage, new Callable(this, nameof(OnStageClicked)));
             }
             else
             {
@@ -170,8 +201,33 @@ public partial class StageSelectMenu : Control
     private void OnStageClicked(string stageId)
     {
         GD.Print($"StageSelectMenu: Stage clicked {stageId}");
-        // TODO: integrate with SceneManager/Scene transitions
-        // Example: SceneManager.TransitionToScene(stageScenePath);
+
+        // Map stage IDs to scene paths
+        var stageSceneMap = new Dictionary<string, string>
+        {
+            { "Stage1", "res://source/stages/ghost/scenes/boot_sequence.tscn" },
+            { "Stage2", "res://source/stages/stage_2/echo_hub.tscn" },
+            { "Stage3", "res://source/stages/stage_3/echo_vault_hub.tscn" },
+            { "Stage4", "res://source/stages/stage_4/stage_4_main.tscn" },
+            { "Stage5", "res://source/stages/stage_5/stage5.tscn" }
+        };
+
+        if (stageSceneMap.TryGetValue(stageId, out string? scenePath) && scenePath != null)
+        {
+            var sceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
+            if (sceneManager != null)
+            {
+                sceneManager.TransitionToScene(scenePath);
+            }
+            else
+            {
+                GD.PrintErr("SceneManager not found!");
+            }
+        }
+        else
+        {
+            GD.PrintErr($"Unknown stage ID: {stageId}");
+        }
     }
 
     /// <summary>

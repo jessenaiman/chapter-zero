@@ -13,7 +13,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4
     [TestSuite]
     public partial class Stage4InitializationTests : GdUnitTestSuite
     {
-        private const string Stage4ScenePath = "res://source/stages/stage_4/field_combat.tscn";
+        private const string Stage4ScenePath = "res://source/stages/stage_4/stage_4_main.tscn";
 
         /// <summary>
         /// Verifies that the Stage 4 scene file exists.

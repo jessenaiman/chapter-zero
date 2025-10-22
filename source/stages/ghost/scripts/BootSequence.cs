@@ -4,7 +4,7 @@
 
 using Godot;
 using System.Threading.Tasks;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.UI.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -15,12 +15,19 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 [GlobalClass]
 public partial class BootSequence : TerminalBase
 {
+    private bool _waitingForInput;
+
     /// <inheritdoc/>
     public override async void _Ready()
     {
         base._Ready();
 
+        GD.Print("BootSequence _Ready called");
+
         ApplyVisualPreset(TerminalVisualPreset.BootSequence);
+
+        // Enable input processing for user interaction
+        SetProcessInput(true);
 
         // Start boot sequence
         await RunBootSequenceAsync();
@@ -47,6 +54,23 @@ public partial class BootSequence : TerminalBase
             await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
+        // Add continue prompt
+        await AppendTextAsync("\n\n[Press any key or click to continue...]", useGhostEffect: false);
+
+        GD.Print("Boot sequence text displayed, waiting for input");
+
+        _waitingForInput = true;
+    }
+
+    /// <summary>
+    /// Proceeds to the opening monologue after user input.
+    /// </summary>
+    private async Task ProceedToMonologueAsync()
+    {
+        GD.Print("ProceedToMonologueAsync called");
+        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+        GhostTerminalBootBeat bootBeat = plan.Boot;
+
         if (bootBeat.FadeToStable)
         {
             await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
@@ -59,6 +83,22 @@ public partial class BootSequence : TerminalBase
         // Mixing audio responsibilities with boot sequence violates separation of concerns.
         // Should use centralized AudioManager instead of direct audio playback.
         // Professional AAA approach: AudioManager autoload handles all audio via buses and pooling.
+        GD.Print("Transitioning to opening monologue");
         TransitionToScene("res://source/stages/ghost/scenes/opening_monologue.tscn");
+    }
+
+    /// <inheritdoc/>
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+
+        if (_waitingForInput && (@event is InputEventMouseButton mouse && mouse.Pressed ||
+                                @event is InputEventKey key && key.Pressed))
+        {
+            GD.Print("Input received, proceeding to monologue");
+            _waitingForInput = false;
+            GetViewport().SetInputAsHandled();
+            _ = ProceedToMonologueAsync();
+        }
     }
 }

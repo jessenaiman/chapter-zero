@@ -12,7 +12,7 @@ public class MainMenuStageSelectionTests
     public static async Task StageSelectMenu_LoadsAndProvidesStageButtons()
     {
         // Load the stage select menu scene via SceneRunner
-        var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
+        using var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
         await runner.SimulateFrames(1);
 
         // Basic assertions that the scene runner and expected buttons are present
@@ -30,7 +30,7 @@ public class MainMenuStageSelectionTests
     [RequireGodotRuntime]
     public static async Task Stage1Button_Press_InvokesStageSelection()
     {
-        var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
+        using var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
         await runner.SimulateFrames(1);
 
         // Simulate a press on the Stage1Button by emitting its 'pressed' signal.

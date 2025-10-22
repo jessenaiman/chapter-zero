@@ -7,6 +7,7 @@ namespace OmegaSpiral.Tests.Stages.Stage1;
 using Godot;
 using GdUnit4;
 using static GdUnit4.Assertions;
+using OmegaSpiral.Source.Scripts.Stages.Stage1;
 
 /// <summary>
 /// TDD tests for Stage 1 loading functionality.
@@ -137,5 +138,41 @@ public partial class Stage1LoadingTests : Node
         // Assert - Verify scene can be loaded as a resource
         AssertThat(sceneResource).IsNotNull();
         AssertThat(sceneResource).IsInstanceOf<PackedScene>();
+    }
+
+    /// <summary>
+    /// Test that the boot sequence waits for user input before transitioning.
+    /// Verifies that the continue prompt is displayed and input handling works.
+    /// </summary>
+    [TestCase]
+    [RequireGodotRuntime]
+    public async Task BootSequenceWaitsForUserInput()
+    {
+        // Arrange
+        var scene = GD.Load<PackedScene>(BootSequenceScenePath);
+        var bootSequence = scene.Instantiate<BootSequence>();
+        AddChild(bootSequence);
+
+        // Wait for the boot sequence to complete displaying text
+        await ToSignal(GetTree().CreateTimer(5.0), "timeout"); // Allow time for async text display
+
+        // Assert that the continue prompt is displayed
+        var textDisplay = bootSequence.GetNode<RichTextLabel>("TerminalContainer/TerminalContent/TextDisplay");
+        AssertThat(textDisplay.Text).Contains("[Press any key or click to continue...]");
+
+        // Act - Simulate user input (mouse click)
+        var mouseEvent = new InputEventMouseButton
+        {
+            ButtonIndex = MouseButton.Left,
+            Pressed = true,
+            Position = new Vector2(100, 100)
+        };
+        bootSequence._Input(mouseEvent);
+
+        // Assert - No exceptions thrown, input is handled
+        // Note: Full transition testing would require integration test with scene tree monitoring
+
+        // Cleanup
+        bootSequence.QueueFree();
     }
 }
