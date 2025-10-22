@@ -12,7 +12,7 @@
     "omnisharp.useModernNet": true,
     "dotnet.server.useOmnisharp": false,
     "chatgpt.commentCodeLensEnabled": true,
-    "dotnet-test-explorer.runSettingsPath": ".runsettings",
+    "dotnet.unitTests.runSettingsPath": "./test/.runsettings",
     "markdown.validate.enabled": false,
     "markdown.experimental.validate.enabled": false,
     "markdown.validate.missingConfigs": false,

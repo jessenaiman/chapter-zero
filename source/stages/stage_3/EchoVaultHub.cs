@@ -1,5 +1,6 @@
 using Godot;
 using OmegaSpiral.Source.Narrative;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -7,7 +8,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// Handles echo selection beats in the Echo Vault stage.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultHub : Control
+public partial class EchoVaultHub : TerminalBase
 {
     private Label? tierLabel;
     private RichTextLabel? promptLabel;
@@ -21,6 +22,12 @@ public partial class EchoVaultHub : Control
     /// <inheritdoc/>
     public override void _Ready()
     {
+        // Set terminal mode - for Stage 3 we may want full functionality for narrative prompts
+        terminalMode = TerminalMode.Full; // Or TerminalMode.Minimal if we only need basic text
+        
+        // Initialize base TerminalBase functionality
+        base._Ready();
+        
         EchoVaultSession.Initialize(EchoVaultDirector.GetPlan());
 
         this.tierLabel = this.GetNodeOrNull<Label>("%TierLabel");

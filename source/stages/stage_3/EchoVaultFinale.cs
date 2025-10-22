@@ -8,7 +8,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// Displays finale summary and persists party state.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultFinale : Control
+public partial class EchoVaultFinale : TerminalBase
 {
     private RichTextLabel? summaryLabel;
     private Button? continueButton;
@@ -17,6 +17,12 @@ public partial class EchoVaultFinale : Control
     /// <inheritdoc/>
     public override void _Ready()
     {
+        // Set terminal mode appropriately for finale display
+        terminalMode = TerminalMode.Full; // For full text effects on summary
+        
+        // Initialize base TerminalBase functionality
+        base._Ready();
+        
         this.summaryLabel = this.GetNodeOrNull<RichTextLabel>("%SummaryLabel");
         this.continueButton = this.GetNodeOrNull<Button>("%ContinueButton");
 

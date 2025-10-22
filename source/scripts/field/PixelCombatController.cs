@@ -97,7 +97,13 @@ public partial class PixelCombatController : Node2D
         _playerHP = 100; // TODO: Calculate from party
         _enemyHP = _combatData.Enemy?.HP ?? 50;
 
-        // Load sprites
+        LoadSprites();
+        CreateActionButtons();
+    }
+
+    private void LoadSprites()
+    {
+        if (_combatData == null) return;
         if (!string.IsNullOrEmpty(_combatData.PlayerSprite))
         {
             var playerTexture = GD.Load<Texture2D>(_combatData.PlayerSprite);
@@ -106,7 +112,6 @@ public partial class PixelCombatController : Node2D
                 _playerSprite.Texture = playerTexture;
             }
         }
-
         if (!string.IsNullOrEmpty(_combatData.Enemy?.Sprite))
         {
             var enemyTexture = GD.Load<Texture2D>(_combatData.Enemy.Sprite);
@@ -115,17 +120,17 @@ public partial class PixelCombatController : Node2D
                 _enemySprite.Texture = enemyTexture;
             }
         }
+    }
 
-        // Create action buttons
-        if (_combatData.Actions != null)
+    private void CreateActionButtons()
+    {
+        if (_combatData?.Actions == null) return;
+        foreach (var action in _combatData.Actions)
         {
-            foreach (var action in _combatData.Actions)
-            {
-                var button = new Button();
-                button.Text = action;
-                button.Pressed += () => OnActionPressed(action);
-                _actionButtons?.AddChild(button);
-            }
+            var button = new Button();
+            button.Text = action;
+            button.Pressed += () => OnActionPressed(action);
+            _actionButtons?.AddChild(button);
         }
     }
 

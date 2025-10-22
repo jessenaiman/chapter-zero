@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="res://source/ui/menus/main_menu.tscn"
+run/main_scene="uid://chm288ihj7d6v"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bs61h0k5maye5"
@@ -30,11 +30,10 @@ Gameboard="*res://source/scripts/field/gameboard/Gameboard.cs"
 GamepieceRegistry="*res://source/scripts/field/gamepieces/GamepieceRegistry.cs"
 Player="*res://source/scripts/common/Player.cs"
 CombatEvents="*res://source/scripts/combat/CombatEvents.cs"
+AudioManager="*res://source/audio/AudioManager.cs"
 
 [display]
 
-window/size/viewport_width=1152
-window/size/viewport_height=648
 window/stretch/mode="viewport"
 
 [dotnet]

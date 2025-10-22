@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://j2t0xr4f5u1o9"]
+
+[ext_resource type="PackedScene" uid="uid://b4qvxk8y7n3h1" path="res://source/ui/terminal/base_terminal_scene.tscn" id="1_base"]
+
+[node name="Exit" instance=ExtResource("1_base")]
+
+[node name="FinalText" type="Label" parent="ContentMargin/ContentVBox" index="0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]
+
+Good.
+Then that is the name I will wear.
+Until you unmake it.
+
+[SCREEN FLICKERS]
+
+Welcome to the game that chose you.
+I hope you survive what comes next.
+
+[TERMINAL SHUTS DOWN]
+[STAGE 1 COMPLETE]"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

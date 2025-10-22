@@ -13,19 +13,9 @@ namespace OmegaSpiral.Source.Narrative.Audio;
 public partial class NarrativeAudioManager : Node
 {
     /// <summary>
-    /// Audio stream player for typewriter sound effects.
+    /// Reference to the centralized AudioManager.
     /// </summary>
-    private AudioStreamPlayer? typewriterPlayer;
-
-    /// <summary>
-    /// Audio stream player for selection confirmation sounds.
-    /// </summary>
-    private AudioStreamPlayer? selectionPlayer;
-
-    /// <summary>
-    /// Audio stream player for transition sounds.
-    /// </summary>
-    private AudioStreamPlayer? transitionPlayer;
+    private AudioManager? audioManager;
 
     /// <summary>
     /// Audio stream for typewriter sound effect.
@@ -50,34 +40,14 @@ public partial class NarrativeAudioManager : Node
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.InitializeAudioPlayers();
+        // Get reference to centralized AudioManager
+        this.audioManager = GetNode<AudioManager>("/root/AudioManager");
         this.LoadAudioAssets();
         this.IsInitialized = true;
+        GD.Print("NarrativeAudioManager: Initialized with centralized AudioManager");
     }
 
-    /// <summary>
-    /// Initializes the audio stream players for the narrative system.
-    /// </summary>
-    private void InitializeAudioPlayers()
-    {
-        // Create typewriter audio player
-        this.typewriterPlayer = new AudioStreamPlayer();
-        this.typewriterPlayer.Bus = "SFX";
-        this.typewriterPlayer.VolumeDb = -5.0f; // Slightly quieter for typewriter
-        this.AddChild(this.typewriterPlayer);
 
-        // Create selection audio player
-        this.selectionPlayer = new AudioStreamPlayer();
-        this.selectionPlayer.Bus = "SFX";
-        this.selectionPlayer.VolumeDb = 0.0f;
-        this.AddChild(this.selectionPlayer);
-
-        // Create transition audio player
-        this.transitionPlayer = new AudioStreamPlayer();
-        this.transitionPlayer.Bus = "SFX";
-        this.transitionPlayer.VolumeDb = -3.0f;
-        this.AddChild(this.transitionPlayer);
-    }
 
     /// <summary>
     /// Loads audio assets for the narrative system.
@@ -106,13 +76,12 @@ public partial class NarrativeAudioManager : Node
     /// </summary>
     public void PlayTypewriterSound()
     {
-        if (!this.IsInitialized || this.typewriterPlayer == null || this.typewriterSfx == null)
+        if (!this.IsInitialized || this.audioManager == null || this.typewriterSfx == null)
         {
             return;
         }
 
-        this.typewriterPlayer.Stream = this.typewriterSfx;
-        this.typewriterPlayer.Play();
+        this.audioManager.PlayOneShot(this.typewriterSfx, AudioCategory.Sfx, -5.0f);
     }
 
     /// <summary>
@@ -120,13 +89,12 @@ public partial class NarrativeAudioManager : Node
     /// </summary>
     public void PlaySelectionSound()
     {
-        if (!this.IsInitialized || this.selectionPlayer == null || this.selectionSfx == null)
+        if (!this.IsInitialized || this.audioManager == null || this.selectionSfx == null)
         {
             return;
         }
 
-        this.selectionPlayer.Stream = this.selectionSfx;
-        this.selectionPlayer.Play();
+        this.audioManager.PlayOneShot(this.selectionSfx, AudioCategory.Sfx, 0.0f);
     }
 
     /// <summary>
@@ -134,39 +102,35 @@ public partial class NarrativeAudioManager : Node
     /// </summary>
     public void PlayTransitionSound()
     {
-        if (!this.IsInitialized || this.transitionPlayer == null || this.transitionSfx == null)
+        if (!this.IsInitialized || this.audioManager == null || this.transitionSfx == null)
         {
             return;
         }
 
-        this.transitionPlayer.Stream = this.transitionSfx;
-        this.transitionPlayer.Play();
+        this.audioManager.PlayOneShot(this.transitionSfx, AudioCategory.Sfx, -3.0f);
     }
 
     /// <summary>
     /// Plays a custom sound effect.
     /// </summary>
     /// <param name="audioStream">The audio stream to play.</param>
-    /// <param name="playerType">The type of player to use (typewriter, selection, or transition).</param>
+    /// <param name="playerType">The type of player to use (affects volume adjustment).</param>
     public void PlayCustomSound(AudioStream audioStream, AudioPlayerType playerType = AudioPlayerType.Typewriter)
     {
-        if (!this.IsInitialized || audioStream == null)
+        if (!this.IsInitialized || this.audioManager == null || audioStream == null)
         {
             return;
         }
 
-        var player = playerType switch
+        // Map player type to volume adjustment
+        var volumeDb = playerType switch
         {
-            AudioPlayerType.Selection => this.selectionPlayer,
-            AudioPlayerType.Transition => this.transitionPlayer,
-            _ => this.typewriterPlayer,
+            AudioPlayerType.Selection => 0.0f,
+            AudioPlayerType.Transition => -3.0f,
+            _ => -5.0f, // Typewriter
         };
 
-        if (player != null)
-        {
-            player.Stream = audioStream;
-            player.Play();
-        }
+        this.audioManager.PlayOneShot(audioStream, AudioCategory.Sfx, volumeDb);
     }
 
     /// <summary>

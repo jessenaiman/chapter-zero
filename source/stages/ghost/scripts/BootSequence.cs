@@ -4,6 +4,7 @@
 
 using Godot;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 
@@ -54,7 +55,10 @@ public partial class BootSequence : TerminalBase
         await PixelDissolveAsync(1.8);
         ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
 
-        // Transition to opening monologue
+        // TODO: Boss Critter - Audio Architecture Refactor
+        // Mixing audio responsibilities with boot sequence violates separation of concerns.
+        // Should use centralized AudioManager instead of direct audio playback.
+        // Professional AAA approach: AudioManager autoload handles all audio via buses and pooling.
         TransitionToScene("res://source/stages/ghost/scenes/opening_monologue.tscn");
     }
 }

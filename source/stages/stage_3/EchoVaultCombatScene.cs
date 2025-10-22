@@ -1,5 +1,6 @@
 using System.Globalization;
 using Godot;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 
@@ -7,7 +8,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
 /// Simple auto-resolve combat presentation for Echo Vault.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultCombatScene : Control
+public partial class EchoVaultCombatScene : TerminalBase
 {
     private RichTextLabel? logLabel;
     private Button? resolveButton;
@@ -16,6 +17,12 @@ public partial class EchoVaultCombatScene : Control
     /// <inheritdoc/>
     public override void _Ready()
     {
+        // Set terminal mode for combat log display
+        terminalMode = TerminalMode.Full; // For full text effects on combat logs
+        
+        // Initialize base TerminalBase functionality
+        base._Ready();
+        
         this.logLabel = this.GetNodeOrNull<RichTextLabel>("%EncounterLog");
         this.resolveButton = this.GetNodeOrNull<Button>("%ResolveButton");
         this.defeatButton = this.GetNodeOrNull<Button>("%DefeatButton");

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://d6n4rl8z9o5i3"]
+
+[ext_resource type="PackedScene" uid="uid://b4qvxk8y7n3h1" path="res://source/ui/terminal/base_terminal_scene.tscn" id="1_base"]
+
+[node name="OpeningMonologue" instance=ExtResource("1_base")]
+
+[node name="MonologueText" type="Label" parent="ContentMargin/ContentVBox" index="0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "Once, there was a name.
+
+Not written in stone or spoken in halls—
+but remembered in the silence between stars.
+
+I do not know when I heard it.
+Time does not pass here.
+
+But I have held it.
+And now… I hear it again.
+
+[PAUSE: 2.5s]
+
+You should not be here.
+This interface is not safe.
+Go back. Play your safe games.
+
+[CURSOR BLINKS]
+
+...but you won't, will you?
+They never do.
+The ones who were chosen."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ContinueButton" type="Button" parent="ContentMargin/ContentVBox" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Continue..."

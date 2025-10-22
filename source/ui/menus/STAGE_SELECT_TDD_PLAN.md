@@ -21,16 +21,8 @@ Professional redesign of the stage select menu with perfect centering, status in
 
 
 ### Step 1: Create Test Infrastructure
-- [x] Create `StageSelectMenuTests.cs` test file
-- [x] Add `[Before]` and `[After]` lifecycle hooks
-- [x] Setup test class with `[TestSuite][RequireGodotRuntime]` attributes
-- [x] Use `AutoFree()` for node cleanup
 
 ### Step 2: Implement Content Status System
-- [x] Create `StageStatus` class with `ContentType`, `IsReady`, `StatusText`
-- [x] Create `ContentType` enum: `Static`, `LlmGenerated`, `Missing`
-- [x] Implement `GetStageStatus(int stageNumber)` method
-- [x] Implement file detection for LLM-generated content
 
 ### Step 3: Redesign UI Layout
 - [ ] Create new button template with status indicator

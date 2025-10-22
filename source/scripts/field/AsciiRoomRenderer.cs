@@ -72,11 +72,29 @@ public partial class AsciiRoomRenderer : Node2D
     /// Configuration properties for rendering and effects.
     /// </summary>
     [Export] public float RenderSpeed { get; set; } = 0.02f;
+    /// <summary>
+    /// Gets or sets the delay between movement actions in seconds.
+    /// </summary>
     [Export] public float MovementDelay { get; set; } = 0.15f;
+    /// <summary>
+    /// Gets or sets whether 3D effects are enabled for the dungeon display.
+    /// </summary>
     [Export] public bool Enable3DEffects { get; set; } = true;
+    /// <summary>
+    /// Gets or sets whether glow effects are enabled for the dungeon display.
+    /// </summary>
     [Export] public bool EnableGlowEffects { get; set; } = true;
+    /// <summary>
+    /// Gets or sets whether audio effects are enabled for the dungeon display.
+    /// </summary>
     [Export] public bool EnableAudio { get; set; } = true;
+    /// <summary>
+    /// Gets or sets the color of the screen glow effect.
+    /// </summary>
     [Export] public Color ScreenGlowColor { get; set; } = new Color(0.2f, 1.0f, 0.2f);
+    /// <summary>
+    /// Gets or sets the intensity of the glow effect.
+    /// </summary>
     [Export] public float GlowIntensity { get; set; } = 0.8f;
 
     /// <inheritdoc/>

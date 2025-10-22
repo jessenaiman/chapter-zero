@@ -4,6 +4,7 @@
 
 using Godot;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 

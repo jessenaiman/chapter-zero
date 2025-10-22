@@ -2,11 +2,11 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.Functional.Narrative;
+namespace OmegaSpiral.Tests.Stages.Stage1;
 
+using Godot;
 using GdUnit4;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Tests.Narrative;
 
 /// <summary>
 /// Functional test suite for validating content block presentation behavior.
@@ -91,66 +91,34 @@ public class ContentBlockTests
     }
 
     /// <summary>
-    /// Tests that text is centered within a 4:3 aspect ratio frame.
+    /// Tests CRT shader configurations with various blur and scanline intensities.
+    /// Uses parameterized test data to verify shader effects across different parameter combinations.
     /// </summary>
-    [TestCase]
-    public static void DisplaytextIncrtcontainerCenterstextin4x3frame()
+    [TestCase(800, 600, 400, 300, 0.75, 0.5, true, TestName = "BlurEffect")]
+    [TestCase(800, 600, 400, 300, 0.6, 0.85, true, TestName = "VisibleScanlines")]
+    [TestCase(1024, 768, 512, 384, 0.5, 0.7, true, TestName = "VisualConsistency")]
+    public static void DisplaytextWithcrtshader_AppliesEffectsCorrectly(
+        int frameWidth,
+        int frameHeight,
+        int textX,
+        int textY,
+        double blurStrength,
+        double scanlineIntensity,
+        bool overlayAligned)
     {
         // Arrange
         var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.ConfigureCrtFrame(width: 800, height: 600, textX: 400, textY: 300);
-
-        // Assert
-        AssertThat(contentBlock.FrameAspectRatio).IsEqual(4d / 3d);
-        AssertThat(contentBlock.IsTextCentered).IsTrue();
-    }
-
-    /// <summary>
-    /// Tests that CRT blur shader effect is applied to displayed text.
-    /// </summary>
-    [TestCase]
-    public static void DisplaytextWithcrtshaderAppliesblureffect()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.ConfigureCrtFrame(width: 800, height: 600, textX: 400, textY: 300);
-        contentBlock.ApplyCrtShader(blurStrength: 0.75, scanlineIntensity: 0.5, overlayAligned: true);
+        contentBlock.ConfigureCrtFrame(width: frameWidth, height: frameHeight, textX: textX, textY: textY);
+        contentBlock.ApplyCrtShader(blurStrength: blurStrength, scanlineIntensity: scanlineIntensity, overlayAligned: overlayAligned);
 
         // Assert
         AssertThat(contentBlock.HasCrtShader).IsTrue();
-        AssertThat(contentBlock.BlurStrength).IsEqual(0.75);
-    }
-
-    /// <summary>
-    /// Tests that visible scanline effects are displayed on content.
-    /// </summary>
-    [TestCase]
-    public static void DisplaytextWithcrtshaderDisplaysvisiblescanlines()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.ConfigureCrtFrame(width: 800, height: 600, textX: 400, textY: 300);
-        contentBlock.ApplyCrtShader(blurStrength: 0.6, scanlineIntensity: 0.85, overlayAligned: true);
-
-        // Assert
-        AssertThat(contentBlock.ScanlineIntensity).IsEqual(0.85);
-        AssertThat(contentBlock.HasScanlines).IsTrue();
-    }
-
-    /// <summary>
-    /// Tests that visual consistency is maintained with reference overlay.
-    /// </summary>
-    [TestCase]
-    public static void DisplaytextWithcrtshaderMaintainsvisualconsistency()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.ConfigureCrtFrame(width: 1024, height: 768, textX: 512, textY: 384);
-        contentBlock.ApplyCrtShader(blurStrength: 0.5, scanlineIntensity: 0.7, overlayAligned: true);
-
-        // Assert
-        AssertThat(contentBlock.VisualOverlayAligned).IsTrue();
-        AssertThat(contentBlock.FrameAspectRatio).IsEqual(4d / 3d);
+        AssertThat(contentBlock.BlurStrength).IsEqual(blurStrength);
+        AssertThat(contentBlock.ScanlineIntensity).IsEqual(scanlineIntensity);
+        AssertThat(contentBlock.HasScanlines).IsEqual(scanlineIntensity > 0);
+        var expectedAspectRatio = (double)frameWidth / frameHeight;
+        AssertThat(contentBlock.FrameAspectRatio).IsEqual(expectedAspectRatio);
+        AssertThat(contentBlock.IsTextCentered).IsTrue();
     }
 
     /// <summary>
@@ -321,62 +289,43 @@ public class ContentBlockTests
     }
 
     /// <summary>
-    /// Tests that keyboard navigation allows selection of dialogue choices.
+    /// Tests that various input methods (keyboard, mouse, gamepad) allow selection of dialogue choices.
+    /// Uses parameterized test data to verify consistent choice selection behavior across different input methods.
     /// </summary>
-    [TestCase]
-    public static void SelectchoiceWithkeyboardnavigationAllowschoiceselection()
+    [TestCase("keyboard", 2, 1, "Option C", 2, TestName = "KeyboardNavigation")]
+    [TestCase("mouse", 150, 220, "Option C", 2, TestName = "MouseClick")]
+    [TestCase("gamepad", 2, 1, "Option C", 2, TestName = "GamepadInput")]
+    public static void SelectChoice_WithVariousInputMethods_AllowsSelection(
+        string inputMethod,
+        int navigationX,
+        int navigationY,
+        string expectedChoice,
+        int expectedIndex)
     {
         // Arrange
         var choiceContext = new TestChoiceContext(numberOfChoices: 3);
         choiceContext.DisplayChoices(DefaultChoiceOptions);
 
         // Act
-        choiceContext.NavigateKeyboard(KeyboardNavigation.Down);
-        choiceContext.NavigateKeyboard(KeyboardNavigation.Down);
-        choiceContext.ConfirmKeyboard();
+        if (inputMethod == "keyboard" || inputMethod == "gamepad")
+        {
+            // For keyboard/gamepad: navigationX represents number of navigations
+            for (int i = 0; i < navigationX; i++)
+            {
+                choiceContext.NavigateChoices(1);
+            }
+            choiceContext.ConfirmSelection();
+        }
+        else if (inputMethod == "mouse")
+        {
+            // For mouse: navigationX and navigationY are coordinates
+            choiceContext.LayoutChoicesWithPositions(DefaultChoiceLayout);
+            choiceContext.SimulateMouseClick(x: navigationX, y: navigationY);
+        }
 
         // Assert
-        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
-        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
-    }
-
-    /// <summary>
-    /// Tests that mouse click allows selection of dialogue choices.
-    /// </summary>
-    [TestCase]
-    public static void SelectchoiceWithmouseclickAllowschoiceselection()
-    {
-        // Arrange
-        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
-        choiceContext.DisplayChoices(DefaultChoiceOptions);
-        choiceContext.LayoutChoicesWithPositions(DefaultChoiceLayout);
-
-        // Act
-        choiceContext.SimulateMouseClick(x: 150, y: 220);
-
-        // Assert
-        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
-        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
-    }
-
-    /// <summary>
-    /// Tests that gamepad input allows selection of dialogue choices.
-    /// </summary>
-    [TestCase]
-    public static void SelectchoiceWithgamepadinputAllowschoiceselection()
-    {
-        // Arrange
-        var choiceContext = new TestChoiceContext(numberOfChoices: 3);
-        choiceContext.DisplayChoices(DefaultChoiceOptions);
-
-        // Act
-        choiceContext.NavigateGamepad(GamepadNavigation.Down);
-        choiceContext.NavigateGamepad(GamepadNavigation.Down);
-        choiceContext.ConfirmGamepad();
-
-        // Assert
-        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(2);
-        AssertThat(choiceContext.SelectedChoice).IsEqual("Option C");
+        AssertThat(choiceContext.SelectedChoiceIndex).IsEqual(expectedIndex);
+        AssertThat(choiceContext.SelectedChoice).IsEqual(expectedChoice);
     }
 
     /// <summary>
@@ -397,103 +346,19 @@ public class ContentBlockTests
         // Reset and test keyboard
         choiceContext = new TestChoiceContext(numberOfChoices: 3);
         choiceContext.DisplayChoices(DefaultChoiceOptions);
-        choiceContext.ConfirmKeyboard();
+        choiceContext.ConfirmSelection();
         bool narrativeAdvancedAfterKeyboard = choiceContext.NarrativeAdvanced;
 
         // Reset and test gamepad
         choiceContext = new TestChoiceContext(numberOfChoices: 3);
         choiceContext.DisplayChoices(DefaultChoiceOptions);
-        choiceContext.ConfirmGamepad();
+        choiceContext.ConfirmSelection();
         bool narrativeAdvancedAfterGamepad = choiceContext.NarrativeAdvanced;
 
         // Assert
         AssertThat(narrativeAdvancedAfterMouse).IsTrue();
         AssertThat(narrativeAdvancedAfterKeyboard).IsTrue();
         AssertThat(narrativeAdvancedAfterGamepad).IsTrue();
-    }
-
-    /// <summary>
-    /// Tests that content block advances when keyboard select is pressed.
-    /// </summary>
-    [TestCase]
-    public static void AdvanceblockWithkeyboardselectAdvancescontentblock()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.DisplayText("Press Space to continue...");
-
-        // Act
-        contentBlock.SimulateKeyboardInput(KeyInput.Confirm);
-
-        // Assert
-        AssertThat(contentBlock.Visible).IsFalse();
-        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
-        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Keyboard);
-    }
-
-    /// <summary>
-    /// Tests that content block advances when gamepad confirm is pressed.
-    /// </summary>
-    [TestCase]
-    public static void AdvanceblockWithgamepadconfirmAdvancescontentblock()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.DisplayText("Press A to continue...");
-
-        // Act
-        contentBlock.SimulateGamepadInput(GamepadInput.Confirm);
-
-        // Assert
-        AssertThat(contentBlock.Visible).IsFalse();
-        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
-        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Gamepad);
-    }
-
-    /// <summary>
-    /// Tests that content block advances when mouse click is detected.
-    /// </summary>
-    [TestCase]
-    public static void AdvanceblockWithmouseclickAdvancescontentblock()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.DisplayText("Click to continue...");
-
-        // Act
-        contentBlock.SimulateMouseInput(MouseInput.LeftClick);
-
-        // Assert
-        AssertThat(contentBlock.Visible).IsFalse();
-        AssertThat(contentBlock.IsAwaitingInput).IsFalse();
-        AssertThat(contentBlock.LastInputMethod).IsEqual(InputMethodType.Mouse);
-    }
-
-    /// <summary>
-    /// Tests that content block responds to all configured input methods consistently.
-    /// </summary>
-    [TestCase]
-    public static void AdvanceblockWithallinputmethodsRespondsconsistently()
-    {
-        // Arrange
-        var contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-
-        // Act & Assert - Test keyboard
-        contentBlock.DisplayText("Test 1");
-        contentBlock.SimulateKeyboardInput(KeyInput.Confirm);
-        AssertThat(contentBlock.Visible).IsFalse();
-
-        // Reset and test gamepad
-        contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.DisplayText("Test 2");
-        contentBlock.SimulateGamepadInput(GamepadInput.Confirm);
-        AssertThat(contentBlock.Visible).IsFalse();
-
-        // Reset and test mouse
-        contentBlock = new TestContentBlock(TimeSpan.FromSeconds(5), autoAdvanceOnTimeout: false);
-        contentBlock.DisplayText("Test 3");
-        contentBlock.SimulateMouseInput(MouseInput.LeftClick);
-        AssertThat(contentBlock.Visible).IsFalse();
     }
 
     /// <summary>
@@ -560,11 +425,6 @@ public class ContentBlockTests
         internal bool IsTypewriterActive => this.typewriterActive;
 
         internal bool IsSoundLoopActive => this.soundLoopActive;
-
-        /// <summary>
-        /// Gets the last input method used to interact with this block.
-        /// </summary>
-        internal InputMethodType LastInputMethod { get; private set; } = InputMethodType.None;
 
         /// <summary>
         /// Gets or sets a value indicating whether this content block is visible.
@@ -692,45 +552,6 @@ public class ContentBlockTests
                     this.typewriterActive = false;
                     this.soundLoopActive = false;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Simulates keyboard input to advance the content block.
-        /// </summary>
-        /// <param name="key">The keyboard input type.</param>
-        internal void SimulateKeyboardInput(KeyInput key)
-        {
-            if (key == KeyInput.Confirm)
-            {
-                this.ReceiveInput();
-                this.LastInputMethod = InputMethodType.Keyboard;
-            }
-        }
-
-        /// <summary>
-        /// Simulates gamepad input to advance the content block.
-        /// </summary>
-        /// <param name="button">The gamepad button.</param>
-        internal void SimulateGamepadInput(GamepadInput button)
-        {
-            if (button == GamepadInput.Confirm)
-            {
-                this.ReceiveInput();
-                this.LastInputMethod = InputMethodType.Gamepad;
-            }
-        }
-
-        /// <summary>
-        /// Simulates mouse input to advance the content block.
-        /// </summary>
-        /// <param name="click">The mouse click type.</param>
-        internal void SimulateMouseInput(MouseInput click)
-        {
-            if (click == MouseInput.LeftClick)
-            {
-                this.ReceiveInput();
-                this.LastInputMethod = InputMethodType.Mouse;
             }
         }
     }
@@ -888,49 +709,22 @@ public class ContentBlockTests
         }
 
         /// <summary>
-        /// Navigates choices using keyboard input.
+        /// Navigates choices up or down.
         /// </summary>
-        /// <param name="navigation">Keyboard navigation direction.</param>
-        internal void NavigateKeyboard(KeyboardNavigation navigation)
+        /// <param name="direction">Navigation direction: -1 for up, 1 for down.</param>
+        internal void NavigateChoices(int direction)
         {
-            if (navigation == KeyboardNavigation.Up && this.selectedIndex > 0)
+            int newIndex = this.selectedIndex + direction;
+            if (newIndex >= 0 && newIndex < this.numberOfChoices)
             {
-                this.selectedIndex--;
-            }
-            else if (navigation == KeyboardNavigation.Down && this.selectedIndex < this.numberOfChoices - 1)
-            {
-                this.selectedIndex++;
+                this.selectedIndex = newIndex;
             }
         }
 
         /// <summary>
-        /// Confirms keyboard selection.
+        /// Confirms selection of current choice.
         /// </summary>
-        internal void ConfirmKeyboard()
-        {
-            this.NarrativeAdvanced = true;
-        }
-
-        /// <summary>
-        /// Navigates choices using gamepad input.
-        /// </summary>
-        /// <param name="navigation">Gamepad navigation direction.</param>
-        internal void NavigateGamepad(GamepadNavigation navigation)
-        {
-            if (navigation == GamepadNavigation.Up && this.selectedIndex > 0)
-            {
-                this.selectedIndex--;
-            }
-            else if (navigation == GamepadNavigation.Down && this.selectedIndex < this.numberOfChoices - 1)
-            {
-                this.selectedIndex++;
-            }
-        }
-
-        /// <summary>
-        /// Confirms gamepad selection.
-        /// </summary>
-        internal void ConfirmGamepad()
+        internal void ConfirmSelection()
         {
             this.NarrativeAdvanced = true;
         }

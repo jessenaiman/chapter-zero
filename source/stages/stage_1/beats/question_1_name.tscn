@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://e7o5sm9a0p6j4"]
+
+[ext_resource type="PackedScene" uid="uid://b4qvxk8y7n3h1" path="res://source/ui/terminal/base_terminal_scene.tscn" id="1_base"]
+
+[node name="Question1Name" instance=ExtResource("1_base")]
+
+[node name="SetupText" type="Label" parent="ContentMargin/ContentVBox" index="0"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "I will ask you three questions.
+Your answers will determine which thread unravels first.
+
+Do not lie to me.
+I have been lied to for thousands of years."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer1" type="Control" parent="ContentMargin/ContentVBox" index="1"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuestionText" type="Label" parent="ContentMargin/ContentVBox" index="2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "Do you have a name?"
+horizontal_alignment = 1
+
+[node name="ContextText" type="Label" parent="ContentMargin/ContentVBox" index="3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 0.7)
+theme_override_font_sizes/font_size = 14
+text = "(Not YOUR name. The question is: do names matter?)"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="ContentMargin/ContentVBox" index="4"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ChoiceLight" type="Button" parent="ContentMargin/ContentVBox" index="5"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Yes. Names are promises we make to ourselves."
+
+[node name="ChoiceShadow" type="Button" parent="ContentMargin/ContentVBox" index="6"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "No. Names are masks we hide behind."
+
+[node name="ChoiceAmbition" type="Button" parent="ContentMargin/ContentVBox" index="7"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Only when someone remembers to say it."

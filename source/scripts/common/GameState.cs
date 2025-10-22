@@ -28,7 +28,7 @@ public partial class GameState : Node
     /// <summary>
     /// Gets or sets the mood selected at the press start menu.
     /// </summary>
-    public PressStartMood PressStartMood { get; set; } = PressStartMood.Inviting;
+    public PressStartMood PressStartMood { get; set; } = PressStartMood.Neutral;
 
     /// <summary>
     /// Gets or sets the player's chosen name.
@@ -129,7 +129,7 @@ public partial class GameState : Node
         this.Shards.Clear();
         this.SceneData.Clear();
         this.NarratorQueue.Clear();
-        this.PressStartMood = PressStartMood.Inviting;
+        this.PressStartMood = PressStartMood.Neutral;
 
         // Reset dreamweaver scores
         this.DreamweaverScores[DreamweaverType.Light] = 0;
@@ -157,7 +157,7 @@ public partial class GameState : Node
 
         this.ChoiceHistory.Clear();
         this.PlayerParty = new PartyData();
-        this.PressStartMood = PressStartMood.Inviting;
+        this.PressStartMood = PressStartMood.Neutral;
     }
 
     // FUTURE: LLM_INTEGRATION - Dreamweaver consultation history
@@ -479,6 +479,9 @@ public partial class GameState : Node
 /// </summary>
 public enum PressStartMood
 {
+    /// <summary>Neutral mood for a balanced game experience.</summary>
+    Neutral,
+
     /// <summary>
     /// Inviting mood for a welcoming game experience.
     /// </summary>

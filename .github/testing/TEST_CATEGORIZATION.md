@@ -169,6 +169,7 @@ public class NarrativeDataLoadingTests
     [Trait("Layer", "Infrastructure")]
     [Trait("Speed", "Slow")]
     [Trait("Runtime", "RequireGodot")]
+    [Trait("Stage", "GhostTerminal")]
     [Trait("Scene", "GhostTerminal")]
     [Trait("Owner", "Content")]
     public async Task LoadNarrativeData_FromJson_PopulatesSceneData()

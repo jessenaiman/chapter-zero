@@ -59,24 +59,74 @@ public partial class CombatArena : Control
             return;
         }
 
-        // Setup the different combat UI elements, beginning with the player battler list.
-        BattlerList? combatParticipantData = this.turnQueue.Battlers;
-        if (combatParticipantData != null)
+        SetupCombatUI();
+    }
+
+    /// <summary>
+    /// Sets up the combat UI elements by calling Setup on each component.
+    /// </summary>
+    private void SetupCombatUI()
+    {
+        BattlerList? combatParticipantData = this.turnQueue?.Battlers;
+        if (combatParticipantData == null)
         {
-            this.uiEffectLabelBuilder.Setup(combatParticipantData);
-            this.uiPlayerMenus.Setup(combatParticipantData);
-            this.uiTurnBar.Setup(combatParticipantData);
+            GD.PrintErr("CombatArena: Combat participant data is null");
+            return;
         }
 
-        // The UI elements will automatically fade out once one of the battler teams has lost.
-        if (combatParticipantData != null)
+        SetupEffectLabels(combatParticipantData);
+        SetupPlayerMenus(combatParticipantData);
+        SetupTurnBar(combatParticipantData);
+        SubscribeToBattlersDowned(combatParticipantData);
+    }
+
+    /// <summary>
+    /// Sets up the effect label builder.
+    /// </summary>
+    private void SetupEffectLabels(BattlerList combatParticipantData)
+    {
+        if (this.uiEffectLabelBuilder != null)
         {
-            combatParticipantData.BattlersDowned += () =>
+            this.uiEffectLabelBuilder.Setup(combatParticipantData);
+        }
+    }
+
+    /// <summary>
+    /// Sets up the player menus.
+    /// </summary>
+    private void SetupPlayerMenus(BattlerList combatParticipantData)
+    {
+        if (this.uiPlayerMenus != null)
+        {
+            this.uiPlayerMenus.Setup(combatParticipantData);
+        }
+    }
+
+    /// <summary>
+    /// Sets up the turn bar.
+    /// </summary>
+    private void SetupTurnBar(BattlerList combatParticipantData)
+    {
+        if (this.uiTurnBar != null)
+        {
+            this.uiTurnBar.Setup(combatParticipantData);
+        }
+    }
+
+    /// <summary>
+    /// Subscribes to the battlers downed event.
+    /// </summary>
+    private void SubscribeToBattlersDowned(BattlerList combatParticipantData)
+    {
+        combatParticipantData.BattlersDowned += () =>
+        {
+            if (this.uiPlayerMenus != null)
             {
                 this.uiPlayerMenus.Visible = false;
-                this.uiTurnBar?.FadeOut();
-            };
-        }
+            }
+
+            this.uiTurnBar?.FadeOut();
+        };
     }
 
     /// <summary>
