@@ -14,7 +14,7 @@ using static GdUnit4.Assertions;
 /// These tests verify visual and interaction aspects of the narrative presentation system.
 /// </summary>
 [TestSuite]
-public class ContentBlockTests
+    public static class ContentBlockTests
 {
     private static readonly string[] DefaultChoiceOptions = new[] { "Option A", "Option B", "Option C" };
 

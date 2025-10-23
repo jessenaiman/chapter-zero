@@ -7,7 +7,7 @@ namespace OmegaSpiral.Tests.Stages.Stage1;
 using Godot;
 using GdUnit4;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Stages.Stage1;
+using OmegaSpiral.Source.Stages.Stage1;
 
 /// <summary>
 /// TDD tests for Stage 1 loading functionality.

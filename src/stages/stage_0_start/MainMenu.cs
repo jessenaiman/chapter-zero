@@ -21,15 +21,15 @@ namespace OmegaSpiral.Ui.Menus
 
         private static readonly IReadOnlyDictionary<int, string> StageNameLookup = new Dictionary<int, string>
         {
-            { 1, "Ghost Terminal" },
-            { 2, "Echo Hub" },
-            { 3, "Echo Vault" },
-            { 4, "Town Exploration" },
-            { 5, "Fractured Escape" },
-            { 6, "System Log Epilogue" },
+            { 1, "Start Here: Ghost Terminal" },
+            { 2, "Start Here: Nethack" },
+            { 3, "Start Here: Amnesia: Classic RPG" },
+            { 4, "Start Here: Never Go Alone: Party Selection" },
+            { 5, "Start Here: Fractured Escape" },
+            { 6, "Start Here: System Log Epilogue" },
         };
 
-        private readonly ManifestLoader _manifestLoader = new();
+    private readonly ManifestLoader _manifestLoader = new();
         private PackedScene? _stageButtonScene;
         private VBoxContainer? _stageButtonList;
         private Label? _stageListPlaceholder;
@@ -64,7 +64,7 @@ namespace OmegaSpiral.Ui.Menus
             ConnectPrimaryButtons();
 
             var stages = _manifestLoader.LoadManifest(StageManifestPath);
-            if (stages.Count == 0)
+            if (stages == null || !stages.Any())
             {
                 GD.PrintErr("[MainMenu] Failed to load manifest. No stages available.");
                 return;
@@ -124,22 +124,13 @@ namespace OmegaSpiral.Ui.Menus
 
             int createdCount = 0;
 
-            foreach (var stage in stages.OrderBy(stage => stage.Id))
+            foreach (var stageButton in stages.OrderBy(s => s.Id).Select(CreateStageButton).Where(sb => sb != null))
             {
-                var stageButton = CreateStageButton(stage);
-                if (stageButton == null)
-                {
-                    continue;
-                }
-
                 _stageButtonList.AddChild(stageButton);
                 createdCount++;
             }
 
-            if (_stageHeader != null)
-            {
-                _stageHeader.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
-            }
+            _stageHeader?.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
 
             GD.Print($"[MainMenu] Loaded {createdCount} stage buttons.");
         }

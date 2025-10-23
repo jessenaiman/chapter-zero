@@ -54,7 +54,7 @@ public abstract partial class BaseNarrativeScene : Control
         }
 
         // Optional: Play transition effect here
-        await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
         GetTree().ChangeSceneToPacked(nextScene);
     }
 }

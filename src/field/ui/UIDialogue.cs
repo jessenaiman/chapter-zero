@@ -4,6 +4,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Narrative;
+using System.Collections.ObjectModel;
 
 namespace OmegaSpiral.Source.Scripts.Field.UI;
 
@@ -165,7 +166,7 @@ public partial class UIDialogue : Control
     /// Display dialogue choices.
     /// </summary>
     /// <param name="choices">The dialogue choices to display.</param>
-    public void ShowChoices(List<ChoiceOption> choices)
+    public void ShowChoices(Collection<ChoiceOption> choices)
     {
         if (choices == null || choices.Count == 0)
         {
@@ -495,9 +496,9 @@ public partial class UIDialogue : Control
     /// Get the current dialogue choices.
     /// </summary>
     /// <returns>The current dialogue choices.</returns>
-    public List<ChoiceOption> GetChoices()
+    public Collection<ChoiceOption> GetChoices()
     {
-        return new List<ChoiceOption>(this.currentChoices);
+        return new Collection<ChoiceOption>(this.currentChoices);
     }
 
     /// <summary>

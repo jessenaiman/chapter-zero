@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://e2ge1stgoy1l"]
 
-[ext_resource type="PackedScene" path="res://source/stages/ghost/scenes/boot_sequence.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://source/stages/stage_1/scenes/terminal_base.tscn" id="1"]
 
 [node name="Opening" instance=ExtResource("1")]
 

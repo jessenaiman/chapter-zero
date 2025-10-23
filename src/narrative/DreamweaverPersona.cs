@@ -4,6 +4,7 @@
 
 using System.Text;
 using Godot;
+using System.Text.Json;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Narrative;
@@ -189,66 +190,41 @@ public partial class DreamweaverPersona
     }
 
     /// <summary>
-    /// Parses choices from JSON response using Godot native JSON parsing.
+    /// Parses choices from JSON response using System.Text.Json.
     /// </summary>
     /// <param name="jsonResponse">The JSON response string to parse.</param>
     /// <returns>A list of parsed choice options.</returns>
     /// <exception cref="ArgumentException">Thrown when JSON parsing fails.</exception>
     private static List<ChoiceOption> ParseChoicesFromJson(string jsonResponse)
     {
-        var choices = new List<ChoiceOption>();
+        if (string.IsNullOrWhiteSpace(jsonResponse))
+        {
+            return new List<ChoiceOption>();
+        }
 
         try
         {
-            // Clean up the response to extract JSON
+            // Clean up the response to extract JSON array
             var jsonStart = jsonResponse.IndexOf('[');
             var jsonEnd = jsonResponse.LastIndexOf(']') + 1;
             if (jsonStart >= 0 && jsonEnd > jsonStart)
             {
                 var jsonText = jsonResponse.Substring(jsonStart, jsonEnd - jsonStart);
 
-                // Use Godot native JSON parsing
-                var json = new Json();
-                var parseError = json.Parse(jsonText);
-
-                if (parseError != Error.Ok)
+                var options = new JsonSerializerOptions
                 {
-                    GD.PrintErr($"Failed to parse choices JSON: {json.GetErrorMessage()}");
-                    return choices;
-                }
+                    PropertyNameCaseInsensitive = true,
+                    ReadCommentHandling = JsonCommentHandling.Skip,
+                    AllowTrailingCommas = true,
+                };
 
-                var data = json.Data;
-
-                // Validate data is an array
-                if (data.VariantType != Variant.Type.Array)
-                {
-                    GD.PrintErr("Choices JSON is not an array");
-                    return choices;
-                }
-
-                var choicesArray = data.AsGodotArray();
-
-                // Map each choice from Godot variant to ChoiceOption
-                foreach (var choiceVariant in choicesArray)
-                {
-                    if (choiceVariant.VariantType != Variant.Type.Dictionary)
-                    {
-                        continue;
-                    }
-
-                    var choiceDict = choiceVariant.AsGodotDictionary();
-
-                    var choice = new ChoiceOption
-                    {
-                        Id = choiceDict.ContainsKey("id") ? choiceDict["id"].AsString() : string.Empty,
-                        Label = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() :
-                                choiceDict.ContainsKey("label") ? choiceDict["label"].AsString() : string.Empty,
-                        Description = choiceDict.ContainsKey("description") ? choiceDict["description"].AsString() : string.Empty,
-                    };
-
-                    choices.Add(choice);
-                }
+                var choices = JsonSerializer.Deserialize<List<ChoiceOption>>(jsonText, options);
+                return choices ?? new List<ChoiceOption>();
             }
+        }
+        catch (JsonException ex)
+        {
+            GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
         }
         catch (ArgumentOutOfRangeException ex)
         {
@@ -259,7 +235,7 @@ public partial class DreamweaverPersona
             GD.PrintErr($"Failed to parse choices JSON: {ex.Message}");
         }
 
-        return choices;
+        return new List<ChoiceOption>();
     }
 
     /// <summary>

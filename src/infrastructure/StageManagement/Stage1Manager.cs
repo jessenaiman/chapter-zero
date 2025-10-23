@@ -6,7 +6,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
 /// </summary>
 public sealed class Stage1Manager : StageManagerBase
 {
-    private const string Stage1EntryScene = "res://source/stages/stage_1/opening.tscn";
+    private const string Stage1EntryScene = "res://source/stages/stage_1/ghost.tscn";
     private const string Stage1ManifestPath = "res://source/stages/stage_1/stage_manifest.json";
 
     public Stage1Manager()

@@ -15,7 +15,7 @@ using static GdUnit4.Assertions;
 /// These tests verify system stability under adverse conditions and error scenarios.
 /// </summary>
 [TestSuite]
-public class ErrorHandlingTests
+    public static class ErrorHandlingTests
 {
     /// <summary>
     /// Tests that system rejects empty string when player name is submitted.

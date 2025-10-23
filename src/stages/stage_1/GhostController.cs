@@ -6,7 +6,7 @@ using Godot;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
-namespace OmegaSpiral.Source.Stages.Ghost;
+namespace OmegaSpiral.Source.Stages.Stage1;
 
 /// <summary>
 /// Controller for Stage 1 (Opening Sequence).

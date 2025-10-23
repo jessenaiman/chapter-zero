@@ -57,7 +57,7 @@ public class TerminalShaderController : ITerminalShaderController, IDisposable
         }
 
         // Small delay to ensure shader is applied
-        await Task.Delay(10);
+        await Task.Delay(10).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -84,7 +84,7 @@ public class TerminalShaderController : ITerminalShaderController, IDisposable
         {
             float progress = (float)frame / totalFrames;
             _currentMaterial.SetShaderParameter("dissolve_progress", progress);
-            await Task.Delay(1000 / frameRate); // Delay for one frame
+            await Task.Delay(1000 / frameRate).ConfigureAwait(false); // Delay for one frame
         }
 
         // Ensure fully dissolved

@@ -38,12 +38,12 @@ public partial class Question2Bridge : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(line, useGhostEffect: true);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
         GhostTerminalChoiceBeat choiceBeat = plan.StoryChoice;
@@ -58,13 +58,12 @@ public partial class Question2Bridge : GhostTerminalUI
 
         if (!string.IsNullOrWhiteSpace(selectedOption.Response))
         {
-            await AppendTextAsync(selectedOption.Response, useGhostEffect: true).ConfigureAwait(false);
+            await AppendTextAsync(selectedOption.Response, useGhostEffect: true);
         }
-await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
-
+    await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
 
         // Transition to continuation scene
-        TransitionToScene("res://source/stages/ghost/scenes/question_3_voice.tscn");
+        TransitionToScene("res://source/stages/stage_1/scenes/question_3_voice.tscn");
     }
 
     private void RecordChoice(string questionId, GhostTerminalChoiceOption option)

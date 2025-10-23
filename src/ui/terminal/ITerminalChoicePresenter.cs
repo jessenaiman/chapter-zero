@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace OmegaSpiral.Source.UI.Terminal;
@@ -11,19 +12,19 @@ namespace OmegaSpiral.Source.UI.Terminal;
 public interface ITerminalChoicePresenter
 {
     /// <summary>
-    /// Presents a list of choices to the player and waits for selection.
+    /// Presents a list of choices to the player.
     /// </summary>
-    /// <param name="choices">The list of choice options to present.</param>
+    /// <param name="choices">The collection of choice options to present.</param>
     /// <param name="allowMultipleSelection">Whether multiple choices can be selected.</param>
     /// <returns>A task that completes with the selected choice(s) index(es).</returns>
-    Task<List<int>> PresentChoicesAsync(List<string> choices, bool allowMultipleSelection = false);
+    Task<List<int>> PresentChoicesAsync(IList<string> choices, bool allowMultipleSelection = false);
 
     /// <summary>
     /// Presents choices with custom display options.
     /// </summary>
     /// <param name="choiceOptions">The choice options with additional display properties.</param>
     /// <returns>A task that completes with the selected choice index.</returns>
-    Task<int> PresentChoicesAsync(List<ChoiceOption> choiceOptions);
+    Task<int> PresentChoicesAsync(IList<ChoiceOption> choiceOptions);
 
     /// <summary>
     /// Hides the choice presentation interface.

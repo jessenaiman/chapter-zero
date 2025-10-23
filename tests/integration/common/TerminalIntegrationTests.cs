@@ -5,6 +5,7 @@ using GdUnit4;
 using static GdUnit4.Assertions;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.UI.Terminal;
+using System.Collections.ObjectModel;
 
 namespace OmegaSpiral.Tests.Integration.Common;
 
@@ -115,7 +116,7 @@ public partial class TerminalIntegrationTests
         await _textRenderer!.AppendTextAsync("Choose your path:").ConfigureAwait(false);
 
         // Show choices
-        var choices = new List<ChoiceOption>
+        var choices = new Collection<ChoiceOption>
         {
             new ChoiceOption { Text = "Path A" },
             new ChoiceOption { Text = "Path B" }
@@ -152,7 +153,7 @@ public partial class TerminalIntegrationTests
         await _textRenderer!.AppendTextAsync("Make your choice:").ConfigureAwait(false);
 
         // Step 3: Present choices
-        var choices = new List<ChoiceOption>
+        var choices = new Collection<ChoiceOption>
         {
             new ChoiceOption { Text = "Continue" },
             new ChoiceOption { Text = "Exit" }
@@ -200,7 +201,7 @@ public partial class TerminalIntegrationTests
         // Start multiple operations concurrently
         var shaderTask = _shaderController!.ApplyVisualPresetAsync("scanlines");
         var textTask = _textRenderer!.AppendTextAsync("Concurrent test");
-        var choiceTask = _choicePresenter!.PresentChoicesAsync(new List<ChoiceOption>
+        var choiceTask = _choicePresenter!.PresentChoicesAsync(new Collection<ChoiceOption>
         {
             new ChoiceOption { Text = "Test" }
         });

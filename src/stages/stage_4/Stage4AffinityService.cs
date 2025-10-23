@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Stages.Stage4
@@ -17,7 +18,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
         /// <summary>
         /// Filters available characters based on Stage 2 Dreamweaver influence.
         /// </summary>
-        public List<string> FilterCharactersByStage2Influence(List<string> availableCharacters, GameState gameState)
+        public Collection<string> FilterCharactersByStage2Influence(Collection<string> availableCharacters, GameState gameState)
         {
             if (gameState == null || gameState.DreamweaverScores == null)
             {

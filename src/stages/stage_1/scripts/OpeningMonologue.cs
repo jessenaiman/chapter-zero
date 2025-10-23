@@ -41,17 +41,17 @@ public partial class OpeningMonologue : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05f).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05f);
+            await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
         // Brief pause, then transition to first question
-        await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    await ToSignal(GetTree().CreateTimer(2.0f), SceneTreeTimer.SignalName.Timeout);
 
-        TransitionToScene("res://source/stages/ghost/scenes/question_1_name.tscn");
+        TransitionToScene("res://source/stages/stage_1/scenes/question_1_name.tscn");
     }
 }

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="res://source/ui/menus/main_menu.tscn"
+run/main_scene="res://src/stages/stage_0_start/main_menu.tscn"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bs61h0k5maye5"
@@ -20,17 +20,17 @@ boot_splash/image="uid://bs61h0k5maye5"
 
 [autoload]
 
-SceneManager="*res://source/scripts/SceneManager.cs"
-GameState="*res://source/scripts/common/GameState.cs"
-NarratorEngine="*res://source/narrative/NarratorEngine.cs"
-DreamweaverSystem="*res://source/narrative/DreamweaverSystem.cs"
-FieldEvents="*res://source/scripts/field/FieldEvents.cs"
-FieldCamera="*res://source/scripts/field/FieldCamera.cs"
-Gameboard="*res://source/scripts/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://source/scripts/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://source/scripts/common/Player.cs"
-CombatEvents="*res://source/scripts/combat/CombatEvents.cs"
-AudioManager="*res://source/audio/AudioManager.cs"
+SceneManager="*res://src/scripts/SceneManager.cs"
+GameState="*res://src/common/GameState.cs"
+NarratorEngine="*res://src/narrative/NarratorEngine.cs"
+DreamweaverSystem="*res://src/narrative/DreamweaverSystem.cs"
+FieldEvents="*res://src/field/FieldEvents.cs"
+FieldCamera="*res://src/field/FieldCamera.cs"
+Gameboard="*res://src/field/gameboard/Gameboard.cs"
+GamepieceRegistry="*res://src/field/gamepieces/GamepieceRegistry.cs"
+Player="*res://src/common/Player.cs"
+CombatEvents="*res://src/combat/CombatEvents.cs"
+AudioManager="*res://src/audio/AudioManager.cs"
 
 [display]
 

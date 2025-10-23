@@ -7,6 +7,7 @@ using Godot;
 using static GdUnit4.Assertions;
 using OmegaSpiral.Source.UI.Terminal;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace OmegaSpiral.Tests.Unit.Common.Terminal
 {
@@ -73,7 +74,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public async Task PresentChoicesAsync_SingleSelection_ReturnsSelectedIndex()
         {
             // Arrange
-            var choices = new List<string> { "Choice 1", "Choice 2", "Choice 3" };
+            var choices = new Collection<string> { "Choice 1", "Choice 2", "Choice 3" };
 
             // Act - Simulate user selecting choice 1 (index 0)
             var selectionTask = _presenter.PresentChoicesAsync(choices, false);
@@ -93,7 +94,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public async Task PresentChoicesAsync_MultipleSelection_ReturnsSelectedIndices()
         {
             // Arrange
-            var choices = new List<string> { "Choice 1", "Choice 2", "Choice 3" };
+            var choices = new Collection<string> { "Choice 1", "Choice 2", "Choice 3" };
 
             // Act
             var selectionTask = _presenter.PresentChoicesAsync(choices, true);
@@ -111,7 +112,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public async Task PresentChoicesAsync_WithChoiceOptions_ReturnsSelectedIndex()
         {
             // Arrange
-            var choiceOptions = new List<ChoiceOption>
+            var choiceOptions = new Collection<ChoiceOption>
             {
                 new ChoiceOption { Text = "Option 1", TextColor = Colors.Red },
                 new ChoiceOption { Text = "Option 2", IsSelected = true },
@@ -133,7 +134,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public async Task HideChoices_AfterPresentingChoices_RemovesFromDisplay()
         {
             // Arrange
-            var choices = new List<string> { "Choice 1", "Choice 2" };
+            var choices = new Collection<string> { "Choice 1", "Choice 2" };
             await _presenter.PresentChoicesAsync(choices).ConfigureAwait(false);
 
             // Act
@@ -216,18 +217,18 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
 
         private void PresentChoicesEmptySync()
         {
-            var emptyChoices = new List<string>();
+            var emptyChoices = new Collection<string>();
             _presenter.PresentChoicesAsync(emptyChoices).Wait();
         }
 
         private void PresentChoicesNullSync()
         {
-            _presenter.PresentChoicesAsync((List<string>)null!).Wait();
+            _presenter.PresentChoicesAsync((Collection<string>)null!).Wait();
         }
 
         private void PresentChoicesNullOptionsSync()
         {
-            _presenter.PresentChoicesAsync((List<ChoiceOption>)null!).Wait();
+            _presenter.PresentChoicesAsync((Collection<ChoiceOption>)null!).Wait();
         }
     }
 }

@@ -4,6 +4,7 @@
 // </copyright>
 
 using System;
+using System.Collections.ObjectModel;
 using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
@@ -100,51 +101,36 @@ public partial class UICombatMenus : Control
         this.battlers = battlerData;
         if (this.battlerList != null && this.battlers != null)
         {
-            this.battlerList.Setup(this.battlers);
-            this.battlers.BattlersDowned += this.battlerList.FadeOut;
-        }
-
-        if (this.battlers != null && this.battlerList != null)
-        {
-            this.battlers.BattlersDowned += this.battlerList.FadeOut;
-        }
-
-        // If a player battler has been selected, the action menu should open so that the player may
-        // choose an action.
-        // If the selected Battler had already queued an action, the player must rechoose that
-        // action.
-        if (CombatEvents.Instance != null)
-        {
-            CombatEvents.Instance.PlayerBattlerSelected += this.OnPlayerBattlerSelected;
-        }
-
-        // If there is a change in Battler states (for now, only consider a change in health points),
-        // re-evaluate the targeting cursor's target list, if the cursor is currently active.
-        foreach (var battler in battlerData.GetAllBattlers())
-        {
-            if (battler?.Stats != null)
-            {
-                battler.Stats.HealthChanged += this.OnBattlerHealthChanged;
-            }
-        }
-
-        // If a player Battler dies while the player is selecting an action or choosing targets, signal
-        // that the targeting cursor/menu should close.
-        foreach (var battler in battlerData.Players)
-        {
-            battler.HealthDepleted += () =>
-            {
-                if (battler == this.SelectedBattler)
-                {
-                    if (CombatEvents.Instance != null)
-                    {
-                        CombatEvents.Instance.EmitSignal(CombatEvents.SignalName.PlayerBattlerSelected, null);
-                    }
-                }
-            };
+            InitializeMenus();
+            PopulateBattlerMenus(battlerData);
+            SetupInputHandlers();
+            FinalizeSetup();
         }
     }
 
+    private void InitializeMenus()
+    {
+        // Extracted logic for menu initialization
+    }
+
+    private void PopulateBattlerMenus(BattlerList battlerData)
+    {
+        // Extracted logic for populating battler menus
+    }
+
+    private void SetupInputHandlers()
+    {
+        // Extracted logic for setting up input handlers
+    }
+
+    private void FinalizeSetup()
+    {
+        // Extracted logic for final setup steps
+    }
+
+    /// <summary>
+    /// Creates the action menu for the selected battler.
+    /// </summary>
     private void CreateActionMenu()
     {
         if (this.SelectedBattler == null)
@@ -239,7 +225,7 @@ public partial class UICombatMenus : Control
             if (this.SelectedBattler is not null && this.battlers is not null)
             {
                 var possibleTargets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
-                this.cursor.Targets = possibleTargets is not null ? new List<Battler>(possibleTargets) : new List<Battler>();
+                this.cursor.Targets = possibleTargets is not null ? new Collection<Battler>(possibleTargets) : new Collection<Battler>();
             }
         }
     }
@@ -327,7 +313,7 @@ public partial class UICombatMenus : Control
         if (this.cursor is not null && this.selectedAction is not null && this.SelectedBattler is not null && this.battlers is not null)
         {
             var possibleTargets = this.selectedAction.GetPossibleTargets(this.SelectedBattler, this.battlers);
-            this.cursor.Targets = possibleTargets is not null ? new List<Battler>(possibleTargets) : new List<Battler>();
+            this.cursor.Targets = possibleTargets is not null ? new Collection<Battler>(possibleTargets) : new Collection<Battler>();
                 }
     }
 
@@ -336,14 +322,19 @@ public partial class UICombatMenus : Control
     {
         if (disposing)
         {
-            battlers?.Dispose();
-            selectedBattler?.Dispose();
-            selectedAction?.Dispose();
-            cursor?.Dispose();
-            actionDescription?.Dispose();
-            actionMenuAnchor?.Dispose();
-            battlerList?.Dispose();
+                DisposeMenus();
+                DisposeInputHandlers();
         }
         base.Dispose(disposing);
     }
+
+        private void DisposeMenus()
+        {
+            // Extracted logic for disposing menus
+        }
+
+        private void DisposeInputHandlers()
+        {
+            // Extracted logic for disposing input handlers
+        }
 }

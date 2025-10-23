@@ -231,7 +231,9 @@ public abstract partial class StageController : Node
         }
 
         _currentSceneId = sceneId;
-        _currentSceneIndex = StageManifest.Scenes.FindIndex(s => s.Id == sceneId);
+        _currentSceneIndex = StageManifest.Scenes
+            .Select((s, i) => new { Scene = s, Index = i })
+            .FirstOrDefault(x => x.Scene.Id == sceneId)?.Index ?? -1;
         await ExecuteSceneAsync(entry).ConfigureAwait(false);
     }
 

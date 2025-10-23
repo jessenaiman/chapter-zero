@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace OmegaSpiral.Source.UI.Terminal;
 
@@ -30,10 +31,10 @@ public static class TerminalPresetProvider
     /// <summary>
     /// Gets all available preset names.
     /// </summary>
-    /// <returns>A list of available preset names.</returns>
-    public static List<string> GetAvailablePresets()
+    /// <returns>A collection of available preset names.</returns>
+    public static Collection<string> GetAvailablePresets()
     {
-        return new List<string> { "phosphor", "scanlines", "glitch", "crt", "terminal" };
+        return new Collection<string> { "phosphor", "scanlines", "glitch", "crt", "terminal" };
     }
 
     /// <summary>

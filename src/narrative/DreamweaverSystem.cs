@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using System.Collections.ObjectModel;
 using NarrativeChoiceOption = OmegaSpiral.Source.Narrative.ChoiceOption;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Infrastructure;
@@ -309,22 +310,26 @@ public partial class DreamweaverSystem : Node
                     : string.Empty,
                 Options = new(),
             };
+            AddChoiceOptions(initialChoiceDict, config);
+        }
+    }
 
-            if (initialChoiceDict.ContainsKey("options") && initialChoiceDict["options"].VariantType == Variant.Type.Array)
+    private static void AddChoiceOptions(Godot.Collections.Dictionary initialChoiceDict, PersonaConfig config)
+    {
+        if (initialChoiceDict.ContainsKey("options") && initialChoiceDict["options"].VariantType == Variant.Type.Array)
+        {
+            var optionsArray = initialChoiceDict["options"].AsGodotArray();
+            foreach (var opt in optionsArray)
             {
-                var optionsArray = initialChoiceDict["options"].AsGodotArray();
-                foreach (var opt in optionsArray)
+                if (opt.VariantType == Variant.Type.Dictionary)
                 {
-                    if (opt.VariantType == Variant.Type.Dictionary)
+                    var optDict = opt.AsGodotDictionary();
+                    config.InitialChoice.Options.Add(new PersonaChoiceOption
                     {
-                        var optDict = opt.AsGodotDictionary();
-                        config.InitialChoice.Options.Add(new PersonaChoiceOption
-                        {
-                            Id = optDict.ContainsKey("id") ? optDict["id"].AsString() : string.Empty,
-                            Label = optDict.ContainsKey("label") ? optDict["label"].AsString() : string.Empty,
-                            Description = optDict.ContainsKey("description") ? optDict["description"].AsString() : string.Empty,
-                        });
-                    }
+                        Id = optDict.ContainsKey("id") ? optDict["id"].AsString() : string.Empty,
+                        Label = optDict.ContainsKey("label") ? optDict["label"].AsString() : string.Empty,
+                        Description = optDict.ContainsKey("description") ? optDict["description"].AsString() : string.Empty,
+                    });
                 }
             }
         }
@@ -344,39 +349,50 @@ public partial class DreamweaverSystem : Node
                 {
                     var blockDict = block.AsGodotDictionary();
                     var storyBlock = new PersonaStoryBlock();
-
-                    if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
-                    {
-                        var paragraphsArray = blockDict["paragraphs"].AsGodotArray();
-                        foreach (var para in paragraphsArray)
-                        {
-                            storyBlock.Paragraphs.Add(para.AsString());
-                        }
-                    }
-
-                    if (blockDict.ContainsKey("question"))
-                    {
-                        storyBlock.Question = blockDict["question"].AsString();
-                    }
-
-                    if (blockDict.ContainsKey("choices") && blockDict["choices"].VariantType == Variant.Type.Array)
-                    {
-                        var choicesArray = blockDict["choices"].AsGodotArray();
-                        foreach (var choice in choicesArray)
-                        {
-                            if (choice.VariantType == Variant.Type.Dictionary)
-                            {
-                                var choiceDict = choice.AsGodotDictionary();
-                                storyBlock.Choices.Add(new PersonaNarrativeChoice
-                                {
-                                    Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
-                                    NextBlock = choiceDict.ContainsKey("nextBlock") ? choiceDict["nextBlock"].AsInt32() : 0,
-                                });
-                            }
-                        }
-                    }
-
+                    AddParagraphs(blockDict, storyBlock);
+                    AddQuestion(blockDict, storyBlock);
+                    AddChoices(blockDict, storyBlock);
                     config.StoryBlocks.Add(storyBlock);
+                }
+            }
+        }
+    }
+
+    private static void AddParagraphs(Godot.Collections.Dictionary blockDict, PersonaStoryBlock storyBlock)
+    {
+        if (blockDict.ContainsKey("paragraphs") && blockDict["paragraphs"].VariantType == Variant.Type.Array)
+        {
+            var paragraphsArray = blockDict["paragraphs"].AsGodotArray();
+            foreach (var para in paragraphsArray)
+            {
+                storyBlock.Paragraphs.Add(para.AsString());
+            }
+        }
+    }
+
+    private static void AddQuestion(Godot.Collections.Dictionary blockDict, PersonaStoryBlock storyBlock)
+    {
+        if (blockDict.ContainsKey("question"))
+        {
+            storyBlock.Question = blockDict["question"].AsString();
+        }
+    }
+
+    private static void AddChoices(Godot.Collections.Dictionary blockDict, PersonaStoryBlock storyBlock)
+    {
+        if (blockDict.ContainsKey("choices") && blockDict["choices"].VariantType == Variant.Type.Array)
+        {
+            var choicesArray = blockDict["choices"].AsGodotArray();
+            foreach (var choice in choicesArray)
+            {
+                if (choice.VariantType == Variant.Type.Dictionary)
+                {
+                    var choiceDict = choice.AsGodotDictionary();
+                    storyBlock.Choices.Add(new PersonaNarrativeChoice
+                    {
+                        Text = choiceDict.ContainsKey("text") ? choiceDict["text"].AsString() : string.Empty,
+                        NextBlock = choiceDict.ContainsKey("nextBlock") ? choiceDict["nextBlock"].AsInt32() : 0,
+                    });
                 }
             }
         }
@@ -395,7 +411,7 @@ public partial class DreamweaverSystem : Node
                 Prompt = secretQuestionDict.ContainsKey("prompt")
                     ? secretQuestionDict["prompt"].AsString()
                     : string.Empty,
-                Options = new List<string>(),
+                Options = new Collection<string>(),
             };
 
             if (secretQuestionDict.ContainsKey("options") && secretQuestionDict["options"].VariantType == Variant.Type.Array)

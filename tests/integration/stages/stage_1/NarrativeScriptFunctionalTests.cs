@@ -12,7 +12,7 @@ using static GdUnit4.Assertions;
 /// Tests verify basic functionality without complex mocking.
 /// </summary>
 [TestSuite]
-public class NarrativeScriptFunctionalTests
+    public static class NarrativeScriptFunctionalTests
 {
     /// <summary>
     /// Tests basic object creation and null checks.

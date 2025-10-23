@@ -107,7 +107,7 @@ public sealed partial class Combat : CanvasLayer
         }
 
     transition.Call("cover", 0.2f);
-    await ToSignal(transition, ScreenTransition.SignalName.Finished).ConfigureAwait(false);
+    await ToSignal(transition, ScreenTransition.SignalName.Finished);
 
         var newArena = (CombatArena) arena.Instantiate();
         System.Diagnostics.Debug.Assert(newArena != null, "Failed to initiate combat. Provided 'arena' argument is not a CombatArena.");
@@ -145,12 +145,12 @@ public sealed partial class Combat : CanvasLayer
             throw new InvalidOperationException("Transition delay timer is not initialized.");
         }
 
-    await ToSignal(_transitionDelayTimer, "timeout").ConfigureAwait(false);
+    await ToSignal(_transitionDelayTimer, "timeout");
         var transition = GetNodeOrNull("/root/Transition");
         if (transition != null)
         {
             transition.Call("cover", 0.2f);
-            await ToSignal(transition, ScreenTransition.SignalName.Finished).ConfigureAwait(false);
+            await ToSignal(transition, ScreenTransition.SignalName.Finished);
         }
 
         _activeArena?.QueueFree();

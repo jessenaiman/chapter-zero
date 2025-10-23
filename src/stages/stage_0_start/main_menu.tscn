@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
-[ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_phosphor.tres" id="3_phosphor"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
-[ext_resource type="FontFile" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="6_font"]
+[ext_resource type="Script" path="res://src/ui/menus/MainMenu.cs" id="1_main_menu"]
+[ext_resource type="Material" path="res://src/shaders/pulsing_background.tres" id="2_background"]
+[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_phosphor.tres" id="3_phosphor"]
+[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_scanlines.tres" id="4_scanlines"]
+[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_glitch.tres" id="5_glitch"]
+[ext_resource type="FontFile" path="res://src/assets/gui/font/Kenney Pixel.ttf" id="6_font"]
 
 [sub_resource type="StyleBoxFlat" id="FrameStyle"]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)

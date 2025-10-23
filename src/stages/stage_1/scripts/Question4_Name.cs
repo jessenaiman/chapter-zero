@@ -38,12 +38,12 @@ public partial class Question4Name : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(line, useGhostEffect: true);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
         GhostTerminalChoiceBeat nameBeat = plan.NameChoice;
@@ -51,14 +51,13 @@ public partial class Question4Name : GhostTerminalUI
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
         string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true).ConfigureAwait(false);
-        GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
+    GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
-        RecordChoice("question4_name", selectedOption);
-await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    RecordChoice("question4_name", selectedOption);
+    await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
 
-
-        // Transition to final continue scene
-        TransitionToScene("res://source/stages/ghost/scenes/question_6_continue.tscn");
+    // Transition to final continue scene
+    TransitionToScene("res://source/stages/stage_1/scenes/question_6_continue.tscn");
     }
 
     private void RecordChoice(string questionId, GhostTerminalChoiceOption option)

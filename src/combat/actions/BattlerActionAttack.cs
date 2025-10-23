@@ -49,7 +49,7 @@ public partial class AttackBattlerAction : BattlerAction
         Battler firstTarget = targets[0];
 
         var timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
         // Calculate where the acting Battler will move from and to.
         Vector2 origin = source.Position;
@@ -59,12 +59,12 @@ public partial class AttackBattlerAction : BattlerAction
         // Animate movement to attack position.
         Tween tween = source.CreateTween().SetEase(Tween.EaseType.InOut).SetTrans(Tween.TransitionType.Cubic);
         tween.TweenProperty(source, "position", destination, 0.25f);
-        await source.ToSignal(tween, Tween.SignalName.Finished).ConfigureAwait(false);
+        await source.ToSignal(tween, Tween.SignalName.Finished);
 
         // No attack animations yet, so wait for a short delay and then apply damage to the target.
         // Normally we would wait for an attack animation's "triggered" signal.
         timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
         foreach (Battler target in targets)
         {
@@ -79,7 +79,7 @@ public partial class AttackBattlerAction : BattlerAction
             BattlerHit hit = new BattlerHit((int) damageDealt, toHit);
             target.TakeHit(hit);
             timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         }
 
         timer = source.GetTree().CreateTimer(0.1f);
@@ -91,6 +91,6 @@ public partial class AttackBattlerAction : BattlerAction
         await source.ToSignal(tween, Tween.SignalName.Finished);
 
         timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+    await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
     }
 }

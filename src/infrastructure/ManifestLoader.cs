@@ -33,51 +33,28 @@ public class ManifestStage
 /// Loads and parses the game manifest defining all stages.
 /// Enables dynamic stage discovery without hardcoding scene paths.
 /// </summary>
-public class ManifestLoader
+public class ManifestLoader : BaseManifestLoader<IReadOnlyList<ManifestStage>>
 {
-    private readonly List<ManifestStage> _stages = new();
+    private List<ManifestStage> _stages = new();
 
     /// <summary>
     /// Loads the manifest from the JSON file.
     /// </summary>
     /// <param name="manifestPath">Path to manifest.json (e.g., "res://source/data/manifest.json").</param>
     /// <returns>List of loaded stages, or empty list if loading failed.</returns>
-    public ReadOnlyCollection<ManifestStage> LoadManifest(string manifestPath)
+    public new IReadOnlyList<ManifestStage> LoadManifest(string manifestPath)
     {
-        if (!ResourceLoader.Exists(manifestPath))
-        {
-            GD.PrintErr($"[ManifestLoader] Manifest not found: {manifestPath}");
-            return _stages.AsReadOnly();
-        }
-
-        try
-        {
-            var jsonText = Godot.FileAccess.GetFileAsString(manifestPath);
-            var json = new Json();
-            if (json.Parse(jsonText) != Error.Ok)
-            {
-                GD.PrintErr($"[ManifestLoader] Invalid JSON in {manifestPath}: {json.GetErrorMessage()}");
-                return _stages.AsReadOnly();
-            }
-
-            _stages.Clear();
-            _stages.AddRange(ParseManifest(json.Data));
-            GD.Print($"[ManifestLoader] Loaded manifest with {_stages.Count} stages");
-            return _stages.AsReadOnly();
-        }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"[ManifestLoader] Error loading manifest: {ex.Message}");
-            return _stages.AsReadOnly();
-        }
+        var stages = base.LoadManifest(manifestPath);
+        _stages = stages?.ToList() ?? new List<ManifestStage>();
+        return _stages;
     }
 
     /// <summary>
     /// Gets all loaded stages.
     /// </summary>
-    public ReadOnlyCollection<ManifestStage> GetAllStages()
+    public IReadOnlyList<ManifestStage> GetAllStages()
     {
-    return _stages.AsReadOnly();
+        return _stages;
     }
 
     /// <summary>
@@ -112,7 +89,7 @@ public class ManifestLoader
     /// <summary>
     /// Parses the manifest JSON into ManifestStage objects.
     /// </summary>
-    private static List<ManifestStage> ParseManifest(Variant jsonData)
+    protected override IReadOnlyList<ManifestStage>? ParseManifest(Variant jsonData)
     {
         var stages = new List<ManifestStage>();
 

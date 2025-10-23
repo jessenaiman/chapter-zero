@@ -37,7 +37,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
             {
                 // Check if save already exists
                 var existingSave = await _context.GameSaves!
-                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot);
+                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot).ConfigureAwait(false);
 
                 if (existingSave != null)
                 {
@@ -52,7 +52,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
                     _context.GameSaves!.Add(newSave);
                 }
 
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
                 GD.Print($"Game saved successfully to slot: {saveSlot}");
                 return true;
             }
@@ -79,7 +79,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
                     .Include(gs => gs.PartyData)
                         .ThenInclude(pd => pd!.Members)
                     .Include(gs => gs.NarratorQueue)
-                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot);
+                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot).ConfigureAwait(false);
 
                 if (gameSave == null)
                 {
@@ -109,7 +109,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
                 return await _context.GameSaves!
                     .OrderByDescending(gs => gs.LastModifiedAt)
                     .Select(gs => gs.SaveSlot)
-                    .ToListAsync();
+                    .ToListAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
             try
             {
                 var gameSave = await _context.GameSaves!
-                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot);
+                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot).ConfigureAwait(false);
 
                 if (gameSave == null)
                 {
@@ -136,7 +136,7 @@ namespace OmegaSpiral.Source.Scripts.persistence
                 }
 
                 _context.GameSaves!.Remove(gameSave);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
                 GD.Print($"Save slot deleted: {saveSlot}");
                 return true;
             }

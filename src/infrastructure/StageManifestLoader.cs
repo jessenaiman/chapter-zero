@@ -11,65 +11,59 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure;
 /// Loads stage manifests from JSON files.
 /// Enables designers to define stage structure (scenes, order, transitions) without coding.
 /// </summary>
-public class StageManifestLoader
+public class StageManifestLoader : BaseManifestLoader<StageManifest>
 {
     /// <summary>
     /// Loads a stage manifest from a JSON file.
     /// </summary>
     /// <param name="manifestPath">Path to the stage_manifest.json file.</param>
     /// <returns>A populated StageManifest, or null if loading failed.</returns>
-    public StageManifest? LoadManifest(string manifestPath)
+    public new StageManifest? LoadManifest(string manifestPath)
     {
-        if (!ResourceLoader.Exists(manifestPath))
+        return base.LoadManifest(manifestPath);
+    }
+
+    /// <summary>
+    /// Parses the manifest JSON data into a StageManifest object.
+    /// </summary>
+    /// <param name="jsonData">Root JSON Variant.</param>
+    /// <returns>Parsed StageManifest object, or null if parsing failed.</returns>
+    protected override StageManifest? ParseManifest(Variant jsonData)
+    {
+        if (jsonData.VariantType != Variant.Type.Dictionary)
         {
-            GD.PrintErr($"[StageManifestLoader] Manifest not found: {manifestPath}");
+            GD.PrintErr("[StageManifestLoader] Invalid JSON structure: root is not a dictionary");
             return null;
         }
 
-        try
+        var root = jsonData.AsGodotDictionary();
+        var manifest = new StageManifest
         {
-            var jsonText = Godot.FileAccess.GetFileAsString(manifestPath);
-            var json = new Json();
-            if (json.Parse(jsonText) != Error.Ok)
-            {
-                GD.PrintErr($"[StageManifestLoader] Invalid JSON in {manifestPath}: {json.GetErrorMessage()}");
-                return null;
-            }
+            StageId = (int)root["stageId"],
+            StageName = root["stageName"].AsString(),
+            Description = root["description"].AsString(),
+            NextStagePath = root["nextStagePath"].AsString(),
+        };
 
-            var root = json.Data.AsGodotDictionary();
-            var manifest = new StageManifest
+        // Load scenes
+        var scenesArray = root["scenes"].AsGodotArray();
+        foreach (var sceneData in scenesArray)
+        {
+            var sceneDict = sceneData.AsGodotDictionary();
+            var scene = new StageSceneEntry
             {
-                StageId = (int)root["stageId"],
-                StageName = root["stageName"].AsString(),
-                Description = root["description"].AsString(),
-                NextStagePath = root["nextStagePath"].AsString(),
+                Id = sceneDict["id"].AsString(),
+                DisplayName = sceneDict["displayName"].AsString(),
+                SceneFile = sceneDict["sceneFile"].AsString(),
+                NextSceneId = sceneDict.ContainsKey("nextSceneId") ? sceneDict["nextSceneId"].AsString() : null,
+                ScriptClass = sceneDict.ContainsKey("scriptClass") ? sceneDict["scriptClass"].AsString() : null,
+                Description = sceneDict.ContainsKey("description") ? sceneDict["description"].AsString() : null,
             };
 
-            // Load scenes
-            var scenesArray = root["scenes"].AsGodotArray();
-            foreach (var sceneData in scenesArray)
-            {
-                var sceneDict = sceneData.AsGodotDictionary();
-                var scene = new StageSceneEntry
-                {
-                    Id = sceneDict["id"].AsString(),
-                    DisplayName = sceneDict["displayName"].AsString(),
-                    SceneFile = sceneDict["sceneFile"].AsString(),
-                    NextSceneId = sceneDict.ContainsKey("nextSceneId") ? sceneDict["nextSceneId"].AsString() : null,
-                    ScriptClass = sceneDict.ContainsKey("scriptClass") ? sceneDict["scriptClass"].AsString() : null,
-                    Description = sceneDict.ContainsKey("description") ? sceneDict["description"].AsString() : null,
-                };
-
-                manifest.Scenes.Add(scene);
-            }
-
-            GD.Print($"[StageManifestLoader] Loaded stage manifest: Stage {manifest.StageId} ({manifest.StageName}) with {manifest.Scenes.Count} scenes");
-            return manifest;
+            manifest.Scenes.Add(scene);
         }
-        catch (System.Exception ex)
-        {
-            GD.PrintErr($"[StageManifestLoader] Error loading manifest: {ex.Message}");
-            return null;
-        }
+
+        GD.Print($"[StageManifestLoader] Loaded stage manifest: Stage {manifest.StageId} ({manifest.StageName}) with {manifest.Scenes.Count} scenes");
+        return manifest;
     }
 }

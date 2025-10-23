@@ -44,25 +44,25 @@ namespace OmegaSpiral.Source.Combat.Actions
             }
 
             var timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
             // Animate a little jump from the source Battler to add some movement to the action.
             Vector2 origin = source.Position;
 
             Tween tween = source.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
             tween.TweenProperty(source, "position", origin + new Vector2(0, -JumpDistance), 0.15f);
-            await source.ToSignal(tween, Tween.SignalName.Finished).ConfigureAwait(false);
+            await source.ToSignal(tween, Tween.SignalName.Finished);
             timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
             tween = source.CreateTween().SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Quad);
             tween.TweenProperty(source, "position", origin, 0.15f);
-            await source.ToSignal(tween, Tween.SignalName.Finished).ConfigureAwait(false);
+            await source.ToSignal(tween, Tween.SignalName.Finished);
 
             // No attack animations yet, so wait for a short delay and then apply damage to the target.
             // Normally we would wait for an attack animation's "triggered" signal and then spawn a
             // projectile, waiting for impact.
             timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
             foreach (Battler target in targets)
             {
                 target.Stats?.AddModifier("attack", this.AddedValue);
@@ -70,7 +70,7 @@ namespace OmegaSpiral.Source.Combat.Actions
             }
 
             timer = source.GetTree().CreateTimer(0.1f);
-            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         }
     }
 }

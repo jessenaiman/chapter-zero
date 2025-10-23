@@ -31,23 +31,23 @@ public partial class HealBattlerAction : BattlerAction
         }
 
         var timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
         // Animate a little jump from the source Battler to add some movement to the action.
         Vector2 origin = source.Position;
 
         Tween tween = source.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
         tween.TweenProperty(source, "position", origin + new Vector2(0, -JumpDistance), 0.15f);
-        await source.ToSignal(tween, Tween.SignalName.Finished).ConfigureAwait(false);
+        await source.ToSignal(tween, Tween.SignalName.Finished);
         timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         tween = source.CreateTween().SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Quad);
         tween.TweenProperty(source, "position", origin, 0.15f);
-        await source.ToSignal(tween, Tween.SignalName.Finished).ConfigureAwait(false);
+        await source.ToSignal(tween, Tween.SignalName.Finished);
 
         // Wait for a short delay and then apply healing to the targets.
         timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
         using (BattlerHit hit = new BattlerHit(-this.HealAmount))
         {
             foreach (Battler target in targets)
@@ -56,12 +56,12 @@ public partial class HealBattlerAction : BattlerAction
 
                 // Pause slightly between heals.
                 timer = source.GetTree().CreateTimer(0.1f);
-                await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
             }
         }
 
         // Pause slightly before resuming combat.
         timer = source.GetTree().CreateTimer(0.1f);
-        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+        await source.ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
     }
 }

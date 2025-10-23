@@ -4,10 +4,12 @@
 
 using Godot;
 using System.Threading.Tasks;
+
 using OmegaSpiral.Source.Stages.Ghost;
 using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Scripts.Stages.Stage1;
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
+namespace OmegaSpiral.Source.Stages.Stage1;
 
 /// <summary>
 /// The boot sequence scene for the ghost terminal.
@@ -47,19 +49,19 @@ public partial class BootSequence : GhostTerminalUI
     /// <returns>A task that completes when boot sequence finishes.</returns>
     private async Task RunBootSequenceAsync()
     {
-        GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
-        GhostTerminalBootBeat bootBeat = plan.Boot;
+    GhostTerminalCinematicPlan plan = GhostTerminalCinematicDirector.GetPlan();
+    GhostTerminalBootBeat bootBeat = plan.Boot;
 
-        foreach (string line in bootBeat.GlitchLines)
+    foreach (string line in bootBeat.GlitchLines)
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
             await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.045f).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await ToSignal(GetTree().CreateTimer(0.6f), SceneTreeTimer.SignalName.Timeout);
         }
 
         // Add continue prompt
@@ -82,7 +84,7 @@ public partial class BootSequence : GhostTerminalUI
 
         if (bootBeat.FadeToStable)
         {
-            await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
         }
 
         // Animate dissolve effect

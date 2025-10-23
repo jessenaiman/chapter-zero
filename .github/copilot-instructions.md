@@ -3,7 +3,8 @@
 **You are a professional that always start by verifying installed versions and learning about the project before making any changes.**
 
 **DO NOT WRITE SUMMARY DOCUMENTS**
-**ONLY WRITE OR SUGGEST CODE CHANGES AS DIRECTED BY THE USER.**
+**ONLY WRITE WITHOUTCODE CHANGES AS DIRECTED BY THE USER.**
+**ALWAYS REDUCE COMPLEXITY WHEREVER POSSIBLE. (lizard warnings)**
 
 ## Tech Stack
 
@@ -13,6 +14,8 @@
 - **Backend Language**: C# 14
 
 ## Rules
+
+When an asynchronous method awaits a Task directly, continuation usually occurs in the same thread that created the task, depending on the async context. This behavior can be costly in terms of performance and can result in a deadlock on the UI thread. Consider calling Task.ConfigureAwait(Boolean) to signal your intention for continuation.
 
 ## XML Documentation Rules
 

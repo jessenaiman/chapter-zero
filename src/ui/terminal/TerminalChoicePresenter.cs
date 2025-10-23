@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace OmegaSpiral.Source.UI.Terminal;
@@ -28,7 +29,7 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task<List<int>> PresentChoicesAsync(List<string> choices, bool allowMultipleSelection = false)
+    public async Task<List<int>> PresentChoicesAsync(IList<string> choices, bool allowMultipleSelection = false)
     {
         if (choices == null)
             throw new ArgumentNullException(nameof(choices));
@@ -55,7 +56,7 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task<int> PresentChoicesAsync(List<ChoiceOption> choiceOptions)
+    public async Task<int> PresentChoicesAsync(IList<ChoiceOption> choiceOptions)
     {
         if (choiceOptions == null)
             throw new ArgumentNullException(nameof(choiceOptions));

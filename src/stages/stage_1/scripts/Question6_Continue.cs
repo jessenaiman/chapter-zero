@@ -84,11 +84,11 @@ public partial class Question6Continue : GhostTerminalUI
             if (!string.IsNullOrEmpty(line))
             {
                 await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
-                await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(1.5f), SceneTreeTimer.SignalName.Timeout);
             }
             else
             {
-                await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(0.8f), SceneTreeTimer.SignalName.Timeout);
             }
         }
     }
@@ -200,13 +200,13 @@ public partial class Question6Continue : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
             string resolved = line.Replace("{{THREAD_NAME}}", threadName, StringComparison.OrdinalIgnoreCase);
-            await AppendTextAsync(resolved, useGhostEffect: true).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(resolved, useGhostEffect: true);
+            await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
     }
 
@@ -216,7 +216,7 @@ public partial class Question6Continue : GhostTerminalUI
     private async Task HandleFinalTransitionAsync()
     {
         // Final transition
-        await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    await ToSignal(GetTree().CreateTimer(3.0f), SceneTreeTimer.SignalName.Timeout);
 
         // Store the determined thread for use in Stage 2
         // TODO: Save thread to game state/persistence system
@@ -226,7 +226,7 @@ public partial class Question6Continue : GhostTerminalUI
 
         GameState gameState = GetGameState();
         GD.Print($"[Question6Continue] Final scores: {gameState.GetScoreSummary()}");
-await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+    await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout);
 
 
         // Transition to Stage 2 using the SceneManager autoload when available.
@@ -238,6 +238,6 @@ await ToSignal(GetTree().CreateTimer(5.0f), SceneTreeTimer.SignalName.Timeout).C
         }
 
         GD.PushWarning("[Question6Continue] SceneManager not found; falling back to direct scene change.");
-        GetTree().ChangeSceneToFile("res://source/stages/stage_2/echo_hub.tscn");
+        GetTree().ChangeSceneToFile("res://source/stages/echo_hub/echo_hub_main.tscn");
     }
 }

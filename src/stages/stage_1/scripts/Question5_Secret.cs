@@ -39,12 +39,12 @@ public partial class Question5Secret : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
             }
             else
             {
-                await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
-                await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await AppendTextAsync(line, useGhostEffect: true);
+                await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
             }
         }
 
@@ -59,14 +59,14 @@ public partial class Question5Secret : GhostTerminalUI
 
         if (!string.IsNullOrWhiteSpace(selectedOption.Response))
         {
-            await AppendTextAsync(selectedOption.Response, useGhostEffect: true).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(selectedOption.Response, useGhostEffect: true);
+            await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        await PlaySecretRevealAsync(secretBeat.Reveal).ConfigureAwait(false);
+        await PlaySecretRevealAsync(secretBeat.Reveal);
 
-        await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
-        TransitionToScene("res://source/stages/ghost/scenes/question_4_name.tscn");
+        await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
+        TransitionToScene("res://source/stages/stage_1/scenes/question_4_name.tscn");
     }
 
     private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)
@@ -77,12 +77,12 @@ public partial class Question5Secret : GhostTerminalUI
         {
             if (GhostTerminalNarrationHelper.TryParsePause(line, out double pauseSeconds))
             {
-                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+                await ToSignal(GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04f).ConfigureAwait(false);
-            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout).ConfigureAwait(false);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04f);
+            await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 
         if (!string.IsNullOrWhiteSpace(reveal.JournalEntry))

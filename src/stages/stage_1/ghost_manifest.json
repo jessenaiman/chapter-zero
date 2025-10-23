@@ -7,21 +7,21 @@
     {
       "id": "boot_sequence",
       "displayName": "Boot Sequence",
-      "sceneFile": "res://source/stages/ghost/scenes/boot_sequence.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "opening_monologue",
       "description": "System initialization with glitch effects and terminal boot messages."
     },
     {
       "id": "opening_monologue",
       "displayName": "Opening Monologue",
-      "sceneFile": "res://source/stages/ghost/scenes/opening_monologue.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_1_name",
       "description": "Mysterious introduction and narrative setup for the player's journey."
     },
     {
       "id": "question_1_name",
       "displayName": "Question 1: Name",
-      "sceneFile": "res://source/stages/ghost/scenes/question_1_name.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_2_bridge",
       "scriptClass": "Question1Name",
       "description": "Player provides their character's name."
@@ -29,7 +29,7 @@
     {
       "id": "question_2_bridge",
       "displayName": "Question 2: Bridge",
-      "sceneFile": "res://source/stages/ghost/scenes/question_2_bridge.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_3_voice",
       "scriptClass": "Question2Bridge",
       "description": "Player makes a narrative choice about crossing a bridge."
@@ -37,7 +37,7 @@
     {
       "id": "question_3_voice",
       "displayName": "Question 3: Voice",
-      "sceneFile": "res://source/stages/ghost/scenes/question_3_voice.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_4_name",
       "scriptClass": "Question3Voice",
       "description": "Player describes their inner voice or perspective."
@@ -45,7 +45,7 @@
     {
       "id": "question_4_name",
       "displayName": "Question 4: Companion Name",
-      "sceneFile": "res://source/stages/ghost/scenes/question_4_name.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_5_secret",
       "scriptClass": "Question4Name",
       "description": "Player names an important companion or ally."
@@ -53,7 +53,7 @@
     {
       "id": "question_5_secret",
       "displayName": "Question 5: Secret",
-      "sceneFile": "res://source/stages/ghost/scenes/question_5_secret.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": "question_6_continue",
       "scriptClass": "Question5Secret",
       "description": "Player reveals a hidden truth or secret that shapes the narrative."
@@ -61,7 +61,7 @@
     {
       "id": "question_6_continue",
       "displayName": "Question 6: Continue",
-      "sceneFile": "res://source/stages/ghost/scenes/question_6_continue.tscn",
+      "sceneFile": "res://source/stages/stage_1/ghost.tscn",
       "nextSceneId": null,
       "scriptClass": "Question6Continue",
       "description": "Final question that determines character thread and leads to Stage 2."

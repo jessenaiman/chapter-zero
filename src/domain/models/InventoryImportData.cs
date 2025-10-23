@@ -326,7 +326,7 @@ namespace OmegaSpiral.Domain.Models
                 Id = this.Id,
                 MaxSize = this.MaxSize,
                 MaxWeight = this.MaxWeight,
-                ItemIds = new List<string>(this.ItemIds),
+                ItemIds = new Collection<string>(this.ItemIds),
                 ItemQuantities = new Dictionary<string, int>(this.ItemQuantities),
                 EquippedItems = new Dictionary<string, string>(this.EquippedItems),
                 CustomItemData = new Dictionary<string, Dictionary<string, object>>(this.CustomItemData),
