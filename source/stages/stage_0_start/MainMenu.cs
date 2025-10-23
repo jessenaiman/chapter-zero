@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
+using OmegaSpiral.Source.UI.Omega;
 using OmegaSpiral.UI.Menus;
 
 namespace OmegaSpiral.Ui.Menus
@@ -14,10 +15,10 @@ namespace OmegaSpiral.Ui.Menus
     /// Enables players to select which stage to play.
     /// </summary>
     [GlobalClass]
-    public partial class MainMenu : Control
+    public partial class MainMenu : OmegaSpiral.Source.UI.Omega.OmegaUI
     {
-        private const string StageManifestPath = "res://src/stages/stage_0_start/stages_manifest.json";
-        private const string StageButtonScenePath = "res://src/ui/menus/stage_button.tscn";
+        private const string StageManifestPath = "res://source/stages/stage_0_start/main_menu_manifest.json";
+        private const string StageButtonScenePath = "res://source/ui/menus/stage_button.tscn";
 
         private static readonly IReadOnlyDictionary<int, string> StageNameLookup = new Dictionary<int, string>
         {
@@ -38,6 +39,11 @@ namespace OmegaSpiral.Ui.Menus
         private Button? _optionsButton;
         private Button? _quitButton;
 
+        // Override base OmegaUI node requirements since main menu doesn't have PhosphorLayer/TextDisplay
+        private ColorRect? _phosphorLayer;
+        private ColorRect? _scanlineLayer;
+        private ColorRect? _glitchLayer;
+
 #pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
         private SceneManager? _sceneManager;
 #pragma warning restore CA2213
@@ -48,7 +54,7 @@ namespace OmegaSpiral.Ui.Menus
         /// </summary>
         public override void _Ready()
         {
-            base._Ready();
+            base._Ready(); // This will call our overridden CacheRequiredNodes
 
             _sceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
             _stageButtonScene = ResourceLoader.Load<PackedScene>(StageButtonScenePath);
@@ -256,6 +262,43 @@ namespace OmegaSpiral.Ui.Menus
         private void OnQuitPressed()
         {
             GetTree().Quit();
+        }
+
+        /// <summary>
+        /// Overrides the base method to cache main menu specific nodes instead of default OmegaUI nodes.
+        /// The main menu has shader layers but no text display, so we adapt the base requirements.
+        /// </summary>
+        protected override void CacheRequiredNodes()
+        {
+            // Cache the shader layers that exist in the main menu scene
+            _phosphorLayer = GetNodeOrNull<ColorRect>("ShaderLayers/PhosphorLayer");
+            _scanlineLayer = GetNodeOrNull<ColorRect>("ShaderLayers/ScanlineLayer");
+            _glitchLayer = GetNodeOrNull<ColorRect>("ShaderLayers/GlitchLayer");
+
+            // Since main menu doesn't have TextDisplay, we don't call base.CacheRequiredNodes()
+            // This avoids the InvalidOperationException that would be thrown by OmegaUI base class
+        }
+
+        /// <summary>
+        /// Overrides the base method to initialize main menu specific component states.
+        /// </summary>
+        protected override void InitializeComponentStates()
+        {
+            // Initialize shader layers if they exist
+            if (_phosphorLayer != null)
+            {
+                _phosphorLayer.Modulate = Colors.White;
+            }
+            if (_scanlineLayer != null)
+            {
+                _scanlineLayer.Modulate = Colors.White;
+            }
+            if (_glitchLayer != null)
+            {
+                _glitchLayer.Modulate = Colors.White;
+            }
+
+            // Don't call base.InitializeComponentStates() since we don't have TextDisplay
         }
     }
 }

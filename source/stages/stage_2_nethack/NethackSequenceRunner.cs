@@ -1,16 +1,19 @@
 using System;
+using System.Collections.Generic;
 using OmegaSpiral.Source.Scripts.domain.Dungeon;
+using OmegaSpiral.Source.Scripts.domain.Dungeon.Models;
 
 namespace OmegaSpiral.Source.Stages.Stage2
 {
     /// <summary>
-    /// Coordinates progression through the Nethack-inspired ASCII dungeon sequence, publishing stage events and applying affinity changes.
+    /// Coordinates progression through the Nethack-inspired ASCII dungeon sequence.
+    /// Logs interactions for debugging/analytics. Scoring is handled by NethackHub (StageController).
     /// </summary>
     public sealed class NethackSequenceRunner
     {
         private readonly AsciiDungeonSequence sequence;
         private readonly IDungeonEventPublisher publisher;
-        private readonly IDreamweaverAffinityService affinityService;
+        private readonly List<DungeonInteractionResult> interactionLog;
         private int currentStageIndex = -1;
 
         /// <summary>
@@ -18,16 +21,19 @@ namespace OmegaSpiral.Source.Stages.Stage2
         /// </summary>
         /// <param name="sequence">The aggregate containing validated stages.</param>
         /// <param name="publisher">The event publisher for stage notifications.</param>
-        /// <param name="affinityService">The service that applies Dreamweaver affinity changes.</param>
         public NethackSequenceRunner(
             AsciiDungeonSequence sequence,
-            IDungeonEventPublisher publisher,
-            IDreamweaverAffinityService affinityService)
+            IDungeonEventPublisher publisher)
         {
             this.sequence = sequence ?? throw new ArgumentNullException(nameof(sequence));
             this.publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
-            this.affinityService = affinityService ?? throw new ArgumentNullException(nameof(affinityService));
+            this.interactionLog = new List<DungeonInteractionResult>();
         }
+
+        /// <summary>
+        /// Gets the interaction log for debugging/analytics.
+        /// </summary>
+        public IReadOnlyList<DungeonInteractionResult> InteractionLog => this.interactionLog;
 
         /// <summary>
         /// Starts the sequence at the first stage and publishes the corresponding event.
@@ -39,11 +45,13 @@ namespace OmegaSpiral.Source.Stages.Stage2
         }
 
         /// <summary>
-        /// Resolves a glyph interaction within the current stage and applies affinity changes.
+        /// Resolves a glyph interaction within the current stage and logs it.
+        /// Scoring is handled by the chamber scene calling NethackHub.AwardAffinityScore().
         /// </summary>
         /// <param name="glyph">The glyph interacted with.</param>
+        /// <returns>The interaction result for display/logging.</returns>
         /// <exception cref="InvalidOperationException">Thrown when the sequence has not been started.</exception>
-        public void ResolveInteraction(char glyph)
+        public DungeonInteractionResult ResolveInteraction(char glyph)
         {
             if (this.currentStageIndex < 0)
             {
@@ -52,7 +60,11 @@ namespace OmegaSpiral.Source.Stages.Stage2
 
             var stage = this.sequence.Stages[this.currentStageIndex];
             var result = stage.ResolveInteraction(glyph);
-            this.affinityService.ApplyChange(result.AlignedTo, result.Change);
+
+            // Log the interaction for debugging/analytics
+            this.interactionLog.Add(result);
+
+            return result;
         }
 
         /// <summary>

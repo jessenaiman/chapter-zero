@@ -4,7 +4,7 @@ using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Narrative.Dialogue;
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage4;
+namespace OmegaSpiral.Source.Dreamweavers;
 
 /// <summary>
 /// Controls the appearance and behavior of Dreamweaver presences in Stage 4

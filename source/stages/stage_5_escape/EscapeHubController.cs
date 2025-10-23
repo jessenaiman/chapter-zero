@@ -70,7 +70,7 @@ namespace OmegaSpiral.Stages.Stage5
             CacheNodes();
             InitializeShaders();
             StartOpeningSequence();
-            
+
             GD.Print("[EscapeHub] Stage 5 initialized - Fractured Escape begins");
         }
 
@@ -163,7 +163,7 @@ namespace OmegaSpiral.Stages.Stage5
         private void OnCountdownTick()
         {
             timeRemaining -= 1.0f;
-            
+
             if (timeRemaining <= 0)
             {
                 TriggerMemoryOverflow();
@@ -228,7 +228,7 @@ namespace OmegaSpiral.Stages.Stage5
             // Oscillating glitch effects
             float time = (float)Time.GetTicksMsec() / 1000.0f;
             float oscillation = Mathf.Sin(time * 3.0f) * 0.5f + 0.5f;
-            
+
             float activeIntensity = glitchIntensity * oscillation;
             glitchMaterial.SetShaderParameter("glitch_intensity", activeIntensity);
             glitchMaterial.SetShaderParameter("color_offset_intensity", activeIntensity * 0.5f);
@@ -237,7 +237,7 @@ namespace OmegaSpiral.Stages.Stage5
         private void IncreaseGlitchIntensity(float amount)
         {
             glitchIntensity = Mathf.Min(glitchIntensity + amount, 1.0f);
-            
+
             if (alarmLoop != null && glitchIntensity > 0.5f)
             {
                 alarmLoop.VolumeDb = Mathf.Lerp(-20.0f, -5.0f, (glitchIntensity - 0.5f) * 2.0f);
@@ -251,14 +251,14 @@ namespace OmegaSpiral.Stages.Stage5
             // Temporary intense glitch
             var tween = CreateTween();
             tween.TweenMethod(
-                Callable.From<float>(intensity => 
+                Callable.From<float>(intensity =>
                     glitchMaterial.SetShaderParameter("shake_intensity", intensity)),
                 0.0f,
                 0.3f,
                 0.1f
             );
             tween.TweenMethod(
-                Callable.From<float>(intensity => 
+                Callable.From<float>(intensity =>
                     glitchMaterial.SetShaderParameter("shake_intensity", intensity)),
                 0.3f,
                 0.0f,
@@ -271,7 +271,7 @@ namespace OmegaSpiral.Stages.Stage5
         private void TriggerCriticalWarning()
         {
             GD.Print("[EscapeHub] CRITICAL - Memory overflow imminent!");
-            
+
             if (speakerLabel != null && dialogueText != null)
             {
                 speakerLabel.Text = "⚠ CRITICAL ⚠";
@@ -280,7 +280,7 @@ namespace OmegaSpiral.Stages.Stage5
 
             // Spawn the Collector (Sweeper) enemy
             SpawnCollector();
-            
+
             // Max out glitch effects
             glitchIntensity = 0.8f;
         }
@@ -288,7 +288,7 @@ namespace OmegaSpiral.Stages.Stage5
         private void TriggerMemoryOverflow()
         {
             GD.Print("[EscapeHub] GAME OVER - Memory overflow occurred");
-            
+
             if (dialogueText != null)
             {
                 dialogueText.Text = "[color=red][wave]SYSTEM FAILURE - PLAYER INSTANCE TERMINATED[/wave][/color]";
@@ -301,7 +301,7 @@ namespace OmegaSpiral.Stages.Stage5
         private void SpawnCollector()
         {
             GD.Print("[EscapeHub] The Sweeper approaches - garbage collection initiated");
-            
+
             // TODO: Instantiate collector enemy scene
             // TODO: Play collector proximity audio
             // TODO: Start collector pursuit AI

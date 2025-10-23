@@ -3,42 +3,42 @@
     {
       "id": 1,
       "type": "narrative_terminal",
-      "path": "res://src/stages/stage_1_ghost/ghost.tscn",
+      "path": "res://source/stages/stage_1_ghost/ghost_start.tscn",
       "supportsThreads": true,
       "displayName": "Start Here: Ghost Terminal"
     },
     {
       "id": 2,
       "type": "ascii_dungeon_sequence",
-      "path": "res://src/stages/stage_2_nethack/nethack_main.tscn",
+      "path": "res://source/stages/stage_2_nethack/nethack_start.tscn",
       "supportsThreads": false,
       "displayName": "Start Here: Nethack"
     },
     {
       "id": 3,
       "type": "never_go_alone",
-      "path": "res://src/stages/stage_3/stage_3_main.tscn",
+      "path": "res://source/stages/stage_3_town/town_main_start.tscn",
       "supportsThreads": false,
       "displayName": "Start Here: Amnesia: Classic RPG"
     },
     {
       "id": 4,
       "type": "tile_dungeon",
-      "path": "res://src/stages/stage_4_party_selection/Stage4Main.tscn",
+      "path": "res://source/stages/stage_4_party_selection/mirror_selection_start.tscn",
       "supportsThreads": false,
       "displayName": "Start Here: Never Go Alone: Party Selection"
     },
     {
       "id": 5,
       "type": "liminal_township",
-      "path": "res://src/stages/stage_5/stage_5_main.tscn",
+      "path": "res://source/stages/stage_5_escape/escape_hub_start.tscn",
       "supportsThreads": false,
       "displayName": "Start Here: Fractured Escape"
     },
     {
       "id": 6,
       "type": "system_log_epilogue",
-      "path": "res://src/stages/stage_6_epilogue/system_log.tscn",
+      "path": "res://source/stages/stage_6_epilogue/epilog_start.tscn",
       "supportsThreads": false,
       "displayName": "Start Here: System Log Epilogue"
     }

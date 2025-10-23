@@ -82,8 +82,8 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon
         public DungeonInteractionResult ResolveInteraction(char glyph)
         {
             return this.interactiveObjects.TryGetValue(glyph, out var definition)
-                ? DungeonInteractionResult.FromDefinition(definition)
-                : DungeonInteractionResult.CreateNeutral(this.Owner);
+                ? DungeonInteractionResult.FromDefinition(glyph, definition)
+                : DungeonInteractionResult.CreateNeutral(glyph);
         }
 
         private static List<string> NormalizeMap(IReadOnlyList<string> mapRows)
