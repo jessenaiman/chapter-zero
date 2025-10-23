@@ -14,6 +14,13 @@ namespace OmegaSpiral.Source.Stages.Stage4;
 [GlobalClass]
 public partial class Stage4Main : Node2D
 {
+    /// <summary>
+    /// Emitted when a character is selected in the mirror selection.
+    /// </summary>
+    /// <param name="characterId">The selected character ID.</param>
+    [Signal]
+    public delegate void CharacterSelectedEventHandler(string characterId);
+
     private TownshipDialogueManager _dialogueManager = new();
     private DreamweaverSystem? _dreamweaverSystem;
     private Dictionary<string, Node2D> _dreamweaverPresences = new();

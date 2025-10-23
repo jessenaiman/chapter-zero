@@ -7,7 +7,6 @@ using static GdUnit4.Assertions;
 [TestSuite]
 public class MainMenuStageSelectionTests
 {
-    private string _test = "test";
 
     [TestCase]
     [RequireGodotRuntime]

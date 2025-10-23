@@ -17,7 +17,6 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public class ContentBlockIntegrationTests
 {
-    private string _test = "test";
 
     /// <summary>
     /// Tests that the stage's opening/boot scene loads successfully in the Godot runtime.

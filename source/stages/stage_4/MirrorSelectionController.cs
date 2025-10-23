@@ -127,7 +127,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
         private void OnCharacterButtonPressed(string characterId)
         {
             GD.Print($"Character button pressed: {characterId}");
-            this.EmitSignal(SignalName.CharacterSelected, characterId);
+            this.stageController?.EmitSignal(Stage4Main.SignalName.CharacterSelected, characterId);
         }
 
         private void OnConfirmPressed()

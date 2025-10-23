@@ -3,18 +3,18 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Stages.Stage2;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 
 /// <summary>
 /// Beat: Interlude Sequence scene handler.
 /// Loads interlude data from stage_2.json and displays dialogue with player choice options.
-/// Player selection updates the EchoAffinityTracker before advancing.
+/// Player selection updates stage affinity scores before advancing.
 /// </summary>
 [GlobalClass]
-public partial class BeatInterludeSequence : BeatSceneBase
+public partial class BeatInterludeSequence : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 
@@ -118,8 +118,8 @@ public partial class BeatInterludeSequence : BeatSceneBase
     {
         GD.Print($"[BeatInterludeSequence] Player selected: {option.Id} (alignment: {option.Alignment})");
 
-        // TODO: Update EchoAffinityTracker with the chosen alignment
-        // This will be wired in when tracker is available as a shared service
+        int points = option.Alignment == interlude.Owner ? 2 : 1;
+        AwardAffinity(option.Alignment, points);
 
         // Show approval banter
         if (option.Banter?.Approve != null)

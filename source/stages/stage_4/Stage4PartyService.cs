@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Scripts;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

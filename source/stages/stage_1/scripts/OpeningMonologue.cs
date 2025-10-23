@@ -22,7 +22,7 @@ public partial class OpeningMonologue : GhostTerminalUI
     {
         base._Ready();
 
-        ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
+        ApplyVisualPreset(GhostTerminalVisualPreset.StableBaseline);
 
         // Start the opening monologue
         await RunOpeningMonologueAsync();

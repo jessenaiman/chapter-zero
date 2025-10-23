@@ -32,7 +32,7 @@ public partial class BootSequence : GhostTerminalUI
         // Get reference to the Stage 1 controller
         _stage1Controller = GetNode<Stage1Controller>("/root/Stage1Controller");
 
-        ApplyVisualPreset(TerminalVisualPreset.BootSequence);
+        ApplyVisualPreset(GhostTerminalVisualPreset.BootSequence);
 
         // Enable input processing for user interaction
         SetProcessInput(true);
@@ -87,7 +87,7 @@ public partial class BootSequence : GhostTerminalUI
 
         // Animate dissolve effect
         await PixelDissolveAsync(1.8f).ConfigureAwait(false);
-        ApplyVisualPreset(TerminalVisualPreset.StableBaseline);
+        ApplyVisualPreset(GhostTerminalVisualPreset.StableBaseline);
 
         // TODO: Boss Critter - Audio Architecture Refactor
         // Mixing audio responsibilities with boot sequence violates separation of concerns.

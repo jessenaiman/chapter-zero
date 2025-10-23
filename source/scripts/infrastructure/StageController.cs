@@ -5,6 +5,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
 
@@ -21,6 +22,10 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure;
 [GlobalClass]
 public abstract partial class StageController : Node
 {
+    private const string StageControllerGroupName = "__stage_controller";
+
+    private readonly Dictionary<string, int> affinityScores = new(StringComparer.OrdinalIgnoreCase);
+
     private string? _currentSceneId;
     private int _currentSceneIndex = 0;
 
@@ -41,16 +46,6 @@ public abstract partial class StageController : Node
     protected StageManifest? StageManifest { get; private set; }
 
     /// <summary>
-    /// Gets the affinity scores accumulated during this stage.
-    /// Override in stages that track Dreamweaver affinity (Stages 2, 4).
-    /// </summary>
-    /// <returns>Dictionary of Dreamweaver type to score, or null if stage doesn't track affinity.</returns>
-    protected virtual IReadOnlyDictionary<string, int>? GetAffinityScores()
-    {
-        return null;
-    }
-
-    /// <summary>
     /// Called when the stage initializes. Override to perform stage-specific setup.
     /// </summary>
     /// <returns>A task that completes when initialization is done.</returns>
@@ -68,8 +63,7 @@ public abstract partial class StageController : Node
     protected virtual async Task OnStageCompleteAsync()
     {
         // Report affinity scores to GameState if this stage tracks them
-        var affinityScores = GetAffinityScores();
-        if (affinityScores != null && affinityScores.Count > 0)
+        if (affinityScores.Count > 0)
         {
             var gameState = GetNode<GameState>("/root/GameState");
             foreach (var (dreamweaverKey, points) in affinityScores)
@@ -84,6 +78,61 @@ public abstract partial class StageController : Node
         }
 
         await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Registers affinity points for a Dreamweaver/alignment within this stage.
+    /// </summary>
+    /// <param name="alignmentId">Identifier for the alignment/dreamweaver.</param>
+    /// <param name="points">Number of points to award (can be negative).</param>
+    internal void AwardAffinityScore(string alignmentId, int points)
+    {
+        if (string.IsNullOrWhiteSpace(alignmentId) || points == 0)
+        {
+            return;
+        }
+
+        if (!this.affinityScores.ContainsKey(alignmentId))
+        {
+            this.affinityScores[alignmentId] = 0;
+        }
+
+        this.affinityScores[alignmentId] += points;
+    }
+
+    /// <summary>
+    /// Clears recorded affinity scores. Called automatically when the stage is initialized.
+    /// </summary>
+    protected void ResetAffinityScores()
+    {
+        this.affinityScores.Clear();
+    }
+
+    /// <summary>
+    /// Gets a read-only view of the current affinity scores.
+    /// </summary>
+    /// <returns>Read-only dictionary of scores, or null if none recorded.</returns>
+    protected virtual IReadOnlyDictionary<string, int>? GetAffinityScores()
+    {
+        return this.affinityScores.Count > 0 ? this.affinityScores : null;
+    }
+
+    /// <summary>
+    /// Determines the leading alignment based on accumulated affinity points.
+    /// </summary>
+    /// <returns>The alignment identifier with the highest score, or null if none recorded.</returns>
+    protected string? DetermineAffinityLeader()
+    {
+        if (this.affinityScores.Count == 0)
+        {
+            return null;
+        }
+
+        return this.affinityScores
+            .OrderByDescending(kvp => kvp.Value)
+            .ThenBy(kvp => kvp.Key, StringComparer.OrdinalIgnoreCase)
+            .First()
+            .Key;
     }
 
     /// <summary>
@@ -159,7 +208,9 @@ public abstract partial class StageController : Node
             _currentSceneIndex++;
             await ExecuteSceneAsync(nextScene);
         }
-    }    /// <summary>
+    }
+
+    /// <summary>
     /// Transitions out of the stage to the next stage.
     /// </summary>
     /// <param name="nextStagePath">Path to the next stage's scene (e.g., "res://source/stages/echo_hub/echo_hub_main.tscn").</param>
@@ -181,9 +232,58 @@ public abstract partial class StageController : Node
         sceneManager.TransitionToScene(nextStagePath);
     }
 
+    /// <summary>
+    /// Transition to a specific scene id within this stage manifest.
+    /// </summary>
+    /// <param name="sceneId">Scene identifier from the manifest.</param>
+    protected async Task TransitionToSceneAsync(string sceneId)
+    {
+        if (StageManifest == null)
+        {
+            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
+            return;
+        }
+
+        var scene = StageManifest.GetScene(sceneId);
+        if (scene == null)
+        {
+            GD.PrintErr($"[StageController] Scene id not found in manifest: {sceneId}");
+            return;
+        }
+
+        await ExecuteSceneAsync(scene);
+    }
+
+    /// <summary>
+    /// Transition to the scene that follows the provided scene id.
+    /// Provided for compatibility with existing controllers that call TransitionToNextSceneAsync.
+    /// </summary>
+    protected async Task TransitionToNextSceneAsync(string currentSceneId)
+    {
+        if (StageManifest == null)
+        {
+            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
+            return;
+        }
+
+        var nextId = StageManifest.GetNextSceneId(currentSceneId);
+        if (string.IsNullOrEmpty(nextId))
+        {
+            GD.Print($"[StageController] No next scene after {currentSceneId}");
+            await OnStageCompleteAsync();
+            return;
+        }
+
+        await TransitionToSceneAsync(nextId);
+    }
+
     /// <inheritdoc/>
     public override async void _Ready()
     {
+        base._Ready();
+
+        AddToGroup(StageControllerGroupName);
+
         try
         {
             // Load stage manifest that defines scene order and properties
@@ -197,6 +297,8 @@ public abstract partial class StageController : Node
 
             GD.Print($"[StageController] Stage {StageId} initialized with {StageManifest.Scenes.Count} scenes");
 
+            ResetAffinityScores();
+
             // Call stage-specific initialization
             await OnStageInitializeAsync();
         }
@@ -204,5 +306,30 @@ public abstract partial class StageController : Node
         {
             GD.PrintErr($"[StageController] Error during stage initialization: {ex.Message}");
         }
+    }
+
+    /// <inheritdoc/>
+    public override void _ExitTree()
+    {
+        RemoveFromGroup(StageControllerGroupName);
+        base._ExitTree();
+    }
+
+    /// <summary>
+    /// Retrieves the active stage controller from the scene tree, if any.
+    /// </summary>
+    /// <param name="tree">The current scene tree.</param>
+    /// <returns>The active stage controller, or null if none registered.</returns>
+    internal static StageController? GetActiveController(SceneTree tree)
+    {
+        foreach (var node in tree.GetNodesInGroup(StageControllerGroupName))
+        {
+            if (node is StageController controller)
+            {
+                return controller;
+            }
+        }
+
+        return null;
     }
 }

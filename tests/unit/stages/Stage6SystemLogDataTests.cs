@@ -32,8 +32,8 @@ public class Stage6SystemLogDataTests
 
         var data = NarrativeSceneFactory.Create(payload);
 
-        AssertThat(data.OpeningLines.Count).IsGreaterThan(1);
-        AssertThat(data.StoryBlocks.Count).IsGreaterOrEqual(5);
+        AssertThat(data.OpeningLines.Count > 1).IsTrue();
+        AssertThat(data.StoryBlocks.Count >= 5).IsTrue();
 
         var thirdBlock = data.StoryBlocks[2];
         AssertThat(thirdBlock.Paragraphs[0]).StartsWith("[VISUAL");

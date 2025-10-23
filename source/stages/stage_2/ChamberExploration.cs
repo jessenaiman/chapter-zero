@@ -3,8 +3,8 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Scripts.Stages.Stage2;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 
@@ -15,7 +15,7 @@ namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 /// Subclasses (BeatChamberLight, BeatChamberShadow, BeatChamberAmbition) specify which chamber to display.
 /// </summary>
 [GlobalClass]
-public partial class BeatChamberExploration : BeatSceneBase
+public partial class BeatChamberExploration : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 
@@ -134,6 +134,9 @@ public partial class BeatChamberExploration : BeatSceneBase
     {
         GD.Print($"[BeatChamberExploration] Player interacted with {obj.Slot}");
 
+        int points = obj.Alignment == _chamberOwner ? 2 : 1;
+        AwardAffinity(obj.Alignment, points);
+
         // Show interaction log
         if (obj.InteractionLog != null && obj.InteractionLog.Count > 0)
         {
@@ -147,8 +150,6 @@ public partial class BeatChamberExploration : BeatSceneBase
             GD.Print($"[{obj.Banter.Approve.Speaker}] {obj.Banter.Approve.Line}");
         }
 
-        // TODO: Update EchoAffinityTracker with object alignment
-        // This will be wired in when tracker is available as a shared service
     }
 
     /// <summary>

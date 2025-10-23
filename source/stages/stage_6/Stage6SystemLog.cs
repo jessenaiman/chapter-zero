@@ -380,18 +380,18 @@ public partial class Stage6SystemLog : Control
 
         if (!string.IsNullOrWhiteSpace(this.narrativeData.ExitLine))
         {
-            await this.DisplayLineAsync(this.narrativeData.ExitLine).ConfigureAwait(false);
+            await this.DisplayLineAsync(this.narrativeData.ExitLine);
         }
 
-        await this.DisplayLineAsync("[center][i]Coming soon[/i][/center]").ConfigureAwait(false);
-        await this.DelayAsync(3.5f).ConfigureAwait(false);
+        await this.DisplayLineAsync("[center][i]Coming soon[/i][/center]");
+        await this.DelayAsync(3.5f);
         this.RestoreAllVolumes();
         this.sceneManager.TransitionToScene("res://source/ui/menus/main_menu.tscn", false);
     }
 
     private bool TryLoadNarrativeData()
     {
-        if (!FileAccess.FileExists(DataPath))
+        if (!Godot.FileAccess.FileExists(DataPath))
         {
             GD.PrintErr($"[Stage6SystemLog] Narrative file missing at {DataPath}");
             return false;
@@ -422,19 +422,19 @@ public partial class Stage6SystemLog : Control
         foreach (char character in text)
         {
             this.outputLabel.AppendText(character.ToString());
-            await this.DelayAsync(this.CharacterDelaySeconds).ConfigureAwait(false);
+            await this.DelayAsync(this.CharacterDelaySeconds);
         }
     }
 
-    private Task DelayAsync(float seconds)
+    private async Task DelayAsync(float seconds)
     {
         if (seconds <= 0f)
         {
-            return Task.CompletedTask;
+            return;
         }
 
         var timer = this.GetTree().CreateTimer(seconds);
-        return this.ToSignal(timer, Godot.Timer.SignalName.Timeout);
+        await this.ToSignal(timer, Godot.Timer.SignalName.Timeout);
     }
 
     private static string ExtractToken(string paragraph, string? key)

@@ -71,7 +71,7 @@ public partial class Question5Secret : GhostTerminalUI
 
     private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)
     {
-        ApplyVisualPreset(TerminalVisualPreset.SecretReveal);
+        ApplyVisualPreset(GhostTerminalVisualPreset.SecretReveal);
 
         foreach (string line in reveal.Lines)
         {

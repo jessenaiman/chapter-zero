@@ -3,7 +3,6 @@
 // </copyright>
 
 using Godot;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Scripts.Stages.Stage2;
@@ -19,7 +18,6 @@ namespace OmegaSpiral.Source.Stages.Stage2;
 public partial class EchoHub : StageController
 {
     private const string Stage2ManifestPath = "res://source/stages/stage_2/stage_2_manifest.json";
-    private readonly EchoAffinityTracker _affinityTracker = new();
 
     /// <inheritdoc/>
     protected override int StageId => 2;
@@ -28,13 +26,6 @@ public partial class EchoHub : StageController
     protected override string StageManifestPath => Stage2ManifestPath;
 
     /// <summary>
-    /// Gets the affinity scores accumulated during Echo Chamber.
-    /// </summary>
-    protected override IReadOnlyDictionary<string, int>? GetAffinityScores()
-    {
-        return _affinityTracker.GetAllScores();
-    }
-
     /// <summary>
     /// Emitted when the entire Echo Chamber stage completes.
     /// </summary>
@@ -54,7 +45,7 @@ public partial class EchoHub : StageController
     /// <inheritdoc/>
     protected override async Task OnStageCompleteAsync()
     {
-        var claimedDreamweaver = _affinityTracker.DetermineClaim();
+        string claimedDreamweaver = DetermineAffinityLeader() ?? "light";
         GD.Print($"[EchoHub] Stage 2 complete. Claimed by: {claimedDreamweaver}");
 
         // Report scores to GameState (handled by base class)
@@ -62,21 +53,5 @@ public partial class EchoHub : StageController
 
         // Emit stage-specific completion signal
         EmitSignal(SignalName.StageComplete, claimedDreamweaver);
-    }
-
-    /// <summary>
-    /// Records an interlude choice for affinity tracking.
-    /// </summary>
-    public void RecordInterludeChoice(string interludeOwner, string choiceId, string choiceAlignment)
-    {
-        _affinityTracker.RecordInterludeChoice(interludeOwner, choiceId, choiceAlignment);
-    }
-
-    /// <summary>
-    /// Records a chamber object interaction for affinity tracking.
-    /// </summary>
-    public void RecordChamberChoice(string chamberOwner, string objectSlot, string objectAlignment)
-    {
-        _affinityTracker.RecordChamberChoice(chamberOwner, objectSlot, objectAlignment);
     }
 }
