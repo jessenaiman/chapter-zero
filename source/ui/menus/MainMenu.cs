@@ -13,7 +13,7 @@ namespace OmegaSpiral.Ui.Menus
     public partial class MainMenu : Control
     {
         private ManifestLoader _manifestLoader = new();
-#pragma warning disable CA2213 // SceneManager is an autoload singleton, not owned by this node
+#pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
         private SceneManager? _sceneManager;
 #pragma warning restore CA2213
 

@@ -30,7 +30,7 @@ public partial class DungeonStageSignalTests
     public async Task StageEnteredSignal_EmittedWhenEnteringNewStage_SignalReceived()
     {
         // Arrange
-        var echoDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage2.EchoDungeon();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
         
         // Act - Simulate entering a stage
         var stageId = "test_stage_1";
@@ -38,10 +38,10 @@ public partial class DungeonStageSignalTests
         var map = new string[] { "####", "#  #", "####" };
         
         // This should emit the StageEntered signal
-        echoDungeon.EmitStageEntered(stageId, 0, owner, map);
+        dungeon.EmitStageEntered(stageId, 0, owner, map);
 
         // Assert - Wait for the signal to be emitted with correct parameters
-        await AssertSignal(echoDungeon)
+        await AssertSignal(dungeon)
             .IsEmitted("StageEntered")
             .WithTimeout(1000);
     }
@@ -58,14 +58,14 @@ public partial class DungeonStageSignalTests
     public async Task StageClearedSignal_EmittedWhenStageCompleted_SignalReceived()
     {
         // Arrange
-        var echoDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage2.EchoDungeon();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
         
         // Act - Simulate completing a stage
         var stageId = "test_stage_1";
-        echoDungeon.EmitStageCleared(stageId);
+        dungeon.EmitStageCleared(stageId);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(echoDungeon)
+        await AssertSignal(dungeon)
             .IsEmitted("StageCleared")
             .WithTimeout(1000);
     }
@@ -82,16 +82,16 @@ public partial class DungeonStageSignalTests
     public async Task InteractionResolvedSignal_EmittedWhenGlyphInteracted_SignalReceived()
     {
         // Arrange
-        var echoDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage2.EchoDungeon();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
         
         // Act - Simulate interacting with a glyph
         var glyph = 'X';
         var alignedTo = DreamweaverType.Mischief;
         var change = 2;
-        echoDungeon.EmitInteractionResolved(glyph, alignedTo, change);
+        dungeon.EmitInteractionResolved(glyph, alignedTo, change);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(echoDungeon)
+        await AssertSignal(dungeon)
             .IsEmitted("InteractionResolved")
             .WithTimeout(1000);
     }
@@ -108,15 +108,15 @@ public partial class DungeonStageSignalTests
     public async Task AffinityChangedSignal_EmittedWhenAffinityUpdated_SignalReceived()
     {
         // Arrange
-        var echoDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage2.EchoDungeon();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
         
         // Act - Simulate changing affinity
         var dwType = DreamweaverType.Wrath;
         var change = 3;
-        echoDungeon.EmitAffinityChanged(dwType, change);
+        dungeon.EmitAffinityChanged(dwType, change);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(echoDungeon)
+        await AssertSignal(dungeon)
             .IsEmitted("AffinityChanged")
             .WithTimeout(1000);
     }
@@ -133,14 +133,14 @@ public partial class DungeonStageSignalTests
     public async Task SequenceCompleteSignal_EmittedWhenSequenceFinished_SignalReceived()
     {
         // Arrange
-        var echoDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage2.EchoDungeon();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
         
         // Act - Simulate completing the sequence
         var finalScore = 42;
-        echoDungeon.EmitSequenceComplete(finalScore);
+        dungeon.EmitSequenceComplete(finalScore);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(echoDungeon)
+        await AssertSignal(dungeon)
             .IsEmitted("SequenceComplete")
             .WithTimeout(1000);
     }

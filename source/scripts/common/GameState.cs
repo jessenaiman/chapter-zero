@@ -294,7 +294,10 @@ public partial class GameState : Node
         this.SelectedDreamweaver = other.SelectedDreamweaver;
 
         this.Shards.Clear();
-        this.Shards.AddRange(other.Shards);
+        foreach (var shard in other.Shards)
+        {
+            this.Shards.Add(shard);
+        }
 
         this.SceneData.Clear();
         foreach (var kvp in other.SceneData)
@@ -308,12 +311,18 @@ public partial class GameState : Node
         }
 
         this.ChoiceHistory.Clear();
-        this.ChoiceHistory.AddRange(other.ChoiceHistory);
+        foreach (var choice in other.ChoiceHistory)
+        {
+            this.ChoiceHistory.Add(choice);
+        }
 
         this.PlayerParty = other.PlayerParty;
 
         this.NarratorQueue.Clear();
-        this.NarratorQueue.AddRange(other.NarratorQueue);
+        foreach (var message in other.NarratorQueue)
+        {
+            this.NarratorQueue.Add(message);
+        }
     }
 
     private static void LoadProgressState(Godot.Collections.Dictionary<string, Variant> gameStateData)

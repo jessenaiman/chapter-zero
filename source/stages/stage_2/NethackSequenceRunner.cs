@@ -1,11 +1,12 @@
+using System;
 using OmegaSpiral.Source.Scripts.domain.Dungeon;
 
-namespace OmegaSpiral.Source.Narrative
+namespace OmegaSpiral.Source.Stages.Stage2
 {
     /// <summary>
-    /// Coordinates progression through the ASCII dungeon sequence, publishing stage events and applying affinity changes.
+    /// Coordinates progression through the Nethack-inspired ASCII dungeon sequence, publishing stage events and applying affinity changes.
     /// </summary>
-    public sealed class AsciiDungeonSequenceRunner
+    public sealed class NethackSequenceRunner
     {
         private readonly AsciiDungeonSequence sequence;
         private readonly IDungeonEventPublisher publisher;
@@ -13,12 +14,12 @@ namespace OmegaSpiral.Source.Narrative
         private int currentStageIndex = -1;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AsciiDungeonSequenceRunner"/> class.
+        /// Initializes a new instance of the <see cref="NethackSequenceRunner"/> class.
         /// </summary>
         /// <param name="sequence">The aggregate containing validated stages.</param>
         /// <param name="publisher">The event publisher for stage notifications.</param>
         /// <param name="affinityService">The service that applies Dreamweaver affinity changes.</param>
-        public AsciiDungeonSequenceRunner(
+        public NethackSequenceRunner(
             AsciiDungeonSequence sequence,
             IDungeonEventPublisher publisher,
             IDreamweaverAffinityService affinityService)

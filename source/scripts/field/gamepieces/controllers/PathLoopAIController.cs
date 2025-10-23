@@ -181,7 +181,10 @@ public partial class PathLoopAIController : GamepieceController
                 pathSegment = pathSegment.Skip(1).ToList();
             }
 
-            this.MovePath.AddRange(pathSegment);
+            foreach (var cell in pathSegment)
+            {
+                this.MovePath.Add(cell);
+            }
         }
 
         // Connect the ending and starting cells to complete the loop
@@ -204,7 +207,10 @@ public partial class PathLoopAIController : GamepieceController
                 closingPath = closingPath.Skip(1).ToList();
             }
 
-            this.MovePath.AddRange(closingPath);
+            foreach (var cell in closingPath)
+            {
+                this.MovePath.Add(cell);
+            }
         }
 
         this.currentWaypointIndex = -1;

@@ -7,49 +7,49 @@
     {
       "id": "beat_1_interlude_light",
       "displayName": "Beat 1: Light's Choice",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/interlude_1.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_interlude_light.tscn",
       "nextSceneId": "beat_2_chamber_light",
       "description": "First interlude: Light presents a philosophical choice about truth and trust."
     },
     {
       "id": "beat_2_chamber_light",
       "displayName": "Beat 2: Light's Chamber",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/chamber_light.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_chamber_light.tscn",
       "nextSceneId": "beat_3_interlude_shadow",
       "description": "Exploration of Light's configured chamber with door, monster, and chest set pieces."
     },
     {
       "id": "beat_3_interlude_shadow",
       "displayName": "Beat 3: Shadow's Choice",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/interlude_2.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_interlude_shadow.tscn",
       "nextSceneId": "beat_4_chamber_shadow",
       "description": "Second interlude: Shadow presents a choice about chaos, glitches, and silence."
     },
     {
       "id": "beat_4_chamber_shadow",
       "displayName": "Beat 4: Shadow's Chamber",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/chamber_shadow.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_chamber_shadow.tscn",
       "nextSceneId": "beat_5_interlude_ambition",
       "description": "Exploration of Shadow's configured chamber with repositioned set pieces."
     },
     {
       "id": "beat_5_interlude_ambition",
       "displayName": "Beat 5: Ambition's Choice",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/interlude_3.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_interlude_ambition.tscn",
       "nextSceneId": "beat_6_chamber_ambition",
       "description": "Third interlude: Ambition presents a choice about leverage, silence, and power."
     },
     {
       "id": "beat_6_chamber_ambition",
       "displayName": "Beat 6: Ambition's Chamber",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/chamber_ambition.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_chamber_ambition.tscn",
       "nextSceneId": "beat_7_finale",
       "description": "Exploration of Ambition's configured chamber with aggressive set piece arrangement."
     },
     {
       "id": "beat_7_finale",
       "displayName": "Beat 7: The Claim",
-      "sceneFile": "res://source/stages/stage_2/beats/scenes/finale.tscn",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_finale.tscn",
       "nextSceneId": null,
       "description": "Finale: The Dreamweaver with highest affinity claims the shard and joins the party. Stage 2 complete."
     }

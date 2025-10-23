@@ -68,10 +68,10 @@
       "nextScene": "stage_2_echo_hub"
     },
     {
-      "id": "stage_2_echo_hub",
-      "displayName": "Stage 2: Echo Hub",
-      "sceneFile": "res://source/stages/stage_2/scenes/echo_hub.tscn",
-      "scriptClass": "EchoHub",
+      "id": "stage_2_nethack_hub",
+      "displayName": "Stage 2: Nethack Hub",
+      "sceneFile": "res://source/stages/stage_2/scenes/nethack_hub.tscn",
+      "scriptClass": "NethackHub",
       "description": "Transition to Stage 2",
       "isTerminal": true
     }

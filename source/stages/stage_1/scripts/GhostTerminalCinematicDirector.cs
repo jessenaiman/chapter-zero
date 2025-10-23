@@ -372,7 +372,10 @@ internal static class GhostTerminalCinematicDataExtensions
             Prompt = nameQuestion.Prompt
         };
 
-        question.Options.AddRange(nameQuestion.Options);
+        foreach (var option in nameQuestion.Options)
+        {
+            question.Options.Add(option);
+        }
 
         return question;
     }

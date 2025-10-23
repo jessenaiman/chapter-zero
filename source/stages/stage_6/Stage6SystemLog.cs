@@ -197,7 +197,10 @@ public partial class Stage6SystemLog : Control
 
         this.outputLabel.AppendText($"\n[center][b]{block.Question}[/b][/center]\n");
         this.activeChoices.Clear();
-        this.activeChoices.AddRange(block.Choices);
+        foreach (var choice in block.Choices)
+        {
+            this.activeChoices.Add(choice);
+        }
 
         for (int i = 0; i < block.Choices.Count; i++)
         {

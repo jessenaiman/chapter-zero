@@ -1,25 +1,27 @@
+using System;
+using System.Collections.Generic;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
-/// Loads and caches the data-driven plan for the Echo Chamber stage (Stage 2).
+/// Loads and caches the data-driven plan for the Stage 2 Nethack sequence.
 /// Mirrors <see cref="GhostTerminalCinematicDirector"/> but targets the dungeon alignment experience.
 /// </summary>
-public static class EchoChamberDirector
+public static class NethackDirector
 {
-    private const string DataPath = "res://source/stages/stage_2/stage2.json";
+    private const string DataPath = "res://source/stages/stage_2/stage_2.json";
     private const string SchemaPath = "res://source/data/schemas/echo_chamber_schema.json";
 
     private static readonly object SyncRoot = new();
-    private static EchoChamberPlan? cachedPlan;
+    private static NethackPlan? cachedPlan;
 
     /// <summary>
     /// Gets the immutable plan describing Stage 2. Loads and validates data on first access.
     /// </summary>
     /// <returns>The stage plan.</returns>
-    public static EchoChamberPlan GetPlan()
+    public static NethackPlan GetPlan()
     {
         if (cachedPlan != null)
         {
@@ -48,7 +50,7 @@ public static class EchoChamberDirector
         }
     }
 
-    private static EchoChamberPlan LoadPlan()
+    private static NethackPlan LoadPlan()
     {
         var config = ConfigurationService.LoadConfiguration(DataPath);
 
@@ -67,9 +69,9 @@ public static class EchoChamberDirector
         return BuildPlan(sceneData.EchoChamber);
     }
 
-    private static EchoChamberPlan BuildPlan(EchoChamberData data)
+    private static NethackPlan BuildPlan(EchoChamberData data)
     {
-        return new EchoChamberPlan(
+        return new NethackPlan(
             data.Metadata,
             new List<EchoChamberDreamweaver>(data.Dreamweavers),
             new List<EchoChamberInterlude>(data.Interludes),
@@ -86,7 +88,7 @@ public static class EchoChamberDirector
 /// <param name="Interludes">Ordered interludes that precede each chamber.</param>
 /// <param name="Chambers">The chamber payloads the player traverses.</param>
 /// <param name="Finale">Finale configuration for claim dialogue.</param>
-public sealed record EchoChamberPlan(
+public sealed record NethackPlan(
     EchoChamberMetadata Metadata,
     IReadOnlyList<EchoChamberDreamweaver> Dreamweavers,
     IReadOnlyList<EchoChamberInterlude> Interludes,

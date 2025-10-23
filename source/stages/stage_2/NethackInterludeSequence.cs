@@ -2,6 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+using System;
 using Godot;
 using OmegaSpiral.Source.Stages.Stage2;
 using OmegaSpiral.Source.Scripts.Infrastructure;
@@ -18,11 +19,14 @@ public partial class NethackInterludeSequence : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 
-#pragma warning disable CA2213
+#pragma warning disable CA2213 // _contentContainer is managed by Godot's scene tree
     private VBoxContainer? _contentContainer;
 #pragma warning restore CA2213
     private Stage2NarrativeData? _narrativeData;
     private int _interludeIndex; // 0, 1, or 2 for light, shadow, ambition interludes
+
+    [Export(PropertyHint.Range, "0,2,1")]
+    private int interludeIndex;
 
     /// <inheritdoc/>
     protected override string CurrentBeatId => $"beat_interlude_{_interludeIndex + 1}";
@@ -37,19 +41,21 @@ public partial class NethackInterludeSequence : SceneBase
     {
         if (index < 0 || index > 2)
         {
-            GD.PrintErr($"[BeatInterludeSequence] Invalid interlude index: {index}");
+            GD.PrintErr($"[NethackInterludeSequence] Invalid interlude index: {index}");
             return;
         }
 
         _interludeIndex = index;
+        interludeIndex = index;
     }
 
     /// <inheritdoc/>
     public override void _Ready()
     {
+        _interludeIndex = Math.Clamp(interludeIndex, 0, 2);
         base._Ready();
 
-        GD.Print($"[BeatInterludeSequence] Interlude {_interludeIndex + 1} started");
+        GD.Print($"[NethackInterludeSequence] Interlude {_interludeIndex + 1} started");
 
         // Load narrative data from JSON
         var loader = new NarrativeDataLoader();
@@ -57,13 +63,13 @@ public partial class NethackInterludeSequence : SceneBase
 
         if (_narrativeData == null)
         {
-            GD.PrintErr("[BeatInterludeSequence] Failed to load narrative data");
+            GD.PrintErr("[NethackInterludeSequence] Failed to load narrative data");
             return;
         }
 
         if (_narrativeData.Interludes == null || _narrativeData.Interludes.Count <= _interludeIndex)
         {
-            GD.PrintErr($"[BeatInterludeSequence] Interlude index {_interludeIndex} out of range");
+            GD.PrintErr($"[NethackInterludeSequence] Interlude index {_interludeIndex} out of range");
             return;
         }
 
@@ -72,7 +78,7 @@ public partial class NethackInterludeSequence : SceneBase
 
         if (_contentContainer == null)
         {
-            GD.PrintErr("[BeatInterludeSequence] ContentVBox not found in scene");
+            GD.PrintErr("[NethackInterludeSequence] ContentVBox not found in scene");
             return;
         }
 
@@ -116,7 +122,7 @@ public partial class NethackInterludeSequence : SceneBase
     /// </summary>
     private void OnOptionSelected(InterludeOption option, InterludeData interlude)
     {
-        GD.Print($"[BeatInterludeSequence] Player selected: {option.Id} (alignment: {option.Alignment})");
+        GD.Print($"[NethackInterludeSequence] Player selected: {option.Id} (alignment: {option.Alignment})");
 
         int points = option.Alignment == interlude.Owner ? 2 : 1;
         AwardAffinity(option.Alignment, points);
@@ -129,7 +135,7 @@ public partial class NethackInterludeSequence : SceneBase
 
         // TODO: In a full implementation, we'd display the banter and wait before advancing
 
-        GD.Print("[BeatInterludeSequence] Interlude complete, advancing to next beat");
+        GD.Print("[NethackInterludeSequence] Interlude complete, advancing to next beat");
         TransitionToNextBeat();
     }
 }

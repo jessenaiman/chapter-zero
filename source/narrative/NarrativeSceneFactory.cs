@@ -239,7 +239,10 @@ namespace OmegaSpiral.Source.Narrative
             if (dict.TryGetValue("options", out var optionsVar) &&
                 optionsVar.VariantType == Variant.Type.Array)
             {
-                question.Options.AddRange(ExtractStringList(optionsVar.AsGodotArray()));
+                foreach (var option in ExtractStringList(optionsVar.AsGodotArray()))
+                {
+                    question.Options.Add(option);
+                }
             }
 
             return question;

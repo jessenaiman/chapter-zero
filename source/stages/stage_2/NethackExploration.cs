@@ -3,13 +3,13 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Stages.Stage2;
 using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Stages.Stage2;
 
 namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 
 /// <summary>
-/// Beat: Chamber Exploration base scene handler.
+/// Beat: Nethack chamber exploration base handler.
 /// Loads chamber data from stage_2.json and displays the dungeon layout with set pieces.
 /// Player can interact with door, monster, and chest objects.
 /// Subclasses (NethackLight, NethackShadow, NethackAmbition) specify which chamber to display.
@@ -19,7 +19,7 @@ public partial class NethackExploration : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 
-#pragma warning disable CA2213
+#pragma warning disable CA2213 // _contentContainer is managed by Godot's scene tree
     private VBoxContainer? _contentContainer;
 #pragma warning restore CA2213
     private Stage2NarrativeData? _narrativeData;

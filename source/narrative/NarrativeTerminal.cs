@@ -203,7 +203,7 @@ namespace OmegaSpiral.Source.Scripts
                     option.Description ??= string.Empty;
                 }
 
-                this.threadChoices = data.InitialChoice.Options;
+                this.threadChoices = new List<DreamweaverChoice>(data.InitialChoice.Options);
             }
             else
             {
@@ -305,7 +305,7 @@ namespace OmegaSpiral.Source.Scripts
 
                 if (block.Choices.Count > 0)
                 {
-                    this.activeChoices = (IReadOnlyList<ChoiceOption>) block.Choices;
+                    this.activeChoices = new List<ChoiceOption>(block.Choices);
                     for (int i = 0; i < block.Choices.Count; i++)
                     {
                         this.DisplayImmediate($"  {i + 1}. {block.Choices[i].Text}");

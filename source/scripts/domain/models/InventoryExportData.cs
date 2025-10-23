@@ -604,7 +604,10 @@ namespace OmegaSpiral.Domain.Models
                 Source = this.Source,
             };
 
-            clone.ItemIds.AddRange(this.ItemIds);
+            foreach (var itemId in this.ItemIds)
+            {
+                clone.ItemIds.Add(itemId);
+            }
 
             foreach (var kvp in this.ItemQuantities)
             {
