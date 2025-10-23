@@ -105,13 +105,8 @@ public partial class NarratorEngine : Node
         this.isProcessing = false;
     }
 
-    /// <summary>
-    /// Simulates the typewriter effect by breaking text into smaller chunks.
-    /// </summary>
-    /// <param name="text">The text to break into chunks.</param>
-    /// <param name="chunkSize">The maximum size of each chunk (default 10).</param>
-    /// <returns>A list of text chunks.</returns>
-        public static System.Collections.Generic.ICollection<string> BreakTextIntoChunks(string text, int chunkSize = 10)
+    // Simulates the typewriter effect by breaking text into smaller chunks.
+    public static System.Collections.Generic.ICollection<string> BreakTextIntoChunks(string text, int chunkSize = 10)
     {
         var chunks = new List<string>();
         if (string.IsNullOrEmpty(text))

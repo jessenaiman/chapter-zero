@@ -3,7 +3,7 @@ using OmegaSpiral.Source.Scripts.Infrastructure;
 
 #nullable enable
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
+namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
 /// Loads and caches the Stage 3 Echo Vault data.

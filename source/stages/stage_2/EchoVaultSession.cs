@@ -1,6 +1,6 @@
 using OmegaSpiral.Source.Narrative;
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
+namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
 /// Holds run state for the Echo Vault stage across scene transitions.

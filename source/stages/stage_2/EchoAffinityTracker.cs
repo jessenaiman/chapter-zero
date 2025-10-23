@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Maintains scoring rules: +2 for harmony (owner alignment), +1 for cross-alignment.
 /// Immutable once final determination is made.
 /// </summary>
-public sealed class EchoAffinityTracker
+public partial class EchoAffinityTracker
 {
     private readonly Dictionary<string, int> scores = new()
     {

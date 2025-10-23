@@ -1,14 +1,13 @@
+using System;
 using Godot;
 using GdUnit4;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.UI.Terminal;
 using static GdUnit4.Assertions;
 
-/// <summary>
-/// Tests for the TerminalWindow class.
-/// Verifies that terminal window components are properly initialized and functional
-/// in the refactored component-based UI architecture.
-/// </summary>
+// Tests for the TerminalWindow class.
+// Verifies that terminal window components are properly initialized and functional
+// in the refactored component-based UI architecture.
 [TestSuite]
 [RequireGodotRuntime]
 public partial class TerminalWindowTests_New : Node
@@ -185,14 +184,21 @@ public partial class TerminalWindowTests_New : Node
         AssertThat(_terminalWindow.AnchorBottom).IsEqual(0.9f);
     }
 
-    /// <summary>
-    /// Disposes the test resources.
-    /// </summary>
+    // Disposes the test resources.
     public override void _Notification(int what)
     {
         if (what == NotificationPredelete)
         {
             _terminalWindow?.QueueFree();
         }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _terminalWindow?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 }

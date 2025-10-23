@@ -7,13 +7,15 @@ using static GdUnit4.Assertions;
 [TestSuite]
 public class MainMenuStageSelectionTests
 {
+    private string _test = "test";
+
     [TestCase]
     [RequireGodotRuntime]
     public static async Task StageSelectMenu_LoadsAndProvidesStageButtons()
     {
         // Load the stage select menu scene via SceneRunner
         using var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         // Basic assertions that the scene runner and expected buttons are present
         AssertThat(runner).IsNotNull();
@@ -31,12 +33,12 @@ public class MainMenuStageSelectionTests
     public static async Task Stage1Button_Press_InvokesStageSelection()
     {
         using var runner = ISceneRunner.Load("res://source/ui/menus/stage_select_menu.tscn");
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         // Simulate a press on the Stage1Button by emitting its 'pressed' signal.
         // If the StageSelectMenu wiring is missing or the method throws, this test will fail.
         runner.Invoke("Center/MenuVBox/MenuButtonsMargin/MenuButtonsContainer/StagesPanel/Stage1Button", "EmitSignal", Variant.From("pressed"));
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
 
         // At minimum ensure the runner still exists and scene processed the input.
         AssertThat(runner).IsNotNull();
