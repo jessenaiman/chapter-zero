@@ -29,7 +29,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
@@ -57,7 +57,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
@@ -85,7 +85,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
@@ -115,7 +115,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
@@ -144,7 +144,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();
@@ -173,7 +173,7 @@ public partial class MainMenuLayoutTests
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
         AssertThat(stageSelectMenu).IsNotNull();

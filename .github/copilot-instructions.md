@@ -13,6 +13,24 @@
 - **Backend Language**: C# 14
 
 ## Rules
+
+## XML Documentation Rules
+
+- Public members should be documented with XML comments.
+- It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
+- Use `<summary>` for method descriptions. This should be a brief overview of what the method does.
+- Use `<param>` for method parameters.
+- Use `<paramref>` to reference parameters in documentation.
+- Use `<returns>` for method return values.
+- Use `<exception>` to document exceptions thrown by methods.
+- Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
+- Use `<inheritdoc/>` to inherit documentation from base classes or interfaces.
+  - Unless there is major behavior change, in which case you should document the differences.
+- Use `<typeparam>` for type parameters in generic types or methods.
+- Use `<typeparamref>` to reference type parameters in documentation.
+- Use `<c>` for inline code snippets.
+- Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
+
 - use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
 - a clean project is your responsibility
 - Do not alter config files, only show in chat the settings to change with examples I can copy
@@ -77,23 +95,6 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
 
 **FIX EVERYTHING**
-
-## XML Documentation Rules
-
-- Public members should be documented with XML comments.
-- It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
-- Use `<summary>` for method descriptions. This should be a brief overview of what the method does.
-- Use `<param>` for method parameters.
-- Use `<paramref>` to reference parameters in documentation.
-- Use `<returns>` for method return values.
-- Use `<exception>` to document exceptions thrown by methods.
-- Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
-- Use `<inheritdoc/>` to inherit documentation from base classes or interfaces.
-  - Unless there is major behavior change, in which case you should document the differences.
-- Use `<typeparam>` for type parameters in generic types or methods.
-- Use `<typeparamref>` to reference type parameters in documentation.
-- Use `<c>` for inline code snippets.
-- Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
 
 ## **Omega Spiral - Chapter Zero**
 

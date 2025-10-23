@@ -4220,7 +4220,6 @@
         }
       },
       "warningProperties": {
-        "allWarningsAsErrors": true,
         "noWarn": [
           "NU1605"
         ],

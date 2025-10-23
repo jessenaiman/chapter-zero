@@ -134,7 +134,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         {
             // Arrange
             var choices = new List<string> { "Choice 1", "Choice 2" };
-            await _presenter.PresentChoicesAsync(choices);
+            await _presenter.PresentChoicesAsync(choices).ConfigureAwait(false);
 
             // Act
             _presenter.HideChoices();

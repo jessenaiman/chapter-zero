@@ -27,7 +27,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task Test1_BorderWidthsAreSetOnAllSides()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         // Get TerminalFrame and its stylebox directly from the scene
@@ -54,7 +54,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task Test2_StyleboxIsAssignedToCorrectNode()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -77,7 +77,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task Test3_BorderColorIsNotBlackOrTransparent()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -107,7 +107,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task Test4_CSharpRuntimeDoesNotClearBorders()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(3);  // Extra frames to let _Ready() complete
+        await runner.SimulateFrames(3).ConfigureAwait(false);  // Extra frames to let _Ready() complete
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -134,7 +134,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task Test5_TerminalFrameSizeAllowsBorderVisibility()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var viewport = root.GetViewport();
@@ -172,7 +172,7 @@ public partial class TerminalBorderDiagnosticsTests : Node
     public async Task BonusTest_RenderedBorderIsVisible()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(3);
+        await runner.SimulateFrames(3).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");

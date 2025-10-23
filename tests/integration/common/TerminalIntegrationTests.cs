@@ -89,13 +89,13 @@ public partial class TerminalIntegrationTests
     public async void ShaderAndText_InteractWithoutInterference()
     {
         // Apply a visual preset
-        await _shaderController!.ApplyVisualPresetAsync("phosphor");
+        await _shaderController!.ApplyVisualPresetAsync("phosphor").ConfigureAwait(false);
 
         // Verify shader was applied (material exists)
         AssertObject(_shaderController!.GetCurrentShaderMaterial()).IsNotNull();
 
         // Display text
-        await _textRenderer!.AppendTextAsync("Test message");
+        await _textRenderer!.AppendTextAsync("Test message").ConfigureAwait(false);
 
         // Verify text was displayed
         AssertString(_textRenderer.GetCurrentText()).Contains("Test message");
@@ -112,7 +112,7 @@ public partial class TerminalIntegrationTests
     public async void TextAndChoice_SequenceProperly()
     {
         // Display initial text
-        await _textRenderer!.AppendTextAsync("Choose your path:");
+        await _textRenderer!.AppendTextAsync("Choose your path:").ConfigureAwait(false);
 
         // Show choices
         var choices = new List<ChoiceOption>
@@ -131,7 +131,7 @@ public partial class TerminalIntegrationTests
         var selectedIndex = 0; // Simulate selection
 
         // Complete the choice task
-        await choiceTask;
+        await choiceTask.ConfigureAwait(false);
 
         // Verify choice was selected
         AssertInt(_choicePresenter!.GetSelectedChoiceIndex()).IsEqual(selectedIndex);
@@ -145,11 +145,11 @@ public partial class TerminalIntegrationTests
     public async void FullTerminalWorkflow_CompletesSuccessfully()
     {
         // Step 1: Apply visual effect
-        await _shaderController!.ApplyVisualPresetAsync("glitch");
+        await _shaderController!.ApplyVisualPresetAsync("glitch").ConfigureAwait(false);
 
         // Step 2: Display narrative text
-        await _textRenderer!.AppendTextAsync("Welcome to the terminal.");
-        await _textRenderer!.AppendTextAsync("Make your choice:");
+        await _textRenderer!.AppendTextAsync("Welcome to the terminal.").ConfigureAwait(false);
+        await _textRenderer!.AppendTextAsync("Make your choice:").ConfigureAwait(false);
 
         // Step 3: Present choices
         var choices = new List<ChoiceOption>
@@ -164,7 +164,7 @@ public partial class TerminalIntegrationTests
         _choicePresenter!.SetChoiceNavigationEnabled(true);
         // In a real scenario, this would wait for user input
         // For testing, we complete the task manually
-        await choiceTask;
+        await choiceTask.ConfigureAwait(false);
 
         // Step 5: Verify final state
         AssertBool(_choicePresenter!.AreChoicesVisible()).IsTrue();
@@ -206,7 +206,7 @@ public partial class TerminalIntegrationTests
         });
 
         // Wait for all to complete
-        await Task.WhenAll(shaderTask, textTask, choiceTask);
+        await Task.WhenAll(shaderTask, textTask, choiceTask).ConfigureAwait(false);
 
         // Verify all operations succeeded
         AssertObject(_shaderController!.GetCurrentShaderMaterial()).IsNotNull();

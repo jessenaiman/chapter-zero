@@ -27,7 +27,7 @@ public partial class UITestHarnessScreenshotTests : Node
     public async Task UITestHarness_CaptureScreenshot_SavesImage()
     {
         using ISceneRunner runner = ISceneRunner.Load(HarnessScenePath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
 
         var harnessPanel = runner.Scene() as UITestHarness;
         AssertThat(harnessPanel).IsNotNull();

@@ -23,7 +23,7 @@ public partial class BackgroundViewportFillTests : Node
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(TerminalWindowPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         var root = runner.Scene();
         var viewport = root.GetViewport();

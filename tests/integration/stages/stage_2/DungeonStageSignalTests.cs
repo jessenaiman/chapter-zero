@@ -30,7 +30,7 @@ public partial class DungeonStageSignalTests
     public async Task StageEnteredSignal_EmittedWhenEnteringNewStage_SignalReceived()
     {
         // Arrange
-        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
         
         // Act - Simulate entering a stage
         var stageId = "test_stage_1";
@@ -43,7 +43,8 @@ public partial class DungeonStageSignalTests
         // Assert - Wait for the signal to be emitted with correct parameters
         await AssertSignal(dungeon)
             .IsEmitted("StageEntered")
-            .WithTimeout(1000);
+            .WithTimeout(1000)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -58,7 +59,7 @@ public partial class DungeonStageSignalTests
     public async Task StageClearedSignal_EmittedWhenStageCompleted_SignalReceived()
     {
         // Arrange
-        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
         
         // Act - Simulate completing a stage
         var stageId = "test_stage_1";
@@ -67,7 +68,8 @@ public partial class DungeonStageSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(dungeon)
             .IsEmitted("StageCleared")
-            .WithTimeout(1000);
+            .WithTimeout(1000)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -82,7 +84,7 @@ public partial class DungeonStageSignalTests
     public async Task InteractionResolvedSignal_EmittedWhenGlyphInteracted_SignalReceived()
     {
         // Arrange
-        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
         
         // Act - Simulate interacting with a glyph
         var glyph = 'X';
@@ -93,7 +95,8 @@ public partial class DungeonStageSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(dungeon)
             .IsEmitted("InteractionResolved")
-            .WithTimeout(1000);
+            .WithTimeout(1000)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -108,7 +111,7 @@ public partial class DungeonStageSignalTests
     public async Task AffinityChangedSignal_EmittedWhenAffinityUpdated_SignalReceived()
     {
         // Arrange
-        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
         
         // Act - Simulate changing affinity
         var dwType = DreamweaverType.Wrath;
@@ -118,7 +121,8 @@ public partial class DungeonStageSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(dungeon)
             .IsEmitted("AffinityChanged")
-            .WithTimeout(1000);
+            .WithTimeout(1000)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -133,7 +137,7 @@ public partial class DungeonStageSignalTests
     public async Task SequenceCompleteSignal_EmittedWhenSequenceFinished_SignalReceived()
     {
         // Arrange
-        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackExploration();
+        var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
         
         // Act - Simulate completing the sequence
         var finalScore = 42;
@@ -142,6 +146,7 @@ public partial class DungeonStageSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(dungeon)
             .IsEmitted("SequenceComplete")
-            .WithTimeout(1000);
+            .WithTimeout(1000)
+            .ConfigureAwait(false);
     }
 }

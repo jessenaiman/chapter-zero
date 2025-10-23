@@ -159,13 +159,13 @@ public partial class Stage2MenuIntegrationTests
 
         // Assert
         AssertThat(interludeScene).IsNotNull();
-        AssertThat(interludeScene!.SceneFile).Contains("interlude_1.tscn");
+        AssertThat(interludeScene!.SceneFile).Contains("nethack_interlude_light.tscn");
 
         AssertThat(chamberScene).IsNotNull();
-        AssertThat(chamberScene!.SceneFile).Contains("chamber_light.tscn");
+        AssertThat(chamberScene!.SceneFile).Contains("nethack_chamber_light.tscn");
 
         AssertThat(finaleScene).IsNotNull();
-        AssertThat(finaleScene!.SceneFile).Contains("finale.tscn");
+        AssertThat(finaleScene!.SceneFile).Contains("nethack_finale.tscn");
     }
 
     /// <summary>

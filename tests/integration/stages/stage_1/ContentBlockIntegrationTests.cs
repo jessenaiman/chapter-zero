@@ -15,7 +15,7 @@ using static GdUnit4.Assertions;
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public class ContentBlockIntegrationTests
+public static class ContentBlockIntegrationTests
 {
 
     /// <summary>
@@ -62,13 +62,13 @@ public class ContentBlockIntegrationTests
     public static async Task AllStage1ScenesLoadConcurrently()
     {
         var runnerBoot = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
-        await runnerBoot.SimulateFrames(1);
+        await runnerBoot.SimulateFrames(1).ConfigureAwait(false);
 
         var runnerOpening = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
-        await runnerOpening.SimulateFrames(1);
+        await runnerOpening.SimulateFrames(1).ConfigureAwait(false);
 
         var runnerQuestion = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
-        await runnerQuestion.SimulateFrames(1);
+        await runnerQuestion.SimulateFrames(1).ConfigureAwait(false);
 
         AssertThat(runnerBoot).IsNotNull();
         AssertThat(runnerOpening).IsNotNull();

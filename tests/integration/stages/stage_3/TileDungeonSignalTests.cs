@@ -31,7 +31,7 @@ public partial class TileDungeonSignalTests
     {
         // Arrange
         var tileDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage4.TileDungeon();
-        
+
         // Act - Simulate player movement
         var newPosition = new Vector2I(5, 3);
         var previousPosition = new Vector2I(4, 3);
@@ -40,7 +40,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted with correct parameters
         await AssertSignal(tileDungeon)
             .IsEmitted("PlayerMoved")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public partial class TileDungeonSignalTests
     {
         // Arrange
         var tileDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage4.TileDungeon();
-        
+
         // Act - Simulate enemy encounter
         var enemyType = "Goblin";
         var position = new Vector2I(8, 7);
@@ -65,7 +65,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("EnemyEncountered")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class TileDungeonSignalTests
     {
         // Arrange
         var tileDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage4.TileDungeon();
-        
+
         // Act - Simulate item discovery
         var itemType = "Potion";
         var position = new Vector2I(2, 9);
@@ -90,7 +90,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("ItemFound")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public partial class TileDungeonSignalTests
     {
         // Arrange
         var tileDungeon = new OmegaSpiral.Source.Scripts.Stages.Stage4.TileDungeon();
-        
+
         // Act - Simulate health change
         var newHealth = 45;
         var maxHealth = 100;
@@ -115,7 +115,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("PlayerHealthChanged")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 }
 
@@ -140,7 +140,7 @@ public partial class FieldCombatSignalTests
     {
         // Arrange
         var fieldCombat = new OmegaSpiral.Source.Scripts.Stages.Stage4.FieldCombat();
-        
+
         // Act - Simulate combat round start
         var roundNumber = 3;
         fieldCombat.EmitCombatRoundStarted(roundNumber);
@@ -148,7 +148,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("CombatRoundStarted")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public partial class FieldCombatSignalTests
     {
         // Arrange
         var fieldCombat = new OmegaSpiral.Source.Scripts.Stages.Stage4.FieldCombat();
-        
+
         // Act - Simulate player action selection
         var actionType = "attack";
         var target = "enemy_1";
@@ -173,7 +173,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("PlayerActionSelected")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public partial class FieldCombatSignalTests
     {
         // Arrange
         var fieldCombat = new OmegaSpiral.Source.Scripts.Stages.Stage4.FieldCombat();
-        
+
         // Act - Simulate attack execution
         var attacker = "player";
         var defender = "goblin";
@@ -199,7 +199,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("AttackExecuted")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -215,7 +215,7 @@ public partial class FieldCombatSignalTests
     {
         // Arrange
         var fieldCombat = new OmegaSpiral.Source.Scripts.Stages.Stage4.FieldCombat();
-        
+
         // Act - Simulate combat completion
         var outcome = "victory";
         var victor = "player";
@@ -224,6 +224,6 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("CombatCompleted")
-            .WithTimeout(1000);
+            .WithTimeout(1000).ConfigureAwait(false);
     }
 }

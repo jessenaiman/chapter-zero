@@ -56,11 +56,11 @@ namespace OmegaSpiral.Tests.Unit.Persistence
             var gameState = new GameState();
 
             // Act
-            var result = await manager!.SaveGameAsync(gameState, "test_slot");
+            var result = await manager!.SaveGameAsync(gameState, "test_slot").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot").ConfigureAwait(false);
             AssertThat(saved).IsNotNull();
         }
 
@@ -73,15 +73,15 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         {
             // Arrange
             var gameState = new GameState();
-            await manager!.SaveGameAsync(gameState, "test_slot");
+            await manager!.SaveGameAsync(gameState, "test_slot").ConfigureAwait(false);
             gameState.CurrentScene = 2;
 
             // Act
-            var result = await manager!.SaveGameAsync(gameState, "test_slot");
+            var result = await manager!.SaveGameAsync(gameState, "test_slot").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot").ConfigureAwait(false);
             AssertThat(saved).IsNotNull();
 
             // Note: Actual update logic depends on implementation
@@ -96,10 +96,10 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         {
             // Arrange
             var gameState = new GameState();
-            await manager!.SaveGameAsync(gameState, "test_slot");
+            await manager!.SaveGameAsync(gameState, "test_slot").ConfigureAwait(false);
 
             // Act
-            var result = await manager!.LoadGameAsync("test_slot");
+            var result = await manager!.LoadGameAsync("test_slot").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsNotNull();
@@ -113,7 +113,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         public async Task LoadgameasyncNonexistingsaveReturnsnull()
         {
             // Act
-            var result = await manager!.LoadGameAsync("non_existing");
+            var result = await manager!.LoadGameAsync("non_existing").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsNull();
@@ -127,11 +127,11 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         public async Task GetavailablesaveslotsasyncReturnslist()
         {
             // Arrange
-            await manager!.SaveGameAsync(new GameState(), "slot1");
-            await manager!.SaveGameAsync(new GameState(), "slot2");
+            await manager!.SaveGameAsync(new GameState(), "slot1").ConfigureAwait(false);
+            await manager!.SaveGameAsync(new GameState(), "slot2").ConfigureAwait(false);
 
             // Act
-            var result = await manager!.GetAvailableSaveSlotsAsync();
+            var result = await manager!.GetAvailableSaveSlotsAsync().ConfigureAwait(false);
 
             // Assert
             AssertThat(result).Contains("slot1").Contains("slot2");
@@ -145,14 +145,14 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         public async Task DeletesaveslotasyncExistingslotReturnstrue()
         {
             // Arrange
-            await manager!.SaveGameAsync(new GameState(), "test_slot");
+            await manager!.SaveGameAsync(new GameState(), "test_slot").ConfigureAwait(false);
 
             // Act
-            var result = await manager!.DeleteSaveSlotAsync("test_slot");
+            var result = await manager!.DeleteSaveSlotAsync("test_slot").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsTrue();
-            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot");
+            var saved = await context!.GameSaves!.FirstOrDefaultAsync(gs => gs.SaveSlot == "test_slot").ConfigureAwait(false);
             AssertThat(saved).IsNull();
         }
 
@@ -163,7 +163,7 @@ namespace OmegaSpiral.Tests.Unit.Persistence
         public async Task DeletesaveslotasyncNonexistingslotReturnsfalse()
         {
             // Act
-            var result = await manager!.DeleteSaveSlotAsync("non_existing");
+            var result = await manager!.DeleteSaveSlotAsync("non_existing").ConfigureAwait(false);
 
             // Assert
             AssertThat(result).IsFalse();

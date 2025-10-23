@@ -31,7 +31,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task TerminalFrame_HasVisibleBorder()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -68,7 +68,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task TerminalFrame_ShouldBeCenteredHorizontally()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -96,7 +96,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task TerminalFrame_ShouldBeCenteredVertically()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -124,7 +124,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task TerminalFrame_ShouldBeCompletelyVisibleInViewport()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
@@ -154,7 +154,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task Bezel_FillsViewportWithBackground()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
         var viewport = root.GetViewport();
@@ -183,7 +183,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task MainLayout_FillsBezelContainer()
     {
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(2);
+        await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
         var bezel = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel");
@@ -215,7 +215,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         var root = runner.Scene();
 
@@ -245,7 +245,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     {
         // Arrange
         using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
 
         var root = runner.Scene();
 

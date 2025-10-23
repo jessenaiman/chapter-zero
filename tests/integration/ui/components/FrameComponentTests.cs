@@ -49,7 +49,7 @@ public partial class FrameComponentTests : UiScreenshotTestBase
     public async Task Frame_HasRedBorder()
     {
         using ISceneRunner runner = ISceneRunner.Load(FramePath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
         var framePanel = root as Panel;
@@ -76,7 +76,7 @@ public partial class FrameComponentTests : UiScreenshotTestBase
     public async Task Frame_HasCorrectBorderWidth()
     {
         using ISceneRunner runner = ISceneRunner.Load(FramePath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
         var framePanel = root as Panel;
@@ -99,7 +99,7 @@ public partial class FrameComponentTests : UiScreenshotTestBase
     public async Task Frame_HasTransparentBackground()
     {
         using ISceneRunner runner = ISceneRunner.Load(FramePath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
         var framePanel = root as Panel;
@@ -120,7 +120,7 @@ public partial class FrameComponentTests : UiScreenshotTestBase
     public async Task Frame_HasContentAreaPlaceholder()
     {
         using ISceneRunner runner = ISceneRunner.Load(FramePath);
-        await runner.SimulateFrames(1);
+        await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
         var contentArea = root.GetNodeOrNull<Control>("ContentArea");
