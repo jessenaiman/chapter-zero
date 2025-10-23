@@ -1,0 +1,384 @@
+[gd_scene load_steps=15 format=3 uid="uid://stage5_escape_hub"]
+
+[ext_resource type="Script" path="res://source/stages/stage_5_escape/EscapeHubController.cs" id="1"]
+[ext_resource type="Shader" path="res://source/shaders/crt_glitch.gdshader" id="2"]
+[ext_resource type="Shader" path="res://source/shaders/crt_phosphor.gdshader" id="3"]
+
+[sub_resource type="ShaderMaterial" id="glitch_material"]
+shader = ExtResource("2")
+shader_parameter/glitch_intensity = 0.0
+shader_parameter/scan_line_amount = 0.5
+shader_parameter/color_offset_intensity = 0.0
+shader_parameter/shake_intensity = 0.0
+
+[sub_resource type="ShaderMaterial" id="phosphor_material"]
+shader = ExtResource("3")
+shader_parameter/phosphor_decay = 0.95
+shader_parameter/glow_intensity = 0.3
+shader_parameter/scanline_opacity = 0.15
+
+[sub_resource type="Gradient" id="danger_gradient"]
+offsets = PackedFloat32Array(0.0, 0.5, 1.0)
+colors = PackedColorArray(1, 0, 0, 0.8, 1, 0.5, 0, 0.6, 1, 1, 0, 0.4)
+
+[sub_resource type="GradientTexture2D" id="danger_texture"]
+gradient = SubResource("danger_gradient")
+width = 1024
+height = 768
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Curve" id="particle_curve"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 0, 0]
+
+[sub_resource type="ParticleProcessMaterial" id="glitch_particles"]
+emission_shape = 3
+emission_box_extents = Vector3(500, 400, 1)
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 45.0
+gravity = Vector3(0, 50, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+scale_curve = SubResource("particle_curve")
+color = Color(0, 0.8, 1, 0.6)
+hue_variation_min = -0.2
+hue_variation_max = 0.2
+
+[sub_resource type="Animation" id="countdown_pulse"]
+resource_name = "countdown_pulse"
+length = 1.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/CountdownContainer/CountdownLabel:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(2, 0.5, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/CountdownContainer/CountdownLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.3, 0.3, 1), Color(1, 0.6, 0.6, 1), Color(1, 0.3, 0.3, 1)]
+}
+
+[sub_resource type="Animation" id="dreamweaver_argue"]
+resource_name = "dreamweaver_argue"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DreamweaverZones/LightZone:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 0.5, 0.3), Color(1, 1, 0.5, 0.8), Color(1, 1, 0.5, 0.3), Color(1, 1, 0.5, 0.3), Color(1, 1, 0.5, 0.3), Color(1, 1, 0.5, 0.8), Color(1, 1, 0.5, 0.3)]
+}
+
+[sub_resource type="AnimationLibrary" id="animation_library"]
+_data = {
+"countdown_pulse": SubResource("countdown_pulse"),
+"dreamweaver_argue": SubResource("dreamweaver_argue")
+}
+
+[sub_resource type="Environment" id="environment"]
+background_mode = 3
+background_color = Color(0.05, 0.05, 0.1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.3, 0.5, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 1.5
+glow_strength = 1.2
+glow_bloom = 0.3
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_brightness = 1.1
+adjustment_contrast = 1.15
+adjustment_saturation = 0.9
+
+[node name="EscapeHubStart" type="Node2D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("environment")
+
+[node name="BackgroundLayers" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="DangerGradient" type="TextureRect" parent="BackgroundLayers"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource("danger_texture")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="StaticNoise" type="ColorRect" parent="BackgroundLayers"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="HubGeometry" type="Node2D" parent="."]
+
+[node name="CentralPlaza" type="Polygon2D" parent="HubGeometry"]
+color = Color(0.15, 0.2, 0.3, 0.8)
+polygon = PackedVector2Array(-400, -300, 400, -300, 400, 300, -400, 300)
+
+[node name="GlitchOverlay" type="Polygon2D" parent="HubGeometry/CentralPlaza"]
+modulate = Color(0, 0.8, 1, 0.2)
+polygon = PackedVector2Array(-380, -280, 380, -280, 380, 280, -380, 280)
+
+[node name="DreamweaverZones" type="Node2D" parent="."]
+
+[node name="LightZone" type="ColorRect" parent="DreamweaverZones"]
+modulate = Color(1, 1, 0.5, 0.3)
+offset_left = -600.0
+offset_top = -400.0
+offset_right = -200.0
+offset_bottom = 400.0
+color = Color(1, 0.9, 0.4, 1)
+
+[node name="LightLabel" type="Label" parent="DreamweaverZones/LightZone"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 380.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 32
+text = "LIGHT: FIGHT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MischiefZone" type="ColorRect" parent="DreamweaverZones"]
+modulate = Color(0.8, 0.4, 0.9, 0.3)
+offset_left = 200.0
+offset_top = -400.0
+offset_right = 600.0
+offset_bottom = 400.0
+color = Color(0.7, 0.3, 0.8, 1)
+
+[node name="MischiefLabel" type="Label" parent="DreamweaverZones/MischiefZone"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 380.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 32
+text = "MISCHIEF: SNEAK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WrathZone" type="ColorRect" parent="DreamweaverZones"]
+modulate = Color(1, 0.3, 0.3, 0.3)
+offset_left = -200.0
+offset_top = 300.0
+offset_right = 200.0
+offset_bottom = 600.0
+color = Color(0.9, 0.2, 0.2, 1)
+
+[node name="WrathLabel" type="Label" parent="DreamweaverZones/WrathZone"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 380.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 32
+text = "WRATH: BREAK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnvironmentalClues" type="Node2D" parent="."]
+
+[node name="Footprints1" type="Sprite2D" parent="EnvironmentalClues"]
+modulate = Color(0.5, 0.8, 1, 0.4)
+position = Vector2(-300, -100)
+scale = Vector2(2, 2)
+
+[node name="Footprints2" type="Sprite2D" parent="EnvironmentalClues"]
+modulate = Color(1, 0.5, 0.8, 0.4)
+position = Vector2(250, -150)
+scale = Vector2(2, 2)
+
+[node name="DroppedGear" type="Sprite2D" parent="EnvironmentalClues"]
+modulate = Color(0.8, 0.8, 0.3, 0.6)
+position = Vector2(-50, 200)
+scale = Vector2(1.5, 1.5)
+
+[node name="GlitchParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, -300)
+amount = 100
+process_material = SubResource("glitch_particles")
+lifetime = 4.0
+preprocess = 2.0
+visibility_rect = Rect2(-500, -400, 1000, 800)
+
+[node name="MemoryFragments" type="GPUParticles2D" parent="."]
+position = Vector2(0, 300)
+amount = 50
+process_material = SubResource("glitch_particles")
+lifetime = 6.0
+preprocess = 3.0
+visibility_rect = Rect2(-500, -400, 1000, 800)
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="ShaderLayers" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="PhosphorLayer" type="ColorRect" parent="UI/ShaderLayers"]
+material = SubResource("phosphor_material")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.1)
+
+[node name="GlitchLayer" type="ColorRect" parent="UI/ShaderLayers"]
+material = SubResource("glitch_material")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.05)
+
+[node name="CountdownContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 120.0
+grow_horizontal = 2
+
+[node name="CountdownPanel" type="Panel" parent="UI/CountdownContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("4")
+
+[node name="VBox" type="VBoxContainer" parent="UI/CountdownContainer/CountdownPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="WarningLabel" type="Label" parent="UI/CountdownContainer/CountdownPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "⚠ MEMORY OVERFLOW IMMINENT ⚠"
+horizontal_alignment = 1
+
+[node name="CountdownLabel" type="Label" parent="UI/CountdownContainer/CountdownPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 48
+text = "06:00"
+horizontal_alignment = 1
+
+[node name="DialogueContainer" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="DialoguePanel" type="Panel" parent="UI/DialogueContainer"]
+layout_mode = 2
+
+[node name="DialogueContent" type="VBoxContainer" parent="UI/DialogueContainer/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="SpeakerLabel" type="Label" parent="UI/DialogueContainer/DialoguePanel/DialogueContent"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "SYSTEM"
+
+[node name="DialogueText" type="RichTextLabel" parent="UI/DialogueContainer/DialoguePanel/DialogueContent"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+text = "[color=cyan]The hub fractures. Choose your escape route...[/color]"
+scroll_active = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("animation_library")
+}
+autoplay = "dreamweaver_argue"
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="CountdownTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 360.0
+one_shot = false
+autostart = true
+
+[node name="GlitchIntensityTimer" type="Timer" parent="Timers"]
+wait_time = 1.0
+autostart = true
+
+[node name="DialogueTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="AudioPlayers" type="Node" parent="."]
+
+[node name="AmbientDrone" type="AudioStreamPlayer" parent="AudioPlayers"]
+volume_db = -15.0
+autoplay = true
+
+[node name="AlarmLoop" type="AudioStreamPlayer" parent="AudioPlayers"]
+volume_db = -20.0
+autoplay = true
+
+[node name="GlitchSFX" type="AudioStreamPlayer" parent="AudioPlayers"]
+volume_db = -10.0
+
+[node name="CollectorProximity" type="AudioStreamPlayer" parent="AudioPlayers"]
+volume_db = -12.0
+
+[connection signal="timeout" from="Timers/CountdownTimer" to="." method="OnCountdownTick"]
+[connection signal="timeout" from="Timers/GlitchIntensityTimer" to="." method="OnGlitchPulse"]
+[connection signal="timeout" from="Timers/DialogueTimer" to="." method="OnDialogueAdvance"]

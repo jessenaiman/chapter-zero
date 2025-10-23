@@ -115,7 +115,7 @@ public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.c
             // Combat ends with a covered screen, clear it
             if (this.transition != null)
             {
-                await this.transition.ClearScreen(0.2f);
+                await this.transition.ClearScreen(0.2f).ConfigureAwait(false);
             }
 
             // Play appropriate post-combat dialogue

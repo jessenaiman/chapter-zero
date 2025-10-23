@@ -45,7 +45,7 @@ public partial class OpeningMonologue : GhostTerminalUI
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05f);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.05f).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 

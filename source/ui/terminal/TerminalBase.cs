@@ -249,7 +249,7 @@ public partial class TerminalBase : BaseNarrativeScene
 
         int selectedIndex = await _choicePresenter.PresentChoicesAsync(choices).ConfigureAwait(false);
         return selectedIndex >= 0 && selectedIndex < optionTexts.Length
-            ? optionTexts[selectedIndex] 
+            ? optionTexts[selectedIndex]
             : string.Empty;
     }
 

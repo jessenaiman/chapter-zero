@@ -42,7 +42,7 @@ public partial class Question2Bridge : GhostTerminalUI
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true);
+            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -58,7 +58,7 @@ public partial class Question2Bridge : GhostTerminalUI
 
         if (!string.IsNullOrWhiteSpace(selectedOption.Response))
         {
-            await AppendTextAsync(selectedOption.Response, useGhostEffect: true);
+            await AppendTextAsync(selectedOption.Response, useGhostEffect: true).ConfigureAwait(false);
         }
     await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
 

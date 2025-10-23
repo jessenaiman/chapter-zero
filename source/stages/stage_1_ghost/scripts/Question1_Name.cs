@@ -39,7 +39,7 @@ public partial class Question1Name : GhostTerminalUI
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true);
+            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 
@@ -47,7 +47,7 @@ public partial class Question1Name : GhostTerminalUI
 
         if (!string.IsNullOrWhiteSpace(prompt.Context))
         {
-            await AppendTextAsync(prompt.Context, useGhostEffect: true);
+            await AppendTextAsync(prompt.Context, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 

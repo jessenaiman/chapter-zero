@@ -76,7 +76,7 @@ public partial class FanInteraction : ConversationTemplate
     /// </summary>
     public override async void Run()
     {
-        await this.ExecuteFanInteraction();
+        await this.ExecuteFanInteraction().ConfigureAwait(false);
         base.Run();
     }
 
@@ -92,7 +92,7 @@ public partial class FanInteraction : ConversationTemplate
         }
 
         var sourceCell = this.GetSourceCell(gameboard);
-        await this.MoveFanAlongPath(gameboard, sourceCell);
+        await this.MoveFanAlongPath(gameboard, sourceCell).ConfigureAwait(false);
     }
 
     private Vector2I GetSourceCell(Gameboard gameboard)

@@ -102,9 +102,9 @@ public partial class Stage4Main : Node2D
     private async void ShowWakeUpSequence()
     {
         // Show the initial wake-up experience
-        await ShowInitialNarrative();
-        await ShowEnvironmentalClues();
-        await ActivateLiminalAwareness();
+        await ShowInitialNarrative().ConfigureAwait(false);
+        await ShowEnvironmentalClues().ConfigureAwait(false);
+        await ActivateLiminalAwareness().ConfigureAwait(false);
     }
 
     private async Task ShowInitialNarrative()

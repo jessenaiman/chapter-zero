@@ -30,7 +30,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromBootSequenceAsync()
     {
-        await TransitionToNextSceneAsync("boot_sequence");
+        await TransitionToNextSceneAsync("boot_sequence").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromOpeningMonologueAsync()
     {
-        await TransitionToNextSceneAsync("opening_monologue");
+        await TransitionToNextSceneAsync("opening_monologue").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromQuestion1NameAsync()
     {
-        await TransitionToNextSceneAsync("question_1_name");
+        await TransitionToNextSceneAsync("question_1_name").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromStoryFragmentAsync()
     {
-        await TransitionToNextSceneAsync("story_fragment");
+        await TransitionToNextSceneAsync("story_fragment").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromSecretQuestionAsync()
     {
-        await TransitionToNextSceneAsync("secret_question");
+        await TransitionToNextSceneAsync("secret_question").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromSecretRevealAsync()
     {
-        await TransitionToNextSceneAsync("secret_reveal");
+        await TransitionToNextSceneAsync("secret_reveal").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromNameQuestionAsync()
     {
-        await TransitionToNextSceneAsync("name_question");
+        await TransitionToNextSceneAsync("name_question").ConfigureAwait(false);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public partial class Stage1Controller : StageController
     /// </summary>
     public async Task AdvanceFromExitAsync()
     {
-        await CompleteStage1Async();
+        await CompleteStage1Async().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public partial class Stage1Controller : StageController
     private async Task CompleteStage1Async()
     {
         const string Stage2Path = "res://source/stages/echo_hub/echo_hub_main.tscn";
-        await TransitionToNextStageAsync(Stage2Path);
+        await TransitionToNextStageAsync(Stage2Path).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -104,7 +104,7 @@ public partial class Stage1Controller : StageController
         GD.Print("[Stage1Controller] Initializing Stage 1 - Opening Sequence");
 
         // Start with boot sequence (first beat in flow)
-        await TransitionToSceneAsync("boot_sequence");
+        await TransitionToSceneAsync("boot_sequence").ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

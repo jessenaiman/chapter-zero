@@ -41,7 +41,7 @@ public partial class Question3Voice : GhostTerminalUI
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true);
+            await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.6f), SceneTreeTimer.SignalName.Timeout);
         }
 

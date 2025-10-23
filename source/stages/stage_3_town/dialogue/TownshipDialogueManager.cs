@@ -202,7 +202,7 @@ public partial class TownshipDialogueManager : BaseDialogueManager
     {
         GD.Print($"Starting dialogue with NPC: {npcId}");
 
-        var dialogueData = await GetNpcDialogueAsync(npcId);
+        var dialogueData = await GetNpcDialogueAsync(npcId).ConfigureAwait(false);
 
         // In a real implementation, this would:
         // 1. Display the dialogue UI
