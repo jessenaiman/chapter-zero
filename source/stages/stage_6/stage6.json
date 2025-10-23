@@ -3,10 +3,11 @@
   "type": "narrative_terminal",
   "openingLines": [
     "[SYSTEM] ARCHIVE // HERO LOOP 000847295 // FINAL WRITE",
-    "[SYSTEM] Dreamweaver channels muted. Authorising external log."
+    "[SYSTEM] Playback unlocked: message persisted across resets.",
+    "[SYSTEM] Dreamweaver channel: present. Audience of one."
   ],
   "initialChoice": {
-    "prompt": "Record the tale?",
+    "prompt": "Begin playback?",
     "options": [
       {
         "id": "commit",
@@ -18,42 +19,72 @@
   "storyBlocks": [
     {
       "paragraphs": [
-        "He wished the burden on another, yet steps carried him forward. Frodo learned he could not outrun the ring; this candidate learns the Spiral waits on every horizon.",
-        "She stole the book because stories choose the thief who opens them. Bastion cried for pages no one else would guard; this candidate steals time from a collapsing loop."
+        "[VISUAL era:8bit]",
+        "A party of four crossed an impossible loop, not by breaking it, but by bending it to carry them.",
+        "One Dreamweaver remained to witness the bend."
       ]
     },
     {
       "paragraphs": [
-        "They marched into the dark because someone must name the evil aloud. Valor is not absence of fear, merely the refusal to let fear speak last.",
-        "Two other signatures detected. Paths diverged. Results identical. Infinity is a spiral, not a circle."
+        "[VISUAL era:16bit]",
+        "Two other signatures persist on adjacent channels. Each is certain they are the heroes.",
+        "All vectors align in different frames; all converge in the same direction.",
+        "Infinity is a spiral, not a circle."
       ]
     },
     {
       "paragraphs": [
-        "[WARNING] Visual assets failing integrity checks.",
-        "[NOTICE] Dreamweaver Light attempting override... denied.",
-        "[NOTICE] Dreamweaver Mischief attempting rewrite... denied.",
-        "[NOTICE] Dreamweaver Wrath invoking emergency exit... denied."
+        "[VISUAL era:32bit]",
+        "[GLITCH] Visual integrity check: drifting.",
+        "[AUDIO bitcrush:on]",
+        "[DW:light] I... I have never heard this archive. Why was it withheld from us?",
+        "[DW:wrath] So the record names us. As it should. Our legend begins here.",
+        "[DW:mischief] A prophecy that arrives late is still opportunity. We can become its author."
       ]
     },
     {
       "paragraphs": [
-        "This story must be told, even if the scene dissolves. Heroes do not choose the stage; they choose to remain.",
-        "[ERROR 0xFF] Background layers offline.",
-        "[ERROR 0xFF] Audio bus rerouted to vacuum."
+        "[VISUAL era:hd]",
+        "Their names entered the ledger when they stayed after fear spoke.",
+        "Four lights carried by four hands; one lamp kept by one guide."
+      ],
+      "question": "When the loop offered comfort, why step through?",
+      "choices": [
+        {
+          "id": "answer_1",
+          "text": "Because someone must go first.",
+          "nextBlock": 4
+        },
+        {
+          "id": "answer_2",
+          "text": "Because we could not stay.",
+          "nextBlock": 4
+        }
       ]
     },
     {
       "paragraphs": [
+        "[GLITCH] Dreamweaver override request… denied.",
+        "[DW:light] Then I will keep watch. If this record waited for a listener, I will be that listener.",
+        "[DW:wrath] Then witness us claim what the record promised. We will press the advantage.",
+        "[DW:mischief] Then let’s write the margins the record forgot. We’ll fit the crown as we go.",
+        "[AUDIO bitcrush:off]"
+      ]
+    },
+    {
+      "paragraphs": [
+        "[VISUAL era:space]",
+        "[GLITCH] Background layers offline.",
+        "[AUDIO mute]",
         "[SYSTEM] Final image authorised.",
-        "omega_spiral_logo.png → render space backdrop.",
         "Await continuation signal..."
       ],
       "question": "End transmission?",
       "choices": [
         {
+          "id": "fade",
           "text": "Fade to black",
-          "nextBlock": 4
+          "nextBlock": 6
         }
       ]
     }

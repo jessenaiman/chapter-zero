@@ -98,7 +98,7 @@ public class ManifestLoader
     {
         return stageId switch
         {
-            1 => "res://source/data/stages/ghost_terminal/scene_flow.json",
+            1 => "res://source/data/stages/ghost_terminal_archives/scene_flow.json",
             2 => "res://source/data/stages/stage_2/scene_flow.json",
             3 => "res://source/data/stages/stage_3/scene_flow.json",
             4 => "res://source/data/stages/stage_4/scene_flow.json",

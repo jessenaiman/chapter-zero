@@ -8,6 +8,7 @@ using OmegaSpiral.Source.Scripts.persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace OmegaSpiral.Source.Scripts.Common;
+
 /// <summary>
 /// Global game state singleton managing player progress, Dreamweaver alignment, and persistence.
 /// FUTURE: Will track LLM consultation history and dynamic narrative state (see ADR-0003).

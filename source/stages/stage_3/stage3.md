@@ -1,46 +1,45 @@
-# Stage 3 · Echo Vault
+# Stage 4 · Liminal Township
 
-The retro dungeon crawler interlude where the player recruits echo party members, experiments with multi-tier presentation, and doubles down on Dreamweaver alignment.
+The calm before the exodus. A nostalgic JRPG village that lets the player wander freely, soak up lore, and notice the seams in the simulation before the Dreamweavers split.
 
 ---
 
 ## Creative Snapshot
 
-- **Fantasy**: A Wizardry-style archive where “echoes” of legendary heroes are stored. The player frees echoes to assemble their Act I party while Dreamweavers compete for influence.
-- **Structure**: Tiered vault runs—hub selection → turn-based encounter → debrief—each escalating presentation from wireframe text to full faux-8-bit.
-- **Narrative Hook**: Echoes remember fragments of prior loops, dropping clues about other players trapped in the system (sets up Stage 5 revelation).
+- **Fantasy**: Wake up in a “perfect” RPG town that clearly remembers too many eras at once. NPCs are friendly but speak in riddles about loops, other wanderers, and choices that refuse to stay finished.
+- **Structure**: Free-roam hub with light gating. Players can visit the inn, shop, training yard, and town edge before committing to the Dreamweaver they’ll follow in Stage 5.
+- **Theme Delivery**: Dialogue seeds the idea that *other* players are in the simulation and that every road still spirals back to this town.
 
 ---
 
 ## Content & Data
 
-- Data file: `res://source/stages/stage_3/stage3.json`
-- Schema: `res://source/data/schemas/echo_vault_schema.json`
-- Loader: `EchoVaultDirector` (wraps `NarrativeSceneFactory` mapping)
-- Scenes: `EchoVaultHub.tscn`, `EchoVaultCombat.tscn`, `EchoVaultFinale.tscn`
-- Tests: `Tests/Stages/Stage3/EchoVaultDirectorTests.cs`
+- Data file: `res://source/stages/stage_4/stage4.json` (scene configuration stub; extend with NPC, dialogue, and trigger metadata).
+- Schema: `res://source/data/schemas/dungeon_sequence_schema.json` (re-use for hub layout until dedicated schema lands).
+- Scenes: Town hub map, interior scenes (inn/shop/dojo), and gate trigger that hands off to Stage 5.
 
 ---
 
 ## Design Notes
 
-- **Presentation Tiers**: Three art layers (wireframe → vector neon → faux 8x8) reflect the system “remembering” nostalgia eras as the player digs deeper.
-- **Echo Personalities**: Each rescued echo grants combat utility *and* narrative fragments hinting at the existence of parallel players.
-- **Dreamweaver Banter**: Light, Mischief, and Wrath debate which echoes to release, foreshadowing the fracture in Stage 5.
-- **Memory Cost Mechanic**: Rescuing echoes should visibly erode something (e.g., deduct lore entries, scramble UI) to reinforce stakes.
+- **Player Agency**: Let players roam and interact without pressure; Dreamweavers appear as translucent avatars near key POIs offering persuasive arguments.
+- **NPC Clues**: Tropes with a twist—shopkeeper recounts “another hero” who already bought a weapon, innkeeper resets the player’s room “again,” children hum the Stage 2 trial theme.
+- **Foreshadowing**: Environmental storytelling (duplicate footprints, fading banners) evidence that multiple players exist.
+- **Boundaries**: Invisible walls disguised as polite NPC guidance or weather anomalies to keep scope manageable.
 
 ---
 
 ## Implementation Checklist
 
-1. Finalise JSON content: echo roster, tier beats, combat encounters, Omega log interrupts.
-2. Extend `NarrativeSceneFactory` mapping for vault structures; add GDUnit coverage.
-3. Build hub/combat scenes with tier-based shader toggles and Dreamweaver VO hooks.
-4. Persist rescued echoes and memory costs into `GameState` for Stage 4 hand-off.
+1. Populate `stage4.json` with hub metadata (spawn points, interactable IDs, Dreamweaver encounter triggers).
+2. Script NPC dialogues that escalate references to the other players.
+3. Create minor side activities (e.g., sparring dummy, lore tomes) that grant small alignment nudges.
+4. Build the Dreamweaver commitment scene at the town edge; record alignment snapshot for Stage 5.
 
 ---
 
 ## QA / Validation
 
-- Automated: `dotnet test --filter "FullyQualifiedName~EchoVaultDirectorTests"`
-- Manual: Verify tier presentation swaps, echo recruitment flow, and Dreamweaver alignment deltas; confirm lore hints about additional players trigger per design.
+- Manual roam: confirm all POIs reachable, no soft locks when player delays commitment.
+- Alignment audit: ensure optional interactions subtly adjust Light/Mischief/Wrath values without locking Stage 5 options.
+- Narrative flow: verify Dreamweaver arguments set up the Stage 5 fracture and mention the impending countdown.

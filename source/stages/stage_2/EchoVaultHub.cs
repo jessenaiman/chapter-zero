@@ -1,12 +1,13 @@
 using Godot;
+using System.Linq;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.UI.Terminal;
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
+namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
-/// Handles echo selection beats in the Echo Vault stage.
+/// Handles echo scene selection in the Echo Vault stage.
 /// </summary>
 [GlobalClass]
 public partial class EchoVaultHub : TerminalUI
@@ -49,6 +50,22 @@ public partial class EchoVaultHub : TerminalUI
         }
 
         this.RefreshUI();
+    }
+
+    /// <inheritdoc/>
+    public override void _Notification(int what)
+    {
+        const int NotificationPredelete = 1;
+        if (what == NotificationPredelete)
+        {
+            tierLabel?.Dispose();
+            promptLabel?.Dispose();
+            optionSelector?.Dispose();
+            descriptionLabel?.Dispose();
+            reactionsLabel?.Dispose();
+            confirmButton?.Dispose();
+        }
+        base._Notification(what);
     }
 
     private void RefreshUI()
@@ -135,28 +152,7 @@ public partial class EchoVaultHub : TerminalUI
             return;
         }
 
-        this.GoToNextBeat();
-    }
-
-    private void GoToNextBeat()
-    {
-        if (EchoVaultSession.Plan.Beats.Count <= EchoVaultSession.BeatIndex)
-        {
-            return;
-        }
-
-        EchoVaultBeat beat = EchoVaultSession.Plan.Beats[EchoVaultSession.BeatIndex];
-        if (beat.Type == "combat")
-        {
-            this.GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_combat.tscn");
-        }
-        else if (beat.Type == "finale")
-        {
-            this.GetTree().ChangeSceneToFile("res://source/stages/stage_3/echo_vault_finale.tscn");
-        }
-        else
-        {
-            this.RefreshUI();
-        }
+        // Continue to next beat or scene based on selection feedback
+        GD.Print($"[EchoVaultHub] Selected echo {echo.Name}, awarded to: {lastFeedback.AwardedOwner}");
     }
 }

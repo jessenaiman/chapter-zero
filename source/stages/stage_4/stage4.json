@@ -1,11 +1,454 @@
 {
-  "type": "liminal_township",
-  "title": "Liminal Township",
-  "description": "A nostalgic JRPG village where the player wakes up and explores freely, soaking up lore and noticing the seams in the simulation before the Dreamweavers split.",
-  "scene": "Stage4Main",
-  "resources": {
-    "fieldScene": "res://source/stages/stage_4/stage_4_main.tscn",
-    "dialogueAssets": "res://source/scripts/field/dialogue",
-    "npcAssets": "res://source/overworld/characters"
+  "stage_id": "stage3_echo_vault",
+  "stage_name": "The Echo Vault",
+  "description": "Rescue echoes of previous players from Omega's archive to assemble a party strong enough to escape the loop.",
+  "metadata": {
+    "palette": "monochrome_to_glitch",
+    "system_intro": [
+      "[SYSTEM] PROCESS: ECHO_ARCHIVE // STATUS: DEGRADED",
+      "The chamber breathes. Dust motes drift through a dark lattice of framed light.",
+      "Each frame hums with a half-remembered silhouette. None of them are your own."
+    ],
+    "presentation_tiers": [
+      { "tier": 0, "theme": "mono", "notes": "Minimal UI, static hum." },
+      { "tier": 1, "theme": "mono_plus_owner_color", "notes": "Dreamweaver hues leak in, static edges." },
+      { "tier": 2, "theme": "glitch_color", "notes": "Full color flicker, overlapping text." }
+    ]
+  },
+  "points_ledger": [
+    { "beat_id": "echo_slot_1", "owner": "light" },
+    { "beat_id": "echo_slot_2", "owner": "mischief" },
+    { "beat_id": "echo_slot_3", "owner": "wrath" }
+  ],
+  "beats": [
+    {
+      "id": "echo_slot_1",
+      "type": "selection",
+      "tier": 0,
+      "owner": "light",
+      "prompt": "Choose your first echo. The archive remembers their fall; you will carry their chance.",
+      "dreamweaver_intro": {
+        "light": "Omega has trapped players here before. These frames are what remains.",
+        "mischief": "Tap the glass and they wake. But you'll owe them. You'll owe yourself.",
+        "wrath": "We take three. No more, or the loop noticed us last time."
+      },
+      "champion_whispers": {
+        "light": "I trust your hand. Slow is safe; safe is death. Decide.",
+        "mischief": "Remember the pack. We move together or we fade.",
+        "wrath": "Speed. Precision. Take the ones who fight back."
+      },
+      "options": ["gate_sentinel", "spark_archivist", "courier_shadow", "echo_reroll_1"]
+    },
+    {
+      "id": "combat_1",
+      "type": "combat",
+      "tier": 0,
+      "encounter_id": "wolf_hybrid_ambush",
+      "encounter_intro": "The echo steps forward. The arena renders two shapes at once—a Wolf-Hybrid Alpha and a Static Drone. Omega sends numbers before you even steady your stance.",
+      "tutorial_hint": "You are outnumbered. Test your echo's signature move and lean on defense or speed to survive the opening round.",
+      "on_victory": "Tier upgrade to 1",
+      "on_defeat": "Echo returns to frame scarred; Dreamweavers urge a new selection."
+    },
+    {
+      "id": "echo_slot_2",
+      "type": "selection",
+      "tier": 1,
+      "owner": "mischief",
+      "prompt": "The archive flexes. Choose the second echo before Omega recalibrates.",
+      "dreamweaver_intro": {
+        "light": "The first echo steadied the archive. The second strains it.",
+        "mischief": "Omega hears the glitch. Keep moving.",
+        "wrath": "Choose. Then fight. Then run."
+      },
+      "options": ["auric_mentor", "veiled_jester", "ashen_vanguard", "echo_reroll_2"]
+    },
+    {
+      "id": "combat_2",
+      "type": "combat",
+      "tier": 1,
+      "encounter_id": "wolf_hybrid_pack",
+      "encounter_intro": "Two Wolf-Hybrid sentries manifest, wisping static at their heels. Omega's watchdog adjusts the arena.",
+      "tutorial_hint": "Switch echoes to exploit initiative bonuses and protective stances.",
+      "omega_interrupts": [
+        "[WATCHDOG] Party size exceeds baseline > adjusting difficulty."
+      ],
+      "on_victory": "Tier upgrade to 2",
+      "on_defeat": "Dreamweavers note the pack closed too fast; echo scar updated."
+    },
+    {
+      "id": "echo_slot_3",
+      "type": "selection",
+      "tier": 2,
+      "owner": "wrath",
+      "prompt": "Final pull. After this the archive collapses. Choose the echo that completes the break.",
+      "dreamweaver_intro": {
+        "light": "Three echoes together? This never happened. In any loop.",
+        "mischief": "I love firsts. I hate endings. You see the problem.",
+        "wrath": "Final pull. After this, the archive collapses."
+      },
+      "options": ["twin_eclipse", "glitched_shade", "duplicate_echo"]
+    },
+    {
+      "id": "combat_3",
+      "type": "combat",
+      "tier": 2,
+      "encounter_id": "code_guardian_core",
+      "encounter_intro": "The Code Guardian looms, flanked by two fragments. The arena destabilises with every breath.",
+      "tutorial_hint": "Chain synergy skills; expect Omega to interfere mid-round.",
+      "omega_interrupts": [
+        "[OMEGA//] INTERFERENCE DETECTED // dreamweaver leakage.",
+        "[SYSTEM] ABILITY QUEUE DELAYED ONE TURN."
+      ],
+      "on_victory": "Dreamweavers celebrate unity; Omega fails containment.",
+      "on_defeat": "Dreamweavers urge the player to remember the feeling of fighting together."
+    },
+    {
+      "id": "finale",
+      "type": "finale",
+      "summary": {
+        "light": [
+          "You felt that steadiness? That was hope returning.",
+          "We traded pieces of you, but we leave with more than we entered."
+        ],
+        "mischief": [
+          "That roster? Omega will choke on it.",
+          "Stage four is raw code—if we make it."
+        ],
+        "wrath": [
+          "Now we hunt. Nothing escapes.",
+          "If this fails, there are no more chances."
+        ],
+        "omega_logs": [
+          "[SYSTEM] ARCHIVE CAPACITY EXCEEDED",
+          "[BOOT TRANSFER] Simulation Path: SafeTown_rpg.tscn"
+        ]
+      }
+    }
+  ],
+  "echo_definitions": [
+    {
+      "id": "gate_sentinel",
+      "name": "Gate Sentinel // Iteration 235",
+      "owner": "light",
+      "archetype": "guardian",
+      "description": "Held the northern gate for eight minutes before the code swallowed them.",
+      "mechanics": {
+        "hp": 22,
+        "attack": 6,
+        "signature": "Shield Brace (reduces first incoming damage each round)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Favorite Promise — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "You felt that steadiness? That was hope returning.",
+          "caution": "Even with them beside you, do not forget what you surrendered."
+        },
+        "mischief": {
+          "supportive": "Ha! Solid opener. Let's see the loop chew through that.",
+          "caution": "You sure? I'd have gone flashier. Keep them entertained."
+        },
+        "wrath": {
+          "supportive": "Good spine. Aim them at the front and push.",
+          "caution": "If they waver, you replace them. No sentiment."
+        }
+      }
+    },
+    {
+      "id": "spark_archivist",
+      "name": "Spark Archivist // Iteration 188",
+      "owner": "light",
+      "archetype": "mage",
+      "description": "Writes sigils mid-air, recalling every loop's failure.",
+      "mechanics": {
+        "hp": 14,
+        "attack": 4,
+        "signature": "Spark (8 lightning damage, small chance to chain)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Favorite Story — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "They know what we lost. Let them guide us back.",
+          "caution": "Careful. Knowledge cuts both ways."
+        },
+        "mischief": {
+          "supportive": "Sparks! Great. I like fireworks.",
+          "caution": "Just don't burn my threads, okay?"
+        },
+        "wrath": {
+          "supportive": "Power, thin skin. Guard them.",
+          "caution": "If they hesitate, replace them."
+        }
+      }
+    },
+    {
+      "id": "courier_shadow",
+      "name": "Courier in Shadow // Iteration 91",
+      "owner": "mischief",
+      "archetype": "rogue",
+      "description": "Ran messages through Omega's blind spots until the loop caught them.",
+      "mechanics": {
+        "hp": 18,
+        "attack": 5,
+        "signature": "Backstab (12 damage if acting before target)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: First Secret Kept — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "We’ll keep them honest together.",
+          "caution": "Speed is useful. Lies less so."
+        },
+        "mischief": {
+          "supportive": "That grin? Perfect. Don’t lose it.",
+          "caution": "Remember: run smart, not just fast."
+        },
+        "wrath": {
+          "supportive": "Use them to flank. No mercy.",
+          "caution": "They flee once, I strike."
+        }
+      }
+    },
+    {
+      "id": "auric_mentor",
+      "name": "Auric Mentor // Iteration 42",
+      "owner": "light",
+      "archetype": "support",
+      "description": "A calm healer whose aura steadied collapsing loops.",
+      "mechanics": {
+        "hp": 19,
+        "attack": 3,
+        "signature": "Pulse Mend (restore 2 HP to lowest ally each round)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Childhood Song — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "Feel that calm? That’s them anchoring us.",
+          "caution": "Guard them; they carry our hope."
+        },
+        "mischief": {
+          "supportive": "A healer? Fine. Try not to nap mid-fight.",
+          "caution": "Don’t let them slow us down."
+        },
+        "wrath": {
+          "supportive": "If they keep us on our feet, they stay.",
+          "caution": "If they falter, we leave them."
+        }
+      }
+    },
+    {
+      "id": "veiled_jester",
+      "name": "Veiled Jester // Iteration 307",
+      "owner": "mischief",
+      "archetype": "trickster",
+      "description": "Mocked Omega in the open, vanished before containment.",
+      "mechanics": {
+        "hp": 17,
+        "attack": 5,
+        "signature": "Veil Slash (6 damage + 20% dodge buff this round)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Favorite Joke — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "Balance and wit. Perhaps this time we dance instead of crawl.",
+          "caution": "Too much chaos invites Omega's gaze. Keep them focused."
+        },
+        "mischief": {
+          "supportive": "Oh yes, perfect glitch fuel.",
+          "caution": "Boring pick, but maybe reliable. Prove me wrong."
+        },
+        "wrath": {
+          "supportive": "Use them to blind, then strike.",
+          "caution": "If they play games, leave them in the archive."
+        }
+      }
+    },
+    {
+      "id": "ashen_vanguard",
+      "name": "Ashen Vanguard // Iteration 12",
+      "owner": "wrath",
+      "archetype": "striker",
+      "description": "Burned everything but the goal. Still smolders.",
+      "mechanics": {
+        "hp": 20,
+        "attack": 8,
+        "signature": "Ash Sweep (10 damage, self takes 2 recoil)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: First Victory — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "We need their fire, but temper it.",
+          "caution": "Fire scorches allies too. Tell them to breathe."
+        },
+        "mischief": {
+          "supportive": "That blade hums. I like it.",
+          "caution": "Make sure they know when to stop."
+        },
+        "wrath": {
+          "supportive": "Finally. Someone who understands force.",
+          "caution": "Push them harder. They can take it."
+        }
+      }
+    },
+    {
+      "id": "twin_eclipse",
+      "name": "Twin Eclipse // Iterations 0 & 0",
+      "owner": "light",
+      "archetype": "combo",
+      "description": "Guardian and Trickster fused by necessity; they share a single heartbeat.",
+      "mechanics": {
+        "hp": 40,
+        "attack": 6,
+        "signature": "Twin Eclipse (joint attack 10 damage + party heal 5, once per combat)."
+      },
+      "memory_cost": "[SYSTEM] Removing Memory: Last Promise Made.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "With them, our line holds even when the code shakes.",
+          "caution": "We just traded another memory. Hold tight to what's left."
+        },
+        "mischief": {
+          "supportive": "That roster? Omega will choke on it.",
+          "caution": "Careful. Too much harmony and Omega notices."
+        },
+        "wrath": {
+          "supportive": "Now we hunt. Nothing escapes.",
+          "caution": "If this fails, no more chances. Remember that."
+        }
+      }
+    },
+    {
+      "id": "glitched_shade",
+      "name": "Glitched Shade // Orphan Record",
+      "owner": "wrath",
+      "archetype": "wildcard",
+      "description": "An echo Omega failed to catalog. Power wild, loyalty certain.",
+      "mechanics": {
+        "hp": 15,
+        "attack": 0,
+        "signature": "Chaos Burst (random boon or bane each round)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Earliest Memory — INACCESSIBLE (corrupted).",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "If you can steer it, we might finally win.",
+          "caution": "It frightens me. Do not let it swallow you."
+        },
+        "mischief": {
+          "supportive": "Yes. Yes. YES.",
+          "caution": "Ride the glitch, don't drown in it."
+        },
+        "wrath": {
+          "supportive": "Uncatalogued power. Use it.",
+          "caution": "If it turns on us, I end it."
+        }
+      }
+    },
+    {
+      "id": "duplicate_echo",
+      "name": "Duplicate Echo",
+      "owner": "mischief",
+      "archetype": "duplicate",
+      "description": "Pull a second copy of an existing echo, risking loop instability.",
+      "mechanics": {
+        "hp": 0,
+        "attack": 0,
+        "signature": "Copycat (duplicate stats of chosen echo)."
+      },
+      "memory_cost": "[SYSTEM] Personal Field: Future Dream — REDACTED.",
+      "dreamweaver_responses": {
+        "light": {
+          "supportive": "If it keeps you safe, I won’t protest.",
+          "caution": "Careful. The archive hates duplicates."
+        },
+        "mischief": {
+          "supportive": "Double trouble. I approve.",
+          "caution": "Omega will see this. Be ready."
+        },
+        "wrath": {
+          "supportive": "Two shields or two blades. Efficient.",
+          "caution": "Do not rely on copies forever."
+        }
+      }
+    }
+  ],
+  "special_options": [
+    {
+      "id": "echo_reroll_1",
+      "stage": "echo_slot_1",
+      "description": "Shuffle Echo Frames (risk: introduces static).",
+      "effect": "[ERROR] ARCHIVE INDEX UNSTABLE",
+      "owner": "mischief",
+      "dreamweaver_reactions": {
+        "light": "Stop before the watchdog catches it!",
+        "mischief": "Heh. Twist the dial. See what falls out.",
+        "wrath": "One more glitch and the archive closes. Enough."
+      }
+    },
+    {
+      "id": "echo_reroll_2",
+      "stage": "echo_slot_2",
+      "description": "Scramble Tier-1 frames. High chance of static wisp spawn.",
+      "effect": "[ERROR] ARCHIVE SHUFFLE - WARNING: UNDEFINED RECORDS",
+      "owner": "mischief",
+      "dreamweaver_reactions": {
+        "light": "This is reckless.",
+        "mischief": "Chaos is our ally—sometimes.",
+        "wrath": "If this spawns another wisp, you answer for it."
+      }
+    }
+  ],
+  "combats": [
+    {
+      "encounter_id": "wolf_hybrid_ambush",
+      "enemy_list": [
+        { "enemy_id": "wolf_hybrid", "count": 1, "level": 3 },
+        { "enemy_id": "static_drone", "count": 1, "level": 2 }
+      ],
+      "log_style": [
+        "> Static Drone crackles. Chain damage: 2.",
+        "> Wolf-Hybrid lunges. Damage: 4.",
+        "> {guardian} braces, shield absorbs half the blow.",
+        "> {mage} casts SPARK. Damage: 7."
+      ]
+    },
+    {
+      "encounter_id": "wolf_hybrid_pack",
+      "enemy_list": [
+        { "enemy_id": "wolf_hybrid", "count": 2, "level": 4 },
+        { "enemy_id": "static_wisp", "count": 1, "level": 2, "conditional": "veiled_jester_selected || reroll_triggered" }
+      ],
+      "log_style": [
+        "> Wardancer opens with VEIL SLASH. Damage: 6.",
+        "> Wolf A misses! (Veil buff).",
+        "> Mage SPARK arcs across both wolves. Damage: 5 each."
+      ]
+    },
+    {
+      "encounter_id": "code_guardian_core",
+      "enemy_list": [
+        { "enemy_id": "code_guardian", "count": 1, "level": 6 },
+        { "enemy_id": "code_fragment", "count": 2, "level": 4 }
+      ],
+      "log_style": [
+        "> Code Guardian pulses. Party takes 3.",
+        "> Glitched Shade triggers CHAOS BURST! Result: Mana Surge.",
+        "> Twin Eclipse executes. Damage 10, party heals 5."
+      ]
+    }
+  ],
+  "omega_logs": [
+    "[WATCHDOG] Party size exceeds baseline > adjusting difficulty.",
+    "[ARCHIVE] Iteration 188 retrieval success // subject sense of self diminishing.",
+    "[FAILSAFE] Attempting containment > ERROR > System not responding."
+  ],
+  "party_persistence": {
+    "trigger_beat": "finale",
+    "fields_saved": [
+      "echo_id",
+      "iteration_origin",
+      "dreamweaver_affinity",
+      "memory_losses"
+    ],
+    "save_method": "GameState.PlayerParty.AddMember",
+    "notes": "Persist selections for Stage 4 JRPG town; memory_losses can affect dialogue options."
   }
 }

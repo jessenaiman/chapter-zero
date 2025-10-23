@@ -10,6 +10,7 @@ namespace OmegaSpiral.Source.Stages.Stage1;
 /// <summary>
 /// Data structure for Stage 1's opening.json narrative content.
 /// Matches the JSON schema for the terminal cinematic experience.
+/// TODO: Make into a base class so it can be reused for stage 6
 /// </summary>
 public class Stage1NarrativeData
 {

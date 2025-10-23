@@ -1,0 +1,74 @@
+{
+  "stageId": 4,
+  "stageName": "The Echo Vault",
+  "description": "Party recruitment through character selection and combat encounters. Build a team strong enough to confront Omega.",
+  "nextStagePath": "res://source/stages/stage_5/stage_5_main.tscn",
+  "scenes": [
+    {
+      "id": "beat_1_selection_light",
+      "displayName": "Beat 1: Light's Echo",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/selection_1.tscn",
+      "beatType": "selection",
+      "owner": "light",
+      "nextSceneId": "beat_2_combat_encounter_1",
+      "description": "First character selection. Light guides you to choose the first member of your echo party. An archived echo stirring in the frame."
+    },
+    {
+      "id": "beat_2_combat_encounter_1",
+      "displayName": "Beat 2: Test Against the Wolf-Hybrid",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/combat_1.tscn",
+      "beatType": "combat",
+      "owner": "light",
+      "encounterId": "wolf_hybrid_ambush",
+      "nextSceneId": "beat_3_selection_mischief",
+      "description": "Your first echo faces a Wolf-Hybrid Alpha and Static Drone. Prove this echo's worth, or return to the frame scarred."
+    },
+    {
+      "id": "beat_3_selection_mischief",
+      "displayName": "Beat 3: Mischief's Echo",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/selection_2.tscn",
+      "beatType": "selection",
+      "owner": "mischief",
+      "nextSceneId": "beat_4_combat_encounter_2",
+      "description": "Second character selection. Mischief urges you to pick a second echo that complements the first. The archive hums with possibility."
+    },
+    {
+      "id": "beat_4_combat_encounter_2",
+      "displayName": "Beat 4: Trial by Swarm",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/combat_2.tscn",
+      "beatType": "combat",
+      "owner": "mischief",
+      "encounterId": "static_swarm_chaos",
+      "nextSceneId": "beat_5_selection_wrath",
+      "description": "Your two echoes face a Static Swarm. Speed and coordination are tested. Can they move as one?"
+    },
+    {
+      "id": "beat_5_selection_wrath",
+      "displayName": "Beat 5: Wrath's Echo",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/selection_3.tscn",
+      "beatType": "selection",
+      "owner": "wrath",
+      "nextSceneId": "beat_6_combat_encounter_3",
+      "description": "Third character selection. Wrath demands a final echo that will tip the scales in your favor. The last frame glows with potential."
+    },
+    {
+      "id": "beat_6_combat_encounter_3",
+      "displayName": "Beat 6: The Vault Guardian",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/combat_3.tscn",
+      "beatType": "combat",
+      "owner": "wrath",
+      "encounterId": "vault_guardian_final",
+      "nextSceneId": "beat_7_finale",
+      "description": "Your full party of three echoes faces the Vault Guardian—the architect's final test. All three must stand, or all three fall."
+    },
+    {
+      "id": "beat_7_finale",
+      "displayName": "Beat 7: The Pact",
+      "sceneFile": "res://source/stages/stage_4/beats/scenes/finale.tscn",
+      "beatType": "finale",
+      "owner": null,
+      "nextSceneId": null,
+      "description": "Your party stands victorious. The Dreamweavers offer a pact: commit your loyalty to one, and together you will escape the loop. Stage 4 complete."
+    }
+  ]
+}

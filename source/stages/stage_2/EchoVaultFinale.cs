@@ -3,7 +3,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.UI.Terminal;
 
-namespace OmegaSpiral.Source.Scripts.Stages.Stage3;
+namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
 /// Displays finale summary and persists party state.

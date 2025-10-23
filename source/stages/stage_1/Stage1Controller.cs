@@ -26,65 +26,65 @@ public partial class Stage1Controller : StageController
     protected override string StageManifestPath => Stage1ManifestPath;
 
     /// <summary>
-    /// Called by beat_1_boot_sequence when it's complete and ready to transition to opening monologue.
+    /// Called by boot_sequence when it's complete and ready to transition to opening monologue.
     /// </summary>
-    public async Task AdvanceFromBeat1BootSequenceAsync()
+    public async Task AdvanceFromBootSequenceAsync()
     {
-        await TransitionToNextSceneAsync("beat_1_boot_sequence");
+        await TransitionToNextSceneAsync("boot_sequence");
     }
 
     /// <summary>
-    /// Called by beat_2_opening_monologue when it's complete and ready to transition to the first question.
+    /// Called by opening_monologue when it's complete and ready to transition to the first question.
     /// </summary>
-    public async Task AdvanceFromBeat2OpeningMonologueAsync()
+    public async Task AdvanceFromOpeningMonologueAsync()
     {
-        await TransitionToNextSceneAsync("beat_2_opening_monologue");
+        await TransitionToNextSceneAsync("opening_monologue");
     }
 
     /// <summary>
-    /// Called by beat_3_question_1_name when the player completes the identity question.
+    /// Called by question_1_name when the player completes the identity question.
     /// </summary>
-    public async Task AdvanceFromBeat3Question1NameAsync()
+    public async Task AdvanceFromQuestion1NameAsync()
     {
-        await TransitionToNextSceneAsync("beat_3_question_1_name");
+        await TransitionToNextSceneAsync("question_1_name");
     }
 
     /// <summary>
-    /// Called by beat_4_story_fragment when the player completes the bridge parable choice.
+    /// Called by story_fragment when the player completes the bridge parable choice.
     /// </summary>
-    public async Task AdvanceFromBeat4StoryFragmentAsync()
+    public async Task AdvanceFromStoryFragmentAsync()
     {
-        await TransitionToNextSceneAsync("beat_4_story_fragment");
+        await TransitionToNextSceneAsync("story_fragment");
     }
 
     /// <summary>
-    /// Called by beat_5_secret_question when the player answers the secret question.
+    /// Called by secret_question when the player answers the secret question.
     /// </summary>
-    public async Task AdvanceFromBeat5SecretQuestionAsync()
+    public async Task AdvanceFromSecretQuestionAsync()
     {
-        await TransitionToNextSceneAsync("beat_5_secret_question");
+        await TransitionToNextSceneAsync("secret_question");
     }
 
     /// <summary>
-    /// Called by beat_6_secret_reveal when the secret reveal animation completes.
+    /// Called by secret_reveal when the secret reveal animation completes.
     /// </summary>
-    public async Task AdvanceFromBeat6SecretRevealAsync()
+    public async Task AdvanceFromSecretRevealAsync()
     {
-        await TransitionToNextSceneAsync("beat_6_secret_reveal");
+        await TransitionToNextSceneAsync("secret_reveal");
     }
 
     /// <summary>
-    /// Called by beat_7_name_question when the player completes the naming question.
+    /// Called by name_question when the player completes the naming question.
     /// </summary>
-    public async Task AdvanceFromBeat7NameQuestionAsync()
+    public async Task AdvanceFromNameQuestionAsync()
     {
-        await TransitionToNextSceneAsync("beat_7_name_question");
+        await TransitionToNextSceneAsync("name_question");
     }
 
     /// <summary>
-    /// Called by beat_8_exit when Stage 1 is complete and ready to transition to Stage 2.
+    /// Called by exit when Stage 1 is complete and ready to transition to Stage 2.
     /// </summary>
-    public async Task AdvanceFromBeat8ExitAsync()
+    public async Task AdvanceFromExitAsync()
     {
         await CompleteStage1Async();
     }
@@ -104,7 +104,7 @@ public partial class Stage1Controller : StageController
         GD.Print("[Stage1Controller] Initializing Stage 1 - Opening Sequence");
 
         // Start with boot sequence (first beat in flow)
-        await TransitionToSceneAsync("beat_1_boot_sequence");
+        await TransitionToSceneAsync("boot_sequence");
     }
 
     /// <inheritdoc/>

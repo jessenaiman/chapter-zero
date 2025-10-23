@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using OmegaSpiral.Source.Scripts.Common;
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 /// <summary>
@@ -12,7 +13,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Maintains scoring rules: +2 for harmony (owner alignment), +1 for cross-alignment.
 /// Immutable once final determination is made.
 /// </summary>
-public partial class EchoAffinityTracker
+public partial class EchoAffinityTracker : IAffinityTracker
 {
     private readonly Dictionary<string, int> scores = new()
     {

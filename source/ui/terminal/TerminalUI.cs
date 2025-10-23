@@ -7,30 +7,10 @@ using OmegaSpiral.Source.UI.Omega;
 namespace OmegaSpiral.Source.UI.Terminal;
 
 /// <summary>
-/// Visual preset identifier for terminal shader effects.
-/// Used to apply predefined shader configurations by name.
-/// </summary>
-public readonly struct TerminalVisualPreset
-{
-    public string Value { get; }
-
-    private TerminalVisualPreset(string value) => Value = value;
-
-    public static readonly TerminalVisualPreset BootSequence = new("boot_sequence");
-    public static readonly TerminalVisualPreset StableBaseline = new("stable_baseline");
-    public static readonly TerminalVisualPreset SecretReveal = new("secret_reveal");
-    public static readonly TerminalVisualPreset ThreadLight = new("thread_light");
-    public static readonly TerminalVisualPreset ThreadMischief = new("thread_mischief");
-    public static readonly TerminalVisualPreset ThreadWrath = new("thread_wrath");
-    public static readonly TerminalVisualPreset ThreadBalance = new("thread_balance");
-
-    public override string ToString() => Value;
-}
-
-/// <summary>
 /// Terminal UI that inherits from OmegaUI and adds terminal-specific behavior.
-/// Adds choice presentation, terminal modes, and captions.
+/// Provides basic choice presentation, terminal modes, and captions.
 /// Used across multiple stages that require terminal-style interfaces.
+/// This is a reusable base class - stage-specific logic should be in derived classes.
 /// </summary>
 [GlobalClass]
 public partial class TerminalUI : OmegaUI
@@ -254,30 +234,6 @@ public partial class TerminalUI : OmegaUI
         {
             // Fallback to direct scene change
             GetTree().ChangeSceneToFile(scenePath);
-        }
-    }
-
-    /// <summary>
-    /// Applies a visual preset to the terminal shaders.
-    /// </summary>
-    /// <param name="presetName">The preset to apply.</param>
-    protected async void ApplyVisualPreset(TerminalVisualPreset presetName)
-    {
-        if (ShaderController != null)
-        {
-            await ShaderController.ApplyVisualPresetAsync(presetName.Value).ConfigureAwait(false);
-        }
-    }
-
-    /// <summary>
-    /// Performs a pixel dissolve transition effect.
-    /// </summary>
-    /// <param name="duration">The duration in seconds.</param>
-    protected new async Task PixelDissolveAsync(float duration)
-    {
-        if (ShaderController != null)
-        {
-            await ShaderController.PixelDissolveAsync(duration).ConfigureAwait(false);
         }
     }
 

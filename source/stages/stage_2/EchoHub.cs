@@ -3,21 +3,37 @@
 // </copyright>
 
 using Godot;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Scripts.Stages.Stage2;
 
 namespace OmegaSpiral.Source.Stages.Stage2;
 
 /// <summary>
-/// Orchestrator for the Echo Chamber stage (Stage 2).
-/// Manages stage initialization and loads the first beat from the stage manifest.
-/// Individual beats handle their own progression via BeatSceneBase pattern.
-/// This simplified design mirrors Stage 1's MainMenu approach.
+/// Stage 2 controller managing the Echo Chamber stage.
+/// Inherits from StageController for unified stage orchestration.
+/// Tracks Dreamweaver affinity and reports scores on completion.
 /// </summary>
 [GlobalClass]
-public partial class EchoHub : Node
+public partial class EchoHub : StageController
 {
     private const string Stage2ManifestPath = "res://source/stages/stage_2/stage_2_manifest.json";
-    private SceneManager? _sceneManager;
+    private readonly EchoAffinityTracker _affinityTracker = new();
+
+    /// <inheritdoc/>
+    protected override int StageId => 2;
+
+    /// <inheritdoc/>
+    protected override string StageManifestPath => Stage2ManifestPath;
+
+    /// <summary>
+    /// Gets the affinity scores accumulated during Echo Chamber.
+    /// </summary>
+    protected override IReadOnlyDictionary<string, int>? GetAffinityScores()
+    {
+        return _affinityTracker.GetAllScores();
+    }
 
     /// <summary>
     /// Emitted when the entire Echo Chamber stage completes.
@@ -27,40 +43,40 @@ public partial class EchoHub : Node
     public delegate void StageCompleteEventHandler(string claimedDreamweaver);
 
     /// <inheritdoc/>
-    public override void _Ready()
+    protected override async Task OnStageInitializeAsync()
     {
-        GD.Print("[EchoHub] Echo Chamber stage starting");
+        GD.Print("[EchoHub] Initializing Stage 2 - Echo Chamber");
 
-        // Get scene manager
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
+        // Start scene progression
+        await AdvanceToNextSceneAsync();
+    }
 
-        if (_sceneManager == null)
-        {
-            GD.PrintErr("[EchoHub] SceneManager not found in scene tree");
-            return;
-        }
+    /// <inheritdoc/>
+    protected override async Task OnStageCompleteAsync()
+    {
+        var claimedDreamweaver = _affinityTracker.DetermineClaim();
+        GD.Print($"[EchoHub] Stage 2 complete. Claimed by: {claimedDreamweaver}");
 
-        // Load manifest to get first beat
-        var manifestLoader = new StageManifestLoader();
-        var manifest = manifestLoader.LoadManifest(Stage2ManifestPath);
+        // Report scores to GameState (handled by base class)
+        await base.OnStageCompleteAsync();
 
-        if (manifest == null)
-        {
-            GD.PrintErr("[EchoHub] Failed to load stage manifest");
-            return;
-        }
+        // Emit stage-specific completion signal
+        EmitSignal(SignalName.StageComplete, claimedDreamweaver);
+    }
 
-        GD.Print($"[EchoHub] Loaded manifest with {manifest.Scenes.Count} beats");
+    /// <summary>
+    /// Records an interlude choice for affinity tracking.
+    /// </summary>
+    public void RecordInterludeChoice(string interludeOwner, string choiceId, string choiceAlignment)
+    {
+        _affinityTracker.RecordInterludeChoice(interludeOwner, choiceId, choiceAlignment);
+    }
 
-        // Get first beat and transition to it
-        var firstBeat = manifest.GetFirstScene();
-        if (firstBeat == null)
-        {
-            GD.PrintErr("[EchoHub] No first beat found in manifest");
-            return;
-        }
-
-        GD.Print($"[EchoHub] Starting first beat: {firstBeat.Id} ({firstBeat.SceneFile})");
-        _sceneManager.TransitionToScene(firstBeat.SceneFile);
+    /// <summary>
+    /// Records a chamber object interaction for affinity tracking.
+    /// </summary>
+    public void RecordChamberChoice(string chamberOwner, string objectSlot, string objectAlignment)
+    {
+        _affinityTracker.RecordChamberChoice(chamberOwner, objectSlot, objectAlignment);
     }
 }

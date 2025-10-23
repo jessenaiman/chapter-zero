@@ -21,7 +21,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets or sets the introductory text lines displayed at the start of the scene.
         /// Sets the narrative context before player choices begin.
         /// </summary>
-        public IReadOnlyCollection<string> OpeningLines { get; set; } = new();
+        public List<string> OpeningLines { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the initial choice presented to the player.
@@ -33,7 +33,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets or sets the collection of story blocks that make up the narrative.
         /// Each block represents a segment of story with choices and progression.
         /// </summary>
-        public IReadOnlyCollection<StoryBlock> StoryBlocks { get; set; } = new();
+        public List<StoryBlock> StoryBlocks { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the prompt asking for the player's name.
@@ -87,7 +87,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets or sets the collection of Dreamweaver-aligned choice options.
         /// Each option represents a different Dreamweaver perspective on the situation.
         /// </summary>
-        public IReadOnlyCollection<DreamweaverChoice> Options { get; set; } = new();
+        public List<DreamweaverChoice> Options { get; set; } = new();
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets or sets the collection of text paragraphs that make up this story block.
         /// Each paragraph is displayed sequentially with typewriter effects.
         /// </summary>
-        public IReadOnlyCollection<string> Paragraphs { get; set; } = new();
+        public List<string> Paragraphs { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the question or prompt presented after the story text.
@@ -113,7 +113,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets or sets the collection of choice options available after this story block.
         /// Each option leads to a different story path or outcome.
         /// </summary>
-        public IReadOnlyCollection<ChoiceOption> Choices { get; set; } = new();
+        public List<ChoiceOption> Choices { get; set; } = new();
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ namespace OmegaSpiral.Source.Narrative
         /// Gets the collection of possible answers to the secret question.
         /// Each answer corresponds to a different Dreamweaver alignment.
         /// </summary>
-        public IReadOnlyCollection<string> Options { get; init; } = new();
+        public List<string> Options { get; init; } = new();
     }
 
     /// <summary>
@@ -245,7 +245,7 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalBootSequence
     {
         /// <summary>Gets the glitch lines displayed during boot.</summary>
-        public IReadOnlyCollection<string> GlitchLines { get; init; } = new();
+        public List<string> GlitchLines { get; init; } = new();
 
         /// <summary>Gets or sets whether the sequence should fade to a stable baseline.</summary>
         public bool FadeToStable { get; set; }
@@ -257,7 +257,7 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalMonologue
     {
         /// <summary>Gets the ordered lines for the opening monologue.</summary>
-        public IReadOnlyCollection<string> Lines { get; init; } = new();
+        public List<string> Lines { get; init; } = new();
 
         /// <summary>Gets or sets the cinematic timing tag.</summary>
         public string? CinematicTiming { get; set; }
@@ -269,7 +269,7 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalChoiceBlock
     {
         /// <summary>Gets the setup lines displayed before presenting the choice.</summary>
-        public IReadOnlyCollection<string> Setup { get; init; } = new();
+        public List<string> Setup { get; init; } = new();
 
         /// <summary>Gets or sets the question content for this block.</summary>
         public GhostTerminalQuestion Question { get; set; } = new();
@@ -287,7 +287,7 @@ namespace OmegaSpiral.Source.Narrative
         public string? Context { get; set; }
 
         /// <summary>Gets the available options for the question.</summary>
-        public IReadOnlyCollection<GhostTerminalOption> Options { get; init; } = new();
+        public List<GhostTerminalOption> Options { get; init; } = new();
     }
 
     /// <summary>
@@ -335,13 +335,13 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalStoryFragment
     {
         /// <summary>Gets the introductory lines.</summary>
-        public IReadOnlyCollection<string> Intro { get; init; } = new();
+        public List<string> Intro { get; init; } = new();
 
         /// <summary>Gets or sets the question associated with the fragment.</summary>
         public GhostTerminalQuestion Question { get; set; } = new();
 
         /// <summary>Gets the continuation lines after the question.</summary>
-        public IReadOnlyCollection<string> Continuation { get; init; } = new();
+        public List<string> Continuation { get; init; } = new();
     }
 
     /// <summary>
@@ -350,13 +350,13 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalSecretQuestion
     {
         /// <summary>Gets the setup lines before the secret prompt.</summary>
-        public IReadOnlyCollection<string> Setup { get; init; } = new();
+        public List<string> Setup { get; init; } = new();
 
         /// <summary>Gets or sets the prompt string.</summary>
         public string Prompt { get; set; } = string.Empty;
 
         /// <summary>Gets the available secret options.</summary>
-        public IReadOnlyCollection<GhostTerminalOption> Options { get; init; } = new();
+        public List<GhostTerminalOption> Options { get; init; } = new();
 
         /// <summary>Gets or sets the secret reveal configuration.</summary>
         public GhostTerminalSecretReveal SecretReveal { get; set; } = new();
@@ -371,7 +371,7 @@ namespace OmegaSpiral.Source.Narrative
         public string? Visual { get; set; }
 
         /// <summary>Gets the lines displayed during the reveal.</summary>
-        public IReadOnlyCollection<string> Text { get; init; } = new();
+        public List<string> Text { get; init; } = new();
 
         /// <summary>Gets or sets a value indicating whether the reveal persists after presentation.</summary>
         public bool Persistent { get; set; }
@@ -386,13 +386,13 @@ namespace OmegaSpiral.Source.Narrative
     public partial class GhostTerminalNameQuestion
     {
         /// <summary>Gets the setup lines displayed before the prompt.</summary>
-        public IReadOnlyCollection<string> Setup { get; init; } = new();
+        public List<string> Setup { get; init; } = new();
 
         /// <summary>Gets or sets the prompt text.</summary>
         public string Prompt { get; set; } = string.Empty;
 
         /// <summary>Gets the available naming options.</summary>
-        public IReadOnlyCollection<GhostTerminalOption> Options { get; init; } = new();
+        public List<GhostTerminalOption> Options { get; init; } = new();
     }
 
     /// <summary>
@@ -404,7 +404,7 @@ namespace OmegaSpiral.Source.Narrative
         public string SelectedThread { get; set; } = string.Empty;
 
         /// <summary>Gets the final lines displayed when closing the stage.</summary>
-        public IReadOnlyCollection<string> FinalLines { get; init; } = new();
+        public List<string> FinalLines { get; init; } = new();
     }
 
     /// <summary>
@@ -416,13 +416,13 @@ namespace OmegaSpiral.Source.Narrative
         public EchoChamberMetadata Metadata { get; set; } = new();
 
         /// <summary>Gets the Dreamweaver definitions referenced by interludes and chambers.</summary>
-        public IReadOnlyCollection<EchoChamberDreamweaver> Dreamweavers { get; init; } = new();
+        public List<EchoChamberDreamweaver> Dreamweavers { get; init; } = new();
 
         /// <summary>Gets the ordered interludes preceding each chamber.</summary>
-        public IReadOnlyCollection<EchoChamberInterlude> Interludes { get; init; } = new();
+        public List<EchoChamberInterlude> Interludes { get; init; } = new();
 
         /// <summary>Gets the chamber definitions the player traverses.</summary>
-        public IReadOnlyCollection<EchoChamberChamber> Chambers { get; init; } = new();
+        public List<EchoChamberChamber> Chambers { get; init; } = new();
 
         /// <summary>Gets or sets the finale configuration.</summary>
         public EchoChamberFinale Finale { get; set; } = new();
@@ -443,7 +443,7 @@ namespace OmegaSpiral.Source.Narrative
         public string Status { get; set; } = string.Empty;
 
         /// <summary>Gets the system intro lines displayed at stage start.</summary>
-        public IReadOnlyCollection<string> SystemIntro { get; init; } = new();
+        public List<string> SystemIntro { get; init; } = new();
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ namespace OmegaSpiral.Source.Narrative
         public string Prompt { get; set; } = string.Empty;
 
         /// <summary>Gets the selectable options (always three).</summary>
-        public IReadOnlyCollection<EchoChamberOption> Options { get; init; } = new();
+        public List<EchoChamberOption> Options { get; init; } = new();
     }
 
     /// <summary>
@@ -500,7 +500,7 @@ namespace OmegaSpiral.Source.Narrative
         public string Prompt { get; set; } = string.Empty;
 
         /// <summary>Gets log lines displayed during the interaction.</summary>
-        public IReadOnlyCollection<string> InteractionLog { get; init; } = new();
+        public List<string> InteractionLog { get; init; } = new();
 
         /// <summary>Gets or sets the banter payload for approval/dissent lines.</summary>
         public EchoChamberBanter Banter { get; set; } = new();
@@ -515,7 +515,7 @@ namespace OmegaSpiral.Source.Narrative
         public EchoChamberLine Approve { get; set; } = new();
 
         /// <summary>Gets dissenting lines.</summary>
-        public IReadOnlyCollection<EchoChamberLine> Dissent { get; init; } = new();
+        public List<EchoChamberLine> Dissent { get; init; } = new();
     }
 
     /// <summary>
@@ -545,10 +545,10 @@ namespace OmegaSpiral.Source.Narrative
         public EchoChamberStyle Style { get; set; } = new();
 
         /// <summary>Gets the interactive objects (door, monster, chest).</summary>
-        public IReadOnlyCollection<EchoChamberObject> Objects { get; init; } = new();
+        public List<EchoChamberObject> Objects { get; init; } = new();
 
         /// <summary>Gets decoy echoes that collapse to static.</summary>
-        public IReadOnlyCollection<EchoChamberDecoy> Decoys { get; init; } = new();
+        public List<EchoChamberDecoy> Decoys { get; init; } = new();
     }
 
     /// <summary>
@@ -584,7 +584,7 @@ namespace OmegaSpiral.Source.Narrative
         public string Prompt { get; set; } = string.Empty;
 
         /// <summary>Gets log lines describing the interaction.</summary>
-        public IReadOnlyCollection<string> InteractionLog { get; init; } = new();
+        public List<string> InteractionLog { get; init; } = new();
 
         /// <summary>Gets or sets banter lines triggered after interaction.</summary>
         public EchoChamberBanter Banter { get; set; } = new();
@@ -623,7 +623,7 @@ namespace OmegaSpiral.Source.Narrative
         public string Claim { get; set; } = string.Empty;
 
         /// <summary>Gets the responses from the remaining dreamweavers.</summary>
-        public IReadOnlyCollection<EchoChamberLine> Responses { get; init; } = new();
+        public List<EchoChamberLine> Responses { get; init; } = new();
     }
 
     /// <summary>
@@ -635,22 +635,22 @@ namespace OmegaSpiral.Source.Narrative
         public EchoVaultMetadata Metadata { get; set; } = new();
 
         /// <summary>Gets the ledger defining which Dreamweaver owns each decision beat.</summary>
-        public IReadOnlyCollection<EchoVaultPointsLedgerEntry> PointsLedger { get; init; } = new();
+        public List<EchoVaultPointsLedgerEntry> PointsLedger { get; init; } = new();
 
         /// <summary>Gets the ordered beat list (selection/combat/finale).</summary>
-        public IReadOnlyCollection<EchoVaultBeat> Beats { get; init; } = new();
+        public List<EchoVaultBeat> Beats { get; init; } = new();
 
         /// <summary>Gets the echo definition catalogue.</summary>
-        public IReadOnlyCollection<EchoVaultEchoDefinition> EchoDefinitions { get; init; } = new();
+        public List<EchoVaultEchoDefinition> EchoDefinitions { get; init; } = new();
 
         /// <summary>Gets special non-echo options (rerolls, duplicates).</summary>
-        public IReadOnlyCollection<EchoVaultSpecialOption> SpecialOptions { get; init; } = new();
+        public List<EchoVaultSpecialOption> SpecialOptions { get; init; } = new();
 
         /// <summary>Gets the combat encounter table.</summary>
-        public IReadOnlyCollection<EchoVaultCombat> Combats { get; init; } = new();
+        public List<EchoVaultCombat> Combats { get; init; } = new();
 
         /// <summary>Gets global Omega log strings.</summary>
-        public IReadOnlyCollection<string> OmegaLogs { get; init; } = new();
+        public List<string> OmegaLogs { get; init; } = new();
 
         /// <summary>Gets or sets the party persistence configuration.</summary>
         public EchoVaultPartyPersistence PartyPersistence { get; set; } = new();
@@ -663,10 +663,10 @@ namespace OmegaSpiral.Source.Narrative
         public string Palette { get; set; } = string.Empty;
 
         /// <summary>Gets intro lines shown before decisions.</summary>
-        public IReadOnlyCollection<string> SystemIntro { get; init; } = new();
+        public List<string> SystemIntro { get; init; } = new();
 
         /// <summary>Gets presentation tier descriptors.</summary>
-        public IReadOnlyCollection<EchoVaultPresentationTier> PresentationTiers { get; init; } = new();
+        public List<EchoVaultPresentationTier> PresentationTiers { get; init; } = new();
     }
 
     /// <summary>Represents a visual tier change.</summary>
@@ -717,7 +717,7 @@ namespace OmegaSpiral.Source.Narrative
         public Dictionary<string, string> ChampionWhispers { get; init; } = new();
 
         /// <summary>Gets option identifiers used for this beat.</summary>
-        public IReadOnlyCollection<string> Options { get; init; } = new();
+        public List<string> Options { get; init; } = new();
 
         /// <summary>Gets or sets encounter identifier for combat beats.</summary>
         public string? EncounterId { get; set; }
@@ -729,7 +729,7 @@ namespace OmegaSpiral.Source.Narrative
         public string? TutorialHint { get; set; }
 
         /// <summary>Gets Omega interrupt strings for combat beats.</summary>
-        public IReadOnlyCollection<string> OmegaInterrupts { get; init; } = new();
+        public List<string> OmegaInterrupts { get; init; } = new();
 
         /// <summary>Gets finale summary dialogue keyed by Dreamweaver / system.</summary>
         public Dictionary<string, List<string>> Summary { get; init; } = new();
@@ -815,10 +815,10 @@ namespace OmegaSpiral.Source.Narrative
         public string EncounterId { get; set; } = string.Empty;
 
         /// <summary>Gets enemy composition.</summary>
-        public IReadOnlyCollection<EchoVaultEnemyEntry> EnemyList { get; init; } = new();
+        public List<EchoVaultEnemyEntry> EnemyList { get; init; } = new();
 
         /// <summary>Gets sample log lines for presentation.</summary>
-        public IReadOnlyCollection<string> LogStyle { get; init; } = new();
+        public List<string> LogStyle { get; init; } = new();
     }
 
     /// <summary>Enemy entry inside combat definition.</summary>
@@ -844,7 +844,7 @@ namespace OmegaSpiral.Source.Narrative
         public string TriggerBeat { get; set; } = string.Empty;
 
         /// <summary>Gets fields to persist.</summary>
-        public IReadOnlyCollection<string> FieldsSaved { get; init; } = new();
+        public List<string> FieldsSaved { get; init; } = new();
 
         /// <summary>Gets or sets save method path.</summary>
         public string? SaveMethod { get; set; }

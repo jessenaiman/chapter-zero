@@ -1,5 +1,6 @@
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
 
 namespace OmegaSpiral.Ui.Menus
 {
@@ -120,82 +121,33 @@ namespace OmegaSpiral.Ui.Menus
                 return;
             }
 
-            var sceneFlowPath = _manifestLoader.GetSceneFlowPath(stageId);
-            if (string.IsNullOrEmpty(sceneFlowPath))
+            var stageManager = StageManagerRegistry.GetStageManager(stageId);
+            if (stageManager == null)
             {
-                GD.PrintErr($"[MainMenu] No scene flow configured for Stage {stageId}.");
+                GD.PrintErr($"[MainMenu] No stage manager registered for Stage {stageId}.");
                 return;
             }
 
-            GD.Print($"[MainMenu] Starting {stage.DisplayName} - Scene flow: {sceneFlowPath}");
-
-            // For now, transition to the first scene of the stage
-            // TODO: Initialize SceneNavigator with the stage's scene flow
-            TransitionToStage(stageId);
-        }
-
-        /// <summary>
-        /// Transitions to a stage using the first scene of that stage.
-        /// For Stage 1, loads the manifest to get the first beat.
-        /// </summary>
-        private void TransitionToStage(int stageId)
-        {
-            string? scenePath = null;
-
-            // For Stage 1, load the stage_manifest.json to get the first beat
-            if (stageId == 1)
-            {
-                var stageManifestLoader = new StageManifestLoader();
-                var stageManifest = stageManifestLoader.LoadManifest("res://source/stages/stage_1/stage_manifest.json");
-
-                if (stageManifest != null && stageManifest.Scenes.Count > 0)
-                {
-                    var firstBeat = stageManifest.GetFirstScene();
-                    if (firstBeat != null)
-                    {
-                        scenePath = firstBeat.SceneFile;
-                        GD.Print($"[MainMenu] Stage 1 first beat: {scenePath}");
-                    }
-                }
-                else
-                {
-                    GD.PrintErr("[MainMenu] Failed to load Stage 1 manifest. Falling back to default.");
-                }
-            }
-
-            // Fallback to hardcoded paths for other stages
-            if (string.IsNullOrEmpty(scenePath))
-            {
-                var firstSceneMap = new System.Collections.Generic.Dictionary<int, string>
-                {
-                    { 1, "res://source/stages/stage_1/beats/boot_sequence.tscn" },
-                    { 2, "res://source/stages/stage_2/echo_hub.tscn" },
-                    { 3, "res://source/stages/stage_3/echo_vault_hub.tscn" },
-                    { 4, "res://source/stages/stage_4/stage_4_main.tscn" },
-                    { 5, "res://source/stages/stage_5/stage5.tscn" },
-                };
-
-                if (!firstSceneMap.TryGetValue(stageId, out scenePath))
-                {
-                    GD.PrintErr($"[MainMenu] No entry scene configured for Stage {stageId}.");
-                    return;
-                }
-            }
-
-            GD.Print($"[MainMenu] Transitioning to Stage {stageId}: {scenePath}");
+            string entryScenePath = stageManager.ResolveEntryScenePath();
+            GD.Print($"[MainMenu] Starting {stage.DisplayName} - Entry Scene: {entryScenePath}");
 
             if (_sceneManager != null)
             {
-                _sceneManager.TransitionToScene(scenePath);
+                stageManager.TransitionToStage(_sceneManager);
+                return;
             }
-            else
+
+            GD.PrintErr("[MainMenu] SceneManager not found! Using fallback scene change.");
+            if (!ResourceLoader.Exists(entryScenePath))
             {
-                GD.PrintErr("[MainMenu] SceneManager not found! Using fallback scene change.");
-                var nextScene = GD.Load<PackedScene>(scenePath);
-                if (nextScene != null)
-                {
-                    GetTree().ChangeSceneToPacked(nextScene);
-                }
+                GD.PrintErr($"[MainMenu] Entry scene does not exist: {entryScenePath}");
+                return;
+            }
+
+            var nextScene = GD.Load<PackedScene>(entryScenePath);
+            if (nextScene != null)
+            {
+                GetTree().ChangeSceneToPacked(nextScene);
             }
         }
 
