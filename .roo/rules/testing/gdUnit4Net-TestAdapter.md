@@ -28,6 +28,8 @@ The GdUnit4.TestAdapter implements the Microsoft test adapter framework [VSTest]
 
 ## Installation
 
+All code style and analyzer rules are now managed in `.editorconfig` at the solution root. Only Roslynator analyzers are enforced; StyleCop and ruleset files are no longer used.
+
 Add the Test Adapter to your test project:
 
 ```xml
@@ -215,10 +217,9 @@ Configure multiple output formats for comprehensive test reporting:
 
 * [gdUnit4.api](../Api/README.md) - The core testing framework
 * [gdUnit4.analyzers](../Analyzers/README.md) - Add compile-time validation for your test code
-
 ## Documentation
 
-The full documentation can be found [here](https://mikeschulze.github.io/gdUnit4/csharp_project_setup/vstest-adapter/).
+For detailed information about the GdUnit4 Test Adapter, see the [GdUnit4 VSTest Adapter documentation](https://mikeschulze.github.io/gdUnit4/csharp_project_setup/vstest-adapter/).
 
 ### You Are Welcome To
 

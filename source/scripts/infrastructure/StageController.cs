@@ -27,7 +27,7 @@ public abstract partial class StageController : Node
     private readonly Dictionary<string, int> affinityScores = new(StringComparer.OrdinalIgnoreCase);
 
     private string? _currentSceneId;
-    private int _currentSceneIndex = 0;
+    private int _currentSceneIndex;
 
     /// <summary>
     /// The stage ID (1-5).
@@ -51,7 +51,7 @@ public abstract partial class StageController : Node
     /// <returns>A task that completes when initialization is done.</returns>
     protected virtual async Task OnStageInitializeAsync()
     {
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public abstract partial class StageController : Node
             }
         }
 
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ public abstract partial class StageController : Node
 
         // Wait for scene to signal completion (subclasses should handle this)
         // For now, this is a placeholder that completes immediately
-        await Task.CompletedTask;
+        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     /// <summary>
@@ -191,12 +191,12 @@ public abstract partial class StageController : Node
         {
             // Stage complete
             GD.Print($"[StageController] Stage {StageId} complete");
-            await OnStageCompleteAsync();
+            await OnStageCompleteAsync().ConfigureAwait(false);
 
             // Transition to next stage
             if (!string.IsNullOrEmpty(StageManifest.NextStagePath))
             {
-                await TransitionToNextStageAsync(StageManifest.NextStagePath);
+                await TransitionToNextStageAsync(StageManifest.NextStagePath).ConfigureAwait(false);
             }
             return;
         }
@@ -206,8 +206,57 @@ public abstract partial class StageController : Node
         {
             _currentSceneId = nextSceneId;
             _currentSceneIndex++;
-            await ExecuteSceneAsync(nextScene);
+            await ExecuteSceneAsync(nextScene).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Transitions directly to a scene by manifest ID. Updates internal tracking for subsequent progression.
+    /// </summary>
+    /// <param name="sceneId">The manifest ID of the scene to enter.</param>
+    /// <returns>A task that completes when the scene is executed.</returns>
+    protected async Task TransitionToSceneAsync(string sceneId)
+    {
+        if (StageManifest == null)
+        {
+            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
+            return;
+        }
+
+        var entry = StageManifest.GetScene(sceneId);
+        if (entry == null)
+        {
+            GD.PrintErr($"[StageController] Scene not found in manifest: {sceneId}");
+            return;
+        }
+
+        _currentSceneId = sceneId;
+        _currentSceneIndex = StageManifest.Scenes.FindIndex(s => s.Id == sceneId);
+        await ExecuteSceneAsync(entry).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Transitions to the scene that follows the provided scene id within the manifest.
+    /// </summary>
+    /// <param name="currentSceneId">The manifest ID of the current scene.</param>
+    /// <returns>A task that completes when the next scene is executed or the stage ends.</returns>
+    protected async Task TransitionToNextSceneAsync(string currentSceneId)
+    {
+        if (StageManifest == null)
+        {
+            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
+            return;
+        }
+
+        string? nextId = StageManifest.GetNextSceneId(currentSceneId);
+        if (string.IsNullOrEmpty(nextId))
+        {
+            GD.Print($"[StageController] No next scene after {currentSceneId}");
+            await OnStageCompleteAsync().ConfigureAwait(false);
+            return;
+        }
+
+        await TransitionToSceneAsync(nextId).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -217,7 +266,7 @@ public abstract partial class StageController : Node
     /// <returns>A task that completes when transition is done.</returns>
     protected async Task TransitionToNextStageAsync(string nextStagePath)
     {
-        await OnStageCompleteAsync();
+        await OnStageCompleteAsync().ConfigureAwait(false);
 
         var nextScene = GD.Load<PackedScene>(nextStagePath);
         if (nextScene == null)
@@ -230,51 +279,6 @@ public abstract partial class StageController : Node
 
         var sceneManager = GetNode<SceneManager>("/root/SceneManager");
         sceneManager.TransitionToScene(nextStagePath);
-    }
-
-    /// <summary>
-    /// Transition to a specific scene id within this stage manifest.
-    /// </summary>
-    /// <param name="sceneId">Scene identifier from the manifest.</param>
-    protected async Task TransitionToSceneAsync(string sceneId)
-    {
-        if (StageManifest == null)
-        {
-            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
-            return;
-        }
-
-        var scene = StageManifest.GetScene(sceneId);
-        if (scene == null)
-        {
-            GD.PrintErr($"[StageController] Scene id not found in manifest: {sceneId}");
-            return;
-        }
-
-        await ExecuteSceneAsync(scene);
-    }
-
-    /// <summary>
-    /// Transition to the scene that follows the provided scene id.
-    /// Provided for compatibility with existing controllers that call TransitionToNextSceneAsync.
-    /// </summary>
-    protected async Task TransitionToNextSceneAsync(string currentSceneId)
-    {
-        if (StageManifest == null)
-        {
-            GD.PrintErr("[StageController] Cannot transition: StageManifest not loaded");
-            return;
-        }
-
-        var nextId = StageManifest.GetNextSceneId(currentSceneId);
-        if (string.IsNullOrEmpty(nextId))
-        {
-            GD.Print($"[StageController] No next scene after {currentSceneId}");
-            await OnStageCompleteAsync();
-            return;
-        }
-
-        await TransitionToSceneAsync(nextId);
     }
 
     /// <inheritdoc/>
@@ -300,7 +304,7 @@ public abstract partial class StageController : Node
             ResetAffinityScores();
 
             // Call stage-specific initialization
-            await OnStageInitializeAsync();
+            await OnStageInitializeAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {

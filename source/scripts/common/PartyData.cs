@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts
         /// <summary>
         /// Gets or sets the list of party members.
         /// </summary>
-        public List<Character> Members { get; set; } = new();
+        public IList<Character> Members { get; set; } = new List<Character>();
 
         /// <summary>
         /// Gets or sets the party's gold amount.

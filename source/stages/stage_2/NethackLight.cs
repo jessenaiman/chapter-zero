@@ -1,4 +1,4 @@
-// <copyright file="BeatChamberLight.cs" company="Ωmega Spiral">
+// <copyright file="NethackLight.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 /// Displays the light chamber where the Dreamweaver of Light configures set pieces.
 /// </summary>
 [GlobalClass]
-public partial class BeatChamberLight : BeatChamberExploration
+public partial class NethackLight : NethackExploration
 {
     /// <inheritdoc/>
     public override void _Ready()

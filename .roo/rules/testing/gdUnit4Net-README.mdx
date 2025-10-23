@@ -58,6 +58,35 @@ powerful [test filtering capabilities](TestAdapter/TestFilterGuide.md) for selec
 
 For compile-time validation of your test code, check out the [gdUnit4.analyzers README](Analyzers/README.md).
 
+## Test Filtering Usage
+
+GdUnit4Net supports advanced test filtering using VSTest syntax:
+
+```bash
+# Run only tests in a specific class
+dotnet test --filter "Class=CalculatorTests"
+
+# Run tests with a specific category
+dotnet test --filter "TestCategory=UnitTest"
+
+# Run tests with a specific trait
+dotnet test --filter "Trait=Speed=Fast"
+
+# Combine filters with logical operators
+dotnet test --filter "(TestCategory=UnitTest)&(Trait.Owner=TeamA)"
+```
+
+Example test with category and trait:
+
+```csharp
+[Test]
+[Category("Integration")]
+[Trait("Speed", "Fast")]
+public void FastIntegrationTest()
+{
+    // Test logic here
+}
+```
 # Examples
 
 The [gdUnit4NetExamples](https://github.com/MikeSchulze/gdUnit4NetExamples) repository provides comprehensive example projects
@@ -156,7 +185,7 @@ dotnet test --filter "(Category=Integration)|(Trait=Speed:Fast)"
 ```
 
 The test run looks like this:
-<p align="center"><a href="https://github.com/MikeSchulze/gdUnit4Net"><img src="https://github.com/MikeSchulze/gdUnit4Net/blob/master/Example/assets/TestExplorerRun.png" width="100%"/><br/>
+<p align="center"><a href="https://github.com/MikeSchulze/gdUnit4Net"><img src="https://github.com/MikeSchulze/gdUnit4Net/blob/master/Example/assets/TestExplorerRun.png" width="100%"/></a><br/></p>
 
 ## What's New in v5.0
 
@@ -204,6 +233,10 @@ The test run looks like this:
 
 **Important**: v5.0 includes breaking changes that require minimal code updates:
 ⚠️ Please read the [release notes](https://github.com/MikeSchulze/gdUnit4Net/releases/tag/v5.0.0) about braking changes. ⚠️
+
+- All code style and analyzer rules are now managed in `.editorconfig` at the solution root.
+- Only Roslynator analyzers are enforced; StyleCop and ruleset files are no longer used.
+- Remove any `stylecop.json`, `.ruleset`, or related configuration files from the project.
 
 1. **Add `[RequireGodotRuntime]`** to tests that use Godot features (Nodes, Scenes, Resources)
 2. **Remove unnecessary Godot dependencies** from pure logic tests for better performance

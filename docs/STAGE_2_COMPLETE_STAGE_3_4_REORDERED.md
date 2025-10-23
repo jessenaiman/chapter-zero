@@ -13,7 +13,7 @@
 
 **Components**:
 - ✅ Stage2NarrativeData.cs (12 data classes)
-- ✅ BeatInterludeSequence.cs + 3 BeatChamber variants
+- ✅ BeatInterludeSequence.cs + 3 Nethack variants
 - ✅ EchoAffinityTracker.cs (affinity scoring system)
 - ✅ stage_2_manifest.json (7-beat sequence)
 - ✅ Stage2MenuIntegrationTests.cs (8 test cases)

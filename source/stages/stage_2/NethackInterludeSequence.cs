@@ -1,4 +1,4 @@
-// <copyright file="BeatInterludeSequence.cs" company="Ωmega Spiral">
+// <copyright file="NethackInterludeSequence.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 /// Player selection updates stage affinity scores before advancing.
 /// </summary>
 [GlobalClass]
-public partial class BeatInterludeSequence : SceneBase
+public partial class NethackInterludeSequence : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 

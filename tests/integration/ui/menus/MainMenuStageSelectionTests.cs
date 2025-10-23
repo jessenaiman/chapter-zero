@@ -5,7 +5,7 @@ using GdUnit4.Api;
 using static GdUnit4.Assertions;
 
 [TestSuite]
-public class MainMenuStageSelectionTests
+public static class MainMenuStageSelectionTests
 {
 
     [TestCase]

@@ -81,7 +81,7 @@ BeatInterludeSequence.cs
     ├── Player selects option → updates EchoAffinityTracker
     └── Transitions to chamber
 
-BeatChamberExploration.cs
+NethackExploration.cs
     ├── Loads Stage2NarrativeData for specific chamber
     ├── Renders set pieces (door, monster, chest in slots)
     ├── Handles object interaction
@@ -110,7 +110,7 @@ Stage2 Result: Menu → Interlude1 → Chamber1 → Interlude2 → Chamber2 → 
 - [x] **Task 3: Create Beat renderers for chambers and interludes**
   - Files: `source/stages/stage_2/beats/scripts/Beat*.cs`
   - BeatInterludeSequence.cs: Render interlude → handle player choice → update affinity
-  - BeatChamberLight.cs, BeatChamberShadow.cs, BeatChamberAmbition.cs: Render each chamber
+  - NethackLight.cs, NethackShadow.cs, NethackAmbition.cs: Render each chamber
   - Pattern: Same as Beat1BootSequence + Beat2OpeningMonologue (BeatSceneBase subclass)
   - **Status**: ✅ COMPLETED - All beat renderers created following infrastructure pattern
 
@@ -137,7 +137,7 @@ Stage2 Result: Menu → Interlude1 → Chamber1 → Interlude2 → Chamber2 → 
     - Display alignment color coding (Light/Shadow/Ambition)
     - Show interaction prompts
     - Handle decoy rendering and reveal mechanics
-  - Integration: Called by BeatChamberExploration when rendering specific chamber
+  - Integration: Called by NethackExploration when rendering specific chamber
   - **Status**: ⏳ NOT STARTED - Beat renderers created; rendering system enhancement pending
 
 - [ ] **Task 7: Sync dreamweaver alignment tracking**
@@ -183,17 +183,17 @@ source/stages/stage_2/
 ├── beats/
 │   ├── scripts/
 │   │   ├── BeatInterludeSequence.cs      (NEW - render interludes)
-│   │   ├── BeatChamberLight.cs           (NEW - render light chamber)
-│   │   ├── BeatChamberShadow.cs          (NEW - render shadow chamber)
-│   │   ├── BeatChamberAmbition.cs        (NEW - render ambition chamber)
-│   │   └── BeatChamberExploration.cs     (NEW - generic chamber base)
+│   │   ├── NethackLight.cs           (NEW - render light chamber)
+│   │   ├── NethackShadow.cs          (NEW - render shadow chamber)
+│   │   ├── NethackAmbition.cs        (NEW - render ambition chamber)
+│   │   └── NethackExploration.cs     (NEW - generic chamber base)
 │   └── scenes/
 │       ├── interlude_1.tscn              (attach BeatInterludeSequence)
 │       ├── interlude_2.tscn              (attach BeatInterludeSequence)
 │       ├── interlude_3.tscn              (attach BeatInterludeSequence)
-│       ├── chamber_light.tscn            (attach BeatChamberLight)
-│       ├── chamber_shadow.tscn           (attach BeatChamberShadow)
-│       └── chamber_ambition.tscn         (attach BeatChamberAmbition)
+│       ├── chamber_light.tscn            (attach NethackLight)
+│       ├── chamber_shadow.tscn           (attach NethackShadow)
+│       └── chamber_ambition.tscn         (attach NethackAmbition)
 ├── nethack/
 │   └── (enhanced renderers for set pieces)
 └── test/
@@ -243,7 +243,7 @@ Each Dreamweaver owns one chamber. The JSON structure defines what's different:
 - Objects arranged by progression/challenge
 - Aggressive visual theme
 
-**Key Architecture Insight**: The renderer (BeatChamberExploration) doesn't know which Dreamweaver owns the chamber. It just loads the data and renders what the JSON says to render. This is pure data-driven separation.
+**Key Architecture Insight**: The renderer (NethackExploration) doesn't know which Dreamweaver owns the chamber. It just loads the data and renders what the JSON says to render. This is pure data-driven separation.
 
 ---
 
@@ -261,7 +261,7 @@ BeatInterludeSequence (Beat 1 of 9)
     ↓ Updates EchoAffinityTracker
     ↓ Emit signal_beat_complete()
     ↓
-BeatChamberLight (Beat 2 of 9)
+NethackLight (Beat 2 of 9)
     ↓ [Player explores chamber]
     ↓ Interact with door/monster/chest
     ↓ Emit signal_beat_complete()
@@ -602,7 +602,7 @@ The 9-task TODO list in chat matches the "Implementation Checklist" section abov
 - ✅ Created `Stage2NarrativeData.cs` with full data structures for stage_2.json
 - ✅ Verified JSON deserialization with comprehensive test suite (9 test cases)
 - ✅ Created BeatInterludeSequence.cs for rendering interludes
-- ✅ Created BeatChamberExploration.cs (base) and three subclasses (Light, Shadow, Ambition)
+- ✅ Created NethackExploration.cs (base) and three subclasses (Light, Shadow, Ambition)
 - ✅ Created stage_2_manifest.json with 7-beat sequence
 - ✅ Build and tests pass cleanly
 

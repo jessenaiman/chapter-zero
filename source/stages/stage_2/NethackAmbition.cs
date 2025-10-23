@@ -1,4 +1,4 @@
-// <copyright file="BeatChamberAmbition.cs" company="Ωmega Spiral">
+// <copyright file="NethackAmbition.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 /// Displays the ambition chamber where the Dreamweaver of Ambition configures set pieces.
 /// </summary>
 [GlobalClass]
-public partial class BeatChamberAmbition : BeatChamberExploration
+public partial class NethackAmbition : NethackExploration
 {
     /// <inheritdoc/>
     public override void _Ready()

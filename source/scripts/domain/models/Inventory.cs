@@ -28,7 +28,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets the list of item IDs currently in the inventory.
         /// </summary>
-        public List<string> ItemIds { get; private set; } = new List<string>();
+        public IList<string> ItemIds { get; private set; } = new List<string>();
 
         /// <summary>
         /// Gets the quantities for each item in the inventory.
@@ -48,7 +48,7 @@ namespace OmegaSpiral.Domain.Models
         /// <summary>
         /// Gets or sets the inventory categories and their item assignments.
         /// </summary>
-        public Dictionary<string, List<string>> CategoryAssignments { get; set; } = new Dictionary<string, List<string>>();
+        public Dictionary<string, IList<string>> CategoryAssignments { get; set; } = new Dictionary<string, IList<string>>();
 
         /// <summary>
         /// Gets or sets the sorting preferences for the inventory.
@@ -91,7 +91,7 @@ namespace OmegaSpiral.Domain.Models
                 ItemQuantities = new Dictionary<string, int>(this.ItemQuantities),
                 EquippedItems = new Dictionary<string, string>(this.EquippedItems),
                 CustomItemData = new Dictionary<string, Dictionary<string, object>>(this.CustomItemData),
-                CategoryAssignments = new Dictionary<string, List<string>>(this.CategoryAssignments),
+                CategoryAssignments = this.CategoryAssignments.ToDictionary(kvp => kvp.Key, kvp => (IList<string>)new List<string>(kvp.Value)),
                 SortingPreferences = new Dictionary<string, object>(this.SortingPreferences)
             };
         }
@@ -347,7 +347,7 @@ namespace OmegaSpiral.Domain.Models
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId))
                 return;
 
-            if (!this.CategoryAssignments.TryGetValue(category, out List<string>? value))
+            if (!this.CategoryAssignments.TryGetValue(category, out IList<string>? value))
             {
                 value = new List<string>();
                 this.CategoryAssignments[category] = value;
@@ -367,7 +367,7 @@ namespace OmegaSpiral.Domain.Models
         public void RemoveFromCategory(string category, string itemId)
         {
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId) ||
-                !this.CategoryAssignments.TryGetValue(category, out List<string>? value))
+                !this.CategoryAssignments.TryGetValue(category, out IList<string>? value))
             {
                 return;
             }
@@ -382,7 +382,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A list of item IDs in the specified category.</returns>
         public List<string> GetCategoryItems(string category)
         {
-            return this.CategoryAssignments.TryGetValue(category, out List<string>? value) ?
+            return this.CategoryAssignments.TryGetValue(category, out IList<string>? value) ?
                    new List<string>(value) :
                    new List<string>();
         }

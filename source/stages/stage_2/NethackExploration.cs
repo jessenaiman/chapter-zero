@@ -1,4 +1,4 @@
-// <copyright file="BeatChamberExploration.cs" company="Ωmega Spiral">
+// <copyright file="NethackExploration.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -12,10 +12,10 @@ namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 /// Beat: Chamber Exploration base scene handler.
 /// Loads chamber data from stage_2.json and displays the dungeon layout with set pieces.
 /// Player can interact with door, monster, and chest objects.
-/// Subclasses (BeatChamberLight, BeatChamberShadow, BeatChamberAmbition) specify which chamber to display.
+/// Subclasses (NethackLight, NethackShadow, NethackAmbition) specify which chamber to display.
 /// </summary>
 [GlobalClass]
-public partial class BeatChamberExploration : SceneBase
+public partial class NethackExploration : SceneBase
 {
     private const string NarrativeJsonPath = "res://source/stages/stage_2/stage_2.json";
 
@@ -38,7 +38,7 @@ public partial class BeatChamberExploration : SceneBase
     {
         if (owner != "light" && owner != "shadow" && owner != "ambition")
         {
-            GD.PrintErr($"[BeatChamberExploration] Invalid chamber owner: {owner}");
+            GD.PrintErr($"[NethackExploration] Invalid chamber owner: {owner}");
             return;
         }
 
@@ -50,7 +50,7 @@ public partial class BeatChamberExploration : SceneBase
     {
         base._Ready();
 
-        GD.Print($"[BeatChamberExploration] Chamber exploration started for {_chamberOwner}");
+        GD.Print($"[NethackExploration] Chamber exploration started for {_chamberOwner}");
 
         // Load narrative data from JSON
         var loader = new NarrativeDataLoader();
@@ -58,7 +58,7 @@ public partial class BeatChamberExploration : SceneBase
 
         if (_narrativeData == null)
         {
-            GD.PrintErr("[BeatChamberExploration] Failed to load narrative data");
+            GD.PrintErr("[NethackExploration] Failed to load narrative data");
             return;
         }
 
@@ -66,7 +66,7 @@ public partial class BeatChamberExploration : SceneBase
         var chamber = _narrativeData.Chambers.Find(c => c.Owner == _chamberOwner);
         if (chamber == null)
         {
-            GD.PrintErr($"[BeatChamberExploration] Chamber owned by '{_chamberOwner}' not found");
+            GD.PrintErr($"[NethackExploration] Chamber owned by '{_chamberOwner}' not found");
             return;
         }
 
@@ -75,7 +75,7 @@ public partial class BeatChamberExploration : SceneBase
 
         if (_contentContainer == null)
         {
-            GD.PrintErr("[BeatChamberExploration] ContentVBox not found in scene");
+            GD.PrintErr("[NethackExploration] ContentVBox not found in scene");
             return;
         }
 
@@ -132,7 +132,7 @@ public partial class BeatChamberExploration : SceneBase
     /// </summary>
     private void OnObjectInteracted(ChamberObject obj)
     {
-        GD.Print($"[BeatChamberExploration] Player interacted with {obj.Slot}");
+        GD.Print($"[NethackExploration] Player interacted with {obj.Slot}");
 
         int points = obj.Alignment == _chamberOwner ? 2 : 1;
         AwardAffinity(obj.Alignment, points);
@@ -157,7 +157,7 @@ public partial class BeatChamberExploration : SceneBase
     /// </summary>
     private void OnDecoyInvestigated(DecoyData decoy)
     {
-        GD.Print($"[BeatChamberExploration] Player investigated decoy: {decoy.Id}");
+        GD.Print($"[NethackExploration] Player investigated decoy: {decoy.Id}");
         GD.Print($"Reveal: {decoy.RevealText}");
 
         // TODO: Show visual feedback (glitch effect, etc)
@@ -168,7 +168,7 @@ public partial class BeatChamberExploration : SceneBase
     /// </summary>
     private void OnChamberComplete()
     {
-        GD.Print("[BeatChamberExploration] Chamber exploration complete, advancing to next beat");
+        GD.Print("[NethackExploration] Chamber exploration complete, advancing to next beat");
         TransitionToNextBeat();
     }
 }
