@@ -1,6 +1,6 @@
 # Post-Refactoring Test Failure Report
-**Date:** October 24, 2025  
-**Branch:** main  
+**Date:** October 24, 2025
+**Branch:** main
 **Status:** CRITICAL - Massive test failures detected
 
 ## Executive Summary
@@ -226,12 +226,12 @@ GameManager (autoload singleton)
   ├─ StageScenes: PackedScene[]
   ├─ AdvanceToNextStageAsync()
   └─ Listens for: StageComplete signal
-  
+
 StageManager (abstract base)
   ├─ StageId: int (abstract)
   ├─ ExecuteStageAsync() (abstract)
   └─ Emits: StageComplete signal
-  
+
 Stage1Manager : StageManager
   ├─ Loads: ghost.yaml
   ├─ Uses: NarrativeRenderer
@@ -242,13 +242,13 @@ NarrativeRenderer
   ├─ DisplayLinesAsync(string[])
   ├─ ShowChoicesAsync(ChoiceOption[])
   └─ Returns: Selected choice ID (no logic)
-  
+
 NarrativeScript (base)
   └─ Blocks: ContentBlock[]
       ├─ Type: narrative | question | composite
       ├─ Lines, Prompt, Options
       └─ Extension point for stages
-      
+
 Stage1Script : NarrativeScript
   └─ Stage1ChoiceOption : ChoiceOption
       └─ Adds: Dreamweaver, Scores, Philosophical

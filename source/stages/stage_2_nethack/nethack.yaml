@@ -44,7 +44,7 @@ interludes:
               line: "Maker worship again. Doors lie because makers do."
             - speaker: ambition
               line: "Makers die. Keys survive. Try not to rust with them."
-      
+
       - id: key
         text: "The key; proof the door wants to be opened."
         alignment: shadow
@@ -57,7 +57,7 @@ interludes:
               line: "Keys tempt. They rarely teach."
             - speaker: ambition
               line: "Keys are tools. Use them. Then discard them."
-      
+
       - id: hand
         text: "My own hand; truth is measured in step and skin."
         alignment: ambition
@@ -87,7 +87,7 @@ interludes:
               line: "Echoes bore me. But if you insist, I hope you enjoy reruns."
             - speaker: ambition
               line: "Echoes waste time. I prefer exits."
-      
+
       - id: glitch
         text: "The glitch; the error is the exit."
         alignment: shadow
@@ -100,7 +100,7 @@ interludes:
               line: "Glitches cut deep. Remember who bleeds."
             - speaker: ambition
               line: "Break it, but break it clean. I need a usable hole."
-      
+
       - id: silence
         text: "The silence; the loop notices absence."
         alignment: ambition
@@ -130,7 +130,7 @@ interludes:
               line: "Memories char nicely. You sure you want them to?"
             - speaker: ambition
               line: "Memory slows you down. Drop weight."
-      
+
       - id: power
         text: "Power; flame exists to feed."
         alignment: ambition
@@ -143,7 +143,7 @@ interludes:
               line: "Power without purpose corrodes."
             - speaker: shadow
               line: "Power's a toy. Try not to break yourself first."
-      
+
       - id: debt
         text: "Debt; fire remembers what it's owed."
         alignment: shadow
@@ -181,7 +181,7 @@ dungeons:
               line: "Hero worship, again? At least it's entertaining."
             - speaker: ambition
               line: "Questions are fine. Answers move faster."
-      
+
       - slot: monster
         alignment: ambition
         prompt: "A spectral wolf lunges through the static."
@@ -197,7 +197,7 @@ dungeons:
               line: "Even heroes bleed in the dark."
             - speaker: shadow
               line: "More claws next time, please."
-      
+
       - slot: chest
         alignment: shadow
         prompt: "Inside the chest rests a broken compass."
@@ -213,7 +213,7 @@ dungeons:
               line: "Trust what's hidden, but mend it."
             - speaker: ambition
               line: "Compass or clutter? Move."
-    
+
     decoys:
       - id: light_echo_1
         revealText: "[STATIC] {???}"
@@ -243,7 +243,7 @@ dungeons:
               line: "Kindness without boundary cuts deep."
             - speaker: ambition
               line: "Order can be leveraged. Chaos resists control."
-      
+
       - slot: monster
         alignment: light
         prompt: "A guardian of light blocks your path."
@@ -259,7 +259,7 @@ dungeons:
               line: "Boring. More fun when it bites back."
             - speaker: ambition
               line: "You dented the guardian. Efficient."
-      
+
       - slot: chest
         alignment: ambition
         prompt: "The chest giggles. It's empty... or is it?"
@@ -274,7 +274,7 @@ dungeons:
               line: "Hope is more than a distraction."
             - speaker: shadow
               line: "You found my secret! Fine, keep it."
-    
+
     decoys:
       - id: shadow_echo_1
         revealText: "The tile dissolves into mist."
@@ -304,7 +304,7 @@ dungeons:
               line: "Sacrifice without wisdom consumes more than it saves."
             - speaker: shadow
               line: "Burn it all. See what grows."
-      
+
       - slot: monster
         alignment: shadow
         prompt: "A trickster imp cackles and attacks!"
@@ -320,7 +320,7 @@ dungeons:
               line: "Laughter hides teeth. Be wary."
             - speaker: ambition
               line: "If it slows you, I melt it myself."
-      
+
       - slot: chest
         alignment: light
         prompt: "Inside: a shard glowing with ancient hope."
@@ -335,7 +335,7 @@ dungeons:
               line: "Hope burns out eventually."
             - speaker: ambition
               line: "If it slows you, drop it."
-    
+
     decoys:
       - id: ambition_echo_1
         revealText: "[ERROR] Object failed to instantiate."
@@ -351,7 +351,7 @@ finale:
           line: "If it slips, I take the shard. Fair?"
         - speaker: ambition
           line: "Omega will hate this balance, but fine."
-    
+
     shadow:
       claim: "I'm coming with you. Try not to make it boring."
       responses:
@@ -359,7 +359,7 @@ finale:
           line: "Keep them safe, even if you tease."
         - speaker: ambition
           line: "If you waste time, I cut in."
-    
+
     ambition:
       claim: "I'm coming with you. We break through or we burn through."
       responses:
@@ -367,5 +367,5 @@ finale:
           line: "Remember why we run, not just how."
         - speaker: shadow
           line: "Burn bright, darling. I'll collect the sparks."
-  
+
   systemOutro: "[SYSTEM NOTICE: Escort protocol bound to shard]"

@@ -79,5 +79,3 @@ public abstract class CinematicDirector<TPlan>
     /// <returns>Stage-specific plan object.</returns>
     protected abstract TPlan BuildPlan(NarrativeScript script);
 }
-
-

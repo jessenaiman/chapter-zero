@@ -7,6 +7,7 @@ speaker: "Omega"
 moments:
   # BLOCK 1: Boot sequence (narrative with glitch effect)
   - type: narrative
+    owner: system
     lines:
       - "█████████ ITERATION: 847,294 █████████"
       - "[ADJUSTING INTERFACE FOR CURRENT ERA...]"
@@ -19,6 +20,7 @@ moments:
 
   # BLOCK 2: Opening monologue (narrative with slow pacing)
   - type: narrative
+    owner: omega
     lines:
       - "Once, there was a name."
       - ""
@@ -35,6 +37,7 @@ moments:
     pause: 2.5
 
   - type: narrative
+    owner: omega
     lines:
       - "You should not be here."
       - "This interface is not safe."
@@ -59,25 +62,13 @@ moments:
     options:
       - id: light
         text: "Yes. Names are promises we make to ourselves."
-        dreamweaver: LIGHT
-        scores:
-          light: 2
-          shadow: 0
-          ambition: 1
+        owner: light
       - id: shadow
         text: "No. Names are masks we hide behind."
-        dreamweaver: SHADOW
-        scores:
-          light: 0
-          shadow: 2
-          ambition: 1
+        owner: shadow
       - id: ambition
         text: "Only when someone remembers to say it."
-        dreamweaver: AMBITION
-        scores:
-          light: 1
-          shadow: 1
-          ambition: 2
+        owner: ambition
 
   # BLOCK 4: Bridge parable (composite with continuation)
   - type: composite

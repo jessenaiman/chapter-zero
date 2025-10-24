@@ -1,5 +1,5 @@
 d758b84c8d20760826950c68787f21d4
-::res://::1761331737
+::res://::1761333370
 AGENTS.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 build-errors.log::TextFile::-1::1760197915::0::1::::<><><>0<>0<><>::
 build-full.log::TextFile::-1::1760225735::0::1::::<><><>0<>0<><>::
@@ -11,7 +11,7 @@ global.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 MANIFEST_LOADER_AUDIT.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 MANIFEST_LOADER_AUDIT_SUMMARY.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 override.cfg::TextFile::-1::1761271981::0::1::::<><><>0<>0<><>::
-POST_REFACTORING_REPORT.md::TextFile::-1::1761324350::0::1::::<><><>0<>0<><>::
+POST_REFACTORING_REPORT.md::TextFile::-1::1761332540::0::1::::<><><>0<>0<><>::
 qodana.yaml::YAMLResource::5130920744394791556::1761271981::0::1::::<><>res://addons/yaml/icon.svg<>0<>0<><>::
 README.md::TextFile::-1::1761271981::0::1::::<><><>0<>0<><>::
 requirements.txt::TextFile::-1::1761271981::0::1::::<><><>0<>0<><>::
@@ -1419,7 +1419,7 @@ dungeon_sequence_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 echo_chamber_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 echo_vault_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 ghost_terminal_cinematic_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
-narrative_script.schema.yaml::YAMLResource::5342057503186777411::1761331091::0::1::::<><><>0<>0<><>::
+narrative_script.schema.yaml::YAMLResource::5342057503186777411::1761332341::0::1::::<><><>0<>0<><>::
 narrative_terminal_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 npc_dialogue_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 savegame_schema.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
@@ -1556,7 +1556,7 @@ UIPopup.cs::CSharpScript::1957351978826367414::1761313165::0::1::::<><><>0<>0<><
 ui_popup.tscn::PackedScene::2550809782693346406::1761313165::0::1::::<><><>0<>0<><>::uid://ynkfss4o3als::::res://source/scripts/field/ui/popups/UiPopup.cs<>uid://f2uyafsf3srw::::res://assets/gui/emotes/emote__.png
 ::res://source/infrastructure/::1761329180
 BaseManifestLoader.cs::CSharpScript::4540174772456441169::1761271981::0::1::::<><><>0<>0<><>::
-CinematicDirector.cs::CSharpScript::7337474360683732720::1761328436::0::1::::<><><>0<>0<><>::
+CinematicDirector.cs::CSharpScript::7337474360683732720::1761332540::0::1::::<><><>0<>0<><>::
 GameManager.cs::CSharpScript::4434319595755308093::1761323157::0::1::::GameManager<>Node<><>0<>0<><>::
 IManifestAware.cs::CSharpScript::1205470150018317252::1761271981::0::1::::<><><>0<>0<><>::
 ManifestAwareNode.cs::CSharpScript::5358977666148923588::1761271981::0::1::::<>Node<><>1<>0<><>::
@@ -1571,9 +1571,9 @@ StageManifest.cs::CSharpScript::6339321100130042681::1761271981::0::1::::<><><>0
 StageManifestLoader.cs::CSharpScript::2578705360972966748::1761271981::0::1::::<><><>0<>0<><>::
 ::res://source/narrative/::1761329180
 CharacterData.cs::CSharpScript::1675468280008808119::1761271981::0::1::::<><><>0<>0<><>::
-ChoiceOption.cs::CSharpScript::3503592454181784569::1761330015::0::1::::<><><>0<>0<><>::
+ChoiceOption.cs::CSharpScript::3503592454181784569::1761333066::0::1::::<><><>0<>0<><>::
 NarrativeRenderer.cs::CSharpScript::6470856490422274536::1761325762::0::1::::<><><>0<>0<><>::
-NarrativeScript.cs::CSharpScript::5438842703805193928::1761331523::0::1::::<><><>0<>0<><>::
+NarrativeScript.cs::CSharpScript::5438842703805193928::1761333059::0::1::::<><><>0<>0<><>::
 NarrativeScriptLoader.cs::CSharpScript::1347004591223149062::1761328878::0::1::::<><><>0<>0<><>::
 NarrativeTerminal.cs::CSharpScript::5191263431690379146::1761326552::0::1::::<><><>0<>0<><>::
 NarrativeUI.cs::CSharpScript::887790457376769189::1761326293::0::1::::<><><>0<>0<><>::
@@ -1704,16 +1704,16 @@ StageButton.cs::CSharpScript::1448354455056523573::1761313165::0::1::::StageButt
 stage_button.tscn::PackedScene::-1::1761271981::0::1::::<><><>0<>0<><>::res://source/stages/stage_0_start/StageButton.cs<>res://source/assets/gui/font/Kenney Pixel.ttf
 ::res://source/stages/stage_1_ghost/::1761329919
 ghost.json::JSON::-1::1761329919::0::1::::<><><>0<>0<><>::
-ghost.yaml::YAMLResource::2577099803114603861::1761331525::0::1::::<><><>0<>0<><>::
-GhostNarrativeData.cs::CSharpScript::3250364419653834715::1761326552::0::1::::<><><>0<>0<><>::
+ghost.yaml::YAMLResource::2577099803114603861::1761333114::0::1::::<><><>0<>0<><>::
+GhostNarrativeData.cs::CSharpScript::3250364419653834715::1761333350::0::1::::<><><>0<>0<><>::
 GhostTerminalCinematicDirector.cs::CSharpScript::1198060177883848547::1761328544::0::1::::<><><>0<>0<><>::
 ghost_design_document.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 ghost_manifest.json::JSON::-1::1761271981::0::1::::<><><>0<>0<><>::
 ghost_start.tscn::PackedScene::336866413329415055::1761313165::0::1::::<><><>0<>0<><>::res://source/stages/stage_1/scenes/terminal_base.tscn
 IMPLEMENTATION_STATUS.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 OpeningMonologue.cs::CSharpScript::3886918822450100841::1761282493::0::1::::<><><>0<>0<><>::
-::res://source/stages/stage_2_nethack/::1761331363
-nethack.yaml::YAMLResource::2788843982607978175::1761331442::0::1::::<><><>0<>0<><>::
+::res://source/stages/stage_2_nethack/::1761331740
+nethack.yaml::YAMLResource::2788843982607978175::1761332540::0::1::::<><><>0<>0<><>::
 NethackAmbition.cs::CSharpScript::8069416851455311313::1761271981::0::1::::<><><>0<>0<><>::
 NethackDirector.cs::CSharpScript::6433081676859067379::1761328625::0::1::::<><><>0<>0<><>::
 NethackDungeon.cs::CSharpScript::7583095156077153042::1761313165::0::1::::<><><>0<>0<><>::
@@ -1902,7 +1902,7 @@ SaveLoadManagerTests.cs::CSharpScript::8989604371189419950::1761271981::0::1::::
 Stage6SystemLogDataTests.cs::CSharpScript::778854126334664772::1761271981::0::1::::<><><>0<>0<><>::
 ::res://tests/unit/ui/::1761313356
 MainMenuTests.cs::CSharpScript::3251803715107388943::1761324236::0::1::::<><><>0<>0<><>::
-MenuUITests.cs::CSharpScript::9204505720334594341::1761314901::0::1::::<><><>0<>0<><>::
+MenuUITests.cs::CSharpScript::9204505720334594341::1761333345::0::1::::<><><>0<>0<><>::
 omega-ui-test-cases.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 OmegaUITests.cs::CSharpScript::5966968642439288691::1761313165::0::1::::<><><>0<>0<><>::
 OmegaUI_IntegrationTests.cs::CSharpScript::8663654131836687443::1761313165::0::1::::<><><>0<>0<><>::

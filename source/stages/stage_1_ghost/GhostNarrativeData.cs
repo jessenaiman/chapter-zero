@@ -180,7 +180,7 @@ public class DreamweaverChoice : ChoiceOption
     /// Gets or sets the dreamweaver alignment scores for this choice.
     /// </summary>
     [JsonPropertyName("scores")]
-    public DreamweaverScores Scores { get; set; } = new();
+    public new DreamweaverScores Scores { get; set; } = new();
 }
 
 /// <summary>

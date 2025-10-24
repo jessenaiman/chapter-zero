@@ -11,7 +11,7 @@ using System.Collections.Generic;
 /// Used across YAML narratives, JSON dialogues, and UI presentation layers.
 /// This is a common data structure shared by all stages and systems.
 /// </summary>
-public partial class ChoiceOption
+public partial class ChoiceOption : NarrativeElement
 {
     /// <summary>
     /// Gets or sets the unique identifier for this choice option.

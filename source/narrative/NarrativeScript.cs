@@ -8,6 +8,21 @@ using YamlDotNet.Serialization;
 namespace OmegaSpiral.Source.Narrative;
 
 /// <summary>
+/// Base class for all narrative elements that can have an owner (dreamweaver affiliation).
+/// This provides automatic dreamweaver scoring based on the owner property.
+/// </summary>
+public abstract class NarrativeElement
+{
+    /// <summary>
+    /// Gets or sets the owner/affiliation of this element.
+    /// Valid values: system, omega, light, shadow, ambition, npc, none.
+    /// Used for automatic dreamweaver scoring during narrative parsing.
+    /// </summary>
+    [YamlMember(Alias = "owner")]
+    public string? Owner { get; set; }
+}
+
+/// <summary>
 /// Base narrative script schema - stage-agnostic.
 /// Contains sequential moments of narrative content (text, questions, composites).
 /// Stages can extend this with stage-specific data.
@@ -81,7 +96,7 @@ public class ScriptMetadata
 /// A single content block in the narrative script.
 /// Block types: "narrative", "question", "composite".
 /// </summary>
-public class ContentBlock
+public class ContentBlock : NarrativeElement
 {
     /// <summary>
     /// Gets or sets the block type.

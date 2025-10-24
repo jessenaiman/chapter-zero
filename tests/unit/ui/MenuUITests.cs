@@ -199,11 +199,16 @@ public class MenuUiTests : IDisposable
         container!.AddChild(button1);
         container.AddChild(button2);
 
+        // Verify buttons are not null
+        AssertThat(button1).IsNotNull();
+        AssertThat(button2).IsNotNull();
+
         // Focus first button
         this._MenuUi!.FocusFirstButton();
 
         // Verify first button has focus
-        AssertThat(button1.HasFocus()).IsTrue();
+        AssertThat(button1!.HasFocus()).IsTrue();
+        AssertThat(button1!.HasFocus()).IsTrue();
     }
 
     /// <summary>
@@ -220,7 +225,7 @@ public class MenuUiTests : IDisposable
         // Add and focus a button
         var testButton = AutoFree(new Button { Text = "Test Button" });
         container!.AddChild(testButton);
-        testButton.GrabFocus();
+        testButton!.GrabFocus();
 
         // Verify we can retrieve the focused button
         var focusedButton = this._MenuUi!.GetFocusedButton();
