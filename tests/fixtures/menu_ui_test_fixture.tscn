@@ -41,6 +41,18 @@ alignment = 1
 layout_mode = 2
 alignment = 1
 
+[node name="Button1" type="Button" parent="ContentContainer/MenuButtonContainer"]
+layout_mode = 2
+text = "Button 1"
+
+[node name="Button2" type="Button" parent="ContentContainer/MenuButtonContainer"]
+layout_mode = 2
+text = "Button 2"
+
+[node name="QuitButton" type="Button" parent="ContentContainer/MenuButtonContainer"]
+layout_mode = 2
+text = "Quit"
+
 [node name="MenuActionBar" type="HBoxContainer" parent="ContentContainer"]
 layout_mode = 2
 alignment = 2

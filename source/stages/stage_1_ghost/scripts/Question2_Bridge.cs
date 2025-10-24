@@ -51,7 +51,7 @@ public partial class Question2Bridge : GhostTerminalUI
 
         string[] optionTexts = prompt.Options.Select(option => option.Text).ToArray();
 
-        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts, ghostPrompt: true).ConfigureAwait(false);
+        string selectedText = await PresentChoicesAsync(prompt.Prompt, optionTexts).ConfigureAwait(false);
         GhostTerminalChoiceOption selectedOption = prompt.Options.First(option => option.Text == selectedText);
 
         RecordChoice("question2_bridge", selectedOption);

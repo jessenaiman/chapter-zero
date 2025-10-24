@@ -52,19 +52,19 @@ namespace OmegaSpiral.UI.Menus
         /// </summary>
         [ExportGroup("Node References")]
         [Export]
-        public NodePath? StageButtonListPath { get; set; }
+        public NodePath? StageButtonListPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList");
 
         /// <summary>
         /// Node path to the stage list header label.
         /// </summary>
         [Export]
-        public NodePath? StageHeaderPath { get; set; }
+        public NodePath? StageHeaderPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageHeader");
 
         /// <summary>
         /// Node path to the "Start Game" button.
         /// </summary>
         [Export]
-        public NodePath? StartButtonPath { get; set; }
+        public NodePath? StartButtonPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
 
         // --- PRIVATE FIELDS ---
 

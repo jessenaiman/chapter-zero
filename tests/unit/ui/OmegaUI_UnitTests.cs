@@ -4,6 +4,7 @@
 
 using GdUnit4;
 using OmegaSpiral.Source.UI.Omega;
+using Moq;
 using static GdUnit4.Assertions;
 using System.Threading.Tasks;
 
@@ -21,13 +22,14 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures AppendTextAsync delegates to IOmegaTextRenderer.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task AppendTextAsync_DelegatesToTextRenderer()
         {
-            var mockRenderer = GdUnit4.Mock.Of<IOmegaTextRenderer>();
+            var mockRenderer = new Mock<IOmegaTextRenderer>();
             var omegaUI = new OmegaUI();
-            omegaUI.SetTextRendererForTest(mockRenderer);
+            omegaUI.SetTextRendererForTest(mockRenderer.Object);
             await omegaUI.AppendTextAsync("Hello", 42f, 1f);
-            GdUnit4.Mock.Verify(mockRenderer).AppendTextAsync("Hello", 42f, 1f);
+            mockRenderer.Verify(m => m.AppendTextAsync("Hello", 42f, 1f), Times.Once);
         }
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures no exception is thrown and warning is logged if TextRenderer is null.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task AppendTextAsync_GracefulFailureWhenRendererNull()
         {
             var omegaUI = new OmegaUI();
@@ -47,13 +50,14 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures ApplyVisualPresetAsync delegates to IOmegaShaderController.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task ApplyVisualPresetAsync_DelegatesToShaderController()
         {
-            var mockShader = GdUnit4.Mock.Of<IOmegaShaderController>();
+            var mockShader = new Mock<IOmegaShaderController>();
             var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader);
+            omegaUI.SetShaderControllerForTest(mockShader.Object);
             await omegaUI.ApplyVisualPresetAsync("CRT");
-            GdUnit4.Mock.Verify(mockShader).ApplyVisualPresetAsync("CRT");
+            mockShader.Verify(m => m.ApplyVisualPresetAsync("CRT"), Times.Once);
         }
 
         /// <summary>
@@ -61,6 +65,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures no exception is thrown and warning is logged if ShaderController is null.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task ApplyVisualPresetAsync_GracefulFailureWhenControllerNull()
         {
             var omegaUI = new OmegaUI();
@@ -73,16 +78,19 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures Dispose calls Dispose on both components and nulls references.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void Dispose_CallsDisposeOnComponentsAndNullsReferences()
         {
-            var mockShader = GdUnit4.Mock.Of<IOmegaShaderController, System.IDisposable>();
-            var mockRenderer = GdUnit4.Mock.Of<IOmegaTextRenderer, System.IDisposable>();
+            var mockShader = new Mock<IOmegaShaderController>();
+            mockShader.As<System.IDisposable>();
+            var mockRenderer = new Mock<IOmegaTextRenderer>();
+            mockRenderer.As<System.IDisposable>();
             var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader);
-            omegaUI.SetTextRendererForTest(mockRenderer);
+            omegaUI.SetShaderControllerForTest(mockShader.Object);
+            omegaUI.SetTextRendererForTest(mockRenderer.Object);
             omegaUI.Dispose();
-            GdUnit4.Mock.Verify(mockShader).Dispose();
-            GdUnit4.Mock.Verify(mockRenderer).Dispose();
+            mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
+            mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
             AssertThat(omegaUI.ShaderController).IsNull();
             AssertThat(omegaUI.TextRenderer).IsNull();
         }
@@ -92,17 +100,20 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Ensures Dispose logic is only executed once.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void Dispose_CalledTwice_OnlyExecutesOnce()
         {
-            var mockShader = GdUnit4.Mock.Of<IOmegaShaderController, System.IDisposable>();
-            var mockRenderer = GdUnit4.Mock.Of<IOmegaTextRenderer, System.IDisposable>();
+            var mockShader = new Mock<IOmegaShaderController>();
+            mockShader.As<System.IDisposable>();
+            var mockRenderer = new Mock<IOmegaTextRenderer>();
+            mockRenderer.As<System.IDisposable>();
             var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader);
-            omegaUI.SetTextRendererForTest(mockRenderer);
+            omegaUI.SetShaderControllerForTest(mockShader.Object);
+            omegaUI.SetTextRendererForTest(mockRenderer.Object);
             omegaUI.Dispose();
             omegaUI.Dispose(); // Should not call Dispose again
-            GdUnit4.Mock.Verify(mockShader).Dispose();
-            GdUnit4.Mock.Verify(mockRenderer).Dispose();
+            mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
+            mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
         }
     }
 }

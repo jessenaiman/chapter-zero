@@ -37,11 +37,11 @@ namespace OmegaSpiral.Tests.Unit.UI
             _omegaUI = _runner?.Scene() as OmegaUI;
 
             // Assert: Ensure the root node exists.
-            AssertThat(_omegaUI).IsNotNull("Root OmegaUI node must exist in the fixture.");
+            AssertThat(_omegaUI).IsNotNull();
 
             // Assert: Locate and validate all required child nodes. If any are missing, setup fails immediately.
             _contentContainer = _omegaUI!.GetNodeOrNull<MarginContainer>("ContentContainer");
-            AssertThat(_contentContainer).IsNotNull("The scene must have a 'ContentContainer'.");
+            AssertThat(_contentContainer).IsNotNull();
 
             _phosphorLayer = _contentContainer!.GetNodeOrNull<ColorRect>("PhosphorLayer");
             AssertThat(_phosphorLayer).IsNotNull("The scene must have a 'PhosphorLayer' inside the container.");

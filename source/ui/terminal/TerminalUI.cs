@@ -28,11 +28,22 @@ public partial class TerminalUI : OmegaUI
         Full
     }
 
+    /// <summary>
+    /// The terminal operation mode.
+    /// </summary>
     [Export] public TerminalMode Mode { get; set; } = TerminalMode.Full;
+
+    /// <summary>
+    /// Whether captions are enabled.
+    /// </summary>
     [Export] public bool CaptionsEnabled { get; set; }
 
     // Terminal-specific components
     private ITerminalChoicePresenter? _choicePresenter;
+
+    /// <summary>
+    /// Gets the choice presenter instance.
+    /// </summary>
     protected ITerminalChoicePresenter? ChoicePresenter => _choicePresenter;
 
     // Terminal-specific nodes
@@ -40,6 +51,10 @@ public partial class TerminalUI : OmegaUI
     private VBoxContainer? _choiceContainer;
     private Label? _captionLabel;
 #pragma warning restore CA1816
+
+    // Cached autoload references for performance
+    private Node? _sceneManager;
+    private GameState? _gameState;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -52,6 +67,13 @@ public partial class TerminalUI : OmegaUI
 
         // Call base class initialization (OmegaUI)
         base._Ready();
+
+        // Cache autoload references for performance
+        _sceneManager = GetNodeOrNull<Node>("/root/SceneManager");
+        _gameState = GetNodeOrNull<GameState>("/root/GameState");
+
+        if (_sceneManager == null) GD.PushWarning("[TerminalUI] SceneManager autoload not found.");
+        if (_gameState == null) GD.PushWarning("[TerminalUI] GameState autoload not found.");
 
         try
         {
@@ -80,7 +102,7 @@ public partial class TerminalUI : OmegaUI
         // Cache terminal-specific nodes
         _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
         if (_choiceContainer == null)
-            throw new InvalidOperationException("ChoiceContainer node is required but not found.");
+            throw new InvalidOperationException("Required node 'ChoiceContainer' not found in TerminalUI scene.");
 
         // Optional nodes - log warning if missing
         _captionLabel = GetNodeOrNull<Label>("CaptionLabel");
@@ -101,10 +123,9 @@ public partial class TerminalUI : OmegaUI
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Failed to create ChoicePresenter: {ex.Message}", ex);
+            GD.PrintErr($"[TerminalUI] Failed to create ChoicePresenter: {ex.Message}");
+            throw new InvalidOperationException($"Failed to create ChoicePresenter. See inner exception.", ex);
         }
-
-        InitializeTerminalStates();
     }
 
     /// <summary>
@@ -152,7 +173,6 @@ public partial class TerminalUI : OmegaUI
     /// <param name="prompt">The prompt text to display.</param>
     /// <param name="optionTexts">The choice option texts.</param>
     /// <returns>The selected choice text, or empty string if none selected.</returns>
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     public async Task<string> PresentChoicesAsync(string prompt, string[] optionTexts)
     {
         if (Mode == TerminalMode.Disabled || TextRenderer == null || _choicePresenter == null)
@@ -162,21 +182,20 @@ public partial class TerminalUI : OmegaUI
         }
 
         // Display prompt using base OmegaUI text rendering
-        await AppendTextAsync(prompt).ConfigureAwait(false);
+        await AppendTextAsync(prompt);
 
         // Present choices using terminal-specific choice presenter
-        var choices = new System.Collections.Generic.List<ChoiceOption>();
+        var choices = new List<ChoiceOption>();
         foreach (var text in optionTexts)
         {
             choices.Add(new ChoiceOption { Text = text });
         }
 
-        int selectedIndex = await _choicePresenter.PresentChoicesAsync(choices).ConfigureAwait(false);
+        int selectedIndex = await _choicePresenter.PresentChoicesAsync(choices);
         return selectedIndex >= 0 && selectedIndex < optionTexts.Length
             ? optionTexts[selectedIndex]
             : string.Empty;
     }
-#pragma warning restore CS4014
 
     /// <summary>
     /// Updates caption text (terminal-specific feature).
@@ -203,21 +222,10 @@ public partial class TerminalUI : OmegaUI
     {
         // Ghost effect is handled by shader controller, not text renderer
         // Just call the base AppendTextAsync with delay
-        await base.AppendTextAsync(text, charDelaySeconds).ConfigureAwait(false);
+        await base.AppendTextAsync(text, charDelaySeconds);
     }
 
-    /// <summary>
-    /// Presents choices with optional ghost prompt (legacy parameter support).
-    /// </summary>
-    /// <param name="prompt">The prompt text.</param>
-    /// <param name="optionTexts">The choice options.</param>
-    /// <param name="ghostPrompt">Whether to use ghost effect for prompt (currently ignored).</param>
-    /// <returns>The selected choice text.</returns>
-    public async Task<string> PresentChoicesAsync(string prompt, string[] optionTexts, bool ghostPrompt = false)
-    {
-        // Ghost effect is handled by shader controller
-        return await PresentChoicesAsync(prompt, optionTexts).ConfigureAwait(false);
-    }
+
 
     /// <summary>
     /// Transitions to a different scene.
@@ -225,14 +233,14 @@ public partial class TerminalUI : OmegaUI
     /// <param name="scenePath">The path to the scene file.</param>
     protected void TransitionToScene(string scenePath)
     {
-        var sceneManager = GetNode<Node>("/root/SceneManager");
-        if (sceneManager != null && sceneManager.HasMethod("TransitionToScene"))
+        // Use cached reference
+        if (_sceneManager != null && _sceneManager.HasMethod("TransitionToScene"))
         {
-            sceneManager.Call("TransitionToScene", scenePath);
+            _sceneManager.Call("TransitionToScene", scenePath);
         }
         else
         {
-            // Fallback to direct scene change
+            if (_sceneManager == null) GD.PushWarning("[TerminalUI] SceneManager not found, using fallback.");
             GetTree().ChangeSceneToFile(scenePath);
         }
     }
@@ -243,12 +251,13 @@ public partial class TerminalUI : OmegaUI
     /// <returns>The game state instance.</returns>
     protected GameState GetGameState()
     {
-        var gameState = GetNode<GameState>("/root/GameState");
-        if (gameState == null)
+        // Use cached reference
+        if (_gameState == null)
         {
-            throw new InvalidOperationException("GameState singleton not found. Ensure it's autoloaded in project.godot");
+            _gameState = GetNodeOrNull<GameState>("/root/GameState");
+            if (_gameState == null)
+                throw new InvalidOperationException("GameState singleton not found. Ensure it's autoloaded in project.godot");
         }
-        return gameState;
+        return _gameState;
     }
 }
-

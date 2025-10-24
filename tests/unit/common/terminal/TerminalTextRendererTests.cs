@@ -43,6 +43,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         {
             _mockTextDisplay = AutoFree(new RichTextLabel())!;
             _renderer = new TerminalTextRenderer(_mockTextDisplay);
+            _renderer.ClearText(); // Ensure clean state
         }
 
         /// <summary>

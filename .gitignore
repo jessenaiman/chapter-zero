@@ -73,3 +73,5 @@ addons/dialogic/
 #Ignore windsurf AI rules
 .windsurfrules
 .serana/
+.github/
+.roo/

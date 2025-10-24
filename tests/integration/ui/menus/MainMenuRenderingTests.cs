@@ -56,7 +56,7 @@ public partial class MainMenuRenderingTests
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control mainMenu = (Control)runner.Scene();
-        var menuContainer = mainMenu.GetNodeOrNull<MarginContainer>("MenuContainer");
+        var menuContainer = mainMenu.GetNodeOrNull<MarginContainer>("ContentContainer");
 
         AssertThat(menuContainer).IsNotNull();
         AssertThat(menuContainer).IsInstanceOf<MarginContainer>();
@@ -72,7 +72,7 @@ public partial class MainMenuRenderingTests
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control mainMenu = (Control)runner.Scene();
-        var menuContainer = mainMenu.GetNodeOrNull<MarginContainer>("MenuContainer");
+        var menuContainer = mainMenu.GetNodeOrNull<MarginContainer>("ContentContainer");
 
         AssertThat(menuContainer).IsNotNull();
         AssertThat(menuContainer.GetThemeConstant("margin_left")).IsEqual(64);
@@ -458,7 +458,7 @@ public partial class MainMenuRenderingTests
         foreach (var buttonName in buttons)
         {
             var button = mainMenu.GetNodeOrNull<Button>($"MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/{buttonName}");
-            AssertThat(button).IsNotNull($"Button {buttonName} should exist");
+            AssertThat(button).IsNotNull();
 
             var buttonGlobalRect = button.GetGlobalRect();
             AssertThat(viewportRect.Intersects(buttonGlobalRect)).IsTrue();

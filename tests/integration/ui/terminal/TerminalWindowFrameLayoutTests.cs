@@ -19,7 +19,7 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
 {
-    private const string MainMenuPath = "res://source/ui/menus/main_menu.tscn";
+    private const string MainMenuPath = "res://source/stages/stage_0_start/main_menu.tscn";
     private const float BorderMinimumMargin = 50f; // Minimum space for visible border
 
     /// <summary>
