@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://source/stages/stage_0_start/MainMenu.cs" id="1_main_menu"]
-[ext_resource type="Material" path="res://src/shaders/pulsing_background.tres" id="2_background"]
-[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_phosphor.tres" id="3_phosphor"]
-[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_scanlines.tres" id="4_scanlines"]
-[ext_resource type="ShaderMaterial" path="res://src/shaders/crt_glitch.tres" id="5_glitch"]
-[ext_resource type="FontFile" path="res://src/assets/gui/font/Kenney Pixel.ttf" id="6_font"]
+[ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
+[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_phosphor.tres" id="3_phosphor"]
+[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
+[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
+[ext_resource type="FontFile" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="6_font"]
 
 [sub_resource type="StyleBoxFlat" id="FrameStyle"]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
@@ -29,6 +29,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main_menu")
+
+[node name="ContentContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuTitle" type="Label" parent="ContentContainer"]
+layout_mode = 2
+text = "Main Menu"
+alignment = 1
+
+[node name="MenuButtonContainer" type="VBoxContainer" parent="ContentContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MenuActionBar" type="HBoxContainer" parent="ContentContainer"]
+layout_mode = 2
+alignment = 2
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -92,7 +113,15 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 64
 
-[node name="MenuFrame" type="Panel" parent="MenuContainer"]
+[node name="MenuWrapper" type="Control" parent="MenuContainer"]
+layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuFrame" type="Panel" parent="MenuContainer/MenuWrapper"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,28 +131,28 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("FrameStyle")
 
-[node name="MenuContent" type="VBoxContainer" parent="MenuContainer"]
+[node name="MenuContent" type="VBoxContainer" parent="MenuContainer/MenuWrapper"]
 layout_mode = 1
 anchors_preset = 15
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = 56.0
-offset_right = -56.0
-offset_bottom = -56.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
-[node name="TitleMargin" type="MarginContainer" parent="MenuContainer/MenuContent"]
+[node name="TitleMargin" type="MarginContainer" parent="MenuContainer/MenuWrapper/MenuContent"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 
-[node name="TitleLabel" type="Label" parent="MenuContainer/MenuContent/TitleMargin"]
+[node name="TitleLabel" type="Label" parent="MenuContainer/MenuWrapper/MenuContent/TitleMargin"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_fonts/font = ExtResource("6_font")
@@ -132,12 +161,12 @@ text = "Ωmega Spiral"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DescriptionMargin" type="MarginContainer" parent="MenuContainer/MenuContent"]
+[node name="DescriptionMargin" type="MarginContainer" parent="MenuContainer/MenuWrapper/MenuContent"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 
-[node name="DescriptionLabel" type="Label" parent="MenuContainer/MenuContent/DescriptionMargin"]
+[node name="DescriptionLabel" type="Label" parent="MenuContainer/MenuWrapper/MenuContent/DescriptionMargin"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_fonts/font = ExtResource("6_font")
@@ -147,25 +176,25 @@ text = "Enter the Omega Terminal and choose your next incursion."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Divider" type="ColorRect" parent="MenuContainer/MenuContent"]
+[node name="Divider" type="ColorRect" parent="MenuContainer/MenuWrapper/MenuContent"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 3)
 color = Color(0.145098, 0.270588, 0.419608, 0.75)
 
-[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuContainer/MenuContent"]
+[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuContainer/MenuWrapper/MenuContent"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 12
 
-[node name="MenuButtonsContainer" type="VBoxContainer" parent="MenuContainer/MenuContent/MenuButtonsMargin"]
+[node name="MenuButtonsContainer" type="VBoxContainer" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 18
 
-[node name="StartButton" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
+[node name="StartButton" type="Button" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 56)
 size_flags_horizontal = 3
@@ -173,7 +202,7 @@ theme_override_fonts/font = ExtResource("6_font")
 theme_override_font_sizes/font_size = 28
 text = "Start Stage 1"
 
-[node name="StageHeader" type="Label" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
+[node name="StageHeader" type="Label" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_fonts/font = ExtResource("6_font")
@@ -182,13 +211,13 @@ theme_override_colors/font_color = Color(0.772549, 0.894118, 0.984314, 1)
 text = "Stage Access"
 horizontal_alignment = 1
 
-[node name="StageButtonList" type="VBoxContainer" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
+[node name="StageButtonList" type="VBoxContainer" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="StageListPlaceholder" type="Label" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList"]
+[node name="StageListPlaceholder" type="Label" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_fonts/font = ExtResource("6_font")
@@ -197,28 +226,16 @@ theme_override_colors/font_color = Color(0.788235, 0.317647, 0.356863, 1)
 text = "No stages detected in manifest."
 horizontal_alignment = 1
 
-[node name="OptionsButton" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("6_font")
-theme_override_font_sizes/font_size = 24
-text = "Options"
+[node name="OptionsButton" type="Button" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
 
-[node name="QuitButton" type="Button" parent="MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("6_font")
-theme_override_font_sizes/font_size = 24
-text = "Quit"
+[node name="QuitButton" type="Button" parent="MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer"]
 
-[node name="FooterMargin" type="MarginContainer" parent="MenuContainer/MenuContent"]
+[node name="FooterMargin" type="MarginContainer" parent="MenuContainer/MenuWrapper/MenuContent"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 
-[node name="FooterLabel" type="Label" parent="MenuContainer/MenuContent/FooterMargin"]
+[node name="FooterLabel" type="Label" parent="MenuContainer/MenuWrapper/MenuContent/FooterMargin"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_fonts/font = ExtResource("6_font")

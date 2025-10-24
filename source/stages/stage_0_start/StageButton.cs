@@ -10,6 +10,21 @@ namespace OmegaSpiral.UI.Menus;
 public partial class StageButton : Button
 {
     /// <summary>
+    /// Configures the stage button with id, title, and status.
+    /// </summary>
+    /// <param name="newStageId">The stage id to assign.</param>
+    /// <param name="title">The display title for the stage.</param>
+    /// <param name="newStatus">The content status for the stage.</param>
+    public void Configure(string newStageId, string title, ContentStatus newStatus)
+    {
+        StageId = newStageId;
+        Status = newStatus;
+        if (GetNodeOrNull<Label>("HBox/NameLabel") is { } nameLabel)
+        {
+            nameLabel.Text = title;
+        }
+    }
+    /// <summary>
     /// Content status enumeration.
     /// </summary>
     public enum ContentStatus

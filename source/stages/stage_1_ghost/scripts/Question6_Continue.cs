@@ -67,7 +67,7 @@ public partial class Question6Continue : GhostTerminalUI
             _ => GhostTerminalVisualPreset.StableBaseline,
         };
 
-        ApplyVisualPreset(preset);
+        await ApplyVisualPresetAsync(preset).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public partial class Question6Continue : GhostTerminalUI
             }
 
             string resolved = line.Replace("{{THREAD_NAME}}", threadName, StringComparison.OrdinalIgnoreCase);
-            await AppendTextAsync(resolved, useGhostEffect: true);
+            await AppendTextAsync(resolved, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
         }
     }

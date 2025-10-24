@@ -173,7 +173,7 @@
       </best_practices>
       <example><![CDATA[
 <apply_diff>
-<path>src/config.ts</path>
+<path>source/config.ts</path>
 <diff>
 <<<<<<< SEARCH
 :start_line:10

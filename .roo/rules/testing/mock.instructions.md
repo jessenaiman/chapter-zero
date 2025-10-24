@@ -100,7 +100,7 @@ extends Node
 # Create a mocked instance of the class 'TestClass'
 var mock := mock(TestClass)
 # Or create it by using the full resource path if no `class_name` is defined
-var mock := mock("res://project_name/src/TestClass.gd")
+var mock := mock("res://project_name/source/TestClass.gd")
 ```
 
 You can also mock inner classes by using **mock(\<class_name\>)** with some preconditions.
@@ -122,7 +122,7 @@ To override a function on your mocked class, use **do_return(\<value\>)** to spe
 ```gd
 # Create the mock
 var node := mock(Node) as Node
-# Define the return value on the mock `node` for function `get_name` 
+# Define the return value on the mock `node` for function `get_name`
 do_return("NodeX").on(node).get_name()
 ```
 
@@ -193,7 +193,7 @@ mocked_node.set_process(false) # 1 times
 mocked_node.set_process(true) # 1 times
 mocked_node.set_process(true) # 2 times
 
-# Verify how often we called the function with different argument 
+# Verify how often we called the function with different argument
 verify(mocked_node, 1).set_process(false)# in sum one time with false
 verify(mocked_node, 2).set_process(true) # in sum two times with true
 
@@ -238,7 +238,7 @@ Here's an example:
 ```gd
 var mocked_node := mock(Node) as Node
 
-# Interact on two functions 
+# Interact on two functions
 mocked_node.is_a_parent_of(null)
 mocked_node.set_process(false)
 
@@ -274,7 +274,7 @@ Here's an example:
 ```gd
 var mocked_node :Node = mock(Node)
 
-# First, we test by interacting with two functions 
+# First, we test by interacting with two functions
 mocked_node.is_a_parent_of(null)
 mocked_node.set_process(false)
 
@@ -394,7 +394,7 @@ Use to return a default value for build-in types or a fully mocked value for Obj
 # build a mock with mode RETURN_DEEP_STUB
 var mock := mock(TestClass, RETURN_DEEP_STUB) as TestClass
 
-# returns a default value 
+# returns a default value
 assert_str(mock.message()).is_equal("")
 
 # returns a mocked Path value
@@ -416,12 +416,12 @@ to verify that the function was called with any boolean value. Here's an example
 
 ```gd
     var mocked_node :Node = mock(Node)
-    
+
     # Call the function with different arguments
     mocked_node.set_process(false) # Called 1 time
     mocked_node.set_process(true) # Called 1 time
     mocked_node.set_process(true) # Called 2 times
-    
+
     # Verify that the function was called with any boolean value 3 times
     verify(mocked_node, 3).set_process(any_bool())
 ```

@@ -17,7 +17,7 @@ namespace OmegaSpiral.Source.Stages.Stage1;
 [GlobalClass]
 public partial class Stage1Controller : StageController
 {
-    private const string Stage1ManifestPath = "res://source/stages/stage_1/stage_manifest.json";
+    private const string Stage1ManifestPath = "res://source/stages/stage_1_ghost/ghost_manifest.json";
 
     /// <inheritdoc/>
     protected override int StageId => 1;

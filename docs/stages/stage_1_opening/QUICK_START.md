@@ -62,14 +62,7 @@ Stage 2 (Dungeon/Combat)
 
 ## 🧪 Test-Driven Approach
 
-For each scene you create:
 
-1. Write scene with basic functionality
-2. Create corresponding test file in `Tests/Stages/Stage1/`
-3. Run tests: `dotnet test --filter "FullyQualifiedName~[SceneName]"`
-4. Fix errors
-5. Build: `dotnet build --warnaserror`
-6. Move to next scene
 
 ## 💡 Pro Tips
 
@@ -78,17 +71,6 @@ For each scene you create:
 - **Copy/paste shader preset values** from `opening-design.md` visual states
 - **Test incrementally** - Don't build all 9 scenes then test
 - **Check PROBLEMS tab** in VSCode after every change
-- **Codacy will auto-analyze** - Fix issues immediately
-
-## 📞 Get Unstuck
-
-If you're stuck on:
-
-- **Shader creation**: See `crt_phosphor.gdshader` as complete example
-- **Scene structure**: See `TerminalBase.tscn` for node hierarchy
-- **JSON loading**: See `GhostTerminalCinematicDirector.cs` for existing pattern
-- **Testing**: See existing test files in `Tests/Stages/Stage1/`
-- **Naming/style**: See `.github/instructions/` folder
 
 ## 🎯 Success = MVP
 

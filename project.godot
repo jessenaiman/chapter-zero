@@ -20,17 +20,17 @@ boot_splash/image="uid://bs61h0k5maye5"
 
 [autoload]
 
-SceneManager="*res://src/scripts/SceneManager.cs"
-GameState="*res://src/common/GameState.cs"
-NarratorEngine="*res://src/narrative/NarratorEngine.cs"
-DreamweaverSystem="*res://src/narrative/DreamweaverSystem.cs"
-FieldEvents="*res://src/field/FieldEvents.cs"
-FieldCamera="*res://src/field/FieldCamera.cs"
-Gameboard="*res://src/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://src/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://src/common/Player.cs"
-CombatEvents="*res://src/combat/CombatEvents.cs"
-AudioManager="*res://src/audio/AudioManager.cs"
+SceneManager="*res://source/scripts/SceneManager.cs"
+GameState="*res://source/common/GameState.cs"
+NarratorEngine="*res://source/narrative/NarratorEngine.cs"
+DreamweaverSystem="*res://source/dreamweavers/DreamweaverSystem.cs"
+FieldEvents="*res://source/field/FieldEvents.cs"
+FieldCamera="*res://source/field/FieldCamera.cs"
+Gameboard="*res://source/field/gameboard/Gameboard.cs"
+GamepieceRegistry="*res://source/field/gamepieces/GamepieceRegistry.cs"
+Player="*res://source/common/Player.cs"
+CombatEvents="*res://source/combat/CombatEvents.cs"
+AudioManager="*res://source/audio/AudioManager.cs"
 
 [display]
 

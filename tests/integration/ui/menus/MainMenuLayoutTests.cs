@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.Ui.Menus;
+namespace OmegaSpiral.Tests.UI.Menus;
 
 using Godot;
 using GdUnit4;
@@ -17,7 +17,7 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public partial class MainMenuLayoutTests
 {
-    private const string StageSelectMenuPath = "res://source/ui/menus/main_menu.tscn";
+    private const string StageSelectMenuPath = "res://source/stages/stage_0_start/main_menu.tscn";
 
     /// <summary>
     /// Test 1: Menu center should match viewport center horizontally

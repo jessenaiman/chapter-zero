@@ -1,6 +1,6 @@
 ---
 description: 'Generate technical debt remediation plans for code, tests, and documentation.'
-tools: ['edit/editFiles', 'search', 'new', 'runCommands', 'runTasks', 'Codacy MCP Server/*', 'context7/*', 'godot/*', 'desktop-commander/*', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions', 'runTests']
+tools: ['edit/editFiles', 'search', 'new', 'runCommands', 'runTasks', 'context7/*', 'godot/*', 'desktop-commander/*', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions', 'runTests']
 ---
 # Technical Debt Remediation Plan
 

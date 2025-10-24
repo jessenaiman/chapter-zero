@@ -11,35 +11,35 @@
 
 | File | Type | Purpose | Status |
 |------|------|---------|--------|
-| `src/infrastructure/BaseManifestLoader.cs` | Abstract Base | Generic JSON→C# loader for any manifest type | ✅ **IN USE** |
-| `src/infrastructure/ManifestLoader.cs` | Class | Loads `IReadOnlyList<ManifestStage>` (top-level game manifest) | ✅ **IN USE** |
-| `src/infrastructure/StageManifestLoader.cs` | Class | Loads `StageManifest` (per-stage scene structure) | ✅ **IN USE** |
-| `src/infrastructure/NarrativeDataLoader.cs` | Class | Loads narrative JSON using System.Text.Json (NOT manifest-based) | ✅ **IN USE** |
-| `src/infrastructure/SceneFlowLoader.cs` | Class | Loads `StageSceneFlow` (alternative scene sequencing) | ⚠️ **UNCLEAR** |
+| `source/infrastructure/BaseManifestLoader.cs` | Abstract Base | Generic JSON→C# loader for any manifest type | ✅ **IN USE** |
+| `source/infrastructure/ManifestLoader.cs` | Class | Loads `IReadOnlyList<ManifestStage>` (top-level game manifest) | ✅ **IN USE** |
+| `source/infrastructure/StageManifestLoader.cs` | Class | Loads `StageManifest` (per-stage scene structure) | ✅ **IN USE** |
+| `source/infrastructure/NarrativeDataLoader.cs` | Class | Loads narrative JSON using System.Text.Json (NOT manifest-based) | ✅ **IN USE** |
+| `source/infrastructure/SceneFlowLoader.cs` | Class | Loads `StageSceneFlow` (alternative scene sequencing) | ⚠️ **UNCLEAR** |
 
 ### Data Model Files
 
 | File | Type | Purpose | Used By |
 |------|------|---------|---------|
-| `src/infrastructure/StageManifest.cs` | Data Class | Defines stage structure (scenes, order, transitions) | `StageManifestLoader`, `StageController` |
-| `src/infrastructure/ManifestLoader.cs` | Data Class | Defines `ManifestStage` (stage metadata) | `ManifestLoader`, `MainMenu.cs` |
-| `src/infrastructure/SceneFlowLoader.cs` | Data Class | Defines `SceneFlowEntry`, `StageSceneFlow` | `SceneFlowLoader` (unclear usage) |
+| `source/infrastructure/StageManifest.cs` | Data Class | Defines stage structure (scenes, order, transitions) | `StageManifestLoader`, `StageController` |
+| `source/infrastructure/ManifestLoader.cs` | Data Class | Defines `ManifestStage` (stage metadata) | `ManifestLoader`, `MainMenu.cs` |
+| `source/infrastructure/SceneFlowLoader.cs` | Data Class | Defines `SceneFlowEntry`, `StageSceneFlow` | `SceneFlowLoader` (unclear usage) |
 
 ### Base Classes & Interfaces
 
 | File | Type | Purpose | Used By |
 |------|------|---------|---------|
-| `src/infrastructure/StageController.cs` | Abstract Base | Orchestrates stage scene flow, affinity tracking | All stage controllers |
-| `src/infrastructure/SceneBase.cs` | Abstract Base | Base for beat/scene scripts | All stage beat/scene classes |
-| `src/infrastructure/StageManagement/IStageManager.cs` | Interface | Defines stage transition contract | Stage managers (1-6) |
-| `src/infrastructure/StageManagement/StageManagerBase.cs` | Abstract Base | Implements `IStageManager`, uses manifest loading | All stage managers (1-6) |
+| `source/infrastructure/StageController.cs` | Abstract Base | Orchestrates stage scene flow, affinity tracking | All stage controllers |
+| `source/infrastructure/SceneBase.cs` | Abstract Base | Base for beat/scene scripts | All stage beat/scene classes |
+| `source/infrastructure/StageManagement/IStageManager.cs` | Interface | Defines stage transition contract | Stage managers (1-6) |
+| `source/infrastructure/StageManagement/StageManagerBase.cs` | Abstract Base | Implements `IStageManager`, uses manifest loading | All stage managers (1-6) |
 
 ---
 
 ## CURRENT USAGE PATTERNS
 
 ### Pattern 1: StageController (2 usages)
-**File**: `src/infrastructure/StageController.cs` (line 296)
+**File**: `source/infrastructure/StageController.cs` (line 296)
 ```csharp
 var loader = new StageManifestLoader();
 StageManifest = loader.LoadManifest(StageManifestPath);
@@ -47,7 +47,7 @@ StageManifest = loader.LoadManifest(StageManifestPath);
 **Impact**: All stage controllers (Stage1, Stage2, Stage4) inherit this, so loaders are instantiated once per stage in `_Ready()`.
 
 ### Pattern 2: StageManagerBase (1 usage)
-**File**: `src/infrastructure/StageManagement/StageManagerBase.cs` (line 84)
+**File**: `source/infrastructure/StageManagement/StageManagerBase.cs` (line 84)
 ```csharp
 var loader = new StageManifestLoader();
 StageManifest? manifest = loader.LoadManifest(StageManifestPath);
@@ -55,7 +55,7 @@ StageManifest? manifest = loader.LoadManifest(StageManifestPath);
 **Impact**: All stage managers (1-6) inherit this. Loaders instantiated when transitioning between stages.
 
 ### Pattern 3: MainMenu (1 usage)
-**File**: `src/stages/stage_0_start/MainMenu.cs` (lines 32, 66, 206)
+**File**: `source/stages/stage_0_start/MainMenu.cs` (lines 32, 66, 206)
 ```csharp
 private readonly ManifestLoader _manifestLoader = new();
 var stages = _manifestLoader.LoadManifest(StageManifestPath);
@@ -65,8 +65,8 @@ var stage = _manifestLoader.GetStage(stageId);
 
 ### Pattern 4: Narrative Data (2 usages - DIFFERENT PURPOSE)
 **Files**:
-- `src/stages/stage_2/NethackInterludeSequence.cs` (line 61)
-- `src/stages/stage_2/NethackExploration.cs` (line 56)
+- `source/stages/stage_2/NethackInterludeSequence.cs` (line 61)
+- `source/stages/stage_2/NethackExploration.cs` (line 56)
 
 ```csharp
 var loader = new NarrativeDataLoader();
@@ -91,25 +91,25 @@ _narrativeData = loader.LoadNarrativeData<Stage2NarrativeData>(NarrativeJsonPath
 - **Solution**: Create `IManifestAware` interface that all manifest-loading nodes implement
 
 ### 🟡 Issue 3: MainMenu Duplicates Loader Logic
-- **Location**: `src/stages/stage_0_start/MainMenu.cs` (line 32)
+- **Location**: `source/stages/stage_0_start/MainMenu.cs` (line 32)
 - **Problem**: MainMenu creates `new ManifestLoader()` inline, doesn't inherit from base
 - **Impact**: MainMenu logic is separated from stage controllers; hard to debug consistent behavior
 - **Solution**: Make MainMenu inherit from `ManifestAwareNode<IReadOnlyList<ManifestStage>>`
 
 ### 🟡 Issue 4: SceneBase Has No Manifest Loading
-- **Location**: `src/infrastructure/SceneBase.cs`
+- **Location**: `source/infrastructure/SceneBase.cs`
 - **Problem**: Beat/scene scripts have `StageManifestPath` property but no way to load manifests
 - **Impact**: Can't debug individual scenes in isolation; must run through full stage
 - **Solution**: Implement `IManifestAware` in `SceneBase`, add `LoadManifest()` method
 
 ### 🟡 Issue 5: SceneFlowLoader Purpose Unclear
-- **Location**: `src/infrastructure/SceneFlowLoader.cs`
+- **Location**: `source/infrastructure/SceneFlowLoader.cs`
 - **Problem**: Exists but unclear if it's in use; similar to `StageManifest` but different structure
 - **Impact**: Potential dead code or competing manifest standards
 - **Action**: User to clarify if this should be consolidated with `StageManifest`
 
 ### 🟢 Non-Issue: NarrativeDataLoader Separate
-- **Location**: `src/infrastructure/NarrativeDataLoader.cs`
+- **Location**: `source/infrastructure/NarrativeDataLoader.cs`
 - **Status**: ✅ Correctly separate (uses `System.Text.Json`, not Godot JSON)
 - **Reason**: Loads narrative scene content, not stage manifests
 - **Recommendation**: Keep separate, but could be refactored to `ManifestAwareNode<T>` pattern for consistency
@@ -120,12 +120,12 @@ _narrativeData = loader.LoadNarrativeData<Stage2NarrativeData>(NarrativeJsonPath
 
 After refactor, these will be **REDUNDANT**:
 
-1. **`src/infrastructure/ManifestLoader.cs`** (129 lines)
+1. **`source/infrastructure/ManifestLoader.cs`** (129 lines)
    - Replaced by: `ManifestAwareNode<IReadOnlyList<ManifestStage>>`
    - Used by: `MainMenu.cs`
    - Action: DELETE after MainMenu refactor
 
-2. **`src/infrastructure/StageManifestLoader.cs`** (70 lines)
+2. **`source/infrastructure/StageManifestLoader.cs`** (70 lines)
    - Replaced by: `ManifestAwareNode<StageManifest>`
    - Used by: `StageController._Ready()` (line 296), `StageManagerBase.ResolveManifestFirstScene()` (line 84)
    - Action: DELETE after refactor
@@ -135,14 +135,14 @@ After refactor, these will be **REDUNDANT**:
 ## FILES REQUIRING CHANGES
 
 ### Primary Changes
-1. **Create**: `src/infrastructure/IManifestAware.cs` (new interface)
-2. **Create**: `src/infrastructure/ManifestAwareNode.cs` (new generic base class)
-3. **Refactor**: `src/infrastructure/StageController.cs` (inherit from `ManifestAwareNode<StageManifest>`)
-4. **Refactor**: `src/infrastructure/SceneBase.cs` (implement `IManifestAware`)
-5. **Refactor**: `src/stages/stage_0_start/MainMenu.cs` (inherit from `ManifestAwareNode<IReadOnlyList<ManifestStage>>`)
+1. **Create**: `source/infrastructure/IManifestAware.cs` (new interface)
+2. **Create**: `source/infrastructure/ManifestAwareNode.cs` (new generic base class)
+3. **Refactor**: `source/infrastructure/StageController.cs` (inherit from `ManifestAwareNode<StageManifest>`)
+4. **Refactor**: `source/infrastructure/SceneBase.cs` (implement `IManifestAware`)
+5. **Refactor**: `source/stages/stage_0_start/MainMenu.cs` (inherit from `ManifestAwareNode<IReadOnlyList<ManifestStage>>`)
 
 ### Secondary Changes (Automatic)
-- `src/infrastructure/StageManagement/StageManagerBase.cs` - Will use base class manifest loading if extracted to shared method
+- `source/infrastructure/StageManagement/StageManagerBase.cs` - Will use base class manifest loading if extracted to shared method
 - All stage controllers (`Stage1Controller`, `NethackHub`, `Stage4Controller`) - Inherit new behavior from `StageController`
 - All beat/scene classes - Can optionally use `SceneBase.LoadManifest()` for debugging
 

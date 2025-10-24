@@ -79,7 +79,7 @@ public class FieldCombatStageTests
     {
         var sceneText = File.ReadAllText(StageScenePath);
 
-        AssertThat(sceneText.Contains("res://src/")).IsFalse();
+        AssertThat(sceneText.Contains("res://source/")).IsFalse();
         AssertThat(sceneText.Contains("res://source/scripts/field/Field.cs")).IsTrue();
         AssertThat(sceneText.Contains("res://source/overworld/maps/town/battles/test_combat_arena.tscn")).IsTrue();
         AssertThat(sceneText.Contains("res://source/overworld/maps/town/warrior.dtl")).IsTrue();

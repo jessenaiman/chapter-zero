@@ -43,7 +43,7 @@ public partial class Question5Secret : GhostTerminalUI
             }
             else
             {
-                await AppendTextAsync(line, useGhostEffect: true);
+                await AppendTextAsync(line, useGhostEffect: true).ConfigureAwait(false);
                 await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
             }
         }
@@ -59,11 +59,11 @@ public partial class Question5Secret : GhostTerminalUI
 
         if (!string.IsNullOrWhiteSpace(selectedOption.Response))
         {
-            await AppendTextAsync(selectedOption.Response, useGhostEffect: true);
+            await AppendTextAsync(selectedOption.Response, useGhostEffect: true).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.4f), SceneTreeTimer.SignalName.Timeout);
         }
 
-        await PlaySecretRevealAsync(secretBeat.Reveal);
+        await PlaySecretRevealAsync(secretBeat.Reveal).ConfigureAwait(false);
 
         await ToSignal(GetTree().CreateTimer(1.8f), SceneTreeTimer.SignalName.Timeout);
         TransitionToScene("res://source/stages/stage_1/scenes/question_4_name.tscn");
@@ -71,7 +71,7 @@ public partial class Question5Secret : GhostTerminalUI
 
     private async Task PlaySecretRevealAsync(GhostTerminalSecretRevealPlan reveal)
     {
-        ApplyVisualPreset(GhostTerminalVisualPreset.SecretReveal);
+        await ApplyVisualPresetAsync(GhostTerminalVisualPreset.SecretReveal).ConfigureAwait(false);
 
         foreach (string line in reveal.Lines)
         {
@@ -81,7 +81,7 @@ public partial class Question5Secret : GhostTerminalUI
                 continue;
             }
 
-            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04f);
+            await AppendTextAsync(line, useGhostEffect: true, charDelaySeconds: 0.04f).ConfigureAwait(false);
             await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
         }
 

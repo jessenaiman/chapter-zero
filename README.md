@@ -164,8 +164,6 @@ dotnet test
 
 ### Code Quality
 
-The project uses Codacy for automated code analysis. Ensure your changes:
-
 - Follow C# coding conventions
 - Include XML documentation comments
 - Pass all existing tests

@@ -9,7 +9,7 @@
 
 ## Documentation Rules
 
-- use 
+- use
 
 ## [Code Standards](./godot-csharp-styleguide.md)
 
@@ -31,7 +31,6 @@
 **HANDLE ALL EXCEPTIONS: NEVER HIDE ERRORS**
 **LOG ALL ERRORS PROPERLY**
 **ALWAYS CHECK THE TESTS AND BUILD AFTER EVERY NEW FILE AND CHANGE**
-**USE CODACY TO CHECK FOR ISSUES AND FIXES**
 
 ## XML Documentation Rules
 

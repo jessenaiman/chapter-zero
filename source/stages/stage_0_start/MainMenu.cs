@@ -4,22 +4,23 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
-using OmegaSpiral.Source.UI.Omega;
+using OmegaSpiral.Source.UI.Menus;
 using OmegaSpiral.UI.Menus;
 
-namespace OmegaSpiral.Ui.Menus
+namespace OmegaSpiral.UI.Menus
 {
     /// <summary>
     /// Main menu for Omega Spiral game.
     /// Loads stage buttons dynamically from the manifest.
     /// Enables players to select which stage to play.
+    /// Extends MenuUI for static menu infrastructure (not sequential narrative).
     /// </summary>
     [GlobalClass]
-    public partial class MainMenu : OmegaSpiral.Source.UI.Omega.OmegaUI
+    public partial class MainMenu : MenuUI
     {
-        private const string StageManifestPath = "res://source/stages/stage_0_start/main_menu_manifest.json";
-        private const string StageButtonScenePath = "res://source/ui/menus/stage_button.tscn";
-
+        /// <summary>
+        /// Mapping of stage IDs to their display names.
+        /// </summary>
         private static readonly IReadOnlyDictionary<int, string> StageNameLookup = new Dictionary<int, string>
         {
             { 1, "Start Here: Ghost Terminal" },
@@ -30,163 +31,192 @@ namespace OmegaSpiral.Ui.Menus
             { 6, "Start Here: System Log Epilogue" },
         };
 
-    private readonly ManifestLoader _manifestLoader = new();
-        private PackedScene? _stageButtonScene;
-        private VBoxContainer? _stageButtonList;
-        private Label? _stageListPlaceholder;
-        private Label? _stageHeader;
-        private Button? _startButton;
-        private Button? _optionsButton;
-        private Button? _quitButton;
+        // --- EXPORTED DEPENDENCIES (Set in the Godot Inspector) ---
 
-        // Override base OmegaUI node requirements since main menu doesn't have PhosphorLayer/TextDisplay
-        private ColorRect? _phosphorLayer;
-        private ColorRect? _scanlineLayer;
-        private ColorRect? _glitchLayer;
+        /// <summary>
+        /// Path to the stage manifest JSON file.
+        /// </summary>
+        [ExportGroup("Data Sources")]
+        [Export(PropertyHint.File, "*.json")]
+        public string StageManifestPath { get; set; } = "res://source/stages/stage_0_start/main_menu_manifest.json";
+
+        /// <summary>
+        /// Scene file for individual stage buttons.
+        /// </summary>
+        [ExportGroup("Scene References")]
+        [Export]
+        public PackedScene? StageButtonScene { get; set; }
+
+        /// <summary>
+        /// Node path to the container holding stage buttons.
+        /// </summary>
+        [ExportGroup("Node References")]
+        [Export]
+        public NodePath? StageButtonListPath { get; set; }
+
+        /// <summary>
+        /// Node path to the stage list header label.
+        /// </summary>
+        [Export]
+        public NodePath? StageHeaderPath { get; set; }
+
+        /// <summary>
+        /// Node path to the "Start Game" button.
+        /// </summary>
+        [Export]
+        public NodePath? StartButtonPath { get; set; }
+
+        // --- PRIVATE FIELDS ---
+
+        private readonly ManifestLoader _manifestLoader = new();
 
 #pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
         private SceneManager? _sceneManager;
 #pragma warning restore CA2213
 
+        // Node references cached in CacheRequiredNodes
+        private VBoxContainer? _stageButtonList;
+        private Label? _stageHeader;
+        private Button? _startButton;
+
+        /// <summary>
+        /// Caches all required node references, overriding the base method to add MainMenu-specific nodes.
+        /// </summary>
+        protected override void CacheRequiredNodes()
+        {
+            // Let the base MenuUI class cache its nodes first (like the main button container)
+            base.CacheRequiredNodes();
+
+            // Cache the nodes specific to this MainMenu
+            _stageButtonList = GetNodeOrNull<VBoxContainer>(StageButtonListPath);
+            _stageHeader = GetNodeOrNull<Label>(StageHeaderPath);
+            _startButton = GetNodeOrNull<Button>(StartButtonPath);
+
+            // Add validation to catch setup errors early
+            if (_stageButtonList == null)
+                GD.PushError("[MainMenu] StageButtonList node not assigned in the Inspector or path is incorrect.");
+            if (_stageHeader == null)
+                GD.PushError("[MainMenu] StageHeader node not assigned in the Inspector or path is incorrect.");
+            if (_startButton == null)
+                GD.PushError("[MainMenu] StartButton node not assigned in the Inspector or path is incorrect.");
+            if (StageButtonScene == null)
+                GD.PushError("[MainMenu] StageButtonScene is not assigned in the Inspector.");
+        }
+
         /// <summary>
         /// Called when the node enters the scene tree for the first time.
-        /// Sets up button connections dynamically from manifest.
+        /// Initializes the menu with all stage buttons and event handlers.
         /// </summary>
         public override void _Ready()
         {
-            base._Ready(); // This will call our overridden CacheRequiredNodes
+            base._Ready(); // Calls CacheRequiredNodes
 
             _sceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
-            _stageButtonScene = ResourceLoader.Load<PackedScene>(StageButtonScenePath);
 
-            _stageButtonList = GetNodeOrNull<VBoxContainer>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList");
-            _stageListPlaceholder = GetNodeOrNull<Label>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList/StageListPlaceholder");
-            _stageHeader = GetNodeOrNull<Label>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageHeader");
+            PopulateStageList();
+            AddMainMenuActions();
+        }
 
-            _startButton = GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
-            _optionsButton = GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/OptionsButton");
-            _quitButton = GetNodeOrNull<Button>("MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/QuitButton");
-
-            ConnectPrimaryButtons();
+        /// <summary>
+        /// Loads the stage manifest and populates the dynamic list of stage buttons.
+        /// </summary>
+        private void PopulateStageList()
+        {
+            if (_stageButtonList == null)
+            {
+                GD.PrintErr("[MainMenu] StageButtonList is null. Cannot populate stage list.");
+                return;
+            }
 
             var stages = _manifestLoader.LoadManifest(StageManifestPath);
             if (stages == null || !stages.Any())
             {
-                GD.PrintErr("[MainMenu] Failed to load manifest. No stages available.");
+                _stageHeader!.Text = "No Stages Detected";
+                GD.PrintErr("[MainMenu] Failed to load or parse stage manifest.");
                 return;
             }
 
-            ConfigureStartButton();
-            PopulateStageButtons(stages);
-        }
-
-        private void ConnectPrimaryButtons()
-        {
-            if (_startButton != null)
+            // Clear any placeholder children from the scene
+            foreach (var child in _stageButtonList.GetChildren())
             {
-                _startButton.Pressed += OnStartPressed;
-            }
-
-            if (_optionsButton != null)
-            {
-                _optionsButton.Pressed += OnOptionsPressed;
-            }
-
-            if (_quitButton != null)
-            {
-                _quitButton.Pressed += OnQuitPressed;
-            }
-        }
-
-        private void ConfigureStartButton()
-        {
-            if (_startButton == null)
-            {
-                return;
-            }
-
-            _startButton.Text = $"Launch {GetStageTitle(1)}";
-        }
-
-        private void PopulateStageButtons(IEnumerable<ManifestStage> stages)
-        {
-            if (_stageButtonList == null)
-            {
-                GD.PrintErr("[MainMenu] StageButtonList not found in scene hierarchy.");
-                return;
-            }
-
-            if (_stageButtonScene == null)
-            {
-                GD.PrintErr("[MainMenu] Stage button scene failed to load.");
-                return;
-            }
-
-            if (_stageListPlaceholder != null)
-            {
-                _stageListPlaceholder.QueueFree();
-                _stageListPlaceholder = null;
+                child.QueueFree();
             }
 
             int createdCount = 0;
-
-            foreach (var stageButton in stages.OrderBy(s => s.Id).Select(CreateStageButton).Where(sb => sb != null))
+            foreach (var stage in stages.OrderBy(s => s.Id))
             {
-                _stageButtonList.AddChild(stageButton);
-                createdCount++;
+                if (CreateStageButton(stage) is { } stageButton)
+                {
+                    _stageButtonList.AddChild(stageButton);
+                    createdCount++;
+                }
             }
 
-            _stageHeader?.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
+            if (_stageHeader != null)
+            {
+                _stageHeader.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
+            }
+
+            if (_startButton != null)
+            {
+                _startButton.Text = $"Launch {GetStageTitle(1)}";
+            }
 
             GD.Print($"[MainMenu] Loaded {createdCount} stage buttons.");
         }
 
+        /// <summary>
+        /// Creates and configures a stage button for the given stage.
+        /// </summary>
+        /// <param name="stage">The stage data to create a button for.</param>
+        /// <returns>The configured StageButton, or null if instantiation failed.</returns>
         private StageButton? CreateStageButton(ManifestStage stage)
         {
-            if (_stageButtonScene?.Instantiate() is not StageButton stageButton)
+            if (StageButtonScene?.Instantiate() is not StageButton stageButton)
             {
-                GD.PrintErr($"[MainMenu] Failed to instantiate stage button for Stage {stage.Id}.");
+                GD.PrintErr($"[MainMenu] Failed to instantiate StageButtonScene for Stage {stage.Id}. Is the scene assigned in the Inspector?");
                 return null;
             }
 
             stageButton.Name = $"Stage{stage.Id}Button";
-            stageButton.StageId = stage.Id.ToString();
-            stageButton.Status = ResolveStageStatus(stage.Id);
-
             string stageTitle = GetStageTitle(stage.Id);
             stage.DisplayName = stageTitle;
-
-            if (stageButton.GetNodeOrNull<Label>("HBox/NameLabel") is { } nameLabel)
-            {
-                nameLabel.Text = stageTitle;
-            }
-
-            // Use direct handler method call via Pressed event
-            stageButton.Pressed += () => HandleStageButtonClicked(stage.Id.ToString());
-
+            stageButton.Configure(stage.Id.ToString(), stageTitle, ResolveStageStatus(stage.Id));
+            stageButton.Pressed += () => OnStageSelected(stage.Id);
             return stageButton;
         }
 
         /// <summary>
-        /// Handles Start button press - starts Stage 1.
+        /// Adds main menu actions using base class helpers.
+        /// </summary>
+        private void AddMainMenuActions()
+        {
+            // Use the base class to create the common menu buttons.
+            ClearMenuButtons();
+            AddMenuButton("Options", OnOptionsPressed);
+            AddMenuButton("Quit", OnQuitPressed);
+
+            // Now, just connect the unique "Start" button that is part of this specific scene
+            if (_startButton != null)
+            {
+                _startButton.Pressed += OnStartPressed;
+            }
+        }
+
+        /// <summary>
+        /// Handles Start button press - initiates Stage 1.
         /// </summary>
         private void OnStartPressed()
         {
-            GD.Print("Start Game selected - loading Stage 1");
+            GD.Print("[MainMenu] Start Game selected - loading Stage 1");
             OnStageSelected(1);
         }
 
-        private void HandleStageButtonClicked(string stageIdValue)
-        {
-            if (!int.TryParse(stageIdValue, out int stageId))
-            {
-                GD.PrintErr($"[MainMenu] Invalid stage id '{stageIdValue}' emitted by stage button.");
-                return;
-            }
-
-            OnStageSelected(stageId);
-        }
-
+        /// <summary>
+        /// Resolves the content status for a given stage ID.
+        /// </summary>
+        /// <param name="stageId">The stage ID to resolve status for.</param>
+        /// <returns>The ContentStatus for the stage.</returns>
         private static StageButton.ContentStatus ResolveStageStatus(int stageId)
         {
             return stageId switch
@@ -197,6 +227,11 @@ namespace OmegaSpiral.Ui.Menus
             };
         }
 
+        /// <summary>
+        /// Gets the display title for a given stage ID.
+        /// </summary>
+        /// <param name="stageId">The stage ID.</param>
+        /// <returns>The formatted stage title.</returns>
         private static string GetStageTitle(int stageId)
         {
             return StageNameLookup.TryGetValue(stageId, out string? name)
@@ -206,8 +241,9 @@ namespace OmegaSpiral.Ui.Menus
 
         /// <summary>
         /// Handles stage selection from any stage button.
+        /// Transitions to the selected stage via the stage manager.
         /// </summary>
-        /// <param name="stageId">The numeric stage ID (1-5).</param>
+        /// <param name="stageId">The numeric stage ID to load.</param>
         private void OnStageSelected(int stageId)
         {
             var stage = _manifestLoader.GetStage(stageId);
@@ -252,7 +288,7 @@ namespace OmegaSpiral.Ui.Menus
         /// </summary>
         private void OnOptionsPressed()
         {
-            GD.Print("Options selected - implementation needed");
+            GD.Print("[MainMenu] Options selected - implementation needed");
             // TODO: Load options scene
         }
 
@@ -262,43 +298,6 @@ namespace OmegaSpiral.Ui.Menus
         private void OnQuitPressed()
         {
             GetTree().Quit();
-        }
-
-        /// <summary>
-        /// Overrides the base method to cache main menu specific nodes instead of default OmegaUI nodes.
-        /// The main menu has shader layers but no text display, so we adapt the base requirements.
-        /// </summary>
-        protected override void CacheRequiredNodes()
-        {
-            // Cache the shader layers that exist in the main menu scene
-            _phosphorLayer = GetNodeOrNull<ColorRect>("ShaderLayers/PhosphorLayer");
-            _scanlineLayer = GetNodeOrNull<ColorRect>("ShaderLayers/ScanlineLayer");
-            _glitchLayer = GetNodeOrNull<ColorRect>("ShaderLayers/GlitchLayer");
-
-            // Since main menu doesn't have TextDisplay, we don't call base.CacheRequiredNodes()
-            // This avoids the InvalidOperationException that would be thrown by OmegaUI base class
-        }
-
-        /// <summary>
-        /// Overrides the base method to initialize main menu specific component states.
-        /// </summary>
-        protected override void InitializeComponentStates()
-        {
-            // Initialize shader layers if they exist
-            if (_phosphorLayer != null)
-            {
-                _phosphorLayer.Modulate = Colors.White;
-            }
-            if (_scanlineLayer != null)
-            {
-                _scanlineLayer.Modulate = Colors.White;
-            }
-            if (_glitchLayer != null)
-            {
-                _glitchLayer.Modulate = Colors.White;
-            }
-
-            // Don't call base.InitializeComponentStates() since we don't have TextDisplay
         }
     }
 }

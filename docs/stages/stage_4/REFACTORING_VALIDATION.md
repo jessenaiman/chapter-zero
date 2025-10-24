@@ -1,7 +1,7 @@
 # Stage 4 Refactoring Validation Report
 
-**Date**: October 19, 2025  
-**Original**: godot-open-rpg (GDScript, Godot 4.5)  
+**Date**: October 19, 2025
+**Original**: godot-open-rpg (GDScript, Godot 4.5)
 **Refactored**: chapter-zero Stage 4 (C#, Godot 4.5.1)
 
 ## Executive Summary
@@ -14,14 +14,14 @@ This document validates that all core godot-open-rpg functionality has been corr
 
 | System | Original (GDScript) | Refactored (C#) | Status |
 |--------|---------------------|-----------------|--------|
-| **Camera** | `res://src/field/field_camera.gd` | `res://source/scripts/field/FieldCamera.cs` | ✅ **Implemented** |
-| **CombatEvents** | `res://src/combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
-| **FieldEvents** | `res://src/field/field_events.gd` | `res://source/scripts/field/FieldEvents.cs` | ✅ **Implemented** |
-| **Gameboard** | `res://src/field/gameboard/gameboard.gd` | `res://source/scripts/field/gameboard/Gameboard.cs` | ✅ **Implemented** |
-| **GamepieceRegistry** | `res://src/field/gamepieces/gamepiece_registry.gd` | `res://source/scripts/field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
-| **Music** | `res://src/common/music/music_player.tscn` | `res://source/scripts/common/music/music_player.tscn` | ✅ **Implemented** |
-| **Player** | `res://src/common/player.gd` | `res://source/scripts/common/Player.cs` | ✅ **Implemented** |
-| **Transition** | `res://src/common/screen_transitions/ScreenTransition.tscn` | `res://source/scripts/common/screen_transitions/screen_transition.tscn` | ✅ **Implemented** |
+| **Camera** | `res://source/field/field_camera.gd` | `res://source/scripts/field/FieldCamera.cs` | ✅ **Implemented** |
+| **CombatEvents** | `res://source/combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
+| **FieldEvents** | `res://source/field/field_events.gd` | `res://source/scripts/field/FieldEvents.cs` | ✅ **Implemented** |
+| **Gameboard** | `res://source/field/gameboard/gameboard.gd` | `res://source/scripts/field/gameboard/Gameboard.cs` | ✅ **Implemented** |
+| **GamepieceRegistry** | `res://source/field/gamepieces/gamepiece_registry.gd` | `res://source/scripts/field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
+| **Music** | `res://source/common/music/music_player.tscn` | `res://source/scripts/common/music/music_player.tscn` | ✅ **Implemented** |
+| **Player** | `res://source/common/player.gd` | `res://source/scripts/common/Player.cs` | ✅ **Implemented** |
+| **Transition** | `res://source/common/screen_transitions/ScreenTransition.tscn` | `res://source/scripts/common/screen_transitions/screen_transition.tscn` | ✅ **Implemented** |
 | **Dialogic** | `res://addons/dialogic/Core/DialogicGameHandler.gd` | `res://addons/dialogic/Core/DialogicGameHandler.gd` | ✅ **Preserved (addon)** |
 
 **Additional chapter-zero Autoloads** (not in original):
@@ -101,7 +101,7 @@ This document validates that all core godot-open-rpg functionality has been corr
 
 ### 3.1 Main Game Scene
 
-**Original**: `src/main.tscn`  
+**Original**: `source/main.tscn`
 **Refactored**: `source/stages/stage_4/field_combat.tscn`
 
 | Scene Node | Original | Refactored | Status |
@@ -275,19 +275,19 @@ This document validates that all core godot-open-rpg functionality has been corr
 
 | Original (GDScript) | Refactored (C#) |
 |---------------------|-----------------|
-| `src/field/field_camera.gd` | `source/scripts/field/FieldCamera.cs` |
-| `src/field/field_events.gd` | `source/scripts/field/FieldEvents.cs` |
-| `src/field/gameboard/gameboard.gd` | `source/scripts/field/gameboard/Gameboard.cs` |
-| `src/field/gamepieces/gamepiece_registry.gd` | `source/scripts/field/gamepieces/GamepieceRegistry.cs` |
-| `src/field/gamepieces/controllers/player_controller.gd` | `source/scripts/field/gamepieces/controllers/PlayerController.cs` |
-| `src/common/player.gd` | `source/scripts/common/Player.cs` |
-| `src/combat/combat_events.gd` | `source/scripts/combat/CombatEvents.cs` |
+| `source/field/field_camera.gd` | `source/scripts/field/FieldCamera.cs` |
+| `source/field/field_events.gd` | `source/scripts/field/FieldEvents.cs` |
+| `source/field/gameboard/gameboard.gd` | `source/scripts/field/gameboard/Gameboard.cs` |
+| `source/field/gamepieces/gamepiece_registry.gd` | `source/scripts/field/gamepieces/GamepieceRegistry.cs` |
+| `source/field/gamepieces/controllers/player_controller.gd` | `source/scripts/field/gamepieces/controllers/PlayerController.cs` |
+| `source/common/player.gd` | `source/scripts/common/Player.cs` |
+| `source/combat/combat_events.gd` | `source/scripts/combat/CombatEvents.cs` |
 
 ### Scene Files
 
 | Original | Refactored |
 |----------|------------|
-| `src/main.tscn` | `source/stages/stage_4/field_combat.tscn` |
+| `source/main.tscn` | `source/stages/stage_4/field_combat.tscn` |
 | `overworld/maps/town/*` | `source/overworld/maps/town/*` |
 | `overworld/maps/house/*` | `source/overworld/maps/house/*` |
 | `overworld/maps/forest/*` | `source/overworld/maps/forest/*` |
@@ -302,6 +302,6 @@ All `.dtl` files preserved in same locations:
 
 ---
 
-**Generated**: October 19, 2025  
-**Author**: Validation System  
+**Generated**: October 19, 2025
+**Author**: Validation System
 **Version**: 1.0

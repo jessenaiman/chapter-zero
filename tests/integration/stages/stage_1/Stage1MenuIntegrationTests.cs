@@ -1,3 +1,4 @@
+using OmegaSpiral.Source.Scripts.Infrastructure;
 // <copyright file="Stage1MenuIntegrationTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
@@ -6,10 +7,8 @@ namespace OmegaSpiral.Tests.Stages.Stage1;
 
 using Godot;
 using GdUnit4;
-using GdUnit4.Api;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.Scripts.Infrastructure;
-using OmegaSpiral.Ui.Menus;
+
 
 /// <summary>
 /// Integration tests for Stage 1 menu selection and beat progression.
@@ -28,12 +27,18 @@ public partial class Stage1MenuIntegrationTests : Node
     private const string Beat1BootSequencePath = "res://source/stages/ghost/scenes/boot_sequence.tscn";
     private const string Beat2OpeningMonologuePath = "res://source/stages/ghost/scenes/opening_monologue.tscn";
 
+    /// <summary>
+    /// Sets up resources before each test.
+    /// </summary>
     [Before]
     public void Setup()
     {
         // Setup for each test
     }
 
+    /// <summary>
+    /// Cleans up resources after each test.
+    /// </summary>
     [After]
     public void Cleanup()
     {

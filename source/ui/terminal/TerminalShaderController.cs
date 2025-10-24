@@ -40,12 +40,11 @@ public class TerminalShaderController : ITerminalShaderController, IDisposable
         // Apply new preset if it has a shader
         if (!string.IsNullOrEmpty(preset.ShaderPath))
         {
-            var shader = GD.Load<Shader>(preset.ShaderPath);
-            if (shader == null)
-                throw new InvalidOperationException($"Failed to load shader: {preset.ShaderPath}");
+            var shaderMaterial = GD.Load<ShaderMaterial>(preset.ShaderPath);
+            if (shaderMaterial == null)
+                throw new InvalidOperationException($"Failed to load shader material: {preset.ShaderPath}");
 
-            _currentMaterial = new ShaderMaterial();
-            _currentMaterial.Shader = shader;
+            _currentMaterial = shaderMaterial;
 
             // Apply preset parameters
             foreach (var param in preset.Parameters)

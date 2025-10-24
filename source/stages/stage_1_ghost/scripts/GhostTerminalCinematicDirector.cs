@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// </summary>
 public static class GhostTerminalCinematicDirector
 {
-    private const string DataPath = "res://source/stages/ghost/data/stage1.json";
+    private const string DataPath = "res://source/stages/stage_1_ghost/ghost.json";
     private const string SchemaPath = "res://source/data/schemas/ghost_terminal_cinematic_schema.json";
 
     private static GhostTerminalCinematicPlan? cachedPlan;

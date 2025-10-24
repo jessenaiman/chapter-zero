@@ -199,13 +199,6 @@ private void ConsultDreamweavers(string situation)
 - **Replayability**: Different narrative branches on 3+ playthroughs
 - **Stability**: <1% crash rate from LLM integration
 
-## Documentation References
-
-- Full ADR: `docs/adr/adr-0003-nobodywho-llm-integration.md`
-- NobodyWho Docs: https://nobodywho-ooo.github.io/nobodywho/
-- NobodyWho GitHub: https://github.com/nobodywho-ooo/nobodywho
-- Qwen3 Models: https://huggingface.co/Qwen
-
 ## Status
 
 - **Current**: Research and planning complete

@@ -1,6 +1,6 @@
 [gd_scene format=3 load_steps=2]
 
-[ext_resource type="Script" path="res://source/ui/menus/StageButton.cs" id="1"]
+[ext_resource type="Script" path="res://source/stages/stage_0_start/StageButton.cs" id="1"]
 [ext_resource type="FontFile" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="2"]
 
 [node name="StageButton" type="Button"]

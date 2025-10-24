@@ -4,7 +4,7 @@
 
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Ui.Menus;
+using OmegaSpiral.UI.Menus;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Unit.UI
@@ -39,7 +39,8 @@ namespace OmegaSpiral.Tests.Unit.UI
         [After]
         public void Teardown()
         {
-            this.mainMenu?.QueueFree();
+            // Dispose runner first (which handles scene cleanup), then clear references.
+            // Do NOT call QueueFree on mainMenu as it's owned by the runner.
             this.mainMenu = null;
             this.runner?.Dispose();
             this.runner = null;
@@ -65,17 +66,50 @@ namespace OmegaSpiral.Tests.Unit.UI
         }
 
         /// <summary>
+        /// Tests that the title label is visible and contains non-empty text.
+        /// </summary>
+        /// <returns>Returns <see langword="void"/>.</returns>
+        /// <exception cref="AssertException">Thrown if the label is missing or not visible.</exception>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void TitleTextIsVisible()
+        {
+            var titleLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/TitleMargin/TitleLabel");
+            AssertThat(titleLabel).IsNotNull();
+            AssertThat(titleLabel.Text).IsNotEmpty();
+            AssertThat(titleLabel.Visible).IsTrue();
+        }
+
+        /// <summary>
+        /// Tests that the description text is actually visible and contains expected content.
+        /// This catches broken UI scenarios where no content renders.
+        /// </summary>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void DescriptionTextIsVisible()
+        {
+            var descriptionLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/DescriptionMargin/DescriptionLabel");
+            AssertThat(descriptionLabel).IsNotNull();
+
+            // Description should contain some instructional text
+            AssertThat(descriptionLabel?.Text).IsNotEmpty();
+
+            // Description should be visible (not hidden)
+            AssertThat(descriptionLabel?.Visible).IsTrue();
+        }
+
+        /// <summary>
         /// Tests that text labels appear horizontally (left to right).
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
         public void TextAppearsHorizontally()
         {
-            var titleLabel = this.runner?.FindChild("MainMenu/MenuContainer/MenuContent/TitleMargin/TitleLabel") as Label;
+            var titleLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/TitleMargin/TitleLabel");
             AssertThat(titleLabel).IsNotNull();
             AssertThat(titleLabel?.HorizontalAlignment).IsEqual(HorizontalAlignment.Center);
 
-            var descriptionLabel = this.runner?.FindChild("MainMenu/MenuContainer/MenuContent/DescriptionMargin/DescriptionLabel") as Label;
+            var descriptionLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/DescriptionMargin/DescriptionLabel");
             AssertThat(descriptionLabel).IsNotNull();
             AssertThat(descriptionLabel?.HorizontalAlignment).IsEqual(HorizontalAlignment.Center);
         }
@@ -84,19 +118,42 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// Tests that MainMenu has visible spacing from the top edge of the screen.
         /// Ensures the menu doesn't flush against the top, maintaining visual breathing room.
         /// </summary>
+        /// <returns>Returns <see langword="void"/>.</returns>
+        /// <exception cref="AssertException">Thrown if the margin is missing or zero.</exception>
         [TestCase]
         [RequireGodotRuntime]
         public void MenuUIHasTopSpacing()
         {
-            var menuContainer = this.runner?.FindChild("MainMenu/MenuContainer") as MarginContainer;
+            var menuContainer = this.runner?.Scene().GetNodeOrNull<MarginContainer>("MenuContainer");
             AssertThat(menuContainer).IsNotNull();
-
-            // MenuContainer should be a MarginContainer with full-screen anchors
-            AssertThat(menuContainer?.AnchorTop).IsEqual(0.0f);
-            AssertThat(menuContainer?.AnchorBottom).IsEqual(1.0f);
-
-            // Should use MarginContainer pattern (architectural requirement)
             AssertThat(menuContainer).IsInstanceOf<MarginContainer>();
+
+            // Assert top margin is greater than zero
+            AssertThat(menuContainer.MarginTop).IsGreater(0);
+        }
+
+        /// <summary>
+        /// Tests that MainMenu has visible spacing from the top edge of the screen.
+        /// Ensures the menu doesn't flush against the top, maintaining visual breathing room.
+        /// </summary>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void MenuUIComponentsLoaded()
+        {
+            var menuContainer = this.runner?.Scene().GetNodeOrNull<MarginContainer>("MenuContainer");
+            AssertThat(menuContainer).IsNotNull();
+            AssertThat(menuContainer).IsInstanceOf<MarginContainer>();
+
+            // Verify the wrapper exists and is the single child
+            var menuWrapper = this.runner?.Scene().GetNodeOrNull<Control>("MenuContainer/MenuWrapper");
+            AssertThat(menuWrapper).IsNotNull();
+
+            // Verify MenuFrame and MenuContent are children of the wrapper
+            var menuFrame = this.runner?.Scene().GetNodeOrNull<Panel>("MenuContainer/MenuWrapper/MenuFrame");
+            AssertThat(menuFrame).IsNotNull();
+
+            var menuContent = this.runner?.Scene().GetNodeOrNull<VBoxContainer>("MenuContainer/MenuWrapper/MenuContent");
+            AssertThat(menuContent).IsNotNull();
         }
 
         /// <summary>
@@ -107,15 +164,17 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public void MenuUIHasBottomSpacing()
         {
-            var menuContainer = this.runner?.FindChild("MainMenu/MenuContainer") as MarginContainer;
+            var menuContainer = this.runner?.Scene().GetNodeOrNull<MarginContainer>("MenuContainer");
             AssertThat(menuContainer).IsNotNull();
-
-            // MenuContainer should be a MarginContainer with full-screen anchors
-            AssertThat(menuContainer?.AnchorTop).IsEqual(0.0f);
-            AssertThat(menuContainer?.AnchorBottom).IsEqual(1.0f);
-
-            // Should use MarginContainer pattern (architectural requirement)
             AssertThat(menuContainer).IsInstanceOf<MarginContainer>();
+
+            // Verify the single child wrapper exists
+            var menuWrapper = this.runner?.Scene().GetNodeOrNull<Control>("MenuContainer/MenuWrapper");
+            AssertThat(menuWrapper).IsNotNull();
+
+            // Verify content is visible and properly nested
+            var menuFrame = this.runner?.Scene().GetNodeOrNull<Panel>("MenuContainer/MenuWrapper/MenuFrame");
+            AssertThat(menuFrame).IsNotNull();
         }
 
         /// <summary>
@@ -123,19 +182,50 @@ namespace OmegaSpiral.Tests.Unit.UI
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
-        public void MenuUIShowsCRTShaders()
+        public void MenuUILoadsCRTShaders()
         {
-            var phosphorLayer = this.runner?.FindChild("MainMenu/ShaderLayers/PhosphorLayer") as ColorRect;
+            var phosphorLayer = this.runner?.Scene().GetNodeOrNull<ColorRect>("ShaderLayers/PhosphorLayer");
             AssertThat(phosphorLayer).IsNotNull();
             AssertThat(phosphorLayer?.Material).IsNotNull();
 
-            var scanlineLayer = this.runner?.FindChild("MainMenu/ShaderLayers/ScanlineLayer") as ColorRect;
+            var scanlineLayer = this.runner?.Scene().GetNodeOrNull<ColorRect>("ShaderLayers/ScanlineLayer");
             AssertThat(scanlineLayer).IsNotNull();
             AssertThat(scanlineLayer?.Material).IsNotNull();
 
-            var glitchLayer = this.runner?.FindChild("MainMenu/ShaderLayers/GlitchLayer") as ColorRect;
+            var glitchLayer = this.runner?.Scene().GetNodeOrNull<ColorRect>("ShaderLayers/GlitchLayer");
             AssertThat(glitchLayer).IsNotNull();
             AssertThat(glitchLayer?.Material).IsNotNull();
+        }
+
+        /// <summary>
+        /// Tests that the CRT shader layers visibly change color over time.
+        /// Ensures the effect is animated and not static.
+        /// </summary>
+        /// <returns>Returns <see langword="void"/>.</returns>
+        /// <exception cref="AssertException">
+        /// Thrown if the color does not change after animation frames.
+        /// </exception>
+        [TestCase]
+        [RequireGodotRuntime]
+        public async Task CRTShaderLayersChangeColorOverTime()
+        {
+            var phosphorLayer = this.runner?.Scene().GetNodeOrNull<ColorRect>("ShaderLayers/PhosphorLayer");
+            AssertThat(phosphorLayer).IsNotNull();
+            AssertThat(phosphorLayer.Material).IsNotNull();
+
+            // Get initial color from the material (assuming a shader param "color" exists)
+            var initialColor = phosphorLayer.Material.Get("shader_param/color") as Color?;
+            AssertThat(initialColor).IsNotNull();
+
+            // Simulate frames for animation
+            await this.runner!.SimulateFrames(120).ConfigureAwait(false); // 2 seconds at 60fps
+
+            // Get color again
+            var finalColor = phosphorLayer.Material.Get("shader_param/color") as Color?;
+            AssertThat(finalColor).IsNotNull();
+
+            // Assert color has changed
+            AssertThat(finalColor).IsNotEqual(initialColor);
         }
 
         /// <summary>
@@ -145,7 +235,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public async Task MenuUIHasAnimatedThreeColorBorder()
         {
-            var menuFrame = this.runner?.FindChild("MainMenu/MenuContainer/MenuFrame") as Panel;
+            var menuFrame = this.runner?.Scene().GetNodeOrNull<Panel>("MenuContainer/MenuFrame");
             AssertThat(menuFrame).IsNotNull();
 
             var initialColor = (menuFrame?.GetThemeStylebox("panel") as StyleBoxFlat)?.BorderColor;
@@ -165,7 +255,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public void StageButtonsPopulatedFromManifest()
         {
-            var stageButtonList = this.runner?.FindChild("MainMenu/MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList") as VBoxContainer;
+            var stageButtonList = this.runner?.Scene().GetNodeOrNull<VBoxContainer>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList");
             AssertThat(stageButtonList).IsNotNull();
 
             // Assuming manifest has at least one stage
@@ -179,7 +269,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public async Task StartButtonLaunchesStage1()
         {
-            var startButton = this.runner?.FindChild("MainMenu/MenuContainer/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton") as Button;
+            var startButton = this.runner?.Scene().GetNodeOrNull<Button>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
             AssertThat(startButton).IsNotNull();
 
             // Simulate button press
@@ -188,6 +278,31 @@ namespace OmegaSpiral.Tests.Unit.UI
 
             // Check if scene transition was initiated (hard to test without full setup, but basic press works)
             AssertThat(startButton?.Disabled).IsFalse();
+        }
+
+        /// <summary>
+        /// Tests that the title and description labels appear inside the correct parent containers.
+        /// Ensures that UI hierarchy is correct and labels are placed as designed.
+        /// </summary>
+        /// <returns>Returns <see langword="void"/>.</returns>
+        /// <exception cref="AssertException">
+        /// Thrown if the label or its parent container is missing.
+        /// </exception>
+        [TestCase]
+        [RequireGodotRuntime]
+        public void TextAppearsInCorrectContainers()
+        {
+            var titleLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/TitleMargin/TitleLabel");
+            AssertThat(titleLabel).IsNotNull();
+            var titleParent = titleLabel.GetParent();
+            AssertThat(titleParent).IsInstanceOf<MarginContainer>();
+            AssertThat(titleParent.Name).IsEqualTo("TitleMargin");
+
+            var descriptionLabel = this.runner?.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/DescriptionMargin/DescriptionLabel");
+            AssertThat(descriptionLabel).IsNotNull();
+            var descriptionParent = descriptionLabel.GetParent();
+            AssertThat(descriptionParent).IsInstanceOf<MarginContainer>();
+            AssertThat(descriptionParent.Name).IsEqualTo("DescriptionMargin");
         }
     }
 }

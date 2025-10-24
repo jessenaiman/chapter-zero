@@ -3,19 +3,19 @@
 ## 📋 QUICK REFERENCE
 
 ### ✅ Files In Use (DO NOT DELETE)
-- `src/infrastructure/BaseManifestLoader.cs` - Core generic loader
-- `src/infrastructure/StageManifest.cs` - Stage data model
-- `src/infrastructure/NarrativeDataLoader.cs` - Narrative content (different concern)
-- `src/infrastructure/SceneBase.cs` - Beat/scene base class
-- `src/infrastructure/SceneFlowLoader.cs` - **NEEDS CLARIFICATION**
+- `source/infrastructure/BaseManifestLoader.cs` - Core generic loader
+- `source/infrastructure/StageManifest.cs` - Stage data model
+- `source/infrastructure/NarrativeDataLoader.cs` - Narrative content (different concern)
+- `source/infrastructure/SceneBase.cs` - Beat/scene base class
+- `source/infrastructure/SceneFlowLoader.cs` - **NEEDS CLARIFICATION**
 
 ### ⚠️ Files To Delete (After Refactor)
-1. `src/infrastructure/ManifestLoader.cs` (129 lines)
+1. `source/infrastructure/ManifestLoader.cs` (129 lines)
    - Used by: `MainMenu.cs` line 32, 66, 206
    - Replaced by: `MainMenu : ManifestAwareNode<IReadOnlyList<ManifestStage>>`
 
-2. `src/infrastructure/StageManifestLoader.cs` (70 lines)
-   - Used by: 
+2. `source/infrastructure/StageManifestLoader.cs` (70 lines)
+   - Used by:
      - `StageController.cs` line 296 in `_Ready()`
      - `StageManagerBase.cs` line 84 in `ResolveManifestFirstScene()`
    - Replaced by: `ManifestAwareNode<StageManifest>` pattern

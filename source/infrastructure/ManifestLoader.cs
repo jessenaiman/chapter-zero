@@ -101,9 +101,20 @@ public class ManifestLoader : BaseManifestLoader<IReadOnlyList<ManifestStage>>
 
         var dict = (Dictionary)jsonData;
 
+        // Accept either 'scenes' or 'stages' as the root array key to be tolerant of
+        // differing manifest formats across branches or tooling.
+        Array? scenesArray = null;
         if (dict.ContainsKey("scenes"))
         {
-            var scenesArray = (Array)dict["scenes"];
+            scenesArray = (Array)dict["scenes"];
+        }
+        else if (dict.ContainsKey("stages"))
+        {
+            scenesArray = (Array)dict["stages"];
+        }
+
+        if (scenesArray != null)
+        {
             foreach (var stageVariant in scenesArray)
             {
                 var stageDict = (Dictionary)stageVariant;
@@ -117,7 +128,7 @@ public class ManifestLoader : BaseManifestLoader<IReadOnlyList<ManifestStage>>
                 };
 
                 // Generate display name from stage ID
-                stage.DisplayName = $"Stage {stage.Id}";
+                stage.DisplayName = stageDict.ContainsKey("displayName") ? stageDict["displayName"].AsString() : $"Stage {stage.Id}";
 
                 stages.Add(stage);
             }

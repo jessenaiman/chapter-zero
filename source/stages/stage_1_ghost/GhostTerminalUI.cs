@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Ghost;
 
@@ -30,19 +30,19 @@ public readonly struct GhostTerminalVisualPreset
 }
 
 /// <summary>
-/// Stage 1 (Ghost Terminal) specific UI that extends TerminalUI with Stage 1-specific game logic.
+/// Stage 1 (Ghost Terminal) specific UI that extends NarrativeUI for sequential story progression.
 /// Adds visual presets for Dreamweaver personas and Stage 1-specific transition effects.
 /// All Stage 1 scene scripts inherit from this to access Ghost Terminal infrastructure.
 /// </summary>
 [GlobalClass]
-public partial class GhostTerminalUI : TerminalUI
+public partial class GhostTerminalUI : NarrativeUI
 {
     /// <summary>
     /// Applies a visual preset to the Ghost Terminal shaders.
     /// Stage 1 specific - used for Dreamweaver persona switching and effects.
     /// </summary>
     /// <param name="presetName">The Ghost Terminal preset to apply.</param>
-    protected async void ApplyVisualPreset(GhostTerminalVisualPreset presetName)
+    protected async Task ApplyVisualPresetAsync(GhostTerminalVisualPreset presetName)
     {
         if (ShaderController != null)
         {

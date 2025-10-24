@@ -29,7 +29,7 @@ The analyzer must be included by referencing the gdUnit4.analyzer package:
   [TestCase]
   [DataPoint(nameof(TestData))]
   public void ValidTest(int a, int b) { }
-  
+
   // ❌ Invalid: Multiple TestCase with DataPoint
   [TestCase]
   [TestCase]                         // GdUnit0201 error: Method 'InvalidTest' cannot have multiple TestCase attributes when DataPoint attribute is present
@@ -53,4 +53,3 @@ The analyzer is built using:
 ## Documentation
 
 For more detailed documentation about the entire GdUnit4 ecosystem, visit our [documentation site](https://mikeschulze.github.io/gdUnit4/).
-

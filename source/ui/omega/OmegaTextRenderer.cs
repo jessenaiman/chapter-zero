@@ -40,7 +40,7 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
         // Delay before starting animation
         if (delayBeforeStart > 0)
         {
-            await Task.Delay((int)(delayBeforeStart * 1000)).ConfigureAwait(false);
+            await Task.Delay((int)(delayBeforeStart * 1000));
         }
 
         _isAnimating = true;
@@ -56,7 +56,7 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
                 _textDisplay.Text = currentText;
 
                 // Wait for the character delay, but allow for cancellation
-                await Task.Delay((int)(charDelay * 1000)).ConfigureAwait(false);
+                await Task.Delay((int)(charDelay * 1000));
             }
         }
         finally

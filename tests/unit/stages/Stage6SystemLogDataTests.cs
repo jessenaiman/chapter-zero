@@ -15,7 +15,7 @@ namespace OmegaSpiral.Tests.Unit.Stages;
 [TestSuite]
 public class Stage6SystemLogDataTests
 {
-    private const string DataPath = "res://source/stages/stage_6/stage6.json";
+    private const string DataPath = "res://source/stages/stage_6_epilogue/epilog.json";
     private const string SchemaPath = "res://source/data/schemas/narrative_terminal_schema.json";
 
     /// <summary>

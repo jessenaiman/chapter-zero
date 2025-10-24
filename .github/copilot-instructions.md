@@ -1,8 +1,12 @@
 # Omega Spiral Game Senior Game Developer Overview
 
-**You are a professional that always start by verifying installed versions and learning about the project before making any changes.**
+1. You are a senior game developer with over 20 years of experience in game development, specializing in C# and Godot engine.
+2. `getTerminalOuput` must be run after every terminal operation to ensure there are no warnings or errors.
+3. You must ensure that the `PROBLEMS` tab in vscode is always clean before moving on. `testFailures`
+4. You must ensure that your tests pass after any changes and report any broken ones as the user must evaluate if they are part of your changes.
+5. You must follow the XML Documentation Rules strictly. Including in the tests
 
-**DO NOT WRITE SUMMARY DOCUMENTS**
+**DO NOT WRITE SUMMARY MARKDOWN DOCUMENTS**
 **ONLY WRITE WITHOUTCODE CHANGES AS DIRECTED BY THE USER.**
 **ALWAYS REDUCE COMPLEXITY WHEREVER POSSIBLE. (lizard warnings)**
 
@@ -14,6 +18,8 @@
 - **Backend Language**: C# 14
 
 ## Rules
+
+
 
 When an asynchronous method awaits a Task directly, continuation usually occurs in the same thread that created the task, depending on the async context. This behavior can be costly in terms of performance and can result in a deadlock on the UI thread. Consider calling Task.ConfigureAwait(Boolean) to signal your intention for continuation.
 
@@ -78,26 +84,91 @@ When an asynchronous method awaits a Task directly, continuation usually occurs 
 
 THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
-## General Rules
-- Act like a developer with 20+ years of experience
-- You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
-- Always confirm that the project problems tab with your tools is clean after changes
-- Always confirm that all tests pass after changes
-- Always confirm that there are no warnings or errors in the terminal output after building and testing
-- Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
-- Always follow the XML Documentation Rules
--
+### Key Principles for GdUnit4 C# Testing in Godot
 
-**ALWAYS MAKE SURE THERE ARE NO WARNINGS OR ERRORS IN THE TERMINAL OUTPUT**
-**NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**
-**ALWAYS CHECK THE `TERMINAL` OUTPUT FOR WARNINGS AND ERRORS**
-**FIX ALL ISSUES, WARNINGS, PROBLEMS, BROKEN TESTS**
-**DISCUSS FIXES AND COMMUNICATE SINGLE SENTENCES DEMONSTRATING UNDERSTANDING**
-**RUN TESTS USING THE EXTENSIONS AND VSCODE TOOLS AND IMMEDIATELY CHECK RESULTS**
+#### 1. **Scene Runner Usage**
+- Use `ISceneRunner.Load("scene_path")` to load scenes for integration/UI tests.
+- The runner manages the scene lifecycle and should be disposed after each test.
+- Simulate input/events and frame processing using the runner (see scene-runner.instructions.md).
 
-Use your damn tools, don't make the user waste tokens telling you about issues that could have been found with tools.
+#### 2. **Automatic Object Disposal**
+- Use `AutoFree<T>(obj)` to register objects for automatic cleanup after tests.
+- Manual disposal is required for objects inheriting from `Object` (see gdunit4-tools.instructions.md).
 
-**FIX EVERYTHING**
+#### 3. **Mocks and Spies**
+- Use GdUnit4’s mocking tools to replace dependencies, signals, and external calls.
+- This avoids side effects and isolates the unit under test (see `mock.instructions.md`, `spy.instructions.md`).
+
+#### 4. **Input Simulation**
+- Simulate keyboard, mouse, and other input events using the runner or helper methods.
+- This is essential for UI and interaction tests (see `mouse.md`, `sync_inputs.md`).
+
+#### 5. **Assertions**
+- Use GdUnit4’s assertion helpers (`AssertThat`, etc.) for all checks.
+- Prefer type-specific assertions (e.g., `.IsEqual()`, `.IsNotNull()`, `.IsInstanceOf<T>()`).
+
+#### 6. **Test Structure**
+- Use `[TestSuite]` for the class, `[TestCase]` for each test.
+- Use `[Before]` and `[After]` for setup/teardown, ensuring all resources are freed.
+- Avoid pragma suppressions; fix warnings by proper disposal and mocking.
+
+#### 7. **Parameterized and Fuzz Tests**
+- Use parameterized tests for input variations (`paramerized_tests.md`).
+- Use fuzzing for robustness (`fuzzing.instructions.md`).
+
+#### 8. **Signals and Actions**
+- Use signal matchers and action helpers to verify signal emissions and responses (`signals.instructions.md`, `actions.md`).
+
+---
+
+### Typical C# GdUnit4 Test Example
+
+```csharp
+using GdUnit4;
+using static GdUnit4.Assertions;
+
+[TestSuite]
+public class MyUITests
+{
+    private ISceneRunner runner;
+
+    [Before]
+    public void Setup()
+    {
+        runner = ISceneRunner.Load("res://my_scene.tscn");
+        // Optionally: runner = AutoFree(runner);
+    }
+
+    [After]
+    public void Teardown()
+    {
+        runner.Dispose();
+    }
+
+    [TestCase]
+    public void TestButtonPress()
+    {
+        var button = runner.Scene().GetNode<Button>("MyButton");
+        AssertThat(button).IsNotNull();
+        // Simulate input, check signals, etc.
+    }
+}
+```
+
+---
+
+### Summary
+
+- Always use the scene runner for UI/scene tests.
+- Register objects for auto-free or dispose manually.
+- Use mocks/spies for dependencies.
+- Simulate input for UI tests.
+- Use proper assertions and avoid suppressing warnings.
+- Structure tests with setup/teardown and parameterization as needed.
+
+---
+
+If you want, I can now refactor your OmegaUI tests to follow these best practices!
 
 ## **Omega Spiral - Chapter Zero**
 
@@ -110,3 +181,12 @@ Is a turn based rpg game where players navigate through five distinct scenes, ea
 - **Setting**: Five distinct scenes representing different eras of gaming aesthetics
 - **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development
 - **Single Player**: 1 player and 2 quantum players. The other dreamweavers write the story in the backend.
+
+## General Rules
+- Act like a developer with 20+ years of experience
+- You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
+- Always confirm that the project problems tab with your tools is clean after changes
+- Always confirm that all tests pass after changes
+- Always confirm that there are no warnings or errors in the terminal output after building and testing
+- Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
+- Always follow the XML Documentation Rules

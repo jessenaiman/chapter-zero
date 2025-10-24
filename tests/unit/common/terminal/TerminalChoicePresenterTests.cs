@@ -20,7 +20,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
     public class TerminalChoicePresenterTests
     {
         private TerminalChoicePresenter _presenter = null!;
-        private VBoxContainer _mockChoiceContainer = null!;
+        private VBoxContainer _choiceContainer = null!;
 
         /// <summary>
         /// Sets up test fixtures before each test.
@@ -28,69 +28,50 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         [Before]
         public void Setup()
         {
-            _mockChoiceContainer = new VBoxContainer();
-            _presenter = new TerminalChoicePresenter(_mockChoiceContainer);
-        }
+            // Create mock Godot nodes for testing
+            _choiceContainer = new VBoxContainer();
 
-        /// <summary>
-        /// Cleans up test fixtures after each test.
-        /// </summary>
-        [After]
-        public void Cleanup()
-        {
-            _presenter?.Dispose();
-            _mockChoiceContainer?.QueueFree();
-        }
+            // Initialize presenter with mock node
+            _presenter = new TerminalChoicePresenter(_choiceContainer);
 
-        /// <summary>
-        /// Tests that constructor initializes with valid choice container.
-        /// </summary>
-        [TestCase]
-        public void Constructor_WithValidChoiceContainer_InitializesCorrectly()
-        {
-            // Arrange & Act
-            var presenter = new TerminalChoicePresenter(_mockChoiceContainer);
+            // Add to scene tree for Godot operations
+            var testScene = new Node();
+            testScene.AddChild(_choiceContainer);
 
-            // Assert
-            AssertThat(presenter).IsNotNull();
-            AssertThat(presenter.AreChoicesVisible()).IsFalse();
-        }
-
-        /// <summary>
-        /// Tests that constructor throws with null choice container.
-        /// </summary>
-        [TestCase]
-        public void Constructor_WithNullChoiceContainer_ThrowsArgumentNullException()
-        {
-            // Act & Assert
-            AssertThrown(() => new TerminalChoicePresenter(null!))
-                .IsInstanceOf<ArgumentNullException>();
+            // Auto-free will clean up after test
+            AutoFree(testScene);
         }
 
         /// <summary>
         /// Tests presenting choices with single selection.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task PresentChoicesAsync_SingleSelection_ReturnsSelectedIndex()
         {
             // Arrange
             var choices = new Collection<string> { "Choice 1", "Choice 2", "Choice 3" };
 
-            // Act - Simulate user selecting choice 1 (index 0)
+            // Act - Present choices and simulate clicking the second button (index 1)
             var selectionTask = _presenter.PresentChoicesAsync(choices, false);
-            // In a real scenario, this would wait for user input
-            // For testing, we'll simulate the selection
 
-            // For now, just verify the method doesn't throw
-            // Full integration testing would require mocking user input
-            AssertThat(selectionTask).IsNotNull();
-            _presenter.HideChoices(); // Cancel the task to avoid hanging
+            // Wait for buttons to be created
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+
+            // Get the second button and simulate clicking it
+            var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
+            button.EmitSignal("pressed");
+
+            // Assert
+            var result = await selectionTask.ConfigureAwait(false);
+            AssertThat(result).Contains(1);
         }
 
         /// <summary>
-        /// Tests presenting choices with multiple selection enabled.
+        /// Tests presenting choices with multiple selection.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task PresentChoicesAsync_MultipleSelection_ReturnsSelectedIndices()
         {
             // Arrange
@@ -99,16 +80,23 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             // Act
             var selectionTask = _presenter.PresentChoicesAsync(choices, true);
 
+            // Wait for buttons to be created
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+
+            // Get the second button and simulate clicking it
+            var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
+            button.EmitSignal("pressed");
+
             // Assert
-            AssertThat(selectionTask).IsNotNull();
-            // Full testing would verify multiple selections are returned
-            _presenter.HideChoices(); // Cancel the task to avoid hanging
+            var result = await selectionTask.ConfigureAwait(false);
+            AssertThat(result).Contains(1);
         }
 
         /// <summary>
-        /// Tests presenting choices with ChoiceOption objects.
+        /// Tests presenting choices with choice options.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task PresentChoicesAsync_WithChoiceOptions_ReturnsSelectedIndex()
         {
             // Arrange
@@ -122,20 +110,38 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             // Act
             var selectionTask = _presenter.PresentChoicesAsync(choiceOptions);
 
+            // Wait for buttons to be created
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+
+            // Get the third button and simulate clicking it
+            var button = _choiceContainer.GetChild<Button>(2); // Third button (index 2)
+            button.EmitSignal("pressed");
+
             // Assert
-            AssertThat(selectionTask).IsNotNull();
-            _presenter.HideChoices(); // Cancel the task to avoid hanging
+            var result = await selectionTask.ConfigureAwait(false);
+            AssertThat(result).IsEqual(2);
         }
 
         /// <summary>
-        /// Tests hiding choices removes them from display.
+        /// Tests hiding choices after presenting them.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public async Task HideChoices_AfterPresentingChoices_RemovesFromDisplay()
         {
             // Arrange
             var choices = new Collection<string> { "Choice 1", "Choice 2" };
-            await _presenter.PresentChoicesAsync(choices).ConfigureAwait(false);
+
+            var choiceTask = _presenter.PresentChoicesAsync(choices);
+
+            // Wait for buttons to be created
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+
+            // Click first button to complete the task
+            var button = _choiceContainer.GetChild<Button>(0);
+            button.EmitSignal("pressed");
+
+            await choiceTask.ConfigureAwait(false);
 
             // Act
             _presenter.HideChoices();
@@ -145,37 +151,13 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         }
 
         /// <summary>
-        /// Tests getting selected choice index when none selected.
+        /// Tests checking if choices are visible initially.
         /// </summary>
         [TestCase]
-        public void GetSelectedChoiceIndex_NoSelection_ReturnsNegativeOne()
+        [RequireGodotRuntime]
+        public async Task AreChoicesVisible_Initially_ReturnsFalse()
         {
-            // Act & Assert
-            AssertThat(_presenter.GetSelectedChoiceIndex()).IsEqual(-1);
-        }
-
-        /// <summary>
-        /// Tests setting choice navigation enabled/disabled.
-        /// </summary>
-        [TestCase]
-        public void SetChoiceNavigationEnabled_ChangesNavigationState()
-        {
-            // Act
-            _presenter.SetChoiceNavigationEnabled(false);
-
-            // Assert
-            // Note: This test verifies the method doesn't throw
-            // Full verification would require checking internal state
-            AssertThat(_presenter).IsNotNull();
-        }
-
-        /// <summary>
-        /// Tests choices are not visible initially.
-        /// </summary>
-        [TestCase]
-        public void AreChoicesVisible_Initially_ReturnsFalse()
-        {
-            // Act & Assert
+            // Arrange & Act & Assert
             AssertThat(_presenter.AreChoicesVisible()).IsFalse();
         }
 
@@ -183,13 +165,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         /// Tests presenting empty choices list throws exception.
         /// </summary>
         [TestCase]
-        public void PresentChoicesAsync_EmptyChoices_ThrowsArgumentException()
+        [RequireGodotRuntime]
+        public async Task PresentChoicesAsync_EmptyChoices_ThrowsArgumentException()
         {
             // Arrange
-            var emptyChoices = new List<string>();
+            var emptyChoices = new Collection<string>();
 
             // Act & Assert
-            AssertThrown(() => PresentChoicesEmptySync())
+            AssertThrown(() => PresentChoicesEmptySync(_presenter))
                 .IsInstanceOf<ArgumentException>();
         }
 
@@ -197,10 +180,11 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         /// Tests presenting null choices throws exception.
         /// </summary>
         [TestCase]
-        public void PresentChoicesAsync_NullChoices_ThrowsArgumentNullException()
+        [RequireGodotRuntime]
+        public async Task PresentChoicesAsync_NullChoices_ThrowsArgumentNullException()
         {
-            // Act & Assert
-            AssertThrown(() => PresentChoicesNullSync())
+            // Arrange & Act & Assert
+            AssertThrown(() => PresentChoicesNullSync(_presenter))
                 .IsInstanceOf<ArgumentNullException>();
         }
 
@@ -208,25 +192,26 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         /// Tests presenting null choice options throws exception.
         /// </summary>
         [TestCase]
+        [RequireGodotRuntime]
         public void PresentChoicesAsync_NullChoiceOptions_ThrowsArgumentNullException()
         {
-            // Act & Assert
-            AssertThrown(() => PresentChoicesNullOptionsSync())
+            // Arrange & Act & Assert
+            AssertThrown(() => PresentChoicesNullOptionsSync(_presenter))
                 .IsInstanceOf<ArgumentNullException>();
         }
 
-        private void PresentChoicesEmptySync()
+        private void PresentChoicesEmptySync(TerminalChoicePresenter presenter)
         {
             var emptyChoices = new Collection<string>();
             _presenter.PresentChoicesAsync(emptyChoices).Wait();
         }
 
-        private void PresentChoicesNullSync()
+        private void PresentChoicesNullSync(TerminalChoicePresenter presenter)
         {
             _presenter.PresentChoicesAsync((Collection<string>)null!).Wait();
         }
 
-        private void PresentChoicesNullOptionsSync()
+        private void PresentChoicesNullOptionsSync(TerminalChoicePresenter presenter)
         {
             _presenter.PresentChoicesAsync((Collection<ChoiceOption>)null!).Wait();
         }

@@ -43,7 +43,7 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
         _display.Material = _currentMaterial;
 
         // Small delay to ensure shader is applied
-        await Task.Delay(10).ConfigureAwait(false);
+    await Task.Delay(10);
     }
 
     /// <inheritdoc/>
@@ -70,7 +70,7 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
         {
             float progress = (float)frame / totalFrames;
             _currentMaterial.SetShaderParameter("dissolve_progress", progress);
-            await Task.Delay(1000 / frameRate).ConfigureAwait(false); // Delay for one frame
+            await Task.Delay(1000 / frameRate); // Delay for one frame
         }
 
         // Ensure fully dissolved

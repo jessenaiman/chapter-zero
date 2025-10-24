@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.Ui.TestHarness;
+namespace OmegaSpiral.Tests.UI.TestHarness;
 
 using Godot;
 using GdUnit4;

@@ -52,7 +52,7 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
         }
 
         // Wait for user selection
-        return await _selectionTaskSource.Task;
+        return await _selectionTaskSource.Task.ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -112,6 +112,16 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     public bool AreChoicesVisible()
     {
         return _choiceButtons.Count > 0;
+    }
+
+    /// <summary>
+    /// Simulates choice selection for testing purposes.
+    /// Completes the pending choice task with the specified index.
+    /// </summary>
+    /// <param name="index">The choice index to select.</param>
+    public void SimulateChoiceSelection(int index)
+    {
+        OnChoiceSelected(index);
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.Ui.Terminal;
+namespace OmegaSpiral.Tests.UI.Terminal;
 
 using Godot;
 using GdUnit4;

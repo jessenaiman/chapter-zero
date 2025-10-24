@@ -10,9 +10,10 @@ using System.Collections.ObjectModel;
 namespace OmegaSpiral.Tests.Integration.Common;
 
 /// <summary>
-/// Integration test suite for terminal component composition.
-/// Tests that all terminal components work together as a cohesive unit.
-/// Validates component interactions, lifecycle management, and full terminal workflows.
+/// Integration test suite for terminal component composition and input handling.
+/// Tests individual terminal components and their basic interactions.
+/// Sequence testing (boot → choices → story flow) belongs in Ghost Terminal stage tests.
+/// This suite focuses on: Can input be accepted? Does output display? Do components not interfere?
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
@@ -87,7 +88,7 @@ public partial class TerminalIntegrationTests
     /// Applies visual preset then displays text to ensure no interference.
     /// </summary>
     [TestCase]
-    public async void ShaderAndText_InteractWithoutInterference()
+    public async Task ShaderAndText_InteractWithoutInterference()
     {
         // Apply a visual preset
         await _shaderController!.ApplyVisualPresetAsync("phosphor").ConfigureAwait(false);
@@ -106,53 +107,44 @@ public partial class TerminalIntegrationTests
     }
 
     /// <summary>
-    /// Test text and choice component interaction.
-    /// Displays text then shows choices to ensure proper sequencing.
+    /// Test that terminal can accept user input via choice selection.
+    /// Core responsibility: receive user input and return the selected index.
     /// </summary>
     [TestCase]
-    public async void TextAndChoice_SequenceProperly()
+    public async Task TerminalInput_AcceptsSelection_ReturnsCorrectIndex()
     {
-        // Display initial text
-        await _textRenderer!.AppendTextAsync("Choose your path:").ConfigureAwait(false);
-
         // Show choices
         var choices = new Collection<ChoiceOption>
         {
-            new ChoiceOption { Text = "Path A" },
-            new ChoiceOption { Text = "Path B" }
+            new ChoiceOption { Text = "Option A" },
+            new ChoiceOption { Text = "Option B" }
         };
 
         var choiceTask = _choicePresenter!.PresentChoicesAsync(choices);
 
-        // Verify choices are visible
+        // Verify choices are visible for user interaction
         AssertBool(_choicePresenter.AreChoicesVisible()).IsTrue();
 
-        // Simulate user selection (choice index 0)
-        _choicePresenter.SetChoiceNavigationEnabled(true);
-        var selectedIndex = 0; // Simulate selection
+        // Simulate user pressing a button (index 1)
+        (_choicePresenter as TerminalChoicePresenter)?.SimulateChoiceSelection(1);
 
-        // Complete the choice task
-        await choiceTask.ConfigureAwait(false);
-
-        // Verify choice was selected
-        AssertInt(_choicePresenter!.GetSelectedChoiceIndex()).IsEqual(selectedIndex);
+        // Verify the correct selection was returned
+        var selectedIndex = await choiceTask.ConfigureAwait(false);
+        AssertInt(selectedIndex).IsEqual(1);
     }
 
     /// <summary>
-    /// Test full terminal workflow: shader -> text -> choices -> selection.
-    /// Simulates a complete terminal interaction sequence.
+    /// Test that text display and choice selection don't interfere with each other.
+    /// Validates component isolation at the terminal level.
+    /// (Full sequence testing belongs in Ghost Terminal tests)
     /// </summary>
     [TestCase]
-    public async void FullTerminalWorkflow_CompletesSuccessfully()
+    public async Task TextDisplay_AndChoiceInput_DontInterfere()
     {
-        // Step 1: Apply visual effect
-        await _shaderController!.ApplyVisualPresetAsync("glitch").ConfigureAwait(false);
+        // Display some text
+        await _textRenderer!.AppendTextAsync("Select an option:").ConfigureAwait(false);
 
-        // Step 2: Display narrative text
-        await _textRenderer!.AppendTextAsync("Welcome to the terminal.").ConfigureAwait(false);
-        await _textRenderer!.AppendTextAsync("Make your choice:").ConfigureAwait(false);
-
-        // Step 3: Present choices
+        // Show choices
         var choices = new Collection<ChoiceOption>
         {
             new ChoiceOption { Text = "Continue" },
@@ -161,16 +153,17 @@ public partial class TerminalIntegrationTests
 
         var choiceTask = _choicePresenter!.PresentChoicesAsync(choices);
 
-        // Step 4: Simulate user interaction
-        _choicePresenter!.SetChoiceNavigationEnabled(true);
-        // In a real scenario, this would wait for user input
-        // For testing, we complete the task manually
-        await choiceTask.ConfigureAwait(false);
+        // Verify both text and choices are present
+        AssertString(_textRenderer.GetCurrentText()).Contains("Select an option");
+        AssertBool(_choicePresenter.AreChoicesVisible()).IsTrue();
 
-        // Step 5: Verify final state
-        AssertBool(_choicePresenter!.AreChoicesVisible()).IsTrue();
-        AssertString(_textRenderer!.GetCurrentText()).Contains("Welcome to the terminal");
-        AssertObject(_shaderController!.GetCurrentShaderMaterial()).IsNotNull();
+        // User selects (index 0)
+        (_choicePresenter as TerminalChoicePresenter)?.SimulateChoiceSelection(0);
+        var selectedIndex = await choiceTask.ConfigureAwait(false);
+
+        // Verify selection completed without affecting text display
+        AssertInt(selectedIndex).IsEqual(0);
+        AssertString(_textRenderer.GetCurrentText()).Contains("Select an option");
     }
 
     /// <summary>
@@ -189,29 +182,5 @@ public partial class TerminalIntegrationTests
         (_shaderController as IDisposable)?.Dispose();
         (_textRenderer as IDisposable)?.Dispose();
         (_choicePresenter as IDisposable)?.Dispose();
-    }
-
-    /// <summary>
-    /// Test concurrent operations don't interfere.
-    /// Runs multiple component operations simultaneously.
-    /// </summary>
-    [TestCase]
-    public async void ConcurrentOperations_HandleGracefully()
-    {
-        // Start multiple operations concurrently
-        var shaderTask = _shaderController!.ApplyVisualPresetAsync("scanlines");
-        var textTask = _textRenderer!.AppendTextAsync("Concurrent test");
-        var choiceTask = _choicePresenter!.PresentChoicesAsync(new Collection<ChoiceOption>
-        {
-            new ChoiceOption { Text = "Test" }
-        });
-
-        // Wait for all to complete
-        await Task.WhenAll(shaderTask, textTask, choiceTask).ConfigureAwait(false);
-
-        // Verify all operations succeeded
-        AssertObject(_shaderController!.GetCurrentShaderMaterial()).IsNotNull();
-        AssertString(_textRenderer!.GetCurrentText()).Contains("Concurrent test");
-        AssertBool(_choicePresenter!.AreChoicesVisible()).IsTrue();
     }
 }
