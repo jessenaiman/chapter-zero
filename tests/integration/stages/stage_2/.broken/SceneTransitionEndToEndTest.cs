@@ -106,7 +106,7 @@ namespace OmegaSpiral.Tests.EndToEnd.Transition
             AssertThat(publisher.LastStageEnteredEvent.Owner).IsEqualTo(sequence.Stages[0].Owner);
 
             // Simulate some player interactions
-            // In the actual game, this would happen through the UI/GUI interactions
+            // In the actual game, this would happen through the Ui/GUi interactions
             var firstStage = sequence.Stages[0];
 
             // Find an object in the stage to interact with

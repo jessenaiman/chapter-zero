@@ -54,7 +54,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("UI/CountdownContainer/CountdownLabel:scale")
+tracks/0/path = NodePath("Ui/CountdownContainer/CountdownLabel:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -66,7 +66,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("UI/CountdownContainer/CountdownLabel:modulate")
+tracks/1/path = NodePath("Ui/CountdownContainer/CountdownLabel:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -240,17 +240,17 @@ lifetime = 6.0
 preprocess = 3.0
 visibility_rect = Rect2(-500, -400, 1000, 800)
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Ui" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="ShaderLayers" type="Control" parent="UI"]
+[node name="ShaderLayers" type="Control" parent="Ui"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="PhosphorLayer" type="ColorRect" parent="UI/ShaderLayers"]
+[node name="PhosphorLayer" type="ColorRect" parent="Ui/ShaderLayers"]
 material = SubResource("phosphor_material")
 layout_mode = 1
 anchors_preset = 15
@@ -259,7 +259,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(1, 1, 1, 0.1)
 
-[node name="GlitchLayer" type="ColorRect" parent="UI/ShaderLayers"]
+[node name="GlitchLayer" type="ColorRect" parent="Ui/ShaderLayers"]
 material = SubResource("glitch_material")
 layout_mode = 1
 anchors_preset = 15
@@ -268,7 +268,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(1, 1, 1, 0.05)
 
-[node name="CountdownContainer" type="MarginContainer" parent="UI"]
+[node name="CountdownContainer" type="MarginContainer" parent="Ui"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -279,23 +279,23 @@ offset_right = 300.0
 offset_bottom = 120.0
 grow_horizontal = 2
 
-[node name="CountdownPanel" type="Panel" parent="UI/CountdownContainer"]
+[node name="CountdownPanel" type="Panel" parent="Ui/CountdownContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("4")
 
-[node name="VBox" type="VBoxContainer" parent="UI/CountdownContainer/CountdownPanel"]
+[node name="VBox" type="VBoxContainer" parent="Ui/CountdownContainer/CountdownPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="WarningLabel" type="Label" parent="UI/CountdownContainer/CountdownPanel/VBox"]
+[node name="WarningLabel" type="Label" parent="Ui/CountdownContainer/CountdownPanel/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "⚠ MEMORY OVERFLOW IMMINENT ⚠"
 horizontal_alignment = 1
 
-[node name="CountdownLabel" type="Label" parent="UI/CountdownContainer/CountdownPanel/VBox"]
+[node name="CountdownLabel" type="Label" parent="Ui/CountdownContainer/CountdownPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
@@ -303,7 +303,7 @@ theme_override_font_sizes/font_size = 48
 text = "06:00"
 horizontal_alignment = 1
 
-[node name="DialogueContainer" type="MarginContainer" parent="UI"]
+[node name="DialogueContainer" type="MarginContainer" parent="Ui"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -317,22 +317,22 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="DialoguePanel" type="Panel" parent="UI/DialogueContainer"]
+[node name="DialoguePanel" type="Panel" parent="Ui/DialogueContainer"]
 layout_mode = 2
 
-[node name="DialogueContent" type="VBoxContainer" parent="UI/DialogueContainer/DialoguePanel"]
+[node name="DialogueContent" type="VBoxContainer" parent="Ui/DialogueContainer/DialoguePanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="SpeakerLabel" type="Label" parent="UI/DialogueContainer/DialoguePanel/DialogueContent"]
+[node name="SpeakerLabel" type="Label" parent="Ui/DialogueContainer/DialoguePanel/DialogueContent"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "SYSTEM"
 
-[node name="DialogueText" type="RichTextLabel" parent="UI/DialogueContainer/DialoguePanel/DialogueContent"]
+[node name="DialogueText" type="RichTextLabel" parent="Ui/DialogueContainer/DialoguePanel/DialogueContent"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3

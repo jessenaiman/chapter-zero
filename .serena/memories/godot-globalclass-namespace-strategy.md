@@ -41,7 +41,7 @@ public class CharacterStats
 ## Namespace Convention
 - `OmegaSpiral.Combat` - Combat system
 - `OmegaSpiral.Field` - Field/overworld system
-- `OmegaSpiral.UI` - UI components
+- `OmegaSpiral.Ui` - Ui components
 - `OmegaSpiral.Domain.Models` - Domain models
 - `OmegaSpiral.Infrastructure` - Infrastructure code
 - `OmegaSpiral.Tests` - Test classes

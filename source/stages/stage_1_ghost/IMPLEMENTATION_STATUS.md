@@ -159,7 +159,7 @@ run/main_scene="res://source/stages/main_menu/press_start_menu.tscn"
 
 - [ ] Create actual Stage 1 integration tests (ContentBlockTests exist but need Stage 1-specific tests)
 - [ ] Implement shader files (crt_phosphor.tres, crt_scanlines.tres, crt_glitch.tres)
-- [ ] Add audio assets (typewriter, UI sounds, ambient)
+- [ ] Add audio assets (typewriter, Ui sounds, ambient)
 - [ ] Add transition animations
 - [ ] Connect Question6 to Stage 2 entry point
 - [ ] Implement DreamweaverScore persistence for Stage 2

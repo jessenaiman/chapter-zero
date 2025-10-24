@@ -71,9 +71,9 @@ namespace OmegaSpiral.Source.Narrative
     }
 
     /// <summary>
-    /// Represents a choice point in the narrative with multiple Dreamweaver-aligned options.
-    /// Players select from different Dreamweaver perspectives to influence story progression.
-    /// Each option affects Dreamweaver scoring and determines narrative branching.
+    /// Represents a choice point in the narrative with multiple options.
+    /// Players select from available options to influence story progression.
+    /// Each option can be interpreted differently based on context or stage-specific implementations.
     /// </summary>
     public partial class NarrativeChoice
     {
@@ -84,10 +84,10 @@ namespace OmegaSpiral.Source.Narrative
         public string? Prompt { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of Dreamweaver-aligned choice options.
-        /// Each option represents a different Dreamweaver perspective on the situation.
+        /// Gets or sets the collection of choice options available to the player.
+        /// Each option represents a possible decision path in the narrative.
         /// </summary>
-        public IList<DreamweaverChoice> Options { get; set; } = new List<DreamweaverChoice>();
+        public IList<ChoiceOption> Options { get; set; } = new List<ChoiceOption>();
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ namespace OmegaSpiral.Source.Narrative
         /// </summary>
         public string? Text { get; set; }
 
-        private string? label;
+        private string? _Label;
 
         /// <summary>
         /// Gets or sets the display label for this choice option.
@@ -143,9 +143,34 @@ namespace OmegaSpiral.Source.Narrative
         /// </summary>
         public string? Label
         {
-            get => this.label ?? this.Text;
-            set => this.label = value;
+            get => this._Label ?? this.Text;
+            set => this._Label = value;
         }
+
+        /// <summary>
+        /// Gets or sets the response or consequence of selecting this choice.
+        /// </summary>
+        public string? Response { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this choice is available.
+        /// </summary>
+        public bool IsAvailable { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the next dialogue node to go to when this choice is selected.
+        /// </summary>
+        public string? NextNodeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the story block number this choice leads to (for narrative contexts).
+        /// </summary>
+        public int NextBlock { get; set; }
+
+        /// <summary>
+        /// Gets or sets the detailed description for this choice option.
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
     }
 
     /// <summary>
@@ -447,7 +472,7 @@ namespace OmegaSpiral.Source.Narrative
     }
 
     /// <summary>
-    /// Dreamweaver styling information used for UI theming during Stage 2.
+    /// Dreamweaver styling information used for Ui theming during Stage 2.
     /// </summary>
     public partial class EchoChamberDreamweaver
     {
@@ -460,7 +485,7 @@ namespace OmegaSpiral.Source.Narrative
         /// <summary>Gets or sets an accent color string (hex).</summary>
         public string AccentColor { get; set; } = string.Empty;
 
-        /// <summary>Gets or sets the text theme identifier for UI skinning.</summary>
+        /// <summary>Gets or sets the text theme identifier for Ui skinning.</summary>
         public string TextTheme { get; set; } = string.Empty;
     }
 

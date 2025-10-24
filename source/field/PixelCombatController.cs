@@ -9,10 +9,10 @@ using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>
-/// Controls the turn-based pixel combat scene, managing player and enemy actions, UI updates, and combat flow.
+/// Controls the turn-based pixel combat scene, managing player and enemy actions, Ui updates, and combat flow.
 /// </summary>
 /// <remarks>
-/// Handles loading combat data, initializing sprites and UI, processing player and enemy turns, and determining combat outcomes.
+/// Handles loading combat data, initializing sprites and Ui, processing player and enemy turns, and determining combat outcomes.
 /// </remarks>
 [GlobalClass]
 public partial class PixelCombatController : Node2D
@@ -30,7 +30,7 @@ public partial class PixelCombatController : Node2D
     private bool _playerTurn = true;
 
     /// <summary>
-    /// Called when the node is added to the scene. Initializes references, loads combat data, and sets up the UI.
+    /// Called when the node is added to the scene. Initializes references, loads combat data, and sets up the Ui.
     /// </summary>
     public override void _Ready()
     {
@@ -43,7 +43,7 @@ public partial class PixelCombatController : Node2D
 
         LoadCombatData();
         InitializeCombat();
-        UpdateUI();
+        UpdateUi();
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public partial class PixelCombatController : Node2D
         }
 
         _playerTurn = false;
-        UpdateUI();
+        UpdateUi();
 
         // Enemy turn after a delay
         GetTree().CreateTimer(1.0f).Timeout += EnemyTurn;
@@ -260,7 +260,7 @@ public partial class PixelCombatController : Node2D
     }
 
     /// <summary>
-    /// Handles the enemy's turn, performs attack, and updates UI.
+    /// Handles the enemy's turn, performs attack, and updates Ui.
     /// </summary>
     private void EnemyTurn()
     {
@@ -272,15 +272,15 @@ public partial class PixelCombatController : Node2D
         // Simple AI: always attack
         PerformAttack(false);
         _playerTurn = true;
-        UpdateUI();
+        UpdateUi();
 
         CheckCombatEnd();
     }
 
     /// <summary>
-    /// Updates the UI elements for combat, including enabling/disabling action buttons.
+    /// Updates the Ui elements for combat, including enabling/disabling action buttons.
     /// </summary>
-    private void UpdateUI()
+    private void UpdateUi()
     {
         if (_actionButtons == null)
         {

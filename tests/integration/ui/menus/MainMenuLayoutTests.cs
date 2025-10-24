@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.UI.Menus;
+namespace OmegaSpiral.Tests.Ui.Menus;
 
 using Godot;
 using GdUnit4;
@@ -11,13 +11,13 @@ using static GdUnit4.Assertions;
 
 /// <summary>
 /// Phase 1: Layout & Centering Tests
-/// Verifies that the Stage Select Menu is properly centered and all elements are within viewport bounds.
+/// Verifies that the MainMenu is properly centered and all elements are within viewport bounds.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
 public partial class MainMenuLayoutTests
 {
-    private const string StageSelectMenuPath = "res://tests/fixtures/menu_ui_test_fixture.tscn";
+    private const string _MainMenuPath = "res://source/stages/stage_0_start/main_menu.tscn";
 
     /// <summary>
     /// Test 1: Menu center should match viewport center horizontally
@@ -28,7 +28,7 @@ public partial class MainMenuLayoutTests
     public async Task MenuCenterShouldMatchViewportCenterHorizontally()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -56,7 +56,7 @@ public partial class MainMenuLayoutTests
     public async Task MenuCenterShouldMatchViewportCenterVertically()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         Control stageSelectMenu = (Control)runner.Scene();
@@ -84,16 +84,16 @@ public partial class MainMenuLayoutTests
     public async Task TitleShouldBeCenteredHorizontally()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
-        Control stageSelectMenu = (Control)runner.Scene();
-        AssertThat(stageSelectMenu).IsNotNull();
+        Control mainMenu = (Control)runner.Scene();
+        AssertThat(mainMenu).IsNotNull();
 
-        var titleLabel = stageSelectMenu.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
+        var titleLabel = mainMenu.GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/TitleMargin/TitleLabel");
         AssertThat(titleLabel).IsNotNull();
 
-        var menuContainerRect = stageSelectMenu.GetGlobalRect();
+        var menuContainerRect = mainMenu.GetGlobalRect();
         var menuCenterX = menuContainerRect.GetCenter().X;
 
         // Act
@@ -111,23 +111,23 @@ public partial class MainMenuLayoutTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public async Task Stage1ButtonShouldBeWithinViewportBounds()
+    public async Task StartButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
-        Control stageSelectMenu = (Control)runner.Scene();
-        AssertThat(stageSelectMenu).IsNotNull();
+        Control mainMenu = (Control)runner.Scene();
+        AssertThat(mainMenu).IsNotNull();
 
-        var stage1Button = stageSelectMenu.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/Button1");
-        AssertThat(stage1Button).IsNotNull();
+        var startButton = mainMenu.GetNodeOrNull<Button>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
+        AssertThat(startButton).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();
         var viewportRect = viewport.GetVisibleRect();
 
         // Act
-        var buttonGlobalRect = stage1Button.GetGlobalRect();
+        var buttonGlobalRect = startButton.GetGlobalRect();
 
         // Assert
         AssertThat(viewportRect.Intersects(buttonGlobalRect))
@@ -135,28 +135,28 @@ public partial class MainMenuLayoutTests
     }
 
     /// <summary>
-    /// Test 5: Stage 2 button should be within viewport bounds
-    /// Verifies that the Stage 2 button is completely visible within the viewport.
+    /// Test 5: Options button should be within viewport bounds
+    /// Verifies that the Options button is completely visible within the viewport.
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public async Task Stage2ButtonShouldBeWithinViewportBounds()
+    public async Task OptionsButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
-        Control stageSelectMenu = (Control)runner.Scene();
-        AssertThat(stageSelectMenu).IsNotNull();
+        Control mainMenu = (Control)runner.Scene();
+        AssertThat(mainMenu).IsNotNull();
 
-        var stage2Button = stageSelectMenu.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/Button2");
-        AssertThat(stage2Button).IsNotNull();
+        var optionsButton = mainMenu.GetNodeOrNull<Button>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/OptionsButton");
+        AssertThat(optionsButton).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();
         var viewportRect = viewport.GetVisibleRect();
 
         // Act
-        var buttonGlobalRect = stage2Button.GetGlobalRect();
+        var buttonGlobalRect = optionsButton.GetGlobalRect();
 
         // Assert
         AssertThat(viewportRect.Intersects(buttonGlobalRect))
@@ -172,13 +172,13 @@ public partial class MainMenuLayoutTests
     public async Task QuitButtonShouldBeWithinViewportBounds()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(StageSelectMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_MainMenuPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
-        Control stageSelectMenu = (Control)runner.Scene();
-        AssertThat(stageSelectMenu).IsNotNull();
+        Control mainMenu = (Control)runner.Scene();
+        AssertThat(mainMenu).IsNotNull();
 
-        var quitButton = stageSelectMenu.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/QuitButton");
+        var quitButton = mainMenu.GetNodeOrNull<Button>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/QuitButton");
         AssertThat(quitButton).IsNotNull();
 
         Viewport viewport = runner.Scene().GetViewport();

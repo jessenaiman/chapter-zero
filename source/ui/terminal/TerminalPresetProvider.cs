@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Static provider for terminal shader preset configurations.

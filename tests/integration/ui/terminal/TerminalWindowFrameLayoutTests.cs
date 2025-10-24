@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.UI.Terminal;
+namespace OmegaSpiral.Tests.Ui.Terminal;
 
 using Godot;
 using GdUnit4;
@@ -13,7 +13,7 @@ using static GdUnit4.Assertions;
 /// Tests for Terminal Window System frame-constrained layout architecture.
 /// Validates that terminal_window.tscn creates a visible border frame that contains
 /// any content placed in ScreenLayout, regardless of content type (menus, dialogs, gameplay).
-/// This ensures a consistent "old school terminal" UI aesthetic across all game scenes.
+/// This ensures a consistent "old school terminal" Ui aesthetic across all game scenes.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]

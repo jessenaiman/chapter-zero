@@ -22,7 +22,7 @@ public partial class Interaction : Area2D
     public delegate void TriggeredEventHandler();
 
     /// <summary>
-    /// Gets or sets the interaction's name. Used in UI and dialogue.
+    /// Gets or sets the interaction's name. Used in Ui and dialogue.
     /// </summary>
     [Export]
     public string InteractionName { get; set; } = "Interaction";

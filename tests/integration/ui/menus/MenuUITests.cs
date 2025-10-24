@@ -1,4 +1,4 @@
-// <copyright file="MenuUITests.cs" company="Ωmega Spiral">
+// <copyright file="MenuUiTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -6,52 +6,53 @@ using System;
 using System.Reflection;
 using Godot;
 using GdUnit4;
-using OmegaSpiral.Source.UI.Menus;
+using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Integration.UI.Menus;
+namespace OmegaSpiral.Tests.Integration.Ui.Menus;
 
 /// <summary>
-/// Integration tests for MenuUI base class.
+/// Integration tests for MenuUi base class.
 /// Validates button container management, action bar, menu title, and state transitions.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public partial class MenuUITests : Node
+public partial class MenuUiTests : Node
 {
     [TestCase]
-    public void MenuUI_IsValidControl()
+    public void MenuUi_IsValidControl()
     {
-        // MenuUI should extend OmegaUI which extends Control
-        AssertThat(typeof(MenuUI).IsAssignableTo(typeof(Control))).IsTrue();
+        // MenuUi should extend OmegaUi which extends Control
+        AssertThat(typeof(MenuUi).IsAssignableTo(typeof(Control))).IsTrue();
     }
 
     [TestCase]
-    public void MenuUI_HasMenuMode()
+    public void MenuUi_HasMenuMode()
     {
-        // MenuUI should have a MenuMode export property
-        var prop = typeof(MenuUI).GetProperty("Mode");
+        // MenuUi should have a MenuMode export property
+        var prop = typeof(MenuUi).GetProperty("Mode");
         AssertThat(prop).IsNotNull();
     }
 
     [TestCase]
-    public void MenuUI_MenuModeEnum_HasStandardValue()
+    public void MenuUi_MenuModeEnum_HasStandardValue()
     {
-        // MenuUI.MenuMode enum should have Standard value
-        var enumType = typeof(MenuUI).GetNestedType("MenuMode");
+        // MenuUi.MenuMode enum should have Standard value
+        var enumType = typeof(MenuUi).GetNestedType("MenuMode");
         AssertThat(enumType).IsNotNull();
     }
 
     [TestCase]
-    public void MenuUI_HasProtectedMethods()
+    public void MenuUi_ExposesProtectedMethodsForSubclasses()
     {
-        // MenuUI should expose protected methods for subclasses
-        var setMenuTitle = typeof(MenuUI).GetMethod("SetMenuTitle", BindingFlags.NonPublic | BindingFlags.Instance);
-        var getContainer = typeof(MenuUI).GetMethod("GetMenuButtonContainer", BindingFlags.NonPublic | BindingFlags.Instance);
-        var addButton = typeof(MenuUI).GetMethod("AddMenuButton", BindingFlags.NonPublic | BindingFlags.Instance);
-        var clearButtons = typeof(MenuUI).GetMethod("ClearMenuButtons", BindingFlags.NonPublic | BindingFlags.Instance);
-        var setEnabled = typeof(MenuUI).GetMethod("SetMenuEnabled", BindingFlags.NonPublic | BindingFlags.Instance);
-        var getActionBar = typeof(MenuUI).GetMethod("GetMenuActionBar", BindingFlags.NonPublic | BindingFlags.Instance);
+        // MenuUi should expose protected methods for subclasses
+        var setMenuTitle = typeof(MenuUi).GetMethod("SetMenuTitle", BindingFlags.NonPublic | BindingFlags.Instance);
+        var getContainer = typeof(MenuUi).GetMethod("GetMenuButtonContainer", BindingFlags.NonPublic | BindingFlags.Instance);
+        var addButton = typeof(MenuUi).GetMethod("AddMenuButton", BindingFlags.NonPublic | BindingFlags.Instance);
+        var clearButtons = typeof(MenuUi).GetMethod("ClearMenuButtons", BindingFlags.NonPublic | BindingFlags.Instance);
+        var setEnabled = typeof(MenuUi).GetMethod("SetMenuEnabled", BindingFlags.NonPublic | BindingFlags.Instance);
+        var getActionBar = typeof(MenuUi).GetMethod("GetMenuActionBar", BindingFlags.NonPublic | BindingFlags.Instance);
 
         AssertThat(setMenuTitle).IsNotNull();
         AssertThat(getContainer).IsNotNull();
@@ -62,9 +63,9 @@ public partial class MenuUITests : Node
     }
 
     [TestCase]
-    public void MenuUI_ExtendsOmegaUI()
+    public void MenuUi_ExtendsOmegaUi()
     {
-        // Verify MenuUI inheritance chain
-        AssertThat(typeof(MenuUI).BaseType).IsEqual(typeof(MenuUI).BaseType?.BaseType?.BaseType == typeof(object) ? typeof(MenuUI).BaseType : typeof(MenuUI).BaseType);
+        // Verify MenuUi extends OmegaUi
+        AssertThat(typeof(MenuUi).BaseType).IsEqual(typeof(OmegaUi));
     }
 }

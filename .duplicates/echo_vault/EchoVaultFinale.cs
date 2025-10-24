@@ -1,7 +1,7 @@
 using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
@@ -9,7 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Displays finale summary and persists party state.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultFinale : TerminalUI
+public partial class EchoVaultFinale : TerminalUi
 {
     private RichTextLabel? summaryLabel;
     private Button? continueButton;

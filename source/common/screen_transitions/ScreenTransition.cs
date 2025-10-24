@@ -53,7 +53,7 @@ namespace OmegaSpiral.Source.Scripts.Common.ScreenTransitions
 
             this.colorRect = this.GetNode<ColorRect>("ColorRect");
 
-            // Allow the mouse through the transition GUI elements.
+            // Allow the mouse through the transition GUi elements.
             this.colorRect.MouseFilter = Control.MouseFilterEnum.Ignore;
 
             // By default, do NOT have the ColorRect covering the screen.

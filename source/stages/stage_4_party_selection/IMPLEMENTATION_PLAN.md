@@ -23,7 +23,7 @@
 
 #### 3. Godot Scene Stack (Minimal First)
 
-- **EchoVaultHub.tscn**: retro text UI showing echoes, Dreamweaver lines, hidden point tally, memory loss callouts.
+- **EchoVaultHub.tscn**: retro text Ui showing echoes, Dreamweaver lines, hidden point tally, memory loss callouts.
   - Tier 0 art pass: monochrome wireframe (Apple II/PC‑88 vibe).
   - Tier 1 art pass: vector neon overlays (Vectrex arcade bleed) keyed to owning Dreamweaver.
   - Tier 2 art pass: Dragon Warrior / early FF homage (tile borders, faux 8x8 sprites, CRT shader).
@@ -65,7 +65,7 @@
 #### 7. Polish Targets (Post-VS)
 
 - Dynamic Dreamweaver presentation shifts per tier (color glitch, text overlap).
-- Memory debt UI indicator showing erased fields.
+- Memory debt Ui indicator showing erased fields.
 - Retro audio layer (loop hum, selection chime).
 - Stage transition cinematic: Vault collapse → JRPG town boot.
 
@@ -81,7 +81,7 @@
 **Phase Checklist (Lean Core → Polish):**
 
 1. Schema + factory + director wired to `stage3.json`.
-2. Tier 0 hub UI + Combat 1 working end-to-end (outnumbered test).
+2. Tier 0 hub Ui + Combat 1 working end-to-end (outnumbered test).
 3. Expand to tiers 1 & 2, confirm point ledger + memory loss.
 4. Persist party + memory debt; integrate Stage 4 handoff stub.
 5. Layer polish (presentation upgrades, audio, Omega overlays).

@@ -221,15 +221,15 @@ public partial class NpcInteractionTests : Node
 
         AssertThat(stage4Scene).IsNotNull();
 
-        // Look for UI elements related to interaction prompts
+        // Look for Ui elements related to interaction prompts
         // (e.g., "Press E to interact" popup)
-        var ui = stage4Scene.FindChild("UI", true, false);
+        var ui = stage4Scene.FindChild("Ui", true, false);
         var canvas = stage4Scene.FindChild("CanvasLayer", true, false);
 
-        // At least one UI container should exist for interaction feedback
+        // At least one Ui container should exist for interaction feedback
         var hasUi = ui != null || canvas != null;
         AssertThat(hasUi).IsTrue()
-            .OverrideFailureMessage("UI layer should exist for interaction prompts");
+            .OverrideFailureMessage("Ui layer should exist for interaction prompts");
 
         runner.Dispose();
     }

@@ -45,7 +45,7 @@ public partial class Stage4Main : Node2D
         _gamepieces = GetNodeOrNull<Node>("Gameboard/Gamepieces");
         _interactions = GetNodeOrNull<Node>("Interactions");
         _dreamweaverPresencesNode = GetNodeOrNull<Node2D>("DreamweaverPresences");
-        _debugInfo = GetNodeOrNull<Label>("UI/DebugInfo");
+        _debugInfo = GetNodeOrNull<Label>("Ui/DebugInfo");
 
         // Try to get the Dreamweaver system
         _dreamweaverSystem = GetNodeOrNull<DreamweaverSystem>("/root/DreamweaverSystem");

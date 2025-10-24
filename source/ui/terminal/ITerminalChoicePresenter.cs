@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Interface for presenting and handling player choices in the terminal.

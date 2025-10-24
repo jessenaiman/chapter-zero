@@ -1,5 +1,5 @@
 
-// <copyright file="UIActionButton.cs" company="Ωmega Spiral">
+// <copyright file="UiActionButton.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -7,12 +7,12 @@
 using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.ActionMenu;
 /// <summary>
 /// A button representing a single <see cref="OmegaSpiral.Source.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UiActionMenu"/>.
 /// </summary>
 [GlobalClass]
-#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
+#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
 public partial class UiActionButton : TextureButton
 #pragma warning restore IDE1006
 {

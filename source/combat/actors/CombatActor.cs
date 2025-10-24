@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// the next one begins, following whatever logic you define in your custom actor classes.<br/><br/>
 ///
 /// <b>Important:</b> This CombatActor class is like a template that specific actor types extend.
-/// For example, a player-controlled actor would show the action menu UI, while an AI enemy
+/// For example, a player-controlled actor would show the action menu Ui, while an AI enemy
 /// might have different attack patterns or decision-making logic.
 /// </summary>
 [GlobalClass]

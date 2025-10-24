@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Collections.ObjectModel;
-// <copyright file="UICombatLog.cs" company="Ωmega Spiral">
+// <copyright file="UiCombatLog.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -8,15 +8,15 @@ using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI
+namespace OmegaSpiral.Source.Scripts.Combat.Ui
 {
     /// <summary>
-    /// Represents the UI component for displaying the combat log in Omega Spiral.
-    /// The UICombatLog provides a visual record of combat events, actions, and outcomes,
+    /// Represents the Ui component for displaying the combat log in Omega Spiral.
+    /// The UiCombatLog provides a visual record of combat events, actions, and outcomes,
     /// allowing players to review the flow of battle and make informed decisions.
     /// </summary>
     [GlobalClass]
-    public partial class UICombatLog : Control
+    public partial class UiCombatLog : Control
     {
         /// <summary>
         /// Gets or sets the maximum number of log entries to keep.
@@ -46,7 +46,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI
         /// <inheritdoc/>
         public override void _Ready()
         {
-            // Get references to child UI elements
+            // Get references to child Ui elements
             this.logContainer = this.GetNode<VBoxContainer>("LogContainer");
 
             // Initially hide the log
@@ -105,7 +105,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI
         /// </summary>
         private void ScrollToBottom()
         {
-            // This method is called deferred to ensure the UI has updated
+            // This method is called deferred to ensure the Ui has updated
             if (this.logContainer != null && this.logContainer.GetChildCount() > 0)
             {
                 var lastChild = this.logContainer.GetChild(this.logContainer.GetChildCount() - 1);

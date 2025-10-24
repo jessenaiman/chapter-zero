@@ -1,18 +1,18 @@
 
-// <copyright file="UIPopup.cs" company="Ωmega Spiral">
+// <copyright file="UiPopup.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI.Popups;
+namespace OmegaSpiral.Source.Scripts.Field.Ui.Popups;
 /// <summary>
 /// An animated pop-up graphic. These are often found, for example, in dialogue bubbles to
 /// demonstrate the need for player input.
 /// </summary>
 [GlobalClass]
 [Tool]
-public partial class UIPopup : Node2D
+public partial class UiPopup : Node2D
 {
     /// <summary>
     /// Emitted when the popup has completely disappeared.

@@ -51,7 +51,7 @@ Wrath: “Choose quickly. Every echo you pull thins the bars.”
 
 ### Vault presentation
 
-- UI minimal: black background, white text, static hum.
+- Ui minimal: black background, white text, static hum.
 - Three frames flicker, each showing a faint silhouette.
 
 ### Dreamweaver intro

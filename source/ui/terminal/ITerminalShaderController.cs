@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Interface for managing terminal shader effects and visual presets.

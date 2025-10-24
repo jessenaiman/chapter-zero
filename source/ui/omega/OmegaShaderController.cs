@@ -2,10 +2,10 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Omega;
+namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
-/// Implementation of shader controller for Omega UI system.
+/// Implementation of shader controller for Omega Ui system.
 /// Manages shader effects, visual presets, and pixel dissolve transitions.
 /// </summary>
 public class OmegaShaderController : IOmegaShaderController, IDisposable

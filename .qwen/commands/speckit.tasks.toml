@@ -33,7 +33,7 @@ You **MUST** consider the user input before proceeding (if not empty).
      - **Foundational tasks (prerequisites that must complete before ANY user story can start)**
      - For each user story (in priority order P1, P2, P3...):
        - Group all tasks needed to complete JUST that story
-       - Include models, services, endpoints, UI components specific to that story
+       - Include models, services, endpoints, Ui components specific to that story
        - Mark which tasks are [P] parallelizable
        - If tests requested: Include tests specific to that story
      - Polish/Integration tasks (cross-cutting concerns)
@@ -85,7 +85,7 @@ The tasks.md should be immediately executable - each task must be specific enoug
    - Map all related components to their story:
      - Models needed for that story
      - Services needed for that story
-     - Endpoints/UI needed for that story
+     - Endpoints/Ui needed for that story
      - If tests requested: Tests specific to that story
    - Mark story dependencies (most stories should be independent)
 

@@ -1,21 +1,21 @@
 
-// <copyright file="UIActionDescription.cs" company="Ωmega Spiral">
+// <copyright file="UiActionDescription.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.ActionMenu;
 /// <summary>
 /// A text bar that displays the <see cref="OmegaSpiral.Combat.Actions.BattlerAction.Description"/> of a <see cref="OmegaSpiral.Combat.Actions.BattlerAction"/>.
 ///
 /// <para>
 /// This bar is shown to give the player information about actions as they select one from the
-/// <see cref="UIActionMenu"/>.
+/// <see cref="UiActionMenu"/>.
 /// </para>
 /// </summary>
 [GlobalClass]
-public partial class UIActionDescription : MarginContainer
+public partial class UiActionDescription : MarginContainer
 {
     private Label? descriptionLabel;
 

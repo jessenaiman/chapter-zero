@@ -132,7 +132,7 @@ After refactor, these will be **REDUNDANT**:
 
 ---
 
-## FILES REQUIRING CHANGES
+## FILES REQUiRING CHANGES
 
 ### Primary Changes
 1. **Create**: `source/infrastructure/IManifestAware.cs` (new interface)

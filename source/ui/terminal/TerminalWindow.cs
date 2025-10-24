@@ -2,11 +2,11 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Terminal
+namespace OmegaSpiral.Source.Ui.Terminal
 {
     /// <summary>
     /// Reusable terminal window component for all game contexts (Stage Select, NPC Dialogs, Settings, etc.).
-    /// Provides a cyberpunk terminal UI with dynamic content adaptation.
+    /// Provides a cyberpunk terminal Ui with dynamic content adaptation.
     /// Enforces frame-constrained layout architecture: visible bezel border around all content.
     /// </summary>
     [GlobalClass]
@@ -50,7 +50,7 @@ namespace OmegaSpiral.Source.UI.Terminal
         {
             base._Ready();
 
-            // Get references to UI elements with null-safe checks
+            // Get references to Ui elements with null-safe checks
             _outputLabel = GetNodeOrNull<RichTextLabel>("%OutputLabel");
             _inputField = GetNodeOrNull<LineEdit>("%InputField");
             _submitButton = GetNodeOrNull<Button>("%SubmitButton");
@@ -299,7 +299,7 @@ namespace OmegaSpiral.Source.UI.Terminal
         }
 
         /// <summary>
-        /// Gets the terminal's content container for adding custom UI elements.
+        /// Gets the terminal's content container for adding custom Ui elements.
         /// </summary>
         /// <returns>The content container VBoxContainer, or null if not found.</returns>
         public VBoxContainer? GetContentContainer()

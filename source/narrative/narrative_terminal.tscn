@@ -51,7 +51,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_left = 20
 corner_radius_bottom_right = 20
 
-[node name="NarrativeTerminalUI" type="Control"]
+[node name="NarrativeTerminalUi" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

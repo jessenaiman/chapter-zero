@@ -1,7 +1,7 @@
 using System.Globalization;
 using Godot;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
@@ -10,7 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Simple auto-resolve combat presentation for Echo Vault.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultCombatScene : TerminalUI
+public partial class EchoVaultCombatScene : TerminalUi
 {
     private RichTextLabel? logLabel;
     private Button? resolveButton;

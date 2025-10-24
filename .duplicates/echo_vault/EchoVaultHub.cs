@@ -2,7 +2,7 @@ using Godot;
 using System.Linq;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 
@@ -10,7 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Handles echo scene selection in the Echo Vault stage.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultHub : TerminalUI
+public partial class EchoVaultHub : TerminalUi
 {
     private Label? tierLabel;
     private RichTextLabel? promptLabel;
@@ -49,7 +49,7 @@ public partial class EchoVaultHub : TerminalUI
             this.confirmButton.Pressed += this.OnConfirmPressed;
         }
 
-        this.RefreshUI();
+        this.RefreshUi();
     }
 
     /// <inheritdoc/>
@@ -68,7 +68,7 @@ public partial class EchoVaultHub : TerminalUI
         base._Notification(what);
     }
 
-    private void RefreshUI()
+    private void RefreshUi()
     {
         EchoVaultBeat beat = EchoVaultSession.CurrentBeat;
         if (this.tierLabel != null)

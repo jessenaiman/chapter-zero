@@ -1,31 +1,31 @@
-// <copyright file="OmegaUI_IntegrationTests.cs" company="Ωmega Spiral">
+// <copyright file="OmegaUi_IntegrationTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Source.UI.Omega;
+using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Unit.UI
+namespace OmegaSpiral.Tests.Unit.Ui
 {
     /// <summary>
-    /// Integration tests for OmegaUI initialization logic.
+    /// Integration tests for OmegaUi initialization logic.
     /// Validates component creation and handling of missing node paths.
     /// </summary>
     [TestSuite]
     [RequireGodotRuntime]
-    public partial class OmegaUI_IntegrationTests : Node
+    public partial class OmegaUi_IntegrationTests : Node
     {
         private ISceneRunner? runner;
-        private OmegaUI? omegaUI;
+        private OmegaUi? omegaUi;
 
         [Before]
         public void Setup()
         {
             runner = ISceneRunner.Load("res://tests/fixtures/omega_ui_test_fixture.tscn");
-            omegaUI = runner?.Scene() as OmegaUI;
-            AssertThat(omegaUI).IsNotNull();
+            omegaUi = runner?.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
         }
 
         [After]
@@ -33,7 +33,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         {
             runner?.Dispose();
             runner = null;
-            omegaUI = null;
+            omegaUi = null;
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace OmegaSpiral.Tests.Unit.UI
         [TestCase]
         public void Initialization_WithValidPaths_CreatesComponents()
         {
-            AssertThat(omegaUI!.ShaderController).IsNotNull();
-            AssertThat(omegaUI!.TextRenderer).IsNotNull();
+            AssertThat(omegaUi!.ShaderController).IsNotNull();
+            AssertThat(omegaUi!.TextRenderer).IsNotNull();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace OmegaSpiral.Tests.Unit.UI
         public void Initialization_WithMissingShaderPath_DoesNotCreateShaderController()
         {
             using var runnerPartial = ISceneRunner.Load("res://tests/fixtures/omega_ui_missing_shader.tscn");
-            var ui = runnerPartial.Scene() as OmegaUI;
+            var ui = runnerPartial.Scene() as OmegaUi;
             AssertThat(ui).IsNotNull();
             AssertThat(ui!.TextRenderer).IsNotNull();
             AssertThat(ui!.ShaderController).IsNull();

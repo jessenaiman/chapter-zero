@@ -40,6 +40,6 @@ Godot was showing 7 errors related to "Node not found: TerminalPanel/OutputLabel
 4. Confirm all 7 original errors are resolved
 
 ## DDD & SOLID Principles Applied
-- **SRP**: Launch configuration handles only launching, scene handles only UI structure
+- **SRP**: Launch configuration handles only launching, scene handles only Ui structure
 - **Error Handling**: Script uses `GetNodeOrNull` with null checks for robustness
 - **Ubiquitous Language**: Consistent naming (TerminalPanel, OutputLabel) across scene and code

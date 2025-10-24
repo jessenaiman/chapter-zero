@@ -4,18 +4,18 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Field.UI.Popups;
+using OmegaSpiral.Source.Scripts.Field.Ui.Popups;
 
 namespace OmegaSpiral.Source.Scripts.Field.cutscenes.Popups;
 /// <summary>
-/// A <see cref="UIPopup"/> used specifically to mark <see cref="Interaction"/>s and other points of interest for the player.
+/// A <see cref="UiPopup"/> used specifically to mark <see cref="Interaction"/>s and other points of interest for the player.
 ///
 /// InteractionPopups may be added as children to a variety of objects. They respond to the player's
 /// physics layer and show up as an emote bubble when the player is nearby.
 /// </summary>
 [GlobalClass]
 [Tool]
-public partial class InteractionPopup : UIPopup
+public partial class InteractionPopup : UiPopup
 {
     /// <summary>
     /// The emote textures that may appear over a point of interest.

@@ -45,7 +45,7 @@
 [ext_resource type="PackedScene" uid="uid://p0e4b0txynkd" path="res://source/field/cutscenes/templates/doors/door.tscn" id="33_lbtsh"]
 [ext_resource type="PackedScene" uid="uid://wivtmf75ic3f" path="res://source/overworld/maps/town/battles/test_combat_arena.tscn" id="34_moieg"]
 [ext_resource type="PackedScene" uid="uid://cubp81mykng3h" path="res://source/field/cutscenes/popups/interaction_popup.tscn" id="34_qs25x"]
-[ext_resource type="Script" uid="uid://xdpci16n7w0j" path="res://source/scripts/field/ui/inventory/UIInventory.cs" id="34_tk01t"]
+[ext_resource type="Script" uid="uid://xdpci16n7w0j" path="res://source/scripts/field/ui/inventory/UiInventory.cs" id="34_tk01t"]
 [ext_resource type="AudioStream" uid="uid://duwauer3vwtne" path="res://assets/music/Insect Factory.mp3" id="34_xbc6u"]
 [ext_resource type="Script" uid="uid://dlr1qymr1i4e" path="res://source/overworld/maps/town/DoorUnlockInteraction.cs" id="34_xtrml"]
 [ext_resource type="Resource" uid="uid://dhllga88kmxrs" path="res://source/overworld/maps/town/sign.dtl" id="35_gv62s"]
@@ -795,9 +795,9 @@ metadata/_edit_lock_ = true
 wait_time = 0.5
 one_shot = true
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Ui" type="CanvasLayer" parent="."]
 
-[node name="Inventory" type="HBoxContainer" parent="UI"]
+[node name="Inventory" type="HBoxContainer" parent="Ui"]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -813,7 +813,7 @@ script = ExtResource("34_tk01t")
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="DialogueLayout" type="Control" parent="UI"]
+[node name="DialogueLayout" type="Control" parent="Ui"]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -826,7 +826,7 @@ script = ExtResource("20_lk3dv")
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="BoxMargins" type="MarginContainer" parent="UI/DialogueLayout"]
+[node name="BoxMargins" type="MarginContainer" parent="Ui/DialogueLayout"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -838,11 +838,11 @@ grow_vertical = 0
 theme_override_constants/margin_left = 150
 theme_override_constants/margin_right = 150
 
-[node name="BoxBack" type="ColorRect" parent="UI/DialogueLayout/BoxMargins"]
+[node name="BoxBack" type="ColorRect" parent="Ui/DialogueLayout/BoxMargins"]
 layout_mode = 2
 color = Color(0.14902, 0.168627, 0.266667, 1)
 
-[node name="TextMargins" type="MarginContainer" parent="UI/DialogueLayout/BoxMargins"]
+[node name="TextMargins" type="MarginContainer" parent="Ui/DialogueLayout/BoxMargins"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/margin_left = 32
@@ -850,7 +850,7 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="DialogueText" type="RichTextLabel" parent="UI/DialogueLayout/BoxMargins/TextMargins"]
+[node name="DialogueText" type="RichTextLabel" parent="Ui/DialogueLayout/BoxMargins/TextMargins"]
 clip_contents = false
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("21_r13nn")
@@ -865,21 +865,21 @@ shortcut_keys_enabled = false
 visible_characters_behavior = 1
 script = ExtResource("20_g8d34")
 
-[node name="Speaker" type="HBoxContainer" parent="UI/DialogueLayout/BoxMargins/TextMargins/DialogueText"]
+[node name="Speaker" type="HBoxContainer" parent="Ui/DialogueLayout/BoxMargins/TextMargins/DialogueText"]
 layout_mode = 1
 offset_top = -128.0
 offset_right = 380.0
 offset_bottom = -8.0
 theme_override_constants/separation = 32
 
-[node name="Portrait" type="Control" parent="UI/DialogueLayout/BoxMargins/TextMargins/DialogueText/Speaker"]
+[node name="Portrait" type="Control" parent="Ui/DialogueLayout/BoxMargins/TextMargins/DialogueText/Speaker"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 script = ExtResource("21_f53lt")
 mode = 1
 container_ids = PackedStringArray("1")
 
-[node name="NameLabel" type="Label" parent="UI/DialogueLayout/BoxMargins/TextMargins/DialogueText/Speaker"]
+[node name="NameLabel" type="Label" parent="Ui/DialogueLayout/BoxMargins/TextMargins/DialogueText/Speaker"]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.14902, 0.168627, 0.266667, 1)
 theme_override_constants/outline_size = 24
@@ -889,35 +889,35 @@ text = "Character Name"
 vertical_alignment = 1
 script = ExtResource("19_lpxfg")
 
-[node name="DialogicNode_TypeSounds" type="AudioStreamPlayer" parent="UI/DialogueLayout/BoxMargins/TextMargins/DialogueText"]
+[node name="DialogicNode_TypeSounds" type="AudioStreamPlayer" parent="Ui/DialogueLayout/BoxMargins/TextMargins/DialogueText"]
 script = ExtResource("53_atrmf")
 sounds = Array[AudioStream]([ExtResource("54_fh5dy"), ExtResource("55_8lvao"), ExtResource("56_prbwr"), ExtResource("57_tomnb"), ExtResource("58_br2ni")])
 
-[node name="Choices" type="VBoxContainer" parent="UI/DialogueLayout/BoxMargins"]
+[node name="Choices" type="VBoxContainer" parent="Ui/DialogueLayout/BoxMargins"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 alignment = 2
 
-[node name="Choice1" type="Button" parent="UI/DialogueLayout/BoxMargins/Choices"]
+[node name="Choice1" type="Button" parent="Ui/DialogueLayout/BoxMargins/Choices"]
 layout_mode = 2
 text = "Choice1"
 script = ExtResource("53_w1dgf")
 choice_index = 1
 
-[node name="Choice2" type="Button" parent="UI/DialogueLayout/BoxMargins/Choices"]
+[node name="Choice2" type="Button" parent="Ui/DialogueLayout/BoxMargins/Choices"]
 layout_mode = 2
 text = "Choice2"
 script = ExtResource("53_w1dgf")
 choice_index = 2
 
-[node name="Choice3" type="Button" parent="UI/DialogueLayout/BoxMargins/Choices"]
+[node name="Choice3" type="Button" parent="Ui/DialogueLayout/BoxMargins/Choices"]
 layout_mode = 2
 text = "Choice3"
 script = ExtResource("53_w1dgf")
 choice_index = 3
 
-[node name="Choice4" type="Button" parent="UI/DialogueLayout/BoxMargins/Choices"]
+[node name="Choice4" type="Button" parent="Ui/DialogueLayout/BoxMargins/Choices"]
 layout_mode = 2
 text = "Choice4"
 script = ExtResource("53_w1dgf")

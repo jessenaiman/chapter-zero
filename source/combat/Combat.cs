@@ -31,7 +31,7 @@ public sealed partial class Combat : CanvasLayer
 
     /// <summary>
     /// Initializes the combat system when the node is ready.
-    /// Sets up UI references, connects to field events, and prepares for combat initiation.
+    /// Sets up Ui references, connects to field events, and prepares for combat initiation.
     /// </summary>
     /// <inheritdoc/>
     public override void _Ready()
@@ -42,7 +42,7 @@ public sealed partial class Combat : CanvasLayer
         // Log warnings if essential combat nodes are missing
         if (_combatContainer == null)
         {
-            GD.PushError("Combat: CenterContainer node not found. Combat UI will not function.");
+            GD.PushError("Combat: CenterContainer node not found. Combat Ui will not function.");
         }
         if (_transitionDelayTimer == null)
         {

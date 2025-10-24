@@ -49,7 +49,7 @@
 	"cinematicTiming": "slow_burn"
   },
 
-  "firstChoice": {
+  "choice": {
     "setup": [
       "I will ask you three questions.",
       "Your answers will determine which thread unravels first.",
@@ -136,7 +136,7 @@
     ]
   },
 
-  "secretQuestion": {
+  "question": {
     "setup": [
       "",
       "[PAUSE: 3s]",
@@ -166,7 +166,7 @@
         "scores": { "light": 1, "shadow": 1, "ambition": 1 }
       }
     ],
-    "secretReveal": {
+    "secret": {
       "visual": "CODE_FRAGMENT_GLITCH_OVERLAY",
       "text": [
         "",
@@ -190,7 +190,7 @@
     }
   },
 
-  "nameQuestion": {
+  "question": {
 	"setup": [
 	  "",
 	  "[PAUSE: 2s]",

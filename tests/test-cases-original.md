@@ -290,7 +290,7 @@ _All tests avoid asserting specific narrative text; they verify structure, seque
 
 ### ACC-005: Colorblind Accessibility
 
-- [ ] It should use patterns and icons in addition to colors for Dreamweaver UI
+- [ ] It should use patterns and icons in addition to colors for Dreamweaver Ui
 - [ ] It should support Protanopia colorblind mode
 - [ ] It should support Deuteranopia colorblind mode
 - [ ] It should support Tritanopia colorblind mode
@@ -356,7 +356,7 @@ _All tests avoid asserting specific narrative text; they verify structure, seque
 ### DNG-008: Inventory Management
 
 - [ ] It should store picked up items in player inventory
-- [ ] It should display item details in inventory UI
+- [ ] It should display item details in inventory Ui
 - [ ] It should apply item effects when used or equipped
 - [ ] It should allow player to drop items from inventory
 
@@ -452,10 +452,10 @@ _All tests avoid asserting specific narrative text; they verify structure, seque
 
 ### LOC-003: Container Overflow Prevention
 
-- [ ] It should fit all text within UI containers without clipping
+- [ ] It should fit all text within Ui containers without clipping
 - [ ] It should auto-resize containers when possible for text
 - [ ] It should truncate text gracefully with ellipsis when needed
-- [ ] It should test all UI screens with maximum-length strings
+- [ ] It should test all Ui screens with maximum-length strings
 
 ### LOC-004: Variable Length Handling
 
@@ -483,7 +483,7 @@ _All tests avoid asserting specific narrative text; they verify structure, seque
 ### INT-003: Name Persistence
 
 - [ ] It should display player name in Scene 2 dialogue after capture in Scene 1
-- [ ] It should display player name in UI elements across all scenes
+- [ ] It should display player name in Ui elements across all scenes
 - [ ] It should store player name in save files
 - [ ] It should avoid reverting to default name after initial entry
 

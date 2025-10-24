@@ -1,22 +1,20 @@
-// <copyright file="NethackUI.cs" company="Ωmega Spiral">
+// <copyright file="NethackUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 
 namespace OmegaSpiral.Source.Stages.Nethack;
 
 /// <summary>
-/// Nethack UI that extends TerminalUI and adds game-driven dungeon mechanics.
+/// Nethack Ui that extends TerminalUi and adds game-driven dungeon mechanics.
 /// Handles turn-based combat, inventory, exploration, and player agency.
 /// Base class for Stage 2 (Nethack gameplay experience).
-/// Differs from NarrativeUI - this supports non-linear player-driven gameplay, not sequential story beats.
+/// Differs from NarrativeUi - this supports non-linear player-driven gameplay, not sequential story beats.
 /// </summary>
 [GlobalClass]
-public partial class NethackUI : TerminalUI
+public partial class NethackUi : TerminalUi
 {
     /// <summary>
     /// Game state for Nethack dungeon exploration.
@@ -27,21 +25,21 @@ public partial class NethackUI : TerminalUI
         public int CurrentDepth { get; set; }
 
         /// <summary>Gets or sets the player's current HP.</summary>
-        public int CurrentHP { get; set; }
+        public int CurrentHp { get; set; }
 
         /// <summary>Gets or sets the player's maximum HP.</summary>
-        public int MaxHP { get; set; }
+        public int MaxHp { get; set; }
 
         /// <summary>Gets or sets items in the player's inventory.</summary>
         public string[] InventoryItems { get; set; } = Array.Empty<string>();
     }
 
-    private DungeonState _dungeonState = new();
+    private DungeonState _DungeonState = new();
 
     /// <summary>
     /// Gets the current dungeon state.
     /// </summary>
-    protected DungeonState CurrentDungeonState => _dungeonState;
+    protected DungeonState CurrentDungeonState => _DungeonState;
 
     /// <summary>
     /// Displays the dungeon status overlay (HP, inventory, current room).
@@ -63,9 +61,9 @@ public partial class NethackUI : TerminalUI
     /// <returns>The selected action text.</returns>
     public async Task<string> PresentDungeonActionsAsync(string[] availableActions)
     {
-        if (availableActions == null || availableActions.Length == 0)
+        if (availableActions.Length == 0)
         {
-            GD.PushWarning("[NethackUI] No dungeon actions provided.");
+            GD.PushWarning("[NethackUi] No dungeon actions provided.");
             return string.Empty;
         }
 
@@ -77,10 +75,10 @@ public partial class NethackUI : TerminalUI
     /// </summary>
     /// <param name="encounterText">The encounter description.</param>
     /// <param name="enemyName">The enemy name.</param>
-    /// <param name="enemyHP">The enemy's current HP.</param>
-    /// <param name="enemyMaxHP">The enemy's maximum HP.</param>
+    /// <param name="enemyHp">The enemy's current HP.</param>
+    /// <param name="enemyMaxHp">The enemy's maximum HP.</param>
     /// <returns>A task representing the async operation.</returns>
-    public async Task DisplayCombatEncounterAsync(string encounterText, string enemyName, int enemyHP, int enemyMaxHP)
+    public async Task DisplayCombatEncounterAsync(string encounterText, string enemyName, int enemyHp, int enemyMaxHp)
     {
         if (TextRenderer != null)
         {
@@ -88,7 +86,7 @@ public partial class NethackUI : TerminalUI
         }
 
         // Display health bar
-        var hpPercentage = (float)enemyHP / enemyMaxHP;
+        var hpPercentage = (float)enemyHp / enemyMaxHp;
         var hpBar = $"[{enemyName}] HP: [{new string('=', (int)(hpPercentage * 20))}{new string('-', 20 - (int)(hpPercentage * 20))}]";
         DisplayDungeonStatus(hpBar);
     }
@@ -99,7 +97,7 @@ public partial class NethackUI : TerminalUI
     /// <param name="items">Array of inventory item names.</param>
     public void UpdateInventoryDisplay(string[] items)
     {
-        _dungeonState.InventoryItems = items;
+        _DungeonState.InventoryItems = items;
 
         var inventoryText = items.Length > 0 ? string.Join(", ", items) : "Empty";
         DisplayDungeonStatus($"Inventory: {inventoryText}");
@@ -108,16 +106,16 @@ public partial class NethackUI : TerminalUI
     /// <summary>
     /// Updates player HP and displays health status.
     /// </summary>
-    /// <param name="currentHP">The current HP value.</param>
-    /// <param name="maxHP">The maximum HP value.</param>
-    public void UpdatePlayerHealth(int currentHP, int maxHP)
+    /// <param name="currentHp">The current HP value.</param>
+    /// <param name="maxHp">The maximum HP value.</param>
+    public void UpdatePlayerHealth(int currentHp, int maxHp)
     {
-        _dungeonState.CurrentHP = currentHP;
-        _dungeonState.MaxHP = maxHP;
+        _DungeonState.CurrentHp = currentHp;
+        _DungeonState.MaxHp = maxHp;
 
-        var healthBar = new string('=', Math.Max(0, (int)((float)currentHP / maxHP * 20)));
+        var healthBar = new string('=', Math.Max(0, (int)((float)currentHp / maxHp * 20)));
         var emptyBar = new string('-', 20 - healthBar.Length);
-        DisplayDungeonStatus($"Player HP: [{healthBar}{emptyBar}] {currentHP}/{maxHP}");
+        DisplayDungeonStatus($"Player HP: [{healthBar}{emptyBar}] {currentHp}/{maxHp}");
     }
 
     /// <summary>

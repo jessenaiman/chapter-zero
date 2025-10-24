@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
+using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage1;
 
@@ -164,16 +165,20 @@ public class ExitData
 }
 
 /// <summary>
-/// Choice option with dreamweaver thread alignment.
+/// Stage 1 specific choice option with dreamweaver thread alignment.
+/// Extends the base ChoiceOption with thread and alignment scores.
 /// </summary>
-public class ChoiceOption
+public class DreamweaverChoice : ChoiceOption
 {
-    [JsonPropertyName("text")]
-    public string Text { get; set; } = string.Empty;
-
+    /// <summary>
+    /// Gets or sets the dreamweaver thread this choice aligns with (hero, shadow, ambition).
+    /// </summary>
     [JsonPropertyName("thread")]
     public string Thread { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Gets or sets the dreamweaver alignment scores for this choice.
+    /// </summary>
     [JsonPropertyName("scores")]
     public DreamweaverScores Scores { get; set; } = new();
 }

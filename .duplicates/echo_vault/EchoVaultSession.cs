@@ -245,7 +245,7 @@ public readonly record struct EchoSelectionFeedback(
 }
 
 /// <summary>
-/// Finale summary data for UI presentation.
+/// Finale summary data for Ui presentation.
 /// </summary>
 /// <param name="Summary">Dreamweaver/system lines keyed by speaker id.</param>
 /// <param name="Points">Point ledger results.</param>

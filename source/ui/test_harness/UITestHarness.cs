@@ -2,9 +2,9 @@ using System;
 using Godot;
 
 /// <summary>
-/// Script for UI Test Harness. Press F12 to save a screenshot of the current viewport.
+/// Script for Ui Test Harness. Press F12 to save a screenshot of the current viewport.
 /// </summary>
-public partial class UITestHarness : Panel
+public partial class UiTestHarness : Panel
 {
     private const string DefaultHotkeyScreenshotName = "ui_test_harness_screenshot";
     private const string ScreenshotDirectory = "user://ui_test_baselines";
@@ -32,28 +32,28 @@ public partial class UITestHarness : Panel
         var viewport = GetViewport();
         if (viewport == null)
         {
-            GD.PrintErr("[UITestHarness] Unable to capture screenshot: viewport is null.");
+            GD.PrintErr("[UiTestHarness] Unable to capture screenshot: viewport is null.");
             return;
         }
 
         var texture = viewport.GetTexture();
         if (texture == null)
         {
-            GD.PrintErr("[UITestHarness] Unable to capture screenshot: viewport texture is null.");
+            GD.PrintErr("[UiTestHarness] Unable to capture screenshot: viewport texture is null.");
             return;
         }
 
         var image = texture.GetImage();
         if (image == null)
         {
-            GD.PrintErr("[UITestHarness] Unable to capture screenshot: could not obtain image from texture.");
+            GD.PrintErr("[UiTestHarness] Unable to capture screenshot: could not obtain image from texture.");
             return;
         }
 
         var directoryError = DirAccess.MakeDirRecursiveAbsolute(ProjectSettings.GlobalizePath(ScreenshotDirectory));
         if (directoryError != Error.Ok && directoryError != Error.AlreadyExists)
         {
-            GD.PrintErr($"[UITestHarness] Failed to ensure screenshot directory {ScreenshotDirectory}: {directoryError}");
+            GD.PrintErr($"[UiTestHarness] Failed to ensure screenshot directory {ScreenshotDirectory}: {directoryError}");
             return;
         }
 
@@ -63,10 +63,10 @@ public partial class UITestHarness : Panel
         var saveError = image.SavePng(screenshotPath);
         if (saveError != Error.Ok)
         {
-            GD.PrintErr($"[UITestHarness] Failed to save screenshot to {screenshotPath}: {saveError}");
+            GD.PrintErr($"[UiTestHarness] Failed to save screenshot to {screenshotPath}: {saveError}");
             return;
         }
 
-        GD.Print($"[UITestHarness] Screenshot saved to {screenshotPath}");
+        GD.Print($"[UiTestHarness] Screenshot saved to {screenshotPath}");
     }
 }

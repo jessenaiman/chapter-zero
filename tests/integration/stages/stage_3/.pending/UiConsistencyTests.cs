@@ -9,7 +9,7 @@ using static GdUnit4.Assertions;
 namespace OmegaSpiral.Tests.Stages.Stage4;
 
 /// <summary>
-/// Test suite for validating UI/UX consistency in Stage 4.
+/// Test suite for validating Ui/UX consistency in Stage 4.
 /// Ensures visual elements, dialogue windows, and user feedback match godot-open-rpg standards.
 /// </summary>
 [TestSuite]
@@ -18,7 +18,7 @@ public partial class UiConsistencyTests : Node
     private const string Stage4ScenePath = "res://source/stages/stage_4/field_combat.tscn";
 
     /// <summary>
-    /// Test that UI canvas layer exists for rendering UI elements.
+    /// Test that Ui canvas layer exists for rendering Ui elements.
     /// </summary>
     [TestCase]
     static public void TestUiCanvasLayerExists()
@@ -28,13 +28,13 @@ public partial class UiConsistencyTests : Node
 
         AssertThat(stage4Scene).IsNotNull();
 
-        // Look for CanvasLayer or UI container
+        // Look for CanvasLayer or Ui container
         var canvasLayer = stage4Scene.FindChild("CanvasLayer", true, false);
-        var ui = stage4Scene.FindChild("UI", true, false);
+        var ui = stage4Scene.FindChild("Ui", true, false);
 
         var hasUiLayer = canvasLayer != null || ui != null;
         AssertThat(hasUiLayer).IsTrue()
-            .OverrideFailureMessage("UI CanvasLayer should exist for UI rendering");
+            .OverrideFailureMessage("Ui CanvasLayer should exist for Ui rendering");
 
         runner.Dispose();
     }
@@ -72,7 +72,7 @@ public partial class UiConsistencyTests : Node
         var kenneyFont = ResourceLoader.Exists("res://source/assets/gui/font/Kenney Pixel.ttf");
 
         AssertThat(kenneyFont).IsTrue()
-            .OverrideFailureMessage("Kenney Pixel font should be available for consistent UI");
+            .OverrideFailureMessage("Kenney Pixel font should be available for consistent Ui");
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public partial class UiConsistencyTests : Node
         var themeExists = ResourceLoader.Exists("res://theme.tres");
 
         AssertThat(themeExists).IsTrue()
-            .OverrideFailureMessage("Theme resource should exist for consistent UI styling");
+            .OverrideFailureMessage("Theme resource should exist for consistent Ui styling");
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public partial class UiConsistencyTests : Node
             var text = titleLabel.Text;
             AssertThat(text).IsNotNull();
             AssertThat(text.Length).IsGreaterEqual(1)
-                .OverrideFailureMessage("UI labels should have text content");
+                .OverrideFailureMessage("Ui labels should have text content");
         }
 
         runner.Dispose();

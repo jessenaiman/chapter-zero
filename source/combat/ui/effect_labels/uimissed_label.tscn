@@ -78,7 +78,7 @@ _data = {
 &"default": SubResource("Animation_x72cj")
 }
 
-[node name="UIMissedLabel" type="Marker2D"]
+[node name="UiMissedLabel" type="Marker2D"]
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8

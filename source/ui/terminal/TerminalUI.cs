@@ -1,26 +1,24 @@
 using Godot;
-using System;
-using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Omega;
+using OmegaSpiral.Source.Ui.Omega;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
-/// Terminal UI that inherits from OmegaUI and adds terminal-specific behavior.
+/// Terminal Ui that inherits from OmegaUi and adds terminal-specific behavior.
 /// Provides basic choice presentation, terminal modes, and captions.
 /// Used across multiple stages that require terminal-style interfaces.
 /// This is a reusable base class - stage-specific logic should be in derived classes.
 /// </summary>
 [GlobalClass]
-public partial class TerminalUI : OmegaUI
+public partial class TerminalUi : OmegaUi
 {
     /// <summary>
     /// Terminal operation modes.
     /// </summary>
     public enum TerminalMode
     {
-        /// <summary>No terminal functionality (for minimal UI stages).</summary>
+        /// <summary>No terminal functionality (for minimal Ui stages).</summary>
         Disabled,
         /// <summary>Basic text display only (for dungeon overlays).</summary>
         Minimal,
@@ -39,41 +37,41 @@ public partial class TerminalUI : OmegaUI
     [Export] public bool CaptionsEnabled { get; set; }
 
     // Terminal-specific components
-    private ITerminalChoicePresenter? _choicePresenter;
+    private ITerminalChoicePresenter? _ChoicePresenter;
 
     /// <summary>
     /// Gets the choice presenter instance.
     /// </summary>
-    protected ITerminalChoicePresenter? ChoicePresenter => _choicePresenter;
+    protected ITerminalChoicePresenter? ChoicePresenter => _ChoicePresenter;
 
     // Terminal-specific nodes
 #pragma warning disable CA1816 // Godot nodes don't need explicit disposal
-    private VBoxContainer? _choiceContainer;
-    private Label? _captionLabel;
+    private VBoxContainer? _ChoiceContainer;
+    private Label? _CaptionLabel;
 #pragma warning restore CA1816
 
     // Cached autoload references for performance
-    private Node? _sceneManager;
-    private GameState? _gameState;
+    private Node? _SceneManager;
+    private GameState? _GameState;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
         if (Mode == TerminalMode.Disabled)
         {
-            GD.Print("[TerminalUI] Terminal mode is Disabled - skipping initialization.");
+            GD.Print("[TerminalUi] Terminal mode is Disabled - skipping initialization.");
             return;
         }
 
-        // Call base class initialization (OmegaUI)
+        // Call base class initialization (OmegaUi)
         base._Ready();
 
         // Cache autoload references for performance
-        _sceneManager = GetNodeOrNull<Node>("/root/SceneManager");
-        _gameState = GetNodeOrNull<GameState>("/root/GameState");
+        _SceneManager = GetNodeOrNull<Node>("/root/SceneManager");
+        _GameState = GetNodeOrNull<GameState>("/root/GameState");
 
-        if (_sceneManager == null) GD.PushWarning("[TerminalUI] SceneManager autoload not found.");
-        if (_gameState == null) GD.PushWarning("[TerminalUI] GameState autoload not found.");
+        if (_SceneManager == null) GD.PushWarning("[TerminalUi] SceneManager autoload not found.");
+        if (_GameState == null) GD.PushWarning("[TerminalUi] GameState autoload not found.");
 
         try
         {
@@ -81,59 +79,59 @@ public partial class TerminalUI : OmegaUI
         }
         catch (InvalidOperationException ex)
         {
-            GD.PrintErr($"[TerminalUI] Terminal-specific initialization failed: {ex.Message}");
+            GD.PrintErr($"[TerminalUi] Terminal-specific initialization failed: {ex.Message}");
             throw;
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[TerminalUI] Unexpected error during terminal initialization: {ex.Message}");
+            GD.PrintErr($"[TerminalUi] Unexpected error during terminal initialization: {ex.Message}");
             throw;
         }
     }
 
     /// <summary>
-    /// Caches terminal-specific node references in addition to base OmegaUI nodes.
+    /// Caches terminal-specific node references in addition to base OmegaUi nodes.
     /// </summary>
     protected override void CacheRequiredNodes()
     {
-        // Call base to cache OmegaUI nodes (PhosphorLayer, TextDisplay)
+        // Call base to cache OmegaUi nodes (PhosphorLayer, TextDisplay)
         base.CacheRequiredNodes();
 
         // Cache terminal-specific nodes
-        _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-        if (_choiceContainer == null)
-            throw new InvalidOperationException("Required node 'ChoiceContainer' not found in TerminalUI scene.");
+        _ChoiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+        if (_ChoiceContainer == null)
+            throw new InvalidOperationException("Required node 'ChoiceContainer' not found in TerminalUi scene.");
 
         // Optional nodes - log warning if missing
-        _captionLabel = GetNodeOrNull<Label>("CaptionLabel");
-        if (_captionLabel == null)
-            GD.PushWarning("[TerminalUI] CaptionLabel not found - captions disabled.");
+        _CaptionLabel = GetNodeOrNull<Label>("CaptionLabel");
+        if (_CaptionLabel == null)
+            GD.PushWarning("[TerminalUi] CaptionLabel not found - captions disabled.");
     }
 
     /// <summary>
-    /// Initializes terminal-specific components after base OmegaUI initialization.
+    /// Initializes terminal-specific components after base OmegaUi initialization.
     /// </summary>
     private void InitializeTerminalComponents()
     {
         try
         {
-            _choicePresenter = CreateChoicePresenter(_choiceContainer!);
-            if (_choicePresenter == null)
+            _ChoicePresenter = CreateChoicePresenter(_ChoiceContainer!);
+            if (_ChoicePresenter == null)
                 throw new InvalidOperationException("ChoicePresenter creation returned null.");
         }
         catch (Exception ex)
         {
-            GD.PrintErr($"[TerminalUI] Failed to create ChoicePresenter: {ex.Message}");
+            GD.PrintErr($"[TerminalUi] Failed to create ChoicePresenter: {ex.Message}");
             throw new InvalidOperationException($"Failed to create ChoicePresenter. See inner exception.", ex);
         }
     }
 
     /// <summary>
-    /// Initializes terminal-specific UI states.
+    /// Initializes terminal-specific Ui states.
     /// </summary>
     protected override void InitializeComponentStates()
     {
-        // Call base to initialize OmegaUI states
+        // Call base to initialize OmegaUi states
         base.InitializeComponentStates();
 
         InitializeTerminalStates();
@@ -144,14 +142,14 @@ public partial class TerminalUI : OmegaUI
     /// </summary>
     private void InitializeTerminalStates()
     {
-        if (_choiceContainer != null)
+        if (_ChoiceContainer != null)
         {
-            _choiceContainer.Visible = false;
+            _ChoiceContainer.Visible = false;
         }
 
-        if (_captionLabel != null)
+        if (_CaptionLabel != null)
         {
-            _captionLabel.Visible = CaptionsEnabled;
+            _CaptionLabel.Visible = CaptionsEnabled;
         }
     }
 
@@ -168,20 +166,20 @@ public partial class TerminalUI : OmegaUI
 
     /// <summary>
     /// Presents choices to the player and waits for selection.
-    /// Terminal-specific behavior - not part of base OmegaUI.
+    /// Terminal-specific behavior - not part of base OmegaUi.
     /// </summary>
     /// <param name="prompt">The prompt text to display.</param>
     /// <param name="optionTexts">The choice option texts.</param>
     /// <returns>The selected choice text, or empty string if none selected.</returns>
     public async Task<string> PresentChoicesAsync(string prompt, string[] optionTexts)
     {
-        if (Mode == TerminalMode.Disabled || TextRenderer == null || _choicePresenter == null)
+        if (Mode == TerminalMode.Disabled || TextRenderer == null || _ChoicePresenter == null)
         {
-            GD.PushWarning("[TerminalUI] Cannot present choices - components not initialized.");
+            GD.PushWarning("[TerminalUi] Cannot present choices - components not initialized.");
             return optionTexts.Length > 0 ? optionTexts[0] : string.Empty;
         }
 
-        // Display prompt using base OmegaUI text rendering
+        // Display prompt using base OmegaUi text rendering
         await AppendTextAsync(prompt);
 
         // Present choices using terminal-specific choice presenter
@@ -191,7 +189,7 @@ public partial class TerminalUI : OmegaUI
             choices.Add(new ChoiceOption { Text = text });
         }
 
-        int selectedIndex = await _choicePresenter.PresentChoicesAsync(choices);
+        int selectedIndex = await _ChoicePresenter.PresentChoicesAsync(choices);
         return selectedIndex >= 0 && selectedIndex < optionTexts.Length
             ? optionTexts[selectedIndex]
             : string.Empty;
@@ -203,9 +201,9 @@ public partial class TerminalUI : OmegaUI
     /// <param name="caption">The caption text to display.</param>
     public void UpdateCaption(string caption)
     {
-        if (_captionLabel != null && CaptionsEnabled)
+        if (_CaptionLabel != null && CaptionsEnabled)
         {
-            _captionLabel.Text = caption;
+            _CaptionLabel.Text = caption;
         }
     }
 
@@ -234,13 +232,13 @@ public partial class TerminalUI : OmegaUI
     protected void TransitionToScene(string scenePath)
     {
         // Use cached reference
-        if (_sceneManager != null && _sceneManager.HasMethod("TransitionToScene"))
+        if (_SceneManager != null && _SceneManager.HasMethod("TransitionToScene"))
         {
-            _sceneManager.Call("TransitionToScene", scenePath);
+            _SceneManager.Call("TransitionToScene", scenePath);
         }
         else
         {
-            if (_sceneManager == null) GD.PushWarning("[TerminalUI] SceneManager not found, using fallback.");
+            if (_SceneManager == null) GD.PushWarning("[TerminalUi] SceneManager not found, using fallback.");
             GetTree().ChangeSceneToFile(scenePath);
         }
     }
@@ -252,12 +250,12 @@ public partial class TerminalUI : OmegaUI
     protected GameState GetGameState()
     {
         // Use cached reference
-        if (_gameState == null)
+        if (_GameState == null)
         {
-            _gameState = GetNodeOrNull<GameState>("/root/GameState");
-            if (_gameState == null)
+            _GameState = GetNodeOrNull<GameState>("/root/GameState");
+            if (_GameState == null)
                 throw new InvalidOperationException("GameState singleton not found. Ensure it's autoloaded in project.godot");
         }
-        return _gameState;
+        return _GameState;
     }
 }

@@ -42,7 +42,7 @@ namespace OmegaSpiral.Source.Combat.Actions
         /// <summary>
         /// An action-specific icon. Shown primarily in menus.
         /// </summary>
-        [ExportGroup("UI")]
+        [ExportGroup("Ui")]
         [Export]
         public Texture2D? Icon { get; set; }
 

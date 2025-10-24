@@ -60,7 +60,7 @@ public partial class EchoDungeon : Control
     }
 
     /// <summary>
-    /// Binds the chamber data to the UI.
+    /// Binds the chamber data to the Ui.
     /// </summary>
     /// <param name="chamber">The chamber payload.</param>
     public void Bind(EchoChamberChamber chamber)

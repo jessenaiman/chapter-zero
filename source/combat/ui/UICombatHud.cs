@@ -5,15 +5,15 @@ using System.Collections.ObjectModel;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui;
 /// <summary>
 /// Container for the player combat HUD.
-/// The UICombatHud manages the display of combat-related information during battles,
+/// The UiCombatHud manages the display of combat-related information during battles,
 /// including battler status, health bars, action points, and other real-time combat data.
 /// It provides a heads-up display that helps players make informed decisions during combat.
 /// </summary>
 [GlobalClass]
-public partial class UICombatHud : Control
+public partial class UiCombatHud : Control
 {
     /// <summary>
     /// Emitted when the player selects a battler to view details for.
@@ -68,7 +68,7 @@ public partial class UICombatHud : Control
     private Control? battlerInfoPanel;
 
     /// <summary>
-    /// Dictionary mapping battlers to their UI displays.
+    /// Dictionary mapping battlers to their Ui displays.
     /// </summary>
     private readonly Dictionary<Battler, Control> battlerDisplays = new();
 
@@ -80,7 +80,7 @@ public partial class UICombatHud : Control
     /// <inheritdoc/>
     public override void _Ready()
     {
-        // Get references to child UI elements
+        // Get references to child Ui elements
         this.playerBattlersContainer = this.GetNode<Control>("PlayerBattlers");
         this.enemyBattlersContainer = this.GetNode<Control>("EnemyBattlers");
         this.battlerInfoPanel = this.GetNode<Control>("BattlerInfo");
@@ -103,7 +103,7 @@ public partial class UICombatHud : Control
     }
 
     /// <summary>
-    /// Setup the UI combat HUD with the given battler list.
+    /// Setup the Ui combat HUD with the given battler list.
     /// </summary>
     /// <param name="battlers">The list of combat participants.</param>
     public void Setup(BattlerList battlers)
@@ -215,7 +215,7 @@ public partial class UICombatHud : Control
 
         // Update the display with the battler's current stats
         // This would typically involve updating labels, progress bars, etc.
-        // The exact implementation depends on the UI structure being used.
+        // The exact implementation depends on the Ui structure being used.
 
         // For example:
         // var nameLabel = display.GetNode<Label>("Name");
@@ -243,7 +243,7 @@ public partial class UICombatHud : Control
 
         // Update the detailed info panel with the battler's stats
         // This would typically involve updating labels, stats display, etc.
-        // The exact implementation depends on the UI structure being used.
+        // The exact implementation depends on the Ui structure being used.
 
         // For example:
         // var nameLabel = battlerInfoPanel.GetNode<Label>("Name");

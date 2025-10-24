@@ -6,11 +6,11 @@ using System.Linq;
 
 /// <summary>
 /// Container for the combat log display.
-/// The UICombatLog displays a record of combat events, actions, and outcomes during battles.
+/// The UiCombatLog displays a record of combat events, actions, and outcomes during battles.
 /// It provides players with a history of what has happened in combat, helping them understand
 /// the flow of battle and make informed decisions.
 /// </summary>
-public partial class UICombatLog : Control
+public partial class UiCombatLog : Control
 {
     /// <summary>
     /// The maximum number of log entries to keep.
@@ -39,7 +39,7 @@ public partial class UICombatLog : Control
 
     public override void _Ready()
     {
-        // Get references to child UI elements
+        // Get references to child Ui elements
         logContainer = GetNode<VBoxContainer>("LogContainer");
 
         // Initially hide the log

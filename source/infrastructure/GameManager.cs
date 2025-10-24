@@ -1,0 +1,124 @@
+// <copyright file="GameManager.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
+// </copyright>
+
+using Godot;
+using System.Threading.Tasks;
+
+namespace OmegaSpiral.Source.Infrastructure;
+
+/// <summary>
+/// Global game orchestrator. Manages stage progression and overall game flow.
+/// This should be configured as an autoload singleton in project.godot.
+/// </summary>
+[GlobalClass]
+public partial class GameManager : Node
+{
+    /// <summary>
+    /// Array of stage scenes to load in sequence. Assign these in the Godot editor.
+    /// </summary>
+    [Export]
+    public PackedScene[] StageScenes { get; set; } = System.Array.Empty<PackedScene>();
+
+    private int _CurrentStageIndex = -1;
+    private StageManager? _CurrentStage;
+
+    /// <summary>
+    /// Gets the current stage index (0-based). Returns -1 if no stage is active.
+    /// </summary>
+    public int CurrentStageIndex => _CurrentStageIndex;
+
+    /// <summary>
+    /// Called when the node enters the scene tree.
+    /// </summary>
+    public override void _Ready()
+    {
+        GD.Print("[GameManager] Ready. Configured with ", StageScenes.Length, " stages.");
+    }
+
+    /// <summary>
+    /// Starts the game by loading the first stage.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> that completes when the game starts.</returns>
+    public async Task StartGameAsync()
+    {
+        GD.Print("[GameManager] Starting game...");
+        _CurrentStageIndex = -1;
+        await AdvanceToNextStageAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Advances to the next stage in the sequence. If no more stages exist, the game ends.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> that completes when the next stage is loaded and started.</returns>
+    public async Task AdvanceToNextStageAsync()
+    {
+        // Clean up current stage if it exists
+        if (_CurrentStage != null)
+        {
+            GD.Print("[GameManager] Removing current stage: ", _CurrentStage.Name);
+            RemoveChild(_CurrentStage);
+            _CurrentStage.QueueFree();
+            _CurrentStage = null;
+        }
+
+        // Move to next stage
+        _CurrentStageIndex++;
+
+        // Check if we've reached the end
+        if (_CurrentStageIndex >= StageScenes.Length)
+        {
+            GD.Print("[GameManager] All stages complete. Game finished!");
+            EmitSignal(SignalName.GameComplete);
+            return;
+        }
+
+        // Load and start the next stage
+        var stageScene = StageScenes[_CurrentStageIndex];
+        if (stageScene == null)
+        {
+            GD.PrintErr($"[GameManager] Stage scene at index {_CurrentStageIndex} is null!");
+            return;
+        }
+
+        GD.Print($"[GameManager] Loading stage {_CurrentStageIndex + 1}/{StageScenes.Length}...");
+        var stageInstance = stageScene.Instantiate<StageManager>();
+
+        if (stageInstance == null)
+        {
+            GD.PrintErr($"[GameManager] Failed to instantiate stage at index {_CurrentStageIndex}. Scene must have a StageManager script.");
+            return;
+        }
+
+        _CurrentStage = stageInstance;
+        AddChild(_CurrentStage);
+
+        // Connect to the stage's completion signal
+        _CurrentStage.StageComplete += OnStageComplete;
+
+        // Execute the stage
+        GD.Print($"[GameManager] Executing stage {_CurrentStage.StageId}...");
+        await _CurrentStage.ExecuteStageAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Called when the current stage emits its <see cref="StageManager.StageComplete"/> signal.
+    /// </summary>
+    private async void OnStageComplete()
+    {
+        GD.Print("[GameManager] Stage complete signal received.");
+
+        if (_CurrentStage != null)
+        {
+            _CurrentStage.StageComplete -= OnStageComplete;
+        }
+
+        await AdvanceToNextStageAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Emitted when all stages have been completed.
+    /// </summary>
+    [Signal]
+    public delegate void GameCompleteEventHandler();
+}

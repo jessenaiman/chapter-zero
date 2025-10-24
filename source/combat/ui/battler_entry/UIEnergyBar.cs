@@ -1,19 +1,19 @@
 
-// <copyright file="UIEnergyBar.cs" company="Ωmega Spiral">
+// <copyright file="UiEnergyBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 /// <summary>
-/// Bar representing a <see cref="Battler"/>'s energy points. Each point is a <see cref="UIEnergyPoint"/>.
+/// Bar representing a <see cref="Battler"/>'s energy points. Each point is a <see cref="UiEnergyPoint"/>.
 /// </summary>
 [GlobalClass]
-public partial class UIBattlerEnergyBar : Node
+public partial class UiBattlerEnergyBar : Node
 {
-    private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/battler_entry/UIEnergyPoint.tscn");
+    private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/battler_entry/UiEnergyPoint.tscn");
 
     private int maxValue;
 
@@ -29,7 +29,7 @@ public partial class UIBattlerEnergyBar : Node
 
             for (int i = 0; i < this.maxValue; i++)
             {
-                var newPoint = this.energyPointScene.Instantiate() as UIEnergyPoint;
+                var newPoint = this.energyPointScene.Instantiate() as UiEnergyPoint;
                 this.AddChild(newPoint);
             }
         }
@@ -54,7 +54,7 @@ public partial class UIBattlerEnergyBar : Node
             {
                 for (int i = oldValue; i < this.value; i++)
                 {
-                    this.GetChild<UIEnergyPoint>(i).Appear();
+                    this.GetChild<UiEnergyPoint>(i).Appear();
                 }
             }
 
@@ -63,7 +63,7 @@ public partial class UIBattlerEnergyBar : Node
             {
                 for (int i = oldValue; i > this.value; i--)
                 {
-                    this.GetChild<UIEnergyPoint>(i - 1).Disappear();
+                    this.GetChild<UiEnergyPoint>(i - 1).Disappear();
                 }
             }
         }
@@ -85,14 +85,14 @@ public partial class UIBattlerEnergyBar : Node
             {
                 for (int i = oldValue; i < this.selectedPointCount; i++)
                 {
-                    this.GetChild<UIEnergyPoint>(i).Select();
+                    this.GetChild<UiEnergyPoint>(i).Select();
                 }
             }
             else
             {
                 for (int i = oldValue; i > this.selectedPointCount; i--)
                 {
-                    this.GetChild<UIEnergyPoint>(i - 1).Deselect();
+                    this.GetChild<UiEnergyPoint>(i - 1).Deselect();
                 }
             }
         }

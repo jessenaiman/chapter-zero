@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Implementation of terminal shader controller.

@@ -1,16 +1,16 @@
 
-// <copyright file="UIEnergyPoint.cs" company="Ωmega Spiral">
+// <copyright file="UiEnergyPoint.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 /// <summary>
-/// A single energy point UI element, animating smoothly as a player Battler gains and spends energy.
+/// A single energy point Ui element, animating smoothly as a player Battler gains and spends energy.
 /// </summary>
 [GlobalClass]
-public partial class UIEnergyPoint : MarginContainer
+public partial class UiEnergyPoint : MarginContainer
 {
     /// <summary>
     /// The time required to move the point to or from <see cref="SelectedOffset"/>.

@@ -34,7 +34,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
         public async Task ExecuteSelectionBeatAsync(string beatId)
         {
             GD.Print($"[Stage4BeatExecutor] Executing selection beat: {beatId}");
-            // TODO: Load beat-specific data and handle mirror selection UI
+            // TODO: Load beat-specific data and handle mirror selection Ui
             await Task.CompletedTask.ConfigureAwait(false);
         }
 

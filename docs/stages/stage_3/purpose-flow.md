@@ -16,7 +16,7 @@ This stage explores the **player's identity** through the act of **choosing part
 
 1. **Intro: The First Mirror**
     * **Narrative**: A transition from Stage 2 (e.g., a fade from the glitched escape chamber). The player finds themselves in a liminal space – perhaps a room with several glowing, reflective surfaces (mirrors).
-    * **Tutorial Element**: The UI presents the character selection screen (Fighter, Wizard, Thief, Scribe). The player is implicitly the "leader" but needs others.
+    * **Tutorial Element**: The Ui presents the character selection screen (Fighter, Wizard, Thief, Scribe). The player is implicitly the "leader" but needs others.
     * **Meaningful Storytelling**: The Dreamweavers (all three might speak here, or the one most aligned from Stage 2 takes the lead) explain the need for allies. "You cannot face the echoes alone. Look into the mirrors... choose your reflection."
     * **Action**: Player selects their *first* party member (e.g., Fighter). This character becomes the initial protagonist of the first battle.
 
@@ -28,7 +28,7 @@ This stage explores the **player's identity** through the act of **choosing part
 
 3. **Return to the Mirror 1: Adding a Second**
     * **Narrative**: The battle scene fades. The player is back in the mirror chamber.
-    * **Tutorial Element**: UI returns to character selection, but now *two* slots are visible (one filled by the first choice). The player selects the *second* party member.
+    * **Tutorial Element**: Ui returns to character selection, but now *two* slots are visible (one filled by the first choice). The player selects the *second* party member.
     * **Meaningful Storytelling**: "You need another echo, another strength." The Dreamweavers might comment on the first character's performance and the need for balance (e.g., "The Fighter's strength is good, but we need cunning/speed/magic").
     * **Action**: Player selects the second character (e.g., Wizard).
 
@@ -40,7 +40,7 @@ This stage explores the **player's identity** through the act of **choosing part
 
 5. **Return to the Mirror 2: Adding the Third & Fourth**
     * **Narrative**: Back to the mirror chamber.
-    * **Tutorial Element**: UI shows three/four slots available now. The player selects the *third* and *fourth* party members in sequence or simultaneously.
+    * **Tutorial Element**: Ui shows three/four slots available now. The player selects the *third* and *fourth* party members in sequence or simultaneously.
     * **Meaningful Storytelling**: "Now! Quickly! We must make you whole!" or "Four echoes, four reflections – this is the number Omega fears!" The urgency is palpable.
     * **Action**: Player selects the remaining two characters (e.g., Thief, Scribe).
 

@@ -38,7 +38,7 @@ namespace OmegaSpiral.Source.Scripts.Ui
         }
 
         /// <summary>
-        /// Caches references to UI nodes using unique names.
+        /// Caches references to Ui nodes using unique names.
         /// </summary>
         private void CacheNodeReferences()
         {

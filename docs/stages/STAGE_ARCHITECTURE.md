@@ -11,7 +11,7 @@ graph TD
     A -->|displays stages| C["Stage Buttons"]
     C -->|user clicks| D["Stage 1, 2, 3, etc."]
     D -->|transition to| E["Scene: Stage Scene Path"]
-    
+
     style B fill:#FFE6E6
     style A fill:#E6F3FF
     style E fill:#E6FFE6
@@ -41,7 +41,7 @@ graph TD
     J -->|last beat completes| K["OnStageCompleteAsync"]
     K -->|report scores| L["GameState"]
     L -->|transition to| M["Next Stage"]
-    
+
     style B fill:#FFE6E6
     style D fill:#FFE6E6
     style F fill:#E6FFE6
@@ -51,7 +51,7 @@ graph TD
 
 **What happens:**
 1. Stage root scene loads with `StageController` subclass as root node
-2. `StageController._Ready()` calls `LoadStageManifest()` 
+2. `StageController._Ready()` calls `LoadStageManifest()`
 3. `StageManifestLoader` loads `stage_manifest.json` from that stage's data folder
 4. Manifest defines all beat scenes in order for that stage
 5. Each beat scene inherits from `BeatSceneBase`
@@ -68,16 +68,16 @@ graph LR
     A["StageController.cs"] -->|needs beat progression| B{Which Manifest?}
     B -->|Modern approach| C["StageManifestLoader"]
     B -->|Legacy approach| D["SceneFlowLoader"]
-    
+
     C -->|loads| E["stage_manifest.json<br/>(one per stage)"]
     D -->|loads| F["scene_flow.json<br/>(one per stage)"]
-    
+
     E -->|returns| G["StageManifest<br/>- stageId<br/>- stageName<br/>- scenes[]<br/>- nextStagePath"]
     F -->|returns| H["StageSceneFlow<br/>- stageName<br/>- stageId<br/>- scenes[]"]
-    
+
     G -.->|used by| I["Stage1Controller"]
     H -.->|used by| J["SceneNavigator<br/>(Legacy)"]
-    
+
     style C fill:#E6FFE6
     style E fill:#E6FFE6
     style D fill:#FFCCCC
@@ -100,7 +100,7 @@ graph TD
         MF["manifest.json"]
         MM["MainMenu.cs"]
     end
-    
+
     subgraph "Stage Level (StageController)"
         SC["StageController<br/>(Base Class)"]
         S1C["Stage1Controller"]
@@ -108,7 +108,7 @@ graph TD
         S3C["Stage3Controller<br/>(TODO)"]
         S4C["Stage4Controller"]
     end
-    
+
     subgraph "Beat Level (Individual Scenes)"
         BSB["BeatSceneBase<br/>(Base Class)"]
         SML["StageManifestLoader"]
@@ -117,35 +117,35 @@ graph TD
         BS2["Beat Scene 2"]
         BSN["Beat Scene N"]
     end
-    
+
     subgraph "Global State"
         GS["GameState"]
     end
-    
+
     MM -->|loads| MF
     MF -->|returns stages| ML
     ML -->|returns List| MM
     MM -->|transitions to| S1C
-    
+
     S1C -->|inherits| SC
     S2C -->|inherits| SC
     S4C -->|inherits| SC
-    
+
     SC -->|_Ready loads| SML
     SML -->|loads| SMF
     SMF -->|returns manifest| SC
     SC -->|instantiates beats| BSB
-    
+
     BSB -->|_Ready loads| SML
     BSB -->|used by| BS1
     BSB -->|used by| BS2
     BSB -->|used by| BSN
-    
+
     BS1 -->|OnBeatComplete signal| SC
     SC -->|advance beat| BS2
     BSN -->|OnStageComplete| SC
     SC -->|report scores| GS
-    
+
     style MF fill:#FFE6E6
     style SMF fill:#FFE6E6
     style SC fill:#E6F3FF
@@ -176,24 +176,24 @@ graph TD
     S3["Stage3Controller<br/>(TODO)"]
     S4["Stage4Controller"]
     S5["Stage5Controller<br/>(TODO)"]
-    
+
     SC -->|implements| M1["OnStageInitializeAsync"]
     SC -->|implements| M2["OnStageCompleteAsync"]
     SC -->|provides| M3["LoadStageManifest"]
     SC -->|provides| M4["AdvanceToNextBeat"]
-    
+
     S1 -->|extends| SC
     S2 -->|extends| SC
     S3 -->|extends| SC
     S4 -->|extends| SC
     S5 -->|extends| SC
-    
+
     S1 -.->|✅ Already done| SC
     S2 -.->|✅ Recently refactored| SC
     S3 -.->|❌ TODO| SC
     S4 -.->|⏳ Partially done| SC
     S5 -.->|❌ Not started| SC
-    
+
     style SC fill:#E6F3FF
     style S1 fill:#CCE6CC
     style S2 fill:#CCE6CC
@@ -221,23 +221,23 @@ sequenceDiagram
     MainMenu->>ManifestLoader: LoadManifest(/source/data/manifest.json)
     ManifestLoader-->>MainMenu: {id:1, path:"res://source/stages/stage_1/opening.tscn", ...}
     MainMenu->>Stage1Scene: TransitionTo(path)
-    
+
     Stage1Scene->>Stage1Ctrl: _Ready()
     Stage1Ctrl->>SML: LoadManifest(stage_manifest.json)
     SML-->>Stage1Ctrl: StageManifest{scenes: [Boot, Monologue, Q1, Q2, ...]}
-    
+
     Stage1Ctrl->>BeatScene1: Instantiate(Boot scene)
     BeatScene1->>BeatScene1: _Ready()
     BeatScene1-->>User: [Display Boot sequence]
-    
+
     User->>BeatScene1: [Complete interaction]
     BeatScene1->>Stage1Ctrl: EmitSignal("OnBeatComplete")
     Stage1Ctrl->>Stage1Ctrl: AdvanceToNextBeat()
-    
+
     Stage1Ctrl->>BeatScene1: QueueFree()
-    
+
     Note over Stage1Ctrl: ... repeat for Monologue, Q1, Q2, Q3 ...
-    
+
     BeatScene1->>Stage1Ctrl: EmitSignal("OnStageComplete")
     Stage1Ctrl->>GameState: UpdateDreamweaverScores(tracker)
     Stage1Ctrl->>MainMenu: TransitionToNextStage()
@@ -311,14 +311,14 @@ sequenceDiagram
 
 **At Game Start:**
 ```
-MainMenu.cs 
+MainMenu.cs
   → ManifestLoader.LoadManifest("/source/data/manifest.json")
     → Returns: [Stage 1, Stage 2, Stage 3, Stage 4, Stage 5]
 ```
 
 **When Stage 1 Loads:**
 ```
-Stage1Controller._Ready() 
+Stage1Controller._Ready()
   → StageManifestLoader.LoadManifest("res://source/stages/stage_1/stage_manifest.json")
     → Returns: StageManifest with scenes=[Boot, Monologue, Q1, Q2, Q3, Secret, SecretReveal, Name, ThreadLock]
 ```
@@ -355,7 +355,7 @@ BootSequence._Ready() (extends BeatSceneBase)
 │  Uses: ManifestLoader                                        │
 │  Loads: manifest.json (defines 5 stages)                     │
 │  Decides: Which stage to load                                │
-│  Responsible: Stage selection UI, transitions to stage root  │
+│  Responsible: Stage selection Ui, transitions to stage root  │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐

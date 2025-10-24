@@ -7,7 +7,7 @@ The simulation’s façade shatters. Light, Mischief, and Wrath split, each insi
 ## Creative Snapshot
 
 - **Fantasy**: Final sprint out of the ghost terminal. Dreamweavers argue, the world retextures itself in real time, and an implacable “collector” hunts for loose code.
-- **Structure**: Free-roam panic plaza with three exits. Each exit uses the same underlying encounter skeleton but re-skins tiles and dialogue to reflect the chosen Dreamweaver. Countdown UI and collector enemy add urgency.
+- **Structure**: Free-roam panic plaza with three exits. Each exit uses the same underlying encounter skeleton but re-skins tiles and dialogue to reflect the chosen Dreamweaver. Countdown Ui and collector enemy add urgency.
 - **Reveal**: Crescendo dialogue confirms there are *two other players* running parallel escapes. Regardless of route, the collector forces a final convergence that feeds the closing stage.
 
 ---
@@ -21,7 +21,7 @@ The simulation’s façade shatters. Light, Mischief, and Wrath split, each insi
    - `Break`: Wrath’s system overload, glitching collision and AI.
    Each shares the same encounter cadence: preamble → collector clash → traversal → convergence trigger.
 3. **Collector Showdown** – A C# garbage collector avatar (nicknamed *The Sweeper*) materialises every few beats, iterating phrases like “Scanning for unreferenced heroes.” The third appearance is unavoidable and initiates the convergence.
-4. **Countdown Pressure** – “Memory Overflow Imminent” timer appears as soon as the player crosses the first checkpoint. Total time generous (e.g., 6 minutes) but scripted VO and VFX escalate panic at thresholds. Timer UI uses a tightening infinity loop motif.
+4. **Countdown Pressure** – “Memory Overflow Imminent” timer appears as soon as the player crosses the first checkpoint. Total time generous (e.g., 6 minutes) but scripted VO and VFX escalate panic at thresholds. Timer Ui uses a tightening infinity loop motif.
 5. **Spiral Back** – No matter the route, the player emerges onto the same glitching bridge stub. Dreamweavers realise the other two players chose differently, sparking the schism that leads into the closing stage.
 
 ---
@@ -57,7 +57,7 @@ The simulation’s façade shatters. Light, Mischief, and Wrath split, each insi
 1. Update schema + JSON to capture hub metadata, three route templates, collector encounter stages, timer thresholds, and convergence trigger.
 2. Extend `NarrativeSceneFactory.GhostTerminal` with helpers for `EscapeRoute`, `CollectorPhase`, and countdown events.
 3. Build reusable encounter scene that accepts a layout skin (fight/break/sneak) while sharing logic and enemies.
-4. Hook timer UI, VO cues, and collector escalation to data-driven events.
+4. Hook timer Ui, VO cues, and collector escalation to data-driven events.
 5. Expose hooks for NobodyWho tile remix on the designated room per route.
 6. Persist route choice, countdown completion time, and collector outcomes to feed the closing stage system log.
 

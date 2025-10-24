@@ -7,7 +7,7 @@ An AI-powered testing expert for Godot 4.6 game projects using GDUnit4.
 The **GDUnit4GameAgent** is a Qwen-Agent-based advisor that provides expert guidance on testing your Omega Spiral game project. It:
 
 - **Validates** GDUnit4 test files for correctness and best practices
-- **Reviews** UI test screenshots for coverage and anomalies
+- **Reviews** Ui test screenshots for coverage and anomalies
 - **Analyzes** test result files (HTML, TRX) for errors and provides actionable advice
 - **References** all GDUnit4 documentation (RAG-style memory)
 - **Integrates** with Pollinations.AI API for image generation (no signup, globally available)
@@ -140,7 +140,7 @@ pip install "qwen-agent[gui,rag,code_interpreter,mcp]"
 
 2. **Review screenshots**
    ```
-   "Review the UI screenshots in TestResults/ui_screenshots and check for:
+   "Review the Ui screenshots in TestResults/ui_screenshots and check for:
    Background_FillsViewport.png, Background_HasDarkGrayBezelColor.png"
    ```
 

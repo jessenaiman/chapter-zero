@@ -79,7 +79,7 @@ public partial class NethackExploration : SceneBase
             return;
         }
 
-        // Dynamically create UI from chamber data
+        // Dynamically create Ui from chamber data
         RenderChamber(chamber);
     }
 

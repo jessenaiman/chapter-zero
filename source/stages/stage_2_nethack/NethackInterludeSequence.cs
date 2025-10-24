@@ -82,7 +82,7 @@ public partial class NethackInterludeSequence : SceneBase
             return;
         }
 
-        // Dynamically create UI from interlude data
+        // Dynamically create Ui from interlude data
         RenderInterlude();
     }
 

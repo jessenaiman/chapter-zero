@@ -1,4 +1,4 @@
-// <copyright file="GhostTerminalUI.cs" company="Ωmega Spiral">
+// <copyright file="GhostTerminalUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -30,12 +30,12 @@ public readonly struct GhostTerminalVisualPreset
 }
 
 /// <summary>
-/// Stage 1 (Ghost Terminal) specific UI that extends NarrativeUI for sequential story progression.
+/// Stage 1 (Ghost Terminal) specific Ui that extends NarrativeUi for sequential story progression.
 /// Adds visual presets for Dreamweaver personas and Stage 1-specific transition effects.
 /// All Stage 1 scene scripts inherit from this to access Ghost Terminal infrastructure.
 /// </summary>
 [GlobalClass]
-public partial class GhostTerminalUI : NarrativeUI
+public partial class GhostTerminalUi : NarrativeUi
 {
     /// <summary>
     /// Applies a visual preset to the Ghost Terminal shaders.

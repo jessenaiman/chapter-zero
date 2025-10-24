@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OmegaSpiral.UI.Menus;
+namespace OmegaSpiral.Source.Stages.Stage0Start;
 
 /// <summary>
 /// Individual stage button in the stage select menu.
@@ -33,7 +33,7 @@ public partial class StageButton : Button
         Ready,
 
         /// <summary>Stage has LLM-generated content.</summary>
-        LLMGenerated,
+        LlmGenerated,
 
         /// <summary>Stage is missing content.</summary>
         Missing,
@@ -45,8 +45,8 @@ public partial class StageButton : Button
     [Signal]
     public delegate void ClickedStageEventHandler(string stageId);
 
-    private string stageId = string.Empty;
-    private ContentStatus status = ContentStatus.Missing;
+    private string _StageId = string.Empty;
+    private ContentStatus _Status = ContentStatus.Missing;
 
     /// <summary>
     /// Gets or sets the stage ID (e.g., "Stage1", "Stage2").
@@ -54,8 +54,8 @@ public partial class StageButton : Button
     [Export]
     public string StageId
     {
-        get => stageId;
-        set => stageId = value;
+        get => _StageId;
+        set => _StageId = value;
     }
 
     /// <summary>
@@ -64,10 +64,10 @@ public partial class StageButton : Button
     [Export]
     public ContentStatus Status
     {
-        get => status;
+        get => _Status;
         set
         {
-            status = value;
+            _Status = value;
             UpdateDisplay();
         }
     }
@@ -95,7 +95,7 @@ public partial class StageButton : Button
         }
 
         // Update icon and status text based on content status
-        switch (status)
+        switch (_Status)
         {
             case ContentStatus.Ready:
                 iconLabel.Text = "✓";
@@ -105,7 +105,7 @@ public partial class StageButton : Button
                 Disabled = false;
                 break;
 
-            case ContentStatus.LLMGenerated:
+            case ContentStatus.LlmGenerated:
                 iconLabel.Text = "⚡";
                 statusLabel.Text = "[LLM Gen]";
                 iconLabel.AddThemeColorOverride("font_color", new Color(1.0f, 0.776f, 0.0f)); // Gold

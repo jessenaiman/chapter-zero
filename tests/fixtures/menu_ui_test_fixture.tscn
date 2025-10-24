@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://source/ui/menus/MenuUI.cs" id="1_menu_ui"]
+[ext_resource type="Script" path="res://source/ui/menus/MenuUi.cs" id="1_menu_ui"]
 
-[node name="MenuUITestFixture" type="Control"]
+[node name="MenuUiTestFixture" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_left = 0.0

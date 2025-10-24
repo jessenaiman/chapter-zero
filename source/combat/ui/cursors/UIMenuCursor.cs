@@ -1,17 +1,17 @@
 
-// <copyright file="UIMenuCursor.cs" company="Ωmega Spiral">
+// <copyright file="UiMenuCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+using OmegaSpiral.Source.Scripts.Combat.Ui.ListMenu;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.Cursors;
 /// <summary>
-/// The cursor of a <see cref="UIListMenu"/>, indicating which option is currently in focus.
+/// The cursor of a <see cref="UiListMenu"/>, indicating which option is currently in focus.
 /// </summary>
 [GlobalClass]
-public partial class UIMenuCursor : Marker2D
+public partial class UiMenuCursor : Marker2D
 {
     /// <summary>
     /// The time taken to move the cursor from one menu entry to the next.

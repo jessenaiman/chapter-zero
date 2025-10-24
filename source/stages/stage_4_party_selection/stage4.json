@@ -10,7 +10,7 @@
       "Each frame hums with a half-remembered silhouette. None of them are your own."
     ],
     "presentation_tiers": [
-      { "tier": 0, "theme": "mono", "notes": "Minimal UI, static hum." },
+      { "tier": 0, "theme": "mono", "notes": "Minimal Ui, static hum." },
       { "tier": 1, "theme": "mono_plus_owner_color", "notes": "Dreamweaver hues leak in, static edges." },
       { "tier": 2, "theme": "glitch_color", "notes": "Full color flicker, overlapping text." }
     ]

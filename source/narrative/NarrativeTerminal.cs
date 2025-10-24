@@ -20,7 +20,7 @@ namespace OmegaSpiral.Source.Scripts
     {
         /// <summary>
         /// Optional Dialogic integration for enhanced dialogue presentation.
-        /// When enabled, uses Dialogic's timeline system for dialogue UI while
+        /// When enabled, uses Dialogic's timeline system for dialogue Ui while
         /// maintaining C# control over narrative logic and state.
         /// </summary>
         private DialogicIntegration? dialogicIntegration;

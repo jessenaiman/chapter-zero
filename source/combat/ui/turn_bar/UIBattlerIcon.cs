@@ -1,17 +1,17 @@
 
-// <copyright file="UIBattlerIcon.cs" company="Ωmega Spiral">
+// <copyright file="UiBattlerIcon.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.TurnBar;
 /// <summary>
-/// UI element representing a battler icon in the turn bar.
+/// Ui element representing a battler icon in the turn bar.
 /// </summary>
 [GlobalClass]
 [Tool]
-public partial class UIBattlerIcon : TextureRect
+public partial class UiBattlerIcon : TextureRect
 {
     /// <summary>
     /// Describe the type of Battler represented by the icon:
@@ -89,7 +89,7 @@ public partial class UIBattlerIcon : TextureRect
     }
 
     /// <summary>
-    /// Gets or sets the upper and lower bounds describing the UIBattlerIcon's movement along the x-axis.
+    /// Gets or sets the upper and lower bounds describing the UiBattlerIcon's movement along the x-axis.
     /// The icon moves along the turn bar, whose size is used to determine where and how far the icon
     /// may move.
     /// </summary>

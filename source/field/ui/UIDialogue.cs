@@ -1,4 +1,4 @@
-// <copyright file="UIDialogue.cs" company="Omega Spiral">
+// <copyright file="UiDialogue.cs" company="Omega Spiral">
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
@@ -6,17 +6,17 @@ using Godot;
 using OmegaSpiral.Source.Narrative;
 using System.Collections.ObjectModel;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI;
+namespace OmegaSpiral.Source.Scripts.Field.Ui;
 
 /// <summary>
 /// Container for the dialogue system display.
-/// The UIDialogue manages the presentation of character dialogue, narrative text,
+/// The UiDialogue manages the presentation of character dialogue, narrative text,
 /// and conversation options during gameplay. It handles typewriter effects,
 /// character portraits, dialogue choices, and branching conversation trees.
 /// It provides a rich interface for storytelling and player interaction with NPCs.
 /// </summary>
-#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
-public partial class UIDialogue : Control
+#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
+public partial class UiDialogue : Control
 #pragma warning restore IDE1006
 {
     /// <summary>
@@ -101,7 +101,7 @@ public partial class UIDialogue : Control
     /// <inheritdoc/>
     public override void _Ready()
     {
-        // Get references to child UI elements
+        // Get references to child Ui elements
         this.dialogueText = this.GetNode<RichTextLabel>("DialogueText");
         this.characterNameLabel = this.GetNode<Label>("CharacterName");
         this.characterPortrait = this.GetNode<TextureRect>("CharacterPortrait");

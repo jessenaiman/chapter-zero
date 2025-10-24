@@ -1,13 +1,13 @@
 # 100% Accuracy Forensic Audit: godot-open-rpg → chapter-zero
 
-**Date**: October 19, 2025  
-**Requirement**: 100% functional equivalence, not 95%  
-**Original**: 77 GDScript files  
-**Refactored**: 93 C# files  
+**Date**: October 19, 2025
+**Requirement**: 100% functional equivalence, not 95%
+**Original**: 77 GDScript files
+**Refactored**: 93 C# files
 
 ---
 
-## CRITICAL GAPS PREVENTING 100% EQUIVALENCE
+## CRITICAL GAPS PREVENTING 100% EQUiVALENCE
 
 ### ❌ MISSING: 5% Unverified/Incomplete
 
@@ -52,36 +52,36 @@ The following systems need **line-by-line verification** before claiming 100%:
 
 ---
 
-### Combat UI (13 files)
+### Combat Ui (13 files)
 
 | Original GDScript | Expected C# Location | Status | Notes |
 |-------------------|---------------------|--------|-------|
-| `ui_action_button.gd` | `UIActionButton.cs` | ✅ **EXISTS** | Verified |
-| `ui_action_description.gd` | `UIActionDescription.cs` | ✅ **EXISTS** | Verified |
-| `ui_action_menu.gd` | `UIActionMenu.cs` | ⚠️ **VERIFY** | Menu controller |
-| `ui_battler_entry.gd` | `UIBattlerEntry.cs` | ❌ **MISSING?** | Battler UI display |
-| `ui_energy_bar.gd` | `UIEnergyBar.cs` | ❌ **MISSING?** | Energy/MP bar |
-| `ui_energy_point.gd` | `UIEnergyPoint.cs` | ❌ **MISSING?** | Individual energy point |
-| `ui_life_bar.gd` | `UILifeBar.cs` | ❌ **MISSING?** | HP bar |
-| `ui_player_battler_list.gd` | `UIPlayerBattlerList.cs` | ❌ **MISSING?** | Party list UI |
-| `ui_battler_target_cursor.gd` | `UIBattlerTargetCursor.cs` | ✅ **EXISTS** | Verified |
-| `ui_menu_cursor.gd` | `UIMenuCursor.cs` | ✅ **EXISTS** | Verified |
-| `ui_damage_label.gd` | `UIDamageLabel.cs` | ✅ **EXISTS** | Verified |
-| `ui_effect_label_builder.gd` | `UIEffectLabelBuilder.cs` | ✅ **EXISTS** | Verified |
-| `ui_list_menu.gd` | `UIListMenu.cs` | ✅ **EXISTS** | Verified |
-| `ui_turn_bar.gd` | `UITurnBar.cs` | ✅ **EXISTS** | Verified |
-| `ui_battler_icon.gd` | `UIBattlerIcon.cs` | ✅ **EXISTS** | Verified |
-| `ui_combat_menus.gd` | `UICombatMenus.cs` | ✅ **EXISTS** | Verified |
+| `ui_action_button.gd` | `UiActionButton.cs` | ✅ **EXISTS** | Verified |
+| `ui_action_description.gd` | `UiActionDescription.cs` | ✅ **EXISTS** | Verified |
+| `ui_action_menu.gd` | `UiActionMenu.cs` | ⚠️ **VERIFY** | Menu controller |
+| `ui_battler_entry.gd` | `UiBattlerEntry.cs` | ❌ **MISSING?** | Battler Ui display |
+| `ui_energy_bar.gd` | `UiEnergyBar.cs` | ❌ **MISSING?** | Energy/MP bar |
+| `ui_energy_point.gd` | `UiEnergyPoint.cs` | ❌ **MISSING?** | Individual energy point |
+| `ui_life_bar.gd` | `UiLifeBar.cs` | ❌ **MISSING?** | HP bar |
+| `ui_player_battler_list.gd` | `UiPlayerBattlerList.cs` | ❌ **MISSING?** | Party list Ui |
+| `ui_battler_target_cursor.gd` | `UiBattlerTargetCursor.cs` | ✅ **EXISTS** | Verified |
+| `ui_menu_cursor.gd` | `UiMenuCursor.cs` | ✅ **EXISTS** | Verified |
+| `ui_damage_label.gd` | `UiDamageLabel.cs` | ✅ **EXISTS** | Verified |
+| `ui_effect_label_builder.gd` | `UiEffectLabelBuilder.cs` | ✅ **EXISTS** | Verified |
+| `ui_list_menu.gd` | `UiListMenu.cs` | ✅ **EXISTS** | Verified |
+| `ui_turn_bar.gd` | `UiTurnBar.cs` | ✅ **EXISTS** | Verified |
+| `ui_battler_icon.gd` | `UiBattlerIcon.cs` | ✅ **EXISTS** | Verified |
+| `ui_combat_menus.gd` | `UiCombatMenus.cs` | ✅ **EXISTS** | Verified |
 
 **CRITICAL MISSING**:
 
-- ❌ `UIBattlerEntry.cs` - Individual battler display
-- ❌ `UIEnergyBar.cs` - Energy/MP bar
-- ❌ `UIEnergyPoint.cs` - Energy point visual
-- ❌ `UILifeBar.cs` - HP bar
-- ❌ `UIPlayerBattlerList.cs` - Party list display
+- ❌ `UiBattlerEntry.cs` - Individual battler display
+- ❌ `UiEnergyBar.cs` - Energy/MP bar
+- ❌ `UiEnergyPoint.cs` - Energy point visual
+- ❌ `UiLifeBar.cs` - HP bar
+- ❌ `UiPlayerBattlerList.cs` - Party list display
 
-**These are ESSENTIAL for combat UI to function!**
+**These are ESSENTIAL for combat Ui to function!**
 
 ---
 
@@ -151,14 +151,14 @@ The following systems need **line-by-line verification** before claiming 100%:
 
 ---
 
-### Field UI (4 files)
+### Field Ui (4 files)
 
 | Original GDScript | Expected C# Location | Status | Notes |
 |-------------------|---------------------|--------|-------|
 | `dialogue_window.gd` | `DialogueWindow.cs` | ✅ **EXISTS** | Verified |
-| `ui_inventory.gd` | `UIInventory.cs` | ✅ **EXISTS** | Verified |
-| `ui_inventory_item.gd` | `UIInventoryItem.cs` | ⚠️ **VERIFY** | Individual item display |
-| `ui_popup.gd` | `UIPopup.cs` | ⚠️ **VERIFY** | Popup messages |
+| `ui_inventory.gd` | `UiInventory.cs` | ✅ **EXISTS** | Verified |
+| `ui_inventory_item.gd` | `UiInventoryItem.cs` | ⚠️ **VERIFY** | Individual item display |
+| `ui_popup.gd` | `UiPopup.cs` | ⚠️ **VERIFY** | Popup messages |
 
 ---
 
@@ -176,13 +176,13 @@ Check if these exist:
 
 ## 4. CRITICAL MISSING FILES (Must Investigate)
 
-### High Priority - Combat UI (BLOCKING)
+### High Priority - Combat Ui (BLOCKING)
 
-1. ❌ `UIBattlerEntry.cs` - **CRITICAL FOR COMBAT**
-2. ❌ `UIEnergyBar.cs` - **CRITICAL FOR COMBAT**
-3. ❌ `UIEnergyPoint.cs` - **CRITICAL FOR COMBAT**
-4. ❌ `UILifeBar.cs` - **CRITICAL FOR COMBAT**
-5. ❌ `UIPlayerBattlerList.cs` - **CRITICAL FOR COMBAT**
+1. ❌ `UiBattlerEntry.cs` - **CRITICAL FOR COMBAT**
+2. ❌ `UiEnergyBar.cs` - **CRITICAL FOR COMBAT**
+3. ❌ `UiEnergyPoint.cs` - **CRITICAL FOR COMBAT**
+4. ❌ `UiLifeBar.cs` - **CRITICAL FOR COMBAT**
+5. ❌ `UiPlayerBattlerList.cs` - **CRITICAL FOR COMBAT**
 
 ### High Priority - Combat Actions
 
@@ -195,7 +195,7 @@ Check if these exist:
 
 ---
 
-## 5. VERIFICATION REQUIRED (Must Check Implementation)
+## 5. VERIFICATION REQUiRED (Must Check Implementation)
 
 ### Files That Exist But Need Method-Level Verification
 
@@ -227,11 +227,11 @@ Must verify these .tscn files exist and match structure:
 - [ ] Combat arena templates
 - [ ] Battler scenes
 
-#### UI Scenes
+#### Ui Scenes
 
 - [ ] Dialogue window
-- [ ] Inventory UI
-- [ ] Combat UI components
+- [ ] Inventory Ui
+- [ ] Combat Ui components
 - [ ] Popup messages
 
 ---
@@ -273,11 +273,11 @@ signal action_selected(action: BattlerAction, source: Battler, targets: Array[Ba
 
 ```bash
 # Check each missing file
-find source/scripts -name "UIBattlerEntry.cs"
-find source/scripts -name "UIEnergyBar.cs"
-find source/scripts -name "UIEnergyPoint.cs"
-find source/scripts -name "UILifeBar.cs"
-find source/scripts -name "UIPlayerBattlerList.cs"
+find source/scripts -name "UiBattlerEntry.cs"
+find source/scripts -name "UiEnergyBar.cs"
+find source/scripts -name "UiEnergyPoint.cs"
+find source/scripts -name "UiLifeBar.cs"
+find source/scripts -name "UiPlayerBattlerList.cs"
 find source/scripts -name "BattlerList.cs"
 find source/scripts -name "BattlerRoster.cs"
 find source/scripts -name "CollisionFinder.cs"
@@ -309,12 +309,12 @@ For critical systems:
 1. Load scene in Godot
 2. Test every interaction
 3. Test every combat scenario
-4. Test every UI element
+4. Test every Ui element
 5. Compare to original behavior
 
 ---
 
-## 9. SCORING SYSTEM FOR 100% EQUIVALENCE
+## 9. SCORING SYSTEM FOR 100% EQUiVALENCE
 
 ### File Coverage
 
@@ -347,7 +347,7 @@ For critical systems:
 
 ---
 
-## 10. WHAT "100% EQUIVALENCE" ACTUALLY MEANS
+## 10. WHAT "100% EQUiVALENCE" ACTUALLY MEANS
 
 ### Definition
 Every behavior in godot-open-rpg must have identical behavior in chapter-zero:
@@ -383,7 +383,7 @@ Every behavior in godot-open-rpg must have identical behavior in chapter-zero:
 - Day 1: Movement system testing
 - Day 2: Combat system testing
 - Day 3: Dialogue/interaction testing
-- Day 4: UI system testing
+- Day 4: Ui system testing
 - Day 5: Integration testing
 
 ### Week 3: Test Coverage (40 hours)
@@ -412,7 +412,7 @@ The refactoring MAY be 95% complete in terms of "code exists", but:
 
 - ❌ Not verified line-by-line
 - ❌ Not tested behavior-by-behavior
-- ❌ Missing critical UI components
+- ❌ Missing critical Ui components
 - ❌ No automated tests proving equivalence
 
 **TO REACH 100%:**
@@ -423,7 +423,7 @@ The refactoring MAY be 95% complete in terms of "code exists", but:
 4. Write comprehensive test suite
 5. Measure and prove equivalence
 
-**TIME REQUIRED**: 160 hours of focused work
+**TIME REQUiRED**: 160 hours of focused work
 
 **CONFIDENCE IN CURRENT STATE**: 15%, not 95%
 

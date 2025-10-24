@@ -3,12 +3,12 @@ using GdUnit4;
 using static GdUnit4.Assertions;
 
 /// <summary>
-/// Helper for taking screenshots in GdUnit4 UI tests.
+/// Helper for taking screenshots in GdUnit4 Ui tests.
 /// </summary>
 public static class BackgroundComponentScreenshotHelper
 {
     /// <summary>
-    /// Takes a screenshot for a UI test and always overwrites the file for that test.
+    /// Takes a screenshot for a Ui test and always overwrites the file for that test.
     /// The screenshot file is named uniquely per test and always reflects the latest run.
     /// </summary>
     public static void TakeScreenshot(Node root, string testName)

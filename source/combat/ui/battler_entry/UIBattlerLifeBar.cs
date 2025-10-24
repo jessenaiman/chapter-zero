@@ -1,21 +1,21 @@
 
-// <copyright file="UIBattlerLifeBar.cs" company="Ωmega Spiral">
+// <copyright file="UiBattlerLifeBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 
-#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
+#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
 /// <summary>
-/// An element of the <see cref="UIBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
+/// An element of the <see cref="UiBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
 /// The LifeBar also can show an action icon to demonstrate when the player has queued an action for
 /// one of their Battlers.
 /// </summary>
 [GlobalClass]
-public partial class UIBattlerLifeBar : TextureProgressBar
+public partial class UiBattlerLifeBar : TextureProgressBar
 #pragma warning restore IDE1006
 {
     private float targetValue;

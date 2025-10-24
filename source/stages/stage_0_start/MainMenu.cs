@@ -1,27 +1,25 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
-using OmegaSpiral.Source.UI.Menus;
-using OmegaSpiral.UI.Menus;
+using OmegaSpiral.Source.Ui.Menus;
 
-namespace OmegaSpiral.UI.Menus
+namespace OmegaSpiral.Source.Stages.Stage0Start
 {
     /// <summary>
     /// Main menu for Omega Spiral game.
     /// Loads stage buttons dynamically from the manifest.
     /// Enables players to select which stage to play.
-    /// Extends MenuUI for static menu infrastructure (not sequential narrative).
+    /// Extends MenuUi for static menu infrastructure (not sequential narrative).
     /// </summary>
     [GlobalClass]
-    public partial class MainMenu : MenuUI
+    public partial class MainMenu : MenuUi
     {
         /// <summary>
         /// Mapping of stage IDs to their display names.
         /// </summary>
-        private static readonly IReadOnlyDictionary<int, string> StageNameLookup = new Dictionary<int, string>
+        private static readonly IReadOnlyDictionary<int, string> _StageNameLookup = new Dictionary<int, string>
         {
             { 1, "Start Here: Ghost Terminal" },
             { 2, "Start Here: Nethack" },
@@ -68,36 +66,36 @@ namespace OmegaSpiral.UI.Menus
 
         // --- PRIVATE FIELDS ---
 
-        private readonly ManifestLoader _manifestLoader = new();
+        private readonly ManifestLoader _ManifestLoader = new();
 
 #pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
-        private SceneManager? _sceneManager;
+        private SceneManager? _SceneManager;
 #pragma warning restore CA2213
 
         // Node references cached in CacheRequiredNodes
-        private VBoxContainer? _stageButtonList;
-        private Label? _stageHeader;
-        private Button? _startButton;
+        private VBoxContainer? _StageButtonList;
+        private Label? _StageHeader;
+        private Button? _StartButton;
 
         /// <summary>
         /// Caches all required node references, overriding the base method to add MainMenu-specific nodes.
         /// </summary>
         protected override void CacheRequiredNodes()
         {
-            // Let the base MenuUI class cache its nodes first (like the main button container)
+            // Let the base MenuUi class cache its nodes first (like the main button container)
             base.CacheRequiredNodes();
 
             // Cache the nodes specific to this MainMenu
-            _stageButtonList = GetNodeOrNull<VBoxContainer>(StageButtonListPath);
-            _stageHeader = GetNodeOrNull<Label>(StageHeaderPath);
-            _startButton = GetNodeOrNull<Button>(StartButtonPath);
+            _StageButtonList = GetNodeOrNull<VBoxContainer>(StageButtonListPath);
+            _StageHeader = GetNodeOrNull<Label>(StageHeaderPath);
+            _StartButton = GetNodeOrNull<Button>(StartButtonPath);
 
             // Add validation to catch setup errors early
-            if (_stageButtonList == null)
+            if (_StageButtonList == null)
                 GD.PushError("[MainMenu] StageButtonList node not assigned in the Inspector or path is incorrect.");
-            if (_stageHeader == null)
+            if (_StageHeader == null)
                 GD.PushError("[MainMenu] StageHeader node not assigned in the Inspector or path is incorrect.");
-            if (_startButton == null)
+            if (_StartButton == null)
                 GD.PushError("[MainMenu] StartButton node not assigned in the Inspector or path is incorrect.");
             if (StageButtonScene == null)
                 GD.PushError("[MainMenu] StageButtonScene is not assigned in the Inspector.");
@@ -111,7 +109,7 @@ namespace OmegaSpiral.UI.Menus
         {
             base._Ready(); // Calls CacheRequiredNodes
 
-            _sceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
+            _SceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
 
             PopulateStageList();
             AddMainMenuActions();
@@ -122,22 +120,23 @@ namespace OmegaSpiral.UI.Menus
         /// </summary>
         private void PopulateStageList()
         {
-            if (_stageButtonList == null)
+            if (_StageButtonList == null)
             {
                 GD.PrintErr("[MainMenu] StageButtonList is null. Cannot populate stage list.");
                 return;
             }
 
-            var stages = _manifestLoader.LoadManifest(StageManifestPath);
-            if (stages == null || !stages.Any())
+            var stages = _ManifestLoader.LoadManifest(StageManifestPath);
+
+            if (stages.Count == 0)
             {
-                _stageHeader!.Text = "No Stages Detected";
-                GD.PrintErr("[MainMenu] Failed to load or parse stage manifest.");
+                _StageHeader!.Text = "No Stages Detected";
+                GD.PrintErr("[MainMenu] Stage manifest is empty.");
                 return;
             }
 
             // Clear any placeholder children from the scene
-            foreach (var child in _stageButtonList.GetChildren())
+            foreach (var child in _StageButtonList.GetChildren())
             {
                 child.QueueFree();
             }
@@ -147,19 +146,19 @@ namespace OmegaSpiral.UI.Menus
             {
                 if (CreateStageButton(stage) is { } stageButton)
                 {
-                    _stageButtonList.AddChild(stageButton);
+                    _StageButtonList.AddChild(stageButton);
                     createdCount++;
                 }
             }
 
-            if (_stageHeader != null)
+            if (_StageHeader != null)
             {
-                _stageHeader.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
+                _StageHeader.Text = $"Stage Access · {createdCount} module{(createdCount == 1 ? string.Empty : "s")} detected";
             }
 
-            if (_startButton != null)
+            if (_StartButton != null)
             {
-                _startButton.Text = $"Launch {GetStageTitle(1)}";
+                _StartButton.Text = $"Launch {GetStageTitle(1)}";
             }
 
             GD.Print($"[MainMenu] Loaded {createdCount} stage buttons.");
@@ -197,9 +196,9 @@ namespace OmegaSpiral.UI.Menus
             AddMenuButton("Quit", OnQuitPressed);
 
             // Now, just connect the unique "Start" button that is part of this specific scene
-            if (_startButton != null)
+            if (_StartButton != null)
             {
-                _startButton.Pressed += OnStartPressed;
+                _StartButton.Pressed += OnStartPressed;
             }
         }
 
@@ -222,7 +221,7 @@ namespace OmegaSpiral.UI.Menus
             return stageId switch
             {
                 1 => StageButton.ContentStatus.Ready,
-                2 => StageButton.ContentStatus.LLMGenerated,
+                2 => StageButton.ContentStatus.LlmGenerated,
                 _ => StageButton.ContentStatus.Missing,
             };
         }
@@ -234,7 +233,7 @@ namespace OmegaSpiral.UI.Menus
         /// <returns>The formatted stage title.</returns>
         private static string GetStageTitle(int stageId)
         {
-            return StageNameLookup.TryGetValue(stageId, out string? name)
+            return _StageNameLookup.TryGetValue(stageId, out string? name)
                 ? $"Stage {stageId} · {name}"
                 : $"Stage {stageId}";
         }
@@ -246,7 +245,7 @@ namespace OmegaSpiral.UI.Menus
         /// <param name="stageId">The numeric stage ID to load.</param>
         private void OnStageSelected(int stageId)
         {
-            var stage = _manifestLoader.GetStage(stageId);
+            var stage = _ManifestLoader.GetStage(stageId);
             if (stage == null)
             {
                 GD.PrintErr($"[MainMenu] Stage {stageId} not found in manifest.");
@@ -263,9 +262,9 @@ namespace OmegaSpiral.UI.Menus
             string entryScenePath = stageManager.ResolveEntryScenePath();
             GD.Print($"[MainMenu] Starting {stage.DisplayName} - Entry Scene: {entryScenePath}");
 
-            if (_sceneManager != null)
+            if (_SceneManager != null)
             {
-                stageManager.TransitionToStage(_sceneManager);
+                stageManager.TransitionToStage(_SceneManager);
                 return;
             }
 

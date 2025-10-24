@@ -353,13 +353,13 @@ public partial class TownExplorationTests : Node
 
         AssertThat(stage4Scene).IsNotNull();
 
-        // Check for UI layer that shows interaction prompts
+        // Check for Ui layer that shows interaction prompts
         var canvasLayer = stage4Scene.FindChild("CanvasLayer", true, false);
-        var ui = stage4Scene.FindChild("UI", true, false);
+        var ui = stage4Scene.FindChild("Ui", true, false);
 
         var hasUiSystem = canvasLayer != null || ui != null;
         AssertThat(hasUiSystem).IsTrue()
-            .OverrideFailureMessage("UI system should exist for interaction feedback");
+            .OverrideFailureMessage("Ui system should exist for interaction feedback");
 
         runner.Dispose();
     }

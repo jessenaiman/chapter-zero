@@ -205,7 +205,7 @@ public partial class TownshipDialogueManager : BaseDialogueManager
         var dialogueData = await GetNpcDialogueAsync(npcId).ConfigureAwait(false);
 
         // In a real implementation, this would:
-        // 1. Display the dialogue UI
+        // 1. Display the dialogue Ui
         // 2. Show the NPC's opening lines
         // 3. Present choices
         // 4. Handle player responses

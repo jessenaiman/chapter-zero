@@ -24,9 +24,9 @@
 6. Player commits to one Dreamweaver (Light, Shadow, or Ambition)
 7. Exit to Stage 4
 
-**UI Architecture**:
+**Ui Architecture**:
 - **Movement**: Top-down RPG controller (no TerminalBase)
-- **Dialogs**: OmegaBase UI menus for NPC conversations
+- **Dialogs**: OmegaBase Ui menus for NPC conversations
 - **Menus**: Equipment, status, world map all use OmegaBase components
 - **No TerminalBase**: This is pure top-down gameplay, not terminal/narrative
 
@@ -34,7 +34,7 @@
 - `Stage3Main.cs` - Hub orchestrator (already exists)
 - Scene: `stage_4_main.tscn` (rename to `stage_3_main.tscn`)
 - Data: `stage4.json` (rename to `stage3.json`)
-- NPCs: Dialogue trees using OmegaBase UI
+- NPCs: Dialogue trees using OmegaBase Ui
 - Dreamweaver avatars: Visual indicators near choice points
 
 **Output**:
@@ -56,10 +56,10 @@
 4. Dreamweaver urges urgency → Decision 3 (4 party members) → Fight 3 (winnable)
 5. Archive collapses → Stage 5
 
-**UI Architecture**:
+**Ui Architecture**:
 - **Movement**: Top-down RPG controller
 - **Combat**: Turn-based, Wizardry-style battle log
-- **Dialogs**: OmegaBase UI menus for character selection and Dreamweaver guidance
+- **Dialogs**: OmegaBase Ui menus for character selection and Dreamweaver guidance
 - **No TerminalBase**: This is gameplay-driven, not narrative-driven
 - **Presentation Tiers**: Tier 0 (B&W) → Tier 1 (colored) → Tier 2 (glitch)
 
@@ -84,7 +84,7 @@
 Stage 2 (Echo Chamber)
     ↓ emit: (champion, affinity_scores)
     ↓
-Stage 3 (Liminal Township) 
+Stage 3 (Liminal Township)
     ↓ input: (champion, affinity_scores from Stage 2)
     ↓ runs: free-roam NPC interactions
     ↓ emit: (chosen_dreamweaver, affinity_scores_after_optional_nudges)
@@ -137,14 +137,14 @@ source/stages/stage_4/
 ## Architecture Patterns
 
 ### Both Stages Use:
-- **OmegaBase UI** for all menu/dialog interactions
+- **OmegaBase Ui** for all menu/dialog interactions
 - **Data-driven approach** (stage3.json, stage4.json define content)
 - **Manifest-based beat progression** (stage3_manifest.json, stage4_manifest.json)
 - **BeatSceneBase** for individual scene orchestration
 - **Top-down RPG controllers** (no TerminalBase)
 
 ### Neither Stage Uses:
-- TerminalBase (TerminalUI, terminal rendering)
+- TerminalBase (TerminalUi, terminal rendering)
 - Text-only narrative presentation
 - Cinematic beat sequencing
 
@@ -163,7 +163,7 @@ source/stages/stage_4/
    - Presentation tiers provide visual progression
    - Affinity tracking hidden from player (revealed in Stage 5)
 
-3. **Shared UI**: Both stages use OmegaBase components for menus, dialogs, and status displays.
+3. **Shared Ui**: Both stages use OmegaBase components for menus, dialogs, and status displays.
    - DialogBox for NPC/Dreamweaver speech
    - OptionButton for choice menus
    - Label/RichTextLabel for text content
@@ -176,6 +176,6 @@ source/stages/stage_4/
 1. Rename files in source/stages/stage_3/ and source/stages/stage_4/ to reflect new order
 2. Create Stage3Main.cs and Stage4Main.cs orchestrators
 3. Implement stage3_manifest.json and stage4_manifest.json
-4. Wire OmegaBase UI components into both stages
+4. Wire OmegaBase Ui components into both stages
 5. Create data files (stage3.json, stage4.json) with new content structure
 6. Build NPC dialog trees and character selection interfaces

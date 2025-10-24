@@ -80,7 +80,7 @@ namespace OmegaSpiral.Stages.Stage5
         public override void _Process(double delta)
         {
             UpdateGlitchEffects();
-            UpdateCountdownUI();
+            UpdateCountdownUi();
         }
 
         private void CacheNodes()
@@ -92,7 +92,7 @@ namespace OmegaSpiral.Stages.Stage5
             glitchIntensityTimer = GetNode<Timer>("Timers/GlitchIntensityTimer");
             dialogueTimer = GetNode<Timer>("Timers/DialogueTimer");
             animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-            glitchLayer = GetNode<ColorRect>("UI/ShaderLayers/GlitchLayer");
+            glitchLayer = GetNode<ColorRect>("Ui/ShaderLayers/GlitchLayer");
             alarmLoop = GetNode<AudioStreamPlayer>("AudioPlayers/AlarmLoop");
             glitchSFX = GetNode<AudioStreamPlayer>("AudioPlayers/GlitchSFX");
 
@@ -157,7 +157,7 @@ namespace OmegaSpiral.Stages.Stage5
         {
             GD.Print("[EscapeHub] Routes available - player can now choose");
             // TODO: Enable clickable zones for Light/Mischief/Wrath routes
-            // TODO: Show route preview UI
+            // TODO: Show route preview Ui
         }
 
         private void OnCountdownTick()
@@ -188,7 +188,7 @@ namespace OmegaSpiral.Stages.Stage5
             }
         }
 
-        private void UpdateCountdownUI()
+        private void UpdateCountdownUi()
         {
             if (countdownLabel == null) return;
 

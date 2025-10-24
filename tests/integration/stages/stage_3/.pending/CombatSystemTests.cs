@@ -148,18 +148,18 @@ public partial class CombatSystemTests : Node
     }
 
     /// <summary>
-    /// Test that combat UI system exists.
+    /// Test that combat Ui system exists.
     /// </summary>
     [TestCase]
     static public void TestCombatUiSystemExists()
     {
-        var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatHud.cs");
-        var combatLog = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatLog.cs");
+        var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UiCombatHud.cs");
+        var combatLog = ResourceLoader.Exists("res://source/scripts/combat/ui/UiCombatLog.cs");
 
         AssertThat(combatHud).IsTrue()
-            .OverrideFailureMessage("UICombatHud.cs should exist");
+            .OverrideFailureMessage("UiCombatHud.cs should exist");
         AssertThat(combatLog).IsTrue()
-            .OverrideFailureMessage("UICombatLog.cs should exist");
+            .OverrideFailureMessage("UiCombatLog.cs should exist");
     }
 
     /// <summary>
@@ -353,10 +353,10 @@ public partial class CombatSystemTests : Node
     static public void TestCombatActionMenuExists()
     {
         // Combat HUD should provide action menu
-        var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UICombatHud.cs");
+        var combatHud = ResourceLoader.Exists("res://source/scripts/combat/ui/UiCombatHud.cs");
 
         AssertThat(combatHud).IsTrue()
-            .OverrideFailureMessage("UICombatHud should provide action menu");
+            .OverrideFailureMessage("UiCombatHud should provide action menu");
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
 
-// <copyright file="UIBattlerEntry.cs" company="Ωmega Spiral">
+// <copyright file="UiBattlerEntry.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -7,19 +7,19 @@ using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 /// <summary>
-/// An entry in the <see cref="UIPlayerBattlerList"/> for one of the player's <see cref="Battler"/>s.
+/// An entry in the <see cref="UiPlayerBattlerList"/> for one of the player's <see cref="Battler"/>s.
 /// </summary>
-public partial class UIBattlerEntry : TextureButton
+public partial class UiBattlerEntry : TextureButton
 {
-    private UIBattlerEnergyBar? energy;
-    private UIBattlerLifeBar? life;
+    private UiBattlerEnergyBar? energy;
+    private UiBattlerLifeBar? life;
 
     private Battler? battler;
 
     /// <summary>
-    /// Gets or sets setup the entry UI values and connect to different changes in <see cref="BattlerStats"/> that the UI will
+    /// Gets or sets setup the entry Ui values and connect to different changes in <see cref="BattlerStats"/> that the Ui will
     /// measure.
     /// </summary>
     public Battler? Battler
@@ -92,8 +92,8 @@ public partial class UIBattlerEntry : TextureButton
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.energy = this.GetNode<UIBattlerEnergyBar>("VBoxContainer/CenterContainer/EnergyBar");
-        this.life = this.GetNode<UIBattlerLifeBar>("VBoxContainer/LifeBar");
+        this.energy = this.GetNode<UiBattlerEnergyBar>("VBoxContainer/CenterContainer/EnergyBar");
+        this.life = this.GetNode<UiBattlerLifeBar>("VBoxContainer/LifeBar");
 
         // If Battler was set before the node was ready, apply it now
         if (this.battler != null && this.energy != null && this.life != null)
@@ -156,7 +156,7 @@ public partial class UIBattlerEntry : TextureButton
     }
 
     /// <summary>
-    /// Subscribes to battler stat changes to update UI displays.
+    /// Subscribes to battler stat changes to update Ui displays.
     /// </summary>
     private void SubscribeToStatsChanges()
     {

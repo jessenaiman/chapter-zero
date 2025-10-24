@@ -1,7 +1,7 @@
-# UI Rendering Fix - Root Cause Analysis
+# Ui Rendering Fix - Root Cause Analysis
 
 ## Problem
-UI elements (like the main menu label) are rendering off-screen/off-center.
+Ui elements (like the main menu label) are rendering off-screen/off-center.
 
 ## Root Cause
 **`FieldCamera` is configured as a global autoload in `project.godot`**
@@ -11,12 +11,12 @@ UI elements (like the main menu label) are rendering off-screen/off-center.
 FieldCamera="*res://source/scripts/field/FieldCamera.cs"
 ```
 
-### Why This Breaks UI
+### Why This Breaks Ui
 - `FieldCamera` is a `Camera2D` node (world-space camera)
-- Autoloading it means it's instantiated globally **even on UI scenes**
-- When a `Camera2D` is active on a UI scene with Control nodes, the rendering pipeline gets confused
+- Autoloading it means it's instantiated globally **even on Ui scenes**
+- When a `Camera2D` is active on a Ui scene with Control nodes, the rendering pipeline gets confused
 - Control nodes expect viewport-relative coordinates; Camera2D applies world transformations
-- **Result**: UI renders off-screen or off-center
+- **Result**: Ui renders off-screen or off-center
 
 ## Solution
 **Remove `FieldCamera` from the `[autoload]` section in `project.godot`**
@@ -40,7 +40,7 @@ GamepieceRegistry="*res://source/scripts/field/gamepieces/GamepieceRegistry.cs"
 
 ### Why This Works
 - `FieldCamera` will only be instantiated when field scenes explicitly need it
-- UI scenes (like main_menu.tscn) will render with the default viewport
+- Ui scenes (like main_menu.tscn) will render with the default viewport
 - Control nodes will use proper viewport-relative positioning
 - Label will render centered as designed
 
@@ -59,5 +59,5 @@ GamepieceRegistry="*res://source/scripts/field/gamepieces/GamepieceRegistry.cs"
 ## Changes Made (Pre-requisite)
 - ✅ Fixed `MainMenu.cs` node paths (was looking for Panel/VBoxContainer, now looks for CenterContainer/VBoxContainer)
 - ✅ Updated button callbacks (Stage1/Stage2 → Start/Options)
-- ✅ Modified `FieldCamera.cs._Ready()` to disable itself on UI scenes (detects scene path, disables if it contains "menus", "ui", or "narrative")
+- ✅ Modified `FieldCamera.cs._Ready()` to disable itself on Ui scenes (detects scene path, disables if it contains "menus", "ui", or "narrative")
 - ⏳ **OPTIONAL**: Remove FieldCamera from autoloads in project.godot for cleaner architecture (but not required now that FieldCamera auto-disables)

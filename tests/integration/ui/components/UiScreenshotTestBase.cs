@@ -4,7 +4,7 @@ using System.Reflection;
 using GdUnit4;
 
 /// <summary>
-/// Base class for UI tests that automatically takes screenshots for methods marked with [TakeScreenshot].
+/// Base class for Ui tests that automatically takes screenshots for methods marked with [TakeScreenshot].
 /// </summary>
 public abstract partial class UiScreenshotTestBase : Node
 {

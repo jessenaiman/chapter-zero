@@ -1,21 +1,21 @@
 
-// <copyright file="UIInventory.cs" company="Ωmega Spiral">
+// <copyright file="UiInventory.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
+namespace OmegaSpiral.Source.Scripts.Field.Ui.Inventory;
 /// <summary>
 /// An exceptionally simple item inventory that tracks which items the player has picked up.
 /// Normally, inventory design would be more complex. In particular, you would want to separate the
-/// inventory data structures from the UI implementation, as should be done in a future update to
+/// inventory data structures from the Ui implementation, as should be done in a future update to
 /// the OpenRPG project.
 /// In this case, we just want to show the player which items have been picked up so that we can demo
 /// a variety of RPG events.
 /// </summary>
 [GlobalClass]
-public partial class UIInventory : HBoxContainer
+public partial class UiInventory : HBoxContainer
 {
     /// <summary>
     /// Keep track of the inventory item packed scene to easily instantiate new items.
@@ -27,13 +27,13 @@ public partial class UIInventory : HBoxContainer
     {
         base._Ready();
 
-        this.itemScene = GD.Load<PackedScene>("res://source/scripts/field/ui/inventory/UIInventoryItem.tscn");
+        this.itemScene = GD.Load<PackedScene>("res://source/scripts/field/ui/inventory/UiInventoryItem.tscn");
 
         // Get the Inventory singleton
         var inventory = this.GetNode("/root/Inventory");
         if (inventory != null)
         {
-            // Initialize UI with current inventory state
+            // Initialize Ui with current inventory state
             var itemTypes = (Godot.Collections.Dictionary) inventory.Get("ItemTypes");
             if (itemTypes != null)
             {
@@ -51,15 +51,15 @@ public partial class UIInventory : HBoxContainer
     }
 
     /// <summary>
-    /// Get the UI item node for a specific item ID.
+    /// Get the Ui item node for a specific item ID.
     /// </summary>
     /// <param name="itemId">The item type ID.</param>
-    /// <returns>The UI item node, or <see langword="null"/> if not found.</returns>
-    private UIInventoryItem? GetUIItem(int itemId)
+    /// <returns>The Ui item node, or <see langword="null"/> if not found.</returns>
+    private UiInventoryItem? GetUiItem(int itemId)
     {
         foreach (Node child in this.GetChildren())
         {
-            if (child is UIInventoryItem item && item.ID == itemId)
+            if (child is UiInventoryItem item && item.ID == itemId)
             {
                 return item;
             }
@@ -69,14 +69,14 @@ public partial class UIInventory : HBoxContainer
     }
 
     /// <summary>
-    /// Update the UI for a specific item.
+    /// Update the Ui for a specific item.
     /// </summary>
     /// <param name="itemId">The item type ID.</param>
     /// <param name="inventory">The inventory singleton node.</param>
     private void UpdateItem(int itemId, Node inventory)
     {
         var amount = (int) inventory.Call("get_item_count", itemId);
-        var item = this.GetUIItem(itemId);
+        var item = this.GetUiItem(itemId);
 
         if (amount > 0)
         {
@@ -84,7 +84,7 @@ public partial class UIInventory : HBoxContainer
             {
                 if (this.itemScene != null)
                 {
-                    item = this.itemScene.Instantiate<UIInventoryItem>();
+                    item = this.itemScene.Instantiate<UiInventoryItem>();
                     item.ID = itemId;
                     item.Texture = (Texture2D) inventory.Call("get_item_icon", itemId);
                     this.AddChild(item);

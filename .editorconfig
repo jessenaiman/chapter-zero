@@ -29,15 +29,28 @@ csharp_style_prefer_simple_using_statement = true
 csharp_style_prefer_local_over_anonymous_function = true
 csharp_style_prefer_conditional_expression_over_assignment = true
 csharp_style_prefer_conditional_expression_over_return = true
-dotnet_naming_style.private_prefix_style.required_prefix = _
+
+# Naming conventions - enforced across the project
+# Private fields must use underscore prefix and PascalCase for acronyms like Ui, AI
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = private_prefix_pascal_acronym
+dotnet_naming_rule.private_fields_underscore.severity = error
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers =
+
+dotnet_naming_style.private_prefix_pascal_acronym.required_prefix = _
+dotnet_naming_style.private_prefix_pascal_acronym.capitalization = pascal_case
+dotnet_naming_style.private_prefix_pascal_acronym.required_suffix =
 
 # Essential suppressions for Godot C# compatibility
 # Suppress CA1501: Godot's inheritance chains (Node -> Control -> etc.) trigger this
 dotnet_diagnostic.CA1501.severity = none
 # Suppress CA2213: Godot manages node lifetimes, not Dispose patterns
 dotnet_diagnostic.CA2213.severity = none
-# Suppress IDE1006: Allow UI, AI as uppercase per Godot style guide
-dotnet_diagnostic.IDE1006.severity = none
+# Suppress IDE1006: Allow Ui, AI as uppercase per Godot style guide (ONLY in specific contexts)
+dotnet_diagnostic.IDE1006.severity = warning
 
 # Enable key security and reliability rules
 dotnet_diagnostic.CA3001.severity = error    # SQL injection
@@ -71,4 +84,4 @@ dotnet_diagnostic.CS1061.severity = none      # No extension method (Godot gener
 # Test-specific suppressions
 [tests/**/*.cs]
 dotnet_diagnostic.CA1822.severity = none      # Unused member (test isolation)
-dotnet_diagnostic.IDE1006.severity = none      # Naming (test methods allow underscores)
+# Note: IDE1006 is now a warning instead of suppressed, so private field naming rules are enforced

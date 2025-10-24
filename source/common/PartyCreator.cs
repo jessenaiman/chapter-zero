@@ -8,7 +8,7 @@ using Godot;
 namespace OmegaSpiral.Source.Scripts.Common;
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.
-/// Provides UI for selecting character classes, races, and managing party composition.
+/// Provides Ui for selecting character classes, races, and managing party composition.
 /// Integrates with GameState to persist the created party for subsequent scenes.
 /// </summary>
 [GlobalClass]
@@ -19,7 +19,7 @@ public partial class PartyCreator : Node2D
     private SceneManager? sceneManager;
 
     /// <summary>
-    /// UI Elements
+    /// Ui Elements
     /// </summary>
     private LineEdit? characterNameInput;
     private OptionButton? classSelector;
@@ -30,8 +30,8 @@ public partial class PartyCreator : Node2D
     private VBoxContainer? partyList;
 
     /// <summary>
-    /// Initializes the party creator scene and sets up all UI components.
-    /// Loads GameState and SceneManager singletons, initializes UI elements,
+    /// Initializes the party creator scene and sets up all Ui components.
+    /// Loads GameState and SceneManager singletons, initializes Ui elements,
     /// populates dropdown selectors, and connects event handlers.
     /// </summary>
     public override void _Ready()
@@ -40,7 +40,7 @@ public partial class PartyCreator : Node2D
         this.gameState = this.GetNode<GameState>("/root/GameState");
         this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
 
-        // Initialize UI
+        // Initialize Ui
         this.characterNameInput = this.GetNode<LineEdit>("CharacterNameInput");
         this.classSelector = this.GetNode<OptionButton>("ClassSelector");
         this.raceSelector = this.GetNode<OptionButton>("RaceSelector");
@@ -67,7 +67,7 @@ public partial class PartyCreator : Node2D
         this.addCharacterButton.Pressed += this.OnAddCharacterPressed;
         this.finishPartyButton.Pressed += this.OnFinishPartyPressed;
 
-        this.UpdateUI();
+        this.UpdateUi();
     }
 
     /// <summary>
@@ -186,10 +186,10 @@ public partial class PartyCreator : Node2D
             label.Dispose();
         }
 
-        this.UpdateUI();
+        this.UpdateUi();
     }
 
-    private void UpdateUI()
+    private void UpdateUi()
     {
         if (this.addCharacterButton == null || this.finishPartyButton == null || this.partyData == null)
         {

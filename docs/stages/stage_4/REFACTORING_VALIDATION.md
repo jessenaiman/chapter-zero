@@ -111,7 +111,7 @@ This document validates that all core godot-open-rpg functionality has been corr
 | **House** | Ground/Walls/Decoration/Gamepieces | Same structure | ✅ Preserved |
 | **Forest** | Terrain/Trees/Gamepieces | Same structure | ✅ Preserved |
 | **Overlay** | Debug grids, cursor, markers | Same structure | ✅ Preserved |
-| **UI** | Inventory, Dialogue, Combat | Same structure | ✅ Preserved |
+| **Ui** | Inventory, Dialogue, Combat | Same structure | ✅ Preserved |
 
 **Validation**: ✅ Complete - Scene hierarchy preserved
 

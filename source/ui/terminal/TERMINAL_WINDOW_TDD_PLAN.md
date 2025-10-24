@@ -5,7 +5,7 @@ _References: `gdunit4-tools.instructions.md`, `integration-testing.md`, `paramer
 ---
 
 ## Overview
-The terminal window is a reusable UI component used throughout the game:
+The terminal window is a reusable Ui component used throughout the game:
 - **Stage Select Menu**: Full-screen menu interface
 - **NPC Dialogs**: Smaller conversational windows
 - **Settings Screens**: Full-screen configuration interfaces
@@ -18,23 +18,23 @@ graph TD
     A["🎮 Game Root<br/>TerminalWindow.cs"] --> B["📦 Frame Component<br/>terminal_frame.tscn"]
     A --> C["🎨 Background Layer<br/>terminal_background.tscn"]
     A --> D["📝 Content Container<br/>terminal_content.tscn"]
-    
+
     B --> B1["Panel: FrameRoot<br/>- Red Border Only<br/>- Transparent BG<br/>- No C# Logic"]
     B --> B2["Node: ContentArea<br/>Placeholder for content"]
-    
+
     C --> C1["Panel: Bezel<br/>- Dark Gray BG<br/>- No Border"]
     C --> C2["Shader: CRT Overlay<br/>Scanlines + Glow"]
-    
+
     D --> D1["VBoxContainer: Header<br/>- Title Label<br/>- Indicators"]
     D --> D2["Panel: Body<br/>- Output Content"]
     D --> D3["HBoxContainer: Input<br/>- Input Field<br/>- Submit Button"]
-    
+
     A --> A1["TerminalWindow.cs<br/>- Composes 3 scenes<br/>- Manages layout only<br/>- NO styling logic"]
-    
+
     B1 --> B3["FrameStyle.cs<br/>Sets border dynamically<br/>Color, thickness"]
     C1 --> C3["BackgroundStyle.cs<br/>Sets bezel color<br/>+ CRT shader params"]
     D1 --> D4["ContentStyle.cs<br/>Sets typography<br/>Colors, spacing"]
-    
+
     style B fill:#e1f5ff
     style C fill:#f3e5f5
     style D fill:#e8f5e9
@@ -61,29 +61,29 @@ graph TD
         Background["🎨 background.tscn<br/>Bezel + CRT overlay<br/>Dark gray, scanlines<br/>Independent layer"]
         Content["📝 content.tscn<br/>Header/Body/Input<br/>Pure layout structure<br/>No styling"]
     end
-    
+
     subgraph "Composition Templates"
         Dialog["🗨️ dialog_template.tscn<br/>Frame + Background + Content<br/>Generic NPC/system dialog<br/>Reused everywhere"]
         Terminal["💻 terminal_window.tscn<br/>Frame + Background + Content<br/>Terminal-specific behavior"]
     end
-    
+
     subgraph "Stage Examples"
         Stage1["🎮 Stage 1<br/>Loads multiple dialogs<br/>Each uses dialog_template<br/>Different content only"]
         MainMenu["🎮 Main Menu<br/>Uses same dialog_template<br/>Different styling params"]
     end
-    
+
     Frame --> Dialog
     Background --> Dialog
     Content --> Dialog
-    
+
     Frame --> Terminal
     Background --> Terminal
     Content --> Terminal
-    
+
     Dialog --> Stage1
     Dialog --> MainMenu
     Terminal --> Stage1
-    
+
     style Frame fill:#e1f5ff
     style Background fill:#f3e5f5
     style Content fill:#e8f5e9
@@ -163,7 +163,7 @@ The terminal frame establishes the maximum bounds. Inner content must always fit
 - [ ] Content layout adapts based on window size automatically
 - [ ] Content maintains proper spacing regardless of amount
 - [ ] Window handles empty content gracefully
-- [ ] Window handles overflow content with appropriate UI patterns
+- [ ] Window handles overflow content with appropriate Ui patterns
 
 ### Content State Management
 - [ ] Window preserves content state during resize operations
@@ -297,4 +297,3 @@ The terminal frame establishes the maximum bounds. Inner content must always fit
 - Test text readability (minimum 12px) across sizes
 - Check color contrast ratios remain compliant
 - Verify keyboard/gamepad navigation works at all sizes
-

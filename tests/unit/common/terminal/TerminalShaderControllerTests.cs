@@ -5,7 +5,7 @@
 using GdUnit4;
 using Godot;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 
 namespace OmegaSpiral.Tests.Unit.Common.Terminal
 {

@@ -12,7 +12,7 @@ namespace OmegaSpiral.Tests.Stages.Stage2;
 
 /// <summary>
 /// Tests for Godot signals in the ASCII dungeon sequence to complement domain events.
-/// These tests ensure proper UI and reactive updates during dungeon progression.
+/// These tests ensure proper Ui and reactive updates during dungeon progression.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
@@ -31,12 +31,12 @@ public partial class DungeonStageSignalTests
     {
         // Arrange
         var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
-        
+
         // Act - Simulate entering a stage
         var stageId = "test_stage_1";
         var owner = DreamweaverType.Light;
         var map = new string[] { "####", "#  #", "####" };
-        
+
         // This should emit the StageEntered signal
         dungeon.EmitStageEntered(stageId, 0, owner, map);
 
@@ -60,7 +60,7 @@ public partial class DungeonStageSignalTests
     {
         // Arrange
         var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
-        
+
         // Act - Simulate completing a stage
         var stageId = "test_stage_1";
         dungeon.EmitStageCleared(stageId);
@@ -85,7 +85,7 @@ public partial class DungeonStageSignalTests
     {
         // Arrange
         var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
-        
+
         // Act - Simulate interacting with a glyph
         var glyph = 'X';
         var alignedTo = DreamweaverType.Mischief;
@@ -112,7 +112,7 @@ public partial class DungeonStageSignalTests
     {
         // Arrange
         var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
-        
+
         // Act - Simulate changing affinity
         var dwType = DreamweaverType.Wrath;
         var change = 3;
@@ -138,7 +138,7 @@ public partial class DungeonStageSignalTests
     {
         // Arrange
         var dungeon = new OmegaSpiral.Source.Stages.Stage2.Beats.NethackDungeon();
-        
+
         // Act - Simulate completing the sequence
         var finalScore = 42;
         dungeon.EmitSequenceComplete(finalScore);

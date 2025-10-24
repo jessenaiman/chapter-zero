@@ -5,7 +5,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI;
+namespace OmegaSpiral.Source.Scripts.Field.Ui;
 /// <summary>
 /// A dialogue window that extends Dialogic's style layer functionality.
 /// Shows and hides automatically when timelines start and end.

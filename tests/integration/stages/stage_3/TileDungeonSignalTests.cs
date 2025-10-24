@@ -12,7 +12,7 @@ namespace OmegaSpiral.Tests.Stages.Stage4;
 
 /// <summary>
 /// Tests for Godot signals in the tile dungeon stage.
-/// These tests ensure proper UI and reactive updates during tile-based gameplay.
+/// These tests ensure proper Ui and reactive updates during tile-based gameplay.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
@@ -121,7 +121,7 @@ public partial class TileDungeonSignalTests
 
 /// <summary>
 /// Tests for Godot signals in the field combat stage.
-/// These tests ensure proper UI and reactive updates during combat gameplay.
+/// These tests ensure proper Ui and reactive updates during combat gameplay.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]

@@ -1,18 +1,18 @@
 
-// <copyright file="UIInventoryItem.cs" company="Ωmega Spiral">
+// <copyright file="UiInventoryItem.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Field.UI.Inventory;
+namespace OmegaSpiral.Source.Scripts.Field.Ui.Inventory;
 /// <summary>
-/// An inventory item, tracking both its UI representation and underlying data.
+/// An inventory item, tracking both its Ui representation and underlying data.
 /// Will be replaced in future iterations of the OpenRPG project.
-/// Please see <see cref="UIInventory"/> for additional information.
+/// Please see <see cref="UiInventory"/> for additional information.
 /// </summary>
 [GlobalClass]
-public partial class UIInventoryItem : TextureRect
+public partial class UiInventoryItem : TextureRect
 {
     /// <summary>
     /// Gets or sets the item type ID from the Inventory.ItemTypes enum.

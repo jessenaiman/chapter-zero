@@ -40,6 +40,6 @@ public partial class GangOfFourConversation : Interaction
         base.Run();
 
         // The dialogue handling would be managed by DialogicIntegration
-        // and the DialogueWindow component for UI
+        // and the DialogueWindow component for Ui
     }
 }

@@ -32,7 +32,7 @@ Good progress has been made on Stage 1 implementation with most core components 
   - Thread selection logic implemented
   - Balance ending detection working
   - Choice history tracking functional
-- ✅ `ChoiceButton.cs` - UI button system complete (172 lines)
+- ✅ `ChoiceButton.cs` - Ui button system complete (172 lines)
   - Mouse/gamepad navigation support
   - Visual feedback states defined
   - Signal architecture correct
@@ -280,7 +280,7 @@ string[] bootMessages = new[]
 2. **Architecture**
    - Clean inheritance from `TerminalBase`
    - Signal-based communication
-   - Separation of concerns (UI/Logic/Data)
+   - Separation of concerns (Ui/Logic/Data)
    - Proper use of `[GlobalClass]` attribute
 
 3. **Async/Await Patterns**
@@ -383,7 +383,7 @@ string[] bootMessages = new[]
    - List technical debt
    - Prioritize future work
 
-3. **Write TESTING_GUIDE.md** (1 hour)
+3. **Write TESTING_GUiDE.md** (1 hour)
    - How to test Stage 1 manually
    - How to verify each scene works
    - How to trigger all endings

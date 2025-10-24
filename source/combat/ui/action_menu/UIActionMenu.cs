@@ -1,19 +1,19 @@
 
-// <copyright file="UIActionMenu.cs" company="Ωmega Spiral">
+// <copyright file="UiActionMenu.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+using OmegaSpiral.Source.Scripts.Combat.Ui.ListMenu;
 using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.ActionMenu;
 /// <summary>
 /// A menu lists a <see cref="Battler"/>'s <see cref="Battler.Actions"/>, allowing the player to select one.
 /// </summary>
 [GlobalClass]
-public partial class UiActionMenu : UIListMenu
+public partial class UiActionMenu : UiListMenu
 {
     private Battler? battler;
 
@@ -157,13 +157,13 @@ public partial class UiActionMenu : UIListMenu
             return;
         }
 
-        // There are available targets, so the UI can move on to selecting targets.
+        // There are available targets, so the Ui can move on to selecting targets.
         // Note: In C#, we can't use async in overridden methods, so we'll use a helper
         this.HandleActionSelected(action);
     }
 
     /// <summary>
-    /// Disposes the UIActionMenu and its disposable fields.
+    /// Disposes the UiActionMenu and its disposable fields.
     /// </summary>
     /// <param name="disposing">True if disposing managed resources.</param>
     protected override void Dispose(bool disposing)

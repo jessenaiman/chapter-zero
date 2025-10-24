@@ -6,9 +6,9 @@ Implement a terminal window system with frame-constrained content architecture t
 ## Key Knowledge
 - **Architecture**: TerminalWindow inherits from TerminalBase, providing frame-constrained content that adapts to any frame size
 - **Scene Structure**: Uses stage_select_menu.tscn and main_menu.tscn with TerminalFrame, shader layers (Phosphor, Scanline, Glitch), and proper terminal styling
-- **Testing Framework**: Uses GdUnit4 for C# testing with scene runners for UI layout tests
+- **Testing Framework**: Uses GdUnit4 for C# testing with scene runners for Ui layout tests
 - **Build System**: Uses Godot with C# and dotnet for project management
-- **File Locations**: 
+- **File Locations**:
   - Core: `/source/scripts/ui/terminal/TerminalWindow.cs`
   - Scenes: `/source/ui/menus/stage_select_menu.tscn`, `/source/ui/menus/main_menu.tscn`
   - Tests: `/tests/ui/terminal/TerminalWindowFrameLayoutTests.cs`
@@ -36,4 +36,4 @@ Implement a terminal window system with frame-constrained content architecture t
 ---
 
 ## Summary Metadata
-**Update time**: 2025-10-22T05:47:12.365Z 
+**Update time**: 2025-10-22T05:47:12.365Z

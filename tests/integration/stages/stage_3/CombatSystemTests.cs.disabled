@@ -82,13 +82,13 @@ public class CombatSystemTests
     }
 
     /// <summary>
-    /// Verifies Combat UI exists.
+    /// Verifies Combat Ui exists.
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
     public static void TestCombatUiExists()
     {
-        var combatUi = GD.Load<CSharpScript>("res://source/scripts/combat/ui/UICombatMenus.cs");
+        var combatUi = GD.Load<CSharpScript>("res://source/scripts/combat/ui/UiCombatMenus.cs");
         AssertThat(combatUi).IsNotNull();
     }
 

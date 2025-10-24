@@ -14,7 +14,7 @@ public partial class BattlerList : RefCounted
     /// <summary>
     /// Emitted immediately once the player has won or lost the battle. Note that all animations (such
     /// as the player or AI battlers disappearing) are not yet completed.
-    /// This is the point at which most UI elements will disappear.
+    /// This is the point at which most Ui elements will disappear.
     /// </summary>
     [Signal]
     public delegate void BattlersDownedEventHandler();

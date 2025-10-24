@@ -24,7 +24,7 @@ public static class ContentBlockIntegrationTests
     [TestCase]
     public static async Task BootSequenceSceneLoadsSuccessfully()
     {
-        var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
+        using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         AssertThat(runner).IsNotNull();
@@ -36,7 +36,7 @@ public static class ContentBlockIntegrationTests
     [TestCase]
     public static async Task OpeningMonologueSceneLoadsSuccessfully()
     {
-        var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
+        using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         AssertThat(runner).IsNotNull();
@@ -48,7 +48,7 @@ public static class ContentBlockIntegrationTests
     [TestCase]
     public static async Task QuestionSceneLoadsSuccessfully()
     {
-        var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
+        using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         AssertThat(runner).IsNotNull();
@@ -61,13 +61,13 @@ public static class ContentBlockIntegrationTests
     [TestCase]
     public static async Task AllStage1ScenesLoadConcurrently()
     {
-        var runnerBoot = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
+        using var runnerBoot = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
         await runnerBoot.SimulateFrames(1).ConfigureAwait(false);
 
-        var runnerOpening = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
+        using var runnerOpening = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
         await runnerOpening.SimulateFrames(1).ConfigureAwait(false);
 
-        var runnerQuestion = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
+        using var runnerQuestion = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
         await runnerQuestion.SimulateFrames(1).ConfigureAwait(false);
 
         AssertThat(runnerBoot).IsNotNull();

@@ -9,7 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure;
 
 /// <summary>
 /// Shared base class for beat/scene scripts across stages.
-/// Provides lightweight helpers for dynamic UI construction and beat progression hooks.
+/// Provides lightweight helpers for dynamic Ui construction and beat progression hooks.
 /// Implements <see cref="IManifestAware"/> to support standalone scene debugging and testing.
 /// </summary>
 [GlobalClass]

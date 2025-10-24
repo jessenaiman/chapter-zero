@@ -7,7 +7,7 @@ description: Generate a custom checklist for the current feature based on user r
 
 ## Checklist Purpose: "Unit Tests for English"
 
-**CRITICAL CONCEPT**: Checklists are **UNIT TESTS FOR REQUIREMENTS WRITING** - they validate the quality, clarity, and completeness of requirements in a given domain.
+**CRITICAL CONCEPT**: Checklists are **UNIT TESTS FOR REQUiREMENTS WRITING** - they validate the quality, clarity, and completeness of requirements in a given domain.
 
 **NOT for verification/testing**:
 - ❌ NOT "Verify the button clicks correctly"
@@ -97,7 +97,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Each `/speckit.checklist` run creates a NEW file (never overwrites existing checklists)
 
    **CORE PRINCIPLE - Test the Requirements, Not the Implementation**:
-   Every checklist item MUST evaluate the REQUIREMENTS THEMSELVES for:
+   Every checklist item MUST evaluate the REQUiREMENTS THEMSELVES for:
    - **Completeness**: Are all necessary requirements present?
    - **Clarity**: Are requirements unambiguous and specific?
    - **Consistency**: Do requirements align with each other?
@@ -126,10 +126,10 @@ You **MUST** consider the user input before proceeding (if not empty).
    - "Are the exact number and layout of featured episodes specified?" [Completeness]
    - "Is 'prominent display' quantified with specific sizing/positioning?" [Clarity]
    - "Are hover state requirements consistent across all interactive elements?" [Consistency]
-   - "Are keyboard navigation requirements defined for all interactive UI?" [Coverage]
+   - "Are keyboard navigation requirements defined for all interactive Ui?" [Coverage]
    - "Is the fallback behavior specified when logo image fails to load?" [Edge Cases]
    - "Are loading states defined for asynchronous episode data?" [Completeness]
-   - "Does the spec define visual hierarchy for competing UI elements?" [Clarity]
+   - "Does the spec define visual hierarchy for competing Ui elements?" [Clarity]
 
    **ITEM STRUCTURE**:
    Each item should follow this pattern:
@@ -196,7 +196,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - ❌ Test cases, test plans, QA procedures
    - ❌ Implementation details (frameworks, APIs, algorithms)
 
-   **✅ REQUIRED PATTERNS** - These test requirements quality:
+   **✅ REQUiRED PATTERNS** - These test requirements quality:
    - ✅ "Are [requirement type] defined/specified/documented for [scenario]?"
    - ✅ "Is [vague term] quantified/clarified with specific criteria?"
    - ✅ "Are requirements consistent between [section A] and [section B]?"
@@ -226,7 +226,7 @@ To avoid clutter, use descriptive types and clean up obsolete checklists when do
 
 Sample items (testing the requirements, NOT the implementation):
 - "Are visual hierarchy requirements defined with measurable criteria? [Clarity, Spec §FR-1]"
-- "Is the number and positioning of UI elements explicitly specified? [Completeness, Spec §FR-1]"
+- "Is the number and positioning of Ui elements explicitly specified? [Completeness, Spec §FR-1]"
 - "Are interaction state requirements (hover, focus, active) consistently defined? [Consistency]"
 - "Are accessibility requirements specified for all interactive elements? [Coverage, Gap]"
 - "Is fallback behavior defined when images fail to load? [Edge Case, Gap]"

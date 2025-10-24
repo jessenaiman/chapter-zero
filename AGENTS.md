@@ -8,7 +8,9 @@
 - **Language**: C# 12 for game logic(using .NET 8.0) with preview language features
 - **AI Integration**: NobodyWho plugin for local LLM inference
 
-## Testing with GDUnit
+###
+
+### Testing with [GDUnit](./docs/code-guides/testing/gdUnit4Net-README.mdx)
 
 - GDUnit4 supports logic-only tests that run without the Godot runtime for speed, and Godot-dependent tests using [RequireGodotRuntime] for scene/node integration.
 
@@ -16,25 +18,6 @@
 visible in the Godot editor. This allows proper C# namespace usage while
 maintaining editor integration.
 
-## Project Guidelines
-
-## Act 1 Specifics - Ghost Writer
-
-- Narrative content is loaded exclusively from JSON assets at res://source/data/stages/ghost-terminal/. No hardcoded fallbacks exist in code.
-- “GhostTerminalCinematicDirector must not synthesize content; it only transforms NarrativeSceneData into beats.”
-- “Tests must construct NarrativeSceneData (via NarrativeSceneFactory) and validate translation only.”
-
- Example:
-
-```cs
-   namespace OmegaSpiral.Combat;
-
-   [GlobalClass]
-   public partial class MyNode : Node
-   {
-       // ...
-   }
-```
 
 ## C# style guide
 
@@ -265,14 +248,14 @@ private void Attack(float attackStrength)
 }
 ```
 
-There's an exception for two-letter acronyms (e.g., `UI`), which should be uppercase where PascalCase is expected and lowercase otherwise.
+There's an exception for two-letter acronyms (e.g., `Ui`), which should be uppercase where PascalCase is expected and lowercase otherwise.
 
 Note that `id` is not an acronym and should be treated as a normal identifier:
 
 ```csharp
 public string Id { get; }
 
-public UIManager UI
+public UiManager Ui
 {
     get { return uiManager; }
 }

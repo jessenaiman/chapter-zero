@@ -1,21 +1,27 @@
-// <copyright file="MenuUI.cs" company="Ωmega Spiral">
+// <copyright file="MenuUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System;
+using System.Linq;
 using Godot;
-using OmegaSpiral.Source.UI.Omega;
+using OmegaSpiral.Source.Ui.Omega;
 
-namespace OmegaSpiral.Source.UI.Menus;
+namespace OmegaSpiral.Source.Ui.Menus;
 
 /// <summary>
-/// Menu UI that extends OmegaUI and adds static menu behavior.
-/// Provides button layouts, navigation, and menu-specific styling.
-/// Base class for all static UI menus (Main Menu, Options, etc.) - NOT for sequential scenes.
-/// Key difference from TerminalUI: No sequential logic, no auto-transitions, pure user agency.
+/// Menu Ui that extends OmegaUi and adds static menu behavior for traditional game menus.
+/// Base class for all static game menus (Main Menu, Pause, Options, etc.) - NOT for sequential narrative scenes.
+/// Key difference from TerminalUi: No sequential logic, no auto-transitions, pure user agency.
+/// <para><strong>Three Core Responsibilities:</strong></para>
+/// <list type="number">
+/// <item><description>Standard button container structure with sensible defaults (via NodePath exports)</description></item>
+/// <item><description>Navigation helpers for keyboard/gamepad focus management</description></item>
+/// <item><description>Menu-specific shader presets (less glitchy than narrative terminals)</description></item>
+/// </list>
 /// </summary>
 [GlobalClass]
-public partial class MenuUI : OmegaUI
+public partial class MenuUi : OmegaUi
 {
     /// <summary>
     /// Menu interaction modes.
@@ -26,16 +32,32 @@ public partial class MenuUI : OmegaUI
         Disabled,
         /// <summary>Standard menu with buttons and navigation.</summary>
         Standard,
-        /// <summary>Modal menu that blocks interaction with other UI.</summary>
+        /// <summary>Modal menu that blocks interaction with other Ui.</summary>
         Modal
     }
 
     [Export] public MenuMode Mode { get; set; } = MenuMode.Standard;
 
+    /// <summary>
+    /// Path to the main button container. Defaults to standard menu structure.
+    /// </summary>
+    [ExportGroup("Menu Node Paths")]
+    [Export] public NodePath? MenuButtonContainerPath { get; set; } = "ContentContainer/MenuButtonContainer";
+
+    /// <summary>
+    /// Path to the action bar (back/confirm buttons). Defaults to standard menu structure.
+    /// </summary>
+    [Export] public NodePath? MenuActionBarPath { get; set; } = "ContentContainer/MenuActionBar";
+
+    /// <summary>
+    /// Path to the menu title label. Defaults to standard menu structure.
+    /// </summary>
+    [Export] public NodePath? MenuTitlePath { get; set; } = "ContentContainer/MenuTitle";
+
     // Menu-specific node references
-    private VBoxContainer? _menuButtonContainer;
-    private HBoxContainer? _menuActionBar;
-    private Label? _menuTitle;
+    private VBoxContainer? _MenuButtonContainer;
+    private HBoxContainer? _MenuActionBar;
+    private Label? _MenuTitle;
 
     [ExportGroup("Menu Scenes")]
     [Export] public PackedScene? StyledButtonScene { get; set; }
@@ -49,30 +71,39 @@ public partial class MenuUI : OmegaUI
             return;
         }
 
-        // Base OmegaUI initialization is called automatically by Godot's lifecycle.
+        // Base OmegaUi initialization is called automatically by Godot's lifecycle.
         // We just need to call our menu-specific setup.
         base._Ready();
     }
 
     /// <summary>
-    /// Caches menu-specific node references in addition to base OmegaUI nodes.
+    /// Caches menu-specific node references in addition to base OmegaUi nodes.
+    /// Uses NodePath exports for flexibility while providing sensible defaults.
     /// </summary>
     protected override void CacheRequiredNodes()
     {
         // First, let the base class cache its required nodes (TextDisplay, shader layers, etc.)
         base.CacheRequiredNodes();
 
-        // Now, cache the nodes specific to the menu
-        _menuButtonContainer = GetNodeOrNull<VBoxContainer>("MenuButtonContainer");
-        _menuActionBar = GetNodeOrNull<HBoxContainer>("MenuActionBar");
-        _menuTitle = GetNodeOrNull<Label>("MenuTitle");
+        // Now, cache the nodes specific to the menu using exported paths
+        _MenuButtonContainer = MenuButtonContainerPath != null && !string.IsNullOrEmpty(MenuButtonContainerPath.ToString())
+            ? GetNodeOrNull<VBoxContainer>(MenuButtonContainerPath)
+            : null;
 
-        if (_menuButtonContainer == null)
-            GD.PushWarning("[MenuUI] MenuButtonContainer not found. Buttons cannot be added.");
+        _MenuActionBar = MenuActionBarPath != null && !string.IsNullOrEmpty(MenuActionBarPath.ToString())
+            ? GetNodeOrNull<HBoxContainer>(MenuActionBarPath)
+            : null;
+
+        _MenuTitle = MenuTitlePath != null && !string.IsNullOrEmpty(MenuTitlePath.ToString())
+            ? GetNodeOrNull<Label>(MenuTitlePath)
+            : null;
+
+        if (_MenuButtonContainer == null)
+            GD.PushWarning("[MenuUi] MenuButtonContainer not found at path. Buttons cannot be added.");
     }
 
     /// <summary>
-    /// Initializes menu-specific components after base OmegaUI initialization.
+    /// Initializes menu-specific components after base OmegaUi initialization.
     /// </summary>
     private void InitializeMenuComponents()
     {
@@ -80,7 +111,7 @@ public partial class MenuUI : OmegaUI
     }
 
     /// <summary>
-    /// Initializes menu-specific UI states.
+    /// Initializes menu-specific Ui states.
     /// </summary>
     protected override void InitializeComponentStates()
     {
@@ -88,11 +119,11 @@ public partial class MenuUI : OmegaUI
         base.InitializeComponentStates();
 
         // Now, initialize menu-specific states
-        if (_menuButtonContainer != null) _menuButtonContainer.Visible = true;
-        if (_menuActionBar != null) _menuActionBar.Visible = true;
-        if (_menuTitle != null) _menuTitle.Visible = true;
+        if (_MenuButtonContainer != null) _MenuButtonContainer.Visible = true;
+        if (_MenuActionBar != null) _MenuActionBar.Visible = true;
+        if (_MenuTitle != null) _MenuTitle.Visible = true;
 
-        // CORRECT: Use the protected properties from OmegaUI to style the shader layers
+        // CORRECT: Use the protected properties from OmegaUi to style the shader layers
         if (PhosphorLayer != null) PhosphorLayer.Modulate = Colors.White;
         if (ScanlineLayer != null) ScanlineLayer.Modulate = Colors.White;
         if (GlitchLayer != null) GlitchLayer.Modulate = Colors.White;
@@ -112,9 +143,9 @@ public partial class MenuUI : OmegaUI
     /// <param name="title">The title to display.</param>
     protected void SetMenuTitle(string title)
     {
-        if (_menuTitle != null)
+        if (_MenuTitle != null)
         {
-            _menuTitle.Text = title;
+            _MenuTitle.Text = title;
         }
     }
 
@@ -124,7 +155,7 @@ public partial class MenuUI : OmegaUI
     /// <returns>The VBoxContainer for menu buttons, or null if not found.</returns>
     protected VBoxContainer? GetMenuButtonContainer()
     {
-        return _menuButtonContainer;
+        return _MenuButtonContainer;
     }
 
     /// <summary>
@@ -135,20 +166,20 @@ public partial class MenuUI : OmegaUI
     /// <returns>The created Button node.</returns>
     protected Button AddMenuButton(string buttonText, Action onPressed)
     {
-        if (_menuButtonContainer == null)
+        if (_MenuButtonContainer == null)
         {
-            throw new InvalidOperationException("[MenuUI] Cannot add button: MenuButtonContainer is not set.");
+            throw new InvalidOperationException("[MenuUi] Cannot add button: MenuButtonContainer is not set.");
         }
         if (StyledButtonScene == null)
         {
-            throw new InvalidOperationException("[MenuUI] Cannot add button: StyledButtonScene is not set in the Inspector.");
+            throw new InvalidOperationException("[MenuUi] Cannot add button: StyledButtonScene is not set in the Inspector.");
         }
 
         var button = StyledButtonScene.Instantiate<Button>();
         button.Text = buttonText;
 
         button.Pressed += () => onPressed();
-        _menuButtonContainer.AddChild(button);
+        _MenuButtonContainer.AddChild(button);
 
         return button;
     }
@@ -158,9 +189,9 @@ public partial class MenuUI : OmegaUI
     /// </summary>
     protected void ClearMenuButtons()
     {
-        if (_menuButtonContainer != null)
+        if (_MenuButtonContainer != null)
         {
-            foreach (var child in _menuButtonContainer.GetChildren())
+            foreach (var child in _MenuButtonContainer.GetChildren())
             {
                 if (child is Button button)
                 {
@@ -176,15 +207,15 @@ public partial class MenuUI : OmegaUI
     /// <param name="enabled">Whether the menu should be enabled.</param>
     protected void SetMenuEnabled(bool enabled)
     {
-        if (_menuButtonContainer != null)
+        if (_MenuButtonContainer != null)
         {
-            _menuButtonContainer.MouseFilter = enabled ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
-            _menuButtonContainer.Modulate = enabled ? Colors.White : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            _MenuButtonContainer.MouseFilter = enabled ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
+            _MenuButtonContainer.Modulate = enabled ? Colors.White : new Color(0.5f, 0.5f, 0.5f, 0.5f);
         }
 
-        if (_menuActionBar != null)
+        if (_MenuActionBar != null)
         {
-            _menuActionBar.MouseFilter = enabled ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
+            _MenuActionBar.MouseFilter = enabled ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
         }
     }
 
@@ -194,6 +225,49 @@ public partial class MenuUI : OmegaUI
     /// <returns>The HBoxContainer for action buttons, or null if not found.</returns>
     protected HBoxContainer? GetMenuActionBar()
     {
-        return _menuActionBar;
+        return _MenuActionBar;
+    }
+
+    // --- NAVIGATION HELPERS (Responsibility 2: Focus Management) ---
+
+    /// <summary>
+    /// Sets focus to the first button in the menu for keyboard/gamepad navigation.
+    /// Call this when the menu becomes active.
+    /// </summary>
+    public void FocusFirstButton()
+    {
+        if (_MenuButtonContainer == null) return;
+
+        var firstButton = _MenuButtonContainer.GetChildren().OfType<Button>().FirstOrDefault();
+        firstButton?.GrabFocus();
+    }
+
+    /// <summary>
+    /// Gets the currently focused button in the menu, if any.
+    /// </summary>
+    /// <returns>The focused button, or null if no button has focus.</returns>
+    public Button? GetFocusedButton()
+    {
+        if (_MenuButtonContainer == null) return null;
+
+        return _MenuButtonContainer.GetChildren()
+            .OfType<Button>()
+            .FirstOrDefault(btn => btn.HasFocus());
+    }
+
+    /// <summary>
+    /// Handles input for menu navigation (up/down for keyboard/gamepad).
+    /// Override this to customize navigation behavior.
+    /// </summary>
+    /// <param name="event">The input event to process.</param>
+    public override void _Input(InputEvent @event)
+    {
+        base._Input(@event);
+
+        if (Mode == MenuMode.Disabled) return;
+        if (_MenuButtonContainer == null) return;
+
+        // Allow Godot's built-in focus navigation to handle ui_up/ui_down
+        // This is just a hook for custom navigation if needed
     }
 }

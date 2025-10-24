@@ -81,7 +81,7 @@ public static class EchoChamberDirector
 /// <summary>
 /// Immutable view over the Stage 2 data used at runtime.
 /// </summary>
-/// <param name="Metadata">Stage metadata surfaced to UI systems.</param>
+/// <param name="Metadata">Stage metadata surfaced to Ui systems.</param>
 /// <param name="Dreamweavers">Dreamweaver definitions for styling and lookup.</param>
 /// <param name="Interludes">Ordered interludes that precede each chamber.</param>
 /// <param name="Chambers">The chamber payloads the player traverses.</param>

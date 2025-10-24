@@ -5,7 +5,7 @@ using OmegaSpiral.Source.Scripts.Common;
 namespace OmegaSpiral.Source.Stages.Stage2.Beats;
 
 /// <summary>
-/// Minimal dungeon scene stub for the Nethack-inspired sequence. Handles signal emission for integration tests and future UI wiring.
+/// Minimal dungeon scene stub for the Nethack-inspired sequence. Handles signal emission for integration tests and future Ui wiring.
 /// </summary>
 [GlobalClass]
 public partial class NethackDungeon : Control

@@ -1,5 +1,5 @@
 
-// <copyright file="UIBattlerTargetCursor.cs" company="Ωmega Spiral">
+// <copyright file="UiBattlerTargetCursor.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -7,12 +7,12 @@ using System.Collections.ObjectModel;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.Cursors;
 /// <summary>
 /// Allows the player to choose the targets of a <see cref="BattlerAction"/>.
 /// </summary>
 [GlobalClass]
-public partial class UIBattlerTargetingCursor : Node2D
+public partial class UiBattlerTargetingCursor : Node2D
 {
     /// <summary>
     /// An empty array of <see cref="Battler"/>s passed to <see cref="TargetsSelected"/> when no target is selected.
@@ -148,16 +148,16 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// <summary>
     /// The primary cursor instance, which is moved from target to target whenever <see cref="TargetsAll"/> is false.
     /// </summary>
-    private UIMenuCursor? cursor;
+    private UiMenuCursor? cursor;
 
     /// <summary>
     /// Secondary cursors, which are created whenever <see cref="TargetsAll"/> is true.
-    /// They are children of the <see cref="UIBattlerTargetingCursor"/>. Dictionary keys are a <see cref="Battler"/> instance that
+    /// They are children of the <see cref="UiBattlerTargetingCursor"/>. Dictionary keys are a <see cref="Battler"/> instance that
     /// corresponds with one of the targets. This allows the number of cursors to be updated as <see cref="Battler"/>
     /// state changes. In other words, if targets die or are added while the player is choosing targets, the cursors
     /// highlighting the targets will update accordingly.
     /// </summary>
-    private Dictionary<Battler, UIMenuCursor> secondaryCursors = new Dictionary<Battler, UIMenuCursor>();
+    private Dictionary<Battler, UiMenuCursor> secondaryCursors = new Dictionary<Battler, UiMenuCursor>();
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -190,7 +190,7 @@ public partial class UIBattlerTargetingCursor : Node2D
     {
         if (@event.IsActionReleased("ui_accept"))
         {
-            // Let the UI know which Battler(s) were selected.
+            // Let the Ui know which Battler(s) were selected.
             var highlightedTargets = new Godot.Collections.Array<Battler>();
             if (this.TargetsAll)
             {
@@ -256,14 +256,14 @@ public partial class UIBattlerTargetingCursor : Node2D
     /// </summary>
     /// <param name="target">The battler to create the cursor over.</param>
     /// <returns>The created cursor.</returns>
-    private UIMenuCursor? CreateCursorOverBattler(Battler? target)
+    private UiMenuCursor? CreateCursorOverBattler(Battler? target)
     {
         if (target?.Anim == null)
         {
             return null;
         }
 
-        var newCursor = this.cursorScene.Instantiate() as UIMenuCursor;
+        var newCursor = this.cursorScene.Instantiate() as UiMenuCursor;
         if (newCursor != null && target?.Anim?.Top != null)
         {
             this.AddChild(newCursor);

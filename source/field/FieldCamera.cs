@@ -57,7 +57,7 @@ public partial class FieldCamera : Camera2D
     /// <inheritdoc/>
     public override void _Ready()
     {
-        // If this autoload is on a UI scene (not a field scene), disable the camera.
+        // If this autoload is on a Ui scene (not a field scene), disable the camera.
         // This prevents rendering issues on menu scenes where Control nodes expect viewport-relative coordinates.
         string currentScene = this.GetTree().CurrentScene?.SceneFilePath ?? "";
         if (currentScene.Contains("menus") || currentScene.Contains("ui") || currentScene.Contains("narrative"))

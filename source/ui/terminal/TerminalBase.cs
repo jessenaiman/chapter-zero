@@ -3,10 +3,10 @@ using System;
 using System.Threading.Tasks;
 using OmegaSpiral.Source.Scripts.Common;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
-/// Base terminal UI orchestrator following SOLID principles.
+/// Base terminal Ui orchestrator following SOLID principles.
 /// Composes atomic components and manages their lifecycle.
 /// Single Responsibility: Scene lifecycle and component composition only.
 /// </summary>
@@ -18,7 +18,7 @@ public partial class TerminalBase : BaseNarrativeScene
     /// </summary>
     public enum TerminalMode
     {
-        /// <summary>No terminal functionality (for minimal UI stages).</summary>
+        /// <summary>No terminal functionality (for minimal Ui stages).</summary>
         Disabled,
         /// <summary>Basic text display only (for dungeon overlays).</summary>
         Minimal,
@@ -149,7 +149,7 @@ public partial class TerminalBase : BaseNarrativeScene
     }
 
     /// <summary>
-    /// Initializes default states for UI components.
+    /// Initializes default states for Ui components.
     /// </summary>
     private void InitializeComponentStates()
     {

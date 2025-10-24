@@ -1,13 +1,13 @@
 
-// <copyright file="UIListMenu.cs" company="Ωmega Spiral">
+// <copyright file="UiListMenu.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.ObjectModel;
 using Godot;
-using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+using OmegaSpiral.Source.Scripts.Combat.Ui.Cursors;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.ListMenu;
 /// <summary>
 /// A list menu is a template menu that provides common functionality for the combat menus.
 ///
@@ -16,7 +16,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
 /// a simple set of signals.
 /// </summary>
 [GlobalClass]
-public partial class UIListMenu : VBoxContainer
+public partial class UiListMenu : VBoxContainer
 {
     /// <summary>
     /// Gets or sets the scene representing the different menu entries. The scene must be some derivation of
@@ -59,13 +59,13 @@ public partial class UIListMenu : VBoxContainer
     protected Collection<BaseButton> Entries { get; set; } = new Collection<BaseButton>();
 
     private AnimationPlayer? anim;
-    private UIMenuCursor? menuCursor;
+    private UiMenuCursor? menuCursor;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
         this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
-        this.menuCursor = this.GetNodeOrNull<UIMenuCursor>("MenuCursor");
+        this.menuCursor = this.GetNodeOrNull<UiMenuCursor>("MenuCursor");
     }
 
     /// <summary>
@@ -126,7 +126,7 @@ public partial class UIListMenu : VBoxContainer
         }
 
         var newEntry = this.EntryScene.Instantiate();
-        System.Diagnostics.Debug.Assert(newEntry is BaseButton, "Entries to a UIMenuList must be derived from BaseButton!" +
+        System.Diagnostics.Debug.Assert(newEntry is BaseButton, "Entries to a UiMenuList must be derived from BaseButton!" +
             " A non-BaseButton entry_scene has been specified.");
 
         var buttonEntry = newEntry as BaseButton;
@@ -182,7 +182,7 @@ public partial class UIListMenu : VBoxContainer
     }
 
     /// <summary>
-    /// Moves the <see cref="UIMenuCursor"/> to the focused entry. Derivative menus may want to add additional
+    /// Moves the <see cref="UiMenuCursor"/> to the focused entry. Derivative menus may want to add additional
     /// behaviour.
     /// </summary>
     /// <param name="entry">The entry that was focused.</param>

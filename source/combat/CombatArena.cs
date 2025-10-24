@@ -5,9 +5,9 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Combat.UI;
-using OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
-using OmegaSpiral.Source.Scripts.Combat.UI.TurnBar;
+using OmegaSpiral.Source.Scripts.Combat.Ui;
+using OmegaSpiral.Source.Scripts.Combat.Ui.EffectLabels;
+using OmegaSpiral.Source.Scripts.Combat.Ui.TurnBar;
 
 namespace OmegaSpiral.Source.Scripts.Combat;
 /// <summary>
@@ -33,39 +33,39 @@ public partial class CombatArena : Control
     private ActiveTurnQueue? turnQueue;
 
     /// <summary>
-    /// UI elements used in the combat arena.
+    /// Ui elements used in the combat arena.
     /// </summary>
     private AnimationPlayer? uiAnimation;
-    private UITurnBar? uiTurnBar;
-    private UIEffectLabelBuilder? uiEffectLabelBuilder;
-    private UICombatMenus? uiPlayerMenus;
+    private UiTurnBar? uiTurnBar;
+    private UiEffectLabelBuilder? uiEffectLabelBuilder;
+    private UiCombatMenus? uiPlayerMenus;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
         this.turnQueue = this.GetNode<ActiveTurnQueue>("Battlers");
 
-        // Initialize UI elements
-        this.uiAnimation = this.GetNode<AnimationPlayer>("UI/AnimationPlayer");
-        this.uiTurnBar = this.GetNode<UITurnBar>("UI/TurnBar");
-        this.uiEffectLabelBuilder = this.GetNode<UIEffectLabelBuilder>("UI/EffectLabelBuilder");
-        this.uiPlayerMenus = this.GetNode<UICombatMenus>("UI/PlayerMenus");
+        // Initialize Ui elements
+        this.uiAnimation = this.GetNode<AnimationPlayer>("Ui/AnimationPlayer");
+        this.uiTurnBar = this.GetNode<UiTurnBar>("Ui/TurnBar");
+        this.uiEffectLabelBuilder = this.GetNode<UiEffectLabelBuilder>("Ui/EffectLabelBuilder");
+        this.uiPlayerMenus = this.GetNode<UiCombatMenus>("Ui/PlayerMenus");
 
         // Validate that all required nodes were found
         if (this.turnQueue == null || this.uiAnimation == null || this.uiTurnBar == null ||
             this.uiEffectLabelBuilder == null || this.uiPlayerMenus == null)
         {
-            GD.PrintErr("CombatArena: Failed to find all required UI nodes");
+            GD.PrintErr("CombatArena: Failed to find all required Ui nodes");
             return;
         }
 
-        SetupCombatUI();
+        SetupCombatUi();
     }
 
     /// <summary>
-    /// Sets up the combat UI elements by calling Setup on each component.
+    /// Sets up the combat Ui elements by calling Setup on each component.
     /// </summary>
-    private void SetupCombatUI()
+    private void SetupCombatUi()
     {
         BattlerList? combatParticipantData = this.turnQueue?.Battlers;
         if (combatParticipantData == null)
@@ -130,7 +130,7 @@ public partial class CombatArena : Control
     }
 
     /// <summary>
-    /// Begin combat, setting up the UI before running combat logic.
+    /// Begin combat, setting up the Ui before running combat logic.
     /// </summary>
     public async void Start()
     {
@@ -140,7 +140,7 @@ public partial class CombatArena : Control
             return;
         }
 
-        // Smoothly fade in the UI elements.
+        // Smoothly fade in the Ui elements.
         this.uiAnimation.Play("fade_in");
         await this.ToSignal(this.uiAnimation, AnimationMixer.SignalName.AnimationFinished);
 

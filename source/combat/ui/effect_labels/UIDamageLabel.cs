@@ -1,5 +1,5 @@
 
-// <copyright file="UIDamageLabel.cs" company="Ωmega Spiral">
+// <copyright file="UiDamageLabel.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -7,12 +7,12 @@ using Godot;
 using System.Globalization;
 using OmegaSpiral.Source.Combat.Actions;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.EffectLabels;
 /// <summary>
-/// An animated combat UI element emphasizing damage done (or healed) to a battler.
+/// An animated combat Ui element emphasizing damage done (or healed) to a battler.
 /// </summary>
 [GlobalClass]
-public partial class UIDamageLabel : Marker2D
+public partial class UiDamageLabel : Marker2D
 {
     /// <summary>
     /// Gets or sets determines how far the label will move upwards.
@@ -122,7 +122,7 @@ public partial class UIDamageLabel : Marker2D
             }
         }
 
-        System.Diagnostics.Debug.Assert(this.FadeTime < this.MoveTime, $"{nameof(UIDamageLabel)}'s FadeTime must be less than its MoveTime!");
+        System.Diagnostics.Debug.Assert(this.FadeTime < this.MoveTime, $"{nameof(UiDamageLabel)}'s FadeTime must be less than its MoveTime!");
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ namespace OmegaSpiral.Tests.Integration
 
     /// <summary>
     /// Integration tests that validate the complete game flow across both acts.
-    /// Tests ensure seamless transition from TerminalUI narrative (Act 1) to AsciiRoomRenderer dungeon (Act 2).
+    /// Tests ensure seamless transition from TerminalUi narrative (Act 1) to AsciiRoomRenderer dungeon (Act 2).
     /// Validates that both visual experiences work together and Dreamweaver affinity affects gameplay.
     /// </summary>
     [TestSuite]
@@ -96,7 +96,7 @@ namespace OmegaSpiral.Tests.Integration
         }
 
         /// <summary>
-        /// Tests visual consistency between TerminalUI (first act) and AsciiRoomRenderer (second act).
+        /// Tests visual consistency between TerminalUi (first act) and AsciiRoomRenderer (second act).
         /// Validates that both rendering systems maintain game aesthetic coherence.
         /// </summary>
         [TestCase]

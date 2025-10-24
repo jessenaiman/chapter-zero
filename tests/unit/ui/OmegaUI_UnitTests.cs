@@ -1,21 +1,21 @@
-// <copyright file="OmegaUI_UnitTests.cs" company="Ωmega Spiral">
+// <copyright file="OmegaUi_UnitTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using GdUnit4;
-using OmegaSpiral.Source.UI.Omega;
+using OmegaSpiral.Source.Ui.Omega;
 using Moq;
 using static GdUnit4.Assertions;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Tests.Unit.UI
+namespace OmegaSpiral.Tests.Unit.Ui
 {
     /// <summary>
-    /// Unit tests for OmegaUI behavioral logic using GdUnit4 mocks.
+    /// Unit tests for OmegaUi behavioral logic using GdUnit4 mocks.
     /// Validates API delegation, graceful failure, and dispose pattern.
     /// </summary>
     [TestSuite]
-    public partial class OmegaUI_UnitTests
+    public partial class OmegaUi_UnitTests
     {
         /// <summary>
         /// UT-API-01: API Delegation (AppendText)
@@ -26,9 +26,9 @@ namespace OmegaSpiral.Tests.Unit.UI
         public async Task AppendTextAsync_DelegatesToTextRenderer()
         {
             var mockRenderer = new Mock<IOmegaTextRenderer>();
-            var omegaUI = new OmegaUI();
-            omegaUI.SetTextRendererForTest(mockRenderer.Object);
-            await omegaUI.AppendTextAsync("Hello", 42f, 1f);
+            var omegaUi = new OmegaUi();
+            omegaUi.SetTextRendererForTest(mockRenderer.Object);
+            await omegaUi.AppendTextAsync("Hello", 42f, 1f);
             mockRenderer.Verify(m => m.AppendTextAsync("Hello", 42f, 1f), Times.Once);
         }
 
@@ -40,8 +40,8 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public async Task AppendTextAsync_GracefulFailureWhenRendererNull()
         {
-            var omegaUI = new OmegaUI();
-            await omegaUI.AppendTextAsync("test");
+            var omegaUi = new OmegaUi();
+            await omegaUi.AppendTextAsync("test");
             // No exception should be thrown, warning should be logged (cannot verify GD.PushWarning directly)
         }
 
@@ -54,9 +54,9 @@ namespace OmegaSpiral.Tests.Unit.UI
         public async Task ApplyVisualPresetAsync_DelegatesToShaderController()
         {
             var mockShader = new Mock<IOmegaShaderController>();
-            var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader.Object);
-            await omegaUI.ApplyVisualPresetAsync("CRT");
+            var omegaUi = new OmegaUi();
+            omegaUi.SetShaderControllerForTest(mockShader.Object);
+            await omegaUi.ApplyVisualPresetAsync("CRT");
             mockShader.Verify(m => m.ApplyVisualPresetAsync("CRT"), Times.Once);
         }
 
@@ -68,8 +68,8 @@ namespace OmegaSpiral.Tests.Unit.UI
         [RequireGodotRuntime]
         public async Task ApplyVisualPresetAsync_GracefulFailureWhenControllerNull()
         {
-            var omegaUI = new OmegaUI();
-            await omegaUI.ApplyVisualPresetAsync("CRT");
+            var omegaUi = new OmegaUi();
+            await omegaUi.ApplyVisualPresetAsync("CRT");
             // No exception should be thrown, warning should be logged
         }
 
@@ -85,14 +85,14 @@ namespace OmegaSpiral.Tests.Unit.UI
             mockShader.As<System.IDisposable>();
             var mockRenderer = new Mock<IOmegaTextRenderer>();
             mockRenderer.As<System.IDisposable>();
-            var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader.Object);
-            omegaUI.SetTextRendererForTest(mockRenderer.Object);
-            omegaUI.Dispose();
+            var omegaUi = new OmegaUi();
+            omegaUi.SetShaderControllerForTest(mockShader.Object);
+            omegaUi.SetTextRendererForTest(mockRenderer.Object);
+            omegaUi.Dispose();
             mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
             mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
-            AssertThat(omegaUI.ShaderController).IsNull();
-            AssertThat(omegaUI.TextRenderer).IsNull();
+            AssertThat(omegaUi.ShaderController).IsNull();
+            AssertThat(omegaUi.TextRenderer).IsNull();
         }
 
         /// <summary>
@@ -107,11 +107,11 @@ namespace OmegaSpiral.Tests.Unit.UI
             mockShader.As<System.IDisposable>();
             var mockRenderer = new Mock<IOmegaTextRenderer>();
             mockRenderer.As<System.IDisposable>();
-            var omegaUI = new OmegaUI();
-            omegaUI.SetShaderControllerForTest(mockShader.Object);
-            omegaUI.SetTextRendererForTest(mockRenderer.Object);
-            omegaUI.Dispose();
-            omegaUI.Dispose(); // Should not call Dispose again
+            var omegaUi = new OmegaUi();
+            omegaUi.SetShaderControllerForTest(mockShader.Object);
+            omegaUi.SetTextRendererForTest(mockRenderer.Object);
+            omegaUi.Dispose();
+            omegaUi.Dispose(); // Should not call Dispose again
             mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
             mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
         }

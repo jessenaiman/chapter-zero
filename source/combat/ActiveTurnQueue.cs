@@ -69,7 +69,7 @@ public partial class ActiveTurnQueue : Node2D
     /// </summary>
     public override void _Ready()
     {
-        // The time scale slows down whenever the user is picking an action. Connect to UI signals here
+        // The time scale slows down whenever the user is picking an action. Connect to Ui signals here
         // to adjust accordingly to whether or not the play is navigating the target/action menus.
         if (CombatEvents.Instance != null)
         {
@@ -109,7 +109,7 @@ public partial class ActiveTurnQueue : Node2D
         // _process for now.
         SetProcess(false);
 
-        // Don't begin combat until the state has been setup. I.e. intro animations, UI is ready, etc.
+        // Don't begin combat until the state has been setup. I.e. intro animations, Ui is ready, etc.
         IsActive = false;
     }
 
@@ -163,7 +163,7 @@ public partial class ActiveTurnQueue : Node2D
     {
         // Begin the shutdown sequence for the combat, flagging end of the combat logic.
         // This is called immediately when the player has either won or lost the combat.
-        // On combat end, a number of systems will animate out (the UI fades, for example).
+        // On combat end, a number of systems will animate out (the Ui fades, for example).
         // However, the battlers also end with animations: celebration or death animations. The
         // combat cannot truly end until these animations have finished, so wait for children
         // Battlers to 'wrap up' from this point onwards.

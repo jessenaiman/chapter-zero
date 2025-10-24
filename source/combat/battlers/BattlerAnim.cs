@@ -38,7 +38,7 @@ public partial class BattlerAnim : Marker2D
     public bool IsPlaying => this.anim?.IsPlaying() ?? false;
 
     /// <summary>
-    /// Gets the top anchor marker for positioning UI elements.
+    /// Gets the top anchor marker for positioning Ui elements.
     /// </summary>
     public Marker2D Top => this.top ??= this.GetNode<Marker2D>("TopAnchor");
 

@@ -34,15 +34,18 @@ namespace OmegaSpiral.Source.Narrative
 
             if (string.Equals(sceneType, "narrative_terminal_cinematic", StringComparison.OrdinalIgnoreCase))
             {
-                result.Cinematic = MapToCinematic(data);
+                // TODO: Implement MapToCinematic if Cinematic type is used
+                // result.Cinematic = MapToCinematic(data);
             }
             else if (string.Equals(sceneType, "echo_chamber_stage", StringComparison.OrdinalIgnoreCase))
             {
-                result.EchoChamber = MapToEchoChamber(data);
+                // TODO: Implement MapToEchoChamber if EchoChamber type is used
+                // result.EchoChamber = MapToEchoChamber(data);
             }
             else if (string.Equals(sceneType, "echo_vault_stage", StringComparison.OrdinalIgnoreCase))
             {
-                result.EchoVault = MapToEchoVault(data);
+                // TODO: Implement MapToEchoVault if EchoVault type is used
+                // result.EchoVault = MapToEchoVault(data);
             }
 
             return result;
@@ -136,12 +139,12 @@ namespace OmegaSpiral.Source.Narrative
             if (dict.TryGetValue("options", out var optionsVar) &&
                 optionsVar.VariantType == Variant.Type.Array)
             {
-                var options = new List<DreamweaverChoice>();
+                var options = new List<ChoiceOption>();
                 foreach (var optionVar in optionsVar.AsGodotArray())
                 {
                     if (optionVar.VariantType == Variant.Type.Dictionary)
                     {
-                        options.Add(MapToDreamweaverChoice(optionVar.AsGodotDictionary<string, Variant>()));
+                        options.Add(MapToChoiceOption(optionVar.AsGodotDictionary<string, Variant>()));
                     }
                 }
 
@@ -151,9 +154,9 @@ namespace OmegaSpiral.Source.Narrative
             return choice;
         }
 
-        private static DreamweaverChoice MapToDreamweaverChoice(Godot.Collections.Dictionary<string, Variant> dict)
+        private static ChoiceOption MapToChoiceOption(Godot.Collections.Dictionary<string, Variant> dict)
         {
-            var choice = new DreamweaverChoice();
+            var choice = new ChoiceOption();
 
             AssignString(dict, "id", id =>
             {

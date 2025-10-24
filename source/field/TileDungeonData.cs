@@ -8,7 +8,7 @@ using OmegaSpiral.Source.Scripts.Common;
 namespace OmegaSpiral.Source.Scripts.Field
 {
     /// <summary>
-    /// Represents the data structure for a tile-based dungeon, including tilemap, legend, UI, and controls.
+    /// Represents the data structure for a tile-based dungeon, including tilemap, legend, Ui, and controls.
     /// </summary>
     public partial class TileDungeonData : Resource
     {
@@ -31,10 +31,10 @@ namespace OmegaSpiral.Source.Scripts.Field
         public Godot.Collections.Dictionary<string, TileDefinition> LegendForJson { get; set; } = new();
 
         /// <summary>
-        /// Gets or sets the UI configuration for the dungeon.
+        /// Gets or sets the Ui configuration for the dungeon.
         /// </summary>
         [Export]
-        public DungeonUI? UI { get; set; }
+        public DungeonUi? Ui { get; set; }
 
         /// <summary>
         /// Gets or sets the control instructions for the player.
@@ -107,24 +107,24 @@ namespace OmegaSpiral.Source.Scripts.Field
     }
 
     /// <summary>
-    /// Represents the UI configuration for the dungeon, including visibility of inventory, map, and stats.
+    /// Represents the Ui configuration for the dungeon, including visibility of inventory, map, and stats.
     /// </summary>
-    public partial class DungeonUI : Resource
+    public partial class DungeonUi : Resource
     {
         /// <summary>
-        /// Gets or sets a value indicating whether to show the inventory UI.
+        /// Gets or sets a value indicating whether to show the inventory Ui.
         /// </summary>
         [Export]
         public bool ShowInventory { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to show the map UI.
+        /// Gets or sets a value indicating whether to show the map Ui.
         /// </summary>
         [Export]
         public bool ShowMap { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of stats to display in the UI.
+        /// Gets or sets the list of stats to display in the Ui.
         /// </summary>
         [Export]
         public Godot.Collections.Array<string> ShowStats { get; set; } = new();

@@ -2,10 +2,10 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Omega;
+namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
-/// Implementation of text renderer for Omega UI system.
+/// Implementation of text renderer for Omega Ui system.
 /// Handles text display, ghost typing animations, and text formatting.
 /// </summary>
 public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable

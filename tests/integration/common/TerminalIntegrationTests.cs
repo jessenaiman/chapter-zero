@@ -4,7 +4,7 @@ using Godot;
 using GdUnit4;
 using static GdUnit4.Assertions;
 using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 using System.Collections.ObjectModel;
 
 namespace OmegaSpiral.Tests.Integration.Common;

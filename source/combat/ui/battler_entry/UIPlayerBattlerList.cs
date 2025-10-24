@@ -1,21 +1,21 @@
 
-// <copyright file="UIPlayerBattlerList.cs" company="Ωmega Spiral">
+// <copyright file="UiPlayerBattlerList.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using System.Collections.ObjectModel;
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Combat.UI.ListMenu;
+using OmegaSpiral.Source.Scripts.Combat.Ui.ListMenu;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 /// <summary>
-/// The player battler UI displays information for each player-owned <see cref="Battler"/> in a combat.
+/// The player battler Ui displays information for each player-owned <see cref="Battler"/> in a combat.
 /// These entries may be selected in order to queue actions for the battlers to perform.
 /// </summary>
 [GlobalClass]
-#pragma warning disable IDE1006  // Naming: 2-letter acronym UI stays uppercase per C# style guide
-public partial class UIPlayerBattlerList : UIListMenu
+#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
+public partial class UiPlayerBattlerList : UiListMenu
 #pragma warning restore IDE1006
 {
     private Collection<Battler> battlers = new Collection<Battler>();
@@ -65,7 +65,7 @@ public partial class UIPlayerBattlerList : UIListMenu
 
         if (!this.IsDisabled)
         {
-            var battlerEntry = entry as UIBattlerEntry;
+            var battlerEntry = entry as UiBattlerEntry;
 
             // Prevent the player from issuing orders to AI-controlled Battlers.
             if (battlerEntry?.Battler?.AiScene == null)
@@ -84,16 +84,16 @@ public partial class UIPlayerBattlerList : UIListMenu
         // Free any old entries, if they exist.
         foreach (var child in this.GetChildren())
         {
-            if (child is UIBattlerEntry)
+            if (child is UiBattlerEntry)
             {
                 child.QueueFree();
             }
         }
 
-        // Create a UI entry for each battler in the party.
+        // Create a Ui entry for each battler in the party.
         foreach (var battler in this.battlers)
         {
-            var newEntry = this.CreateEntry() as UIBattlerEntry;
+            var newEntry = this.CreateEntry() as UiBattlerEntry;
             if (newEntry != null)
             {
                 newEntry.Battler = battler;

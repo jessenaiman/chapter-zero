@@ -701,9 +701,9 @@ choiceButton.AccessibilityLabel = "Choice 1: Yes. Names are promises we make to 
   - [ ] Ambient layer (CRT hum, electrical noise)
   - [ ] Effect layer (glitches, modems, typewriters)
   - [ ] Music layer (resonance tones, thread themes)
-  - [ ] UI layer (button clicks, selection sounds)
+  - [ ] Ui layer (button clicks, selection sounds)
 - [ ] "Reduce Audio Intensity" mode (disables sudden spikes)
-- [ ] "Essential Audio Only" mode (UI feedback only, no ambience)
+- [ ] "Essential Audio Only" mode (Ui feedback only, no ambience)
 
 #### 4. Visual Alternatives for Audio Cues
 
@@ -751,7 +751,7 @@ res://source/Assets/Audio/Stage1/
 │   ├── fax_negotiation.ogg
 │   ├── dotmatrix_printer.ogg
 │   └── typewriter_ghost_keys.ogg (randomized samples)
-├── UI/
+├── Ui/
 │   ├── choice_hover.ogg
 │   ├── choice_confirm_light.ogg
 │   ├── choice_confirm_shadow.ogg
@@ -774,7 +774,7 @@ res://source/Assets/Audio/Stage1/
 
 ---
 
-## UI/UX Architecture: Mouse & Gamepad Only
+## Ui/UX Architecture: Mouse & Gamepad Only
 
 ### Core Design Philosophy
 
@@ -849,7 +849,7 @@ This is crucial for:
 - [ ] No double-click required anywhere
 - [ ] Right-click opens context menu with "Read Choice Aloud" option (if audio description enabled)
 
-### UI Flow Specification
+### Ui Flow Specification
 
 #### Boot Sequence (Non-Interactive)
 
@@ -915,14 +915,14 @@ This is crucial for:
 ```
 Stage1/
 ├── OpeningCinematic.tscn (Boot + Monologue)
-├── PhilosophicalQuestions.tscn (3 questions, choice UI)
+├── PhilosophicalQuestions.tscn (3 questions, choice Ui)
 ├── SecretReveal.tscn (Code fragment, no choices)
 └── ThreadSelection.tscn (Final lockup)
 ```
 
 **Each scene uses same base:**
 
-- `EnhancedTerminalUI.tscn` (godot-xterm + shader layers)
+- `EnhancedTerminalUi.tscn` (godot-xterm + shader layers)
 - `ChoiceButtonGroup.tscn` (reusable choice container)
 - `AccessibilityOverlay.tscn` (captions, screen reader support)
 
@@ -939,7 +939,7 @@ Based on everything above, here's the critical path:
 3. Create singing bowl resonance tone (can synthesize in Audacity)
 4. Implement basic AudioStreamPlayer structure
 
-### Phase 2: Choice UI System (Critical for Testing)
+### Phase 2: Choice Ui System (Critical for Testing)
 
 1. Create ChoiceButton.tscn scene
 2. Implement mouse hover/click handling
@@ -954,7 +954,7 @@ Based on everything above, here's the critical path:
 
 ### Phase 4: Integration
 
-1. Wire narrative JSON → UI system
+1. Wire narrative JSON → Ui system
 2. Connect scoring system to choice selection
 3. Implement state transitions with audio/visual sync
 

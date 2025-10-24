@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Tests.UI.Menus;
+namespace OmegaSpiral.Tests.Ui.Menus;
 
 using Godot;
 using GdUnit4;
@@ -11,7 +11,7 @@ using static GdUnit4.Assertions;
 
 /// <summary>
 /// Comprehensive rendering and layout validation tests for MainMenu.
-/// These tests verify that all UI elements render correctly, are visible,
+/// These tests verify that all Ui elements render correctly, are visible,
 /// properly centered, and maintain correct spacing according to design specifications.
 /// </summary>
 [TestSuite]

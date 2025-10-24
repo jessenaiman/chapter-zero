@@ -1,20 +1,20 @@
 
-// <copyright file="UIEffectLabelBuilder.cs" company="Ωmega Spiral">
+// <copyright file="UiEffectLabelBuilder.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.EffectLabels;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.EffectLabels;
 /// <summary>
 /// A builder class responsible for adding visual feedback to <see cref="BattlerAction"/>s.
 ///
-/// This feedback takes the form of different UI elements (such as an animated label) that may
+/// This feedback takes the form of different Ui elements (such as an animated label) that may
 /// demonstrate how much damage was done or if an action missed the target completely.
 /// </summary>
 [GlobalClass]
-public partial class UIEffectLabelBuilder : Node2D
+public partial class UiEffectLabelBuilder : Node2D
 {
     /// <summary>
     /// Gets or sets the packed scene for the damage label.
@@ -48,7 +48,7 @@ public partial class UIEffectLabelBuilder : Node2D
 
             battler.HitReceived += (amount) =>
             {
-                var label = this.DamageLabelScene.Instantiate() as UIDamageLabel;
+                var label = this.DamageLabelScene.Instantiate() as UiDamageLabel;
                 this.AddChild(label);
                 if (label != null && battler?.Anim?.Top != null)
                 {

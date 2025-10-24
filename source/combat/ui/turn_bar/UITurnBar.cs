@@ -1,18 +1,18 @@
-// <copyright file="UITurnBar.cs" company="Ωmega Spiral">
+// <copyright file="UiTurnBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
+namespace OmegaSpiral.Source.Scripts.Combat.Ui.TurnBar
 {
     /// <summary>
     /// Displays the timeline representing the turn order of all battlers in the arena.
     /// Battler icons move along the timeline in real-time as their readiness updates.
     /// </summary>
     [GlobalClass]
-    public partial class UITurnBar : Control
+    public partial class UiTurnBar : Control
     {
         /// <summary>
         /// The packed scene used to instantiate battler icons.
@@ -40,25 +40,25 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
             this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
             this.background = this.GetNodeOrNull<TextureRect>("Background");
             this.icons = this.GetNodeOrNull<Control>("Background/Icons");
-            this.iconScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/turn_bar/UIBattlerIcon.tscn");
+            this.iconScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/turn_bar/UiBattlerIcon.tscn");
 
-            // Log warnings if essential UI nodes are missing
+            // Log warnings if essential Ui nodes are missing
             if (this.anim == null)
             {
-                GD.PushWarning("UITurnBar: AnimationPlayer node not found. Fade effects will not work.");
+                GD.PushWarning("UiTurnBar: AnimationPlayer node not found. Fade effects will not work.");
             }
             if (this.background == null)
             {
-                GD.PushError("UITurnBar: Background node not found. Turn bar will not display correctly.");
+                GD.PushError("UiTurnBar: Background node not found. Turn bar will not display correctly.");
             }
             if (this.icons == null)
             {
-                GD.PushError("UITurnBar: Icons container not found. Battler icons will not display.");
+                GD.PushError("UiTurnBar: Icons container not found. Battler icons will not display.");
             }
         }
 
         /// <summary>
-        /// Fade in (from transparent) the turn bar and all of its UI elements.
+        /// Fade in (from transparent) the turn bar and all of its Ui elements.
         /// </summary>
         public void FadeIn()
         {
@@ -69,7 +69,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
         }
 
         /// <summary>
-        /// Fade out (to transparent) the turn bar and all of its UI elements.
+        /// Fade out (to transparent) the turn bar and all of its Ui elements.
         /// </summary>
         public void FadeOut()
         {
@@ -90,7 +90,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
 
             if (this.iconScene == null || this.icons == null || this.background == null)
             {
-                GD.PrintErr("UITurnBar: Missing required components for Setup!");
+                GD.PrintErr("UiTurnBar: Missing required components for Setup!");
                 return;
             }
 
@@ -104,13 +104,13 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
                 }
 
                 var instantiatedIcon = this.iconScene.Instantiate();
-                if (instantiatedIcon is not UIBattlerIcon icon)
+                if (instantiatedIcon is not UiBattlerIcon icon)
                 {
                     continue;
                 }
 
                 icon.IconTexture = battler.Anim.BattlerIcon;
-                icon.BattlerType = battler.IsPlayer ? UIBattlerIcon.Types.Player : UIBattlerIcon.Types.Enemy;
+                icon.BattlerType = battler.IsPlayer ? UiBattlerIcon.Types.Player : UiBattlerIcon.Types.Enemy;
                 icon.PositionRange = new(-icon.Size.X / 2.0f, this.background.Size.X - (icon.Size.X / 2.0f));
 
                 battler.HealthDepleted += () =>
@@ -124,7 +124,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.UI.TurnBar
                 battler.ReadinessChanged += (readiness) =>
                 {
                     // There is an edge case where a player Battler has managed to deplete their own hp.
-                    // In this case, the UIBattlerIcon is probably already freed when the Battler's readiness
+                    // In this case, the UiBattlerIcon is probably already freed when the Battler's readiness
                     // changes after the action has finished.
                     // Thus, we need to make sure that the icon is valid before updating it.
                     if (IsInstanceValid(icon))

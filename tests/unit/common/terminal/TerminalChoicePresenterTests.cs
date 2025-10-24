@@ -5,7 +5,7 @@
 using GdUnit4;
 using Godot;
 using static GdUnit4.Assertions;
-using OmegaSpiral.Source.UI.Terminal;
+using OmegaSpiral.Source.Ui.Terminal;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -56,7 +56,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choices, false);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
 
             // Get the second button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
@@ -81,7 +81,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choices, true);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
 
             // Get the second button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
@@ -111,7 +111,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choiceOptions);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
 
             // Get the third button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(2); // Third button (index 2)
@@ -135,7 +135,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var choiceTask = _presenter.PresentChoicesAsync(choices);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow UI to update
+            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
 
             // Click first button to complete the task
             var button = _choiceContainer.GetChild<Button>(0);

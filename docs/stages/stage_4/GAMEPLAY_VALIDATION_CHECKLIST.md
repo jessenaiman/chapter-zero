@@ -1,7 +1,7 @@
 # Stage 4 Gameplay Validation Checklist
 
-**Scene**: `res://source/stages/stage_4/field_combat.tscn`  
-**Date**: October 19, 2025  
+**Scene**: `res://source/stages/stage_4/field_combat.tscn`
+**Date**: October 19, 2025
 **Tester**: _______________
 
 ## Pre-Test Setup
@@ -160,7 +160,7 @@
 
 - Walking near roaming ghost triggers combat
 - Screen transition to combat arena
-- Turn-based combat UI appears
+- Turn-based combat Ui appears
 - Victory/defeat returns to field
 
 ### Test Steps
@@ -287,7 +287,7 @@
 ### Expected Behavior
 
 - Town ↔ Grove transition
-- Grove ↔ House transition  
+- Grove ↔ House transition
 - Music changes per area
 - Player spawns at correct position
 
@@ -350,13 +350,13 @@
 
 ---
 
-## 11. UI Systems (10 minutes)
+## 11. Ui Systems (10 minutes)
 
 ### Expected Behavior
 
 - Inventory display shows collected items
 - Dialogue window renders correctly
-- Combat UI is readable and functional
+- Combat Ui is readable and functional
 - No visual glitches
 
 ### Test Steps
@@ -365,7 +365,7 @@
 - [ ] Dialogue box renders with proper font
 - [ ] Character portraits appear in dialogues
 - [ ] Dialogue typing sound effects play
-- [ ] Combat UI turn bar shows correctly
+- [ ] Combat Ui turn bar shows correctly
 - [ ] No text overflow or clipping
 
 **Notes**:
@@ -431,8 +431,8 @@ Forest: ___ FPS
 
 ### Test Duration
 
-Start Time: ________  
-End Time: ________  
+Start Time: ________
+End Time: ________
 Total Time: ________ minutes
 
 ### Results
@@ -463,9 +463,9 @@ Total Time: ________ minutes
 
 ### Refactoring Quality Score
 
-**Functionality**: ___/10 (Does it work?)  
-**Fidelity**:___/10 (Matches original?)  
-**Performance**: ___/10 (Runs well?)  
+**Functionality**: ___/10 (Does it work?)
+**Fidelity**:___/10 (Matches original?)
+**Performance**: ___/10 (Runs well?)
 **Polish**:___/10 (Feel/UX quality?)
 
 **Overall**: ___/40
@@ -476,7 +476,7 @@ Total Time: ________ minutes
 - [ ] Ready for further development
 - [ ] Requires fixes before proceeding
 
-**Tester Signature**: _______________  
+**Tester Signature**: _______________
 **Date**: _______________
 
 ---

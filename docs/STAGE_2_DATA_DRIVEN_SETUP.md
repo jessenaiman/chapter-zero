@@ -27,7 +27,7 @@ Stage 2 will follow the **three-layer separation of concerns** established in St
 | Gameplay | Linear narrative choices | Dungeon exploration + tactical choices |
 | Beat Structure | 8 sequential beats | Variable beats: interludes, chambers, finale |
 | Player Agency | Choice-driven | Movement + exploration + choice |
-| Display | Pure text/terminal | ASCII map + combat overlay + terminal UI |
+| Display | Pure text/terminal | ASCII map + combat overlay + terminal Ui |
 | Progression | Story-driven | Objective-driven (clear chambers, gain alignment) |
 
 ---
@@ -234,7 +234,7 @@ Unlike Stage 1 (8 predetermined beats), Stage 2's beat sequence can vary based o
 ### 2. Alignment Tracking is Silent
 Players don't see a numerical score; alignment influences banter and chamber behavior subtly.
 
-**Solution:** 
+**Solution:**
 - Record each choice via `GameState.RecordChoice(choiceId, alignmentChange)`
 - Accumulate alignment vector internally
 - Use vector in banter selection and finale determination

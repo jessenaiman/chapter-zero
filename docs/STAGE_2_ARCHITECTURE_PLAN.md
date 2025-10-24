@@ -20,7 +20,7 @@ Stage 2: Echo Chamber is a three-fold roguelike experience where three Dreamweav
 | **Flow** | Linear narrative beats | Three-fold chamber sequence |
 | **Progression** | Story questions → answers | Interlude choices → chamber exploration |
 | **Variation** | Different content per beat | Same dungeon, different Dreamweaver configs |
-| **Mechanics** | Terminal UI responses | Set piece exploration + alignment tracking |
+| **Mechanics** | Terminal Ui responses | Set piece exploration + alignment tracking |
 | **Data Loading** | One beat per scene transition | Multiple beat types (interludes + chambers) |
 
 ## Data Structure (stage_2.json)
@@ -298,8 +298,8 @@ Once complete, Stage 2 will have:
 - Three chambers with repositioned objects
 - Affinity tracking informs narrative consequence
 
-✅ **Shared UI infrastructure**
-- Stage 1 terminal UI can be reused/adapted
+✅ **Shared Ui infrastructure**
+- Stage 1 terminal Ui can be reused/adapted
 - Set piece rendering matches visual language
 - Same theming system (Light/Shadow/Ambition colors)
 
@@ -331,7 +331,7 @@ Once complete, Stage 2 will have:
 2. Integration test for manifest loading
 3. Integration test for beat sequence from manifest
 4. Integration test for affinity score updates
-5. Scene tests for actual UI rendering (may require Godot runtime)
+5. Scene tests for actual Ui rendering (may require Godot runtime)
 
 ---
 
@@ -405,7 +405,7 @@ source/stages/stage_2/beats/
 │   ├── Beat2ChamberExploration.cs (NEW - dungeon exploration, inherits BeatSceneBase)
 │   └── Beat3Finale.cs (NEW - dreamweaver claim, inherits BeatSceneBase)
 ├── interlude.tscn (REFACTOR - use template pattern like Stage 1)
-├── chamber.tscn (REFACTOR - dungeon crawler UI template)
+├── chamber.tscn (REFACTOR - dungeon crawler Ui template)
 └── finale.tscn (NEW - completion and dreamweaver reveal)
 ```
 
@@ -443,7 +443,7 @@ END → Stage 3
 - Add `TrackAffinityChange(dreamweaver, delta)` helper
 - Support branching to different next beats based on choices
 
-### 6. Terminal UI Differences
+### 6. Terminal Ui Differences
 
 **Stage 1 (Cinematic):**
 - Full-screen terminal window
@@ -451,7 +451,7 @@ END → Stage 3
 - Choice buttons displayed sequentially
 
 **Stage 2 (Dungeon Crawler):**
-- Split terminal UI:
+- Split terminal Ui:
   - Left side: ASCII dungeon map (5-7 lines)
   - Right side: Status/log output
 - Interactive elements: movement keys, action buttons
@@ -514,7 +514,7 @@ END → Stage 3
 ✅ Test pattern - Stage2MenuIntegrationTests following Stage1 model
 
 ### What We Adapt
-🔄 Terminal UI - Multi-pane layout instead of single text area
+🔄 Terminal Ui - Multi-pane layout instead of single text area
 🔄 Data structure - Chambers, enemies, objects instead of narrative beats
 🔄 Interaction model - Choice-based + dungeon exploration
 🔄 Affinity tracking - Implicit scoring vs. explicit dreamweaver alignment
@@ -570,7 +570,7 @@ Before considering Stage 2 complete:
 - Stage 1 Pattern: `/source/stages/stage_1/`
 - Existing Stage 2 Code: `/source/stages/stage_2/`
 - Infrastructure: `/source/scripts/infrastructure/`
-- Terminal UI: `/source/ui/terminal/`
+- Terminal Ui: `/source/ui/terminal/`
 - Tests: `/tests/stages/`
 
 ---
@@ -583,7 +583,7 @@ Before considering Stage 2 complete:
 4. **Implement Loaders**: ChamberDataLoader, AffinityTracker
 5. **Scene Templates**: Create interlude.tscn, chamber.tscn, finale.tscn
 6. **Wire Everything**: Connect beats via manifest, test transitions
-7. **Implement UI**: DungeonRenderer, multi-pane terminal layout
+7. **Implement Ui**: DungeonRenderer, multi-pane terminal layout
 8. **Test**: Create Stage2MenuIntegrationTests, verify complete flow
 
 ---
@@ -610,15 +610,15 @@ The 9-task TODO list in chat matches the "Implementation Checklist" section abov
 1. **Task 4**: Adapt EchoHub to use data-driven pattern
    - Currently still uses EchoChamberDirector pattern
    - Should be refactored to load Stage2NarrativeData and build beat sequence from manifest
-   
+
 2. **Task 7**: Implement EchoAffinityTracker integration
    - Beat renderers have TODO comments marked for this integration
    - Interlude option selection needs to update alignment scores
-   
+
 3. **Task 8**: Create Stage2MenuIntegrationTests
    - Will validate manifest loading and beat progression
    - Should test EchoAffinityTracker integration
-   
+
 4. **Task 6**: Implement set piece rendering system
    - Beat renderers currently display basic text; could enhance with ASCII art
    - Integrate with existing nethack renderers if available
@@ -630,4 +630,3 @@ Stage 2 now follows the same data-driven architecture as Stage 1:
 - **Manifest-driven** beat sequence via `stage_2_manifest.json`
 - **Infrastructure sharing** with BeatSceneBase and NarrativeDataLoader
 - **Three-fold Dreamweaver variation** driven by data (not hardcoded)
-

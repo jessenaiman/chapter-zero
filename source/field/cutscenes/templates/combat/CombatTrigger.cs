@@ -15,7 +15,7 @@ public partial class CombatTrigger : Trigger
 {
     /// <summary>
     /// Gets or sets the combat arena scene that will be used for this combat encounter.
-    /// This scene should contain the complete combat setup including UI, actors, and battlefield.
+    /// This scene should contain the complete combat setup including Ui, actors, and battlefield.
     /// </summary>
     [Export]
     required public PackedScene CombatArena { get; set; }

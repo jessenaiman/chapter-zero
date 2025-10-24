@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://source/ui/omega/OmegaUI.cs" id="1_omega_ui"]
+[ext_resource type="Script" path="res://source/ui/omega/OmegaUi.cs" id="1_omega_ui"]
 
-[node name="OmegaUITestFixture" type="Control"]
+[node name="OmegaUiTestFixture" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,5 +35,5 @@ color = Color(0, 1, 0, 0.1)
 [node name="TextDisplay" type="RichTextLabel" parent="ContentContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[center]OmegaUI Test Content[/center]"
+text = "[center]OmegaUi Test Content[/center]"
 fit_content = true

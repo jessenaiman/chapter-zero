@@ -1,7 +1,7 @@
 using Godot;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Omega;
+namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Interface for text renderer that manages text display and animations.

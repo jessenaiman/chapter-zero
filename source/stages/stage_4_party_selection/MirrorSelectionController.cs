@@ -9,7 +9,7 @@ using OmegaSpiral.Source.Narrative;
 namespace OmegaSpiral.Source.Stages.Stage4
 {
     /// <summary>
-    /// Controls the mirror selection UI for character choice in Echo Vault stage (Stage 4).
+    /// Controls the mirror selection Ui for character choice in Echo Vault stage (Stage 4).
     /// Displays available characters and handles selection input.
     /// </summary>
     [GlobalClass]
@@ -70,7 +70,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
         }
 
         /// <summary>
-        /// Initializes the selection UI with beat data.
+        /// Initializes the selection Ui with beat data.
         /// </summary>
         /// <param name="beatId">The current beat identifier.</param>
         /// <param name="availableChars">The array of available character data.</param>
@@ -186,8 +186,8 @@ namespace OmegaSpiral.Source.Stages.Stage4
 
         private void OnCharacterSelected(string characterId)
         {
-            // Update UI to show selection
-            GD.Print($"Character selected in UI: {characterId}");
+            // Update Ui to show selection
+            GD.Print($"Character selected in Ui: {characterId}");
             if (this.confirmButton != null)
             {
                 this.confirmButton.Disabled = false;
@@ -206,7 +206,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
         }
 
         /// <summary>
-        /// Clears the current selection UI.
+        /// Clears the current selection Ui.
         /// </summary>
         public void ClearSelection()
         {

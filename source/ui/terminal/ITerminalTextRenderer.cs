@@ -1,7 +1,7 @@
 using Godot;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.UI.Terminal;
+namespace OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Interface for rendering and animating text in the terminal.

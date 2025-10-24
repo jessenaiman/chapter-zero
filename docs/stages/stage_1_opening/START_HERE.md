@@ -157,7 +157,7 @@ public partial class DreamweaverScore : Node
 Copy structure from `IMPLEMENTATION_PLAN.md` Task 4.1.
 
 ### Task 3.2: ChoiceButton.cs (2 hours)
-**File**: `Source/Scripts/UI/ChoiceButton.cs`
+**File**: `Source/Scripts/Ui/ChoiceButton.cs`
 
 ```csharp
 [GlobalClass]
@@ -221,7 +221,7 @@ dotnet test
 
 ### Before Starting
 - [ ] Read this document (5 min)
-- [ ] Skim `QUICK_START.md` (5 min)
+- [ ] Skim `QUiCK_START.md` (5 min)
 - [ ] Review `crt_phosphor.gdshader` pattern (10 min)
 - [ ] Review `TerminalBase.cs` pattern (10 min)
 

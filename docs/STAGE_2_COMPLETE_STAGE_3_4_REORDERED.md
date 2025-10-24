@@ -56,14 +56,14 @@
 
 ### Stage 3: Liminal Township (Free-Roam Hub)
 - **Type**: Top-down JRPG (no TerminalBase)
-- **UI**: OmegaBase dialogs for NPC conversations
+- **Ui**: OmegaBase dialogs for NPC conversations
 - **Gameplay**: Free-roam with light gating
 - **Key Events**: NPCs hint at loops/other players, Dreamweaver avatars at POIs
 - **Output**: Chosen Dreamweaver + optional affinity nudges
 
 ### Stage 4: Echo Vault Party Build (Dungeon Crawler)
 - **Type**: Top-down dungeon crawler (no TerminalBase)
-- **UI**: OmegaBase menus for character selection & combat
+- **Ui**: OmegaBase menus for character selection & combat
 - **Gameplay**: 3 decision beats (pick character) + 3 combat beats (loseable until full party)
 - **Key Events**: Presentation tiers (B&W → color → glitch), Dreamweaver guidance
 - **Output**: Final party + affinity scores + claimed Dreamweaver
@@ -102,15 +102,15 @@ Both Stage 3 and Stage 4 are **gameplay-driven**, not **narrative-driven**:
 
 - **Stage 1**: Narrative-driven (text-based, choices shape story) → ✅ TerminalBase
 - **Stage 2**: Hybrid (exploration + dialogue + affinity) → ✅ Manifest/beat-based
-- **Stage 3**: Gameplay-driven (free-roam, NPC interactions) → ❌ No TerminalBase, OmegaBase UI
-- **Stage 4**: Gameplay-driven (combat, party building) → ❌ No TerminalBase, OmegaBase UI
+- **Stage 3**: Gameplay-driven (free-roam, NPC interactions) → ❌ No TerminalBase, OmegaBase Ui
+- **Stage 4**: Gameplay-driven (combat, party building) → ❌ No TerminalBase, OmegaBase Ui
 - **Stage 5**: Likely narrative-driven (final fracture) → Will determine when designing
 
-**OmegaBase UI is sufficient** for both Stage 3 and Stage 4 because:
+**OmegaBase Ui is sufficient** for both Stage 3 and Stage 4 because:
 - Both use OmegaBase DialogBox for character speech
 - Both use OmegaBase OptionButton for player choices
 - Neither needs TerminalBase's terminal rendering or cinematic sequencing
-- Both are primarily gameplay with UI overlays
+- Both are primarily gameplay with Ui overlays
 
 ---
 
@@ -131,13 +131,13 @@ Both Stage 3 and Stage 4 are **gameplay-driven**, not **narrative-driven**:
 
 ### Phase 2: Stage 3 (Liminal Township)
 1. Implement free-roam top-down controller
-2. Wire OmegaBase UI dialogs for NPCs
+2. Wire OmegaBase Ui dialogs for NPCs
 3. Create Dreamweaver avatar system
 4. Build NPC dialog trees
 5. Implement optional affinity nudges
 
 ### Phase 3: Stage 4 (Echo Vault Party Build)
-1. Create character selection UI (OmegaBase)
+1. Create character selection Ui (OmegaBase)
 2. Implement combat encounter system
 3. Wire presentation tier progression
 4. Create Echo4AffinityTracker (hidden ledger)
@@ -198,7 +198,7 @@ To avoid confusion during implementation:
 ✅ Stage 2 complete and verified (9/9 tasks done)
 ✅ Stage 3 & 4 reordered for better narrative flow
 ✅ Architecture documentation created
-✅ OmegaBase UI integration strategy defined
+✅ OmegaBase Ui integration strategy defined
 ✅ Data flow pipeline established
 ✅ No TerminalBase needed for gameplay-driven stages
 

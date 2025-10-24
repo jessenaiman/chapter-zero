@@ -1,5 +1,5 @@
 
-// <copyright file="UICombatMenus.cs" company="Ωmega Spiral">
+// <copyright file="UiCombatMenus.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -8,21 +8,21 @@ using System.Collections.ObjectModel;
 using Godot;
 using OmegaSpiral.Source.Combat.Actions;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Scripts.Combat.UI.ActionMenu;
-using OmegaSpiral.Source.Scripts.Combat.UI.BattlerEntry;
-using OmegaSpiral.Source.Scripts.Combat.UI.Cursors;
+using OmegaSpiral.Source.Scripts.Combat.Ui.ActionMenu;
+using OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
+using OmegaSpiral.Source.Scripts.Combat.Ui.Cursors;
 
-namespace OmegaSpiral.Source.Scripts.Combat.UI;
+namespace OmegaSpiral.Source.Scripts.Combat.Ui;
 /// <summary>
-/// Manages the combat UI menus, including action selection and targeting cursors for player battlers.
+/// Manages the combat Ui menus, including action selection and targeting cursors for player battlers.
 /// </summary>
 /// <remarks>
 /// This class is responsible for handling the player's interaction with combat menus, including action selection and target assignment.
 /// </remarks>
-public partial class UICombatMenus : Control
+public partial class UiCombatMenus : Control
 {
     /// <summary>
-    /// Handles the ActionFocused signal from UIActionMenu and updates the action description.
+    /// Handles the ActionFocused signal from UiActionMenu and updates the action description.
     /// </summary>
     /// <param name="action">The focused BattlerAction.</param>
     public void OnActionFocused(BattlerAction action)
@@ -50,7 +50,7 @@ public partial class UICombatMenus : Control
     private BattlerList? battlers;
 
     /// <summary>
-    /// The UI relays player input to combat systems, tracking which battler and action are currently selected to queue orders for player battlers. If the selected battler dies while setting up an action, menus close immediately.
+    /// The Ui relays player input to combat systems, tracking which battler and action are currently selected to queue orders for player battlers. If the selected battler dies while setting up an action, menus close immediately.
     /// </summary>
     private Battler? selectedBattler;
 
@@ -78,18 +78,18 @@ public partial class UICombatMenus : Control
     /// <summary>
     /// Reference to the active targeting cursor. Null if no cursor is active. Allows cursor targets to be updated in real-time as Battler states change.
     /// </summary>
-    private UIBattlerTargetingCursor? cursor;
+    private UiBattlerTargetingCursor? cursor;
 
-    private UIActionDescription? actionDescription;
+    private UiActionDescription? actionDescription;
     private Control? actionMenuAnchor;
-    private UIPlayerBattlerList? battlerList;
+    private UiPlayerBattlerList? battlerList;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.actionDescription = this.GetNode<UIActionDescription>("ActionDescription");
+        this.actionDescription = this.GetNode<UiActionDescription>("ActionDescription");
         this.actionMenuAnchor = this.GetNode<Control>("ActionMenuAnchor");
-        this.battlerList = this.GetNode<UIPlayerBattlerList>("PlayerBattlerList");
+        this.battlerList = this.GetNode<UiPlayerBattlerList>("PlayerBattlerList");
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public partial class UICombatMenus : Control
     {
         if (this.TargetCursorScene is not null && this.selectedAction is not null && this.SelectedBattler is not null && this.battlers is not null)
         {
-            this.cursor = this.TargetCursorScene.Instantiate() as UIBattlerTargetingCursor;
+            this.cursor = this.TargetCursorScene.Instantiate() as UiBattlerTargetingCursor;
             if (this.cursor is not null)
             {
                 this.ConfigureCursorTargets();
@@ -297,7 +297,7 @@ public partial class UICombatMenus : Control
             // Note: CombatEvents signals should be handled by the event system properly
             // This should be handled by the event subscription mechanism
 
-            // The player has properly queued an action. Return the UI to the state where the
+            // The player has properly queued an action. Return the Ui to the state where the
             // player will pick a player Battler.
             // This should be handled by the event subscription mechanism
         }

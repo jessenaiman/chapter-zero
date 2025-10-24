@@ -27,7 +27,7 @@ The retro dungeon crawler interlude where the player recruits echo party members
 - **Presentation Tiers**: Three art layers (wireframe → vector neon → faux 8x8) reflect the system “remembering” nostalgia eras as the player digs deeper.
 - **Echo Personalities**: Each rescued echo grants combat utility *and* narrative fragments hinting at the existence of parallel players.
 - **Dreamweaver Banter**: Light, Mischief, and Wrath debate which echoes to release, foreshadowing the fracture in Stage 5.
-- **Memory Cost Mechanic**: Rescuing echoes should visibly erode something (e.g., deduct lore entries, scramble UI) to reinforce stakes.
+- **Memory Cost Mechanic**: Rescuing echoes should visibly erode something (e.g., deduct lore entries, scramble Ui) to reinforce stakes.
 
 ---
 
