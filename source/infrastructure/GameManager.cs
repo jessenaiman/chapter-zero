@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace OmegaSpiral.Source.Infrastructure;
 
 /// <summary>
-/// Global game orchestrator. Manages stage progression and overall game flow.
+/// Global game orchestrator. Manages STAGE progression (Stage 1 → Stage 2 → Stage 3 → etc.).
+/// NOT responsible for scene transitions within a stage - use StageManager (formerly SceneManager) for that.
 /// This should be configured as an autoload singleton in project.godot.
 /// </summary>
 [GlobalClass]
@@ -16,12 +17,13 @@ public partial class GameManager : Node
 {
     /// <summary>
     /// Array of stage scenes to load in sequence. Assign these in the Godot editor.
+    /// Each stage should have a root node that inherits from <see cref="StageBase"/>.
     /// </summary>
     [Export]
     public PackedScene[] StageScenes { get; set; } = System.Array.Empty<PackedScene>();
 
     private int _CurrentStageIndex = -1;
-    private StageManager? _CurrentStage;
+    private StageBase? _CurrentStage;
 
     /// <summary>
     /// Gets the current stage index (0-based). Returns -1 if no stage is active.
@@ -82,11 +84,11 @@ public partial class GameManager : Node
         }
 
         GD.Print($"[GameManager] Loading stage {_CurrentStageIndex + 1}/{StageScenes.Length}...");
-        var stageInstance = stageScene.Instantiate<StageManager>();
+        var stageInstance = stageScene.Instantiate<StageBase>();
 
         if (stageInstance == null)
         {
-            GD.PrintErr($"[GameManager] Failed to instantiate stage at index {_CurrentStageIndex}. Scene must have a StageManager script.");
+            GD.PrintErr($"[GameManager] Failed to instantiate stage at index {_CurrentStageIndex}. Scene must have a StageBase script.");
             return;
         }
 
@@ -102,7 +104,7 @@ public partial class GameManager : Node
     }
 
     /// <summary>
-    /// Called when the current stage emits its <see cref="StageManager.StageComplete"/> signal.
+    /// Called when the current stage emits its <see cref="StageBase.StageComplete"/> signal.
     /// </summary>
     private async void OnStageComplete()
     {

@@ -102,11 +102,11 @@ namespace OmegaSpiral.Tests.Unit.Ui
         {
             var titleLabel = this._Runner!.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/TitleMargin/TitleLabel");
             AssertThat(titleLabel).IsNotNull();
-            AssertThat(titleLabel!.HorizontalAlignment).IsEqual((int)HorizontalAlignment.Center);
+            AssertThat((int)titleLabel!.HorizontalAlignment).IsEqual((int)HorizontalAlignment.Center);
 
             var descriptionLabel = this._Runner!.Scene().GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/DescriptionMargin/DescriptionLabel");
             AssertThat(descriptionLabel).IsNotNull();
-            AssertThat(descriptionLabel!.HorizontalAlignment).IsEqual((int)HorizontalAlignment.Center);
+            AssertThat((int)descriptionLabel!.HorizontalAlignment).IsEqual((int)HorizontalAlignment.Center);
         }
 
 

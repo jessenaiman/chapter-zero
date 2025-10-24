@@ -21,10 +21,11 @@ public interface ITerminalChoicePresenter
 
     /// <summary>
     /// Presents choices with custom display options.
+    /// See <see cref="TerminalChoiceOption"/> for choice structure.
     /// </summary>
     /// <param name="choiceOptions">The choice options with additional display properties.</param>
     /// <returns>A task that completes with the selected choice index.</returns>
-    Task<int> PresentChoicesAsync(IList<ChoiceOption> choiceOptions);
+    Task<int> PresentChoicesAsync(IList<TerminalChoiceOption> choiceOptions);
 
     /// <summary>
     /// Hides the choice presentation interface.
@@ -51,9 +52,9 @@ public interface ITerminalChoicePresenter
 }
 
 /// <summary>
-/// Represents a choice option with display properties.
+/// Represents a terminal-specific choice option with display properties.
 /// </summary>
-public class ChoiceOption
+public class TerminalChoiceOption
 {
     /// <summary>
     /// The text to display for this choice.

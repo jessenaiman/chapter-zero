@@ -20,9 +20,9 @@ boot_splash/image="uid://bs61h0k5maye5"
 
 [autoload]
 
+GameManager="*res://source/infrastructure/GameManager.cs"
 SceneManager="*res://source/scripts/SceneManager.cs"
 GameState="*res://source/common/GameState.cs"
-NarratorEngine="*res://source/narrative/NarratorEngine.cs"
 DreamweaverSystem="*res://source/dreamweavers/DreamweaverSystem.cs"
 FieldEvents="*res://source/field/FieldEvents.cs"
 FieldCamera="*res://source/field/FieldCamera.cs"
@@ -31,6 +31,39 @@ GamepieceRegistry="*res://source/field/gamepieces/GamepieceRegistry.cs"
 Player="*res://source/common/Player.cs"
 CombatEvents="*res://source/combat/CombatEvents.cs"
 AudioManager="*res://source/audio/AudioManager.cs"
+Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+
+[dialogic]
+
+directories/dch_directory={
+"enemy_ghost": "res://source/overworld/maps/town/enemy_ghost.dch",
+"fan_of_four": "res://source/overworld/maps/town/fan_of_four.dch",
+"ghost": "res://source/overworld/maps/forest/ghost.dch",
+"monk": "res://source/overworld/maps/town/monk.dch",
+"runner": "res://source/overworld/maps/town/runner.dch",
+"smith": "res://source/overworld/maps/town/smith.dch",
+"thief": "res://source/overworld/maps/town/thief.dch",
+"warrior": "res://source/overworld/maps/town/warrior.dch",
+"wizard": "res://source/overworld/maps/town/wizard.dch"
+}
+directories/dtl_directory={
+"encounter_before_combat": "res://source/overworld/maps/town/encounter_before_combat.dtl",
+"encounter_on_loss": "res://source/overworld/maps/town/encounter_on_loss.dtl",
+"encounter_on_victory": "res://source/overworld/maps/town/encounter_on_victory.dtl",
+"fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
+"ghost": "res://source/overworld/maps/forest/ghost.dtl",
+"monk": "res://source/overworld/maps/town/monk.dtl",
+"opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
+"runner": "res://source/overworld/maps/town/runner.dtl",
+"sign": "res://source/overworld/maps/town/sign.dtl",
+"smith": "res://source/overworld/maps/town/smith.dtl",
+"strange_tree": "res://source/overworld/maps/town/strange_tree.dtl",
+"thief": "res://source/overworld/maps/town/thief.dtl",
+"wand_pedestal": "res://source/overworld/maps/house/wand_pedestal.dtl",
+"wand_pedestal_occupied": "res://source/overworld/maps/house/wand_pedestal_occupied.dtl",
+"warrior": "res://source/overworld/maps/town/warrior.dtl",
+"wizard": "res://source/overworld/maps/town/wizard.dtl"
+}
 
 [display]
 
@@ -43,7 +76,7 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/fuku/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/type_writer_label/plugin.cfg", "res://addons/yaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/fuku/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/type_writer_label/plugin.cfg", "res://addons/yaml/plugin.cfg", "res://addons/dialogic/plugin.cfg")
 
 [gui]
 

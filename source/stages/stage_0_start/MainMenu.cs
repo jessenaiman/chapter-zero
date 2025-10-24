@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
-using OmegaSpiral.Source.Scripts.Infrastructure.StageManagement;
 using OmegaSpiral.Source.Ui.Menus;
 
 namespace OmegaSpiral.Source.Stages.Stage0Start
@@ -136,8 +135,10 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             }
 
             // Clear any placeholder children from the scene
+            // Use RemoveChild + QueueFree to immediately update child count
             foreach (var child in _StageButtonList.GetChildren())
             {
+                _StageButtonList.RemoveChild(child);
                 child.QueueFree();
             }
 
@@ -240,7 +241,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
         /// <summary>
         /// Handles stage selection from any stage button.
-        /// Transitions to the selected stage via the stage manager.
+        /// Transitions to the selected stage using the scene path from the manifest.
         /// </summary>
         /// <param name="stageId">The numeric stage ID to load.</param>
         private void OnStageSelected(int stageId)
@@ -252,29 +253,25 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
                 return;
             }
 
-            var stageManager = StageManagerRegistry.GetStageManager(stageId);
-            if (stageManager == null)
-            {
-                GD.PrintErr($"[MainMenu] No stage manager registered for Stage {stageId}.");
-                return;
-            }
-
-            string entryScenePath = stageManager.ResolveEntryScenePath();
+            string entryScenePath = stage.Path;
             GD.Print($"[MainMenu] Starting {stage.DisplayName} - Entry Scene: {entryScenePath}");
 
-            if (_SceneManager != null)
-            {
-                stageManager.TransitionToStage(_SceneManager);
-                return;
-            }
-
-            GD.PrintErr("[MainMenu] SceneManager not found! Using fallback scene change.");
+            // Validate scene exists
             if (!ResourceLoader.Exists(entryScenePath))
             {
                 GD.PrintErr($"[MainMenu] Entry scene does not exist: {entryScenePath}");
                 return;
             }
 
+            // Use SceneManager for scene transitions if available
+            if (_SceneManager != null)
+            {
+                _SceneManager.TransitionToScene(entryScenePath, showLoadingScreen: false);
+                return;
+            }
+
+            // Fallback to direct scene change
+            GD.PrintErr("[MainMenu] SceneManager not found! Using fallback scene change.");
             var nextScene = GD.Load<PackedScene>(entryScenePath);
             if (nextScene != null)
             {

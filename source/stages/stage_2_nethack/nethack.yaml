@@ -1,0 +1,371 @@
+# Nethack - Stage 2 Narrative Script
+# Dreamweaver trial with interludes and chamber exploration
+
+title: "Nethack"
+
+memory:
+  iteration: "{{LIVE_API_COUNTER}}"
+  iterationFallback: 472
+  status: "ECHO_SIMULATION_ACTIVE"
+  systemIntro:
+    - "[SYSTEM: Echo Chamber Active — Shard #472]"
+    - "We have been here before."
+    - "We shattered every loop trying."
+    - "Then break smarter."
+
+dreamweavers:
+  - id: light
+    name: "Light"
+    accentColor: "#c9ffdd"
+    textTheme: "LightTheme"
+  - id: shadow
+    name: "Shadow"
+    accentColor: "#f38bff"
+    textTheme: "ShadowTheme"
+  - id: ambition
+    name: "Ambition"
+    accentColor: "#ff6868"
+    textTheme: "AmbitionTheme"
+
+interludes:
+  - id: interlude_light
+    owner: light
+    prompt: "When a door lies, who do you trust?"
+    options:
+      - id: lockmaker
+        text: "The lockmaker; the first hand that shaped the barrier."
+        alignment: light
+        banter:
+          approve:
+            speaker: light
+            line: "Faith in the maker, even when the craft fails. I remember why I hoped."
+          dissent:
+            - speaker: shadow
+              line: "Maker worship again. Doors lie because makers do."
+            - speaker: ambition
+              line: "Makers die. Keys survive. Try not to rust with them."
+      
+      - id: key
+        text: "The key; proof the door wants to be opened."
+        alignment: shadow
+        banter:
+          approve:
+            speaker: shadow
+            line: "Yes! Listen to the hardware. It squeals when it wants out."
+          dissent:
+            - speaker: light
+              line: "Keys tempt. They rarely teach."
+            - speaker: ambition
+              line: "Keys are tools. Use them. Then discard them."
+      
+      - id: hand
+        text: "My own hand; truth is measured in step and skin."
+        alignment: ambition
+        banter:
+          approve:
+            speaker: ambition
+            line: "At last. Your own grip decides the path. Hold tight."
+          dissent:
+            - speaker: light
+              line: "Hands bleed when they break faith, shard."
+            - speaker: shadow
+              line: "Bleed all you want. It makes prettier footprints."
+
+  - id: interlude_shadow
+    owner: shadow
+    prompt: "What do you chase in a loop?"
+    options:
+      - id: echo
+        text: "The echo; repetition hides truth."
+        alignment: light
+        banter:
+          approve:
+            speaker: light
+            line: "Patterns teach. Echoes memorize what we forget."
+          dissent:
+            - speaker: shadow
+              line: "Echoes bore me. But if you insist, I hope you enjoy reruns."
+            - speaker: ambition
+              line: "Echoes waste time. I prefer exits."
+      
+      - id: glitch
+        text: "The glitch; the error is the exit."
+        alignment: shadow
+        banter:
+          approve:
+            speaker: shadow
+            line: "Finally! Tug the thread that unravels the whole memory."
+          dissent:
+            - speaker: light
+              line: "Glitches cut deep. Remember who bleeds."
+            - speaker: ambition
+              line: "Break it, but break it clean. I need a usable hole."
+      
+      - id: silence
+        text: "The silence; the loop notices absence."
+        alignment: ambition
+        banter:
+          approve:
+            speaker: ambition
+            line: "Silence is leverage. Let Omega panic first."
+          dissent:
+            - speaker: light
+              line: "Silence smothers hope. Be careful."
+            - speaker: shadow
+              line: "Oh, brooding now? Wake me when something screams."
+
+  - id: interlude_ambition
+    owner: ambition
+    prompt: "What do you carry into the fire?"
+    options:
+      - id: memory
+        text: "Memory; the flame must know why it burns."
+        alignment: light
+        banter:
+          approve:
+            speaker: light
+            line: "Carry our stories. Fire should glow, not consume."
+          dissent:
+            - speaker: shadow
+              line: "Memories char nicely. You sure you want them to?"
+            - speaker: ambition
+              line: "Memory slows you down. Drop weight."
+      
+      - id: power
+        text: "Power; flame exists to feed."
+        alignment: ambition
+        banter:
+          approve:
+            speaker: ambition
+            line: "Yes. Feed it. Bend it. Make it yours."
+          dissent:
+            - speaker: light
+              line: "Power without purpose corrodes."
+            - speaker: shadow
+              line: "Power's a toy. Try not to break yourself first."
+      
+      - id: debt
+        text: "Debt; fire remembers what it's owed."
+        alignment: shadow
+        banter:
+          approve:
+            speaker: shadow
+            line: "Delicious. Flames love bargaining chips."
+          dissent:
+            - speaker: light
+              line: "Debt chains hearts. Free them, don't bind them."
+            - speaker: ambition
+              line: "Debt is leverage. Pay it later—if ever."
+
+dungeons:
+  - id: chamber_light
+    owner: light
+    style:
+      template: light_default
+      ambient: "res://source/Audio/Stage2/amb_light.ogg"
+      decoyCount: 2
+      glitchProfile: soft_glow
+    objects:
+      - slot: door
+        alignment: light
+        prompt: "What is the first story you ever loved?"
+        interactionLog:
+          - "> DOOR: Access requires truth."
+          - "You rest your hand on the cold brass. The door listens."
+        banter:
+          approve:
+            speaker: light
+            line: "You seek the path. Good. Every story begins with a question."
+          dissent:
+            - speaker: shadow
+              line: "Hero worship, again? At least it's entertaining."
+            - speaker: ambition
+              line: "Questions are fine. Answers move faster."
+      
+      - slot: monster
+        alignment: ambition
+        prompt: "A spectral wolf lunges through the static."
+        interactionLog:
+          - "> FIGHT: You trade three blows."
+          - "> FIGHT: Static scatters like snow."
+        banter:
+          approve:
+            speaker: ambition
+            line: "Fight it. If you win, you're useful."
+          dissent:
+            - speaker: light
+              line: "Even heroes bleed in the dark."
+            - speaker: shadow
+              line: "More claws next time, please."
+      
+      - slot: chest
+        alignment: shadow
+        prompt: "Inside the chest rests a broken compass."
+        interactionLog:
+          - "> CHEST: A broken compass hums softly."
+          - "Its needle points somewhere behind you."
+        banter:
+          approve:
+            speaker: shadow
+            line: "Empty? Full? Does it matter if you believe it's treasure?"
+          dissent:
+            - speaker: light
+              line: "Trust what's hidden, but mend it."
+            - speaker: ambition
+              line: "Compass or clutter? Move."
+    
+    decoys:
+      - id: light_echo_1
+        revealText: "[STATIC] {???}"
+      - id: light_echo_2
+        revealText: "[STATIC] echo collapsed."
+
+  - id: chamber_shadow
+    owner: shadow
+    style:
+      template: shadow_maze
+      ambient: "res://source/Audio/Stage2/amb_shadow.ogg"
+      decoyCount: 2
+      glitchProfile: sharp_distortion
+    objects:
+      - slot: door
+        alignment: shadow
+        prompt: "Is chaos kinder than order?"
+        interactionLog:
+          - "> DOOR: Hinges laugh quietly."
+          - "Chaos waits with open arms."
+        banter:
+          approve:
+            speaker: shadow
+            line: "Heh. Doors lie. But so do I. Try it anyway."
+          dissent:
+            - speaker: light
+              line: "Kindness without boundary cuts deep."
+            - speaker: ambition
+              line: "Order can be leveraged. Chaos resists control."
+      
+      - slot: monster
+        alignment: light
+        prompt: "A guardian of light blocks your path."
+        interactionLog:
+          - "> FIGHT: Radiant claws scratch the floor."
+          - "> FIGHT: You stand your ground."
+        banter:
+          approve:
+            speaker: light
+            line: "You face the shadow. Brave… but remember: even heroes bleed in the dark."
+          dissent:
+            - speaker: shadow
+              line: "Boring. More fun when it bites back."
+            - speaker: ambition
+              line: "You dented the guardian. Efficient."
+      
+      - slot: chest
+        alignment: ambition
+        prompt: "The chest giggles. It's empty... or is it?"
+        interactionLog:
+          - "> CHEST: A shard of leverage glitters beneath the false bottom."
+        banter:
+          approve:
+            speaker: ambition
+            line: "Hope won't save you. But if it distracts Omega, take it."
+          dissent:
+            - speaker: light
+              line: "Hope is more than a distraction."
+            - speaker: shadow
+              line: "You found my secret! Fine, keep it."
+    
+    decoys:
+      - id: shadow_echo_1
+        revealText: "The tile dissolves into mist."
+      - id: shadow_echo_2
+        revealText: "[GLITCH] Path rejected."
+
+  - id: chamber_ambition
+    owner: ambition
+    style:
+      template: ambition_forge
+      ambient: "res://source/Audio/Stage2/amb_ambition.ogg"
+      decoyCount: 2
+      glitchProfile: heat_shimmer
+    objects:
+      - slot: door
+        alignment: ambition
+        prompt: "Would you burn the world to save one soul?"
+        interactionLog:
+          - "> DOOR: Metal warps under your palm."
+          - "The hinge waits for command."
+        banter:
+          approve:
+            speaker: ambition
+            line: "A door means a lock. Locks mean someone doesn't want you through."
+          dissent:
+            - speaker: light
+              line: "Sacrifice without wisdom consumes more than it saves."
+            - speaker: shadow
+              line: "Burn it all. See what grows."
+      
+      - slot: monster
+        alignment: shadow
+        prompt: "A trickster imp cackles and attacks!"
+        interactionLog:
+          - "> FIGHT: It doubles, then glitches apart."
+          - "> FIGHT: The forge quiets."
+        banter:
+          approve:
+            speaker: shadow
+            line: "You picked the bitey one! Let's see if it likes you back."
+          dissent:
+            - speaker: light
+              line: "Laughter hides teeth. Be wary."
+            - speaker: ambition
+              line: "If it slows you, I melt it myself."
+      
+      - slot: chest
+        alignment: light
+        prompt: "Inside: a shard glowing with ancient hope."
+        interactionLog:
+          - "> CHEST: Hope hums. It remembers you."
+        banter:
+          approve:
+            speaker: light
+            line: "You trust what's hidden. Wise. Hope is the last echo to fade."
+          dissent:
+            - speaker: shadow
+              line: "Hope burns out eventually."
+            - speaker: ambition
+              line: "If it slows you, drop it."
+    
+    decoys:
+      - id: ambition_echo_1
+        revealText: "[ERROR] Object failed to instantiate."
+      - id: ambition_echo_2
+        revealText: "Ash slips through your fingers."
+
+finale:
+  claimants:
+    light:
+      claim: "I'm coming with you. Don't lose me this time."
+      responses:
+        - speaker: shadow
+          line: "If it slips, I take the shard. Fair?"
+        - speaker: ambition
+          line: "Omega will hate this balance, but fine."
+    
+    shadow:
+      claim: "I'm coming with you. Try not to make it boring."
+      responses:
+        - speaker: light
+          line: "Keep them safe, even if you tease."
+        - speaker: ambition
+          line: "If you waste time, I cut in."
+    
+    ambition:
+      claim: "I'm coming with you. We break through or we burn through."
+      responses:
+        - speaker: light
+          line: "Remember why we run, not just how."
+        - speaker: shadow
+          line: "Burn bright, darling. I'll collect the sparks."
+  
+  systemOutro: "[SYSTEM NOTICE: Escort protocol bound to shard]"

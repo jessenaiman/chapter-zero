@@ -4,6 +4,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Scripts.Field.Ui;
 /// <summary>
@@ -11,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Ui;
 /// Shows and hides automatically when timelines start and end.
 /// </summary>
 [GlobalClass]
-public partial class DialogueWindow : Control
+public partial class DialogueWindow : OmegaUi
 {
     /// <inheritdoc/>
     public override void _Ready()

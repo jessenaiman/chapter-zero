@@ -241,10 +241,10 @@ public partial class TerminalBase : BaseNarrativeScene
         await AppendTextAsync(prompt).ConfigureAwait(false);
 
         // Present choices
-        var choices = new System.Collections.Generic.List<ChoiceOption>();
+        var choices = new System.Collections.Generic.List<TerminalChoiceOption>();
         foreach (var text in optionTexts)
         {
-            choices.Add(new ChoiceOption { Text = text });
+            choices.Add(new TerminalChoiceOption { Text = text });
         }
 
         int selectedIndex = await _choicePresenter.PresentChoicesAsync(choices).ConfigureAwait(false);

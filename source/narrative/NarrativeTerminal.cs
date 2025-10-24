@@ -8,19 +8,19 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Narrative;
 using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Scripts
 {
     /// <summary>
-    /// Presents the opening narrative terminal with a flexible prompt/choice system that content teams can extend via JSON.
-    /// FUTURE: Will integrate with DreamweaverSystem for LLM-powered dynamic narrative (see ADR-0003).
-    /// Integration points marked with // FUTURE: LLM_INTEGRATION comments.
+    /// Presents a narrative terminal with using the OmegaUi style and inheriting it's design
+    /// THIS INHERITS FROM OmegaUi FOR CONSISTENCY WITH OTHER UI SCREENS. DO NOT FUCKING REMOVE THIS AND MAKE IT A GENERAL ANYTHING
     /// </summary>
-    public partial class NarrativeTerminal : Control
+    public partial class NarrativeTerminal : OmegaUi
     {
         /// <summary>
         /// Optional Dialogic integration for enhanced dialogue presentation.
-        /// When enabled, uses Dialogic's timeline system for dialogue Ui while
+        /// When enabled, uses Dialogic's timeline system for dialogue UI while
         /// maintaining C# control over narrative logic and state.
         /// </summary>
         private DialogicIntegration? dialogicIntegration;
@@ -425,6 +425,12 @@ namespace OmegaSpiral.Source.Scripts
             this.PresentStoryBlock();
         }
 
+        /// <summary>
+        /// Resolves a player input to a specific choice option.
+        /// See <see cref="ChoiceOption"/> for available choice structure.
+        /// </summary>
+        /// <param name="input">The player input string.</param>
+        /// <returns>The resolved choice option, or <see langword="null"/> if no match found.</returns>
         private ChoiceOption? ResolveChoiceOption(string input)
         {
             return NarrativeInputResolver.ResolveChoiceOption(input, this.activeChoices);

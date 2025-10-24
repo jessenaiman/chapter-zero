@@ -183,10 +183,10 @@ public partial class TerminalUi : OmegaUi
         await AppendTextAsync(prompt);
 
         // Present choices using terminal-specific choice presenter
-        var choices = new List<ChoiceOption>();
+        var choices = new List<TerminalChoiceOption>();
         foreach (var text in optionTexts)
         {
-            choices.Add(new ChoiceOption { Text = text });
+            choices.Add(new TerminalChoiceOption { Text = text });
         }
 
         int selectedIndex = await _ChoicePresenter.PresentChoicesAsync(choices);

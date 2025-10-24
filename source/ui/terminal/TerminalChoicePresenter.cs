@@ -56,7 +56,8 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     }
 
     /// <inheritdoc/>
-    public async Task<int> PresentChoicesAsync(IList<ChoiceOption> choiceOptions)
+    /// <remarks>See <see cref="TerminalChoiceOption"/> for choice option structure.</remarks>
+    public async Task<int> PresentChoicesAsync(IList<TerminalChoiceOption> choiceOptions)
     {
         if (choiceOptions == null)
             throw new ArgumentNullException(nameof(choiceOptions));
@@ -144,7 +145,7 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <param name="option">The choice option configuration.</param>
     /// <param name="index">The choice index.</param>
     /// <returns>The created button.</returns>
-    private Button CreateChoiceButton(ChoiceOption option, int index)
+    private Button CreateChoiceButton(TerminalChoiceOption option, int index)
     {
         var button = new Button();
         button.Text = option.Text;

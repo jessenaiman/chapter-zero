@@ -3,12 +3,13 @@ using System;
 
 /// <summary>
 /// Scene manager for Omega Spiral game.
-/// Handles scene transitions with validation and state management.
+/// Handles scene transitions WITH validation and state management.
+/// Tracks player state (PlayerName, DreamweaverThread) across scene transitions.
 /// </summary>
 [GlobalClass]
 public partial class SceneManager : Node
 {
-    private int currentSceneIndex = 1;
+    private int _CurrentSceneIndex = 1;
 
     /// <summary>
     /// Sets the current player name for the session.
@@ -45,8 +46,8 @@ public partial class SceneManager : Node
     /// </summary>
     public int CurrentSceneIndex
     {
-        get => currentSceneIndex;
-        private set => currentSceneIndex = value;
+        get => _CurrentSceneIndex;
+        private set => _CurrentSceneIndex = value;
     }
 
     /// <summary>
