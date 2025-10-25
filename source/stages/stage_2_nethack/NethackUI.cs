@@ -3,18 +3,18 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Ui.Terminal;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Stages.Nethack;
 
 /// <summary>
-/// Nethack Ui that extends TerminalUi and adds game-driven dungeon mechanics.
+/// Nethack Ui that extends OmegaUi and adds game-driven dungeon mechanics.
 /// Handles turn-based combat, inventory, exploration, and player agency.
 /// Base class for Stage 2 (Nethack gameplay experience).
 /// Differs from NarrativeUi - this supports non-linear player-driven gameplay, not sequential story beats.
 /// </summary>
 [GlobalClass]
-public partial class NethackUi : TerminalUi
+public partial class NethackUi : OmegaUi
 {
     /// <summary>
     /// Game state for Nethack dungeon exploration.

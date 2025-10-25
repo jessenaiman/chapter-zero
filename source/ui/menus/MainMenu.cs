@@ -3,6 +3,7 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Source.Ui.Components;
 
 namespace OmegaSpiral.Source.Stages.Stage0Start
 {
@@ -16,23 +17,29 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
     {
         // --- EXPORTED DEPENDENCIES (Set in the Godot Inspector) ---
 
-        /// <summary>
-        /// Path to the stage manifest JSON file.
-        /// </summary>
-        [ExportGroup("Data Sources")]
-        [Export(PropertyHint.File, "*.json")]
-        public string StageManifestPath { get; set; } = "res://source/stages/stage_0_start/main_menu_manifest.json";
+    /// <summary>
+    /// Path to the stage manifest JSON file.
+    /// </summary>
+    [ExportGroup("Data Sources")]
+    [Export(PropertyHint.File, "*.json")]
+    public string StageManifestPath { get; set; } = "res://source/ui/menus/main_menu_manifest.json";
 
-        // --- PRIVATE FIELDS ---
+    /// <summary>
+    /// Path to the StageButton scene template.
+    /// </summary>
+    [Export(PropertyHint.File, "*.tscn")]
+    public string StageButtonScenePath { get; set; } = "res://source/ui/components/stage_button.tscn";
 
-        private readonly ManifestLoader _ManifestLoader = new();
+    // --- PRIVATE FIELDS ---
+
+    private readonly ManifestLoader _ManifestLoader = new();
 
 #pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
-        private SceneManager? _SceneManager;
+    private SceneManager? _SceneManager;
 #pragma warning restore CA2213
 
-        // Button references created dynamically
-        private Button? _StartButton;
+    // Button references created dynamically
+    private Button? _StartButton;
         private Button? _OptionsButton;
         private Button? _QuitButton;
 
@@ -61,7 +68,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
         /// <summary>
         /// Loads the stage manifest and populates the dynamic list of stage buttons.
-        /// Uses MenuUi's CreateMenuButton() factory to automatically add to MenuButtonContainer.
+        /// Uses custom StageButton component with status indicators and OmegaUI styling.
         /// </summary>
         private void PopulateStageList()
         {
@@ -73,20 +80,35 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
                 return;
             }
 
-            // Create "Start Game" button for first stage
+            // Load StageButton scene template
+            var stageButtonScene = GD.Load<PackedScene>(StageButtonScenePath);
+            if (stageButtonScene == null)
+            {
+                GD.PrintErr($"[MainMenu] Failed to load StageButton scene: {StageButtonScenePath}");
+                return;
+            }
+
+            // Create "Launch" button for first stage with special styling
             var firstStage = stages.OrderBy(s => s.Id).FirstOrDefault();
             if (firstStage != null)
             {
-                _StartButton = CreateMenuButton("StartButton", $"Launch {firstStage.DisplayName}");
-                _StartButton.Pressed += () => OnStageSelected(firstStage.Id);
+                var launchButton = stageButtonScene.Instantiate<StageButton>();
+                launchButton.Name = "StartButton";
+                launchButton.Configure($"{firstStage.Id}", $"Launch {firstStage.DisplayName}", StageButton.ContentStatus.Ready);
+                launchButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
+                GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(launchButton);
+                _StartButton = launchButton;
             }
 
-            // Create stage selection buttons
+            // Create stage selection buttons (stages 2-6)
             int createdCount = 0;
-            foreach (var stage in stages.OrderBy(s => s.Id))
+            foreach (var stage in stages.OrderBy(s => s.Id).Skip(1))
             {
-                var stageButton = CreateMenuButton($"Stage{stage.Id}Button", $"Stage {stage.Id} · {stage.DisplayName}");
-                stageButton.Pressed += () => OnStageSelected(stage.Id);
+                var stageButton = stageButtonScene.Instantiate<StageButton>();
+                stageButton.Name = $"Stage{stage.Id}Button";
+                stageButton.Configure($"{stage.Id}", $"Stage {stage.Id} · {stage.DisplayName}", StageButton.ContentStatus.Ready);
+                stageButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
+                GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(stageButton);
                 createdCount++;
             }
 

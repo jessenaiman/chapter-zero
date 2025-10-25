@@ -54,13 +54,6 @@ func await_func(func_name: String, args := []) -> GdUnitFuncAssert:
 
 Here is an example of how to use await_func:
 
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Waits until the function `color_cycle()` returns black or fails after an timeout of 5s
-await runner.await_func("color_cycle").wait_until(5000).is_equal("black")
-```
-
 {% endtab %}
 {% tab scene-runner-await_func C# %}
 

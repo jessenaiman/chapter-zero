@@ -17,9 +17,9 @@ default_constants/margin_right = 64
 default_constants/separation = 24
 
 # Panel/Frame styling
-default_styles/panel = SubResource("FrameStyle")
+default_styles/panel = SubResource(1)
 
-[sub_resource type="StyleBoxFlat" id="FrameStyle"]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
 border_color = Color(0.933333, 0.278431, 0.458824, 0.85)
 border_width_left = 4

@@ -94,30 +94,6 @@ See [Synchronize Inputs Events]({{site.baseurl}}/advanced_testing/scene_runner/s
 
 The **set_mouse_position** function is used to set the mouse cursor to given position of the viewport.
 
-{% tabs scene-runner-set_mouse_position %}
-{% tab scene-runner-set_mouse_position GdScript %}
-
-It takes the following arguments:
-
-```gd
-## Sets the mouse position to the specified vector, provided in pixels and relative to an origin at the upper left corner of the currently focused Window Manager game window.
-## [member position] : The absolute position in pixels as Vector2
-func set_mouse_position(position: Vector2) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use set_mouse_position:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# sets the current mouse position to 100, 100
-runner.set_mouse_position(Vector2(100, 100))
-await runner.await_input_processed()
-```
-
-{% endtab %}
-{% tab scene-runner-set_mouse_position C# %}
-
 It takes the following arguments:
 
 ```cs
@@ -139,9 +115,6 @@ runner.SetMousePos(new Vector2(100, 100));
 await runner.AwaitInputProcessed();
 ```
 
-{% endtab %}
-{% endtabs %}
-
 We use **[await_input_processed()]({{site.baseurl}}/advanced_testing/scene_runner/sync_inputs/#synchronize-inputs-events)** to ensure that the simulation
 of the mouse input is complete before moving on to the next instruction.
 
@@ -149,25 +122,6 @@ of the mouse input is complete before moving on to the next instruction.
 
 The **get_mouse_position** function is used to get the mouse cursor position from the current viewport.
 
-{% tabs scene-runner-get_mouse_position %}
-{% tab scene-runner-get_mouse_position GdScript %}
-
-```gd
-## Returns the mouse's position in this Viewport using the coordinate system of this Viewport.
-func get_mouse_position() -> Vector2:
-```
-
-Here is an example of how to use get_mouse_position:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# gets the current mouse position
-var mouse_position := runner.get_mouse_position()
-```
-
-{% endtab %}
-{% tab scene-runner-get_mouse_position C# %}
 
 ```cs
 /// <summary>
@@ -186,39 +140,11 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 var mousePosition = runner.GetMousePosition();
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### simulate_mouse_move
 
 The **simulate_mouse_move** function is used to simulate the movement of the mouse cursor to a given position on the screen.
 
-{% tabs scene-runner-simulate_mouse_move %}
-{% tab scene-runner-simulate_mouse_move GdScript %}
-
-It takes the following arguments:
-
-```gd
-# position: representing the final position of the mouse cursor after the movement is completed
-func simulate_mouse_move(position: Vector2) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_move:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Set mouse position to a initial position
-runner.set_mouse_pos(Vector2(160, 20))
-await runner.await_input_processed()
-
-# Simulates a mouse move to final position 200, 40
-runner.simulate_mouse_move(Vector2(200, 40))
-await runner.await_input_processed()
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_move C# %}
 
 It takes the following arguments:
 
@@ -245,8 +171,6 @@ runner.SimulateMouseMove(new Vector2(200, 40))
 await runner.AwaitInputProcessed();
 ```
 
-{% endtab %}
-{% endtabs %}
 
 We use **[await_input_processed()]({{site.baseurl}}/advanced_testing/scene_runner/sync_inputs/#synchronize-inputs-events)** to ensure that the simulation
 of the mouse input is complete before moving on to the next instruction.
@@ -255,35 +179,6 @@ of the mouse input is complete before moving on to the next instruction.
 
 The **simulate_mouse_move_relative** function simulates a mouse move to a relative position within a specified time.
 
-{% tabs scene-runner-simulate_mouse_move_relative %}
-{% tab scene-runner-simulate_mouse_move_relative GdScript %}
-
-It takes the following arguments:
-
-```gd
-## Simulates a mouse move to the relative coordinates (offset).
-## [member relative] : The relative position, indicating the mouse position offset.
-## [member time] : The time to move the mouse by the relative position in seconds (default is 1 second).
-## [member trans_type] : Sets the type of transition used (default is TRANS_LINEAR).
-func simulate_mouse_move_relative(relative: Vector2, time: float = 1.0, trans_type: Tween.TransitionType = Tween.TRANS_LINEAR) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_move_relative:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Set mouse position to an initial position
-runner.set_mouse_pos(Vector2(10, 20))
-await runner.await_input_processed()
-
-# Simulate a mouse move from the current position to the relative position within 1 second
-# the final position will be (410, 220) when is completed
-await runner.simulate_mouse_move_relative(Vector2(400, 200), 1)
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_move_relative C# %}
 
 ```cs
 /// <summary>
@@ -310,42 +205,10 @@ await runner.AwaitInputProcessed();
 await runner.SimulateMouseMoveRelative(new Vector2(400, 200));
 ```
 
-{% endtab %}
-{% endtabs %}
-
 ### simulate_mouse_move_absolute
 
 The **simulate_mouse_move_absolute** function simulates a mouse move to an absolute position within a specified time.
 
-{% tabs scene-runner-simulate_mouse_move_absolute %}
-{% tab scene-runner-simulate_mouse_move_absolute GdScript %}
-
-It takes the following arguments:
-
-```gd
-## Simulates a mouse move to the absolute coordinates.
-## [member position] : The final position of the mouse.
-## [member time] : The time to move the mouse to the final position in seconds (default is 1 second).
-## [member trans_type] : Sets the type of transition used (default is TRANS_LINEAR).
-func simulate_mouse_move_absolute(position: Vector2, time: float = 1.0, trans_type: Tween.TransitionType = Tween.TRANS_LINEAR) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_move_absolute:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Set mouse position to an initial position
-runner.set_mouse_pos(Vector2(10, 20))
-await runner.await_input_processed()
-
-# Simulate a mouse move from the current position to the absolute position within 1 second
-# the final position will be (400, 200) when is completed
-await runner.simulate_mouse_move_absolute(Vector2(400, 200), 1)
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_move_absolute C# %}
 
 ```cs
 /// <summary>
@@ -372,36 +235,11 @@ await runner.AwaitInputProcessed();
 await runner.SimulateMouseMoveAbsolute(new Vector2(400, 200));
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### simulate_mouse_button_pressed
 
 The **simulate_mouse_button_pressed** function is used to simulate that a mouse button is pressed.
 
-{% tabs scene-runner-simulate_mouse_button_pressed %}
-{% tab scene-runner-simulate_mouse_button_pressed GdScript %}
-
-It takes the following arguments:
-
-```gd
-# button_index: The mouse button identifier, one of the ButtonList button or button wheel constants.
-# double_click: set to true to simulate a double-click
-func simulate_mouse_button_pressed(button_index: MouseButton, double_click := false) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_button_pressed:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Simulates pressing the left mouse button
-runner.simulate_mouse_button_pressed(BUTTON_LEFT)
-await runner.await_input_processed()
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_button_pressed C# %}
 
 It takes the following arguments:
 
@@ -424,8 +262,6 @@ runner.SimulateMouseButtonPressed(ButtonList.Left);
 await runner.AwaitInputProcessed();
 ```
 
-{% endtab %}
-{% endtabs %}
 
 We use **[await_input_processed()]({{site.baseurl}}/advanced_testing/scene_runner/sync_inputs/#synchronize-inputs-events)** to ensure that the simulation
 of the mouse input is complete before moving on to the next instruction.
@@ -434,29 +270,6 @@ of the mouse input is complete before moving on to the next instruction.
 
 The **simulate_mouse_button_press** function is used to simulate holding down a mouse button.
 
-{% tabs scene-runner-simulate_mouse_button_press %}
-{% tab scene-runner-simulate_mouse_button_press GdScript %}
-
-It takes the following arguments:
-
-```gd
-# buttonIndex: The mouse button identifier, one of the ButtonList button or button wheel constants.
-# button_index: Set to true to simulate a double-click
-func simulate_mouse_button_press(button_index: int, double_click := false) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_button_press:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# simulates mouse left button is press
-runner.simulate_mouse_button_press(BUTTON_LEFT)
-await runner.await_input_processed()
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_button_press C# %}
 
 It takes the following arguments:
 
@@ -480,8 +293,6 @@ runner.SimulateMouseButtonPress(ButtonList.Left);
 await runner.AwaitInputProcessed();
 ```
 
-{% endtab %}
-{% endtabs %}
 
 We use **[await_input_processed()]({{site.baseurl}}/advanced_testing/scene_runner/sync_inputs/#synchronize-inputs-events)** to ensure that the simulation
 of the mouse input is complete before moving on to the next instruction.
@@ -490,28 +301,6 @@ of the mouse input is complete before moving on to the next instruction.
 
 The **simulate_mouse_button_release** function is used to simulate a mouse button is released.
 
-{% tabs scene-runner-simulate_mouse_button_release %}
-{% tab scene-runner-simulate_mouse_button_release GdScript %}
-
-It takes the following arguments:
-
-```gd
-# button_index: The mouse button identifier, one of the ButtonList button or button wheel constants.
-func simulate_mouse_button_release(button_index: int) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use simulate_mouse_button_release:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Simulates a mouse left button is released
-runner.simulate_mouse_button_release(BUTTON_LEFT)
-await runner.await_input_processed()
-```
-
-{% endtab %}
-{% tab scene-runner-simulate_mouse_button_release C# %}
 
 It takes the following arguments:
 
@@ -533,9 +322,6 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 runner.SimulateMouseButtonRelease(ButtonList.Left);
 await runner.AwaitInputProcessed();
 ```
-
-{% endtab %}
-{% endtabs %}
 
 We use **[await_input_processed()]({{site.baseurl}}/advanced_testing/scene_runner/sync_inputs/#synchronize-inputs-events)** to ensure that the simulation
 of the mouse input is complete before moving on to the next instruction.

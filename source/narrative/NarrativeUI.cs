@@ -5,17 +5,17 @@
 using System;
 using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Ui.Terminal;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Narrative;
 
 /// <summary>
-/// Narrative Ui that extends TerminalUi and adds sequential story progression.
+/// Narrative Ui that extends OmegaUi and adds sequential story progression.
 /// Handles data-driven narrative beats, Dreamweaver persona switching, and linear story flow.
 /// Base class for all stages that play as sequential narratives (e.g., Stage 1 Ghost Terminal).
 /// </summary>
 [GlobalClass]
-public partial class NarrativeUi : TerminalUi
+public partial class NarrativeUi : OmegaUi
 {
     /// <summary>
     /// Represents a narrative beat with associated visual and audio effects.

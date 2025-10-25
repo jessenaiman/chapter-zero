@@ -13,8 +13,6 @@ Parameterized tests can help keep your test suite organized by allowing you to d
 test function. You can define the required test parameters on the TestCase and use them in your test function to generate various test cases.
 This is especially useful when you have similar test setups with different inputs.
 
-{% tabs faq-test-case-name %}
-{% tab faq-test-case-name GdScript %}
 To define a TestCase with parameters, you need to add input parameters and a test data set with the name **test_parameters**.
 This TestCase will be executed multiple times with the test data provided by the **test_parameters** parameter.<br>
 
@@ -43,8 +41,6 @@ public void TestCasesWithCustomTestName(int a, double b, int c, int expect)
    AssertThat(a + b + c).IsEqual(expect);
 }
 ```
-{% endtab %}
-{% endtabs %}
 
 💡 **Note:** The TestCase dataset must match the required input parameters and types. If the parameters do not match, a corresponding error is reported.
 

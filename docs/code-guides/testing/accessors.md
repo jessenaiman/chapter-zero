@@ -18,19 +18,6 @@ making it easier to find and fix bugs and improve the overall quality of your ga
 
 ## Function Overview
 
-{% tabs scene-runner-accessors %}
-{% tab scene-runner-accessors GdScript %}
-
-|Function|Description|
-|---|---|
-|[get_property]({{site.baseurl}}/advanced_testing/sceneRunner/#get_property) | Return the current value of a property. |
-|[set_property]({{site.baseurl}}/advanced_testing/sceneRunner/#set_property) | Sets the value of the property with the specified name. |
-|[find_child]({{site.baseurl}}/advanced_testing/sceneRunner/#find_child) | Searches for the specified node with the name in the current scene. |
-|[invoke]({{site.baseurl}}/advanced_testing/sceneRunner/#invoke) | Executes the function specified by name in the scene and returns the result. |
-
-{% endtab %}
-{% tab scene-runner-accessors C# %}
-
 |Function|Description|
 |---|---|
 |[GetProperty]({{site.baseurl}}/advanced_testing/sceneRunner/#get_property) | Return the current value of a property. |
@@ -38,35 +25,9 @@ making it easier to find and fix bugs and improve the overall quality of your ga
 |[FindChild]({{site.baseurl}}/advanced_testing/sceneRunner/#find_child) | Searches for the specified node with the name in the current scene. |
 |[Invoke]({{site.baseurl}}/advanced_testing/sceneRunner/#invoke) | Executes the function specified by name in the scene and returns the result. |
 
-{% endtab %}
-{% endtabs %}
-
 ### get_property
 
 The **get_property** function returns the current value of the property from the current scene.
-
-{% tabs scene-runner-get_property %}
-{% tab scene-runner-get_property GdScript %}
-
-It takes the following arguments:
-
-```gd
-# name: the name of the property
-# returns the actual value of the property
-func get_property(name: String) -> Variant:
-```
-
-Here is an example of how to use get_property:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Returns the current property `_door_color` from the scene
-var color: ColorRect = runner.get_property("_door_color")
-```
-
-{% endtab %}
-{% tab scene-runner-get_property C# %}
 
 It takes the following arguments:
 
@@ -90,36 +51,9 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 ColorRect color = runner.GetProperty("_door_color");
 ```
 
-{% endtab %}
-{% endtabs %}
-
 ### set_property
 
 The **set_property** function sets the value of a property with the specified name.
-
-{% tabs scene-runner-set_property %}
-{% tab scene-runner-set_property GdScript %}
-
-It takes the following arguments:
-
-```gd
-# name: the name of the property.
-# value: the value to be assigned to the property.
-# returns true|false depending on valid property name.
-func set_property(name: String, value: Variant) -> bool:
-```
-
-Here is an example of how to use set_property:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Sets the property `_door_color` to Red
-runner.set_property("_door_color", Color.RED)
-```
-
-{% endtab %}
-{% tab scene-runner-set_property C# %}
 
 It takes the following arguments:
 
@@ -142,35 +76,9 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 runner.SetProperty("_door_color", Colors.Red);
 ```
 
-{% endtab %}
-{% endtabs %}
-
 ### find_child
 
 The **find_child** function searches for a node with the specified name in the current scene and returns it. If the node is not found, it returns null.
-
-{% tabs scene-runner-find_child %}
-{% tab scene-runner-find_child GdScript %}
-
-```gd
-## [member name] : the name of the node to find
-## [member recursive] : enables/disables seraching recursive
-## [member owned] : is set to true it only finds nodes who have an assigned owner
-## [member return] : the node if find otherwise null
-func find_child(name: String, recursive := true, owned := false) -> Node:
-```
-
-Here is an example of how to use find_child:
-
-```gd
- var runner := scene_runner("res://test_scene.tscn")
-
- # Searchs for node `Spell` inside the scene tree
- var spell: Node = runner.find_child("Spell")
-```
-
-{% endtab %}
-{% tab scene-runner-find_child C# %}
 
 ```cs
 /// <summary>
@@ -190,36 +98,9 @@ var runner = ISceneRunner.Load("res://test_scene.tscn");
 var output = runner.FindChild("Health", true, true) as HealthComponent;
 ```
 
-{% endtab %}
-{% endtabs %}
-
 ### invoke
 
 The **invoke** function runs the function specified by given name in the scene and returns the result.
-
-{% tabs scene-runner-invoke %}
-{% tab scene-runner-invoke GdScript %}
-
-It takes the following arguments:
-
-```gd
-# name: the name of the function to execute
-# optional function args 0..9
-# return: the function result
-func invoke(name: String, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9):
-```
-
-Here is an example of how to use invoke:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Invokes the function `start_color_cycle`
-runner.invoke("start_color_cycle")
-```
-
-{% endtab %}
-{% tab scene-runner-invoke C# %}
 
 It takes the following arguments:
 
@@ -242,6 +123,3 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 // Invokes the function `start_color_cycle`
 runner.Invoke("start_color_cycle");
 ```
-
-{% endtab %}
-{% endtabs %}
