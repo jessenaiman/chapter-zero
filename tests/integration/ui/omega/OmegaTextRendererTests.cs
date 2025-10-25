@@ -7,10 +7,10 @@ using Godot;
 using static GdUnit4.Assertions;
 using OmegaSpiral.Source.Ui.Omega;
 
-namespace OmegaSpiral.Tests.Unit.Common.Omega
+namespace OmegaSpiral.Tests.Integration.Ui.Omega
 {
     /// <summary>
-    /// Unit tests for OmegaTextRenderer component.
+    /// Integration tests for OmegaTextRenderer component.
     /// Tests text display, animation, and formatting functionality.
     /// </summary>
     [TestSuite]

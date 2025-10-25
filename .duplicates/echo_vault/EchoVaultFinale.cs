@@ -9,7 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Displays finale summary and persists party state.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultFinale : TerminalUi
+public partial class EchoVaultFinale : OmegaUi
 {
     private RichTextLabel? summaryLabel;
     private Button? continueButton;

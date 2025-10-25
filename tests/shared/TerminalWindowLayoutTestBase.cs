@@ -9,7 +9,7 @@ namespace OmegaSpiral.Tests.Shared;
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public abstract partial class TerminalWindowLayoutTestBase : Node
+public abstract partial class OmegaWindowLayoutTestBase : Node
 {
     /// <summary>
     /// Gets the tolerance for floating-point comparisons.
@@ -57,7 +57,7 @@ public abstract partial class TerminalWindowLayoutTestBase : Node
     {
         var frameCenter = frameRect.GetCenter();
         var contentCenter = contentRect.GetCenter();
-        
+
         AssertThat(Mathf.Abs(contentCenter.X - frameCenter.X)).IsLess(CenteringTolerance);
         AssertThat(Mathf.Abs(contentCenter.Y - frameCenter.Y)).IsLess(CenteringTolerance);
     }
@@ -82,14 +82,14 @@ public abstract partial class TerminalWindowLayoutTestBase : Node
     protected void AssertChildrenWithinBounds(Control container)
     {
         var containerRect = container.GetGlobalRect();
-        
+
         for (int i = 0; i < container.GetChildCount(); i++)
         {
             var child = container.GetChild(i);
             if (child is Control childControl)
             {
                 var childRect = childControl.GetGlobalRect();
-                
+
                 // Child should be completely within container bounds
                 AssertThat(childRect.Position.X - containerRect.Position.X).IsGreaterEqual(SizeComparisonTolerance);
                 AssertThat(childRect.Position.Y - containerRect.Position.Y).IsGreaterEqual(SizeComparisonTolerance);

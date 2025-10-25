@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Ui.Menus;
 /// <summary>
 /// Menu Ui that extends OmegaUi and adds static menu behavior for traditional game menus.
 /// Base class for all static game menus (Main Menu, Pause, Options, etc.) - NOT for sequential narrative scenes.
-/// Key difference from TerminalUi: No sequential logic, no auto-transitions, pure user agency.
+/// Key difference from OmegaUi: No sequential logic, no auto-transitions, pure user agency.
 /// <para><strong>Three Core Responsibilities:</strong></para>
 /// <list type="number">
 /// <item><description>Standard button container structure with sensible defaults (via NodePath exports)</description></item>

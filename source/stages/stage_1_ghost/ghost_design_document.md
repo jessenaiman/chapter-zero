@@ -13,14 +13,6 @@ The opening sequence is the **hook that defies convention**. It must:
 
 ---
 
-## Content Overview
-
-- Data file: `res://source/stages/stage_1/stage1.json`
-- Schema: `res://source/data/schemas/ghost_terminal_cinematic_schema.json`
-- Runtime owner: `GhostTerminalCinematicDirector` (loads via `NarrativeSceneFactory`)
-- Tests: `Tests/Stages/Stage1/GhostTerminalCinematicDirectorTests.cs`
-- Prelude: Custom press start menu (`PressStartMenu.tscn`) offers inviting vs. ominous tone that bleeds into the terminal shaders.
-
 ## Critical Creative Requirements
 
 ### The Forbidden Fruit Hook
@@ -436,83 +428,6 @@ public class DreamweaverScore
 }
 ```
 
-**Live Counter Integration:**
-
-```csharp
-// When game starts, fetch live iteration count from combat API
-var currentIteration = await OmegaAPI.GetGlobalPlayCount();
-_bootSequence.IterationNumber = currentIteration;
-
-// On game complete, increment global counter
-await OmegaAPI.IncrementPlayCount();
-```
-
----
-
-## Technical Implementation Plan
-
-### Path Forward: Hybrid Architecture
-
-**Reasoning:**
-
-- Three separate shaders = easier iteration, clearer responsibilities
-- C# controller = centralized state management, timeline control
-- godot-xterm integration = need to confirm rendering pipeline
-
-### Immediate Questions for You
-
-1. **GodotXterm Rendering Model**
-   - Does it render to a `TextureRect` we can apply shaders to?
-   - Or do we need to render terminal output to a `Viewport` texture first?
-   - Can we access the terminal's ColorRect for shader injection?
-
-2. **Symbol Overlay Asset**
-   - Should I spec out a 1024x1024 texture with cuneiform/hieroglyphs/binary?
-   - Or procedural glyphs from a custom font file?
-   - Do you have graphic design tools (GIMP/Photoshop/Aseprite)?
-
-3. **NobodyWho Integration Point**
-   - Where does Dreamweaver persona switching happen in the narrative flow?
-   - Should certain text blocks have `[DREAMWEAVER_VOICE]` tags for LLM substitution?
-   - Example: "Good." → Hero: "Well chosen." / Shadow: "Interesting..." / Ambition: "Finally."
-
-### 4. **Audio Hooks - CRITICAL DESIGN ELEMENT**
-
-- See detailed "Audio Architecture" section below
-
-### Critical Design Decision Required
-
-**The Opening Monologue Delivery:**
-
-Current script has:
-
->
-"Once, there was a name.
-Not written in stone or spoken in halls—
-but remembered in the silence between stars."
->
-
-**Question:** Should this be:
-
-- **A) Typewriter effect** (classic terminal, 40ms per character)
-- **B) Fade-in per line** (more cinematic, less retro)
-- **C) Instant appear with glitch-in effect** (Omega is desperate, bypassing protocol)
-
-My recommendation: **C** for first playthrough, **A** for subsequent (detected via save file). Shows Omega's urgency diminishing after first contact.
-
----
-
-## Next Steps (Your Call)
-
-**Option 1: Shader First**
-I create `CRT_Phosphor.gdshader` with full implementation, you test in Godot
-
-**Option 2: Scene Architecture First**
-I write the C# controller (`TerminalCinematicDirector.cs`), you build scene structure
-
-**Option 3: Asset Pipeline First**
-I spec the symbol overlay texture, you create it, we build shaders around real assets
-
 ---
 
 ## Audio Architecture: Communication Through Time
@@ -662,79 +577,42 @@ Omega's interface should sound like **communication artifacts from every era it'
 
 ### Audio Accessibility Requirements
 
-**TODO: Implement before launch**
-
 #### 1. Audio Description Track
 
-- [ ] AI-generated narration describing visual states
-- [ ] Triggered by accessibility setting in options
-- [ ] Describes: Glitch patterns, color shifts, symbol appearance
-- [ ] Example: "The screen glitches violently, showing fragments of older interfaces. Ancient symbols bleed through the text."
-
-**Implementation:**
-
-```csharp
-// TODO: Integrate with NobodyWho for dynamic audio description generation
-if (AccessibilitySettings.AudioDescriptionEnabled)
-{
-    var description = await NobodyWho.GenerateDescription(currentVisualState);
-    AudioDescriptionPlayer.Play(description);
-}
-```
+- AI-generated narration describing visual states
+- Triggered by accessibility setting in options
+- Describes: Glitch patterns, color shifts, symbol appearance
+- Example: "The screen glitches violently, showing fragments of older interfaces. Ancient symbols bleed through the text."
 
 #### 2. Screen Reader Support
 
-- [ ] All menu choices must have ARIA-style labels
-- [ ] Godot's accessibility node integration
-- [ ] Text content readable before typewriter effect completes
-
-**Implementation:**
-
-```csharp
-// TODO: Add accessibility labels to all choice buttons
-choiceButton.AccessibilityLabel = "Choice 1: Yes. Names are promises we make to ourselves. This aligns with the Light thread philosophy.";
-```
+- All menu choices must have ARIA-style labels
+- Godot's accessibility node integration
+- Text content readable before typewriter effect completes
 
 #### 3. Audio Sensitivity Options
 
-- [ ] Master volume controls (separate sliders)
-  - [ ] Ambient layer (CRT hum, electrical noise)
-  - [ ] Effect layer (glitches, modems, typewriters)
-  - [ ] Music layer (resonance tones, thread themes)
-  - [ ] Ui layer (button clicks, selection sounds)
-- [ ] "Reduce Audio Intensity" mode (disables sudden spikes)
-- [ ] "Essential Audio Only" mode (Ui feedback only, no ambience)
+- Master volume controls (separate sliders)
+  - Ambient layer (CRT hum, electrical noise)
+  - Effect layer (glitches, modems, typewriters)
+  - Music layer (resonance tones, thread themes)
+  - UI layer (button clicks, selection sounds)
+- "Reduce Audio Intensity" mode (disables sudden spikes)
+- "Essential Audio Only" mode (UI feedback only, no ambience)
 
 #### 4. Visual Alternatives for Audio Cues
 
-- [ ] Closed captions for all ambient sounds
-- [ ] Example: "[CRT humming]", "[Modem handshake negotiating]", "[Ancient symbols resonating]"
-- [ ] Vibration/screen pulse patterns for gamepad players (tactile feedback)
-
-**Implementation:**
-
-```csharp
-// TODO: Add caption system
-if (AccessibilitySettings.ClosedCaptionsEnabled)
-{
-    CaptionDisplay.Show("[Modem handshake: connecting across time]", duration: 3.0f);
-}
-
-// TODO: Add haptic feedback
-if (Input.GetConnectedJoypads().Count > 0)
-{
-    Input.StartJoyVibration(0, weakMagnitude: 0.3f, strongMagnitude: 0.1f, duration: 0.2f);
-}
-```
+- Closed captions for all ambient sounds
+- Example: "[CRT humming]", "[Modem handshake negotiating]", "[Ancient symbols resonating]"
 
 #### 5. Photosensitivity Warnings
 
-- [ ] Warning screen before game starts
-- [ ] "This game contains flashing lights and screen glitches. Options to reduce visual intensity are available in settings."
-- [ ] "Reduce Motion" setting disables:
-  - [ ] Screen shake effects
-  - [ ] Rapid scanline movement
-  - [ ] Glitch flickering (replaced with smooth transitions)
+- Warning screen before game starts
+- "This game contains flashing lights and screen glitches. Options to reduce visual intensity are available in settings."
+- "Reduce Motion" setting disables:
+  - Screen shake effects
+  - Rapid scanline movement
+  - Glitch flickering (replaced with smooth transitions)
 
 ### Audio File Structure
 
@@ -774,7 +652,7 @@ res://source/Assets/Audio/Stage1/
 
 ---
 
-## Ui/UX Architecture: Mouse & Gamepad Only
+## Player Experience Design: Mouse & Keyboard Input
 
 ### Core Design Philosophy
 
@@ -783,26 +661,18 @@ res://source/Assets/Audio/Stage1/
 This is crucial for:
 
 1. **Accessibility:** Text input is a barrier for many players
-2. **Consistency:** Gamepad/mouse parity from moment one
+2. **Consistency:** Mouse/keyboard interface from moment one
 3. **Narrative:** Omega is asking philosophical questions, not requesting data entry
 4. **Localization:** Choice buttons translate cleanly, text input doesn't
 
 ### Input Methods
 
-#### Mouse/Keyboard Players
+**Mouse/Keyboard Players:**
 
 - **Navigation:** Mouse hover highlights choices
 - **Selection:** Left-click to confirm
 - **Keyboard Alternative:** Arrow keys to navigate, Enter to confirm, Escape to go back
 - **Visual Feedback:** Highlight outline + soft glow on hover
-
-#### Gamepad Players
-
-- **Navigation:** D-Pad or Left Stick to move between choices
-- **Selection:** A/X button (depending on controller) to confirm
-- **Cancel:** B/Circle to go back (only where applicable)
-- **Visual Feedback:** Same as mouse (choice selection index-based, not cursor-based)
-- **Haptic Feedback:** Light vibration on hover, medium vibration on confirm
 
 ### Choice Button Design Spec
 
@@ -828,100 +698,50 @@ This is crucial for:
 
 ### Accessibility Enhancements
 
-#### TODO: Visual Clarity
+**Visual Clarity:**
 
-- [ ] High contrast mode option (black background, white text, no phosphor effects)
-- [ ] Adjustable text size (Small/Medium/Large/Extra Large)
-- [ ] Dyslexia-friendly font option (OpenDyslexic as alternative)
-- [ ] Focus indicators must be 2px minimum, high contrast
+- High contrast mode option (black background, white text, no phosphor effects)
+- Adjustable text size (Small/Medium/Large/Extra Large)
+- Dyslexia-friendly font option (OpenDyslexic as alternative)
+- Focus indicators must be 2px minimum, high contrast
 
-#### TODO: Gamepad Navigation
+**Mouse/Keyboard Navigation:**
 
-- [ ] Clear visual indicator of which choice is currently focused
-- [ ] Wrap-around navigation (pressing down on last choice goes to first)
-- [ ] Sound cue when changing focused choice
-- [ ] Confirmation prompt for irreversible choices: "Are you sure? This will lock in your Dreamweaver thread."
+- Large click targets (minimum 48px height per choice)
+- Hover state must appear within 100ms
+- No double-click required anywhere
+- Right-click opens context menu with "Read Choice Aloud" option (if audio description enabled)
 
-#### TODO: Mouse Navigation
+### Player Flow Specification
 
-- [ ] Large click targets (minimum 48px height per choice)
-- [ ] Hover state must appear within 100ms
-- [ ] No double-click required anywhere
-- [ ] Right-click opens context menu with "Read Choice Aloud" option (if audio description enabled)
-
-### Ui Flow Specification
-
-#### Boot Sequence (Non-Interactive)
+**Boot Sequence (Non-Interactive):**
 
 - No choices
 - Player cannot skip (intentional discomfort)
-- Press any key/button to continue after "...how many times must I ask..."
+- Press any key to continue after "...how many times must I ask..."
 
-#### Opening Monologue (Minimal Interaction)
+**Opening Monologue (Minimal Interaction):**
 
 - Auto-advances between lines (2.5s pause between)
-- Player CAN press [Space/A button] to speed up (but not skip entirely)
+- Player CAN press Space to speed up (but not skip entirely)
 - Final line "The ones who were chosen." holds until player acknowledges
 
-#### Question 1: "Do you have a name?"
+**Choice Presentation:**
 
-```
-┌─────────────────────────────────────────────────────┐
-│  Do you have a name?                                 │
-│  (Not YOUR name. The question is: do names matter?) │
-└─────────────────────────────────────────────────────┘
+After each philosophical question, player sees:
+- Question prompt with context
+- 3 choice options displayed as buttons
+- Each choice aligned with a Dreamweaver philosophy
+- After clicking choice, brief pause (0.3s) before Omega responds
+- Choice fades out, response fades in (smooth transition)
 
-┌─────────────────────────────────────────────────────┐
-│  ☀  Yes. Names are promises we make to ourselves.  │
-│      [Light: ██████░░░░ Shadow: ░░░░░░░░░░]        │
-└─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│  ☽  No. Names are masks we hide behind.            │
-│      [Light: ░░░░░░░░░░ Shadow: ██████░░░░]        │
-└─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│  ⚡  Only when someone remembers to say it.         │
-│      [All Threads: ████░░░░░░ Mixed Affinity]       │
-└─────────────────────────────────────────────────────┘
-```
-
-**TODO: Implement choice confirmation**
-
-- [ ] After clicking choice, brief pause (0.3s) before Omega responds
-- [ ] Choice fades out, response fades in (smooth transition)
-- [ ] Selected choice briefly glows before disappearing
-
-#### Secret Question: "Can you keep a secret?"
+**Secret Fragment Reveal:**
 
 **CRITICAL: NO SKIP ALLOWED**
 
-- After player selects answer, 4-second audio buildup MUST complete
+- After player selects "Can you keep a secret?" answer, 4-second audio buildup MUST complete
 - Disable all input during symbol reveal
 - Symbols appear one at a time (cannot rush)
 - After all 5 symbols visible, display: `[Press any key to acknowledge]`
 - Only THEN does game continue
-
-**TODO: Screenshot-friendly pause**
-
-- [ ] During symbol display, game logs timestamp for potential "I was here" moment
-- [ ] Optional: Hidden achievement for players who screenshot the fragment
-
-### Scene Structure Updates
-
-**Current files suggest multiple terminal scenes. Proposed consolidation:**
-
-```
-Stage1/
-├── OpeningCinematic.tscn (Boot + Monologue)
-├── PhilosophicalQuestions.tscn (3 questions, choice Ui)
-├── SecretReveal.tscn (Code fragment, no choices)
-└── ThreadSelection.tscn (Final lockup)
-```
-
-**Each scene uses same base:**
-
-- `EnhancedTerminalUi.tscn` (godot-xterm + shader layers)
-- `ChoiceButtonGroup.tscn` (reusable choice container)
-- `AccessibilityOverlay.tscn` (captions, screen reader support)
+- Screenshot-friendly pause allows players to capture the moment

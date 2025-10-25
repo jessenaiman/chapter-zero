@@ -10,7 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Handles echo scene selection in the Echo Vault stage.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultHub : TerminalUi
+public partial class EchoVaultHub : OmegaUi
 {
     private Label? tierLabel;
     private RichTextLabel? promptLabel;

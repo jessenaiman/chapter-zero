@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Ui;
+namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Interactive button for presenting philosophical choices in Stage 1 opening sequence.

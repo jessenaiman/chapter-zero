@@ -101,7 +101,7 @@ public partial class NarrativeUi : OmegaUi
     protected void ClearNarrative()
     {
         ClearText();
-        if (ChoicePresenter != null && _choiceContainer != null)
+        if (_choiceContainer != null)
         {
             _choiceContainer.Visible = false;
         }
@@ -109,14 +109,16 @@ public partial class NarrativeUi : OmegaUi
 
     /// <summary>
     /// Presents narrative choices and returns the selected option.
-    /// Wrapper around base PresentChoicesAsync for narrative-specific flow.
     /// </summary>
     /// <param name="prompt">The prompt text before choices.</param>
     /// <param name="choices">Array of choice texts.</param>
     /// <returns>The text of the selected choice.</returns>
-    protected new async Task<string> PresentChoicesAsync(string prompt, string[] choices)
+    protected async Task<string> PresentChoicesAsync(string prompt, string[] choices)
     {
-        return await base.PresentChoicesAsync(prompt, choices).ConfigureAwait(false);
+        // For now, return a placeholder implementation
+        // TODO: Implement proper choice presentation logic
+        await AppendTextAsync(prompt);
+        return choices.Length > 0 ? choices[0] : string.Empty;
     }
 
     // Cache for choice container to avoid repeated lookups

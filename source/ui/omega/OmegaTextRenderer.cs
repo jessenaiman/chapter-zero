@@ -10,9 +10,9 @@ namespace OmegaSpiral.Source.Ui.Omega;
 /// </summary>
 public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
 {
-    private readonly RichTextLabel _textDisplay;
-    private bool _isAnimating;
-    private bool _disposed;
+    private readonly RichTextLabel _TextDisplay;
+    private bool _IsAnimating;
+    private bool _Disposed;
 
     /// <summary>
     /// Initializes a new instance of the OmegaTextRenderer.
@@ -21,8 +21,8 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
     /// <exception cref="ArgumentNullException">Thrown when textDisplay is null.</exception>
     public OmegaTextRenderer(RichTextLabel textDisplay)
     {
-        _textDisplay = textDisplay ?? throw new ArgumentNullException(nameof(textDisplay));
-        _textDisplay.BbcodeEnabled = true; // Enable BBCode for formatting
+        _TextDisplay = textDisplay ?? throw new ArgumentNullException(nameof(textDisplay));
+        _TextDisplay.BbcodeEnabled = true; // Enable BBCode for formatting
     }
 
     /// <inheritdoc/>
@@ -43,17 +43,17 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
             await Task.Delay((int)(delayBeforeStart * 1000));
         }
 
-        _isAnimating = true;
+        _IsAnimating = true;
 
         try
         {
-            var currentText = _textDisplay.Text;
+            var currentText = _TextDisplay.Text;
             var charDelay = 1.0f / typingSpeed; // seconds per character
 
             foreach (var character in text)
             {
                 currentText += character;
-                _textDisplay.Text = currentText;
+                _TextDisplay.Text = currentText;
 
                 // Wait for the character delay, but allow for cancellation
                 await Task.Delay((int)(charDelay * 1000));
@@ -61,14 +61,14 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
         }
         finally
         {
-            _isAnimating = false;
+            _IsAnimating = false;
         }
     }
 
     /// <inheritdoc/>
     public void ClearText()
     {
-        _textDisplay.Text = "";
+        _TextDisplay.Text = "";
     }
 
     /// <inheritdoc/>
@@ -76,26 +76,26 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
     {
         // Store color for future text - RichTextLabel handles this via BBCode
         // This is a simplified implementation - full implementation would track color state
-        _textDisplay.AddThemeColorOverride("default_color", color);
+        _TextDisplay.AddThemeColorOverride("default_color", color);
     }
 
     /// <inheritdoc/>
     public string GetCurrentText()
     {
-        return _textDisplay.Text;
+        return _TextDisplay.Text;
     }
 
     /// <inheritdoc/>
     public void ScrollToBottom()
     {
         // For RichTextLabel, we can scroll to the end by setting scroll following
-        _textDisplay.ScrollFollowing = true;
+        _TextDisplay.ScrollFollowing = true;
     }
 
     /// <inheritdoc/>
     public bool IsAnimating()
     {
-        return _isAnimating;
+        return _IsAnimating;
     }
 
     /// <inheritdoc/>
@@ -106,19 +106,18 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
     }
 
     /// <summary>
-    /// Disposes the renderer and cleans up resources.
+    /// Disposes managed and unmanaged resources.
     /// </summary>
-    /// <param name="disposing">Whether this is being called from Dispose() or finalizer.</param>
+    /// <param name="disposing">Whether to dispose managed resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!_Disposed)
         {
             if (disposing)
             {
-                // Clear any ongoing animation state
-                _isAnimating = false;
+                _IsAnimating = false;
             }
-            _disposed = true;
+            _Disposed = true;
         }
     }
 }

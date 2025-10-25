@@ -10,7 +10,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage2;
 /// Simple auto-resolve combat presentation for Echo Vault.
 /// </summary>
 [GlobalClass]
-public partial class EchoVaultCombatScene : TerminalUi
+public partial class EchoVaultCombatScene : OmegaUi
 {
     private RichTextLabel? logLabel;
     private Button? resolveButton;
