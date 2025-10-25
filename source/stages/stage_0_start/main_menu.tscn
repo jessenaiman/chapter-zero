@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://source/stages/stage_0_start/MainMenu.cs" id="1_main_menu"]
 [ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
@@ -6,6 +6,7 @@
 [ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
 [ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
 [ext_resource type="FontFile" path="res://source/assets/gui/font/Kenney Pixel.ttf" id="6_font"]
+[ext_resource type="Theme" path="res://theme.tres" id="7_theme"]
 
 [sub_resource type="StyleBoxFlat" id="FrameStyle"]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
@@ -28,6 +29,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("7_theme")
 script = ExtResource("1_main_menu")
 
 [node name="ContentContainer" type="MarginContainer" parent="."]

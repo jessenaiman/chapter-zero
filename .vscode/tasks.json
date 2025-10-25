@@ -1,6 +1,7 @@
 {
 	"version": "2.0.0",
 	"tasks": [
+
 		{
 			"label": "build",
 			"command": "dotnet",
@@ -18,13 +19,20 @@
 			"type": "process",
 			"args": [
 				"test",
-				"--no-build"
+				"--no-build",
+				"--settings",
+				".runsettings"
 			],
 			"group": {
 				"kind": "test",
 				"isDefault": true
 			},
-			"problemMatcher": "$msCompile"
+			"problemMatcher": "$msCompile",
+			"options": {
+				"env": {
+					"GODOT_BIN": "${env:GODOT_BIN}"
+				}
+			}
 		},
 		{
 			"label": "Run UI Test by Class Name",

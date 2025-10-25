@@ -9,14 +9,15 @@ namespace OmegaSpiral.Source.Ui.Terminal;
 /// <summary>
 /// Implementation of terminal choice presenter.
 /// Manages choice display, user selection, and interaction handling.
+/// Includes comprehensive logging for debugging orphan nodes and state issues.
 /// </summary>
 public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
 {
-    private readonly VBoxContainer _choiceContainer;
-    private readonly List<Button> _choiceButtons = new();
-    private TaskCompletionSource<List<int>>? _selectionTaskSource;
-    private bool _allowMultipleSelection;
-    private bool _disposed;
+    private readonly VBoxContainer _ChoiceContainer;
+    private readonly List<Button> _ChoiceButtons = new();
+    private TaskCompletionSource<List<int>>? _SelectionTaskSource;
+    private bool _AllowMultipleSelection;
+    private bool _Disposed;
 
     /// <summary>
     /// Initializes a new instance of the TerminalChoicePresenter.
@@ -25,71 +26,112 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <exception cref="ArgumentNullException">Thrown when choiceContainer is null.</exception>
     public TerminalChoicePresenter(VBoxContainer choiceContainer)
     {
-        _choiceContainer = choiceContainer ?? throw new ArgumentNullException(nameof(choiceContainer));
+        _ChoiceContainer = choiceContainer ?? throw new ArgumentNullException(nameof(choiceContainer));
+        GD.PrintRich($"[color=green][TerminalChoicePresenter][/color] Initialized with container: {_ChoiceContainer.Name}");
     }
 
     /// <inheritdoc/>
     public async Task<List<int>> PresentChoicesAsync(IList<string> choices, bool allowMultipleSelection = false)
     {
-        if (choices == null)
-            throw new ArgumentNullException(nameof(choices));
-
-        if (choices.Count == 0)
-            throw new ArgumentException("Choices list cannot be empty", nameof(choices));
-
-        _allowMultipleSelection = allowMultipleSelection;
-        _selectionTaskSource = new TaskCompletionSource<List<int>>();
-
-        // Clear existing choices
-        ClearChoiceButtons();
-
-        // Create choice buttons
-        for (int i = 0; i < choices.Count; i++)
+        try
         {
-            var button = CreateChoiceButton(choices[i], i);
-            _choiceContainer.AddChild(button);
-            _choiceButtons.Add(button);
-        }
+            if (choices == null)
+                throw new ArgumentNullException(nameof(choices));
 
-        // Wait for user selection
-        return await _selectionTaskSource.Task.ConfigureAwait(false);
+            if (choices.Count == 0)
+                throw new ArgumentException("Choices list cannot be empty", nameof(choices));
+
+            GD.PrintRich($"[color=cyan][TerminalChoicePresenter.PresentChoicesAsync][/color] Presenting {choices.Count} string choices");
+
+            _AllowMultipleSelection = allowMultipleSelection;
+            _SelectionTaskSource = new TaskCompletionSource<List<int>>();
+
+            // Clear existing choices
+            ClearChoiceButtons();
+
+            // Create choice buttons
+            for (int i = 0; i < choices.Count; i++)
+            {
+                var button = CreateChoiceButton(choices[i], i);
+                _ChoiceContainer.AddChild(button);
+                _ChoiceButtons.Add(button);
+                GD.PrintRich($"[color=yellow]  → Created button {i}: '{choices[i]}'[/color]");
+            }
+
+            GD.PrintRich($"[color=cyan]  Ready to wait for selection from {_ChoiceButtons.Count} buttons[/color]");
+
+            // Wait for user selection
+            var result = await _SelectionTaskSource.Task.ConfigureAwait(false);
+            GD.PrintRich($"[color=green]  Selection received: indices={string.Join(",", result)}[/color]");
+            return result;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.PresentChoicesAsync] Exception: {ex.GetType().Name} - {ex.Message}");
+            throw;
+        }
     }
 
     /// <inheritdoc/>
     /// <remarks>See <see cref="TerminalChoiceOption"/> for choice option structure.</remarks>
     public async Task<int> PresentChoicesAsync(IList<TerminalChoiceOption> choiceOptions)
     {
-        if (choiceOptions == null)
-            throw new ArgumentNullException(nameof(choiceOptions));
-
-        if (choiceOptions.Count == 0)
-            throw new ArgumentException("Choice options list cannot be empty", nameof(choiceOptions));
-
-        _allowMultipleSelection = false; // Single selection for ChoiceOption
-        _selectionTaskSource = new TaskCompletionSource<List<int>>();
-
-        // Clear existing choices
-        ClearChoiceButtons();
-
-        // Create choice buttons with options
-        for (int i = 0; i < choiceOptions.Count; i++)
+        try
         {
-            var button = CreateChoiceButton(choiceOptions[i], i);
-            _choiceContainer.AddChild(button);
-            _choiceButtons.Add(button);
-        }
+            if (choiceOptions == null)
+                throw new ArgumentNullException(nameof(choiceOptions));
 
-        // Wait for user selection and return single index
-        var result = await _selectionTaskSource.Task.ConfigureAwait(false);
-        return result.Count > 0 ? result[0] : -1;
+            if (choiceOptions.Count == 0)
+                throw new ArgumentException("Choice options list cannot be empty", nameof(choiceOptions));
+
+            GD.PrintRich($"[color=cyan][TerminalChoicePresenter.PresentChoicesAsync][/color] Presenting {choiceOptions.Count} TerminalChoiceOption choices");
+
+            _AllowMultipleSelection = false; // Single selection for ChoiceOption
+            _SelectionTaskSource = new TaskCompletionSource<List<int>>();
+
+            // Clear existing choices
+            ClearChoiceButtons();
+
+            // Create choice buttons with options
+            for (int i = 0; i < choiceOptions.Count; i++)
+            {
+                var button = CreateChoiceButton(choiceOptions[i], i);
+                _ChoiceContainer.AddChild(button);
+                _ChoiceButtons.Add(button);
+                GD.PrintRich($"[color=yellow]  → Created button {i}: '{choiceOptions[i].Text}'[/color]");
+            }
+
+            GD.PrintRich($"[color=cyan]  Ready to wait for selection from {_ChoiceButtons.Count} buttons[/color]");
+
+            // Wait for user selection and return single index
+            var result = await _SelectionTaskSource.Task.ConfigureAwait(false);
+            var selectedIndex = result.Count > 0 ? result[0] : -1;
+            GD.PrintRich($"[color=green]  Selection received: index={selectedIndex}[/color]");
+            return selectedIndex;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.PresentChoicesAsync] Exception: {ex.GetType().Name} - {ex.Message}");
+            throw;
+        }
     }
 
     /// <inheritdoc/>
     public void HideChoices()
     {
-        ClearChoiceButtons();
-        _selectionTaskSource?.TrySetCanceled();
-        _selectionTaskSource = null;
+        try
+        {
+            GD.PrintRich($"[color=orange][TerminalChoicePresenter.HideChoices][/color] Clearing {_ChoiceButtons.Count} buttons");
+            ClearChoiceButtons();
+            _SelectionTaskSource?.TrySetCanceled();
+            _SelectionTaskSource = null;
+            GD.PrintRich($"[color=green]  ✓ Choices hidden successfully[/color]");
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.HideChoices] Exception: {ex.GetType().Name} - {ex.Message}");
+            throw;
+        }
     }
 
     /// <inheritdoc/>
@@ -103,16 +145,26 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <inheritdoc/>
     public void SetChoiceNavigationEnabled(bool enabled)
     {
-        foreach (var button in _choiceButtons)
+        try
         {
-            button.Disabled = !enabled;
+            GD.PrintRich($"[color=cyan][TerminalChoicePresenter.SetChoiceNavigationEnabled][/color] Setting navigation {(enabled ? "enabled" : "disabled")} for {_ChoiceButtons.Count} buttons");
+            foreach (var button in _ChoiceButtons)
+            {
+                button.Disabled = !enabled;
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.SetChoiceNavigationEnabled] Exception: {ex.GetType().Name} - {ex.Message}");
         }
     }
 
     /// <inheritdoc/>
     public bool AreChoicesVisible()
     {
-        return _choiceButtons.Count > 0;
+        var visible = _ChoiceButtons.Count > 0;
+        GD.PrintRich($"[color=blue][TerminalChoicePresenter.AreChoicesVisible][/color] → {visible} ({_ChoiceButtons.Count} buttons)");
+        return visible;
     }
 
     /// <summary>
@@ -122,6 +174,7 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <param name="index">The choice index to select.</param>
     public void SimulateChoiceSelection(int index)
     {
+        GD.PrintRich($"[color=magenta][TerminalChoicePresenter.SimulateChoiceSelection][/color] Simulating selection of index {index}");
         OnChoiceSelected(index);
     }
 
@@ -133,10 +186,18 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <returns>The created button.</returns>
     private Button CreateChoiceButton(string text, int index)
     {
-        var button = new Button();
-        button.Text = text;
-        button.Connect(Button.SignalName.Pressed, Callable.From(() => OnChoiceSelected(index)));
-        return button;
+        try
+        {
+            var button = new Button();
+            button.Text = text;
+            button.Connect(Button.SignalName.Pressed, Callable.From(() => OnChoiceSelected(index)));
+            return button;
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.CreateChoiceButton] Failed to create button for '{text}': {ex.GetType().Name} - {ex.Message}");
+            throw;
+        }
     }
 
     /// <summary>
@@ -166,32 +227,106 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <param name="index">The selected choice index.</param>
     private void OnChoiceSelected(int index)
     {
-        if (_selectionTaskSource != null && !_selectionTaskSource.Task.IsCompleted)
+        try
         {
-            var selectedIndices = _allowMultipleSelection
-                ? new List<int> { index } // For now, single selection even in multi-mode
-                : new List<int> { index };
+            GD.PrintRich($"[color=magenta][TerminalChoicePresenter.OnChoiceSelected][/color] Choice {index} selected");
 
-            _selectionTaskSource.TrySetResult(selectedIndices);
+            if (_SelectionTaskSource != null && !_SelectionTaskSource.Task.IsCompleted)
+            {
+                var selectedIndices = _AllowMultipleSelection
+                    ? new List<int> { index } // For now, single selection even in multi-mode
+                    : new List<int> { index };
+
+                var result = _SelectionTaskSource.TrySetResult(selectedIndices);
+                GD.PrintRich($"[color=green]  ✓ Selection processed, TrySetResult={result}[/color]");
+            }
+            else
+            {
+                GD.Print($"[TerminalChoicePresenter.OnChoiceSelected] No active selection task or task already completed");
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.OnChoiceSelected] Exception: {ex.GetType().Name} - {ex.Message}");
         }
     }
 
     /// <summary>
     /// Clears all choice buttons from the container.
+    /// Logs orphan node detection and cleanup information.
+    /// Uses a comprehensive cleanup strategy to prevent orphan nodes.
     /// </summary>
     private void ClearChoiceButtons()
     {
-        foreach (var button in _choiceButtons)
+        try
         {
-            _choiceContainer.RemoveChild(button);
-            button.QueueFree();
+            GD.PrintRich($"[color=orange][TerminalChoicePresenter.ClearChoiceButtons][/color] Clearing {_ChoiceButtons.Count} buttons from container");
+
+            // First pass: disable buttons and clear any pending interactions
+            foreach (var button in _ChoiceButtons)
+            {
+                try
+                {
+                    if (button.IsNodeReady())
+                    {
+                        button.Disabled = true;
+                        button.ReleaseFocus();
+                        GD.PrintRich($"[color=yellow]  → Disabled and cleared button focus[/color]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"[TerminalChoicePresenter.ClearChoiceButtons] Failed to disable button: {ex.GetType().Name}");
+                }
+            }
+
+            // Second pass: remove all children from container
+            foreach (var button in _ChoiceButtons)
+            {
+                try
+                {
+                    if (button.IsNodeReady() && button.GetParent() == _ChoiceContainer)
+                    {
+                        _ChoiceContainer.RemoveChild(button);
+                        GD.PrintRich($"[color=yellow]  → Removed button from container[/color]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"[TerminalChoicePresenter.ClearChoiceButtons] Failed to remove button: {ex.GetType().Name} - {ex.Message}");
+                }
+            }
+
+            // Third pass: free all buttons
+            foreach (var button in _ChoiceButtons)
+            {
+                try
+                {
+                    if (button.IsNodeReady())
+                    {
+                        button.QueueFree();
+                        GD.PrintRich($"[color=yellow]  → Queued button for deletion[/color]");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"[TerminalChoicePresenter.ClearChoiceButtons] Failed to free button: {ex.GetType().Name} - {ex.Message}");
+                }
+            }
+
+            _ChoiceButtons.Clear();
+            GD.PrintRich($"[color=green]  ✓ All {_ChoiceButtons.Count} buttons cleared[/color]");
         }
-        _choiceButtons.Clear();
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[TerminalChoicePresenter.ClearChoiceButtons] Exception: {ex.GetType().Name} - {ex.Message}");
+        }
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
+        GD.PrintRich($"[color=orange][TerminalChoicePresenter.Dispose][/color] Called");
         Dispose(true);
         GC.SuppressFinalize(this);
     }
@@ -202,13 +337,15 @@ public class TerminalChoicePresenter : ITerminalChoicePresenter, IDisposable
     /// <param name="disposing">Whether this is being called from Dispose() or finalizer.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!_Disposed)
         {
             if (disposing)
             {
+                GD.PrintRich($"[color=cyan]  → Disposing managed resources[/color]");
                 HideChoices();
             }
-            _disposed = true;
+            GD.PrintRich($"[color=green]  ✓ Dispose completed[/color]");
+            _Disposed = true;
         }
     }
 }

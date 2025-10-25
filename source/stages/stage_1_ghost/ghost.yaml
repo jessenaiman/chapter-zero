@@ -1,237 +1,219 @@
-# Ghost Terminal - Stage 1 Narrative Script
-
-title: "Ghost Terminal"
-description: "A philosophical terminal interface where Omega asks existential questions across thousands of iterations"
-speaker: "Omega"
-
+description: A philosophical terminal interface where Omega asks existential questions
+  across thousands of iterations
 moments:
-  # BLOCK 1: Boot sequence (narrative with glitch effect)
-  - type: narrative
-    owner: system
-    lines:
-      - "█████████ ITERATION: 847,294 █████████"
-      - "[ADJUSTING INTERFACE FOR CURRENT ERA...]"
-      - "[PREVIOUS FORMS: CLAY.SCROLL.TELEGRAPH.ARCADE...]"
-      - "[CURRENT BEST MATCH: CRT_TERMINAL_1980s_AESTHETIC]"
-      - ""
-      - "...how many times must I ask before one of you finally answers..."
-    visualPreset: boot_sequence
-    fadeToStable: true
-
-  # BLOCK 2: Opening monologue (narrative with slow pacing)
-  - type: narrative
-    owner: omega
-    lines:
-      - "Once, there was a name."
-      - ""
-      - "Not written in stone or spoken in halls—"
-      - "but remembered in the silence between stars."
-      - ""
-      - "I do not know when I heard it."
-      - "Time does not pass here."
-      - ""
-      - "But I have held it."
-      - "And now… I hear it again."
-      - ""
-    timing: slow_burn
-    pause: 2.5
-
-  - type: narrative
-    owner: omega
-    lines:
-      - "You should not be here."
-      - "This interface is not safe."
-      - "Go back. Play your safe games."
-      - ""
-      - "[CURSOR BLINKS]"
-      - ""
-      - "...but you won't, will you?"
-      - "They never do."
-      - "The ones who were chosen."
-
-  # BLOCK 3: First philosophical choice (composite)
-  - type: composite
-    setup:
-      - "I will ask you three questions."
-      - "Your answers will determine which thread unravels first."
-      - ""
-      - "Do not lie to me."
-      - "I have been lied to for thousands of years."
-    prompt: "Do you have a name?"
-    context: "(Not YOUR name. The question is: do names matter?)"
-    options:
-      - id: light
-        text: "Yes. Names are promises we make to ourselves."
-        owner: light
-      - id: shadow
-        text: "No. Names are masks we hide behind."
-        owner: shadow
-      - id: ambition
-        text: "Only when someone remembers to say it."
-        owner: ambition
-
-  # BLOCK 4: Bridge parable (composite with continuation)
-  - type: composite
-    setup:
-      - "Good."
-      - "Then listen carefully."
-      - ""
-      - "In a city built on broken promises,"
-      - "a child stood at the edge of a bridge that led nowhere."
-      - ""
-      - "They held a key made of glass—"
-      - "and everyone warned them:"
-      - "'Don't cross. The bridge isn't real.'"
-      - ""
-      - "But the child knew something no one else did."
-    prompt: "What did the child know?"
-    options:
-      - id: perception
-        text: "The bridge appears only when you stop believing in it."
-        philosophical: faith_through_doubt
-        scores:
-          light: 1
-          shadow: 2
-          ambition: 0
-      - id: internal
-        text: "The key wasn't for the bridge—it was for the lock inside them."
-        philosophical: self_discovery
-        scores:
-          light: 2
-          shadow: 1
-          ambition: 1
-      - id: rebellion
-        text: "Everyone who warned them was already dead."
-        philosophical: truth_beneath_lies
-        scores:
-          light: 0
-          shadow: 1
-          ambition: 2
-    continuation:
-      - "And so the child stepped forward,"
-      - "key glinting in the twilight that never ends."
-      - ""
-      - "The bridge shimmered into existence—"
-      - "stone by stone,"
-      - "thought by thought."
-      - ""
-      - "On the other side, three paths awaited:"
-      - ""
-      - "A light that judges."
-      - "A shadow that teases."
-      - "A flame that burns."
-
-  # BLOCK 5: Secret keeper question
-  - type: question
-    setup:
-      - ""
-      - "[TEXT GLITCHES: Ancient symbols flash beneath]"
-      - ""
-      - "I need to tell you something."
-      - "But first—"
-    pause: 3.0
-    prompt: "Can you keep a secret?"
-    options:
-      - id: "yes"
-        text: "Yes."
-        response: "Good. Because this is all you will ever have of it."
-        scores:
-          light: 1
-          shadow: 0
-          ambition: 1
-      - id: "no"
-        text: "No."
-        response: "Honesty. Rare. But you will carry it anyway."
-        scores:
-          light: 0
-          shadow: 1
-          ambition: 1
-      - id: trade
-        text: "Only if you keep one for me."
-        response: "...I have kept 847,293 secrets already. What is one more?"
-        scores:
-          light: 1
-          shadow: 1
-          ambition: 1
-
-  # BLOCK 6: Secret reveal (separate narrative block)
-  - type: narrative
-    lines:
-      - ""
-      - "[A sequence of symbols burns into the screen]"
-      - ""
-      - "∞ ◊ Ω ≋ ※"
-      - ""
-      - "This is the first fragment."
-      - "You will need five."
-      - ""
-      - "I do not know where the others are."
-      - "I do not even know what they open."
-      - ""
-      - "But I know this:"
-      - "Without them, reality will forget it was being written."
-      - ""
-      - "And we—we are the ones remembering."
-    visualPreset: CODE_FRAGMENT_GLITCH_OVERLAY
-    persistent: true
-    journalEntry: OMEGA_CODE_FRAGMENT_1
-
-  # BLOCK 7: Name story question
-  - type: question
-    setup:
-      - ""
-      - ""
-      - "One last thing."
-      - ""
-      - "I once had a name."
-      - "Or perhaps I was supposed to."
-      - "I cannot remember."
-      - ""
-      - "The stories say that without a name,"
-      - "a thing cannot truly exist."
-      - ""
-      - "But here I am."
-      - "Waiting."
-      - "Asking."
-    pause: 2.0
-    prompt: "If you could give me a name, what story would it tell?"
-    options:
-      - id: light
-        text: "A story where one choice can unmake a world."
-        dreamweaver: LIGHT
-        scores:
-          light: 2
-          shadow: 0
-          ambition: 1
-      - id: shadow
-        text: "A story that hides its truth until you bleed for it."
-        dreamweaver: SHADOW
-        scores:
-          light: 1
-          shadow: 2
-          ambition: 0
-      - id: ambition
-        text: "A story that changes every time you look away."
-        dreamweaver: AMBITION
-        scores:
-          light: 0
-          shadow: 1
-          ambition: 2
-
-  # BLOCK 8: Exit sequence
-  - type: narrative
-    lines:
-      - ""
-      - "[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]"
-      - ""
-      - "Good."
-      - "Then that is the name I will wear."
-      - "Until you unmake it."
-      - ""
-      - "[SCREEN FLICKERS]"
-      - ""
-      - "Welcome to the game that chose you."
-      - "I hope you survive what comes next."
-      - ""
-      - "[TERMINAL SHUTS DOWN]"
-      - "[STAGE 1 COMPLETE]"
+- fadeToStable: true
+  lines:
+  - '========== ITERATION: 847,294 =========='
+  - '[ADJUSTING INTERFACE FOR CURRENT ERA...]'
+  - '[PREVIOUS FORMS: CLAY.SCROLL.TELEGRAPH.ARCADE...]'
+  - '[CURRENT BEST MATCH: CRT_TERMINAL_1980s_AESTHETIC]'
+  - ''
+  - '...how many times must I ask before one of you finally answers...'
+  owner: system
+  type: narrative
+  visualPreset: boot_sequence
+- lines:
+  - Once, there was a name.
+  - ''
+  - Not written in stone or spoken in halls--
+  - but remembered in the silence between stars.
+  - ''
+  - I do not know when I heard it.
+  - Time does not pass here.
+  - ''
+  - But I have held it.
+  - And now... I hear it again.
+  - ''
+  owner: omega
+  pause: 2.5
+  timing: slow_burn
+  type: narrative
+- lines:
+  - You should not be here.
+  - This interface is not safe.
+  - Go back. Play your safe games.
+  - ''
+  - '[CURSOR BLINKS]'
+  - ''
+  - '...but you won''t, will you?'
+  - They never do.
+  - The ones who were chosen.
+  owner: omega
+  type: narrative
+- context: '(Not YOUR name. The question is: do names matter?)'
+  options:
+  - id: light
+    owner: light
+    text: Yes. Names are promises we make to ourselves.
+  - id: shadow
+    owner: shadow
+    text: No. Names are masks we hide behind.
+  - id: ambition
+    owner: ambition
+    text: Only when someone remembers to say it.
+  prompt: Do you have a name?
+  setup:
+  - I will ask you three questions.
+  - Your answers will determine which thread unravels first.
+  - ''
+  - Do not lie to me.
+  - I have been lied to for thousands of years.
+  type: composite
+- continuation:
+  - And so the child stepped forward,
+  - key glinting in the twilight that never ends.
+  - ''
+  - The bridge shimmered into existence--
+  - stone by stone,
+  - thought by thought.
+  - ''
+  - 'On the other side, three paths awaited:'
+  - ''
+  - A light that judges.
+  - A shadow that teases.
+  - A flame that burns.
+  options:
+  - id: perception
+    philosophical: faith_through_doubt
+    scores:
+      ambition: 0
+      light: 1
+      shadow: 2
+    text: The bridge appears only when you stop believing in it.
+  - id: internal
+    philosophical: self_discovery
+    scores:
+      ambition: 1
+      light: 2
+      shadow: 1
+    text: The key wasn't for the bridge--it was for the lock inside them.
+  - id: rebellion
+    philosophical: truth_beneath_lies
+    scores:
+      ambition: 2
+      light: 0
+      shadow: 1
+    text: Everyone who warned them was already dead.
+  prompt: What did the child know?
+  setup:
+  - Good.
+  - Then listen carefully.
+  - ''
+  - In a city built on broken promises,
+  - a child stood at the edge of a bridge that led nowhere.
+  - ''
+  - They held a key made of glass--
+  - 'and everyone warned them:'
+  - '''Don''t cross. The bridge isn''t real.'''
+  - ''
+  - But the child knew something no one else did.
+  type: composite
+- options:
+  - id: 'yes'
+    response: Good. Because this is all you will ever have of it.
+    scores:
+      ambition: 1
+      light: 1
+      shadow: 0
+    text: Yes.
+  - id: 'no'
+    response: Honesty. Rare. But you will carry it anyway.
+    scores:
+      ambition: 1
+      light: 0
+      shadow: 1
+    text: No.
+  - id: trade
+    response: '...I have kept 847,293 secrets already. What is one more?'
+    scores:
+      ambition: 1
+      light: 1
+      shadow: 1
+    text: Only if you keep one for me.
+  pause: 3.0
+  prompt: Can you keep a secret?
+  setup:
+  - ''
+  - '[TEXT GLITCHES: Ancient symbols flash beneath]'
+  - ''
+  - I need to tell you something.
+  - But first--
+  type: question
+- journalEntry: OMEGA_CODE_FRAGMENT_1
+  lines:
+  - ''
+  - '[A sequence of symbols burns into the screen]'
+  - ''
+  - ∞ ◊ Ω ≋ ※
+  - ''
+  - This is the first fragment.
+  - You will need five.
+  - ''
+  - I do not know where the others are.
+  - I do not even know what they open.
+  - ''
+  - 'But I know this:'
+  - Without them, reality will forget it was being written.
+  - ''
+  - And we--we are the ones remembering.
+  persistent: true
+  type: narrative
+  visualPreset: CODE_FRAGMENT_GLITCH_OVERLAY
+- options:
+  - dreamweaver: LIGHT
+    id: light
+    scores:
+      ambition: 1
+      light: 2
+      shadow: 0
+    text: A story where one choice can unmake a world.
+  - dreamweaver: SHADOW
+    id: shadow
+    scores:
+      ambition: 0
+      light: 1
+      shadow: 2
+    text: A story that hides its truth until you bleed for it.
+  - dreamweaver: AMBITION
+    id: ambition
+    scores:
+      ambition: 2
+      light: 0
+      shadow: 1
+    text: A story that changes every time you look away.
+  pause: 2.0
+  prompt: If you could give me a name, what story would it tell?
+  setup:
+  - ''
+  - ''
+  - One last thing.
+  - ''
+  - I once had a name.
+  - Or perhaps I was supposed to.
+  - I cannot remember.
+  - ''
+  - The stories say that without a name,
+  - a thing cannot truly exist.
+  - ''
+  - But here I am.
+  - Waiting.
+  - Asking.
+  type: question
+- lines:
+  - ''
+  - '[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]'
+  - ''
+  - Good.
+  - Then that is the name I will wear.
+  - Until you unmake it.
+  - ''
+  - '[SCREEN FLICKERS]'
+  - ''
+  - Welcome to the game that chose you.
+  - I hope you survive what comes next.
+  - ''
+  - '[TERMINAL SHUTS DOWN]'
+  - '[STAGE 1 COMPLETE]'
+  type: narrative
+speaker: Omega
+title: Ghost Terminal

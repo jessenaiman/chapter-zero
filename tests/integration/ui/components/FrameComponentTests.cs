@@ -36,7 +36,9 @@ public partial class FrameComponentTests : UiScreenshotTestBase
         if (frameScene is PackedScene packedScene)
         {
             var node = packedScene.Instantiate();
+            AddChild(node);
             MaybeTakeScreenshot(nameof(Frame_SceneExists), node);
+            RemoveChild(node);
             node.QueueFree();
         }
     }

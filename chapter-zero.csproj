@@ -57,7 +57,6 @@
     <Compile Remove="tests/integration/stages/stage_2/DungeonStageSignalTests.cs" />
     <Compile Remove="tests/integration/stages/stage_3/**/*.cs" />
     <Compile Remove="tests/integration/stages/stage_4/**/*.cs" />
-    <Compile Remove="tests/integration/common/TerminalIntegrationTests.cs" />
     <Compile Remove="tests/unit/common/terminal/TerminalChoicePresenterTests.cs" />
     <Compile Remove="tests/unit/stages/Stage6SystemLogDataTests.cs" />
   </ItemGroup>

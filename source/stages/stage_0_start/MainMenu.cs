@@ -37,32 +37,6 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
         [Export(PropertyHint.File, "*.json")]
         public string StageManifestPath { get; set; } = "res://source/stages/stage_0_start/main_menu_manifest.json";
 
-        /// <summary>
-        /// Scene file for individual stage buttons.
-        /// </summary>
-        [ExportGroup("Scene References")]
-        [Export]
-        public PackedScene? StageButtonScene { get; set; }
-
-        /// <summary>
-        /// Node path to the container holding stage buttons.
-        /// </summary>
-        [ExportGroup("Node References")]
-        [Export]
-        public NodePath? StageButtonListPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageButtonList");
-
-        /// <summary>
-        /// Node path to the stage list header label.
-        /// </summary>
-        [Export]
-        public NodePath? StageHeaderPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageHeader");
-
-        /// <summary>
-        /// Node path to the "Start Game" button.
-        /// </summary>
-        [Export]
-        public NodePath? StartButtonPath { get; set; } = new NodePath("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
-
         // --- PRIVATE FIELDS ---
 
         private readonly ManifestLoader _ManifestLoader = new();
@@ -72,32 +46,28 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 #pragma warning restore CA2213
 
         // Node references cached in CacheRequiredNodes
-        private VBoxContainer? _StageButtonList;
         private Label? _StageHeader;
         private Button? _StartButton;
+        private VBoxContainer? _StageButtonList;
 
         /// <summary>
         /// Caches all required node references, overriding the base method to add MainMenu-specific nodes.
         /// </summary>
         protected override void CacheRequiredNodes()
         {
-            // Let the base MenuUi class cache its nodes first (like the main button container)
+            // Let the base MenuUi class cache its nodes first
             base.CacheRequiredNodes();
 
-            // Cache the nodes specific to this MainMenu
-            _StageButtonList = GetNodeOrNull<VBoxContainer>(StageButtonListPath);
-            _StageHeader = GetNodeOrNull<Label>(StageHeaderPath);
-            _StartButton = GetNodeOrNull<Button>(StartButtonPath);
+            // Cache UI labels and buttons from the scene if they exist
+            // Note: Stage button list is now managed by OmegaUI.GetOrCreateButtonList()
+            _StageHeader = GetNodeOrNull<Label>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StageHeader");
+            _StartButton = GetNodeOrNull<Button>("MenuContainer/MenuWrapper/MenuContent/MenuButtonsMargin/MenuButtonsContainer/StartButton");
 
-            // Add validation to catch setup errors early
-            if (_StageButtonList == null)
-                GD.PushError("[MainMenu] StageButtonList node not assigned in the Inspector or path is incorrect.");
+            // Add validation for optional elements
             if (_StageHeader == null)
-                GD.PushError("[MainMenu] StageHeader node not assigned in the Inspector or path is incorrect.");
+                GD.PushWarning("[MainMenu] StageHeader label not found in scene.");
             if (_StartButton == null)
-                GD.PushError("[MainMenu] StartButton node not assigned in the Inspector or path is incorrect.");
-            if (StageButtonScene == null)
-                GD.PushError("[MainMenu] StageButtonScene is not assigned in the Inspector.");
+                GD.PushWarning("[MainMenu] StartButton not found in scene.");
         }
 
         /// <summary>
@@ -116,30 +86,21 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
         /// <summary>
         /// Loads the stage manifest and populates the dynamic list of stage buttons.
+        /// Requests a button list from OmegaUI and adds stage buttons to it.
         /// </summary>
         private void PopulateStageList()
         {
-            if (_StageButtonList == null)
-            {
-                GD.PrintErr("[MainMenu] StageButtonList is null. Cannot populate stage list.");
-                return;
-            }
+            // Get or create the button list managed by OmegaUI
+            _StageButtonList = GetOrCreateButtonList();
 
             var stages = _ManifestLoader.LoadManifest(StageManifestPath);
 
             if (stages.Count == 0)
             {
-                _StageHeader!.Text = "No Stages Detected";
+                if (_StageHeader != null)
+                    _StageHeader.Text = "No Stages Detected";
                 GD.PrintErr("[MainMenu] Stage manifest is empty.");
                 return;
-            }
-
-            // Clear any placeholder children from the scene
-            // Use RemoveChild + QueueFree to immediately update child count
-            foreach (var child in _StageButtonList.GetChildren())
-            {
-                _StageButtonList.RemoveChild(child);
-                child.QueueFree();
             }
 
             int createdCount = 0;
@@ -147,7 +108,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             {
                 if (CreateStageButton(stage) is { } stageButton)
                 {
-                    _StageButtonList.AddChild(stageButton);
+                    // CreateStageButton already adds to _StageButtonList, so just count
                     createdCount++;
                 }
             }
@@ -167,23 +128,33 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
         /// <summary>
         /// Creates and configures a stage button for the given stage.
+        /// Uses the factory method pattern inherited from MenuUi.CreateMenuButton()
+        /// to create buttons with consistent styling and layout.
         /// </summary>
         /// <param name="stage">The stage data to create a button for.</param>
-        /// <returns>The configured StageButton, or null if instantiation failed.</returns>
-        private StageButton? CreateStageButton(ManifestStage stage)
+        /// <returns>The configured Button, or null if creation failed.</returns>
+        private Button? CreateStageButton(ManifestStage stage)
         {
-            if (StageButtonScene?.Instantiate() is not StageButton stageButton)
-            {
-                GD.PrintErr($"[MainMenu] Failed to instantiate StageButtonScene for Stage {stage.Id}. Is the scene assigned in the Inspector?");
-                return null;
-            }
-
-            stageButton.Name = $"Stage{stage.Id}Button";
             string stageTitle = GetStageTitle(stage.Id);
             stage.DisplayName = stageTitle;
-            stageButton.Configure(stage.Id.ToString(), stageTitle, ResolveStageStatus(stage.Id));
-            stageButton.Pressed += () => OnStageSelected(stage.Id);
-            return stageButton;
+
+            // Create button using base factory method
+            var button = CreateButton($"Stage{stage.Id}Button", stageTitle);
+
+            // Add it to the stage button list instead of menu button container
+            if (_StageButtonList != null)
+            {
+                _StageButtonList.AddChild(button);
+            }
+            else
+            {
+                GD.PushWarning($"[MainMenu] Cannot add stage button '{stage.Id}' - StageButtonList is not set.");
+            }
+
+            // Connect the button's pressed signal to handle stage selection
+            button.Pressed += () => OnStageSelected(stage.Id);
+
+            return button;
         }
 
         /// <summary>
@@ -210,21 +181,6 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
         {
             GD.Print("[MainMenu] Start Game selected - loading Stage 1");
             OnStageSelected(1);
-        }
-
-        /// <summary>
-        /// Resolves the content status for a given stage ID.
-        /// </summary>
-        /// <param name="stageId">The stage ID to resolve status for.</param>
-        /// <returns>The ContentStatus for the stage.</returns>
-        private static StageButton.ContentStatus ResolveStageStatus(int stageId)
-        {
-            return stageId switch
-            {
-                1 => StageButton.ContentStatus.Ready,
-                2 => StageButton.ContentStatus.LlmGenerated,
-                _ => StageButton.ContentStatus.Missing,
-            };
         }
 
         /// <summary>

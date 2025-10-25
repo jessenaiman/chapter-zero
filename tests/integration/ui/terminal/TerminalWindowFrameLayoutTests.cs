@@ -19,8 +19,8 @@ using static GdUnit4.Assertions;
 [RequireGodotRuntime]
 public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
 {
-    private const string MainMenuPath = "res://source/stages/stage_0_start/main_menu.tscn";
-    private const float BorderMinimumMargin = 50f; // Minimum space for visible border
+    private const string _TerminalWindowPath = "res://source/ui/terminal/terminal_window.tscn";
+    private const float _BorderMinimumMargin = 50f; // Minimum space for visible border
 
     /// <summary>
     /// Border Visibility Test: TerminalFrame must have a visible red border.
@@ -30,7 +30,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task TerminalFrame_HasVisibleBorder()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -67,7 +67,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task TerminalFrame_ShouldBeCenteredHorizontally()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -95,7 +95,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task TerminalFrame_ShouldBeCenteredVertically()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -123,7 +123,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task TerminalFrame_ShouldBeCompletelyVisibleInViewport()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -153,7 +153,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task Bezel_FillsViewportWithBackground()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -182,7 +182,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     [TakeScreenshot]
     public async Task MainLayout_FillsBezelContainer()
     {
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(2).ConfigureAwait(false);
         var root = runner.Scene();
 
@@ -214,15 +214,15 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task Header_ExistsWithTitleAndIndicators()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         var root = runner.Scene();
 
         // Act - Find header components
-        var header = root.GetNodeOrNull<HBoxContainer>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header");
-        var title = root.GetNodeOrNull<Label>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Title");
-        var indicators = root.GetNodeOrNull<HBoxContainer>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators");
+        var header = root.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header");
+        var title = root.GetNodeOrNull<Label>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Title");
+        var indicators = root.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators");
 
         // Assert - Header structure exists
         AssertThat(header).IsNotNull();
@@ -244,7 +244,7 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     public async Task ScreenLayout_IsEmptyContentInsertionPoint()
     {
         // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(MainMenuPath);
+        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
         await runner.SimulateFrames(1).ConfigureAwait(false);
 
         var root = runner.Scene();

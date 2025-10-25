@@ -62,14 +62,18 @@ public partial class SceneLoadingAndViewportTests
         // The rect should be fully within a 1920x1080 viewport
         var viewportRect = new Rect2(Vector2.Zero, viewportSize);
         AssertThat(viewportRect.Encloses(expectedRect)).IsTrue();
+
+        // Clean up
+        xLabel.QueueFree();
     }
-    /// Stage Select Menu scene should not render outside viewport bounds or off-screen.
+    /// <summary>
+    /// Test fixture menu scene should not render outside viewport bounds or off-screen.
     /// Validates menu position is within safe bounds (top-left and bottom-right).
     /// </summary>
     [TestCase]
-    public void StageSelectMenu_NeverRendersOffscreen()
+    public void MenuFixture_NeverRendersOffscreen()
     {
-        var scene = GD.Load<PackedScene>("res://source/ui/menus/stage_select_menu.tscn");
+        var scene = GD.Load<PackedScene>("res://tests/fixtures/menu_ui_test_fixture.tscn");
         var menu = scene.Instantiate<Control>();
 
         var viewport = new SubViewport { Size = new Vector2I(1920, 1080) };
@@ -86,6 +90,10 @@ public partial class SceneLoadingAndViewportTests
         // Bottom-right corner must not exceed viewport
         AssertThat(menuRect.Position.X + menuRect.Size.X <= viewportSize.X).IsTrue();
         AssertThat(menuRect.Position.Y + menuRect.Size.Y <= viewportSize.Y).IsTrue();
+
+        // Clean up
+        menu.QueueFree();
+        viewport.QueueFree();
     }
 
     /// <summary>
@@ -95,7 +103,7 @@ public partial class SceneLoadingAndViewportTests
     [TestCase]
     public void AnyScene_LoadsWithinViewportBounds()
     {
-        var scenePath = "res://source/ui/menus/stage_select_menu.tscn";
+    const string scenePath = "res://source/stages/stage_0_start/main_menu.tscn";
         var scene = GD.Load<PackedScene>(scenePath);
         AssertThat(scene).IsNotNull();
 
@@ -125,6 +133,10 @@ public partial class SceneLoadingAndViewportTests
             var viewportRect = new Rect2(Vector2.Zero, viewportSize);
             AssertThat(viewportRect.Encloses(rect)).IsTrue();
         }
+
+        // Clean up
+        instance.QueueFree();
+        viewport.QueueFree();
     }
 
     /// <summary>
@@ -134,7 +146,7 @@ public partial class SceneLoadingAndViewportTests
     [TestCase]
     public void Scene_LoadsConsistentlyAcrossMultipleInstances()
     {
-        var scenePath = "res://source/ui/menus/stage_select_menu.tscn";
+    const string scenePath = "res://source/stages/stage_0_start/main_menu.tscn";
         var positions = new Vector2[3];
 
         for (int i = 0; i < 3; i++)
@@ -150,6 +162,7 @@ public partial class SceneLoadingAndViewportTests
 
             // Clean up
             menu.QueueFree();
+            viewport.QueueFree();
         }
 
         // All three loads should have the same center position
@@ -178,6 +191,9 @@ public partial class SceneLoadingAndViewportTests
         // Size must be positive (not collapsed)
         AssertThat(rect.Size.X > 0.0f).IsTrue();
         AssertThat(rect.Size.Y > 0.0f).IsTrue();
+
+        // Clean up
+        menu.QueueFree();
+        viewport.QueueFree();
     }
 }
-

@@ -4,6 +4,7 @@
 
 using System;
 using Godot;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -33,9 +34,22 @@ public static class NarrativeScriptLoader
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
             .Build();
 
-        return deserializer.Deserialize<NarrativeScript>(yamlContent);
+        try
+        {
+            return deserializer.Deserialize<NarrativeScript>(yamlContent);
+        }
+        catch (YamlDotNet.Core.YamlException ex)
+        {
+            GD.PrintErr($"YAML deserialization failed for {yamlFilePath}: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                GD.PrintErr($"Inner error: {ex.InnerException.Message}");
+            }
+            throw;
+        }
     }
 
     /// <summary>
@@ -57,8 +71,21 @@ public static class NarrativeScriptLoader
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
             .Build();
 
-        return deserializer.Deserialize<T>(yamlContent);
+        try
+        {
+            return deserializer.Deserialize<T>(yamlContent);
+        }
+        catch (YamlDotNet.Core.YamlException ex)
+        {
+            GD.PrintErr($"YAML deserialization failed for {yamlFilePath}: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                GD.PrintErr($"Inner error: {ex.InnerException.Message}");
+            }
+            throw;
+        }
     }
 }

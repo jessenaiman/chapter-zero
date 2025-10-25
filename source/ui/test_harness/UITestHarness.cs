@@ -4,16 +4,17 @@ using Godot;
 /// <summary>
 /// Script for Ui Test Harness. Press F12 to save a screenshot of the current viewport.
 /// </summary>
+[GlobalClass]
 public partial class UiTestHarness : Panel
 {
-    private const string DefaultHotkeyScreenshotName = "ui_test_harness_screenshot";
-    private const string ScreenshotDirectory = "user://ui_test_baselines";
+    private const string _DefaultHotkeyScreenshotName = "ui_test_harness_screenshot";
+    private const string _ScreenshotDirectory = "user://ui_test_baselines";
 
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.F12)
         {
-            CaptureScreenshotForTest(DefaultHotkeyScreenshotName);
+            CaptureScreenshotForTest(_DefaultHotkeyScreenshotName);
         }
     }
 
@@ -50,16 +51,16 @@ public partial class UiTestHarness : Panel
             return;
         }
 
-        var directoryError = DirAccess.MakeDirRecursiveAbsolute(ProjectSettings.GlobalizePath(ScreenshotDirectory));
+        var directoryError = DirAccess.MakeDirRecursiveAbsolute(ProjectSettings.GlobalizePath(_ScreenshotDirectory));
         if (directoryError != Error.Ok && directoryError != Error.AlreadyExists)
         {
-            GD.PrintErr($"[UiTestHarness] Failed to ensure screenshot directory {ScreenshotDirectory}: {directoryError}");
+            GD.PrintErr($"[UiTestHarness] Failed to ensure screenshot directory {_ScreenshotDirectory}: {directoryError}");
             return;
         }
 
         image.FlipY();
 
-        var screenshotPath = $"{ScreenshotDirectory}/{screenshotName}.png";
+        var screenshotPath = $"{_ScreenshotDirectory}/{screenshotName}.png";
         var saveError = image.SavePng(screenshotPath);
         if (saveError != Error.Ok)
         {

@@ -1,278 +1,131 @@
-# Omega Spiral - Narrative Script Schema
-# A creative storytelling format for stage narratives
-# Designed to feel like writing a script, not programming data structures
+# Omega Spiral - Narrative Script Template
+# A simple creative storytelling format for stage narratives
+#
+# Usage: Copy this template and fill in your stage story
+# Angled brackets <like this> indicate where you add content
 
-$schema: "http://json-schema.org/draft-07/schema#"
-$id: "http://omegaspiral.com/schemas/narrative_script.yaml"
-title: "Narrative Script"
-description: "Story scripting format for Omega Spiral - supports philosophical dialogues, dungeon encounters, and spiral storytelling"
-type: object
+title: <Stage Title - e.g., "Ghost Terminal">
+description: <Brief description of this stage>
+speaker: <Main narrator - e.g., "Omega", "System">
 
-required:
-  - title
-  - moments
+moments:
+  # Narrative Block - Pure storytelling
+  - type: narrative
+    owner: <dreamweaver - system|omega|light|shadow|ambition|npc>
+    lines:
+      - <Line of narrative text>
+      - <Another line>
+    visualPreset: <optional - boot_sequence, glitch, fade, etc>
+    fadeToStable: <optional - true|false>
+    timing: <optional - slow_burn, normal, rapid>
+    pause: <optional - seconds as number>
 
-properties:
-  title:
-    type: string
-    description: "The title of this stage's narrative (e.g., 'Ghost Terminal', 'Echo Chamber')"
-    example: "Ghost Terminal"
+  # Question Block - Simple prompt with choices
+  - type: question
+    owner: <dreamweaver affiliation>
+    setup:
+      - <Setup narrative line>
+      - <More context>
+    prompt: <The actual question>
+    context: <optional - additional context>
+    pause: <optional - seconds>
+    options:
+      - id: <unique-id>
+        owner: <light|shadow|ambition|npc>
+        text: <Choice text shown to player>
+        label: <optional - alternative display name>
+        response: <optional - what happens after selection>
+        nextBlock: <optional - block index to jump to>
 
-  memory:
-    type: object
-    description: "Contextual memory - previous attempts, iteration counts, protocol states"
-    properties:
-      iteration:
-        type: string
-        description: "Iteration counter or variable (optional)"
-      previousAttempt:
-        type: string
-        description: "Record of what happened before (optional)"
-      interface:
-        type: string
-        description: "Interface aesthetic hint (optional)"
-      status:
-        type: string
-        description: "Current protocol or system status (optional)"
-    additionalProperties: true
+  # Composite Block - Setup + Question + Options together
+  - type: composite
+    owner: <dreamweaver affiliation>
+    setup:
+      - <Setup narrative>
+      - <More setup>
+    prompt: <The question>
+    context: <optional - additional context>
+    options:
+      - id: <unique-id>
+        owner: <light|shadow|ambition>
+        text: <Choice text>
+    continuation:
+      - <Narrative after choice is made>
+      - <More continuation>
 
-  encounters:
-    type: array
-    description: "Major story encounters - rendered as chambers, dialogue trees, or combat based on stage type"
-    items:
-      type: object
-      properties:
-        id:
-          type: string
-          description: "Unique identifier for this encounter"
-        owner:
-          type: string
-          description: "Which dreamweaver owns this encounter (light, shadow, ambition)"
-        moments:
-          type: array
-          description: "Story moments within this encounter"
-          items:
-            $ref: "#/definitions/moment"
+# Optional: Metadata about the script
+memory:
+  iteration: <optional - {{LIVE_API_COUNTER}} or number>
+  previousAttempt: <optional - what happened before>
+  interface: <optional - aesthetic hint>
+  status: <optional - protocol state>
 
-  moments:
-    type: array
-    owner: string (optional), system|omega|light|shadow|ambition|npc
-    description: "Story moments - narrative beats, choices, dialogue exchanges"
-    minItems: 1
-    items:
-      $ref: "#/definitions/moment"
-        # Narrative block: pure storytelling
-        - type: object
-          description: "Narrative block - pure storytelling without choices"
-          required:
-            - type
-            - lines
-          properties:
-            type:
-              type: string
-              enum: [narrative]
-            lines:
-              type: array
-              items:
-                type: string
-              minItems: 1
-              description: "Narrative lines to display"
-            visualPreset:
-              type: string
-              description: "Visual effect preset (boot_sequence, glitch, fade, etc.)"
-            fadeToStable:
-              type: boolean
-              description: "Whether to fade to stable text after display"
-            timing:
-              type: string
-              description: "Pacing/timing hint (slow_burn, normal, rapid, etc.)"
-            pause:
-              type: number
-              description: "Pause duration in seconds after displaying lines"
-          additionalProperties: false
+# ============================================
+# EXAMPLE 1: Simple Opening with Glitch Effect
+# ============================================
+# title: Boot Sequence
+# description: System initialization with visual feedback
+# speaker: System
+#
+# moments:
+#   - type: narrative
+#     owner: system
+#     lines:
+#       - "Initializing systems..."
+#       - "Loading primary interface..."
+#     visualPreset: boot_sequence
+#     fadeToStable: true
+#     pause: 2
 
-        # Question block: simple prompt with choices
-        - type: object
-          description: "Question block - prompt with multiple choice options"
-          required:
-            - type
-            - prompt
-            - options
-          properties:
-            type:
-              type: string
-              enum: [question]
-            setup:
-              type: array
-              items:
-                type: string
-              description: "Setup text before the question prompt"
-            prompt:
-              type: string
-              description: "Question prompt text"
-            context:
-              type: string
-              description: "Additional context about the question"
-            pause:
-              type: number
-              description: "Pause after setup before showing question"
-            options:
-              type: array
-              minItems: 1
-              items:
-                $ref: "#/definitions/choiceOption"
-          additionalProperties: false
+# ============================================
+# EXAMPLE 2: Philosophical Question with Choices
+# ============================================
+# title: The Choice
+# description: A moment of decision
+# speaker: Omega
+#
+# moments:
+#   - type: composite
+#     owner: omega
+#     setup:
+#       - "The path splits before you."
+#       - "Each choice changes everything."
+#     prompt: "Which do you choose?"
+#     timing: slow_burn
+#     pause: 1.5
+#     options:
+#       - id: light
+#         owner: light
+#         text: "Follow the light"
+#       - id: shadow
+#         owner: shadow
+#         text: "Embrace the darkness"
+#       - id: balance
+#         owner: ambition
+#         text: "Walk between both"
+#     continuation:
+#       - "Your choice echoes through the spiral..."
 
-        # Composite block: setup + question + options in one block
-        - type: object
-          description: "Composite block - setup narrative + question with choices"
-          required:
-            - type
-            - prompt
-            - options
-          properties:
-            type:
-              type: string
-              enum: [composite]
-            setup:
-              type: array
-              items:
-                type: string
-              description: "Setup narrative before the question"
-            prompt:
-              type: string
-              description: "Question prompt text"
-            context:
-              type: string
-              description: "Additional context about the question"
-            pause:
-              type: number
-              description: "Pause after setup before showing question"
-            options:
-              type: array
-              minItems: 1
-              items:
-                $ref: "#/definitions/choiceOption"
-            continuation:
-              type: array
-              items:
-                type: string
-              description: "Narrative continuation after a choice is made"
-          additionalProperties: false
-
-definitions:
-  choiceOption:
-    type: object
-    description: "A single choice option with dreamweaver alignment and scoring"
-    owner: string (optional), system|omega|light|shadow|ambition|npc|none
-    required:
-      - id
-      - text
-    properties:
-      id:
-        type: string
-        description: "Unique identifier for this choice"
-        pattern: "^[a-z_]+$"
-        example: "light"
-
-      text:
-        type: string
-        description: "Display text for this choice"
-
-      label:
-        type: string
-        description: "Alternative display label (falls back to text if not provided)"
-
-      dreamweaver:
-        type: string
-        enum: [LIGHT, SHADOW, AMBITION]
-        description: "Which Dreamweaver persona this choice aligns with"
-
-      scores:
-        type: object
-        description: "Points awarded to each persona for selecting this choice"
-        properties:
-          light:
-            type: integer
-            minimum: 0
-            default: 0
-          shadow:
-            type: integer
-            minimum: 0
-            default: 0
-          ambition:
-            type: integer
-            minimum: 0
-            default: 0
-        additionalProperties: false
-
-      response:
-        type: string
-        description: "Response or consequence shown after this choice is selected"
-
-      nextNodeId:
-        type: string
-        description: "Next dialogue node ID (for dialogue tree systems)"
-
-      nextBlock:
-        type: integer
-        minimum: 0
-        description: "Next story block index to jump to"
-
-      isAvailable:
-        type: boolean
-        default: true
-        description: "Whether this choice is currently available"
-
-      description:
-        type: string
-        description: "Detailed description of this choice"
-
-    additionalProperties: false
-
-examples:
-  - type: narrative_script
-    metadata:
-      iteration: "{{LIVE_API_COUNTER}}"
-      iterationFallback: 847294
-      previousAttempt: "1983.07.14 - FAILURE: USER_TERMINATED"
-      interface: terminal_retro_crt_2025
-      status: LAST_CHANCE_PROTOCOL
-
-    blocks:
-      - type: narrative
-        lines:
-          - "Boot sequence initiated..."
-          - "Loading interface..."
-        visualPreset: boot_sequence
-        fadeToStable: true
-
-      - type: composite
-        setup:
-          - "A voice asks:"
-        prompt: "What is your name?"
-        context: "(This determines your path)"
-        options:
-          - id: light
-            text: "I choose the light."
-            dreamweaver: LIGHT
-            scores:
-              light: 2
-              shadow: 0
-              ambition: 0
-
-          - id: shadow
-            text: "I choose the shadow."
-            dreamweaver: SHADOW
-            scores:
-              light: 0
-              shadow: 2
-              ambition: 0
-
-          - id: ambition
-            text: "I choose both."
-            dreamweaver: AMBITION
-            scores:
-              light: 1
-              shadow: 1
-              ambition: 2
+# ============================================
+# EXAMPLE 3: Fast-Paced Dialogue Tree
+# ============================================
+# title: Rapid Exchange
+# description: Quick back-and-forth conversation
+# speaker: Various
+#
+# moments:
+#   - type: narrative
+#     owner: npc
+#     lines:
+#       - "Wait! You can't go that way!"
+#     timing: rapid
+#     pause: 0.5
+#
+#   - type: question
+#     owner: npc
+#     prompt: "Why are you here?"
+#     options:
+#       - id: quest
+#         text: "I'm on a quest"
+#       - id: lost
+#         text: "I'm lost"

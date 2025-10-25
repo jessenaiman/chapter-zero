@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=4 uid="uid://testharnessbg1"]
 
 [ext_resource type="PackedScene" path="res://source/ui/components/background.tscn" id="1"]
-[ext_resource type="Script" path="res://source/ui/test_harness/UiTestHarness.cs" id="2"]
+[ext_resource type="Script" path="res://source/ui/test_harness/UITestHarness.cs" id="2"]
 
 [node name="UiTestHarness" type="Panel"]
 anchors_preset = 15

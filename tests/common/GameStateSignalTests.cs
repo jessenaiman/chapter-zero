@@ -30,8 +30,9 @@ public partial class GameStateSignalTests
     public async Task AffinityScoreUpdatedSignal_EmittedWhenAffinityChanges_SignalReceived()
     {
         // Arrange
-        var gameStateSignals = new OmegaSpiral.Source.Scripts.GameStateSignals();
-        
+    var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    var signalMonitor = AssertSignal(gameStateSignals);
+
         // Act - Simulate affinity score update
         var dwType = DreamweaverType.Light;
         var change = 5;
@@ -39,7 +40,7 @@ public partial class GameStateSignalTests
         gameStateSignals.EmitAffinityScoreUpdated(dwType, change, newScore);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(gameStateSignals)
+        await signalMonitor
             .IsEmitted("AffinityScoreUpdated")
             .WithTimeout(1000);
     }
@@ -56,12 +57,13 @@ public partial class GameStateSignalTests
     public async Task PlayerProgressionChangedSignal_EmittedWhenMilestoneReached_SignalReceived()
     {
         // Arrange
-        var gameStateSignals = new OmegaSpiral.Source.Scripts.GameStateSignals();
-        
+    var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    var signalMonitor = AssertSignal(gameStateSignals);
+
         // Act - Simulate reaching a milestone
         var milestoneId = "stage_2_complete";
-        var progressData = new Godot.Collections.Dictionary<string, Variant> 
-        { 
+        var progressData = new Godot.Collections.Dictionary<string, Variant>
+        {
             { "stage_id", "stage_2" },
             { "completion_time", 120.5f },
             { "score", 500 }
@@ -69,7 +71,7 @@ public partial class GameStateSignalTests
         gameStateSignals.EmitPlayerProgressionChanged(milestoneId, progressData);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(gameStateSignals)
+        await signalMonitor
             .IsEmitted("PlayerProgressionChanged")
             .WithTimeout(1000);
     }
@@ -86,8 +88,9 @@ public partial class GameStateSignalTests
     public async Task InventoryUpdatedSignal_EmittedWhenInventoryChanges_SignalReceived()
     {
         // Arrange
-        var gameStateSignals = new OmegaSpiral.Source.Scripts.GameStateSignals();
-        
+    var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    var signalMonitor = AssertSignal(gameStateSignals);
+
         // Act - Simulate inventory update
         var itemId = "health_potion";
         var action = "added";
@@ -95,7 +98,7 @@ public partial class GameStateSignalTests
         gameStateSignals.EmitInventoryUpdated(itemId, action, quantity);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(gameStateSignals)
+        await signalMonitor
             .IsEmitted("InventoryUpdated")
             .WithTimeout(1000);
     }
@@ -112,8 +115,9 @@ public partial class GameStateSignalTests
     public async Task CharacterPartyChangedSignal_EmittedWhenPartyChanges_SignalReceived()
     {
         // Arrange
-        var gameStateSignals = new OmegaSpiral.Source.Scripts.GameStateSignals();
-        
+    var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    var signalMonitor = AssertSignal(gameStateSignals);
+
         // Act - Simulate party change
         var action = "added";
         var characterId = "warrior_001";
@@ -125,7 +129,7 @@ public partial class GameStateSignalTests
         gameStateSignals.EmitCharacterPartyChanged(action, characterId, partyData);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(gameStateSignals)
+        await signalMonitor
             .IsEmitted("CharacterPartyChanged")
             .WithTimeout(1000);
     }
@@ -142,15 +146,16 @@ public partial class GameStateSignalTests
     public async Task DreamweaverInfluenceChangedSignal_EmittedWhenInfluenceChanges_SignalReceived()
     {
         // Arrange
-        var gameStateSignals = new OmegaSpiral.Source.Scripts.GameStateSignals();
-        
+    var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    var signalMonitor = AssertSignal(gameStateSignals);
+
         // Act - Simulate influence change
         var newDominant = DreamweaverType.Mischief;
         var influenceLevel = 7;
         gameStateSignals.EmitDreamweaverInfluenceChanged(newDominant, influenceLevel);
 
         // Assert - Wait for the signal to be emitted
-        await AssertSignal(gameStateSignals)
+        await signalMonitor
             .IsEmitted("DreamweaverInfluenceChanged")
             .WithTimeout(1000);
     }
