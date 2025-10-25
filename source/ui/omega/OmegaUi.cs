@@ -101,30 +101,34 @@ public partial class OmegaUi : Control
     /// <summary>
     /// Gets or sets the node path for the main text display control.
     /// This is the primary area for rendered text in the Ui theme.
+    /// Defaults to "ContentContainer/TextDisplay" but can be overridden in derived classes.
     /// </summary>
     [Export]
-    public NodePath? TextDisplayPath { get; set; } = default;
+    public NodePath? TextDisplayPath { get; set; } = "ContentContainer/TextDisplay";
 
     /// <summary>
     /// Gets or sets the node path for the phosphor (glow) shader layer.
     /// Used for CRT-style visual effects in the Ui theme.
+    /// Defaults to "PhosphorLayer" but can be overridden in derived classes.
     /// </summary>
     [Export]
-    public NodePath? PhosphorLayerPath { get; set; } = default;
+    public NodePath? PhosphorLayerPath { get; set; } = "PhosphorLayer";
 
     /// <summary>
     /// Gets or sets the node path for the scanline shader layer.
     /// Used for CRT-style scanline effects in the Ui theme.
+    /// Defaults to "ScanlineLayer" but can be overridden in derived classes.
     /// </summary>
     [Export]
-    public NodePath? ScanlineLayerPath { get; set; } = default;
+    public NodePath? ScanlineLayerPath { get; set; } = "ScanlineLayer";
 
     /// <summary>
     /// Gets or sets the node path for the glitch shader layer.
     /// Used for CRT-style glitch effects in the Ui theme.
+    /// Defaults to "GlitchLayer" but can be overridden in derived classes.
     /// </summary>
     [Export]
-    public NodePath? GlitchLayerPath { get; set; } = default;
+    public NodePath? GlitchLayerPath { get; set; } = "GlitchLayer";
 
     // Component composition (Dependency Inversion Principle)
     private IOmegaShaderController? _ShaderController;

@@ -40,7 +40,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted with correct parameters
         await AssertSignal(tileDungeon)
             .IsEmitted("PlayerMoved")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("EnemyEncountered")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("ItemFound")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public partial class TileDungeonSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(tileDungeon)
             .IsEmitted("PlayerHealthChanged")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 }
 
@@ -148,7 +148,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("CombatRoundStarted")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("PlayerActionSelected")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("AttackExecuted")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -224,6 +224,6 @@ public partial class FieldCombatSignalTests
         // Assert - Wait for the signal to be emitted
         await AssertSignal(fieldCombat)
             .IsEmitted("CombatCompleted")
-            .WithTimeout(1000).ConfigureAwait(false);
+            .WithTimeout(1000).ConfigureAwait(true);
     }
 }

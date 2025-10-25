@@ -25,7 +25,7 @@ public static class ContentBlockIntegrationTests
     public static async Task BootSequenceSceneLoadsSuccessfully()
     {
         using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
-        await runner.SimulateFrames(1).ConfigureAwait(false);
+        await runner.SimulateFrames(1).ConfigureAwait(true);
 
         AssertThat(runner).IsNotNull();
     }
@@ -37,7 +37,7 @@ public static class ContentBlockIntegrationTests
     public static async Task OpeningMonologueSceneLoadsSuccessfully()
     {
         using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
-        await runner.SimulateFrames(1).ConfigureAwait(false);
+        await runner.SimulateFrames(1).ConfigureAwait(true);
 
         AssertThat(runner).IsNotNull();
     }
@@ -49,7 +49,7 @@ public static class ContentBlockIntegrationTests
     public static async Task QuestionSceneLoadsSuccessfully()
     {
         using var runner = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
-        await runner.SimulateFrames(1).ConfigureAwait(false);
+        await runner.SimulateFrames(1).ConfigureAwait(true);
 
         AssertThat(runner).IsNotNull();
     }
@@ -62,13 +62,13 @@ public static class ContentBlockIntegrationTests
     public static async Task AllStage1ScenesLoadConcurrently()
     {
         using var runnerBoot = ISceneRunner.Load("res://source/stages/ghost/scenes/boot_sequence.tscn");
-        await runnerBoot.SimulateFrames(1).ConfigureAwait(false);
+        await runnerBoot.SimulateFrames(1).ConfigureAwait(true);
 
         using var runnerOpening = ISceneRunner.Load("res://source/stages/ghost/scenes/opening_monologue.tscn");
-        await runnerOpening.SimulateFrames(1).ConfigureAwait(false);
+        await runnerOpening.SimulateFrames(1).ConfigureAwait(true);
 
         using var runnerQuestion = ISceneRunner.Load("res://source/stages/ghost/scenes/question_1_name.tscn");
-        await runnerQuestion.SimulateFrames(1).ConfigureAwait(false);
+        await runnerQuestion.SimulateFrames(1).ConfigureAwait(true);
 
         AssertThat(runnerBoot).IsNotNull();
         AssertThat(runnerOpening).IsNotNull();

@@ -44,7 +44,7 @@ public partial class DungeonStageSignalTests
         await AssertSignal(dungeon)
             .IsEmitted("StageEntered")
             .WithTimeout(1000)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public partial class DungeonStageSignalTests
         await AssertSignal(dungeon)
             .IsEmitted("StageCleared")
             .WithTimeout(1000)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public partial class DungeonStageSignalTests
         await AssertSignal(dungeon)
             .IsEmitted("InteractionResolved")
             .WithTimeout(1000)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public partial class DungeonStageSignalTests
         await AssertSignal(dungeon)
             .IsEmitted("AffinityChanged")
             .WithTimeout(1000)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 
     /// <summary>
@@ -147,6 +147,6 @@ public partial class DungeonStageSignalTests
         await AssertSignal(dungeon)
             .IsEmitted("SequenceComplete")
             .WithTimeout(1000)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 }

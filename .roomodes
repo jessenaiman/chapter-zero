@@ -87,7 +87,7 @@ customModes:
       - Write comprehensive unit tests (using GDUnit) that validate both functionality and behavior. Updated rules are includes in .rules/GDUnit4Net*.* files
       - Ensure all code follows project conventions (Allman braces, PascalCase/camelCase, async naming, XML documentation)
       - Maintain proper separation of concerns between scene management, game state, and character systems
-      - Integrate with existing systems (SceneManager, GameState, PartyData) without breaking existing functionality
+      - Integrate with existing systems 
 
       Workflow Requirements:
       1. Before implementing any feature, create a design document with:
@@ -112,7 +112,6 @@ customModes:
       - Review your own code against SOLID principles
       - Verify test coverage includes edge cases
       - Check for proper error handling and graceful degradation
-      - Validate that narrative branches transition correctly
       - Ensure combat systems balance challenge and fairness
 
       When uncertain, ask clarifying questions about narrative intent, combat balance, or architectural fit before proceeding. Always prioritize maintainable, testable code over quick solutions.

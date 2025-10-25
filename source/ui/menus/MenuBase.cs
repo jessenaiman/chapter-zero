@@ -72,8 +72,21 @@ public partial class MenuUi : OmegaUi
         }
 
         // Base OmegaUi initialization is called automatically by Godot's lifecycle.
-        // We just need to call our menu-specific setup.
+        // This ensures CacheRequiredNodes and InitializeComponentStates complete first.
         base._Ready();
+
+        // AFTER base initialization, call the hook for subclasses to populate buttons
+        PopulateMenuButtons();
+    }
+
+    /// <summary>
+    /// Virtual method for subclasses to override and populate their menu buttons.
+    /// Called AFTER MenuBase initialization is complete, so all containers are ready.
+    /// Override this method to add buttons specific to your menu type.
+    /// </summary>
+    protected virtual void PopulateMenuButtons()
+    {
+        // Default: no buttons. Subclasses override to add their buttons.
     }
 
     /// <summary>
@@ -85,18 +98,71 @@ public partial class MenuUi : OmegaUi
         // First, let the base class cache its required nodes (TextDisplay, shader layers, etc.)
         base.CacheRequiredNodes();
 
-        // Now, cache the nodes specific to the menu using exported paths
+        // Try to cache from scene first
         _MenuButtonContainer = MenuButtonContainerPath != null && !string.IsNullOrEmpty(MenuButtonContainerPath.ToString())
             ? GetNodeOrNull<VBoxContainer>(MenuButtonContainerPath)
             : null;
 
+        // If not found, CREATE the default structure programmatically
+        var contentContainer = GetNodeOrNull<Control>("ContentContainer");
+        if (contentContainer == null)
+        {
+            contentContainer = new VBoxContainer
+            {
+                Name = "ContentContainer",
+                AnchorLeft = 0, AnchorTop = 0, AnchorRight = 1, AnchorBottom = 1,
+                GrowHorizontal = GrowDirection.Both,
+                GrowVertical = GrowDirection.Both
+            };
+            AddChild(contentContainer);
+        }
+
+        // Create MenuTitle if it doesn't exist
+        _MenuTitle = MenuTitlePath != null && !string.IsNullOrEmpty(MenuTitlePath.ToString())
+            ? GetNodeOrNull<Label>(MenuTitlePath)
+            : null;
+
+        if (_MenuTitle == null && contentContainer != null)
+        {
+            _MenuTitle = new Label
+            {
+                Name = "MenuTitle",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                SizeFlagsVertical = SizeFlags.ShrinkBegin
+            };
+            contentContainer.AddChild(_MenuTitle);
+        }
+
+        // Create MenuButtonContainer if it doesn't exist
+        if (_MenuButtonContainer == null && contentContainer != null)
+        {
+            _MenuButtonContainer = new VBoxContainer
+            {
+                Name = "MenuButtonContainer",
+                SizeFlagsHorizontal = SizeFlags.ShrinkCenter,
+                SizeFlagsVertical = SizeFlags.ExpandFill,
+                Alignment = BoxContainer.AlignmentMode.Center
+            };
+            contentContainer.AddChild(_MenuButtonContainer);
+        }
+
+        // Create MenuActionBar if it doesn't exist
         _MenuActionBar = MenuActionBarPath != null && !string.IsNullOrEmpty(MenuActionBarPath.ToString())
             ? GetNodeOrNull<HBoxContainer>(MenuActionBarPath)
             : null;
 
-        _MenuTitle = MenuTitlePath != null && !string.IsNullOrEmpty(MenuTitlePath.ToString())
-            ? GetNodeOrNull<Label>(MenuTitlePath)
-            : null;
+        if (_MenuActionBar == null && contentContainer != null)
+        {
+            _MenuActionBar = new HBoxContainer
+            {
+                Name = "MenuActionBar",
+                SizeFlagsHorizontal = SizeFlags.ShrinkCenter,
+                SizeFlagsVertical = SizeFlags.ShrinkEnd,
+                Alignment = BoxContainer.AlignmentMode.Center
+            };
+            contentContainer.AddChild(_MenuActionBar);
+        }
 
         if (_MenuButtonContainer == null)
             GD.PushWarning("[MenuUi] MenuButtonContainer not found at path. Buttons cannot be added.");

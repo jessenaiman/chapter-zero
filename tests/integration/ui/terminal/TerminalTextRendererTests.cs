@@ -92,7 +92,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var testText = _TestText;
 
             // Act
-            await _Renderer.AppendTextAsync(testText).ConfigureAwait(false);
+            await _Renderer.AppendTextAsync(testText).ConfigureAwait(true);
 
             // Assert
             AssertThat(_Renderer.GetCurrentText()).IsEqual(testText);
@@ -110,7 +110,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var typingSpeed = 50f; // characters per second
 
             // Act
-            await _Renderer.AppendTextAsync(testText, typingSpeed).ConfigureAwait(false);
+            await _Renderer.AppendTextAsync(testText, typingSpeed).ConfigureAwait(true);
 
             // Assert
             AssertThat(_Renderer.GetCurrentText()).IsEqual(testText);
@@ -129,7 +129,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var startTime = Time.GetTicksMsec();
 
             // Act
-            await _Renderer.AppendTextAsync(testText, delayBeforeStart: delay).ConfigureAwait(false);
+            await _Renderer.AppendTextAsync(testText, delayBeforeStart: delay).ConfigureAwait(true);
 
             // Assert
             var elapsed = Time.GetTicksMsec() - startTime;
@@ -144,7 +144,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
         public async Task ClearText_AfterAppendingText_RemovesAllContent()
         {
             // Arrange
-            await _Renderer.AppendTextAsync("Some text").ConfigureAwait(false);
+            await _Renderer.AppendTextAsync("Some text").ConfigureAwait(true);
 
             // Act
             _Renderer.ClearText();
@@ -164,7 +164,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
 
             // Act
             _Renderer.SetTextColor(color);
-            await _Renderer.AppendTextAsync(_RedText).ConfigureAwait(false);
+            await _Renderer.AppendTextAsync(_RedText).ConfigureAwait(true);
 
             // Assert
             // Note: This test verifies the method doesn't throw and text is appended
@@ -193,7 +193,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var longText = _LongText;
 
             // Act
-            await _Renderer.AppendTextAsync(longText).ConfigureAwait(false);
+            await _Renderer.AppendTextAsync(longText).ConfigureAwait(true);
             _Renderer.ScrollToBottom();
 
             // Assert
@@ -224,13 +224,13 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var animationTask = _Renderer.AppendTextAsync(testText, typingSpeed: 10f); // Slow typing
 
             // Give it a moment to start animating
-            await Task.Delay(_AnimationDelay).ConfigureAwait(false);
+            await Task.Delay(_AnimationDelay).ConfigureAwait(true);
 
             // Assert - Should be animating
             AssertThat(_Renderer.IsAnimating()).IsTrue();
 
             // Wait for completion
-            await animationTask.ConfigureAwait(false);
+            await animationTask.ConfigureAwait(true);
             AssertThat(_Renderer.IsAnimating()).IsFalse();
         }
 
@@ -244,7 +244,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var initialText = _Renderer.GetCurrentText();
 
             // Act
-            await _Renderer.AppendTextAsync("").ConfigureAwait(false);
+            await _Renderer.AppendTextAsync("").ConfigureAwait(true);
 
             // Assert
             AssertThat(_Renderer.GetCurrentText()).IsEqual(initialText);

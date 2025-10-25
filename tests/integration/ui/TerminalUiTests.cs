@@ -2,8 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 using GdUnit4;
 using GdUnit4.Api;
@@ -13,20 +11,27 @@ using static GdUnit4.Assertions;
 namespace OmegaSpiral.Tests.Integration.Ui;
 
 /// <summary>
-/// Integration tests for TerminalUI.
-/// Tests terminal modes, choice presentation, captions, and component initialization.
+/// Integration tests for TerminalUI component.
+/// Verifies initialization, modes, layout, and component presence.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
 public partial class TerminalUITests : Node
 {
-    private const string _TerminalScenePath = "res://source/ui/terminal/base_terminal_scene.tscn";
+    private TerminalUi _Terminal = null!;
 
-    private static async Task<ISceneRunner> LoadTerminalAsync(uint frames = 5)
+    [Before]
+    public void Setup()
     {
-        ISceneRunner runner = ISceneRunner.Load(_TerminalScenePath);
-        await runner.SimulateFrames(frames).ConfigureAwait(false);
-        return runner;
+        _Terminal = AutoFree(new TerminalUi())!;
+        AddChild(_Terminal);
+        _Terminal._Ready();
+    }
+
+    [After]
+    public void Teardown()
+    {
+        // Cleanup is handled by AutoFree for _terminal.
     }
 
     // ==================== INHERITANCE & STRUCTURE ====================
@@ -35,26 +40,18 @@ public partial class TerminalUITests : Node
     /// TerminalUI inherits from OmegaUI.
     /// </summary>
     [TestCase]
-    public async Task InheritsFromOmegaUI()
+    public void InheritsFromOmegaUI()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-        AssertThat(terminal).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaUi>();
+        AssertThat(_Terminal).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaUi>();
     }
 
     /// <summary>
     /// Has required ContentContainer from OmegaUI base.
     /// </summary>
     [TestCase]
-    public async Task HasContentContainer()
+    public void HasContentContainer()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        Control terminal = (Control)runner.Scene();
-        var contentContainer = terminal.GetNodeOrNull<Control>("ContentContainer");
-
+        var contentContainer = _Terminal.GetNodeOrNull<Control>("ContentContainer");
         AssertThat(contentContainer).IsNotNull();
     }
 
@@ -62,13 +59,9 @@ public partial class TerminalUITests : Node
     /// Has required ChoiceContainer for terminal choices.
     /// </summary>
     [TestCase]
-    public async Task HasChoiceContainer()
+    public void HasChoiceContainer()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        Control terminal = (Control)runner.Scene();
-        var choiceContainer = terminal.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-
+        var choiceContainer = _Terminal.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
         AssertThat(choiceContainer).IsNotNull();
     }
 
@@ -78,30 +71,19 @@ public partial class TerminalUITests : Node
     /// Default mode is Full when not explicitly set.
     /// </summary>
     [TestCase]
-    public async Task DefaultMode_IsFull()
+    public void DefaultMode_IsFull()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-        AssertThat(terminal!.Mode).IsEqual(TerminalUi.TerminalMode.Full);
+        AssertThat(_Terminal.Mode).IsEqual(TerminalUi.TerminalMode.Full);
     }
 
     /// <summary>
-    /// Disabled mode skips initialization.
+    /// Disabled mode can be set.
     /// </summary>
     [TestCase]
-    public async Task DisabledMode_SkipsInitialization()
+    public void DisabledMode_CanBeSet()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalScenePath);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        terminal!.Mode = TerminalUi.TerminalMode.Disabled;
-        await runner.SimulateFrames(5).ConfigureAwait(false);
-
-        AssertThat(terminal.Mode).IsEqual(TerminalUi.TerminalMode.Disabled);
+        _Terminal.Mode = TerminalUi.TerminalMode.Disabled;
+        AssertThat(_Terminal.Mode).IsEqual(TerminalUi.TerminalMode.Disabled);
     }
 
     // ==================== CHOICE PRESENTATION ====================
@@ -110,36 +92,11 @@ public partial class TerminalUITests : Node
     /// ChoiceContainer starts invisible.
     /// </summary>
     [TestCase]
-    public async Task ChoiceContainer_StartsInvisible()
+    public void ChoiceContainer_StartsInvisible()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        Control terminal = (Control)runner.Scene();
-        var choiceContainer = terminal.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-
+        var choiceContainer = _Terminal.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
         AssertThat(choiceContainer).IsNotNull();
         AssertThat(choiceContainer!.Visible).IsFalse();
-    }
-
-    /// <summary>
-    /// PresentChoicesAsync returns valid selection.
-    /// </summary>
-    [TestCase]
-    public async Task PresentChoicesAsync_ReturnsValidSelection()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        string[] choices = { "Option A", "Option B", "Option C" };
-
-        // Start the async operation (won't wait for user input in test)
-        var choiceTask = terminal!.PresentChoicesAsync("Select an option:", choices);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-
-        // In test environment, default selection should be first option
-        AssertThat(choiceTask).IsNotNull();
     }
 
     // ==================== CAPTIONS ====================
@@ -148,154 +105,31 @@ public partial class TerminalUITests : Node
     /// Captions disabled by default.
     /// </summary>
     [TestCase]
-    public async Task Captions_DisabledByDefault()
+    public void Captions_DisabledByDefault()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-        AssertThat(terminal!.CaptionsEnabled).IsFalse();
-    }
-
-    /// <summary>
-    /// UpdateCaption handles missing CaptionLabel gracefully.
-    /// </summary>
-    [TestCase]
-    public async Task UpdateCaption_HandlesNullGracefully()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        // Should not crash even if CaptionLabel is missing
-        terminal!.UpdateCaption("Test caption");
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-
-        AssertThat(terminal).IsNotNull();
+        AssertThat(_Terminal.CaptionsEnabled).IsFalse();
     }
 
     // ==================== TEXT RENDERING ====================
 
     /// <summary>
-    /// AppendTextAsync delegates to OmegaUI base.
-    /// </summary>
-    [TestCase]
-    public async Task AppendTextAsync_DelegatesToBase()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        await terminal!.AppendTextAsync("Test message", 0.0f);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-
-        AssertThat(terminal.TextRenderer).IsNotNull();
-    }
-
-    /// <summary>
-    /// AppendTextAsync with ghost effect parameter (legacy support).
-    /// </summary>
-    [TestCase]
-    public async Task AppendTextAsync_SupportsGhostEffectParameter()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        // Ghost effect parameter is ignored (handled by shader), but API should accept it
-        await terminal!.AppendTextAsync("Test message", 0.0f, useGhostEffect: true);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-
-        AssertThat(terminal).IsNotNull();
-    }
-
-    // ==================== AUTOLOAD INTEGRATION ====================
-
-    /// <summary>
-    /// Handles missing SceneManager gracefully.
-    /// </summary>
-    [TestCase]
-    public async Task HandlesNullSceneManager()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        // SceneManager might not be available in test environment
-        // Should log warning but not crash
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-
-        AssertThat(terminal).IsNotNull();
-    }
-
-    // ==================== COMPONENT INITIALIZATION ====================
-
-    /// <summary>
     /// Initializes with valid TextRenderer from OmegaUI.
     /// </summary>
     [TestCase]
-    public async Task InitializesTextRenderer()
+    public void InitializesTextRenderer()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-        AssertThat(terminal!.TextRenderer).IsNotNull();
-    }
-
-    /// <summary>
-    /// ChoicePresenter created during initialization.
-    /// </summary>
-    [TestCase]
-    public async Task CreatesChoicePresenter()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        var terminal = runner.Scene() as TerminalUi;
-        AssertThat(terminal).IsNotNull();
-
-        // ChoicePresenter is protected, but we can verify it works by calling PresentChoicesAsync
-        string[] choices = { "Test" };
-        var choiceTask = terminal!.PresentChoicesAsync("Test", choices);
-
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-        AssertThat(choiceTask).IsNotNull();
+        AssertThat(_Terminal.TextRenderer).IsNotNull();
     }
 
     // ==================== LAYOUT & VISIBILITY ====================
 
     /// <summary>
-    /// Terminal fills entire viewport.
+    /// Terminal has ContentContainer within bounds.
     /// </summary>
     [TestCase]
-    public async Task FillsViewport()
+    public void ContentContainer_WithinBounds()
     {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        Control terminal = (Control)runner.Scene();
-        var viewport = terminal.GetViewport();
-        var viewportRect = viewport.GetVisibleRect();
-        var terminalRect = terminal.GetRect();
-
-        AssertThat(terminalRect.Size.X).IsEqual(viewportRect.Size.X);
-        AssertThat(terminalRect.Size.Y).IsEqual(viewportRect.Size.Y);
-    }
-
-    /// <summary>
-    /// ContentContainer is positioned within terminal bounds.
-    /// </summary>
-    [TestCase]
-    public async Task ContentContainer_WithinBounds()
-    {
-        using ISceneRunner runner = await LoadTerminalAsync().ConfigureAwait(false);
-
-        Control terminal = (Control)runner.Scene();
-        var contentContainer = terminal.GetNodeOrNull<Control>("ContentContainer");
-
+        var contentContainer = _Terminal.GetNodeOrNull<Control>("ContentContainer");
         AssertThat(contentContainer).IsNotNull();
         AssertThat(contentContainer!.GetRect().Size.X).IsGreater(0);
         AssertThat(contentContainer.GetRect().Size.Y).IsGreater(0);

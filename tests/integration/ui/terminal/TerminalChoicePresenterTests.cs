@@ -56,14 +56,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choices, false);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
+            await Task.Delay(100).ConfigureAwait(true); // Small delay to allow Ui to update
 
             // Get the second button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
             button.EmitSignal("pressed");
 
             // Assert
-            var result = await selectionTask.ConfigureAwait(false);
+            var result = await selectionTask.ConfigureAwait(true);
             AssertThat(result).Contains(1);
         }
 
@@ -81,14 +81,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choices, true);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
+            await Task.Delay(100).ConfigureAwait(true); // Small delay to allow Ui to update
 
             // Get the second button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(1); // Second button (index 1)
             button.EmitSignal("pressed");
 
             // Assert
-            var result = await selectionTask.ConfigureAwait(false);
+            var result = await selectionTask.ConfigureAwait(true);
             AssertThat(result).Contains(1);
         }
 
@@ -111,14 +111,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var selectionTask = _presenter.PresentChoicesAsync(choiceOptions);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
+            await Task.Delay(100).ConfigureAwait(true); // Small delay to allow Ui to update
 
             // Get the third button and simulate clicking it
             var button = _choiceContainer.GetChild<Button>(2); // Third button (index 2)
             button.EmitSignal("pressed");
 
             // Assert
-            var result = await selectionTask.ConfigureAwait(false);
+            var result = await selectionTask.ConfigureAwait(true);
             AssertThat(result).IsEqual(2);
         }
 
@@ -135,13 +135,13 @@ namespace OmegaSpiral.Tests.Unit.Common.Terminal
             var choiceTask = _presenter.PresentChoicesAsync(choices);
 
             // Wait for buttons to be created
-            await Task.Delay(100).ConfigureAwait(false); // Small delay to allow Ui to update
+            await Task.Delay(100).ConfigureAwait(true); // Small delay to allow Ui to update
 
             // Click first button to complete the task
             var button = _choiceContainer.GetChild<Button>(0);
             button.EmitSignal("pressed");
 
-            await choiceTask.ConfigureAwait(false);
+            await choiceTask.ConfigureAwait(true);
 
             // Act
             _presenter.HideChoices();

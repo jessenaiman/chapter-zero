@@ -8,33 +8,37 @@ using Godot;
 using GdUnit4;
 using GdUnit4.Api;
 using static GdUnit4.Assertions;
+using OmegaSpiral.Source.Ui.Terminal;
 
 /// <summary>
 /// Tests for Terminal Window System frame-constrained layout architecture.
-/// Validates that terminal_window.tscn creates a visible border frame that contains
+/// Validates that TerminalWindow creates a visible border frame that contains
 /// any content placed in ScreenLayout, regardless of content type (menus, dialogs, gameplay).
 /// This ensures a consistent "old school terminal" Ui aesthetic across all game scenes.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
+public partial class TerminalWindowFrameLayoutTests : Node
 {
-    private const string _TerminalWindowPath = "res://source/ui/terminal/terminal_window.tscn";
-    private const float _BorderMinimumMargin = 50f; // Minimum space for visible border
+    private TerminalWindow _TerminalWindow = null!;
+
+    [Before]
+    public void Setup()
+    {
+        _TerminalWindow = AutoFree(new TerminalWindow())!;
+        AddChild(_TerminalWindow);
+        _TerminalWindow._Ready();
+        AssertThat(_TerminalWindow).IsNotNull();
+    }
 
     /// <summary>
     /// Border Visibility Test: TerminalFrame must have a visible red border.
     /// SHOULD FAIL if border is not rendering.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task TerminalFrame_HasVisibleBorder()
+    public void TerminalFrame_HasVisibleBorder()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
+        var terminalFrame = _TerminalWindow.GetNodeOrNull<Panel>("Bezel/MainMargin/MainLayout/TerminalFrame");
         AssertThat(terminalFrame).IsNotNull();
 
         var styleBox = terminalFrame.GetThemeStylebox("panel") as StyleBoxFlat;
@@ -55,26 +59,18 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
         // Background must be transparent (so border is visible)
         var bgColor = styleBox.BgColor;
         AssertThat(bgColor.A).IsEqual(0.0f);
-
-        MaybeTakeScreenshot(nameof(TerminalFrame_HasVisibleBorder), root);
-        runner.Scene().QueueFree();
     }
 
     /// <summary>
     /// TerminalFrame must be centered horizontally within the viewport.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task TerminalFrame_ShouldBeCenteredHorizontally()
+    public void TerminalFrame_ShouldBeCenteredHorizontally()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
+        var terminalFrame = _TerminalWindow.GetNodeOrNull<Panel>("Bezel/MainMargin/MainLayout/TerminalFrame");
         AssertThat(terminalFrame).IsNotNull();
 
-        var viewport = root.GetViewport();
+        var viewport = _TerminalWindow.GetViewport();
         var viewportSize = viewport.GetVisibleRect().Size;
         var viewportCenterX = viewportSize.X / 2;
 
@@ -83,26 +79,18 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
 
         // Frame center should match viewport center (within 2 pixels tolerance)
         AssertThat(Mathf.Abs(frameCenterX - viewportCenterX)).IsLess(2.1f);
-
-        MaybeTakeScreenshot(nameof(TerminalFrame_ShouldBeCenteredHorizontally), root);
-        runner.Scene().QueueFree();
     }
 
     /// <summary>
     /// TerminalFrame must be centered vertically within the viewport.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task TerminalFrame_ShouldBeCenteredVertically()
+    public void TerminalFrame_ShouldBeCenteredVertically()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
+        var terminalFrame = _TerminalWindow.GetNodeOrNull<Panel>("Bezel/MainMargin/MainLayout/TerminalFrame");
         AssertThat(terminalFrame).IsNotNull();
 
-        var viewport = root.GetViewport();
+        var viewport = _TerminalWindow.GetViewport();
         var viewportSize = viewport.GetVisibleRect().Size;
         var viewportCenterY = viewportSize.Y / 2;
 
@@ -111,26 +99,18 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
 
         // Frame center should match viewport center (within 2 pixels tolerance)
         AssertThat(Mathf.Abs(frameCenterY - viewportCenterY)).IsLess(2.1f);
-
-        MaybeTakeScreenshot(nameof(TerminalFrame_ShouldBeCenteredVertically), root);
-        runner.Scene().QueueFree();
     }
 
     /// <summary>
     /// TerminalFrame must be completely visible within viewport bounds.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task TerminalFrame_ShouldBeCompletelyVisibleInViewport()
+    public void TerminalFrame_ShouldBeCompletelyVisibleInViewport()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var terminalFrame = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame");
+        var terminalFrame = _TerminalWindow.GetNodeOrNull<Panel>("Bezel/MainMargin/MainLayout/TerminalFrame");
         AssertThat(terminalFrame).IsNotNull();
 
-        var viewport = root.GetViewport();
+        var viewport = _TerminalWindow.GetViewport();
         var viewportRect = viewport.GetVisibleRect();
 
         var frameRect = terminalFrame!.GetGlobalRect();
@@ -140,9 +120,6 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
         AssertThat(frameRect.Position.Y).IsGreater(0);
         AssertThat(frameRect.End.X).IsLess(viewportRect.End.X);
         AssertThat(frameRect.End.Y).IsLess(viewportRect.End.Y);
-
-        MaybeTakeScreenshot(nameof(TerminalFrame_ShouldBeCompletelyVisibleInViewport), root);
-        runner.Scene().QueueFree();
     }
 
     /// <summary>
@@ -150,16 +127,11 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     /// Bezel should fill viewport with dark gray background.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task Bezel_FillsViewportWithBackground()
+    public void Bezel_FillsViewportWithBackground()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var viewport = root.GetViewport();
+        var viewport = _TerminalWindow.GetViewport();
         var viewportRect = viewport.GetVisibleRect();
-        var bezel = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel");
+        var bezel = _TerminalWindow.GetNodeOrNull<Panel>("Bezel");
 
         AssertThat(bezel).IsNotNull();
 
@@ -170,24 +142,16 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
         AssertThat(bezelRect.Position.Y).IsEqual(0);
         AssertThat(bezelRect.Size.X).IsEqual(viewportRect.Size.X);
         AssertThat(bezelRect.Size.Y).IsEqual(viewportRect.Size.Y);
-
-        MaybeTakeScreenshot(nameof(Bezel_FillsViewportWithBackground), root);
-        runner.Scene().QueueFree();
     }
 
     /// <summary>
     /// Layout Fills Bezel - RED: Should fail until MainLayout expands to fill available space.
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task MainLayout_FillsBezelContainer()
+    public void MainLayout_FillsBezelContainer()
     {
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(2).ConfigureAwait(false);
-        var root = runner.Scene();
-
-        var bezel = root.GetNodeOrNull<Panel>("TerminalWindow/Bezel");
-        var mainLayout = root.GetNodeOrNull<VBoxContainer>("TerminalWindow/Bezel/MainMargin/MainLayout");
+        var bezel = _TerminalWindow.GetNodeOrNull<Panel>("Bezel");
+        var mainLayout = _TerminalWindow.GetNodeOrNull<VBoxContainer>("Bezel/MainMargin/MainLayout");
 
         AssertThat(bezel).IsNotNull();
         AssertThat(mainLayout).IsNotNull();
@@ -198,9 +162,6 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
         // Layout should be substantial size, not collapsed
         AssertThat(layoutRect.Size.X).IsGreater(200);
         AssertThat(layoutRect.Size.Y).IsGreater(200);
-
-        MaybeTakeScreenshot(nameof(MainLayout_FillsBezelContainer), root);
-        runner.Scene().QueueFree();
     }
 
 
@@ -210,19 +171,12 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     /// - Status indicators: right-aligned, color-coded
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task Header_ExistsWithTitleAndIndicators()
+    public void Header_ExistsWithTitleAndIndicators()
     {
-        // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-
-        var root = runner.Scene();
-
         // Act - Find header components
-        var header = root.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header");
-        var title = root.GetNodeOrNull<Label>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Title");
-        var indicators = root.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators");
+        var header = _TerminalWindow.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header");
+        var title = _TerminalWindow.GetNodeOrNull<Label>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Title");
+        var indicators = _TerminalWindow.GetNodeOrNull<HBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/Header/Indicators");
 
         // Assert - Header structure exists
         AssertThat(header).IsNotNull();
@@ -231,8 +185,6 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
 
         // Assert - Indicators contains three status lights
         AssertThat(indicators!.GetChildCount()).IsGreaterEqual(3);
-
-        MaybeTakeScreenshot(nameof(Header_ExistsWithTitleAndIndicators), root);
     }
 
     /// <summary>
@@ -240,23 +192,14 @@ public partial class TerminalWindowFrameLayoutTests : UiScreenshotTestBase
     /// - Ensures layout is accessible and matches spacing system
     /// </summary>
     [TestCase]
-    [TakeScreenshot]
-    public async Task ScreenLayout_IsEmptyContentInsertionPoint()
+    public void ScreenLayout_IsEmptyContentInsertionPoint()
     {
-        // Arrange
-        using ISceneRunner runner = ISceneRunner.Load(_TerminalWindowPath);
-        await runner.SimulateFrames(1).ConfigureAwait(false);
-
-        var root = runner.Scene();
-
         // Act
-        var screenLayout = root.GetNodeOrNull<VBoxContainer>("TerminalWindow/Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout");
+        var screenLayout = _TerminalWindow.GetNodeOrNull<VBoxContainer>("Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout");
 
         // Assert - ScreenLayout exists and is initially empty
         AssertThat(screenLayout).IsNotNull();
         // Note: ScreenLayout may have some default children like OutputLabel, that's OK
         // What matters is it's accessible and can receive additional content
-
-        MaybeTakeScreenshot(nameof(ScreenLayout_IsEmptyContentInsertionPoint), root);
     }
 }

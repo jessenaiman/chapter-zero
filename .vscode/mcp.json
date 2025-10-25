@@ -9,6 +9,12 @@
                 "GODOT_PATH": "/home/adam/Godot_v4.5.1-stable_mono_linux_x86_64",
                 "DEBUG": "true"
             }
+        },
+        "gdunit4-validator": {
+            "command": "python3",
+            "args": [
+                "./.agents/gdunit4_mcp_server.py"
+            ]
         }
     }
 }

@@ -94,13 +94,13 @@ public class TerminalIntegrationTests
     public async Task ShaderAndText_InteractWithoutInterference()
     {
         // Apply a visual preset
-        await _ShaderController!.ApplyVisualPresetAsync("phosphor").ConfigureAwait(false);
+        await _ShaderController!.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
 
         // Verify shader was applied (material exists)
         AssertObject(_ShaderController!.GetCurrentShaderMaterial()).IsNotNull();
 
         // Display text
-        await _TextRenderer!.AppendTextAsync("Test message").ConfigureAwait(false);
+        await _TextRenderer!.AppendTextAsync("Test message").ConfigureAwait(true);
 
         // Verify text was displayed
         AssertString(_TextRenderer.GetCurrentText()).Contains("Test message");
@@ -132,7 +132,7 @@ public class TerminalIntegrationTests
         (_ChoicePresenter as TerminalChoicePresenter)?.SimulateChoiceSelection(1);
 
         // Verify the correct selection was returned
-        var selectedIndex = await choiceTask.ConfigureAwait(false);
+        var selectedIndex = await choiceTask.ConfigureAwait(true);
         AssertInt(selectedIndex).IsEqual(1);
     }
 
@@ -145,7 +145,7 @@ public class TerminalIntegrationTests
     public async Task TextDisplay_AndChoiceInput_DontInterfere()
     {
         // Display some text
-        await _TextRenderer!.AppendTextAsync("Select an option:").ConfigureAwait(false);
+        await _TextRenderer!.AppendTextAsync("Select an option:").ConfigureAwait(true);
 
         // Show choices
         var choices = new List<TerminalChoiceOption>
@@ -162,7 +162,7 @@ public class TerminalIntegrationTests
 
         // User selects (index 0)
         (_ChoicePresenter as TerminalChoicePresenter)?.SimulateChoiceSelection(0);
-        var selectedIndex = await choiceTask.ConfigureAwait(false);
+        var selectedIndex = await choiceTask.ConfigureAwait(true);
 
         // Verify selection completed without affecting text display
         AssertInt(selectedIndex).IsEqual(0);
@@ -192,7 +192,7 @@ public class TerminalIntegrationTests
         (_ChoicePresenter as TerminalChoicePresenter)?.SimulateChoiceSelection(0);
 
         // Verify selection completed
-        var selectedIndex = await choiceTask.ConfigureAwait(false);
+        var selectedIndex = await choiceTask.ConfigureAwait(true);
         AssertInt(selectedIndex).IsEqual(0);
 
         GD.PrintRich($"[color=green]✓ Component lifecycle managed properly[/color]");
