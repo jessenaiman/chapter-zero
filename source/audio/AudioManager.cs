@@ -2,6 +2,8 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using OmegaSpiral.Source.Audio;
+using OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Centralized audio management system for the Omega Spiral game.
@@ -9,8 +11,14 @@ using System.Collections.Generic;
 /// Serves as the foundation for category-specific audio managers like NarrativeAudioManager.
 /// </summary>
 [GlobalClass]
-public partial class AudioManager : Node
+public partial class AudioManager : Node, IOmegaAudioDirector
 {
+    // Signals for observability and testing
+    [Signal] public delegate void CueStartedEventHandler(string cueId, int category);
+    [Signal] public delegate void CueFinishedEventHandler(string cueId, int category);
+    [Signal] public delegate void DuckAppliedEventHandler(int source, int target, float amountDb, int durationMs);
+    [Signal] public delegate void PoolExhaustedEventHandler();
+
     /// <summary>
     /// Maximum number of concurrent audio players to prevent resource exhaustion.
     /// </summary>
@@ -39,6 +47,16 @@ public partial class AudioManager : Node
     /// Cached audio streams to avoid repeated loading.
     /// </summary>
     private readonly System.Collections.Generic.Dictionary<string, AudioStream> audioCache = new();
+
+    /// <summary>
+    /// Minimal cue catalog mapping cue ids to resource paths and categories.
+    /// </summary>
+    private readonly System.Collections.Generic.Dictionary<string, (string Path, AudioCategory Category, float Gain)> cueCatalog = new()
+    {
+        { "ui_hover", ("res://assets/audio/ui/hover.ogg", AudioCategory.Sfx, 0f) },
+        { "ui_confirm", ("res://assets/audio/ui/confirm.ogg", AudioCategory.Sfx, 0f) },
+        { "reveal_bowl", ("res://assets/audio/secret/singing_bowl_432hz.ogg", AudioCategory.Music, -6f) }
+    };
 
     /// <summary>
     /// Volume levels for different audio categories (in dB).
@@ -130,6 +148,7 @@ public partial class AudioManager : Node
         }
 
         GD.PrintErr("AudioManager: No available audio players in pool");
+        EmitSignal(SignalName.PoolExhausted);
         return null;
     }
 
@@ -204,7 +223,9 @@ public partial class AudioManager : Node
         player.Stream = stream;
         player.Bus = this.GetBusName(category);
         player.VolumeDb = this.categoryVolumes[category] + volumeDb;
+        player.Finished += () => EmitSignal(SignalName.CueFinished, resourcePath, (int)category);
         player.Play();
+        EmitSignal(SignalName.CueStarted, resourcePath, (int)category);
 
         return true;
     }
@@ -232,9 +253,42 @@ public partial class AudioManager : Node
         player.Stream = stream;
         player.Bus = this.GetBusName(category);
         player.VolumeDb = this.categoryVolumes[category] + volumeDb;
+        player.Finished += () => EmitSignal(SignalName.CueFinished, stream.ResourcePath, (int)category);
         player.Play();
+        EmitSignal(SignalName.CueStarted, stream.ResourcePath, (int)category);
 
         return true;
+    }
+
+    /// <summary>
+    /// Plays a cataloged cue by id.
+    /// </summary>
+    /// <param name="cueId">The cue identifier.</param>
+    /// <returns>True if the cue was scheduled.</returns>
+    public bool PlayCue(string cueId)
+    {
+        if (!cueCatalog.TryGetValue(cueId, out var entry))
+        {
+            GD.PrintErr($"AudioManager: Unknown cue id '{cueId}'");
+            return false;
+        }
+        return PlayOneShot(entry.Path, entry.Category, entry.Gain);
+    }
+
+    /// <summary>
+    /// Ducks a target category by amount dB for durationMs then restores.
+    /// </summary>
+    public async void DuckCategoryFor(AudioCategory target, float amountDb, int durationMs)
+    {
+        var original = GetCategoryVolume(target);
+        SetCategoryVolume(target, original + amountDb);
+        EmitSignal(SignalName.DuckApplied, (int)AudioCategory.Sfx, (int)target, amountDb, durationMs);
+        var tree = GetTree();
+        if (tree != null)
+        {
+            await ToSignal(tree.CreateTimer(durationMs / 1000.0), SceneTreeTimer.SignalName.Timeout);
+        }
+        SetCategoryVolume(target, original);
     }
 
     /// <summary>
@@ -316,6 +370,74 @@ public partial class AudioManager : Node
     public int GetActivePlayerCount()
     {
         return this.activePlayers.Count;
+    }
+
+    /// <inheritdoc/>
+    public void OnBootSequenceStarted()
+    {
+        this.SetCategoryVolume(AudioCategory.Ambient, -20f);
+        this.SetCategoryVolume(AudioCategory.Music, -24f);
+    }
+
+    /// <inheritdoc/>
+    public void OnStageStabilized()
+    {
+        this.SetCategoryVolume(AudioCategory.Ambient, -8f);
+        this.SetCategoryVolume(AudioCategory.Music, -12f);
+    }
+
+    /// <inheritdoc/>
+    public void OnSecretRevealStarted(OmegaAudioAccessibilityProfile profile)
+    {
+        if (profile.EssentialAudioOnly)
+        {
+            this.SetCategoryVolume(AudioCategory.Ambient, -60f);
+            this.SetCategoryVolume(AudioCategory.Music, -80f);
+            return;
+        }
+
+        var ambientVolume = profile.ReduceAudioIntensity ? -18f : -6f;
+        var musicVolume = profile.ReduceAudioIntensity ? -24f : -12f;
+
+        this.SetCategoryVolume(AudioCategory.Ambient, ambientVolume);
+        this.SetCategoryVolume(AudioCategory.Music, musicVolume);
+    }
+
+    /// <inheritdoc/>
+    public void OnSecretRevealCompleted()
+    {
+        this.SetCategoryVolume(AudioCategory.Ambient, -8f);
+        this.SetCategoryVolume(AudioCategory.Music, -12f);
+    }
+
+    /// <inheritdoc/>
+    public void OnMenuOpened()
+    {
+        this.SetCategoryVolume(AudioCategory.Ambient, -12f);
+        this.SetCategoryVolume(AudioCategory.Music, -18f);
+    }
+
+    /// <inheritdoc/>
+    public void OnMenuClosed()
+    {
+        this.SetCategoryVolume(AudioCategory.Ambient, -8f);
+        this.SetCategoryVolume(AudioCategory.Music, -12f);
+    }
+
+    /// <inheritdoc/>
+    public void OnUiHover(DreamweaverType? thread)
+    {
+        _ = PlayCue("ui_hover");
+    }
+
+    /// <inheritdoc/>
+    public void OnUiConfirm(DreamweaverType? thread)
+    {
+        if (PlayCue("ui_confirm"))
+        {
+            // Briefly duck ambient for clarity
+            DuckCategoryFor(AudioCategory.Ambient, -6f, 250);
+        }
     }
 }
 

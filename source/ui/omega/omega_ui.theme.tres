@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://dnhctb3dqu015"]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
 border_color = Color(0.933333, 0.278431, 0.458824, 0.85)
 border_width_left = 4
@@ -29,5 +29,19 @@ default_constants/margin_left = 64
 default_constants/margin_right = 64
 default_constants/separation = 24
 
-# Panel/Frame styling
-default_styles/panel = SubResource(1)
+default_styles/panel = SubResource("1")
+
+[resource]
+default_font_sizes/font_size = 24
+default_font_sizes/title_font_size = 56
+default_font_sizes/label_font_size = 20
+default_font_sizes/button_font_size = 28
+default_colors/font_color = Color(0.992157, 0.788235, 0.384314, 1)
+default_colors/font_color_highlight = Color(1.0, 1.0, 1.0, 1.0)
+default_colors/font_color_shadow = Color(0.0, 0.0, 0.0, 0.5)
+default_constants/margin_top = 64
+default_constants/margin_bottom = 64
+default_constants/margin_left = 64
+default_constants/margin_right = 64
+default_constants/separation = 24
+default_styles/panel = SubResource("1")

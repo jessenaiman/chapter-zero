@@ -5,6 +5,7 @@
 using GdUnit4;
 using Godot;
 using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Tests.Shared;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Integration.Ui
@@ -22,9 +23,14 @@ namespace OmegaSpiral.Tests.Integration.Ui
         [Before]
         public void Setup()
         {
-            _CreditsMenu = AutoFree(new CreditsMenu())!;
+            // Load the actual scene file used in the game to test real UI behavior
+            var scene = AutoFree(ResourceLoader.Load<PackedScene>("res://source/ui/menus/credits_menu.tscn"))!;
+            _CreditsMenu = AutoFree(scene.Instantiate<CreditsMenu>())!;
             AddChild(_CreditsMenu);
-            AssertThat(_CreditsMenu).IsNotNull();
+
+            // Validate background/theme using shared helper
+            // If this fails, all subsequent tests will cascade fail
+            OmegaUiTestHelper.ValidateBackgroundTheme(_CreditsMenu, "CreditsMenu");
         }
 
         // ==================== INHERITANCE & STRUCTURE ====================

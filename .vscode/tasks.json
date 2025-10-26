@@ -34,33 +34,5 @@
 				}
 			}
 		},
-		{
-			"label": "Run UI Test by Class Name",
-			"type": "shell",
-			"command": "dotnet",
-			"args": [
-				"test",
-				"--settings",
-				".runsettings",
-				"--filter",
-				"Class=${input:uiTestClassName}"
-			],
-			"options": {
-				   "env": {
-					   "GODOT_BIN": "${env:GODOT_BIN}"
-				   }
-			},
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
-		}
-	],
-	"inputs": [
-		{
-			"id": "uiTestClassName",
-			"type": "promptString",
-			"description": "Enter the test class name (e.g. OmegaSpiral.Tests.Ui.Components.FrameComponentTests)"
-		}
 	]
 }

@@ -28,6 +28,34 @@ namespace OmegaSpiral.Source.Ui.Menus
         private Button? _RestartButton;
         private Button? _MainMenuButton;
         private Button? _QuitButton;
+        private ColorRect? _Background;
+
+        // --- PUBLIC PROPERTIES ---
+
+        /// <summary>
+        /// Gets the Resume Game button.
+        /// </summary>
+        public Button? ResumeButton => _ResumeButton;
+
+        /// <summary>
+        /// Gets the Restart Level button.
+        /// </summary>
+        public Button? RestartButton => _RestartButton;
+
+        /// <summary>
+        /// Gets the Main Menu button.
+        /// </summary>
+        public Button? MainMenuButton => _MainMenuButton;
+
+        /// <summary>
+        /// Gets the Quit Game button.
+        /// </summary>
+        public Button? QuitButton => _QuitButton;
+
+        /// <summary>
+        /// Gets the modal background overlay.
+        /// </summary>
+        public ColorRect? Background => _Background;
 
         // --- GODOT LIFECYCLE ---
 
@@ -38,6 +66,16 @@ namespace OmegaSpiral.Source.Ui.Menus
         /// </summary>
         public override void _Ready()
         {
+            // Create modal background for pause menu
+            _Background = new ColorRect
+            {
+                Name = "Background",
+                Color = new Color(0, 0, 0, 0.8f),
+                AnchorLeft = 0, AnchorTop = 0, AnchorRight = 1, AnchorBottom = 1,
+                ZIndex = -1 // Render behind content
+            };
+            AddChild(_Background);
+
             // Set modal behavior BEFORE calling base._Ready()
             Mode = Modal ? MenuMode.Modal : MenuMode.Standard;
 
@@ -55,9 +93,9 @@ namespace OmegaSpiral.Source.Ui.Menus
         {
             // Create menu buttons dynamically
             _ResumeButton = CreateMenuButton("ResumeButton", "Resume Game");
-            _RestartButton = CreateMenuButton("RestartButton", "Restart");
+            _RestartButton = CreateMenuButton("RestartButton", "Restart Level");
             _MainMenuButton = CreateMenuButton("MainMenuButton", "Main Menu");
-            _QuitButton = CreateMenuButton("QuitButton", "Quit");
+            _QuitButton = CreateMenuButton("QuitButton", "Quit Game");
 
             // Connect button signals
             if (_ResumeButton != null)
@@ -78,30 +116,50 @@ namespace OmegaSpiral.Source.Ui.Menus
         /// <summary>
         /// Shows the pause menu and pauses the game.
         /// </summary>
-        public void ShowPauseMenu()
+    public void ShowPauseMenu()
+    {
+        Visible = true;
+        GetViewport()?.SetInputAsHandled();
+        if (GetTree() != null)
         {
-            Visible = true;
-            GetViewport()?.SetInputAsHandled();
-            if (GetTree() != null)
-            {
-                GetTree().Paused = true;
-            }
-            FocusFirstButton();
+            GetTree().Paused = true;
+        }
+        FocusFirstButton();
+        OnMenuOpened();
         }
 
         /// <summary>
         /// Hides the pause menu and resumes the game.
         /// </summary>
-        public void HidePauseMenu()
+    public void HidePauseMenu()
+    {
+        Visible = false;
+        if (GetTree() != null)
         {
-            Visible = false;
-            if (GetTree() != null)
-            {
-                GetTree().Paused = false;
-            }
+            GetTree().Paused = false;
         }
+        OnMenuClosed();
+    }
 
-        // --- EVENT HANDLERS ---
+    /// <inheritdoc/>
+    protected override void OpenMenu()
+    {
+        ShowPauseMenu();
+    }
+
+    /// <inheritdoc/>
+    protected override void CloseMenu()
+    {
+        HidePauseMenu();
+    }
+
+    /// <inheritdoc/>
+    protected override void OnBackRequested()
+    {
+        HidePauseMenu();
+    }
+
+    // --- EVENT HANDLERS ---
 
         private void OnResumePressed()
         {

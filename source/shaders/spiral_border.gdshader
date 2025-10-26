@@ -18,20 +18,22 @@ void fragment() {
 	vec2 center = vec2(0.5, 0.5);
 	vec2 uv_centered = UV - center;
 	
-	// Calculate distance from center and angle
-	float dist = length(uv_centered);
-	float angle = atan(uv_centered.y, uv_centered.x);
+	// Use box distance (max of abs X and Y) for rectangular terminal border
+	float box_dist = max(abs(uv_centered.x), abs(uv_centered.y));
 	
 	// Normalize distance to border region (0.0 at outer edge, 1.0 at inner edge of border)
-	float outer_radius = 0.5;
-	float inner_radius = outer_radius - border_width;
-	float border_progress = 1.0 - smoothstep(inner_radius, outer_radius, dist);
+	float outer_box = 0.5;
+	float inner_box = outer_box - border_width;
+	float border_progress = 1.0 - smoothstep(inner_box, outer_box, box_dist);
 	
-	// Only render in the border region
-	if (dist < inner_radius || dist > outer_radius) {
+	// Only render in the border region (rectangular frame)
+	if (box_dist < inner_box || box_dist > outer_box) {
 		COLOR = vec4(0.0);
-		return;
+		discard;
 	}
+	
+	// Calculate angle from center for spiral animation
+	float angle = atan(uv_centered.y, uv_centered.x);
 	
 	// Animated spiral rotation
 	float spiral_angle = angle + TIME * rotation_speed;
@@ -43,7 +45,7 @@ void fragment() {
 	
 	// Wavelike particle trails for each stream
 	float wave_offset = TIME * wave_speed;
-	float wave_pattern = sin((dist * wave_frequency * 100.0) - wave_offset);
+	float wave_pattern = sin((box_dist * wave_frequency * 100.0) - wave_offset);
 	
 	// Calculate intensity for each energy stream based on angle proximity
 	float stream1_intensity = smoothstep(0.3, 0.0, abs(sin(stream1_angle * 1.5))) * (0.5 + wave_pattern * wave_amplitude);

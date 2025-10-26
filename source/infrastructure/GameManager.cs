@@ -4,6 +4,8 @@
 
 using Godot;
 using System.Threading.Tasks;
+using OmegaSpiral.Source.Audio;
+using OmegaSpiral.Source.InputSystem;
 
 namespace OmegaSpiral.Source.Infrastructure;
 
@@ -24,6 +26,8 @@ public partial class GameManager : Node
 
     private int _CurrentStageIndex = -1;
     private StageBase? _CurrentStage;
+    private AudioManager? _AudioManager;
+    private OmegaInputRouter? _InputRouter;
 
     /// <summary>
     /// Gets the current stage index (0-based). Returns -1 if no stage is active.
@@ -35,7 +39,10 @@ public partial class GameManager : Node
     /// </summary>
     public override void _Ready()
     {
+        base._Ready();
         GD.Print("[GameManager] Ready. Configured with ", StageScenes.Length, " stages.");
+        EnsureInputRouter();
+        ResolveAudioManager();
     }
 
     /// <summary>
@@ -123,4 +130,39 @@ public partial class GameManager : Node
     /// </summary>
     [Signal]
     public delegate void GameCompleteEventHandler();
+
+    private void EnsureInputRouter()
+    {
+        var tree = GetTree();
+        if (tree?.Root == null)
+        {
+            return;
+        }
+
+        _InputRouter = tree.Root.GetNodeOrNull<OmegaInputRouter>(OmegaInputRouter.DefaultNodeName);
+        if (_InputRouter == null)
+        {
+            _InputRouter = new OmegaInputRouter();
+            // Use CallDeferred to add child after scene tree finishes initializing
+            // Direct AddChild() fails when parent is busy setting up children
+            tree.Root.CallDeferred(Node.MethodName.AddChild, _InputRouter);
+        }
+    }
+
+    private AudioManager? ResolveAudioManager()
+    {
+        if (_AudioManager != null && IsInstanceValid(_AudioManager))
+        {
+            return _AudioManager;
+        }
+
+        var tree = GetTree();
+        if (tree?.Root == null)
+        {
+            return null;
+        }
+
+        _AudioManager = tree.Root.GetNodeOrNull<AudioManager>("AudioManager");
+        return _AudioManager;
+    }
 }

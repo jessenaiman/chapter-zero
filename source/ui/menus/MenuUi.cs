@@ -5,6 +5,8 @@
 using System;
 using System.Linq;
 using Godot;
+using OmegaSpiral.Source.Audio;
+using OmegaSpiral.Source.InputSystem;
 using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Ui.Menus;
@@ -23,6 +25,8 @@ namespace OmegaSpiral.Source.Ui.Menus;
 [GlobalClass]
 public partial class MenuUi : OmegaUi
 {
+    private const string _ButtonAudioMetaKey = "omega_audio_registered";
+
     /// <summary>
     /// Menu interaction modes.
     /// </summary>
@@ -59,6 +63,9 @@ public partial class MenuUi : OmegaUi
     private HBoxContainer? _MenuActionBar;
     private Label? _MenuTitle;
     private Control? _ContentContainer;
+    private AudioManager? _AudioManager;
+    private OmegaInputRouter? _InputRouter;
+    private bool _InputEventsSubscribed;
 
     /// <summary>
     /// Public access to the content container for testing purposes.
@@ -210,6 +217,9 @@ public partial class MenuUi : OmegaUi
         if (_MenuActionBar != null) _MenuActionBar.Visible = true;
         if (_MenuTitle != null) _MenuTitle.Visible = true;
 
+        RegisterExistingButtons();
+        SubscribeToInputRouter();
+
         // CORRECT: Use the protected properties from OmegaUi to style the shader layers
         if (PhosphorLayer != null) PhosphorLayer.Modulate = Colors.White;
         if (ScanlineLayer != null) ScanlineLayer.Modulate = Colors.White;
@@ -222,6 +232,19 @@ public partial class MenuUi : OmegaUi
     private void InitializeMenuStates()
     {
         // No longer needed; initialization is handled in InitializeComponentStates.
+    }
+
+    private void RegisterExistingButtons()
+    {
+        if (_MenuButtonContainer == null)
+        {
+            return;
+        }
+
+        foreach (var button in _MenuButtonContainer.GetChildren().OfType<Button>())
+        {
+            RegisterButtonAudio(button);
+        }
     }
 
     /// <summary>
@@ -266,6 +289,8 @@ public partial class MenuUi : OmegaUi
             GD.PushWarning($"[MenuUi] Cannot add button '{buttonName}' - MenuButtonContainer is not set.");
         }
 
+        RegisterButtonAudio(button);
+
         return button;
     }
 
@@ -290,6 +315,7 @@ public partial class MenuUi : OmegaUi
         button.Text = buttonText;
 
         button.Pressed += () => onPressed();
+        RegisterButtonAudio(button);
         _MenuButtonContainer.AddChild(button);
 
         return button;
@@ -366,6 +392,269 @@ public partial class MenuUi : OmegaUi
             .FirstOrDefault(btn => btn.HasFocus());
     }
 
+    private OmegaInputRouter? ResolveInputRouter()
+    {
+        if (_InputRouter != null && IsInstanceValid(_InputRouter))
+        {
+            return _InputRouter;
+        }
+
+        var tree = GetTree();
+        if (tree?.Root == null)
+        {
+            return null;
+        }
+
+        _InputRouter = tree.Root.GetNodeOrNull<OmegaInputRouter>(OmegaInputRouter.DefaultNodeName);
+        return _InputRouter;
+    }
+
+    private void SubscribeToInputRouter()
+    {
+        if (_InputEventsSubscribed)
+        {
+            return;
+        }
+
+        var router = ResolveInputRouter();
+        if (router == null)
+        {
+            return;
+        }
+
+        router.MenuToggleRequested += OnInputMenuToggleRequested;
+        router.NavigateUpRequested += OnInputNavigateUpRequested;
+        router.NavigateDownRequested += OnInputNavigateDownRequested;
+        router.ConfirmRequested += OnInputConfirmRequested;
+        router.BackRequested += OnInputBackRequested;
+
+        _InputRouter = router;
+        _InputEventsSubscribed = true;
+    }
+
+    private void UnsubscribeInputRouter()
+    {
+        if (!_InputEventsSubscribed || _InputRouter == null)
+        {
+            return;
+        }
+
+        if (IsInstanceValid(_InputRouter))
+        {
+            _InputRouter.MenuToggleRequested -= OnInputMenuToggleRequested;
+            _InputRouter.NavigateUpRequested -= OnInputNavigateUpRequested;
+            _InputRouter.NavigateDownRequested -= OnInputNavigateDownRequested;
+            _InputRouter.ConfirmRequested -= OnInputConfirmRequested;
+            _InputRouter.BackRequested -= OnInputBackRequested;
+        }
+
+        _InputRouter = null;
+        _InputEventsSubscribed = false;
+    }
+
+    private AudioManager? ResolveAudioManager()
+    {
+        if (_AudioManager != null && IsInstanceValid(_AudioManager))
+        {
+            return _AudioManager;
+        }
+
+        var root = GetTree()?.Root;
+        _AudioManager = root?.GetNodeOrNull<AudioManager>("AudioManager");
+        return _AudioManager;
+    }
+
+    private void RegisterButtonAudio(Button button)
+    {
+        if (button.HasMeta(_ButtonAudioMetaKey))
+        {
+            return;
+        }
+
+        button.MouseEntered += HandleMenuButtonHover;
+        button.FocusEntered += HandleMenuButtonHover;
+        button.Pressed += HandleMenuButtonPressed;
+        button.SetMeta(_ButtonAudioMetaKey, true);
+    }
+
+    private void HandleMenuButtonHover()
+    {
+        ResolveAudioManager()?.OnUiHover(null);
+    }
+
+    private void HandleMenuButtonPressed()
+    {
+        ResolveAudioManager()?.OnUiConfirm(null);
+    }
+
+    private void OnInputMenuToggleRequested()
+    {
+        if (Mode == MenuMode.Disabled)
+        {
+            return;
+        }
+
+        ToggleMenuVisibility();
+    }
+
+    private void OnInputNavigateUpRequested()
+    {
+        if (!Visible || Mode == MenuMode.Disabled)
+        {
+            return;
+        }
+
+        FocusPreviousButton();
+    }
+
+    private void OnInputNavigateDownRequested()
+    {
+        if (!Visible || Mode == MenuMode.Disabled)
+        {
+            return;
+        }
+
+        FocusNextButton();
+    }
+
+    private void OnInputConfirmRequested()
+    {
+        if (!Visible || Mode == MenuMode.Disabled)
+        {
+            return;
+        }
+
+        ActivateFocusedButton();
+    }
+
+    private void OnInputBackRequested()
+    {
+        if (!Visible || Mode == MenuMode.Disabled)
+        {
+            return;
+        }
+
+        OnBackRequested();
+    }
+
+    private void FocusNextButton()
+    {
+        FocusRelativeButton(1);
+    }
+
+    private void FocusPreviousButton()
+    {
+        FocusRelativeButton(-1);
+    }
+
+    private void FocusRelativeButton(int direction)
+    {
+        if (_MenuButtonContainer == null)
+        {
+            return;
+        }
+
+        var buttons = _MenuButtonContainer.GetChildren()
+            .OfType<Button>()
+            .Where(btn => btn.Visible && !btn.Disabled)
+            .ToList();
+
+        if (buttons.Count == 0)
+        {
+            return;
+        }
+
+        var currentIndex = buttons.FindIndex(btn => btn.HasFocus());
+        if (currentIndex == -1)
+        {
+            if (direction >= 0)
+            {
+                buttons[0].GrabFocus();
+            }
+            else
+            {
+                buttons[^1].GrabFocus();
+            }
+            return;
+        }
+
+        var nextIndex = (currentIndex + direction) % buttons.Count;
+        if (nextIndex < 0)
+        {
+            nextIndex += buttons.Count;
+        }
+
+        buttons[nextIndex].GrabFocus();
+    }
+
+    private void ActivateFocusedButton()
+    {
+        var focusedButton = GetFocusedButton();
+        if (focusedButton == null)
+        {
+            FocusFirstButton();
+            focusedButton = GetFocusedButton();
+        }
+
+        focusedButton?.EmitSignal(Button.SignalName.Pressed);
+    }
+
+    /// <summary>
+    /// Toggles the menu visibility and fires lifecycle hooks.
+    /// </summary>
+    protected virtual void ToggleMenuVisibility()
+    {
+        if (!Visible)
+        {
+            OpenMenu();
+        }
+        else
+        {
+            CloseMenu();
+        }
+    }
+
+    /// <summary>
+    /// Opens the menu and focuses the first button.
+    /// </summary>
+    protected virtual void OpenMenu()
+    {
+        Visible = true;
+        FocusFirstButton();
+        OnMenuOpened();
+    }
+
+    /// <summary>
+    /// Closes the menu.
+    /// </summary>
+    protected virtual void CloseMenu()
+    {
+        Visible = false;
+        OnMenuClosed();
+    }
+
+    /// <summary>
+    /// Called when the menu is opened via input router.
+    /// </summary>
+    protected virtual void OnMenuOpened()
+    {
+    }
+
+    /// <summary>
+    /// Called when the menu is closed via input router.
+    /// </summary>
+    protected virtual void OnMenuClosed()
+    {
+    }
+
+    /// <summary>
+    /// Called when the back action is requested.
+    /// </summary>
+    protected virtual void OnBackRequested()
+    {
+        CloseMenu();
+    }
+
     /// <summary>
     /// Handles input for menu navigation (up/down for keyboard/gamepad).
     /// Override this to customize navigation behavior.
@@ -380,5 +669,16 @@ public partial class MenuUi : OmegaUi
 
         // Allow Godot's built-in focus navigation to handle ui_up/ui_down
         // This is just a hook for custom navigation if needed
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            UnsubscribeInputRouter();
+        }
+
+        base.Dispose(disposing);
     }
 }

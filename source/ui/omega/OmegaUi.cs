@@ -88,30 +88,16 @@ public partial class OmegaUi : Control
 
     /// <summary>
     /// Called by Godot when the node enters the scene tree.
-    /// Triggers automatic initialization for production use.
-    /// Tests can skip this and call Initialize() explicitly.
+    /// Performs synchronous initialization following Godot's standard lifecycle.
     /// </summary>
     public override void _Ready()
     {
         base._Ready();
 
-        // Production: auto-initialize when added to scene
-        // Tests: can skip this by not adding to scene, instead calling Initialize() directly
-        _ = InitializeAsync();
-    }
-
-    /// <summary>
-    /// Explicitly initializes OmegaUi with complete phase tracking.
-    /// Separates initialization into testable steps.
-    /// Tests call this directly to control timing and verify each phase.
-    /// </summary>
-    /// <exception cref="InvalidOperationException">If already initialized or initialization fails.</exception>
-    public void Initialize()
-    {
         if (InitializationState != OmegaUiInitializationState.Uninitialized)
         {
-            throw new InvalidOperationException(
-                $"Cannot initialize: already in state {InitializationState}");
+            GD.PushWarning($"[OmegaUi] Already initialized, skipping _Ready initialization (state: {InitializationState})");
+            return;
         }
 
         GD.Print("=== [OmegaUi] Starting initialization ===");
@@ -163,23 +149,6 @@ public partial class OmegaUi : Control
             EmitSignal(SignalName.InitializationFailed, ex.Message);
             throw new InvalidOperationException($"Initialization failed: {ex.Message}", ex);
         }
-    }
-
-    /// <summary>
-    /// Async wrapper for Initialize() to use from _Ready().
-    /// Allows production code to auto-initialize without blocking.
-    /// </summary>
-    private async Task InitializeAsync()
-    {
-        try
-        {
-            Initialize();
-        }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"[OmegaUi] Async initialization failed: {ex.Message}");
-        }
-        await Task.CompletedTask.ConfigureAwait(false);
     }
 
     /// <summary>
@@ -352,6 +321,13 @@ public partial class OmegaUi : Control
         // Log what was found
         GD.Print($"[OmegaUi] Node cache results: TextDisplay={_TextDisplay != null}, " +
                  $"Phosphor={_PhosphorLayer != null}, Scanline={_ScanlineLayer != null}, Glitch={_GlitchLayer != null}");
+
+        // Also log Background color
+        var background = GetNodeOrNull<ColorRect>("Background");
+        if (background != null)
+        {
+            GD.Print($"[OmegaUi] Background color: {background.Color}");
+        }
 
         // Wire in design system colors to shader layers from OmegaSpiralColors
         if (_PhosphorLayer != null)
@@ -759,6 +735,25 @@ public partial class OmegaUi : Control
     /// </summary>
     protected virtual void EnsureRequiredNodesExist()
     {
+        // Create Background if it doesn't exist (dark base for overlay layers)
+        if (GetNodeOrNull<ColorRect>("Background") == null)
+        {
+            var background = new ColorRect
+            {
+                Name = "Background",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                Color = OmegaSpiralColors.DeepSpace,
+                ZIndex = -2
+            };
+            AddChild(background);
+            GD.Print($"[OmegaUi] Background created with DeepSpace color: {OmegaSpiralColors.DeepSpace}");
+        }
+        else
+        {
+            GD.Print("[OmegaUi] Background already exists in scene");
+        }
+
         // Create ContentContainer if it doesn't exist
         if (GetNodeOrNull<Control>("ContentContainer") == null)
         {

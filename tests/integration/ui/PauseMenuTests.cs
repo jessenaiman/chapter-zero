@@ -5,6 +5,8 @@
 using GdUnit4;
 using Godot;
 using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Source.Ui.Omega;
+using OmegaSpiral.Tests.Shared;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Integration.Ui
@@ -22,10 +24,19 @@ namespace OmegaSpiral.Tests.Integration.Ui
         [Before]
         public void Setup()
         {
-            _PauseMenu = AutoFree(new PauseMenu())!;
-            AddChild(_PauseMenu);
-            _PauseMenu.Initialize(); // Use synchronous initialization for tests
-            AssertThat(_PauseMenu).IsNotNull();
+            // Load the actual scene file used in the game to test real UI behavior
+            var scene = AutoFree(ResourceLoader.Load<PackedScene>("res://source/ui/menus/pause_menu.tscn"))!;
+            _PauseMenu = AutoFree(scene.Instantiate<PauseMenu>())!;
+            AddChild(_PauseMenu); // Add to scene tree for proper initialization
+
+            // Validate background/theme using shared helper
+            // If this fails, all subsequent tests will cascade fail
+            OmegaUiTestHelper.ValidateBackgroundTheme(_PauseMenu, "PauseMenu");
+        }        [After]
+        public void Cleanup()
+        {
+            // AutoFree() handles cleanup automatically, no manual action needed
+            // GdUnit4 will free the object when the test completes
         }
 
         // ==================== INHERITANCE & STRUCTURE ====================
@@ -46,31 +57,25 @@ namespace OmegaSpiral.Tests.Integration.Ui
         [TestCase]
         public void PauseMenu_HasTitle()
         {
-            var titleLabel = _PauseMenu?.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
-            AssertThat(titleLabel).IsNotNull();
-            AssertThat(titleLabel!.Text).IsEqual("PAUSED");
+            AssertThat(_PauseMenu!.MenuTitle).IsNotNull();
+            AssertThat(_PauseMenu!.MenuTitle!.Text).IsEqual("PAUSED");
         }
 
         /// <summary>
-        /// PauseMenu has all required buttons.
+        /// PauseMenu has all expected buttons with correct text.
         /// </summary>
         [TestCase]
-        public void PauseMenu_HasAllButtons()
+        public void PauseMenu_HasButtons()
         {
-            var resumeButton = _PauseMenu?.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/ResumeButton");
-            var restartButton = _PauseMenu?.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/RestartButton");
-            var mainMenuButton = _PauseMenu?.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/MainMenuButton");
-            var quitButton = _PauseMenu?.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/QuitButton");
+            AssertThat(_PauseMenu!.ResumeButton).IsNotNull();
+            AssertThat(_PauseMenu!.RestartButton).IsNotNull();
+            AssertThat(_PauseMenu!.MainMenuButton).IsNotNull();
+            AssertThat(_PauseMenu!.QuitButton).IsNotNull();
 
-            AssertThat(resumeButton).IsNotNull();
-            AssertThat(restartButton).IsNotNull();
-            AssertThat(mainMenuButton).IsNotNull();
-            AssertThat(quitButton).IsNotNull();
-
-            AssertThat(resumeButton!.Text).IsEqual("Resume Game");
-            AssertThat(restartButton!.Text).IsEqual("Restart Level");
-            AssertThat(mainMenuButton!.Text).IsEqual("Main Menu");
-            AssertThat(quitButton!.Text).IsEqual("Quit Game");
+            AssertThat(_PauseMenu!.ResumeButton!.Text).IsEqual("Resume Game");
+            AssertThat(_PauseMenu!.RestartButton!.Text).IsEqual("Restart");
+            AssertThat(_PauseMenu!.MainMenuButton!.Text).IsEqual("Main Menu");
+            AssertThat(_PauseMenu!.QuitButton!.Text).IsEqual("Quit Game");
         }
 
         /// <summary>
@@ -79,9 +84,8 @@ namespace OmegaSpiral.Tests.Integration.Ui
         [TestCase]
         public void PauseMenu_HasBackground()
         {
-            var background = _PauseMenu?.GetNodeOrNull<ColorRect>("Background");
-            AssertThat(background).IsNotNull();
-            AssertThat(background!.Color).IsEqual(new Color(0, 0, 0, 0.8f));
+            AssertThat(_PauseMenu!.Background).IsNotNull();
+            AssertThat(_PauseMenu!.Background!.Color).IsEqual(new Color(0, 0, 0, 0.8f));
         }
 
         // ==================== FUNCTIONALITY ====================
@@ -108,13 +112,12 @@ namespace OmegaSpiral.Tests.Integration.Ui
         [TestCase]
         public void PauseMenu_FocusesFirstButton()
         {
-            var resumeButton = _PauseMenu?.GetNodeOrNull<Button>("ContentContainer/MenuButtonContainer/ResumeButton");
-            AssertThat(resumeButton).IsNotNull();
+            AssertThat(_PauseMenu!.ResumeButton).IsNotNull();
 
             _PauseMenu!.ShowPauseMenu();
 
             // Focus is set immediately on ShowPauseMenu
-            AssertThat(resumeButton!.HasFocus()).IsTrue();
+            AssertThat(_PauseMenu!.ResumeButton!.HasFocus()).IsTrue();
         }
 
         // NOTE: Visual verification should be done using visual test scenes.

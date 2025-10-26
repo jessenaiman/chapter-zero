@@ -7,6 +7,7 @@ using GdUnit4;
 using Godot;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Omega;
+using OmegaSpiral.Tests.Shared;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Integration.Ui;
@@ -19,23 +20,31 @@ namespace OmegaSpiral.Tests.Integration.Ui;
 [RequireGodotRuntime]
 public partial class MenuUiTests : Node
 {
-    private ISceneRunner _Runner = null!;
     private MenuUi _MenuUi = null!;
 
     [Before]
     public void Setup()
     {
-        _MenuUi = AutoFree(new MenuUi())!;
-        AddChild(_MenuUi);
-        _MenuUi.Initialize(); // Use synchronous initialization for tests
-        AssertThat(_MenuUi).IsNotNull();
-    }
+        // Ensure the test Node is in the scene tree for proper Godot lifecycle
+        var sceneTree = (SceneTree)Engine.GetMainLoop();
+        if (GetParent() == null)
+        {
+            sceneTree.Root.AddChild(this);
+        }
 
-    [After]
+        _MenuUi = AutoFree(new MenuUi())!;
+
+        // Add to scene tree - _Ready() fires and initializes synchronously
+        AddChild(_MenuUi);
+
+        // Validate background/theme using shared helper
+        // If this fails, all subsequent tests will cascade fail
+        OmegaUiTestHelper.ValidateBackgroundTheme(_MenuUi, "MenuUi");
+    }    [After]
     public void Cleanup()
     {
-        // Explicitly free the MenuUi and all its children
-        _MenuUi?.QueueFree();
+        // AutoFree() handles cleanup automatically, no manual action needed
+        // GdUnit4 will free the object when the test completes
     }
 
     // ==================== INHERITANCE & API ====================
@@ -175,7 +184,8 @@ public partial class MenuUiTests : Node
         _MenuUi?.FocusFirstButton();
 
         // Assert: The first button should have focus
-        AssertThat(button1?.HasFocus()).IsTrue();
+        AssertThat(button1).IsNotNull();
+        AssertThat(button1.HasFocus()).IsTrue();
     }
 
     /// <summary>
@@ -192,6 +202,7 @@ public partial class MenuUiTests : Node
         testButton!.GrabFocus();
 
         var focusedButton = _MenuUi!.GetFocusedButton();
+        AssertThat(focusedButton).IsNotNull();
         AssertThat(focusedButton).IsEqual(testButton);
     }
 

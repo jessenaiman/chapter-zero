@@ -29,49 +29,15 @@ For more advanced example, see [Tutorial - Testing Scenes]({{site.baseurl}}/tuto
 The Scene Runner is managed by the GdUnit API and is automatically freed after use. One Scene Runner can only manage one scene.
 If you need to test multiple scenes, you must create a separate runner for each scene in your test suite.
 
-{% tabs scene-runner-definition %}
-{% tab scene-runner-definition GdScript %}
-To use the Scene Runner, load the scene to be tested with **scene_runner(\<scene\>)**.
-
-```gd
-var runner := scene_runner("res://my_scene.tscn")
-```
-
-{% endtab %}
-{% tab scene-runner-definition C# %}
 To use the Scene Runner, load the scene to be tested with **ISceneRunner.Load(\<scene\>)**.
 
 ```cs
 ISceneRunner runner = ISceneRunner.Load("res://my_scene.tscn");
 ```
 
-{% endtab %}
-{% endtabs %}
 
 Here is a short example:
-{% tabs scene-runner-example %}
-{% tab scene-runner-example GdScript %}
 
-```gd
-func test_simulate_frames(timeout = 5000) -> void:
-    # Create the scene runner for scene `test_scene.tscn`
-    var runner := scene_runner("res://test_scene.tscn")
-
-    # Get access to scene property '_box1'
-    var box1: ColorRect = runner.get_property("_box1")
-    # Verify it is initially set to white
-    assert_object(box1.color).is_equal(Color.WHITE)
-
-    # Start the color cycle by invoking the function 'start_color_cycle' and await 10 frames being processed
-    runner.invoke("start_color_cycle")
-    await runner.simulate_frames(10)
-
-    # After 10 frames, the color should have changed to black
-    assert_object(box1.color).is_equal(Color.BLACK)
-```
-
-{% endtab %}
-{% tab scene-runner-example C# %}
 
 ```cs
 [TestCase]
@@ -93,8 +59,6 @@ public async Task simulate_frame() {
 }
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ## Function Overview
 
@@ -132,41 +96,12 @@ await runner.SimulateFrames(60);
 await runner.SimulateFrames(60, 100);
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### set_time_factor
 
 The **set_time_factor** function adjusts the speed at which the scene simulation is processed relative to real time.<br>
 This is useful for testing in different gameplay speeds, debugging time-dependent interactions.
 
-{% tabs scene-runner-set_time_factor %}
-{% tab scene-runner-set_time_factor GdScript %}
-It takes the following arguments:
-
-```gd
-## Sets the time factor for the scene simulation.
-## [member time_factor] : A float representing the simulation speed.
-## - Default is 1.0, meaning the simulation runs at normal speed.
-## - A value of 2.0 means the simulation runs twice as fast as real time.
-## - A value of 0.5 means the simulation runs at half the regular speed.
-func set_time_factor(time_factor: float = 1.0) -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use set_time_factor:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Set the simulation speed to five times faster as the normal speed.
-runner.set_time_factor(5)
-
-# Simulated 60 frames ~5 times faster now
-await runner.simulate_frames(60)
-```
-
-{% endtab %}
-{% tab scene-runner-set_time_factor C# %}
 It takes the following arguments:
 
 ```cs
@@ -188,8 +123,6 @@ runner.SetTimeFactor(5);
 await runner.SimulateFrames(60);
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### move_window_to_foreground
 
@@ -200,26 +133,6 @@ as the window are minimized or moved to the background after each test.<br>
 This function is essential for scenarios where the scene needs to be actively monitored or interacted with during automated tests.
 Without it, the scene may not be visible or accessible, which can hinder the debugging process.
 
-{% tabs scene-runner-move_window_to_foreground %}
-{% tab scene-runner-move_window_to_foreground GdScript %}
-
-```gd
-## Restores the scene window to a windowed mode and brings it to the foreground.
-## This ensures that the scene is visible and active during testing, making it easier to observe and interact with.
-func move_window_to_foreground() -> GdUnitSceneRunner:
-```
-
-Here is an example of how to use move_window_to_foreground:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-
-# Shows the running scene and moves the window to the foreground
-runner.move_window_to_foreground()
-```
-
-{% endtab %}
-{% tab scene-runner-move_window_to_foreground C# %}
 
 ```cs
 /// <summary>
@@ -236,5 +149,3 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 runner.MoveWindowToForeground();
 ```
 
-{% endtab %}
-{% endtabs %}

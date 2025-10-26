@@ -1,0 +1,121 @@
+{
+  "design_system": {
+    "deep_space": {
+      "r": 0.054902,
+      "g": 0.0666667,
+      "b": 0.0862745,
+      "a": 1.0,
+      "hex": "#0E1116"
+    },
+    "dark_void": {
+      "r": 0.05,
+      "g": 0.05,
+      "b": 0.08,
+      "a": 1.0,
+      "hex": "#0C0D14"
+    },
+    "phosphor_glow": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 0.18,
+      "hex": "#FFFFFF",
+      "alpha_note": "18% opacity white overlay"
+    },
+    "scanline_overlay": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 0.12,
+      "hex": "#FFFFFF",
+      "alpha_note": "12% opacity white overlay"
+    },
+    "glitch_distortion": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 0.08,
+      "hex": "#FFFFFF",
+      "alpha_note": "8% opacity white overlay"
+    },
+    "light_thread": {
+      "r": 0.95,
+      "g": 0.95,
+      "b": 1.0,
+      "a": 1.0,
+      "hex": "#F2F2FF",
+      "name": "Silver/White - Purity Thread"
+    },
+    "shadow_thread": {
+      "r": 1.0,
+      "g": 0.75,
+      "b": 0.2,
+      "a": 1.0,
+      "hex": "#FFBF33",
+      "name": "Golden/Amber - Shadow Thread"
+    },
+    "ambition_thread": {
+      "r": 0.9,
+      "g": 0.15,
+      "b": 0.1,
+      "a": 1.0,
+      "hex": "#E62619",
+      "name": "Crimson/Red - Ambition Thread"
+    },
+    "pure_white": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 1.0,
+      "hex": "#FFFFFF"
+    },
+    "pure_black": {
+      "r": 0.0,
+      "g": 0.0,
+      "b": 0.0,
+      "a": 1.0,
+      "hex": "#000000"
+    }
+  },
+  "shader_parameters": {
+    "pulsing_background": {
+      "glow_color": {
+        "r": 0.2,
+        "g": 0.15,
+        "b": 0.3
+      },
+      "pulse_speed": 0.35,
+      "pulse_strength": 0.6,
+      "vignette_radius": 1.1,
+      "vignette_softness": 0.45
+    },
+    "spiral_border": {
+      "rotation_speed": 0.05,
+      "wave_speed": 0.8,
+      "wave_frequency": 8.0,
+      "wave_amplitude": 0.25,
+      "border_width": 0.015,
+      "glow_intensity": 1.2,
+      "thread_separation": 2.094
+    },
+    "crt_phosphor": {
+      "scanline_intensity": 0.8,
+      "vignette_strength": 0.4
+    },
+    "crt_scanlines": {
+      "scanline_spacing": 0.002,
+      "scanline_intensity": 0.15
+    },
+    "crt_glitch": {
+      "glitch_strength": 0.3,
+      "glitch_frequency": 0.5
+    }
+  },
+  "notes": [
+    "This file serves as the single source of truth for all Omega Spiral colors",
+    "Both C# code and GDShader files should read from this configuration",
+    "RGB values are normalized (0.0 - 1.0) for both Godot and shader compatibility",
+    "Hex values provided for designer reference",
+    "Alpha values explicitly listed for overlay layers"
+  ]
+}

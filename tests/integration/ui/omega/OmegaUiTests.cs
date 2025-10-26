@@ -6,64 +6,51 @@ using Godot;
 using GdUnit4;
 using GdUnit4.Api;
 using OmegaSpiral.Source.Ui.Omega;
+using OmegaSpiral.Tests.Shared;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Integration.Ui;
 
-/// <summary>
-/// Testable subclass of OmegaUi that provides required nodes for testing.
-/// Overrides virtual factory methods to create test fixtures.
-/// </summary>
-public partial class TestableOmegaUi : OmegaUi
-{
-    /// <summary>
-    /// Ensures required nodes including TextDisplay for testing.
-    /// </summary>
-    protected override void EnsureRequiredNodesExist()
-    {
-        base.EnsureRequiredNodesExist();
-
-        // Create TextDisplay if needed for testing
-        if (GetNodeOrNull<RichTextLabel>("ContentContainer/TextDisplay") == null)
-        {
-            var contentContainer = GetNodeOrNull<Control>("ContentContainer");
-            if (contentContainer != null)
-            {
-                var textDisplay = new RichTextLabel
-                {
-                    Name = "TextDisplay",
-                    SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
-                    SizeFlagsVertical = Control.SizeFlags.ExpandFill
-                };
-                contentContainer.AddChild(textDisplay);
-            }
-        }
-    }
-}
 
 /// <summary>
 /// Integration tests for OmegaUi component.
 /// Verifies initialization, layout, and component presence.
+///
+/// Tests load the actual omega_ui.tscn scene file, which loads the OmegaUi C# script.
+/// This ensures the Godot lifecycle (_Ready, etc.) fires naturally and correctly.
+/// We do NOT manually instantiate or manage the scene - the scene runner handles all lifecycle.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
 public partial class OmegaUiTests : Node
 {
-    private TestableOmegaUi? _OmegaUi;
+    private ISceneRunner? _SceneRunner;
+    private OmegaUi? _OmegaUi;
 
     [Before]
     public void Setup()
     {
-        _OmegaUi = AutoFree(new TestableOmegaUi())!;
-        AddChild(_OmegaUi);
-        // Explicitly initialize the UI - tests control when this happens
-        _OmegaUi.Initialize();
+        // Load the actual scene file with ISceneRunner
+        // This loads omega_ui.tscn which automatically instantiates the OmegaUi C# script
+        // Godot lifecycle (_Ready, etc.) fires automatically - we don't manage it
+        _SceneRunner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+
+        // Get the root node (OmegaUi instance) from the loaded scene
+        _OmegaUi = _SceneRunner.Scene() as OmegaUi;
+
+        // CRITICAL: Validate background/theme before any tests run
+        // If layers are white, ALL tests fail RED (cascading failure)
+        // This validates the BASE class - if this fails, MenuUi, PauseMenu, etc. all fail
+        AssertThat(_OmegaUi).IsNotNull()
+            .OverrideFailureMessage("Scene runner failed to load OmegaUi scene");
+        OmegaUiTestHelper.ValidateBackgroundTheme(_OmegaUi!, "OmegaUi");
     }
 
     [After]
     public void Teardown()
     {
-        // AutoFree handles cleanup automatically
+        // Properly dispose the scene runner to clean up the scene
+        _SceneRunner?.Dispose();
     }
 
     // ==================== INHERITANCE & STRUCTURE ====================
@@ -446,11 +433,11 @@ public partial class OmegaUiTests : Node
     /// Shaders should not bleed outside the border - they render within the content area.
     /// </summary>
     [TestCase]
-    public void ShaderLayersConstrainedWithinBorder()
-    {
-        AssertThat(_OmegaUi).IsNotNull();
-        var borderFrame = _OmegaUi!.GetNodeOrNull<ColorRect>("BorderFrame");
-        var phosphorLayer = _OmegaUi.GetNodeOrNull<ColorRect>("PhosphorLayer");
+public void ShaderLayersConstrainedWithinBorder()
+{
+    AssertThat(_OmegaUi).IsNotNull();
+    var borderFrame = _OmegaUi!.GetNodeOrNull<ColorRect>("BorderFrame");
+    var phosphorLayer = _OmegaUi.GetNodeOrNull<ColorRect>("PhosphorLayer");
 
         AssertThat(borderFrame).IsNotNull();
         AssertThat(phosphorLayer).IsNotNull();

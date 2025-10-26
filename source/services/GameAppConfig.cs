@@ -27,6 +27,9 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
             this._ConfigFile = new ConfigFile();
             this.LoadConfig();
             this.Name = "AppConfig";
+
+            // Load design colors and apply to all shader materials
+            DesignConfigService.ApplyDesignColorsToAllShaders(GetTree().Root);
         }
 
         /// <summary>
