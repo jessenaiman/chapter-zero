@@ -31,6 +31,13 @@ public partial class MenuUiTests : Node
         AssertThat(_MenuUi).IsNotNull();
     }
 
+    [After]
+    public void Cleanup()
+    {
+        // Explicitly free the MenuUi and all its children
+        _MenuUi?.QueueFree();
+    }
+
     // ==================== INHERITANCE & API ====================
 
     /// <summary>

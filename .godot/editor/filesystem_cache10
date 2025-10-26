@@ -1,5 +1,5 @@
 d758b84c8d20760826950c68787f21d4
-::res://::1761498878
+::res://::1761500663
 AGENTS.md::TextFile::-1::1761498242::0::1::::<><><>0<>0<><>::
 default_bus_layout.tres::AudioBusLayout::1728404347373322392::1760582553::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1760582553::0::1::::<><><>0<>0<><>::
@@ -1683,7 +1683,7 @@ README.md::TextFile::-1::1761271981::0::1::::<><><>0<>0<><>::
 SceneManager.cs::CSharpScript::4234133133780017695::1761323157::0::1::::SceneManager<>Node<><>0<>0<><>::
 ::res://source/services/::1761271981
 ConfigurationService.cs::CSharpScript::1724304702752654285::1761271981::0::1::::<><><>0<>0<><>::
-GameAppConfig.cs::CSharpScript::2931528496609145763::1761271981::0::1::::<>Node<><>0<>0<><>::
+GameAppConfig.cs::CSharpScript::2931528496609145763::1761499418::0::1::::<>Node<><>0<>0<><>::
 SceneLoaderService.cs::CSharpScript::7230665083491029506::1761271981::0::1::::SceneLoaderService<>Node<><>0<>0<><>::
 ::res://source/shaders/::1761472606
 crt_glitch.gdshader::Shader::7524333074489108052::1761271981::0::1::::<><><>0<>0<><>::
@@ -1692,12 +1692,12 @@ crt_phosphor.gdshader::Shader::5280615233332902551::1761271981::0::1::::<><><>0<
 crt_phosphor.tres::ShaderMaterial::-1::1761271981::0::1::::<><><>0<>0<><>::res://source/shaders/crt_phosphor.gdshader
 crt_scanlines.gdshader::Shader::4588557504035822380::1761271981::0::1::::<><><>0<>0<><>::
 crt_scanlines.tres::ShaderMaterial::-1::1761271981::0::1::::<><><>0<>0<><>::res://source/shaders/crt_scanlines.gdshader
-pulsing_background.gdshader::Shader::8338530337617525325::1761271981::0::1::::<><><>0<>0<><>::
+pulsing_background.gdshader::Shader::8338530337617525325::1761500390::0::1::::<><><>0<>0<><>::
 pulsing_background.tres::ShaderMaterial::-1::1761271981::0::1::::<><><>0<>0<><>::res://source/shaders/pulsing_background.gdshader
 README.md::TextFile::-1::1761271981::0::1::::<><><>0<>0<><>::
 spiral_border.gdshader::Shader::2321681597402097057::1761472586::0::1::::<><><>0<>0<><>::
 ::res://source/stages/::1761417789
-main.tscn::PackedScene::1356073902118121929::1761271981::0::1::::<><><>0<>0<><>::res://source/stages/stage_0_start/main_menu.tscn
+main.tscn::PackedScene::1356073902118121929::1761499152::0::1::::<><><>0<>0<><>::res://source/ui/menus/main_menu.tscn
 OmegaSpiralIntroMechanics.cs::CSharpScript::6339086851723080950::1761271981::0::1::::OmegaSpiralIntroMechanics<>Node<><>0<>0<><>::
 stages_architecture.png::CompressedTexture2D::2259476450609593234::1761271981::1761370891::1::::<><><>0<>0<>4f7be3a1bec64b652e3940d78d8465b5<>res://.godot/imported/stages_architecture.png-2e9e732c6453b5085aaadbce91f99de3.ctex::
 ::res://source/stages/stage_1_ghost/::1761427361
@@ -1783,7 +1783,7 @@ credits_menu.tscn::PackedScene::90537909629280279::1761411204::0::1::::<><><>0<>
 MainMenu.cs::CSharpScript::5226414235335169299::1761431873::0::1::::MainMenu<>MenuUi<><>0<>0<><>::
 main_menu.tscn::PackedScene::4396516963049312473::1761468092::0::1::::<><><>0<>0<><>::res://source/ui/menus/MainMenu.cs<>res://source/shaders/pulsing_background.tres<>res://source/shaders/crt_phosphor.tres<>res://source/shaders/crt_scanlines.tres<>res://source/shaders/crt_glitch.tres
 main_menu_manifest.json::JSON::-1::1761417774::0::1::::<><><>0<>0<><>::
-MenuUi.cs::CSharpScript::7844176294908437769::1761431876::0::1::::MenuUi<>OmegaUi<><>0<>0<><>::
+MenuUi.cs::CSharpScript::7844176294908437769::1761500632::0::1::::MenuUi<>OmegaUi<><>0<>0<><>::
 PauseMenu.cs::CSharpScript::6399899059990017709::1761431451::0::1::::PauseMenu<>MenuUi<><>0<>0<><>::
 pause_menu.tscn::PackedScene::6855192708043377400::1761411204::0::1::::<><><>0<>0<><>::res://source/ui/menus/PauseMenu.cs<>res://source/shaders/pulsing_background.tres<>res://source/shaders/crt_phosphor.tres<>res://source/shaders/crt_scanlines.tres<>res://source/shaders/crt_glitch.tres
 ::res://source/ui/omega/::1761496682
@@ -1799,7 +1799,7 @@ OmegaTextRenderer.cs::CSharpScript::3348548732861665704::1761497434::0::1::::<><
 OmegaUi.cs::CSharpScript::9196219240699298648::1761497434::0::1::::OmegaUi<>Control<><>0<>0<><>::
 OmegaUiButton.cs::CSharpScript::4615075159184938169::1761420996::0::1::::<><><>0<>0<><>::
 OmegaUiViewportConfig.cs::CSharpScript::156140370752591358::1761471062::0::1::::<><><>0<>0<><>::
-omega_ui.theme.tres::Theme::8086323122658245878::1761498501::0::1::::<><><>0<>0<><>::
+omega_ui.theme.tres::Theme::8086323122658245878::1761499048::0::1::::<><><>0<>0<><>::
 omega_ui.tscn::PackedScene::1828368486333994221::1761416341::0::1::::<><><>0<>0<><>::res://source/ui/omega/OmegaUi.cs<>res://source/ui/omega/omega_ui.theme.tres<>res://source/shaders/pulsing_background.tres<>res://source/shaders/crt_phosphor.tres<>res://source/shaders/crt_scanlines.tres<>res://source/shaders/crt_glitch.tres
 omega_ui_button.theme.tres::::-1::1761421039::0::1::::<><><>0<>0<><>::
 omega_ui_button.tscn::PackedScene::-1::1761421017::0::1::::<><><>0<>0<><>::
@@ -1834,8 +1834,7 @@ test-cases-original.md::TextFile::-1::1761313165::0::1::::<><><>0<>0<><>::
 GameStateSignalTests.cs::CSharpScript::6653379783985141337::1761431450::0::1::::<>Node<><>0<>0<><>::
 GameStateTests.cs::CSharpScript::3832533889828447672::1761416774::0::1::::<><><>0<>0<><>::
 SceneManagerTests.cs::CSharpScript::7883015338035016307::1761368333::0::1::::<>Node<><>0<>0<><>::
-::res://tests/integration/::1761368333
-SceneLoadingAndViewportTests.cs::CSharpScript::1407919921014176241::1761368333::0::1::::<><><>0<>0<><>::
+::res://tests/integration/::1761499210
 test_scene.tscn::PackedScene::-1::1761271981::0::1::::<><><>0<>0<><>::
 ::res://tests/integration/common/::1761422671
 OmegaIntegrationTests.cs::CSharpScript::6397458914796779483::1761420829::0::1::::<><><>0<>0<><>::
@@ -1852,7 +1851,7 @@ NethackDirectorTests.cs::CSharpScript::6381432864348347865::1761368333::0::1::::
 ::res://tests/integration/stages/stage_3/::1761368333
 TileDungeonSignalTests.cs::CSharpScript::5873497812109575151::1761368333::0::1::::<><><>0<>0<><>::
 ::res://tests/integration/ui/::1761468014
-BaseMenuTests.cs::CSharpScript::7825417858041735394::1761497436::0::1::::<><><>0<>0<><>::
+BaseMenuTests.cs::CSharpScript::7825417858041735394::1761500640::0::1::::<><><>0<>0<><>::
 CreditsMenuTests.cs::CSharpScript::2889772628753806381::1761431451::0::1::::<>Node<><>0<>0<><>::
 PauseMenuTests.cs::CSharpScript::4848026905784016709::1761497433::0::1::::<>Node<><>0<>0<><>::
 ::res://tests/integration/ui/menus/::1761412719
@@ -1876,4 +1875,4 @@ OmegaShaderPresetsTests.cs::CSharpScript::5880803886826838210::1761429675::0::1:
 OmegaSpiralColorsTests.cs::CSharpScript::4108009971664416444::1761421430::0::1::::<><><>0<>0<><>::
 ::res://tests/unit/ui/::1761481424
 ::res://tests/unit/ui/menus/::1761481454
-MenuUiUnitTests.cs::CSharpScript::691964258829570836::1761481569::0::1::::<><><>0<>0<><>::
+MenuUiUnitTests.cs::CSharpScript::691964258829570836::1761499418::0::1::::<><><>0<>0<><>::
