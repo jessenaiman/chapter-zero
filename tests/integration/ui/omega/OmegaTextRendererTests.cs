@@ -178,6 +178,9 @@ namespace OmegaSpiral.Tests.Integration.Ui.Omega
         [TestCase]
         public void GetCurrentText_WhenEmpty_ReturnsEmptyString()
         {
+            // Arrange
+            _Renderer.ClearText();
+
             // Act & Assert
             AssertThat(_Renderer.GetCurrentText()).IsEqual("");
         }

@@ -12,19 +12,19 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
     /// </summary>
     public partial class GameAppConfig : Node
     {
-        private const string ConfigFile = "user://omega_spiral_config.cfg";
+        private const string _ConfigFilePath = "user://omega_spiral_config.cfg";
 
-        private static string? cachedGameScenePath;
-        private static string? cachedOpeningScenePath;
-        private static string? cachedMainMenuScenePath;
-        private static string? cachedMainMenuScenePathAddon;
-        private static string? cachedEndingScenePath;
+        private static string? _CachedGameScenePath;
+        private static string? _CachedOpeningScenePath;
+        private static string? _CachedMainMenuScenePath;
+        private static string? _CachedMainMenuScenePathAddon;
+        private static string? _CachedEndingScenePath;
 
-        private ConfigFile configFile = null!;
+        private ConfigFile _ConfigFile = null!;
 
         public override void _Ready()
         {
-            this.configFile = new ConfigFile();
+            this._ConfigFile = new ConfigFile();
             this.LoadConfig();
             this.Name = "AppConfig";
         }
@@ -32,27 +32,27 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Gets the main game scene path for launching gameplay.
         /// </summary>
-        public static string GameScenePath => cachedGameScenePath ?? "res://source/stages/stage_1/opening.tscn";
+        public static string GameScenePath => _CachedGameScenePath ?? "res://source/stages/stage_1/opening.tscn";
 
         /// <summary>
         /// Gets the opening menu scene path (bypassed for direct Ghost Terminal startup).
         /// </summary>
-        public static string OpeningScenePath => cachedOpeningScenePath ?? "res://source/stages/stage_1/opening.tscn";
+        public static string OpeningScenePath => _CachedOpeningScenePath ?? "res://source/stages/stage_1/opening.tscn";
 
         /// <summary>
         /// Gets the main menu scene path.
         /// </summary>
-        public static string MainMenuScenePath => cachedMainMenuScenePath ?? "res://source/stages/main_menu/press_start_menu.tscn";
+        public static string MainMenuScenePath => _CachedMainMenuScenePath ?? "res://source/ui/menus/main_menu.tscn";
 
         /// <summary>
         /// Gets the main menu scene path (lowercase version for addon compatibility).
         /// </summary>
-        public static string MainMenuScenePathAddon => cachedMainMenuScenePathAddon ?? MainMenuScenePath;
+        public static string MainMenuScenePathAddon => _CachedMainMenuScenePathAddon ?? MainMenuScenePath;
 
         /// <summary>
         /// Gets the ending scene path. Returns main menu as fallback if no specific ending scene exists.
         /// </summary>
-        public static string EndingScenePath => cachedEndingScenePath ?? MainMenuScenePath;
+        public static string EndingScenePath => _CachedEndingScenePath ?? MainMenuScenePath;
 
         /// <summary>
         /// Gets the game scene path (PascalCase for C# compatibility).
@@ -113,19 +113,19 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
             switch (property.ToString())
             {
                 case "game_scene_path":
-                    cachedGameScenePath = value.AsString();
+                    _CachedGameScenePath = value.AsString();
                     return true;
                 case "opening_scene_path":
-                    cachedOpeningScenePath = value.AsString();
+                    _CachedOpeningScenePath = value.AsString();
                     return true;
                 case "main_menu_scene_path":
-                    cachedMainMenuScenePath = value.AsString();
+                    _CachedMainMenuScenePath = value.AsString();
                     return true;
                 case "main_menu_scene_path_addon":
-                    cachedMainMenuScenePathAddon = value.AsString();
+                    _CachedMainMenuScenePathAddon = value.AsString();
                     return true;
                 case "ending_scene_path":
-                    cachedEndingScenePath = value.AsString();
+                    _CachedEndingScenePath = value.AsString();
                     return true;
                 default:
                     return base._Set(property, value);
@@ -137,7 +137,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// </summary>
         private void LoadConfig()
         {
-            var error = this.configFile.Load(ConfigFile);
+            var error = this._ConfigFile.Load(_ConfigFilePath);
             if (error != Error.Ok)
             {
                 GD.Print("Creating new config file.");
@@ -152,23 +152,23 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         private void CreateDefaultConfig()
         {
             // Audio settings
-            this.configFile.SetValue("audio", "master_volume", 0.8f);
-            this.configFile.SetValue("audio", "music_volume", 0.7f);
-            this.configFile.SetValue("audio", "sfx_volume", 0.8f);
-            this.configFile.SetValue("audio", "ui_volume", 0.6f);
+            this._ConfigFile.SetValue("audio", "master_volume", 0.8f);
+            this._ConfigFile.SetValue("audio", "music_volume", 0.7f);
+            this._ConfigFile.SetValue("audio", "sfx_volume", 0.8f);
+            this._ConfigFile.SetValue("audio", "ui_volume", 0.6f);
 
             // Video settings
-            this.configFile.SetValue("video", "fullscreen", false);
-            this.configFile.SetValue("video", "vsync", true);
-            this.configFile.SetValue("video", "resolution", "1280x720");
+            this._ConfigFile.SetValue("video", "fullscreen", false);
+            this._ConfigFile.SetValue("video", "vsync", true);
+            this._ConfigFile.SetValue("video", "resolution", "1280x720");
 
             // Input settings
-            this.configFile.SetValue("input", "mouse_sensitivity", 1.0f);
-            this.configFile.SetValue("input", "gamepad_deadzone", 0.2f);
+            this._ConfigFile.SetValue("input", "mouse_sensitivity", 1.0f);
+            this._ConfigFile.SetValue("input", "gamepad_deadzone", 0.2f);
 
             // Accessibility
-            this.configFile.SetValue("accessibility", "screen_reader_enabled", false);
-            this.configFile.SetValue("accessibility", "text_size_scale", 1.0f);
+            this._ConfigFile.SetValue("accessibility", "screen_reader_enabled", false);
+            this._ConfigFile.SetValue("accessibility", "text_size_scale", 1.0f);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// </summary>
         private void SaveConfig()
         {
-            var error = this.configFile.Save(ConfigFile);
+            var error = this._ConfigFile.Save(_ConfigFilePath);
             if (error != Error.Ok)
             {
                 GD.PrintErr($"Failed to save config: {error}");
@@ -192,7 +192,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <returns>The configuration value or default.</returns>
         public Variant GetSetting(string section, string key, Variant defaultValue)
         {
-            return this.configFile.GetValue(section, key, defaultValue);
+            return this._ConfigFile.GetValue(section, key, defaultValue);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <param name="value">The value to set.</param>
         public void SetSetting(string section, string key, Variant value)
         {
-            this.configFile.SetValue(section, key, value);
+            this._ConfigFile.SetValue(section, key, value);
             this.SaveConfig();
         }
     }

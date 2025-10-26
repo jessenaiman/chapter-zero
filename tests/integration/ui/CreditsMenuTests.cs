@@ -24,7 +24,6 @@ namespace OmegaSpiral.Tests.Integration.Ui
         {
             _CreditsMenu = AutoFree(new CreditsMenu())!;
             AddChild(_CreditsMenu);
-            _CreditsMenu._Ready();
             AssertThat(_CreditsMenu).IsNotNull();
         }
 

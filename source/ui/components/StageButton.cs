@@ -19,6 +19,7 @@ public partial class StageButton : Button
     {
         StageId = newStageId;
         Status = newStatus;
+        Text = title;
         if (GetNodeOrNull<Label>("HBox/NameLabel") is { } nameLabel)
         {
             nameLabel.Text = title;

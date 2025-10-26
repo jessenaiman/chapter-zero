@@ -10,9 +10,9 @@ namespace OmegaSpiral.Source.Ui.Omega;
 /// </summary>
 public class OmegaShaderController : IOmegaShaderController, IDisposable
 {
-    private readonly ColorRect _display;
-    private ShaderMaterial? _currentMaterial;
-    private bool _disposed;
+    private readonly ColorRect _Display;
+    private ShaderMaterial? _CurrentMaterial;
+    private bool _Disposed;
 
     /// <summary>
     /// Initializes a new instance of the OmegaShaderController.
@@ -21,29 +21,45 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
     /// <exception cref="ArgumentNullException">Thrown when display is null.</exception>
     public OmegaShaderController(ColorRect display)
     {
-        _display = display ?? throw new ArgumentNullException(nameof(display));
+        _Display = display ?? throw new ArgumentNullException(nameof(display));
     }
 
     /// <inheritdoc/>
-    public async Task ApplyVisualPresetAsync(string shaderPath)
+    public async Task ApplyVisualPresetAsync(string presetName)
     {
-        if (string.IsNullOrEmpty(shaderPath))
-            throw new ArgumentException("Shader path cannot be null or empty", nameof(shaderPath));
+        if (string.IsNullOrEmpty(presetName))
+            throw new ArgumentException("Preset name cannot be null or empty", nameof(presetName));
+
+        // Get the preset configuration
+        var preset = OmegaShaderPresets.GetPreset(presetName);
+        if (preset == null)
+            throw new ArgumentException($"Unknown shader preset: {presetName}", nameof(presetName));
 
         // Remove existing material
         ResetShaderEffects();
 
-        // Load and apply shader
-        var shader = GD.Load<Shader>(shaderPath);
-        if (shader == null)
-            throw new InvalidOperationException($"Failed to load shader: {shaderPath}");
+        // Load and apply shader material if path is provided
+        if (!string.IsNullOrEmpty(preset.ShaderPath))
+        {
+            _CurrentMaterial = GD.Load<ShaderMaterial>(preset.ShaderPath);
+            if (_CurrentMaterial == null)
+                throw new InvalidOperationException($"Failed to load shader material: {presetName}");
 
-        _currentMaterial = new ShaderMaterial();
-        _currentMaterial.Shader = shader;
-        _display.Material = _currentMaterial;
+            // Apply parameters if any (override defaults)
+            if (preset.Parameters != null)
+            {
+                foreach (var param in preset.Parameters)
+                {
+                    _CurrentMaterial.SetShaderParameter(param.Key, param.Value);
+                }
+            }
+
+            _Display.Material = _CurrentMaterial;
+        }
+        // If ShaderPath is null (like terminal preset), material stays null
 
         // Small delay to ensure shader is applied
-    await Task.Delay(10);
+        await Task.Delay(10).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -53,15 +69,15 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
             throw new ArgumentException("Duration must be positive", nameof(duration));
 
         // Create dissolve material if not exists
-        if (_currentMaterial == null)
+        if (_CurrentMaterial == null)
         {
-            _currentMaterial = new ShaderMaterial();
-            _display.Material = _currentMaterial;
+            _CurrentMaterial = new ShaderMaterial();
+            _Display.Material = _CurrentMaterial;
         }
 
         // Set dissolve parameters
-        _currentMaterial.SetShaderParameter("dissolve_progress", 0.0f);
-        _currentMaterial.SetShaderParameter("dissolve_speed", 1.0f / duration);
+        _CurrentMaterial.SetShaderParameter("dissolve_progress", 0.0f);
+        _CurrentMaterial.SetShaderParameter("dissolve_speed", 1.0f / duration);
 
         // Animate dissolve with fixed frame rate
         const int frameRate = 60;
@@ -69,28 +85,28 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
         for (int frame = 0; frame < totalFrames; frame++)
         {
             float progress = (float)frame / totalFrames;
-            _currentMaterial.SetShaderParameter("dissolve_progress", progress);
-            await Task.Delay(1000 / frameRate); // Delay for one frame
+            _CurrentMaterial.SetShaderParameter("dissolve_progress", progress);
+            await Task.Delay(1000 / frameRate).ConfigureAwait(false); // Delay for one frame
         }
 
         // Ensure fully dissolved
-        _currentMaterial.SetShaderParameter("dissolve_progress", 1.0f);
+        _CurrentMaterial.SetShaderParameter("dissolve_progress", 1.0f);
     }
 
     /// <inheritdoc/>
     public void ResetShaderEffects()
     {
-        if (_currentMaterial != null)
+        if (_CurrentMaterial != null)
         {
-            _display.Material = null;
-            _currentMaterial = null;
+            _Display.Material = null;
+            _CurrentMaterial = null;
         }
     }
 
     /// <inheritdoc/>
     public ShaderMaterial? GetCurrentShaderMaterial()
     {
-        return _currentMaterial;
+        return _CurrentMaterial;
     }
 
     /// <inheritdoc/>
@@ -106,13 +122,13 @@ public class OmegaShaderController : IOmegaShaderController, IDisposable
     /// <param name="disposing">Whether this is being called from Dispose() or finalizer.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!_Disposed)
         {
             if (disposing)
             {
                 ResetShaderEffects();
             }
-            _disposed = true;
+            _Disposed = true;
         }
     }
 }

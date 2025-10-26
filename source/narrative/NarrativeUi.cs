@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Ui.Omega;
@@ -73,15 +74,16 @@ public partial class NarrativeUi : OmegaUi
 
     /// <summary>
     /// Performs a Dreamweaver persona transition with visual effect.
+    /// Crossfades phosphor tint color to thread-specific colors over 3 seconds.
     /// </summary>
-    /// <param name="personaPreset">The visual preset representing the persona.</param>
-    /// <param name="transitionDurationSeconds">Duration of the transition effect.</param>
+    /// <param name="threadName">The Dreamweaver thread name (light/shadow/ambition).</param>
+    /// <param name="transitionDurationSeconds">Duration of the transition effect (default 3.0 seconds per design doc).</param>
     /// <returns>A task representing the async operation.</returns>
-    protected async Task TransitionPersonaAsync(string personaPreset, float transitionDurationSeconds = 0.5f)
+    protected async Task TransitionPersonaAsync(string threadName, float transitionDurationSeconds = 3.0f)
     {
-        if (string.IsNullOrEmpty(personaPreset))
+        if (string.IsNullOrEmpty(threadName))
         {
-            GD.PushWarning("[NarrativeUi] Cannot transition persona - preset name is empty.");
+            GD.PushWarning("[NarrativeUi] Cannot transition persona - thread name is empty.");
             return;
         }
 
@@ -91,8 +93,64 @@ public partial class NarrativeUi : OmegaUi
             return;
         }
 
-        await ShaderController.ApplyVisualPresetAsync(personaPreset).ConfigureAwait(false);
-        await Task.Delay((int)(transitionDurationSeconds * 1000)).ConfigureAwait(false);
+        // Get the thread-specific color from OmegaSpiralColors
+        Color targetColor = GetThreadColor(threadName);
+
+        // Get current shader material and animate phosphor_tint parameter
+        var shaderMaterial = ShaderController.GetCurrentShaderMaterial();
+        if (shaderMaterial != null)
+        {
+            await CrossfadePhosphorTintAsync(shaderMaterial, targetColor, transitionDurationSeconds).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Gets the color associated with a Dreamweaver thread.
+    /// </summary>
+    /// <param name="threadName">The thread name (light/shadow/ambition).</param>
+    /// <returns>The thread-specific color.</returns>
+    private static Color GetThreadColor(string threadName)
+    {
+        return threadName.ToLowerInvariant() switch
+        {
+            "light" => OmegaSpiralColors.LightThread,
+            "shadow" => OmegaSpiralColors.ShadowThread,
+            "ambition" => OmegaSpiralColors.AmbitionThread,
+            _ => OmegaSpiralColors.WarmAmber // Default fallback
+        };
+    }
+
+    /// <summary>
+    /// Crossfades the phosphor_tint shader parameter to a target color.
+    /// </summary>
+    /// <param name="material">The shader material to animate.</param>
+    /// <param name="targetColor">The target color to transition to.</param>
+    /// <param name="duration">The duration of the crossfade in seconds.</param>
+    /// <returns>A task representing the async operation.</returns>
+    private static async Task CrossfadePhosphorTintAsync(ShaderMaterial material, Color targetColor, float duration)
+    {
+        // Get current phosphor_tint or use default warm amber
+        Variant currentTintVariant = material.GetShaderParameter("phosphor_tint");
+        Vector3 currentTint = currentTintVariant.VariantType == Variant.Type.Vector3
+            ? currentTintVariant.AsVector3()
+            : new Vector3(1.0f, 0.9f, 0.5f); // Default to warm amber
+
+        Vector3 targetTint = new(targetColor.R, targetColor.G, targetColor.B);
+
+        // Animate the crossfade at 60fps
+        const int frameRate = 60;
+        int totalFrames = (int)(duration * frameRate);
+
+        for (int frame = 0; frame <= totalFrames; frame++)
+        {
+            float t = (float)frame / totalFrames;
+            Vector3 interpolatedTint = currentTint.Lerp(targetTint, t);
+            material.SetShaderParameter("phosphor_tint", interpolatedTint);
+            await Task.Delay(1000 / frameRate).ConfigureAwait(false);
+        }
+
+        // Ensure we end exactly on target
+        material.SetShaderParameter("phosphor_tint", targetTint);
     }
 
     /// <summary>
@@ -101,9 +159,9 @@ public partial class NarrativeUi : OmegaUi
     protected void ClearNarrative()
     {
         ClearText();
-        if (_choiceContainer != null)
+        if (_ChoiceContainer != null)
         {
-            _choiceContainer.Visible = false;
+            _ChoiceContainer.Visible = false;
         }
     }
 
@@ -115,19 +173,47 @@ public partial class NarrativeUi : OmegaUi
     /// <returns>The text of the selected choice.</returns>
     protected async Task<string> PresentChoicesAsync(string prompt, string[] choices)
     {
-        // For now, return a placeholder implementation
-        // TODO: Implement proper choice presentation logic
-        await AppendTextAsync(prompt);
-        return choices.Length > 0 ? choices[0] : string.Empty;
+        if (choices == null || choices.Length == 0)
+        {
+            GD.PushWarning("[NarrativeUi] No choices provided to present.");
+            return string.Empty;
+        }
+
+        // Display the prompt
+        await AppendTextAsync(prompt).ConfigureAwait(false);
+
+        // Check if we have a choice presenter
+        if (_ChoicePresenter == null && _ChoiceContainer != null)
+        {
+            _ChoicePresenter = new OmegaChoicePresenter(_ChoiceContainer);
+        }
+
+        if (_ChoicePresenter != null)
+        {
+            // Use the choice presenter to show buttons and wait for selection
+            var selectedIndex = await _ChoicePresenter.PresentChoicesAsync(choices.ToList()).ConfigureAwait(false);
+
+            if (selectedIndex.Count > 0 && selectedIndex[0] >= 0 && selectedIndex[0] < choices.Length)
+            {
+                var selectedChoice = choices[selectedIndex[0]];
+                _ChoicePresenter.HideChoices();
+                return selectedChoice;
+            }
+        }
+
+        // Fallback: return first choice if presenter not available
+        GD.PushWarning("[NarrativeUi] Choice presenter not available, using first choice as fallback.");
+        return choices[0];
     }
 
     // Cache for choice container to avoid repeated lookups
-    private VBoxContainer? _choiceContainer;
+    private VBoxContainer? _ChoiceContainer;
+    private IOmegaChoicePresenter? _ChoicePresenter;
 
     /// <inheritdoc/>
     protected override void CacheRequiredNodes()
     {
         base.CacheRequiredNodes();
-        _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+        _ChoiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
     }
 }

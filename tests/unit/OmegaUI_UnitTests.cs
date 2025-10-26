@@ -1,119 +1,192 @@
-// <copyright file="OmegaUi_UnitTests.cs" company="Ωmega Spiral">
+// <copyright file="OmegaUi_IntegrationTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using GdUnit4;
+using GdUnit4.Api;
+using Godot;
 using OmegaSpiral.Source.Ui.Omega;
-using Moq;
 using static GdUnit4.Assertions;
 using System.Threading.Tasks;
 
-namespace OmegaSpiral.Tests.Unit.Ui
+namespace OmegaSpiral.Tests.Integration.Ui
 {
     /// <summary>
-    /// Unit tests for OmegaUi behavioral logic using GdUnit4 mocks.
-    /// Validates API delegation, graceful failure, and dispose pattern.
+    /// Integration tests for OmegaUi using scene runner.
+    /// Validates initialization, component creation, API behavior, and dispose pattern.
     /// </summary>
     [TestSuite]
-    public partial class OmegaUi_UnitTests
+    [RequireGodotRuntime]
+    public partial class OmegaUi_IntegrationTests : Node
     {
-        /// <summary>
-        /// UT-API-01: API Delegation (AppendText)
-        /// Ensures AppendTextAsync delegates to IOmegaTextRenderer.
-        /// </summary>
-        [TestCase]
-        [RequireGodotRuntime]
-        public async Task AppendTextAsync_DelegatesToTextRenderer()
+        private ISceneRunner? _Runner;
+
+        [After]
+        public void Teardown()
         {
-            var mockRenderer = new Mock<IOmegaTextRenderer>();
-            var omegaUi = new OmegaUi();
-            omegaUi.SetTextRendererForTest(mockRenderer.Object);
-            await omegaUi.AppendTextAsync("Hello", 42f, 1f);
-            mockRenderer.Verify(m => m.AppendTextAsync("Hello", 42f, 1f), Times.Once);
+            _Runner?.Dispose();
         }
 
         /// <summary>
-        /// UT-API-02: API Graceful Failure (AppendText)
-        /// Ensures no exception is thrown and warning is logged if TextRenderer is null.
+        /// INT-INIT-01: Scene Initialization
+        /// Ensures OmegaUi scene loads and initializes successfully.
         /// </summary>
         [TestCase]
-        [RequireGodotRuntime]
+        public async Task SceneInitialization_EmitsInitializationCompletedSignal()
+        {
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            // Allow _Ready to execute and async initialization to complete
+            await _Runner.SimulateFrames(2);
+
+            // Verify initialization completed successfully
+            AssertThat(omegaUi!.InitializationState).IsEqual(OmegaUiInitializationState.Initialized);
+            AssertThat(omegaUi.InitializationError).IsNull();
+
+            // Verify components were created
+            AssertThat(omegaUi.TextRenderer).IsNotNull();
+            AssertThat(omegaUi.ShaderController).IsNotNull();
+        }
+
+        /// <summary>
+        /// INT-INIT-02: Component Creation
+        /// Ensures TextRenderer and ShaderController are created during initialization.
+        /// </summary>
+        [TestCase]
+        public async Task ComponentCreation_CreatesTextRendererAndShaderController()
+        {
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            await _Runner.SimulateFrames(1); // Allow _Ready to execute
+
+            AssertThat(omegaUi!.TextRenderer).IsNotNull();
+            AssertThat(omegaUi.ShaderController).IsNotNull();
+        }
+
+        /// <summary>
+        /// INT-API-01: AppendText Behavior
+        /// Ensures AppendTextAsync works when TextRenderer is initialized.
+        /// </summary>
+        [TestCase]
+        public async Task AppendTextAsync_WorksWithInitializedRenderer()
+        {
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            await _Runner.SimulateFrames(1);
+
+            // Should not throw - TextRenderer is initialized from scene
+            await omegaUi!.AppendTextAsync("Test message", 50f, 0f);
+
+            // Verify text was appended (check via TextRenderer)
+            AssertThat(omegaUi.TextRenderer?.GetCurrentText()).Contains("Test message");
+        }
+
+        /// <summary>
+        /// INT-API-02: AppendText Graceful Failure
+        /// Ensures no exception when TextRenderer is null (scene without TextDisplay node).
+        /// </summary>
+        [TestCase]
         public async Task AppendTextAsync_GracefulFailureWhenRendererNull()
         {
-            var omegaUi = new OmegaUi();
-            await omegaUi.AppendTextAsync("test");
-            // No exception should be thrown, warning should be logged (cannot verify GD.PushWarning directly)
-        }
+            // Create OmegaUi programmatically without scene nodes
+            var omegaUi = AutoFree(new OmegaUi())!;
+            AddChild(omegaUi);
+            await ToSignal(omegaUi, Node.SignalName.Ready);
 
-        /// <summary>
-        /// UT-API-03: API Delegation (ApplyVisualPreset)
-        /// Ensures ApplyVisualPresetAsync delegates to IOmegaShaderController.
-        /// </summary>
-        [TestCase]
-        [RequireGodotRuntime]
-        public async Task ApplyVisualPresetAsync_DelegatesToShaderController()
-        {
-            var mockShader = new Mock<IOmegaShaderController>();
-            var omegaUi = new OmegaUi();
-            omegaUi.SetShaderControllerForTest(mockShader.Object);
-            await omegaUi.ApplyVisualPresetAsync("CRT");
-            mockShader.Verify(m => m.ApplyVisualPresetAsync("CRT"), Times.Once);
-        }
+            // Should not throw - gracefully handles null renderer
+            await omegaUi.AppendTextAsync("Test");
 
-        /// <summary>
-        /// UT-API-04: API Graceful Failure (ApplyVisualPreset)
-        /// Ensures no exception is thrown and warning is logged if ShaderController is null.
-        /// </summary>
-        [TestCase]
-        [RequireGodotRuntime]
-        public async Task ApplyVisualPresetAsync_GracefulFailureWhenControllerNull()
-        {
-            var omegaUi = new OmegaUi();
-            await omegaUi.ApplyVisualPresetAsync("CRT");
-            // No exception should be thrown, warning should be logged
-        }
-
-        /// <summary>
-        /// UT-DISP-01: Dispose Pattern
-        /// Ensures Dispose calls Dispose on both components and nulls references.
-        /// </summary>
-        [TestCase]
-        [RequireGodotRuntime]
-        public void Dispose_CallsDisposeOnComponentsAndNullsReferences()
-        {
-            var mockShader = new Mock<IOmegaShaderController>();
-            mockShader.As<System.IDisposable>();
-            var mockRenderer = new Mock<IOmegaTextRenderer>();
-            mockRenderer.As<System.IDisposable>();
-            var omegaUi = new OmegaUi();
-            omegaUi.SetShaderControllerForTest(mockShader.Object);
-            omegaUi.SetTextRendererForTest(mockRenderer.Object);
-            omegaUi.Dispose();
-            mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
-            mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
-            AssertThat(omegaUi.ShaderController).IsNull();
+            // Verify renderer is null (no TextDisplay node exists)
             AssertThat(omegaUi.TextRenderer).IsNull();
         }
 
         /// <summary>
-        /// UT-DISP-02: Multiple Disposals
-        /// Ensures Dispose logic is only executed once.
+        /// INT-API-03: ApplyVisualPreset Behavior
+        /// Ensures ApplyVisualPresetAsync works when ShaderController is initialized.
         /// </summary>
         [TestCase]
-        [RequireGodotRuntime]
-        public void Dispose_CalledTwice_OnlyExecutesOnce()
+        public async Task ApplyVisualPresetAsync_WorksWithInitializedController()
         {
-            var mockShader = new Mock<IOmegaShaderController>();
-            mockShader.As<System.IDisposable>();
-            var mockRenderer = new Mock<IOmegaTextRenderer>();
-            mockRenderer.As<System.IDisposable>();
-            var omegaUi = new OmegaUi();
-            omegaUi.SetShaderControllerForTest(mockShader.Object);
-            omegaUi.SetTextRendererForTest(mockRenderer.Object);
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            await _Runner.SimulateFrames(1);
+
+            // Should not throw - ShaderController is initialized from scene
+            await omegaUi!.ApplyVisualPresetAsync("phosphor");
+
+            // Verify shader controller has material
+            AssertThat(omegaUi.ShaderController?.GetCurrentShaderMaterial()).IsNotNull();
+        }
+
+        /// <summary>
+        /// INT-API-04: ApplyVisualPreset Graceful Failure
+        /// Ensures no exception when ShaderController is null.
+        /// </summary>
+        [TestCase]
+        public async Task ApplyVisualPresetAsync_GracefulFailureWhenControllerNull()
+        {
+            // Create OmegaUi programmatically without shader layers
+            var omegaUi = AutoFree(new OmegaUi())!;
+            AddChild(omegaUi);
+            await ToSignal(omegaUi, Node.SignalName.Ready);
+
+            // Should not throw - gracefully handles null controller
+            await omegaUi.ApplyVisualPresetAsync("phosphor");
+
+            // Verify controller is null (no shader layer nodes exist)
+            AssertThat(omegaUi.ShaderController).IsNull();
+        }
+
+        /// <summary>
+        /// INT-DISP-01: Dispose Pattern
+        /// Ensures Dispose nulls component references.
+        /// </summary>
+        [TestCase]
+        public async Task Dispose_NullsComponentReferences()
+        {
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            await _Runner.SimulateFrames(1);
+
+            // Verify components exist before disposal
+            AssertThat(omegaUi!.TextRenderer).IsNotNull();
+            AssertThat(omegaUi.ShaderController).IsNotNull();
+
             omegaUi.Dispose();
-            omegaUi.Dispose(); // Should not call Dispose again
-            mockShader.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
-            mockRenderer.As<System.IDisposable>().Verify(m => m.Dispose(), Times.Once);
+
+            // Verify components are nulled after disposal
+            AssertThat(omegaUi.TextRenderer).IsNull();
+            AssertThat(omegaUi.ShaderController).IsNull();
+        }
+
+        /// <summary>
+        /// INT-DISP-02: Multiple Disposals
+        /// Ensures Dispose can be called multiple times without error.
+        /// </summary>
+        [TestCase]
+        public async Task Dispose_CalledTwice_NoError()
+        {
+            _Runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
+            var omegaUi = _Runner.Scene() as OmegaUi;
+            AssertThat(omegaUi).IsNotNull();
+
+            await _Runner.SimulateFrames(1);
+
+            omegaUi!.Dispose();
+            omegaUi.Dispose(); // Should not throw or cause issues
+
+            AssertThat(omegaUi.TextRenderer).IsNull();
+            AssertThat(omegaUi.ShaderController).IsNull();
         }
     }
 }

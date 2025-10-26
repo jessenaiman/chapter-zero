@@ -10,11 +10,5 @@
                 "DEBUG": "true"
             }
         },
-        "gdunit4-validator": {
-            "command": "python3",
-            "args": [
-                "./.agents/gdunit4_mcp_server.py"
-            ]
-        }
     }
 }

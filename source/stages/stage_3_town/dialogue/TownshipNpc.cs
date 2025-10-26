@@ -32,9 +32,10 @@ public partial class TownshipNpc : Node2D
     public bool HasLiminalAwareness { get; set; }
 
     /// <summary>
-    /// Gets or sets the dialogue data for this NPC
+    /// Gets or sets the dialogue timeline path for this NPC (uses Dialogic).
+    /// Example: "res://addons/dialogic/Example Assets/Timeline_1.tres"
     /// </summary>
-    public NpcDialogueData? DialogueData { get; set; }
+    public string? DialogueTimelinePath { get; set; }
 
     /// <summary>
     /// Gets or sets references to previous visitors/loops (liminal elements)
@@ -62,88 +63,33 @@ public partial class TownshipNpc : Node2D
     {
         GD.Print($"Interacting with NPC: {Name} ({NpcId})");
 
-        // In a real implementation, this would trigger the dialogue system
-        if (DialogueData != null)
+        // Use Dialogic timeline if available
+        if (!string.IsNullOrEmpty(DialogueTimelinePath))
         {
-            StartDialogue();
+            StartDialogueTimeline();
         }
         else
         {
-            GD.Print($"No dialogue data found for NPC: {Name}");
+            GD.Print($"No dialogue timeline found for NPC: {Name}");
         }
     }
 
     /// <summary>
-    /// Start the dialogue sequence with this NPC
+    /// Start the Dialogic dialogue timeline for this NPC
     /// </summary>
-    private void StartDialogue()
+    private void StartDialogueTimeline()
     {
-        GD.Print($"Starting dialogue with {Name}");
+        GD.Print($"Starting Dialogic dialogue with {Name} using timeline: {DialogueTimelinePath}");
 
         // In a real implementation, this would:
-        // 1. Load the dialogue window/Ui
-        // 2. Display the opening lines
-        // 3. Show choices
+        // 1. Load the Dialogic timeline
+        // 2. Set character name and other variables
+        // 3. Start the dialogue presentation
         // 4. Handle player responses
         // 5. Apply any game state changes based on choices
 
-        DisplayOpeningLines();
-    }
-
-    /// <summary>
-    /// Display the opening lines of dialogue
-    /// </summary>
-    private void DisplayOpeningLines()
-    {
-        if (DialogueData?.OpeningLines == null)
-            return;
-
-        GD.Print($"{Name}: {string.Join("\n" + Name + ": ", DialogueData.OpeningLines)}");
-
-        // After opening lines, show choices if available
-        if (DialogueData.Choices?.Count > 0)
-        {
-            DisplayChoices();
-        }
-    }
-
-    /// <summary>
-    /// Display the available dialogue choices
-    /// </summary>
-    private void DisplayChoices()
-    {
-        GD.Print("Available choices:");
-        for (int i = 0; i < DialogueData!.Choices.Count; i++)
-        {
-            var choice = DialogueData.Choices[i];
-            GD.Print($"{i + 1}. {choice.Text} - {choice.Description}");
-        }
-
-        // In a real implementation, this would wait for player input
-        // and then handle the selected choice
-        HandleChoiceSelection(0); // Default to first choice for now
-    }
-
-    /// <summary>
-    /// Handle the player's choice selection
-    /// </summary>
-    /// <param name="choiceIndex">Index of the selected choice</param>
-    private void HandleChoiceSelection(int choiceIndex)
-    {
-        if (choiceIndex < 0 || choiceIndex >= DialogueData!.Choices.Count)
-        {
-            GD.PrintErr($"Invalid choice index: {choiceIndex}");
-            return;
-        }
-
-        var selectedChoice = DialogueData.Choices[choiceIndex];
-        GD.Print($"Player selected: {selectedChoice.Text}");
-
-        // Apply any effects based on the choice
-        ApplyChoiceEffects(selectedChoice);
-
-        // End the dialogue
-        EndDialogue();
+        // TODO: Integrate with Dialogic API to start timeline
+        // Example: Dialogic.Start(DialogueTimelinePath)
     }
 
     /// <summary>

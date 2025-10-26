@@ -6,9 +6,40 @@ using OmegaSpiral.Source.Ui.Omega;
 namespace OmegaSpiral.Source.Ui.Omega
 {
 /// <summary>
+/// Tracks the initialization phase of OmegaUi.
+/// Allows tests and external systems to verify component readiness.
+/// </summary>
+public enum OmegaUiInitializationState
+{
+    /// <summary>OmegaUi created but not initialized.</summary>
+    Uninitialized,
+
+    /// <summary>Required nodes have been cached (or created if missing).</summary>
+    NodesCached,
+
+    /// <summary>Border frame has been created and configured.</summary>
+    BorderFrameCreated,
+
+    /// <summary>Shader and text components have been created.</summary>
+    ComponentsCreated,
+
+    /// <summary>Component states have been initialized.</summary>
+    Initialized,
+
+    /// <summary>Initialization failed - see InitializationError for details.</summary>
+    Failed
+}
+
+/// <summary>
 /// Base Omega Ui orchestrator following SOLID principles.
 /// Pure presentation layer - composes shader and text rendering components.
 /// Single Responsibility: Component lifecycle and composition only.
+///
+/// ARCHITECTURE:
+/// - Explicit initialization via Initialize() instead of _Ready() magic
+/// - Testable via InitializationState tracking
+/// - Node creation via virtual factory methods (overridable for testing)
+/// - _Ready() calls Initialize() for production use only
 /// </summary>
 [GlobalClass]
 public partial class OmegaUi : Control
@@ -16,7 +47,6 @@ public partial class OmegaUi : Control
     /// <summary>
     /// Emitted when the Ui has completed initialization successfully.
     /// All subclasses will automatically emit this signal when ready.
-    /// Tests can listen for this signal to know when the Ui is ready for testing.
     /// </summary>
     [Signal]
     public delegate void InitializationCompletedEventHandler();
@@ -24,26 +54,21 @@ public partial class OmegaUi : Control
     /// <summary>
     /// Emitted when Ui initialization fails.
     /// Contains the error message describing what went wrong.
-    /// Allows tests and systems to respond gracefully to initialization failures.
+    /// Allows systems to respond gracefully to initialization failures.
     /// </summary>
     [Signal]
     public delegate void InitializationFailedEventHandler(string errorMessage);
 
     /// <summary>
-    /// Internal helper for unit tests to inject a mock shader controller.
+    /// Current initialization phase. Tests and external systems can inspect this.
     /// </summary>
-    internal void SetShaderControllerForTest(IOmegaShaderController? controller)
-    {
-    _ShaderController = controller;
-    }
+    public OmegaUiInitializationState InitializationState { get; private set; } = OmegaUiInitializationState.Uninitialized;
 
     /// <summary>
-    /// Internal helper for unit tests to inject a mock text renderer.
+    /// If initialization failed, contains the error message. Null otherwise.
     /// </summary>
-    internal void SetTextRendererForTest(IOmegaTextRenderer? renderer)
-    {
-    _TextRenderer = renderer;
-    }
+    public string? InitializationError { get; private set; }
+
     /// <summary>
     /// Handles Godot notifications for node lifecycle events.
     /// Ensures disposal is called on NotificationPredelete for robust cleanup.
@@ -57,38 +82,105 @@ public partial class OmegaUi : Control
             Dispose();
         }
     }
+
     // Thread safety for Dispose pattern
     private readonly object _DisposeLock = new object();
-        /// <inheritdoc/>
-        public override void _Ready()
+
+    /// <summary>
+    /// Called by Godot when the node enters the scene tree.
+    /// Triggers automatic initialization for production use.
+    /// Tests can skip this and call Initialize() explicitly.
+    /// </summary>
+    public override void _Ready()
+    {
+        base._Ready();
+
+        // Production: auto-initialize when added to scene
+        // Tests: can skip this by not adding to scene, instead calling Initialize() directly
+        _ = InitializeAsync();
+    }
+
+    /// <summary>
+    /// Explicitly initializes OmegaUi with complete phase tracking.
+    /// Separates initialization into testable steps.
+    /// Tests call this directly to control timing and verify each phase.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">If already initialized or initialization fails.</exception>
+    public void Initialize()
+    {
+        if (InitializationState != OmegaUiInitializationState.Uninitialized)
         {
-            base._Ready();
-            try
-            {
-                InitializeUi();
-                EmitSignal(SignalName.InitializationCompleted);
-            }
-            catch (InvalidOperationException ex)
-            {
-                GD.PrintErr($"[OmegaUi] Ui initialization failed: {ex.Message}");
-                EmitSignal(SignalName.InitializationFailed, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"[OmegaUi] Unexpected error during initialization: {ex.Message}");
-                EmitSignal(SignalName.InitializationFailed, ex.Message);
-            }
+            throw new InvalidOperationException(
+                $"Cannot initialize: already in state {InitializationState}");
         }
 
-        /// <summary>
-        /// Initializes the Ui by caching node references and creating components.
-        /// </summary>
-        private void InitializeUi()
+        GD.Print("=== [OmegaUi] Starting initialization ===");
+
+        try
         {
+            // Phase 1: Cache or create nodes
+            GD.Print("[OmegaUi] Phase 1: Caching required nodes");
             CacheRequiredNodes();
+            InitializationState = OmegaUiInitializationState.NodesCached;
+            GD.Print("[OmegaUi] Phase 1 complete: NodesCached");
+
+            // Phase 2: Create border frame
+            GD.Print("[OmegaUi] Phase 2: Creating BorderFrame");
+            CreateBorderFrame();
+            InitializationState = OmegaUiInitializationState.BorderFrameCreated;
+            GD.Print("[OmegaUi] Phase 2 complete: BorderFrameCreated");
+
+            // Phase 3: Create components (ShaderController, TextRenderer)
+            GD.Print("[OmegaUi] Phase 3: Creating components");
             CreateComponents();
+            InitializationState = OmegaUiInitializationState.ComponentsCreated;
+            GD.Print("[OmegaUi] Phase 3 complete: ComponentsCreated");
+
+            // Phase 4: Initialize component states
+            GD.Print("[OmegaUi] Phase 4: Initializing component states");
             InitializeComponentStates();
+            InitializationState = OmegaUiInitializationState.Initialized;
+            GD.Print("[OmegaUi] Phase 4 complete: Initialized");
+
+            GD.Print("=== [OmegaUi] Initialization SUCCESS ===");
+            EmitSignal(SignalName.InitializationCompleted);
         }
+        catch (InvalidOperationException ex)
+        {
+            InitializationState = OmegaUiInitializationState.Failed;
+            InitializationError = ex.Message;
+            GD.PushError($"[OmegaUi] Initialization FAILED at state {InitializationState}: {ex.Message}");
+            GD.PushError($"[OmegaUi] Stack trace: {ex.StackTrace}");
+            EmitSignal(SignalName.InitializationFailed, ex.Message);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            InitializationState = OmegaUiInitializationState.Failed;
+            InitializationError = ex.Message;
+            GD.PushError($"[OmegaUi] Unexpected error during initialization at state {InitializationState}: {ex.Message}");
+            GD.PushError($"[OmegaUi] Stack trace: {ex.StackTrace}");
+            EmitSignal(SignalName.InitializationFailed, ex.Message);
+            throw new InvalidOperationException($"Initialization failed: {ex.Message}", ex);
+        }
+    }
+
+    /// <summary>
+    /// Async wrapper for Initialize() to use from _Ready().
+    /// Allows production code to auto-initialize without blocking.
+    /// </summary>
+    private async Task InitializeAsync()
+    {
+        try
+        {
+            Initialize();
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[OmegaUi] Async initialization failed: {ex.Message}");
+        }
+        await Task.CompletedTask.ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Finalizer for OmegaUi. Only needed if unmanaged resources are added in the future.
@@ -136,13 +228,11 @@ public partial class OmegaUi : Control
 
     /// <summary>
     /// Gets the shader controller component for the Ui.
-    /// Exposed for integration and unit testing.
     /// </summary>
     public IOmegaShaderController? ShaderController => _ShaderController;
 
     /// <summary>
     /// Gets the text renderer component for the Ui.
-    /// Exposed for integration and unit testing.
     /// </summary>
     public IOmegaTextRenderer? TextRenderer => _TextRenderer;
 
@@ -164,6 +254,58 @@ public partial class OmegaUi : Control
     /// </summary>
     protected ColorRect? GlitchLayer => _GlitchLayer;
 
+    /// <summary>
+    /// Gets or sets the rotation speed of the spiral border animation.
+    /// Range: 0.0 (static) to 2.0 (fast). Default: 0.05 (very slow).
+    /// A value of 0.0 stops the spiral rotation completely.
+    /// </summary>
+    public float BorderRotationSpeed
+    {
+        get
+        {
+            var borderFrame = GetNodeOrNull<ColorRect>("BorderFrame");
+            if (borderFrame?.Material is ShaderMaterial shaderMaterial)
+            {
+                return (float)shaderMaterial.GetShaderParameter("rotation_speed");
+            }
+            return 0.05f; // Default value
+        }
+        set
+        {
+            var borderFrame = GetNodeOrNull<ColorRect>("BorderFrame");
+            if (borderFrame?.Material is ShaderMaterial shaderMaterial)
+            {
+                shaderMaterial.SetShaderParameter("rotation_speed", Mathf.Clamp(value, 0.0f, 2.0f));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the wave flow speed of the border animation.
+    /// Range: 0.0 (static) to 5.0 (fast). Default: 0.8 (gentle flow).
+    /// Controls how fast the wavelike particles flow along the energy streams.
+    /// </summary>
+    public float BorderWaveSpeed
+    {
+        get
+        {
+            var borderFrame = GetNodeOrNull<ColorRect>("BorderFrame");
+            if (borderFrame?.Material is ShaderMaterial shaderMaterial)
+            {
+                return (float)shaderMaterial.GetShaderParameter("wave_speed");
+            }
+            return 0.8f; // Default value
+        }
+        set
+        {
+            var borderFrame = GetNodeOrNull<ColorRect>("BorderFrame");
+            if (borderFrame?.Material is ShaderMaterial shaderMaterial)
+            {
+                shaderMaterial.SetShaderParameter("wave_speed", Mathf.Clamp(value, 0.0f, 5.0f));
+            }
+        }
+    }
+
     // Node references (cached for performance)
     private RichTextLabel? _TextDisplay;
 
@@ -178,13 +320,18 @@ public partial class OmegaUi : Control
     private bool _Disposed;
 
         /// Can be overridden by derived classes to customize node requirements.
-        /// <summary>
-        /// Caches references to required child nodes for the Ui theme.
-        /// Can be overridden by derived classes to customize node requirements.
-        /// PhosphorLayer and TextDisplay are optional - components may not exist for all Ui types.
-        /// </summary>
-        protected virtual void CacheRequiredNodes()
+    /// <summary>
+    /// Caches references to required child nodes for the Ui theme.
+    /// Can be overridden by derived classes to customize node requirements.
+    /// PhosphorLayer and TextDisplay are optional - components may not exist for all Ui types.
+    /// </summary>
+    protected virtual void CacheRequiredNodes()
     {
+        GD.Print("[OmegaUi] Caching required nodes...");
+
+        // Create nodes if they don't exist (for testing or when not using scene files)
+        EnsureRequiredNodesExist();
+
         // Only use inspector-assigned NodePaths for node discovery
         _TextDisplay = TextDisplayPath != null && !string.IsNullOrEmpty(TextDisplayPath.ToString())
             ? GetNodeOrNull<RichTextLabel>(TextDisplayPath)
@@ -201,14 +348,154 @@ public partial class OmegaUi : Control
         _GlitchLayer = GlitchLayerPath != null && !string.IsNullOrEmpty(GlitchLayerPath.ToString())
             ? GetNodeOrNull<ColorRect>(GlitchLayerPath)
             : null;
+
+        // Log what was found
+        GD.Print($"[OmegaUi] Node cache results: TextDisplay={_TextDisplay != null}, " +
+                 $"Phosphor={_PhosphorLayer != null}, Scanline={_ScanlineLayer != null}, Glitch={_GlitchLayer != null}");
+
+        // Wire in design system colors to shader layers from OmegaSpiralColors
+        if (_PhosphorLayer != null)
+        {
+            _PhosphorLayer.Color = OmegaSpiralColors.PhosphorGlow;
+            GD.Print($"[OmegaUi] PhosphorLayer color set to {OmegaSpiralColors.PhosphorGlow}");
+        }
+
+        if (_ScanlineLayer != null)
+        {
+            _ScanlineLayer.Color = OmegaSpiralColors.ScanlineOverlay;
+            GD.Print($"[OmegaUi] ScanlineLayer color set to {OmegaSpiralColors.ScanlineOverlay}");
+        }
+
+        if (_GlitchLayer != null)
+        {
+            _GlitchLayer.Color = OmegaSpiralColors.GlitchDistortion;
+            GD.Print($"[OmegaUi] GlitchLayer color set to {OmegaSpiralColors.GlitchDistortion}");
+        }
+
+        GD.Print("[OmegaUi] Node caching complete");
+    }
+
+    /// <summary>
+    /// Creates the animated spiral border with three intermingling energy streams.
+    /// Uses shader-based rendering for wavelike particle trails in Silver, Golden, and Crimson.
+    /// Border animation speed and appearance can be controlled via shader parameters.
+    /// If BorderFrame already exists in scene, configures its shader properties.
+    ///
+    /// Virtual so tests can override to provide a mock BorderFrame if needed.
+    /// BorderFrame is OPTIONAL - if shader cannot be loaded, logs error but continues.
+    /// </summary>
+    protected virtual void CreateBorderFrame()
+    {
+        GD.Print("[OmegaUi] Phase 2: CreateBorderFrame starting");
+
+        // Check if BorderFrame already exists in the scene (loaded from .tscn)
+        var existingBorderFrame = GetNodeOrNull<ColorRect>("BorderFrame");
+        if (existingBorderFrame != null)
+        {
+            GD.Print("[OmegaUi] BorderFrame found in scene - configuring shader");
+            try
+            {
+                ConfigureBorderShader(existingBorderFrame);
+                GD.Print("[OmegaUi] BorderFrame shader configured successfully");
+            }
+            catch (Exception ex)
+            {
+                GD.PushError($"[OmegaUi] Failed to configure existing BorderFrame: {ex.Message}");
+            }
+            return;
+        }
+
+        GD.Print("[OmegaUi] Creating BorderFrame programmatically");
+
+        try
+        {
+            // Create BorderFrame programmatically with shader
+            var borderFrame = new ColorRect
+            {
+                Name = "BorderFrame",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                ZIndex = 10, // Render above background layers but below content
+                MouseFilter = MouseFilterEnum.Ignore // Don't intercept mouse events
+            };
+
+            // Anchor to fill entire parent control
+            borderFrame.AnchorLeft = 0;
+            borderFrame.AnchorTop = 0;
+            borderFrame.AnchorRight = 1;
+            borderFrame.AnchorBottom = 1;
+
+            // Load and configure the spiral border shader
+            var shader = GD.Load<Shader>("res://source/shaders/spiral_border.gdshader");
+            if (shader == null)
+            {
+                GD.PushError("[OmegaUi] WARNING: spiral_border.gdshader not found at res://source/shaders/spiral_border.gdshader - BorderFrame will not render");
+                return;
+            }
+
+            var shaderMaterial = new ShaderMaterial { Shader = shader };
+
+            // Set three thread colors from design system
+            shaderMaterial.SetShaderParameter("light_thread", OmegaSpiralColors.LightThread);
+            shaderMaterial.SetShaderParameter("shadow_thread", OmegaSpiralColors.ShadowThread);
+            shaderMaterial.SetShaderParameter("ambition_thread", OmegaSpiralColors.AmbitionThread);
+
+            // Set animation parameters (slow, subtle animation by default)
+            shaderMaterial.SetShaderParameter("rotation_speed", 0.05f); // Very slow spiral
+            shaderMaterial.SetShaderParameter("wave_speed", 0.8f);      // Gentle wave flow
+            shaderMaterial.SetShaderParameter("wave_frequency", 8.0f);  // Moderate wavelength density
+            shaderMaterial.SetShaderParameter("wave_amplitude", 0.25f); // Subtle wave height
+            shaderMaterial.SetShaderParameter("border_width", 0.015f);  // ~1.5% of viewport
+            shaderMaterial.SetShaderParameter("glow_intensity", 1.2f);  // Moderate glow
+
+            borderFrame.Material = shaderMaterial;
+
+            // Add BorderFrame as sibling to background layers (visual overlay only)
+            AddChild(borderFrame);
+            MoveChild(borderFrame, 4); // After Background, Phosphor, Scanline, Glitch layers
+
+            GD.Print("[OmegaUi] BorderFrame created successfully");
+        }
+        catch (Exception ex)
+        {
+            GD.PushError($"[OmegaUi] Failed to create BorderFrame: {ex.Message}");
+            // Continue anyway - BorderFrame is optional
+        }
+    }
+
+    /// <summary>
+    /// Configures the spiral border shader with design system colors and animation parameters.
+    /// Allows runtime adjustment of border appearance and animation speed.
+    /// </summary>
+    /// <param name="borderFrame">The ColorRect containing the spiral border shader.</param>
+    /// <exception cref="InvalidOperationException">Thrown when BorderFrame doesn't have a ShaderMaterial.</exception>
+    private void ConfigureBorderShader(ColorRect borderFrame)
+    {
+        if (borderFrame.Material is not ShaderMaterial shaderMaterial)
+        {
+            GD.PushError("[OmegaUi] WARNING: BorderFrame does not have a ShaderMaterial - cannot configure shader.");
+            return;
+        }
+
+        GD.Print("[OmegaUi] Configuring BorderFrame shader with design system colors");
+
+        // Update thread colors from design system
+        shaderMaterial.SetShaderParameter("light_thread", OmegaSpiralColors.LightThread);
+        shaderMaterial.SetShaderParameter("shadow_thread", OmegaSpiralColors.ShadowThread);
+        shaderMaterial.SetShaderParameter("ambition_thread", OmegaSpiralColors.AmbitionThread);
+
+        GD.Print("[OmegaUi] BorderFrame shader configured successfully");
     }
 
     /// <summary>
     /// Creates component instances using factory methods (Open/Closed Principle).
     /// Used to compose shader and text rendering components for the Ui theme.
+    ///
+    /// Virtual so tests can override CreateShaderController() and CreateTextRenderer()
+    /// to inject mock components.
     /// </summary>
     /// <exception cref="InvalidOperationException">Thrown when component creation fails.</exception>
-    private void CreateComponents()
+    protected virtual void CreateComponents()
     {
         // Create shader controller if shader layer exists
         var primaryShaderLayer = ResolvePrimaryShaderLayer();
@@ -245,6 +532,8 @@ public partial class OmegaUi : Control
     /// <summary>
     /// Initializes default states for Ui components in the Ui theme.
     /// Can be overridden by derived classes to customize initial state.
+    ///
+    /// Tests can verify this phase was completed by checking InitializationState == Initialized.
     /// </summary>
     protected virtual void InitializeComponentStates()
     {
@@ -294,7 +583,7 @@ public partial class OmegaUi : Control
             return;
         }
 
-    await _TextRenderer.AppendTextAsync(text, typingSpeed, delayBeforeStart);
+    await _TextRenderer.AppendTextAsync(text, typingSpeed, delayBeforeStart).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -323,7 +612,7 @@ public partial class OmegaUi : Control
             return;
         }
 
-    await _ShaderController.ApplyVisualPresetAsync(presetName);
+    await _ShaderController.ApplyVisualPresetAsync(presetName).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -340,7 +629,7 @@ public partial class OmegaUi : Control
             return;
         }
 
-    await _ShaderController.PixelDissolveAsync(durationSeconds);
+    await _ShaderController.PixelDissolveAsync(durationSeconds).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -461,6 +750,65 @@ public partial class OmegaUi : Control
             return _GlitchLayer;
         }
         return null;
+    }
+
+    /// <summary>
+    /// Ensures that all required nodes exist, creating them if necessary.
+    /// Virtual so tests can override to inject mock nodes instead of creating real ones.
+    /// This allows the class to work both with scene files and direct instantiation in tests.
+    /// </summary>
+    protected virtual void EnsureRequiredNodesExist()
+    {
+        // Create ContentContainer if it doesn't exist
+        if (GetNodeOrNull<Control>("ContentContainer") == null)
+        {
+            var contentContainer = new Control
+            {
+                Name = "ContentContainer",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill
+            };
+            AddChild(contentContainer);
+        }
+
+        // Create PhosphorLayer if it doesn't exist
+        if (GetNodeOrNull<ColorRect>("PhosphorLayer") == null)
+        {
+            var phosphorLayer = new ColorRect
+            {
+                Name = "PhosphorLayer",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                ZIndex = -1
+            };
+            AddChild(phosphorLayer);
+        }
+
+        // Create ScanlineLayer if it doesn't exist
+        if (GetNodeOrNull<ColorRect>("ScanlineLayer") == null)
+        {
+            var scanlineLayer = new ColorRect
+            {
+                Name = "ScanlineLayer",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                ZIndex = -1
+            };
+            AddChild(scanlineLayer);
+        }
+
+        // Create GlitchLayer if it doesn't exist
+        if (GetNodeOrNull<ColorRect>("GlitchLayer") == null)
+        {
+            var glitchLayer = new ColorRect
+            {
+                Name = "GlitchLayer",
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                ZIndex = -1
+            };
+            AddChild(glitchLayer);
+        }
     }
 }
 }

@@ -9,7 +9,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// No new narrative text is generated here; all output is sourced from ghost.yaml.
 /// Implements <see cref="ICinematicDirector{TPlan}"/> to provide caching via <see cref="CinematicDirector{TDirector, TPlan}"/>.
 /// </summary>
-public sealed class GhostTerminalCinematicDirector : CinematicDirector<GhostTerminalCinematicPlan>
+public sealed class GhostCinematicDirector : CinematicDirector<GhostTerminalCinematicPlan>
 {
     protected override string GetDataPath() => "res://source/stages/stage_1_ghost/ghost.yaml";
 

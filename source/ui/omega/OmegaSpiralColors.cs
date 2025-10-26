@@ -30,11 +30,12 @@ public static class OmegaSpiralColors
     public static readonly Color PureWhite = new(1.0f, 1.0f, 1.0f, 1.0f);
 
     /// <summary>
-    /// Neon Magenta - Border and glow accent.
+    /// Neon Magenta - Border and glow accent (DEPRECATED - use thread colors).
     /// The crimson-pink energy stream from the logo's cool spiral.
-    /// RGB(0.933333, 0.278431, 0.458824) = #EE4775
+    /// RGB(0.9, 0.15, 0.1) = #E62619 (now matches AmbitionThread)
+    /// NOTE: For borders, use LightThread, ShadowThread, AmbitionThread for animated spiral.
     /// </summary>
-    public static readonly Color NeonMagenta = new(0.933333f, 0.278431f, 0.458824f, 1.0f);
+    public static readonly Color NeonMagenta = new(0.9f, 0.15f, 0.1f, 1.0f);
 
     /// <summary>
     /// Deep Space - Background color.
@@ -42,6 +43,56 @@ public static class OmegaSpiralColors
     /// RGB(0.054902, 0.0666667, 0.0862745) = #0E1116
     /// </summary>
     public static readonly Color DeepSpace = new(0.054902f, 0.0666667f, 0.0862745f, 1.0f);
+
+    /// <summary>
+    /// Dark Void - Alternative dark background color for UI elements.
+    /// Very dark blue-gray, slightly lighter than pure black.
+    /// RGB(0.0352941, 0.0352941, 0.0509804) = #090A0D
+    /// </summary>
+    public static readonly Color DarkVoid = new(0.0352941f, 0.0352941f, 0.0509804f, 1.0f);
+
+    /// <summary>
+    /// Pure Black - The overwhelming backdrop.
+    /// The darkness that tries to consume everything, spilling between the energy streams.
+    /// RGB(0.0, 0.0, 0.0) = #000000
+    /// </summary>
+    public static readonly Color PureBlack = new(0.0f, 0.0f, 0.0f, 1.0f);
+
+    /// <summary>
+    /// Disabled Gray - Used for disabled UI elements.
+    /// 50% opacity gray for indicating non-interactive states.
+    /// RGB(0.5, 0.5, 0.5, 0.5)
+    /// </summary>
+    public static readonly Color DisabledGray = new(0.5f, 0.5f, 0.5f, 0.5f);
+
+    // ==================== DREAMWEAVER THREAD COLORS (FROM LOGO) ====================
+
+    /// <summary>
+    /// Light Thread - Silver/White Stream.
+    /// The bright silver-white energy stream from the logo (left spiral).
+    /// Represents illumination, clarity, and decisive action.
+    /// Maps to "Light" Dreamweaver in ghost.yaml scoring system.
+    /// RGB(0.95, 0.95, 1.0) = #F2F2FF (bright silver-white with slight blue tint)
+    /// </summary>
+    public static readonly Color LightThread = new(0.95f, 0.95f, 1.0f, 1.0f);
+
+    /// <summary>
+    /// Shadow Thread - Golden/Amber Stream.
+    /// The warm golden-amber energy stream from the logo (middle spiral).
+    /// Represents wisdom, patience, and measured action.
+    /// Maps to "Shadow" Dreamweaver in ghost.yaml scoring system.
+    /// RGB(1.0, 0.75, 0.2) = #FFBF33 (warm golden-amber)
+    /// </summary>
+    public static readonly Color ShadowThread = new(1.0f, 0.75f, 0.2f, 1.0f);
+
+    /// <summary>
+    /// Ambition Thread - Crimson/Red-Orange Stream.
+    /// The deep crimson-red energy stream from the logo (right spiral).
+    /// Represents transformation, pragmatism, and self-interest.
+    /// Maps to "Ambition" Dreamweaver in ghost.yaml scoring system.
+    /// RGB(0.9, 0.15, 0.1) = #E62619 (deep crimson-red)
+    /// </summary>
+    public static readonly Color AmbitionThread = new(0.9f, 0.15f, 0.1f, 1.0f);
 
     // ==================== SHADER LAYER OPACITY PRESETS ====================
 
@@ -106,4 +157,35 @@ public static class OmegaSpiralColors
     /// Allows ±0.02 alpha channel variance.
     /// </summary>
     public const float OpacityTolerance = 0.02f;
+
+    // ==================== BORDER WIDTH PRESETS ====================
+
+    /// <summary>
+    /// Thin border width for minimal UI framing (CRT style).
+    /// Used for elegant, retro displays with subtle framing.
+    /// Typical use: Credits, minimal dialogs.
+    /// </summary>
+    public const int BorderWidthThin = 2;
+
+    /// <summary>
+    /// Standard border width for primary UI elements.
+    /// Used for main menus, quest dialogs, and core game screens.
+    /// Provides strong visual presence without overwhelming content.
+    /// This is the default/recommended border width.
+    /// </summary>
+    public const int BorderWidthStandard = 3;
+
+    /// <summary>
+    /// Thick border width for emphasis and critical UI.
+    /// Used for important dialogs, warnings, and focal point screens.
+    /// Creates strong visual separation and command attention.
+    /// </summary>
+    public const int BorderWidthThick = 4;
+
+    /// <summary>
+    /// Acceptable border widths for UI elements.
+    /// Any border outside this range will fail design compliance tests.
+    /// </summary>
+    public static readonly (int Min, int Max) AcceptableBorderWidthRange = (BorderWidthThin, BorderWidthThick);
+
 }

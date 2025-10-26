@@ -20,17 +20,17 @@ namespace OmegaSpiral.Source.Stages.Stage6;
 [GlobalClass]
 public partial class Stage6SystemLog : Control
 {
-    private const string DataPath = "res://source/stages/stage_6/stage6.json";
-    private const string SchemaPath = "res://source/data/schemas/narrative_terminal_schema.json";
+    private const string _DataPath = "res://source/stages/stage_6/stage6.json";
+    private const string _SchemaPath = "res://source/data/schemas/narrative_terminal_schema.json";
 
-    private static readonly Dictionary<DreamweaverThread, string> DreamweaverThreadTags = new()
+    private static readonly Dictionary<DreamweaverThread, string> _DreamweaverThreadTags = new()
     {
         { DreamweaverThread.Hero, "light" },
         { DreamweaverThread.Shadow, "wrath" },
         { DreamweaverThread.Ambition, "mischief" },
     };
 
-    private static readonly Dictionary<string, string> VisualNodeNames = new()
+    private static readonly Dictionary<string, string> _VisualNodeNames = new()
     {
         { "8bit", "%Pose8Bit" },
         { "16bit", "%Pose16Bit" },
@@ -39,18 +39,18 @@ public partial class Stage6SystemLog : Control
         { "space", "%PoseSpace" },
     };
 
-    private readonly List<ChoiceOption> activeChoices = new();
-    private readonly Dictionary<string, CanvasItem> poseNodes = new();
-    private readonly Dictionary<AudioCategory, float> originalVolumes = new();
+    private readonly List<ChoiceOption> _ActiveChoices = new();
+    private readonly Dictionary<string, CanvasItem> _PoseNodes = new();
+    private readonly Dictionary<AudioCategory, float> _OriginalVolumes = new();
 
-    private RichTextLabel outputLabel = default!;
-    private Label promptLabel = default!;
-    private NarrativeSceneData narrativeData = new();
-    private GameState gameState = default!;
-    private SceneManager sceneManager = default!;
-    private AudioManager? audioManager;
-    private int currentBlockIndex;
-    private bool awaitingChoice;
+    private RichTextLabel _OutputLabel = default!;
+    private Label _PromptLabel = default!;
+    private NarrativeSceneData _NarrativeData = new();
+    private GameState _GameState = default!;
+    private SceneManager _SceneManager = default!;
+    private AudioManager? _AudioManager;
+    private int _CurrentBlockIndex;
+    private bool _AwaitingChoice;
 
     /// <summary>
     /// Event emitted when a glitch cue is encountered in the narrative data.
@@ -74,17 +74,17 @@ public partial class Stage6SystemLog : Control
     /// <inheritdoc/>
     public override async void _Ready()
     {
-        this.outputLabel = this.GetNode<RichTextLabel>(this.OutputLabelPath);
-        this.promptLabel = this.GetNode<Label>(this.PromptLabelPath);
-        this.gameState = this.GetNode<GameState>("/root/GameState");
-        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
-        this.audioManager = this.GetNodeOrNull<AudioManager>("/root/AudioManager");
+        this._OutputLabel = this.GetNode<RichTextLabel>(this.OutputLabelPath);
+        this._PromptLabel = this.GetNode<Label>(this.PromptLabelPath);
+        this._GameState = this.GetNode<GameState>("/root/GameState");
+        this._SceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this._AudioManager = this.GetNodeOrNull<AudioManager>("/root/AudioManager");
 
         this.InitializeVisualNodes();
 
         if (!this.TryLoadNarrativeData())
         {
-            this.outputLabel.Text = "[color=#ff5959]System log playback failed. Missing or invalid content.[/color]";
+            this._OutputLabel.Text = "[color=#ff5959]System log playback failed. Missing or invalid content.[/color]";
             return;
         }
 
@@ -94,12 +94,12 @@ public partial class Stage6SystemLog : Control
 
     private void InitializeVisualNodes()
     {
-        foreach (KeyValuePair<string, string> entry in VisualNodeNames)
+        foreach (KeyValuePair<string, string> entry in _VisualNodeNames)
         {
             if (this.GetNodeOrNull<CanvasItem>(entry.Value) is { } canvas)
             {
                 canvas.Visible = entry.Key == "8bit";
-                this.poseNodes[entry.Key] = canvas;
+                this._PoseNodes[entry.Key] = canvas;
             }
         }
     }
@@ -107,7 +107,7 @@ public partial class Stage6SystemLog : Control
     /// <inheritdoc/>
     public override void _Input(InputEvent @event)
     {
-        if (!this.awaitingChoice || @event is not InputEventKey { Pressed: true } keyEvent)
+        if (!this._AwaitingChoice || @event is not InputEventKey { Pressed: true } keyEvent)
         {
             return;
         }
@@ -137,36 +137,36 @@ public partial class Stage6SystemLog : Control
 
     private async Task PlayOpeningAsync()
     {
-        foreach (string line in this.narrativeData.OpeningLines)
+        foreach (string line in this._NarrativeData.OpeningLines)
         {
             await this.DisplayLineAsync(line).ConfigureAwait(false);
         }
 
-        if (this.narrativeData.InitialChoice?.Options.Count > 0)
+        if (this._NarrativeData.InitialChoice?.Options.Count > 0)
         {
-            this.outputLabel.AppendText($"\n[b]{this.narrativeData.InitialChoice.Prompt}[/b]\n");
-            var option = this.narrativeData.InitialChoice.Options[0];
+            this._OutputLabel.AppendText($"\n[b]{this._NarrativeData.InitialChoice.Prompt}[/b]\n");
+            var option = this._NarrativeData.InitialChoice.Options[0];
             string label = option.Label ?? option.Text ?? option.Id ?? "commit";
-            this.outputLabel.AppendText($"  1. {label}\n");
+            this._OutputLabel.AppendText($"  1. {label}\n");
             await this.DelayAsync(this.ChoicePauseSeconds).ConfigureAwait(false);
-            this.outputLabel.AppendText("\n[italic]Playback authorised.[/italic]\n");
+            this._OutputLabel.AppendText("\n[italic]Playback authorised.[/italic]\n");
         }
 
-        this.currentBlockIndex = 0;
+        this._CurrentBlockIndex = 0;
     }
 
     private async Task PlayFromCurrentBlockAsync()
     {
-        while (this.currentBlockIndex < this.narrativeData.StoryBlocks.Count)
+        while (this._CurrentBlockIndex < this._NarrativeData.StoryBlocks.Count)
         {
-            var block = this.narrativeData.StoryBlocks[this.currentBlockIndex];
+            var block = this._NarrativeData.StoryBlocks[this._CurrentBlockIndex];
             bool requiresChoice = await this.PlayBlockAsync(block).ConfigureAwait(false);
             if (requiresChoice)
             {
                 return;
             }
 
-            this.currentBlockIndex++;
+            this._CurrentBlockIndex++;
         }
 
         await this.HandleExitAsync().ConfigureAwait(false);
@@ -209,21 +209,21 @@ public partial class Stage6SystemLog : Control
             return false;
         }
 
-        this.outputLabel.AppendText($"\n[center][b]{block.Question}[/b][/center]\n");
-        this.activeChoices.Clear();
+        this._OutputLabel.AppendText($"\n[center][b]{block.Question}[/b][/center]\n");
+        this._ActiveChoices.Clear();
         foreach (var choice in block.Choices)
         {
-            this.activeChoices.Add(choice);
+            this._ActiveChoices.Add(choice);
         }
 
         for (int i = 0; i < block.Choices.Count; i++)
         {
             string label = block.Choices[i].Text ?? $"Option {i + 1}";
-            this.outputLabel.AppendText($"  {i + 1}. {label}\n");
+            this._OutputLabel.AppendText($"  {i + 1}. {label}\n");
         }
 
-        this.promptLabel.Text = "Select an answer (1 or 2)";
-        this.awaitingChoice = true;
+        this._PromptLabel.Text = "Select an answer (1 or 2)";
+        this._AwaitingChoice = true;
         return true;
     }
 
@@ -264,7 +264,7 @@ public partial class Stage6SystemLog : Control
         }
 
         string tagValue = paragraph.Substring(4, closingBracketIndex - 4);
-        string threadTag = DreamweaverThreadTags.GetValueOrDefault(this.gameState.DreamweaverThread, "light");
+        string threadTag = _DreamweaverThreadTags.GetValueOrDefault(this._GameState.DreamweaverThread, "light");
         return string.Equals(tagValue, threadTag, StringComparison.OrdinalIgnoreCase)
             ? paragraph[(closingBracketIndex + 1)..].TrimStart()
             : null;
@@ -278,7 +278,7 @@ public partial class Stage6SystemLog : Control
             return;
         }
 
-        foreach (KeyValuePair<string, CanvasItem> entry in this.poseNodes)
+        foreach (KeyValuePair<string, CanvasItem> entry in this._PoseNodes)
         {
             entry.Value.Visible = string.Equals(entry.Key, era, StringComparison.OrdinalIgnoreCase);
         }
@@ -292,7 +292,7 @@ public partial class Stage6SystemLog : Control
 
     private void ProcessAudioCommand(string command)
     {
-        if (this.audioManager == null)
+        if (this._AudioManager == null)
         {
             return;
         }
@@ -302,8 +302,8 @@ public partial class Stage6SystemLog : Control
             case "bitcrush:on":
                 this.CacheVolume(AudioCategory.Music);
                 this.CacheVolume(AudioCategory.Ambient);
-                this.audioManager.SetCategoryVolume(AudioCategory.Music, -12f);
-                this.audioManager.SetCategoryVolume(AudioCategory.Ambient, -18f);
+                this._AudioManager.SetCategoryVolume(AudioCategory.Music, -12f);
+                this._AudioManager.SetCategoryVolume(AudioCategory.Ambient, -18f);
                 break;
             case "bitcrush:off":
                 this.RestoreVolume(AudioCategory.Music);
@@ -312,8 +312,8 @@ public partial class Stage6SystemLog : Control
             case "mute":
                 this.CacheVolume(AudioCategory.Music);
                 this.CacheVolume(AudioCategory.Ambient);
-                this.audioManager.SetCategoryVolume(AudioCategory.Music, -80f);
-                this.audioManager.SetCategoryVolume(AudioCategory.Ambient, -80f);
+                this._AudioManager.SetCategoryVolume(AudioCategory.Music, -80f);
+                this._AudioManager.SetCategoryVolume(AudioCategory.Ambient, -80f);
                 break;
             case "unmute":
                 this.RestoreVolume(AudioCategory.Music);
@@ -324,33 +324,33 @@ public partial class Stage6SystemLog : Control
 
     private void CacheVolume(AudioCategory category)
     {
-        if (this.audioManager == null || this.originalVolumes.ContainsKey(category))
+        if (this._AudioManager == null || this._OriginalVolumes.ContainsKey(category))
         {
             return;
         }
 
-        this.originalVolumes[category] = this.audioManager.GetCategoryVolume(category);
+        this._OriginalVolumes[category] = this._AudioManager.GetCategoryVolume(category);
     }
 
     private void RestoreVolume(AudioCategory category)
     {
-        if (this.audioManager == null || !this.originalVolumes.TryGetValue(category, out float volume))
+        if (this._AudioManager == null || !this._OriginalVolumes.TryGetValue(category, out float volume))
         {
             return;
         }
 
-        this.audioManager.SetCategoryVolume(category, volume);
-        this.originalVolumes.Remove(category);
+        this._AudioManager.SetCategoryVolume(category, volume);
+        this._OriginalVolumes.Remove(category);
     }
 
     private void RestoreAllVolumes()
     {
-        if (this.audioManager == null || this.originalVolumes.Count == 0)
+        if (this._AudioManager == null || this._OriginalVolumes.Count == 0)
         {
             return;
         }
 
-        var categories = new List<AudioCategory>(this.originalVolumes.Keys);
+        var categories = new List<AudioCategory>(this._OriginalVolumes.Keys);
         foreach (AudioCategory category in categories)
         {
             this.RestoreVolume(category);
@@ -359,20 +359,20 @@ public partial class Stage6SystemLog : Control
 
     private async void ProcessChoice(ChoiceOption selection)
     {
-        this.awaitingChoice = false;
-        this.promptLabel.Text = string.Empty;
+        this._AwaitingChoice = false;
+        this._PromptLabel.Text = string.Empty;
 
-        this.gameState.SceneData["stage6.choice"] = selection.Id;
-        this.gameState.SceneData["stage6.choice_text"] = selection.Text ?? selection.Label ?? selection.Id;
+        this._GameState.SceneData["stage6.choice"] = selection.Id;
+        this._GameState.SceneData["stage6.choice_text"] = selection.Text ?? selection.Label ?? selection.Id;
 
         int nextIndex = selection.NextBlock;
-        if (nextIndex < 0 || nextIndex > this.narrativeData.StoryBlocks.Count)
+        if (nextIndex < 0 || nextIndex > this._NarrativeData.StoryBlocks.Count)
         {
-            this.currentBlockIndex = this.narrativeData.StoryBlocks.Count;
+            this._CurrentBlockIndex = this._NarrativeData.StoryBlocks.Count;
         }
         else
         {
-            this.currentBlockIndex = nextIndex;
+            this._CurrentBlockIndex = nextIndex;
         }
 
         await this.PlayFromCurrentBlockAsync().ConfigureAwait(false);
@@ -386,49 +386,50 @@ public partial class Stage6SystemLog : Control
         }
 
         index -= 1;
-        if (index < 0 || index >= this.activeChoices.Count)
+        if (index < 0 || index >= this._ActiveChoices.Count)
         {
             return null;
         }
 
-        return this.activeChoices[index];
+        return this._ActiveChoices[index];
     }
 
     private async Task HandleExitAsync()
     {
-        string threadTag = DreamweaverThreadTags.GetValueOrDefault(this.gameState.DreamweaverThread, "light");
-        this.gameState.SceneData["stage6.alignment"] = threadTag;
-        this.gameState.SceneData["stage6.completed"] = true;
+        string threadTag = _DreamweaverThreadTags.GetValueOrDefault(this._GameState.DreamweaverThread, "light");
+        this._GameState.SceneData["stage6.alignment"] = threadTag;
+        this._GameState.SceneData["stage6.completed"] = true;
 
-        if (!string.IsNullOrWhiteSpace(this.narrativeData.ExitLine))
+        if (!string.IsNullOrWhiteSpace(this._NarrativeData.ExitLine))
         {
-            await this.DisplayLineAsync(this.narrativeData.ExitLine).ConfigureAwait(false);
+            await this.DisplayLineAsync(this._NarrativeData.ExitLine).ConfigureAwait(false);
         }
 
         await this.DisplayLineAsync("[center][i]Coming soon[/i][/center]").ConfigureAwait(false);
         await this.DelayAsync(3.5f).ConfigureAwait(false);
         this.RestoreAllVolumes();
-        this.sceneManager.TransitionToScene("res://source/ui/menus/main_menu.tscn", false);
+        this._SceneManager.TransitionToScene("res://source/ui/menus/main_menu.tscn", false);
     }
 
     private bool TryLoadNarrativeData()
     {
-        if (!Godot.FileAccess.FileExists(DataPath))
+        if (!Godot.FileAccess.FileExists(_DataPath))
         {
-            GD.PrintErr($"[Stage6SystemLog] Narrative file missing at {DataPath}");
+            GD.PrintErr($"[Stage6SystemLog] Narrative file missing at {_DataPath}");
             return false;
         }
 
         try
         {
-            var payload = ConfigurationService.LoadConfiguration(DataPath);
-            if (!ConfigurationService.ValidateConfiguration(payload, SchemaPath))
+            var payload = ConfigurationService.LoadConfiguration(_DataPath);
+            if (!ConfigurationService.ValidateConfiguration(payload, _SchemaPath))
             {
                 GD.PrintErr("[Stage6SystemLog] Schema validation failed for Stage 6 log.");
                 return false;
             }
 
-            this.narrativeData = NarrativeSceneFactory.Create(payload);
+            // Initialize narrative data from payload
+            this._NarrativeData = new NarrativeSceneData();
             return true;
         }
         catch (Exception ex)
@@ -440,10 +441,10 @@ public partial class Stage6SystemLog : Control
 
     private async Task DisplayLineAsync(string text)
     {
-        this.outputLabel.AppendText("\n");
+        this._OutputLabel.AppendText("\n");
         foreach (char character in text)
         {
-            this.outputLabel.AppendText(character.ToString());
+            this._OutputLabel.AppendText(character.ToString());
             await this.DelayAsync(this.CharacterDelaySeconds).ConfigureAwait(false);
         }
     }

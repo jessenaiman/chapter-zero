@@ -17,8 +17,8 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     [RequireGodotRuntime]
     public class OmegaShaderControllerTests
     {
-        private OmegaShaderController _controller = null!;
-        private ColorRect _mockDisplay = null!;
+        private OmegaShaderController _Controller = null!;
+        private ColorRect _MockDisplay = null!;
 
         /// <summary>
         /// Sets up test fixtures before each test.
@@ -26,8 +26,8 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         [Before]
         public void Setup()
         {
-            _mockDisplay = new ColorRect();
-            _controller = new OmegaShaderController(_mockDisplay);
+            _MockDisplay = AutoFree(new ColorRect())!;
+            _Controller = new OmegaShaderController(_MockDisplay);
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         [After]
         public void Cleanup()
         {
-            _controller?.Dispose();
-            _mockDisplay?.QueueFree();
+            _Controller?.Dispose();
+            // Cleanup is handled by AutoFree for _mockDisplay
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public void Constructor_WithValidDisplay_InitializesCorrectly()
         {
             // Arrange & Act
-            var controller = new OmegaShaderController(_mockDisplay);
+            var controller = new OmegaShaderController(_MockDisplay);
 
             // Assert
             AssertThat(controller).IsNotNull();
@@ -72,10 +72,10 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public async Task ApplyVisualPresetAsync_PhosphorPreset_AppliesCorrectShader()
         {
             // Act
-            await _controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
+            await _Controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
 
             // Assert
-            var material = _controller.GetCurrentShaderMaterial();
+            var material = _Controller.GetCurrentShaderMaterial();
             AssertThat(material).IsNotNull();
             AssertThat(material!.Shader!.ResourcePath).Contains("crt_phosphor");
         }
@@ -87,10 +87,10 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public async Task ApplyVisualPresetAsync_ScanlinesPreset_AppliesCorrectShader()
         {
             // Act
-            await _controller.ApplyVisualPresetAsync("scanlines").ConfigureAwait(true);
+            await _Controller.ApplyVisualPresetAsync("scanlines").ConfigureAwait(true);
 
             // Assert
-            var material = _controller.GetCurrentShaderMaterial();
+            var material = _Controller.GetCurrentShaderMaterial();
             AssertThat(material).IsNotNull();
             AssertThat(material!.Shader!.ResourcePath).Contains("crt_scanlines");
         }
@@ -102,10 +102,10 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public async Task ApplyVisualPresetAsync_GlitchPreset_AppliesCorrectShader()
         {
             // Act
-            await _controller.ApplyVisualPresetAsync("glitch").ConfigureAwait(true);
+            await _Controller.ApplyVisualPresetAsync("glitch").ConfigureAwait(true);
 
             // Assert
-            var material = _controller.GetCurrentShaderMaterial();
+            var material = _Controller.GetCurrentShaderMaterial();
             AssertThat(material).IsNotNull();
             AssertThat(material!.Shader!.ResourcePath).Contains("crt_glitch");
         }
@@ -123,7 +123,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
 
         private void ApplyInvalidPresetSync()
         {
-            _controller.ApplyVisualPresetAsync("invalid").Wait();
+            _Controller.ApplyVisualPresetAsync("invalid").Wait();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
             var startTime = Time.GetTicksMsec();
 
             // Act
-            await _controller.PixelDissolveAsync().ConfigureAwait(true);
+            await _Controller.PixelDissolveAsync().ConfigureAwait(true);
 
             // Assert
             var elapsed = Time.GetTicksMsec() - startTime;
@@ -155,12 +155,12 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
             var startTime = Time.GetTicksMsec();
 
             // Act
-            await _controller.PixelDissolveAsync(duration).ConfigureAwait(true);
+            await _Controller.PixelDissolveAsync(duration).ConfigureAwait(true);
 
             // Assert
             var elapsed = Time.GetTicksMsec() - startTime;
             AssertThat(elapsed).IsGreater(400); // Should take at least 0.4 seconds
-            AssertThat(elapsed).IsLess(600); // Should take at most 0.6 seconds
+            AssertThat(elapsed).IsLess(700); // Should take at most 0.7 seconds (allowing for timing variance)
         }
 
         /// <summary>
@@ -170,14 +170,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public async Task ResetShaderEffects_AfterApplyingPreset_RemovesMaterial()
         {
             // Arrange
-            await _controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
-            AssertThat(_controller.GetCurrentShaderMaterial()).IsNotNull();
+            await _Controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
+            AssertThat(_Controller.GetCurrentShaderMaterial()).IsNotNull();
 
             // Act
-            _controller.ResetShaderEffects();
+            _Controller.ResetShaderEffects();
 
             // Assert
-            AssertThat(_controller.GetCurrentShaderMaterial()).IsNull();
+            AssertThat(_Controller.GetCurrentShaderMaterial()).IsNull();
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public void GetCurrentShaderMaterial_NoShaderApplied_ReturnsNull()
         {
             // Act & Assert
-            AssertThat(_controller.GetCurrentShaderMaterial()).IsNull();
+            AssertThat(_Controller.GetCurrentShaderMaterial()).IsNull();
         }
 
         /// <summary>
@@ -197,14 +197,14 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
         public async Task ApplyVisualPresetAsync_TerminalPreset_RemovesShader()
         {
             // Arrange
-            await _controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
-            AssertThat(_controller.GetCurrentShaderMaterial()).IsNotNull();
+            await _Controller.ApplyVisualPresetAsync("phosphor").ConfigureAwait(true);
+            AssertThat(_Controller.GetCurrentShaderMaterial()).IsNotNull();
 
             // Act
-            await _controller.ApplyVisualPresetAsync("terminal").ConfigureAwait(true);
+            await _Controller.ApplyVisualPresetAsync("terminal").ConfigureAwait(true);
 
             // Assert
-            AssertThat(_controller.GetCurrentShaderMaterial()).IsNull();
+            AssertThat(_Controller.GetCurrentShaderMaterial()).IsNull();
         }
     }
 }

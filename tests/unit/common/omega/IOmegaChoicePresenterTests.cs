@@ -5,6 +5,7 @@
 using GdUnit4;
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
+using System.Linq;
 
 namespace OmegaSpiral.Tests.Unit.Common.Omega;
 
@@ -22,10 +23,12 @@ public partial class IOmegaChoicePresenterTests
     public void Interface_HasPresentChoicesAsyncMethod()
     {
         var interfaceType = typeof(IOmegaChoicePresenter);
-        var method = interfaceType.GetMethod("PresentChoicesAsync");
+        var methods = interfaceType.GetMethods();
+        var presentChoicesAsyncMethods = methods.Where(m => m.Name == "PresentChoicesAsync").ToList();
 
-        AssertThat(method).IsNotNull();
-        AssertThat(method!.ReturnType.Name).Contains("Task");
+        // Multiple overloads exist, just verify at least one is a Task
+        AssertThat(presentChoicesAsyncMethods.Count).IsGreater(1);
+        AssertThat(presentChoicesAsyncMethods.Any(m => m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))).IsTrue();
     }
 
     /// <summary>

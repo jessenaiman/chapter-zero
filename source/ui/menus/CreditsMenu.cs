@@ -45,6 +45,9 @@ namespace OmegaSpiral.Source.Ui.Menus
         {
             base._Ready();
 
+            // Set the menu title
+            SetMenuTitle("CREDITS");
+
             // Try to cache scroll container from scene first
             _CreditsScroll = GetNodeOrNull<ScrollContainer>("ContentContainer/CreditsScrollContainer");
             _CreditsContent = GetNodeOrNull<VBoxContainer>("ContentContainer/CreditsScrollContainer/CreditsContent");

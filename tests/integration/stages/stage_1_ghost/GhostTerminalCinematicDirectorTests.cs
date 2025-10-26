@@ -28,13 +28,13 @@ using OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public static class GhostTerminalCinematicDirectorTests
+public static class GhostCinematicDirectorTests
 {
     [TestCase]
     public static async Task GetPlan_ReturnsNonNull()
     {
         // Arrange
-        var director = new GhostTerminalCinematicDirector();  // instantiate
+        var director = new GhostCinematicDirector();  // instantiate
 
         // Act
         var plan = director.GetPlan();  // instance call

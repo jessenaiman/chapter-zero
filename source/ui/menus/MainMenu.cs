@@ -4,6 +4,7 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Components;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Stages.Stage0Start
 {
@@ -54,6 +55,13 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
             _SceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
             SetMenuTitle("Ωmega Spiral");
+
+            // Set title color to amber from OmegaSpiralColors design palette
+            var titleLabel = GetNodeOrNull<Label>("ContentContainer/MenuTitle");
+            if (titleLabel != null)
+            {
+                titleLabel.Modulate = OmegaSpiralColors.WarmAmber;
+            }
         }
 
         /// <summary>

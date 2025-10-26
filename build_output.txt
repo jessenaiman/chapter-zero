@@ -1,8 +1,0 @@
-/usr/lib/dotnet/sdk/10.0.100-rc.2.25502.107/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.RuntimeIdentifierInference.targets(351,5): message NETSDK1057: You are using a preview version of .NET. See: https://aka.ms/dotnet-support-policy [/home/adam/Dev/omega-spiral/chapter-zero/chapter-zero.csproj]
-  chapter-zero -> /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
-
-Build succeeded.
-    0 Warning(s)
-    0 Error(s)
-
-Time Elapsed 00:00:00.73

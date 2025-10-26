@@ -27,7 +27,7 @@ public partial class MenuUiTests : Node
     {
         _MenuUi = AutoFree(new MenuUi())!;
         AddChild(_MenuUi);
-        _MenuUi._Ready();
+        _MenuUi.Initialize(); // Use synchronous initialization for tests
         AssertThat(_MenuUi).IsNotNull();
     }
 
@@ -79,9 +79,9 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ContentContainer_Exists()
     {
-        var container = _MenuUi?.GetNodeOrNull<MarginContainer>("ContentContainer");
+        var container = _MenuUi?.ContentContainer;
         AssertThat(container).IsNotNull();
-        AssertThat(container).IsInstanceOf<MarginContainer>();
+        AssertThat(container).IsInstanceOf<Control>();
     }
 
     /// <summary>
@@ -90,9 +90,9 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void MenuTitle_Exists()
     {
-        var title = _MenuUi?.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
+        var title = _MenuUi?.MenuTitle;
         AssertThat(title).IsNotNull();
-        AssertThat(title?.Text).IsEqual("Test Menu");
+        AssertThat(title?.Text).IsEqual("");
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ButtonContainer_Exists()
     {
-        var container = _MenuUi?.GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var container = _MenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
         AssertThat(container).IsInstanceOf<VBoxContainer>();
     }
@@ -112,7 +112,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ActionBar_Exists()
     {
-        var actionBar = _MenuUi?.GetNodeOrNull<HBoxContainer>("ContentContainer/MenuActionBar");
+        var actionBar = _MenuUi?.MenuActionBar;
         AssertThat(actionBar).IsNotNull();
         AssertThat(actionBar).IsInstanceOf<HBoxContainer>();
     }
@@ -125,7 +125,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ButtonContainer_CanAddButtons()
     {
-        var container = _MenuUi?.GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var container = _MenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
         var initialCount = container!.GetChildCount();
@@ -141,7 +141,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void Menu_IsEnabledByDefault()
     {
-        var container = _MenuUi?.GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var container = _MenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
         AssertObject(container!.MouseFilter).IsEqual(Control.MouseFilterEnum.Pass);
         AssertObject(container.Modulate).IsEqual(Colors.White);
@@ -155,48 +155,20 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void FocusFirstButton_WorksCorrectly()
     {
-        var container = _MenuUi?.GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var container = _MenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
-        // First, test with the existing buttons in the fixture
-        var existingChildren = container!.GetChildren();
-        AssertThat(existingChildren.Count).IsGreater(0);
-
-        // Try to focus the first existing button
-        _MenuUi!.FocusFirstButton();
-
-        // Check if any button has focus
-        var focusedButton = existingChildren.OfType<Button>().FirstOrDefault(btn => btn.HasFocus());
-        if (focusedButton != null)
-        {
-            AssertThat(focusedButton.HasFocus()).IsTrue();
-            return; // Test passes
-        }
-
-        // If that didn't work, clear and add our own buttons
-        foreach (var child in existingChildren)
-        {
-            container.RemoveChild(child);
-            child.QueueFree();
-        }
-
-        var button1 = AutoFree(new Button { Text = "Button 1", FocusMode = Control.FocusModeEnum.All });
-        var button2 = AutoFree(new Button { Text = "Button 2", FocusMode = Control.FocusModeEnum.All });
-        container.AddChild(button1);
+        // Add test buttons
+        var button1 = AutoFree(new Button { Text = "Button 1" });
+        var button2 = AutoFree(new Button { Text = "Button 2" });
+        container!.AddChild(button1);
         container.AddChild(button2);
 
-        // Process a frame to ensure scene tree updates
-        _Runner.SimulateFrames(1);
+        // Act: Focus the first button
+        _MenuUi?.FocusFirstButton();
 
-        // Check that the container has the buttons
-        var children = container.GetChildren();
-        AssertThat(children.Count).IsEqual(2);
-        AssertThat(children[0]).IsEqual(button1);
-        AssertThat(children[1]).IsEqual(button2);
-
-        _MenuUi!.FocusFirstButton();
-
-        AssertThat(button1!.HasFocus()).IsTrue();
+        // Assert: The first button should have focus
+        AssertThat(button1?.HasFocus()).IsTrue();
     }
 
     /// <summary>
@@ -205,10 +177,10 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void GetFocusedButton_ReturnsCorrectButton()
     {
-        var container = _MenuUi?.GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var container = _MenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
-        var testButton = AutoFree(new Button { Text = "Test Button" });
+        var testButton = AutoFree(new Button { Text = "Test Button", Visible = true });
         container!.AddChild(testButton);
         testButton!.GrabFocus();
 

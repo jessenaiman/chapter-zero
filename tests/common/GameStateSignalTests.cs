@@ -16,7 +16,7 @@ namespace OmegaSpiral.Tests.Common;
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public partial class GameStateSignalTests
+public partial class GameStateSignalTests : Node
 {
     /// <summary>
     /// Tests that AffinityScoreUpdated signal is emitted when Dreamweaver affinity changes.
@@ -31,6 +31,7 @@ public partial class GameStateSignalTests
     {
         // Arrange
     var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    AddChild(gameStateSignals);
     var signalMonitor = AssertSignal(gameStateSignals);
 
         // Act - Simulate affinity score update
@@ -58,6 +59,7 @@ public partial class GameStateSignalTests
     {
         // Arrange
     var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    AddChild(gameStateSignals);
     var signalMonitor = AssertSignal(gameStateSignals);
 
         // Act - Simulate reaching a milestone
@@ -89,6 +91,7 @@ public partial class GameStateSignalTests
     {
         // Arrange
     var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    AddChild(gameStateSignals);
     var signalMonitor = AssertSignal(gameStateSignals);
 
         // Act - Simulate inventory update
@@ -116,6 +119,7 @@ public partial class GameStateSignalTests
     {
         // Arrange
     var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    AddChild(gameStateSignals);
     var signalMonitor = AssertSignal(gameStateSignals);
 
         // Act - Simulate party change
@@ -147,6 +151,7 @@ public partial class GameStateSignalTests
     {
         // Arrange
     var gameStateSignals = AutoFree(new OmegaSpiral.Source.Scripts.GameStateSignals())!;
+    AddChild(gameStateSignals);
     var signalMonitor = AssertSignal(gameStateSignals);
 
         // Act - Simulate influence change

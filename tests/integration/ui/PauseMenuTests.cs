@@ -24,7 +24,7 @@ namespace OmegaSpiral.Tests.Integration.Ui
         {
             _PauseMenu = AutoFree(new PauseMenu())!;
             AddChild(_PauseMenu);
-            _PauseMenu._Ready();
+            _PauseMenu.Initialize(); // Use synchronous initialization for tests
             AssertThat(_PauseMenu).IsNotNull();
         }
 

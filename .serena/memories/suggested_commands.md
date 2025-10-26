@@ -1,43 +1,28 @@
-# Development Commands for Ωmega Spiral
+# Suggested Commands for Omega Spiral Development
 
 ## Build Commands
-- `dotnet build` - Build the C# solution
-- `godot --build-solutions --no-window` - Build C# code within Godot
-- `dotnet clean` - Clean build artifacts
-
-## Run Commands
-- `godot` - Launch Godot editor
-- `godot --run` - Run the game directly
-- `godot project.godot` - Run specific project
+- `dotnet build --no-restore` - Build the C# project
+- `godot --path . --verbose` - Run the game from command line
 
 ## Test Commands
-- `dotnet test` - Run NUnit tests
-- `dotnet test --filter "Category=Unit"` - Run specific test categories
-
-## Export Commands
-- Godot editor: Project → Export - Export to Windows/Linux executables
+- `dotnet test --no-build --settings .runsettings` - Run all tests with GdUnit4
+- `dotnet test --settings .runsettings --filter "Class=YourTestClass"` - Run specific test class
 
 ## Code Quality Commands
-- `dotnet format` - Format C# code
-- No specific linter configured yet
-
-## Git Commands
-- `git add .` - Stage all changes
-- `git commit -m "message"` - Commit changes
-- `git push` - Push to remote
-
-## File System Commands
-- `ls -la` - List files with details
-- `find . -name "*.cs" -type f` - Find C# files
-- `grep -r "pattern" Source/Scripts/` - Search in scripts
-
-## Godot-Specific Commands
-- `godot --export "Windows Desktop" bin/game.exe` - Export for Windows
-- `godot --export "Linux/X11" bin/game.x86_64` - Export for Linux
+- `dotnet format --verify-no-changes` - Check code formatting
+- `dotnet build --warnaserror --no-restore` - Build with warnings as errors
 
 ## Development Workflow
-1. Edit C# scripts in `Source/Scripts/`
-2. Build with `dotnet build`
-3. Run with `godot --run` to test
-4. Use Godot editor for scene design
-5. Run tests with `dotnet test`
+- `git checkout -b feature/your-feature` - Create feature branch
+- `dotnet test` - Run tests before commit
+- `dotnet build` - Ensure build passes
+
+## Utility Commands (Linux)
+- `ls -la` - List files with details
+- `find . -name "*.cs" -type f` - Find C# files
+- `grep -r "pattern" source/` - Search for patterns in source
+- `cd /home/adam/Dev/omega-spiral/chapter-zero` - Navigate to project root
+
+## Godot Specific
+- Open Godot editor and press F5 to play
+- Enable plugins in Project → Project Settings → Plugins

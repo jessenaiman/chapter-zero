@@ -165,6 +165,11 @@ size_flags_vertical = 1
 custom_minimum_size = Vector2(0, 6)
 color = Color(0.0470588, 0.168627, 0.203922, 0.35)
 
+[node name="ChoiceContainer" type="VBoxContainer" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent/TerminalBody/ScreenPadding/ScreenLayout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+visible = false
+
 [node name="PromptLabel" type="Label" parent="Bezel/MainMargin/MainLayout/TerminalFrame/TerminalContent"]
 unique_name_in_owner = true
 text = "Enter your response:"

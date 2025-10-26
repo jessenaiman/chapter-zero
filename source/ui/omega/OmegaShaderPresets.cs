@@ -24,6 +24,8 @@ public static class OmegaShaderPresets
             "glitch" => GlitchPreset,
             "crt" => CrtPreset,
             "terminal" => TerminalPreset,
+            "boot_sequence" => BootSequencePreset,
+            "code_fragment_glitch_overlay" => CodeFragmentGlitchOverlayPreset,
             _ => null
         };
     }
@@ -34,7 +36,16 @@ public static class OmegaShaderPresets
     /// <returns>A collection of available preset names.</returns>
     public static Collection<string> GetAvailablePresets()
     {
-        return new Collection<string> { "phosphor", "scanlines", "glitch", "crt", "terminal" };
+        return new Collection<string>
+        {
+            "phosphor",
+            "scanlines",
+            "glitch",
+            "crt",
+            "terminal",
+            "boot_sequence",
+            "code_fragment_glitch_overlay"
+        };
     }
 
     /// <summary>
@@ -60,7 +71,7 @@ public static class OmegaShaderPresets
         ShaderPath = "res://source/shaders/crt_scanlines.tres",
         Parameters = new Dictionary<string, Variant>
         {
-            ["scanline_color"] = new Color(0.0f, 0.0f, 0.0f), // Black
+            ["scanline_color"] = OmegaSpiralColors.PureBlack,
             ["scanline_opacity"] = 0.4f,
             ["scanline_spacing"] = 2.0f,
             ["brightness"] = 1.1f
@@ -105,6 +116,44 @@ public static class OmegaShaderPresets
     {
         ShaderPath = null, // No shader for clean terminal
         Parameters = new Dictionary<string, Variant>()
+    };
+
+    /// <summary>
+    /// Boot sequence preset for Stage 1 Ghost Terminal.
+    /// Heavy glitch interference showing historical interfaces beneath.
+    /// Scanlines moving erratically (3x normal speed).
+    /// Color channels splitting (RGB separation: 5-8 pixels).
+    /// Ancient symbols bleeding through at 80% opacity.
+    /// </summary>
+    public static readonly ShaderPresetConfig BootSequencePreset = new()
+    {
+        ShaderPath = "res://source/shaders/crt_glitch.tres",
+        Parameters = new Dictionary<string, Variant>
+        {
+            ["glitch_intensity"] = 1.0f,
+            ["scanline_speed"] = 3.0f,
+            ["rgb_split"] = 7.0f,
+            ["symbol_bleed"] = 0.8f,
+            ["noise_amount"] = 0.6f
+        }
+    };
+
+    /// <summary>
+    /// Code fragment glitch overlay preset for Stage 1 Ghost Terminal.
+    /// Used during secret reveal ceremony.
+    /// Maximum glitch intensity with reality-breaking effects.
+    /// </summary>
+    public static readonly ShaderPresetConfig CodeFragmentGlitchOverlayPreset = new()
+    {
+        ShaderPath = "res://source/shaders/crt_glitch.tres",
+        Parameters = new Dictionary<string, Variant>
+        {
+            ["glitch_intensity"] = 1.0f,
+            ["chromatic_offset"] = 8.0f,
+            ["block_size"] = 32.0f,
+            ["noise_amount"] = 0.8f,
+            ["interference_speed"] = 15.0f
+        }
     };
 }
 

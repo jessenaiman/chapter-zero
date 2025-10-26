@@ -22,7 +22,7 @@ public partial class NarrativeRenderer : Control
     private Label? _PromptLabel;
 
     private TaskCompletionSource<string>? _ChoiceWaiter;
-    private List<NarrativeChoiceOption>? _CurrentOptions;
+    private List<ChoiceOption>? _CurrentOptions;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -71,7 +71,7 @@ public partial class NarrativeRenderer : Control
                 var pauseText = line.Replace("[PAUSE:", "").Replace("s]", "").Replace("]", "").Trim();
                 if (float.TryParse(pauseText, out var pauseSeconds))
                 {
-                    await Task.Delay((int)(pauseSeconds * 1000));
+                    await Task.Delay((int)(pauseSeconds * 1000)).ConfigureAwait(false);
                 }
                 continue;
             }
@@ -85,7 +85,7 @@ public partial class NarrativeRenderer : Control
             }
 
             // Display the line with typewriter effect
-            await TypewriterEffectAsync(line);
+            await TypewriterEffectAsync(line).ConfigureAwait(false);
             _OutputLabel.Text += "\n";
         }
     }
@@ -93,12 +93,12 @@ public partial class NarrativeRenderer : Control
     /// <summary>
     /// Shows a question with choice options and waits for player selection.
     /// Returns the selected choice ID.
-    /// See <see cref="NarrativeChoiceOption"/> for choice structure.
+    /// See <see cref="ChoiceOption"/> for choice structure.
     /// </summary>
     /// <param name="prompt">The question prompt.</param>
     /// <param name="context">Optional context/clarification text.</param>
     /// <param name="options">The choice options.</param>
-    public async Task<string> ShowChoicesAndWaitAsync(string? prompt, string? context, List<NarrativeChoiceOption> options)
+    public async Task<string> ShowChoicesAndWaitAsync(string? prompt, string? context, List<ChoiceOption> options)
     {
         if (_OutputLabel == null || _InputField == null || _PromptLabel == null)
         {
@@ -163,7 +163,7 @@ public partial class NarrativeRenderer : Control
         foreach (var c in line)
         {
             _OutputLabel.Text += c;
-            await Task.Delay(30); // ~33 chars/second
+            await Task.Delay(30).ConfigureAwait(false); // ~33 chars/second
         }
     }
 

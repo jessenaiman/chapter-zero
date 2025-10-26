@@ -4,6 +4,61 @@
 
 Here’s a breakdown of the most effective patterns for writing clean, maintainable C\# code in Godot.
 
+Always start a new session by checking the latest Godot 4.5+ documentation via Context7 to verify pretrained knowledge has not been updated.
+
+Ran `resolve-library-id` 
+Completed with input: {
+  "libraryName": "Godot Engine"
+}
+
+I'll fetch the official Godot 4.5 documentation to verify async patterns in C#: 
+
+Ran `get-library-docs` 
+Completed with input: {
+  "context7CompatibleLibraryID": "/websites/godotengine_en_4_5",
+  "topic": "C# async await Task initialization Ready",
+  "tokens": 10000
+}
+
+
+## Godot 4.5+ C# Async/Await Initialization Pattern Verification
+
+### Key Patterns Found in Godot 4.5 Docs:
+
+1. **`CallDeferred` for deferred initialization**
+   ```csharp
+   public override void _Ready()
+   {
+       // Use call deferred to make sure the entire scene tree nodes are setup
+       // else await on 'physics_frame' in a _ready() might get stuck.
+       CallDeferred(MethodName.CustomSetup);
+   }
+
+   private async void CustomSetup()
+   {
+       // Async setup code here
+       await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+   }
+   ```
+
+2. **Signal-based synchronization** (matching Option B's `InitializationCompleted` signal):
+   ```csharp
+   // Await signals to synchronize operations
+   await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+   ```
+
+3. **Deferred execution ensures setup order**:
+   - `_Ready()` is called → triggers `CallDeferred()` 
+   - Base class initialization completes first
+   - Only then does the deferred method execute
+   - Subclass operations are guaranteed to run after base setup is complete
+
+- **Prevents initialization ordering issues**: `MenuUi.PopulateMenuButtons()` will only run after `OmegaUi.Initialize()` fully completes
+- **Officially sanctioned pattern**: This exact pattern appears in Godot 4.5 official tutorials and docs
+- **Async/await ready**: The `.NET 10 RC2` + `Godot 4.6-dev-2` stack you're using has full async support
+- **Signal-based coordination**: Using a custom `InitializationCompleted` signal mirrors official patterns like `PhysicsFrame` and `ProcessFrame`
+
+
 ### **1\. Embrace C\# Naming Conventions**
 
 Stick to standard C\# conventions. Godot's C\# integration fully supports this.

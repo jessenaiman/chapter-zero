@@ -7,6 +7,7 @@ using Godot;
 using GdUnit4;
 using OmegaSpiral.Source.Stages.Stage0Start;
 using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Integration.Ui.Menus;
@@ -262,8 +263,8 @@ public partial class MainMenuTests : Node
     // ==================== VISUAL DESIGN COMPLIANCE ====================
 
     /// <summary>
-    /// MenuTitle uses amber color matching design spec: Color(0.992157, 0.788235, 0.384314, 1).
-    /// This is the primary text color from omega_ui.theme.tres.
+    /// MenuTitle uses amber color from OmegaSpiralColors.WarmAmber design palette.
+    /// Verifies UI compliance with centralized design specification.
     /// </summary>
     [TestCase]
     public void MenuTitle_UsesAmberDesignColor()
@@ -271,17 +272,16 @@ public partial class MainMenuTests : Node
         var title = _MainMenu.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
         AssertThat(title).IsNotNull();
 
-        // Design spec: Amber from Omega Spiral logo
-        var expectedAmber = new Color(0.992157f, 0.788235f, 0.384314f, 1.0f);
+        var expectedAmber = OmegaSpiralColors.WarmAmber;
         var actualColor = title!.Modulate;
 
-        // Use tolerance due to float precision: ±0.01 per channel
-        AssertThat(Math.Abs(actualColor.R - expectedAmber.R)).IsLess(0.01f)
-            .OverrideFailureMessage($"MenuTitle Red channel: expected ~0.992157, got {actualColor.R}");
-        AssertThat(Math.Abs(actualColor.G - expectedAmber.G)).IsLess(0.01f)
-            .OverrideFailureMessage($"MenuTitle Green channel: expected ~0.788235, got {actualColor.G}");
-        AssertThat(Math.Abs(actualColor.B - expectedAmber.B)).IsLess(0.01f)
-            .OverrideFailureMessage($"MenuTitle Blue channel: expected ~0.384314, got {actualColor.B}");
+        // Use design-specified tolerance for float precision
+        AssertThat(Math.Abs(actualColor.R - expectedAmber.R)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"MenuTitle Red channel: expected {expectedAmber.R}, got {actualColor.R}");
+        AssertThat(Math.Abs(actualColor.G - expectedAmber.G)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"MenuTitle Green channel: expected {expectedAmber.G}, got {actualColor.G}");
+        AssertThat(Math.Abs(actualColor.B - expectedAmber.B)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"MenuTitle Blue channel: expected {expectedAmber.B}, got {actualColor.B}");
     }
 
     /// <summary>
@@ -373,7 +373,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// PhosphorLayer (CRT shader effect) is visible with correct opacity (18%).
+    /// PhosphorLayer (CRT shader effect) is visible with correct opacity from OmegaSpiralColors.PhosphorGlow.
     /// Enables the amber phosphor glow effect over the content.
     /// </summary>
     [TestCase]
@@ -382,12 +382,11 @@ public partial class MainMenuTests : Node
         var phosphorLayer = _MainMenu.GetNodeOrNull<ColorRect>("PhosphorLayer");
         AssertThat(phosphorLayer).IsNotNull();
 
-        // Color should be white with ~18% opacity for glow effect
-        var expectedColor = new Color(1.0f, 1.0f, 1.0f, 0.18f);
+        var expectedColor = OmegaSpiralColors.PhosphorGlow;
         var actualColor = phosphorLayer!.Color;
 
-        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(0.02f)
-            .OverrideFailureMessage($"PhosphorLayer opacity should be ~0.18 (18%), got {actualColor.A}");
+        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
+            .OverrideFailureMessage($"PhosphorLayer opacity: expected {expectedColor.A}, got {actualColor.A}");
 
         // Layer should be visible (not hidden)
         AssertThat(phosphorLayer.Visible).IsTrue()
@@ -395,7 +394,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// ScanlineLayer (CRT scanline effect) is visible with correct opacity (12%).
+    /// ScanlineLayer (CRT scanline effect) is visible with correct opacity from OmegaSpiralColors.ScanlineOverlay.
     /// Adds scanline pattern overlay for retro aesthetic.
     /// </summary>
     [TestCase]
@@ -404,19 +403,18 @@ public partial class MainMenuTests : Node
         var scanlineLayer = _MainMenu.GetNodeOrNull<ColorRect>("ScanlineLayer");
         AssertThat(scanlineLayer).IsNotNull();
 
-        // Color should be white with ~12% opacity for scanline effect
-        var expectedColor = new Color(1.0f, 1.0f, 1.0f, 0.12f);
+        var expectedColor = OmegaSpiralColors.ScanlineOverlay;
         var actualColor = scanlineLayer!.Color;
 
-        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(0.02f)
-            .OverrideFailureMessage($"ScanlineLayer opacity should be ~0.12 (12%), got {actualColor.A}");
+        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
+            .OverrideFailureMessage($"ScanlineLayer opacity: expected {expectedColor.A}, got {actualColor.A}");
 
         AssertThat(scanlineLayer.Visible).IsTrue()
             .OverrideFailureMessage("ScanlineLayer should be visible to render scanlines");
     }
 
     /// <summary>
-    /// GlitchLayer (CRT glitch effect) is visible with correct opacity (8%).
+    /// GlitchLayer (CRT glitch effect) is visible with correct opacity from OmegaSpiralColors.GlitchDistortion.
     /// Adds glitch distortion effect for authentic retro feel.
     /// </summary>
     [TestCase]
@@ -425,20 +423,19 @@ public partial class MainMenuTests : Node
         var glitchLayer = _MainMenu.GetNodeOrNull<ColorRect>("GlitchLayer");
         AssertThat(glitchLayer).IsNotNull();
 
-        // Color should be white with ~8% opacity for glitch effect
-        var expectedColor = new Color(1.0f, 1.0f, 1.0f, 0.08f);
+        var expectedColor = OmegaSpiralColors.GlitchDistortion;
         var actualColor = glitchLayer!.Color;
 
-        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(0.02f)
-            .OverrideFailureMessage($"GlitchLayer opacity should be ~0.08 (8%), got {actualColor.A}");
+        AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
+            .OverrideFailureMessage($"GlitchLayer opacity: expected {expectedColor.A}, got {actualColor.A}");
 
         AssertThat(glitchLayer.Visible).IsTrue()
             .OverrideFailureMessage("GlitchLayer should be visible to render glitch effect");
     }
 
     /// <summary>
-    /// Background has correct dark blue-gray color from design spec.
-    /// Color: RGB(0.0352941, 0.0352941, 0.0509804) from omega_ui.theme.tres.
+    /// Background uses correct dark color from OmegaSpiralColors.DarkVoid design palette.
+    /// Verifies UI compliance with centralized design specification.
     /// </summary>
     [TestCase]
     public void Background_UsesCorrectDarkColor()
@@ -446,12 +443,140 @@ public partial class MainMenuTests : Node
         var background = _MainMenu.GetNodeOrNull<ColorRect>("Background");
         AssertThat(background).IsNotNull();
 
-        // Design spec: Very dark blue-gray
-        var expectedColor = new Color(0.0352941f, 0.0352941f, 0.0509804f, 1.0f);
+        var expectedColor = OmegaSpiralColors.DarkVoid;
         var actualColor = background!.Color;
 
-        AssertThat(Math.Abs(actualColor.R - expectedColor.R)).IsLess(0.01f);
-        AssertThat(Math.Abs(actualColor.G - expectedColor.G)).IsLess(0.01f);
-        AssertThat(Math.Abs(actualColor.B - expectedColor.B)).IsLess(0.01f);
+        // Use design-specified tolerance for float precision
+        AssertThat(Math.Abs(actualColor.R - expectedColor.R)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"Background Red channel: expected {expectedColor.R}, got {actualColor.R}");
+        AssertThat(Math.Abs(actualColor.G - expectedColor.G)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"Background Green channel: expected {expectedColor.G}, got {actualColor.G}");
+        AssertThat(Math.Abs(actualColor.B - expectedColor.B)).IsLess(OmegaSpiralColors.ColorTolerance)
+            .OverrideFailureMessage($"Background Blue channel: expected {expectedColor.B}, got {actualColor.B}");
+    }
+
+    /// <summary>
+    /// Main menu should have a non-white background to fix the white screen issue.
+    /// </summary>
+    [TestCase]
+    public void Background_ShouldNotBeWhite()
+    {
+        var background = _MainMenu.GetNodeOrNull<ColorRect>("Background");
+        AssertThat(background).IsNotNull();
+
+        var backgroundColor = background!.Color;
+        var whiteColor = Colors.White;
+
+        // Check that the background is not white (all RGB values should not be 1.0)
+        var isRedWhite = Math.Abs(backgroundColor.R - whiteColor.R) < OmegaSpiralColors.ColorTolerance;
+        var isGreenWhite = Math.Abs(backgroundColor.G - whiteColor.G) < OmegaSpiralColors.ColorTolerance;
+        var isBlueWhite = Math.Abs(backgroundColor.B - whiteColor.B) < OmegaSpiralColors.ColorTolerance;
+
+        // If all components are white (within tolerance), then it's a white background (which is the bug)
+        var isWhiteBackground = isRedWhite && isGreenWhite && isBlueWhite;
+
+        AssertThat(isWhiteBackground).IsFalse()
+            .OverrideFailureMessage($"Background color is white (R={backgroundColor.R}, G={backgroundColor.G}, B={backgroundColor.B}), it should be dark (R={OmegaSpiralColors.DarkVoid.R}, G={OmegaSpiralColors.DarkVoid.G}, B={OmegaSpiralColors.DarkVoid.B})");
+    }
+
+    // ==================== BORDER FRAME (SPIRAL ANIMATION) ====================
+
+    /// <summary>
+    /// BorderFrame exists and is visible.
+    /// OmegaUi creates this programmatically during initialization.
+    /// </summary>
+    [TestCase]
+    public void BorderFrame_Exists()
+    {
+        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
+        AssertThat(borderFrame).IsNotNull();
+        AssertThat(borderFrame!.Visible).IsTrue();
+    }
+
+    /// <summary>
+    /// BorderFrame has spiral shader material configured.
+    /// Uses spiral_border.gdshader for the three-stream animation.
+    /// </summary>
+    [TestCase]
+    public void BorderFrame_HasSpiralShader()
+    {
+        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
+        AssertThat(borderFrame).IsNotNull();
+        AssertThat(borderFrame!.Material).IsInstanceOf<ShaderMaterial>();
+
+        var shaderMaterial = borderFrame.Material as ShaderMaterial;
+        AssertThat(shaderMaterial).IsNotNull();
+        AssertThat(shaderMaterial!.Shader).IsNotNull();
+    }
+
+    /// <summary>
+    /// BorderFrame shader uses correct thread colors from OmegaSpiralColors.
+    /// Verifies LightThread (Silver), ShadowThread (Golden), AmbitionThread (Crimson).
+    /// </summary>
+    [TestCase]
+    public void BorderFrame_UsesThreeThreadColors()
+    {
+        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
+        AssertThat(borderFrame).IsNotNull();
+
+        var shaderMaterial = borderFrame!.Material as ShaderMaterial;
+        AssertThat(shaderMaterial).IsNotNull();
+
+        // Verify shader parameters exist and match design colors
+        var lightThreadColor = (Color)shaderMaterial!.GetShaderParameter("light_thread");
+        var shadowThreadColor = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
+        var ambitionThreadColor = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
+
+        // Use component-wise comparison with design tolerance
+        var tolerance = OmegaSpiralColors.ColorTolerance;
+
+        // Light Thread (Silver)
+        AssertThat(Math.Abs(lightThreadColor.R - OmegaSpiralColors.LightThread.R)).IsLess(tolerance)
+            .OverrideFailureMessage($"LightThread R: expected {OmegaSpiralColors.LightThread.R}, got {lightThreadColor.R}");
+        AssertThat(Math.Abs(lightThreadColor.G - OmegaSpiralColors.LightThread.G)).IsLess(tolerance)
+            .OverrideFailureMessage($"LightThread G: expected {OmegaSpiralColors.LightThread.G}, got {lightThreadColor.G}");
+        AssertThat(Math.Abs(lightThreadColor.B - OmegaSpiralColors.LightThread.B)).IsLess(tolerance)
+            .OverrideFailureMessage($"LightThread B: expected {OmegaSpiralColors.LightThread.B}, got {lightThreadColor.B}");
+
+        // Shadow Thread (Golden)
+        AssertThat(Math.Abs(shadowThreadColor.R - OmegaSpiralColors.ShadowThread.R)).IsLess(tolerance)
+            .OverrideFailureMessage($"ShadowThread R: expected {OmegaSpiralColors.ShadowThread.R}, got {shadowThreadColor.R}");
+        AssertThat(Math.Abs(shadowThreadColor.G - OmegaSpiralColors.ShadowThread.G)).IsLess(tolerance)
+            .OverrideFailureMessage($"ShadowThread G: expected {OmegaSpiralColors.ShadowThread.G}, got {shadowThreadColor.G}");
+        AssertThat(Math.Abs(shadowThreadColor.B - OmegaSpiralColors.ShadowThread.B)).IsLess(tolerance)
+            .OverrideFailureMessage($"ShadowThread B: expected {OmegaSpiralColors.ShadowThread.B}, got {shadowThreadColor.B}");
+
+        // Ambition Thread (Crimson)
+        AssertThat(Math.Abs(ambitionThreadColor.R - OmegaSpiralColors.AmbitionThread.R)).IsLess(tolerance)
+            .OverrideFailureMessage($"AmbitionThread R: expected {OmegaSpiralColors.AmbitionThread.R}, got {ambitionThreadColor.R}");
+        AssertThat(Math.Abs(ambitionThreadColor.G - OmegaSpiralColors.AmbitionThread.G)).IsLess(tolerance)
+            .OverrideFailureMessage($"AmbitionThread G: expected {OmegaSpiralColors.AmbitionThread.G}, got {ambitionThreadColor.G}");
+        AssertThat(Math.Abs(ambitionThreadColor.B - OmegaSpiralColors.AmbitionThread.B)).IsLess(tolerance)
+            .OverrideFailureMessage($"AmbitionThread B: expected {OmegaSpiralColors.AmbitionThread.B}, got {ambitionThreadColor.B}");
+    }
+
+    /// <summary>
+    /// BorderFrame animation speed matches design specification.
+    /// Rotation speed and wave speed should be configurable.
+    /// </summary>
+    [TestCase]
+    public void BorderFrame_AnimationSpeedCorrect()
+    {
+        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
+        AssertThat(borderFrame).IsNotNull();
+
+        var shaderMaterial = borderFrame!.Material as ShaderMaterial;
+        AssertThat(shaderMaterial).IsNotNull();
+
+        // Default values from OmegaUi.CreateBorderFrame()
+        var rotationSpeed = (float)shaderMaterial!.GetShaderParameter("rotation_speed");
+        var waveSpeed = (float)shaderMaterial.GetShaderParameter("wave_speed");
+
+        // Verify default animation speeds (0.05 for rotation, 0.8 for wave)
+        AssertThat(Math.Abs(rotationSpeed - 0.05f)).IsLess(0.01f)
+            .OverrideFailureMessage($"Rotation speed: expected 0.05, got {rotationSpeed}");
+        AssertThat(Math.Abs(waveSpeed - 0.8f)).IsLess(0.1f)
+            .OverrideFailureMessage($"Wave speed: expected 0.8, got {waveSpeed}");
     }
 }
+

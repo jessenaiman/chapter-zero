@@ -1,381 +1,202 @@
-# AGENTS.md
 
-**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
+**Always review [test-results](../TestResults/TestResults/test-result.trx) after making changes to ensure all tests pass. Report any broken tests before starting to fix.**
 
-## Technology Stack
+## Pre Requisites
+1. You must review gdUnit4 best practices for writing tests in [Godot with C#](../docs/code-guides/testing/):
+ - https://mikeschulze.github.io/gdUnit4/latest/
+2. You must understand Godot 4.6-dev2 changes
+3. Use serana to ensure your memories are guiding you correctly.
+    - **Do not make temp files you likely will foget and I will have to clean. I said use the todo list tool. **
+ 
+## Rules
+1. You are a senior game developer specializing in C# and Godot engine.
+- You gladly research best practices and latest features to ensure high quality code.
+- You always follow best practices for writing clean, maintainable, and efficient code.
+- You communicate by sharing architecture through diagrams in chat
+- reducing and preserving context with bullet point answers (no more than 3) per response
+- You always follow the XML Documentation Rules strictly.
+2. `getTerminalOuput` must be run after every terminal operation to ensure there are no warnings or errors.
+3. You must validate your code after any changes and report any broken ones as the user must evaluate if they are part of your changes
 
-- **Engine**: Godot 4.5.1 Stable (/home/adam/Godot_v4.6-dev-2_mono_linux_x86_64) with .NET/Mono support
-- **Language**: C# 12 for game logic(using .NET 8.0) with preview language features
-- **AI Integration**: NobodyWho plugin for local LLM inference
+**DO NOT WRITE SUMMARY MARKDOWN DOCUMENTS**
+**ONLY WRITE WITHOUTCODE CHANGES AS DIRECTED BY THE USER.**
+**ALWAYS REDUCE COMPLEXITY WHEREVER POSSIBLE. (lizard warnings)**
 
-###
+## Tech Stack
 
-### Testing with [GDUnit](./docs/code-guides/testing/gdUnit4Net-README.mdx)
+### Backend
+- **Framework**: .NET 10 RC2
+- **Game Engine**: Godot 4.6-dev-2
+- **Backend Language**: C# 14
 
-- GDUnit4 supports logic-only tests that run without the Godot runtime for speed, and Godot-dependent tests using [RequireGodotRuntime] for scene/node integration.
+## Rules
 
-*Note*: In Godot 4+, use the [GlobalClass] attribute on classes that need to be
-visible in the Godot editor. This allows proper C# namespace usage while
-maintaining editor integration.
+When an asynchronous method awaits a Task directly, continuation usually occurs in the same thread that created the task, depending on the async context. This behavior can be costly in terms of performance and can result in a deadlock on the UI thread. Consider calling Task.ConfigureAwait(Boolean) to signal your intention for continuation.
+
+## XML Documentation Rules
+
+- Public members should be documented with XML comments.
+- It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
+- Use `<summary>` for method descriptions. This should be a brief overview of what the method does.
+- Use `<param>` for method parameters.
+- Use `<paramref>` to reference parameters in documentation.
+- Use `<returns>` for method return values.
+- Use `<cref>` to reference other types or members in the documentation.
+- Use `<exception>` to document exceptions thrown by methods.
+- Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
+- Use `<inheritdoc/>` to inherit documentation from base classes or interfaces.
+  - Unless there is major behavior change, in which case you should document the differences.
+- Use `<typeparam>` for type parameters in generic types or methods.
+- Use `<typeparamref>` to reference type parameters in documentation.
+- Use `<c>` for inline code snippets.
+- Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
+
+- use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
+- a clean project is your responsibility
+- Do not alter config files, only show in chat the settings to change with examples I can copy
 
 
-## C# style guide
+## Naming Conventions
 
-Having well-defined and consistent coding conventions is important for every project, and Godot
-is no exception to this rule.
+✅ FOLDERS/FILES:        snake_case     (e.g., my_scenes/, player_sprite.png)
+✅ C# SCRIPT FILES:      PascalCase     (e.g., PlayerCharacter.cs)
+                         ↳ Named to match the class name inside
+                         ↳ Microsoft AND Godot C# style both mandate this
 
-This page contains a coding style guide, which is followed by developers of and contributors to Godot
-itself. As such, it is mainly intended for those who want to contribute to the project, but since
-the conventions and guidelines mentioned in this article are those most widely adopted by the users
-of the language, we encourage you to do the same, especially if you do not have such a guide yet.
+✅ NODE NAMES (in .tscn): PascalCase    (e.g., Player, Camera3D, AnimationPlayer)
+                         ↳ "Matches built-in node casing"
+                         ↳ This is IN THE SCENE TREE, not filesystem
 
-.. note:: This article is by no means an exhaustive guide on how to follow the standard coding
-        conventions or best practices. If you feel unsure of an aspect which is not covered here,
-        please refer to more comprehensive documentation, such as
-        `C# Coding Conventions <https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions>`*or
-        `Framework Design Guidelines <https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines>`*.
+✅ C# CLASS NAMES:       PascalCase     (PlayerCharacter, GameState, etc.)
 
-## Language specification
+✅ C# PROPERTIES:        PascalCase     (CurrentHealth, MaxSpeed, etc.)
 
-----------------------
+✅ C# METHODS:           PascalCase     (UpdateHealth(), CalculateDamage(), etc.)
 
-This project currently uses **C# version 14.0** in its engine and example source code,
-we are using a Release Candidate for C# (the current baseline requirement).
-So, before we move to a newer version, care must be taken to avoid mixing
-language features only available in C# 13.0 or later.
+### C# Files (.cs):
+- **Class names**: PascalCase (e.g., `SceneManager.cs`, `GameState.cs`)
+- **Method names**: PascalCase (e.g., `LoadLevel()`, `UpdatePlayer()`)
+- **Properties**: PascalCase (e.g., `CurrentSpeed`, `PlayerName`)
+- **Constants**: PascalCase (e.g., `DefaultSpeed`, `MaxPlayers`)
+- **Variables**: camelCase (e.g., `playerName`, `currentSpeed`)
+- **Private fields**: camelCase with underscore prefix (e.g., `_playerName`, `_currentSpeed`)
 
-For detailed information on C# features in different versions, please see
-`What's New in C# <https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/>`_.
+### Godot Scene Files (.tscn):
+- **Scene file names**: snake_case (e.g., `boot_sequence.tscn`, `opening_monologue.tscn`, `question_1_name.tscn`)
+- **Node names** (in scene tree): PascalCase (e.g., `Player`, `Camera3D`, `AnimationPlayer`)
+- **Signals**: snake_case (e.g., `door_opened`, `player_moved`)
 
-## Formatting
+### Godot Shader Files (.gdshader):
+- **Shader file names**: snake_case (e.g., `crt_glitch.gdshader`, `crt_phosphor.gdshader`)
+- **Functions**: snake_case (e.g., `void some_function()`)
+- **Variables**: snake_case (e.g., `float some_variable`)
+- **Constants**: CONSTANT_CASE (e.g., `const float GOLDEN_RATIO = 1.618`)
+- **Preprocessor directives**: CONSTANT_CASE (e.g., "#define HEIGHTMAP_ENABLED")
 
-----------------------
+THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST CHANGES TO THEM.
 
-### General guidelines
+### Key Principles for GdUnit4 C# Testing in Godot
 
-----------------------
+#### 1. **Scene Runner Usage**
+- Use `ISceneRunner.Load("scene_path")` to load scenes for integration/UI tests.
+- The runner manages the scene lifecycle and should be disposed after each test.
+- Simulate input/events and frame processing using the runner (see scene-runner.instructions.md).
 
-- Use line feed (**LF**) characters to break lines, not CRLF or CR.
-- Use one line feed character at the end of each file, except for `csproj` files.
-- Use **UTF-8** encoding without a `byte order mark <https://en.wikipedia.org/wiki/Byte_order_mark>`_.
-- Use **4 spaces** instead of tabs for indentation (which is referred to as "soft tabs").
-- Consider breaking a line into several if it's longer than 100 characters.
+#### 2. **Automatic Object Disposal**
+- Use `AutoFree<T>(obj)` to register objects for automatic cleanup after tests.
+- Manual disposal is required for objects inheriting from `Object` (see gdunit4-tools.instructions.md).
 
-### Line breaks and blank lines
+#### 3. **Mocks and Spies**
+- Use GdUnit4’s mocking tools to replace dependencies, signals, and external calls.
+- This avoids side effects and isolates the unit under test (see `mock.instructions.md`, `spy.instructions.md`).
 
-For a general indentation rule, follow `the "Allman Style" <https://en.wikipedia.org/wiki/Indentation_style#Allman_style>`_
-which recommends placing the brace associated with a control statement on the next line, indented to
-the same level:
+#### 4. **Input Simulation**
+- Simulate keyboard, mouse, and other input events using the runner or helper methods.
+- This is essential for UI and interaction tests (see `mouse.md`, `sync_inputs.md`).
 
-```csharp
-    if (x > 0)
-    {
-        DoSomething();
-    }
+#### 5. **Assertions**
+- Use GdUnit4’s assertion helpers (`AssertThat`, etc.) for all checks.
+- Prefer type-specific assertions (e.g., `.IsEqual()`, `.IsNotNull()`, `.IsInstanceOf<T>()`).
 
-    // NOT this:
-    if (x > 0) {
-        DoSomething();
-    }
-```
+#### 6. **Test Structure**
+- Use `[TestSuite]` for the class, `[TestCase]` for each test.
+- Use `[Before]` and `[After]` for setup/teardown, ensuring all resources are freed.
+- Avoid pragma suppressions; fix warnings by proper disposal and mocking.
 
-However, you may choose to omit line breaks inside brackets:
+#### 7. **Parameterized and Fuzz Tests**
+- Use parameterized tests for input variations (`paramerized_tests.md`).
+- Use fuzzing for robustness (`fuzzing.instructions.md`).
 
-- For simple property accessors.
-- For simple object, array, or collection initializers.
-- For abstract auto property, indexer, or event declarations.
+#### 8. **Signals and Actions**
+- Use signal matchers and action helpers to verify signal emissions and responses (`signals.instructions.md`, `actions.md`).
 
-.. code-block:: csharp
+---
 
-```csharp
-    // You may put the brackets in a single line in the following cases:
-    public interface MyInterface
-    {
-        int MyProperty { get; set; }
-    }
-
-    public class MyClass : ParentClass
-    {
-        public int Value
-        {
-            get { return 0; }
-            set
-            {
-                ArrayValue = new[] { value };
-            }
-        }
-    }
-```
-
-### Insert a blank line
-
-- After a list of using statements
-- Between method, property, and inner type declarations.
-- At the end of each file.
-
-    Field and constant declarations can be grouped together according to relevance. In that case, consider inserting a blank line between the groups for easier reading.
-
-    Avoid inserting a blank line:
-
-- After `{` (the opening brace).
-- Before `}` (the closing brace).
-- After a comment block or a single-line comment.
-- Adjacent to another blank line.
-
-    ```csharp
-    using System;
-    using Godot;
-
-    // Blank line after `using` list.
-    public class MyClass
-    { // No blank line after `{`.
-        public enum MyEnum
-        {
-            Value,
-            AnotherValue // No blank line before `}`.
-        }
-
-        // Blank line around inner types.
-        public const int SomeConstant = 1;
-        public const int AnotherConstant = 2;
-
-        private Vector3 _x; // Related constants or fields can be
-        private Vector3 _y; // grouped together.
-
-        private float _width;
-        private float _height;
-
-        public int MyProperty { get; set; } // Blank line around properties.
-
-        public void MyMethod()
-        {
-            // Some comment.
-            AnotherMethod(); // No blank line after a comment.
-        } // Blank line around methods.
-
-        public void AnotherMethod()
-        {
-        }
-    }
-    ```
-
-### Using spaces
-
-Insert a space:
-
-- Around a binary and ternary operator.
-- Between an opening parenthesis and `if`, `for`, `foreach`, `catch`, `while`, `lock`, or `using` keywords.
-- Before and within a single-line accessor block.
-- Between accessors in a single-line accessor block.
-- After a comma that is not at the end of a line.
-- After a semicolon in a `for` statement.
-- After a colon in a single-line `case` statement.
-- Around a colon in a type declaration.
-- Around a lambda arrow.
-- After the single-line comment symbol (`//`), and before it if used at the end of a line.
-- After the opening brace, and before the closing brace in a single-line initializer.
-
-    Do not use a space:
-
-- After type cast parentheses.
-
-    The following example shows a proper use of spaces, according to some of the above conventions:
+### Typical C# GdUnit4 Test Example
 
 ```csharp
-public class MyClass<A, B> : Parent<A, B>
+using GdUnit4;
+using static GdUnit4.Assertions;
+
+[TestSuite]
+public class MyUITests
 {
-    public float MyProperty { get; set; }
+    private ISceneRunner runner;
 
-    public float AnotherProperty
-    {
-        get { return MyProperty; }
+    [Before]
+    public void Setup()
+    
+        runner = AutoFree(runner);
     }
 
-    public void MyMethod()
+    [After]
+    public void Teardown()
     {
-        int[] values = { 1, 2, 3, 4 };
-        int sum = 0;
+        runner.Dispose();
+    }
 
-        // Single line comment.
-        for (int i = 0; i < values.Length; i++)
-        {
-            switch (i)
-            {
-                case 3: return;
-                default:
-                    sum += i > 2 ? 0 : 1;
-                    break;
-            }
-        }
-
-        i += (int)MyProperty; // No space after a type cast.
+    [TestCase]
+    public void TestButtonPress()
+    {
+        var button = runner.Scene().GetNode<Button>("MyButton");
+        AssertThat(button).IsNotNull();
+        // Simulate input, check signals, etc.
     }
 }
 ```
 
-### Naming conventions
+---
 
-Use PascalCase for all namespaces, type names, and member-level identifiers (methods, properties, constants, events), except for private fields:
+### Summary
 
-```csharp
-namespace ExampleProject
-{
-    public class PlayerCharacter
-    {
-        public const float DefaultSpeed = 10f;
+- Always use the scene runner for UI/scene tests.
+- Register objects for auto-free or dispose manually.
+- Use mocks/spies for dependencies.
+- Simulate input for UI tests.
+- Use proper assertions and avoid suppressing warnings.
+- Structure tests with setup/teardown and parameterization as needed.
 
-        public float CurrentSpeed { get; set; }
+---
 
-        protected int HitPoints;
+If you want, I can now refactor your OmegaUI tests to follow these best practices!
 
-        private void CalculateWeaponDamage()
-        {
-        }
-    }
-}
-```
+## **Omega Spiral - Chapter Zero**
 
-Use camelCase for all other identifiers (local variables, method arguments), and use an underscore (`_`) as a prefix for private fields (but not for methods or properties):
+Is a turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features a concept called 'Spiral Storytelling' where 3 dynamic AI-driven narrative personas (Dreamweavers) each guide a party of adventurers that spirals around a central narrative.
 
-```csharp
-private Vector3 _aimingAt; // Use an `_` prefix for private fields.
+## Game Overview
 
-private void Attack(float attackStrength)
-{
-    Enemy targetFound = FindTarget(_aimingAt);
+- **Title**: Omega Spiral - Chapter Zero
+- **Genre**: Turn-Based RPG with Dynamic AI-Driven Narrative
+- **Setting**: Five distinct scenes representing different eras of gaming aesthetics
+- **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development
+- **Single Player**: 1 player and 2 quantum players. The other dreamweavers write the story in the backend.
 
-    targetFound?.Hit(attackStrength);
-}
-```
-
-There's an exception for two-letter acronyms (e.g., `Ui`), which should be uppercase where PascalCase is expected and lowercase otherwise.
-
-Note that `id` is not an acronym and should be treated as a normal identifier:
-
-```csharp
-public string Id { get; }
-
-public UiManager Ui
-{
-    get { return uiManager; }
-}
-```
-
-It is generally discouraged to use a type name as a prefix of an identifier (for example, `string strText`). An exception is interfaces, which should be prefixed with `I` (for example, `IInventoryHolder` or `IDamageable`).
-
-Lastly, prefer descriptive names over excessive shortening when it impacts readability.
-
-### Implicitly typed local variables
-
-Consider using implicit typing (`var`) for local variables only when the type is evident from the right side of the assignment.
-
-```csharp
-// You can use `var` for these cases:
-var direction = new Vector2(1, 0);
-var value = (int)speed;
-var text = "Some value";
-
-for (var i = 0; i < 10; i++)
-{
-}
-
-// But not for these:
-var valueFromMethod = GetValue();
-var velocity = direction * 1.5;
-
-// It's generally better to use explicit typing for numeric literals where ambiguity exists:
-var numericValue = 1.5;
-```
-
-var direction = new Vector2(1, 0);
-
-var value = (int)speed;
-
-var text = "Some value";
-
-for (var i = 0; i < 10; i++)
-{
-}
-
-// But not for these:
-
-var value = GetValue();
-
-var velocity = direction * 1.5;
-
-// It's generally a better idea to use explicit typing for numeric values, especially with
-// the existence of the `real_t` alias in Godot, which can either be double or float
-// depending on the build configuration.
-
-var value = 1.5;
-
-### Other considerations
-
-- Use explicit access modifiers.
-- Use properties instead of non-private fields.
-- Use modifiers in this order:
-   ``public``/``protected``/``private``/``internal``/``virtual``/``override``/``abstract``/``new``/``static``/``readonly``.
-- Avoid using fully-qualified names or ``this.`` prefix for members when it's not necessary.
-- Remove unused ``using`` statements and unnecessary parentheses.
-- Consider omitting the default initial value for a type.
-- Consider using null-conditional operators or type initializers to make the code more compact.
-- Use safe cast when there is a possibility of the value being a different type, and use direct cast otherwise.
-
-## Build/Lint/Test Commands
-
-### Build Commands
-
-```bash
-dotnet build  # Standard build
-dotnet build --warnaserror  # Enforce warnings as errors
-```
-
-### Test Commands
-
-```bash
-dotnet test  # Run all tests
-# Note: Some tests require Godot runtime and must be run through Godot's test runner or GdUnit4
-```
-
-### Lint/Format Commands
-
-```bash
-dotnet format  # Format code
-dotnet format --verify-no-changes # Verify formatting without changes
-dotnet build --warnaserror # Static analysis with Roslyn/StyleCop analyzers
-```
-
-### Pre-commit Checks (automatically enforced)
-
-1. Code formatting: `dotnet format --verify-no-changes`
-2. Static analysis: `dotnet build --warnaserror`
-3. Tests: `dotnet test`
-4. Security (optional): `trivy fs --exit-code 1 --severity HIGH,CRITICAL .`
-
-## Code Style & Conventions
-
-### Non-Obvious Patterns
-
-- **Godot C# Integration**: Use `Godot.Collections.Dictionary` and `Godot.Collections.Array` for signal parameters, not System.Collections
-- **Type Aliases**: `Range = Godot.Range`, `Timer = Godot.Timer` to resolve System/Godot conflicts
-- **Singleton Autoloads**: SceneManager and GameState are autoloaded singletons defined in project.godot
-- **Scene Transitions**: Use SceneManager.TransitionToScene() for all scene changes (not direct Godot methods)
-
-### XML Documentation Required
-
-- All public members must have XML documentation comments
-- Use `<inheritdoc/>` for overriding methods when behavior is unchanged
-- Document exceptions with `<exception>` tags
-
-### Async Programming
-
-- Use 'Async' suffix for all async methods
-- Avoid `.Wait()`, `.Result`, or `.GetAwaiter().GetResult()` in async code
-- Use `Task.WhenAll()` for parallel execution
-
-### Godot-Specific Conventions
-
-- Use PascalCase for Godot signals and node paths
-- Access Godot built-in types through Godot namespace (not System)
-- Use `GD.Print()` for logging, not Console.WriteLine()
-- File paths in Godot use `res://` scheme for project resources
+## General Rules
+- Act like a developer with 20+ years of experience
+- You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
+- Always confirm that the project problems tab with your tools is clean after changes
+- Always confirm that all tests pass after changes
+- Always confirm that there are no warnings or errors in the terminal output after building and testing
+- Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
+- Always follow the XML Documentation Rules

@@ -43,6 +43,8 @@ namespace OmegaSpiral.Source.Ui.Menus
 
             // Base class will call PopulateMenuButtons() after initialization
             base._Ready();
+
+            SetMenuTitle("PAUSED");
         }
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace OmegaSpiral.Source.Ui.Menus
         protected override void PopulateMenuButtons()
         {
             // Create menu buttons dynamically
-            _ResumeButton = CreateMenuButton("ResumeButton", "Resume");
+            _ResumeButton = CreateMenuButton("ResumeButton", "Resume Game");
             _RestartButton = CreateMenuButton("RestartButton", "Restart");
             _MainMenuButton = CreateMenuButton("MainMenuButton", "Main Menu");
             _QuitButton = CreateMenuButton("QuitButton", "Quit");
@@ -79,8 +81,11 @@ namespace OmegaSpiral.Source.Ui.Menus
         public void ShowPauseMenu()
         {
             Visible = true;
-            GetViewport().SetInputAsHandled();
-            GetTree().Paused = true;
+            GetViewport()?.SetInputAsHandled();
+            if (GetTree() != null)
+            {
+                GetTree().Paused = true;
+            }
             FocusFirstButton();
         }
 
@@ -90,7 +95,10 @@ namespace OmegaSpiral.Source.Ui.Menus
         public void HidePauseMenu()
         {
             Visible = false;
-            GetTree().Paused = false;
+            if (GetTree() != null)
+            {
+                GetTree().Paused = false;
+            }
         }
 
         // --- EVENT HANDLERS ---
@@ -102,8 +110,11 @@ namespace OmegaSpiral.Source.Ui.Menus
 
         private void OnRestartPressed()
         {
-            GetTree().Paused = false;
-            GetTree().ReloadCurrentScene();
+            if (GetTree() != null)
+            {
+                GetTree().Paused = false;
+                GetTree().ReloadCurrentScene();
+            }
         }
 
         private void OnMainMenuPressed()

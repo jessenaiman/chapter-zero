@@ -29,7 +29,7 @@ public partial class OmegaShaderPresetsTests
         AssertThat(preset!.ShaderPath).IsEqual("res://source/shaders/crt_phosphor.tres");
         AssertThat(preset.Parameters).IsNotNull();
         AssertThat(preset.Parameters).ContainsKeys(
-            new Variant[] { "phosphor_color", "phosphor_intensity", "scanline_intensity", "glow_strength" });
+            new string[] { "phosphor_color", "phosphor_intensity", "scanline_intensity", "glow_strength" });
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public partial class OmegaShaderPresetsTests
         AssertThat(preset!.ShaderPath).IsEqual("res://source/shaders/crt_scanlines.tres");
         AssertThat(preset.Parameters).IsNotNull();
         AssertThat(preset.Parameters).ContainsKeys(
-            new Variant[] { "scanline_color", "scanline_opacity", "scanline_spacing", "brightness" });
+            new string[] { "scanline_color", "scanline_opacity", "scanline_spacing", "brightness" });
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public partial class OmegaShaderPresetsTests
         AssertThat(preset!.ShaderPath).IsEqual("res://source/shaders/crt_glitch.tres");
         AssertThat(preset.Parameters).IsNotNull();
         AssertThat(preset.Parameters).ContainsKeys(
-            new Variant[] { "glitch_intensity", "noise_amount", "rgb_shift", "scanline_jitter" });
+            new string[] { "glitch_intensity", "noise_amount", "rgb_shift", "scanline_jitter" });
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public partial class OmegaShaderPresetsTests
         AssertThat(preset!.ShaderPath).IsEqual("res://source/shaders/crt_combined.tres");
         AssertThat(preset.Parameters).IsNotNull();
         AssertThat(preset.Parameters).ContainsKeys(
-            new Variant[] { "phosphor_color", "phosphor_intensity", "scanline_intensity", "curvature", "brightness" });
+            new string[] { "phosphor_color", "phosphor_intensity", "scanline_intensity", "curvature", "brightness" });
     }
 
     /// <summary>
@@ -127,8 +127,8 @@ public partial class OmegaShaderPresetsTests
         var presets = OmegaShaderPresets.GetAvailablePresets();
 
         AssertThat(presets).IsNotNull();
-        AssertThat(presets.Count).IsEqual(5);
-        AssertThat(presets).Contains("phosphor", "scanlines", "glitch", "crt", "terminal");
+        AssertThat(presets.Count).IsEqual(7);
+        AssertThat(presets).Contains("phosphor", "scanlines", "glitch", "crt", "terminal", "boot_sequence", "code_fragment_glitch_overlay");
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public partial class OmegaShaderPresetsTests
         var preset = OmegaShaderPresets.GetPreset("phosphor");
 
         AssertThat(preset).IsNotNull();
-        AssertThat(preset!.Parameters).ContainsKey("phosphor_color");
+        AssertThat(preset!.Parameters).ContainsKeys(new string[] { "phosphor_color" });
 
         var color = preset.Parameters["phosphor_color"].AsColor();
         AssertThat(color.R).IsEqual(0.0f);

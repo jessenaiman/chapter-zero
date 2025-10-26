@@ -7,7 +7,7 @@ namespace OmegaSpiral.Source.Scripts.Stages.Stage1;
 /// Utility helpers for rendering Ghost Terminal narrative lines.
 /// Handles stage directions such as pauses without synthesizing new dialogue.
 /// </summary>
-internal static class GhostTerminalNarrationHelper
+internal static class GhostNarrator
 {
     /// <summary>
     /// Detects a pause directive of the form <c>[PAUSE: 2.5s]</c>.

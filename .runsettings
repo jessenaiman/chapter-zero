@@ -44,7 +44,7 @@
             </Logger>
 
             <!-- HTML logger for human-readable reports -->
-            <Logger friendlyName="html" enabled="True">
+            <Logger friendlyName="html" enabled="False">
                 <Configuration>
                     <LogFileName>test-result.html</LogFileName>
                 </Configuration>

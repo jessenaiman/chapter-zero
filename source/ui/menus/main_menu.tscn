@@ -1,10 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://b3vx8y2h1qm4p"]
+[gd_scene load_steps=7 format=3 uid="uid://b3vx8y2h1qm4p"]
 
 [ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
 [ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
 [ext_resource type="ShaderMaterial" path="res://source/shaders/crt_phosphor.tres" id="3_phosphor"]
 [ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
 [ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_border"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.933333, 0.278431, 0.458824, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
