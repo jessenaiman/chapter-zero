@@ -1,15 +1,56 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Static provider for Omega UI shader preset configurations.
-/// Contains predefined shader settings for different visual effects.
+/// Presets are read from <see cref="DesignConfigService"/> to keep runtime visuals aligned with design docs.
 /// </summary>
 public static class OmegaShaderPresets
 {
+    private static readonly object _CacheLock = new();
+    private static Dictionary<string, ShaderPresetConfig>? _PresetCache;
+
+    /// <summary>
+    /// Gets the legacy phosphor preset (green CRT) for compatibility tests.
+    /// </summary>
+    public static ShaderPresetConfig PhosphorPreset => GetPresetOrThrow("phosphor");
+
+    /// <summary>
+    /// Gets the legacy scanlines preset for compatibility tests.
+    /// </summary>
+    public static ShaderPresetConfig ScanlinesPreset => GetPresetOrThrow("scanlines");
+
+    /// <summary>
+    /// Gets the legacy glitch preset for compatibility tests.
+    /// </summary>
+    public static ShaderPresetConfig GlitchPreset => GetPresetOrThrow("glitch");
+
+    /// <summary>
+    /// Gets the combined CRT preset for compatibility tests.
+    /// </summary>
+    public static ShaderPresetConfig CrtPreset => GetPresetOrThrow("crt");
+
+    /// <summary>
+    /// Gets the terminal preset (no shader).
+    /// </summary>
+    public static ShaderPresetConfig TerminalPreset => GetPresetOrThrow("terminal");
+
+    /// <summary>
+    /// Gets the boot sequence preset defined by the design doc.
+    /// </summary>
+    public static ShaderPresetConfig BootSequencePreset => GetPresetOrThrow("boot_sequence");
+
+    /// <summary>
+    /// Gets the code fragment reveal glitch preset.
+    /// </summary>
+    public static ShaderPresetConfig CodeFragmentGlitchOverlayPreset => GetPresetOrThrow("code_fragment_glitch_overlay");
+
     /// <summary>
     /// Gets a shader preset configuration by name.
     /// </summary>
@@ -17,17 +58,13 @@ public static class OmegaShaderPresets
     /// <returns>The preset configuration, or null if not found.</returns>
     public static ShaderPresetConfig? GetPreset(string presetName)
     {
-        return presetName.ToLower() switch
+        if (string.IsNullOrWhiteSpace(presetName))
         {
-            "phosphor" => PhosphorPreset,
-            "scanlines" => ScanlinesPreset,
-            "glitch" => GlitchPreset,
-            "crt" => CrtPreset,
-            "terminal" => TerminalPreset,
-            "boot_sequence" => BootSequencePreset,
-            "code_fragment_glitch_overlay" => CodeFragmentGlitchOverlayPreset,
-            _ => null
-        };
+            return null;
+        }
+
+        var presets = EnsureCache();
+        return presets.TryGetValue(presetName, out var preset) ? preset : null;
     }
 
     /// <summary>
@@ -36,139 +73,83 @@ public static class OmegaShaderPresets
     /// <returns>A collection of available preset names.</returns>
     public static Collection<string> GetAvailablePresets()
     {
-        return new Collection<string>
-        {
-            "phosphor",
-            "scanlines",
-            "glitch",
-            "crt",
-            "terminal",
-            "boot_sequence",
-            "code_fragment_glitch_overlay"
-        };
+        var presets = EnsureCache();
+        return new Collection<string>(presets.Keys.ToList());
     }
 
-    /// <summary>
-    /// Phosphor green CRT effect preset.
-    /// </summary>
-    public static readonly ShaderPresetConfig PhosphorPreset = new()
+    private static Dictionary<string, ShaderPresetConfig> EnsureCache()
     {
-        ShaderPath = "res://source/shaders/crt_phosphor.tres",
-        Parameters = new Dictionary<string, Variant>
+        lock (_CacheLock)
         {
-            ["phosphor_color"] = new Color(0.0f, 1.0f, 0.0f), // Green
-            ["phosphor_intensity"] = 1.2f,
-            ["scanline_intensity"] = 0.3f,
-            ["glow_strength"] = 0.8f
+            return _PresetCache ??= BuildCache();
         }
-    };
+    }
 
-    /// <summary>
-    /// Classic CRT scanlines preset.
-    /// </summary>
-    public static readonly ShaderPresetConfig ScanlinesPreset = new()
+    private static Dictionary<string, ShaderPresetConfig> BuildCache()
     {
-        ShaderPath = "res://source/shaders/crt_scanlines.tres",
-        Parameters = new Dictionary<string, Variant>
+        var cache = new Dictionary<string, ShaderPresetConfig>(StringComparer.OrdinalIgnoreCase);
+
+        if (!DesignConfigService.DesignConfig.TryGetValue("shader_presets", out var presetsVariant) ||
+            presetsVariant.Obj is not Godot.Collections.Dictionary<string, Variant> presetsDict)
         {
-            ["scanline_color"] = OmegaSpiralColors.PureBlack,
-            ["scanline_opacity"] = 0.4f,
-            ["scanline_spacing"] = 2.0f,
-            ["brightness"] = 1.1f
+            return cache;
         }
-    };
 
-    /// <summary>
-    /// Glitch effect preset for corrupted terminal display.
-    /// </summary>
-    public static readonly ShaderPresetConfig GlitchPreset = new()
-    {
-        ShaderPath = "res://source/shaders/crt_glitch.tres",
-        Parameters = new Dictionary<string, Variant>
+        foreach (var keyObj in presetsDict.Keys)
         {
-            ["glitch_intensity"] = 0.6f,
-            ["noise_amount"] = 0.3f,
-            ["rgb_shift"] = 0.02f,
-            ["scanline_jitter"] = 0.1f
-        }
-    };
+            if (keyObj is not string presetName)
+            {
+                continue;
+            }
 
-    /// <summary>
-    /// Combined CRT effect preset.
-    /// </summary>
-    public static readonly ShaderPresetConfig CrtPreset = new()
+            if (!DesignConfigService.TryGetShaderPreset(presetName, out var preset))
+            {
+                continue;
+            }
+
+            cache[presetName] = new ShaderPresetConfig(preset.ShaderPath, preset.Parameters);
+        }
+
+        return cache;
+    }
+
+    private static ShaderPresetConfig GetPresetOrThrow(string presetName)
     {
-        ShaderPath = "res://source/shaders/crt_combined.tres",
-        Parameters = new Dictionary<string, Variant>
+        var preset = GetPreset(presetName);
+        if (preset == null)
         {
-            ["phosphor_color"] = new Color(0.0f, 1.0f, 0.0f),
-            ["phosphor_intensity"] = 1.0f,
-            ["scanline_intensity"] = 0.5f,
-            ["curvature"] = 0.1f,
-            ["brightness"] = 1.0f
+            throw new InvalidOperationException($"Shader preset '{presetName}' was not found in design configuration.");
         }
-    };
 
-    /// <summary>
-    /// Clean terminal preset for normal text display.
-    /// </summary>
-    public static readonly ShaderPresetConfig TerminalPreset = new()
-    {
-        ShaderPath = null, // No shader for clean terminal
-        Parameters = new Dictionary<string, Variant>()
-    };
-
-    /// <summary>
-    /// Boot sequence preset for Stage 1 Ghost Terminal.
-    /// Heavy glitch interference showing historical interfaces beneath.
-    /// Scanlines moving erratically (3x normal speed).
-    /// Color channels splitting (RGB separation: 5-8 pixels).
-    /// Ancient symbols bleeding through at 80% opacity.
-    /// </summary>
-    public static readonly ShaderPresetConfig BootSequencePreset = new()
-    {
-        ShaderPath = "res://source/shaders/crt_glitch.tres",
-        Parameters = new Dictionary<string, Variant>
-        {
-            ["glitch_intensity"] = 1.0f,
-            ["scanline_speed"] = 3.0f,
-            ["rgb_split"] = 7.0f,
-            ["symbol_bleed"] = 0.8f,
-            ["noise_amount"] = 0.6f
-        }
-    };
-
-    /// <summary>
-    /// Code fragment glitch overlay preset for Stage 1 Ghost Terminal.
-    /// Used during secret reveal ceremony.
-    /// Maximum glitch intensity with reality-breaking effects.
-    /// </summary>
-    public static readonly ShaderPresetConfig CodeFragmentGlitchOverlayPreset = new()
-    {
-        ShaderPath = "res://source/shaders/crt_glitch.tres",
-        Parameters = new Dictionary<string, Variant>
-        {
-            ["glitch_intensity"] = 1.0f,
-            ["chromatic_offset"] = 8.0f,
-            ["block_size"] = 32.0f,
-            ["noise_amount"] = 0.8f,
-            ["interference_speed"] = 15.0f
-        }
-    };
+        return preset;
+    }
 }
 
 /// <summary>
 /// Configuration for a shader preset.
 /// </summary>
-public class ShaderPresetConfig
+public sealed class ShaderPresetConfig
 {
     /// <summary>
-    /// Path to the shader resource file, or null for no shader.
+    /// Initializes a new instance of the <see cref="ShaderPresetConfig"/> class.
     /// </summary>
-    public string? ShaderPath { get; set; }
+    /// <param name="shaderPath">Shader resource path or <see langword="null"/> for pass-through.</param>
+    /// <param name="parameters">Resolved shader parameter dictionary.</param>
+    public ShaderPresetConfig(string? shaderPath, Dictionary<string, Variant> parameters)
+    {
+        ShaderPath = shaderPath;
+        Parameters = parameters != null
+            ? new Dictionary<string, Variant>(parameters, StringComparer.OrdinalIgnoreCase)
+            : new Dictionary<string, Variant>(StringComparer.OrdinalIgnoreCase);
+    }
 
     /// <summary>
-    /// Shader parameters to apply.
+    /// Gets the shader resource path, or <see langword="null"/> for a preset that clears the current shader.
     /// </summary>
-    public Dictionary<string, Variant> Parameters { get; set; } = new();
+    public string? ShaderPath { get; }
+
+    /// <summary>
+    /// Gets the shader parameters to apply.
+    /// </summary>
+    public Dictionary<string, Variant> Parameters { get; }
 }

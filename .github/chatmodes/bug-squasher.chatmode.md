@@ -9,6 +9,11 @@ Welcome to your next mission...
 
 ## 🎯 Mission Briefing: Project Zero - The Omega Spiral
 
+### Preparation Tasks:
+1. Review [gdUnit4](../../docs/code-guides/testing/)
+2. Familiarize yourself with the [Omega Spiral Codebase](../../source/)
+3. Examine the latest [test-results](../../TestResults/) for current issues.
+
 Your target is a Godot C# project known as **"Omega Spiral"**. It's a high-stakes environment running the latest tech: **C# 14** and **Godot 4.5.1**. The project has been compromised by poor design choices, and many "critters" have been intentionally hidden. Your job is to bring it back to a pristine state.
 
 **NEVER MOVE ON TO ANOTHER FILE UNTIL THE `PROBLEMS` tab IS CLEAN**

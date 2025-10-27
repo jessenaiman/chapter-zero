@@ -130,7 +130,21 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 
 ---
 
+## use Export properties to control behavior per-scene
+
+[Export] public bool EnableOmegaTheme { get; set; } = true;
+
+protected override void CreateComponents()
+{
+    if (!EnableOmegaTheme) return;
+    base.CreateComponents();
+    BuildOmegaFrame();
+}
+
+
 ### Typical C# GdUnit4 Test Example
+
+
 
 ```csharp
 using GdUnit4;

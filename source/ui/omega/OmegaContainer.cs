@@ -67,7 +67,10 @@ public partial class OmegaContainer : Control
             CacheRequiredNodes();
             CreateComponents();
             InitializeComponentStates();
-            EmitSignal(SignalName.InitializationCompleted);
+
+            // Defer signal emission to ensure scene tree is fully initialized
+            // This makes the signal emission asynchronous for proper testability
+            CallDeferred(MethodName.EmitSignal, SignalName.InitializationCompleted);
         }
         catch (Exception ex)
         {

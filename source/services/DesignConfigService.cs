@@ -3,15 +3,16 @@
 // </copyright>
 
 using Godot;
-using Godot.Collections;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OmegaSpiral.Source.Scripts.Infrastructure
 {
     /// <summary>
-    /// Service for loading design system configuration (colors, shader parameters) from JSON
-    /// and applying them globally to all shader materials in the game.
-    /// Ensures single source of truth: JSON → C# → All Shaders (no manual .tres edits needed).
+    /// Service for loading design-system configuration (colors, shader presets, stage stacks) from JSON
+    /// and applying them to shader materials or UI systems at runtime.
+    /// Ensures single source of truth: JSON → C# → Shaders/UI (no manual .tres edits).
     /// </summary>
     public static class DesignConfigService
     {
@@ -20,21 +21,127 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         private static Godot.Collections.Dictionary<string, Variant>? _CachedDesignConfig;
 
         /// <summary>
+        /// Maps shader resource paths to base preset keys located inside the configuration file.
+        /// </summary>
+        private static readonly System.Collections.Generic.Dictionary<string, string> _ShaderResourceToPresetMap = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "res://source/shaders/spiral_border.gdshader", "spiral_border_base" },
+            { "res://source/shaders/crt_phosphor.gdshader", "crt_phosphor_base" },
+            { "res://source/shaders/crt_scanlines.gdshader", "crt_scanlines_base" },
+            { "res://source/shaders/crt_glitch.gdshader", "crt_glitch_base" },
+            { "res://source/shaders/pulsing_background.gdshader", "pulsing_background_base" }
+        };
+
+        /// <summary>
         /// Gets the cached design configuration dictionary.
         /// </summary>
         public static Godot.Collections.Dictionary<string, Variant> DesignConfig => _CachedDesignConfig ??= LoadDesignConfig();
 
         /// <summary>
-        /// Loads the design configuration from JSON file.
+        /// Attempts to retrieve a shader preset defined in the configuration file.
         /// </summary>
-        /// <returns>Dictionary containing design system colors and shader parameters.</returns>
+        /// <param name="presetName">Preset key (e.g., <c>boot_sequence</c>).</param>
+        /// <param name="preset">Resolved preset containing shader path and parameter map.</param>
+        /// <returns><see langword="true"/> when the preset exists; otherwise <see langword="false"/>.</returns>
+        public static bool TryGetShaderPreset(string presetName, out DesignShaderPreset preset)
+        {
+            preset = default;
+            if (string.IsNullOrWhiteSpace(presetName))
+            {
+                return false;
+            }
+
+            if (!TryGetSection("shader_presets", out var shaderPresets) ||
+                !shaderPresets.TryGetValue(presetName, out var presetVariant) ||
+                presetVariant.Obj is not Godot.Collections.Dictionary<string, Variant> presetDict)
+            {
+                return false;
+            }
+
+            var shaderPath = presetDict.TryGetValue("shader", out var shaderVariant) && shaderVariant.VariantType == Variant.Type.String
+                ? (string)shaderVariant
+                : null;
+
+            var parameters = new System.Collections.Generic.Dictionary<string, Variant>(StringComparer.OrdinalIgnoreCase);
+            if (presetDict.TryGetValue("parameters", out var parameterVariant) &&
+                parameterVariant.Obj is Godot.Collections.Dictionary<string, Variant> parameterDict)
+            {
+                foreach (var key in parameterDict.Keys.OfType<string>())
+                {
+                    if (key.StartsWith("_", StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    if (!parameterDict.TryGetValue(key, out var valueVariant))
+                    {
+                        continue;
+                    }
+
+                    if (TryResolveParameterVariant(valueVariant, out var resolved))
+                    {
+                        parameters[key] = resolved;
+                    }
+                }
+            }
+
+            preset = new DesignShaderPreset(shaderPath, parameters);
+            return true;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve the ordered stack of shader presets that define a stage/state visual.
+        /// </summary>
+        /// <param name="stageKey">Stage identifier (for example, <c>ghost_terminal</c>).</param>
+        /// <param name="stateKey">State identifier (for example, <c>boot_sequence</c>).</param>
+        /// <param name="presetStack">Ordered preset sequence (outermost → innermost layers).</param>
+        /// <returns><see langword="true"/> when documentation for the stack exists; otherwise <see langword="false"/>.</returns>
+        public static bool TryGetStagePresetStack(string stageKey, string stateKey, out IReadOnlyList<string> presetStack)
+        {
+            presetStack = System.Array.Empty<string>();
+            if (!TryGetSection("stage_presets", out var stagePresets) ||
+                !stagePresets.TryGetValue(stageKey, out var stageVariant) ||
+                stageVariant.Obj is not Godot.Collections.Dictionary<string, Variant> stageDict ||
+                !stageDict.TryGetValue("states", out var statesVariant) ||
+                statesVariant.Obj is not Godot.Collections.Dictionary<string, Variant> statesDict ||
+                !statesDict.TryGetValue(stateKey, out var stateVariant) ||
+                stateVariant.Obj is not Godot.Collections.Dictionary<string, Variant> stateDict ||
+                !stateDict.TryGetValue("visual_stack", out var stackVariant) ||
+                stackVariant.Obj is not Godot.Collections.Array stackArray)
+            {
+                return false;
+            }
+
+            var presets = new List<string>();
+            foreach (var entry in stackArray)
+            {
+                if (entry.VariantType == Variant.Type.String)
+                {
+                    presets.Add((string)entry);
+                }
+            }
+
+            presetStack = presets;
+            return presets.Count > 0;
+        }
+
+        /// <summary>
+        /// Loads the design configuration from JSON.
+        /// </summary>
+        /// <returns>Fully parsed configuration dictionary.</returns>
         private static Godot.Collections.Dictionary<string, Variant> LoadDesignConfig()
         {
             try
             {
-                string jsonContent = Godot.FileAccess.GetFileAsString(_DesignConfigPath);
+                var jsonContent = Godot.FileAccess.GetFileAsString(_DesignConfigPath);
                 var json = new Json();
-                json.Parse(jsonContent);
+                var parseError = json.Parse(jsonContent);
+                if (parseError != Error.Ok)
+                {
+                    GD.PrintErr($"[DesignConfigService] Failed to parse design config: {json.GetErrorMessage()}");
+                    return new Godot.Collections.Dictionary<string, Variant>();
+                }
+
                 var config = (Godot.Collections.Dictionary<string, Variant>)json.Data;
                 GD.Print("[DesignConfigService] Design config loaded successfully.");
                 return config;
@@ -47,10 +154,9 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         }
 
         /// <summary>
-        /// Applies design system colors and shader parameters to all shader materials in a node tree.
-        /// Traverses the scene tree starting from the given node and updates all ShaderMaterial instances.
+        /// Applies design-system shader parameters to every <see cref="ShaderMaterial"/> found inside the node tree.
         /// </summary>
-        /// <param name="rootNode">The root node to start traversing from. If null, uses the scene tree root.</param>
+        /// <param name="rootNode">Optional root; defaults to the scene-tree root.</param>
         public static void ApplyDesignColorsToAllShaders(Node? rootNode = null)
         {
             rootNode ??= Engine.GetMainLoop() is SceneTree tree ? tree.Root : null;
@@ -60,240 +166,228 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
                 return;
             }
 
-            var config = DesignConfig;
-            if (config.Count == 0)
+            if (DesignConfig.Count == 0)
             {
                 GD.PrintErr("[DesignConfigService] Design config is empty. Cannot apply colors.");
                 return;
             }
 
             var updated = 0;
-            TraverseAndApplyColors(rootNode, config, ref updated);
+            TraverseAndApplyColors(rootNode, ref updated);
             GD.Print($"[DesignConfigService] Applied design colors to {updated} shader materials.");
         }
 
-        /// <summary>
-        /// Recursively traverses the node tree and applies design colors to all ShaderMaterial instances.
-        /// </summary>
-        private static void TraverseAndApplyColors(Node node, Godot.Collections.Dictionary<string, Variant> config, ref int updated)
+        private static void TraverseAndApplyColors(Node node, ref int updated)
         {
-            // Check if this node has a CanvasItem with a ShaderMaterial
             if (node is CanvasItem canvasItem && canvasItem.Material is ShaderMaterial material)
             {
-                ApplyShaderParameters(material, config);
-                updated++;
+                if (ApplyShaderParameters(material))
+                {
+                    updated++;
+                }
             }
 
-            // Recursively process children
             foreach (Node child in node.GetChildren())
             {
-                TraverseAndApplyColors(child, config, ref updated);
+                TraverseAndApplyColors(child, ref updated);
             }
         }
 
-        /// <summary>
-        /// Applies shader parameters from the design config to a specific ShaderMaterial.
-        /// </summary>
-        private static void ApplyShaderParameters(ShaderMaterial material, Godot.Collections.Dictionary<string, Variant> config)
+        private static bool ApplyShaderParameters(ShaderMaterial material)
         {
             try
             {
-                // Get shader parameters section
-                if (config.TryGetValue("shader_parameters", out var shaderParamsVar))
+                var shader = material.Shader;
+                if (shader == null || string.IsNullOrEmpty(shader.ResourcePath))
                 {
-                    var shaderParams = (Dictionary)shaderParamsVar;
-
-                    // Try to identify which shader this material uses and apply relevant parameters
-                    ApplyPulsingBackgroundParams(material, shaderParams);
-                    ApplySpiralBorderParams(material, shaderParams);
-                    ApplyCRTParams(material, shaderParams);
+                    return false;
                 }
+
+                if (!_ShaderResourceToPresetMap.TryGetValue(shader.ResourcePath, out var presetKey))
+                {
+                    return false;
+                }
+
+                if (!TryGetShaderPreset(presetKey, out var preset))
+                {
+                    return false;
+                }
+
+                foreach (var parameter in preset.Parameters)
+                {
+                    material.SetShaderParameter(parameter.Key, parameter.Value);
+                }
+
+                return true;
             }
             catch (Exception ex)
             {
                 GD.PrintErr($"[DesignConfigService] Error applying shader parameters: {ex.Message}");
+                return false;
             }
         }
 
         /// <summary>
-        /// Applies pulsing background shader parameters.
+        /// Gets a design color using a dotted path (e.g., <c>design_system.deep_space</c>).
         /// </summary>
-        private static void ApplyPulsingBackgroundParams(ShaderMaterial material, Dictionary shaderParams)
+        /// <param name="colorPath">Dotted path to color dictionary.</param>
+        /// <returns>The resolved color or <see cref="Colors.White"/> when not found.</returns>
+        public static Color GetDesignColor(string colorPath)
         {
-            if (shaderParams.TryGetValue("pulsing_background", out var paramsVar))
+            try
             {
-                var bgParams = (Dictionary)paramsVar;
-
-                if (bgParams.TryGetValue("base_color", out var baseColorVar))
+                if (TryGetDesignColor(colorPath, out var color))
                 {
-                    var colorDict = (Dictionary)baseColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("base_color", color);
-                }
-
-                if (bgParams.TryGetValue("glow_color", out var glowColorVar))
-                {
-                    var colorDict = (Dictionary)glowColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("glow_color", color);
-                }
-
-                if (bgParams.TryGetValue("pulse_speed", out var speedVar))
-                {
-                    material.SetShaderParameter("pulse_speed", (float)speedVar);
-                }
-
-                if (bgParams.TryGetValue("pulse_strength", out var strengthVar))
-                {
-                    material.SetShaderParameter("pulse_strength", (float)strengthVar);
-                }
-
-                if (bgParams.TryGetValue("vignette_radius", out var radiusVar))
-                {
-                    material.SetShaderParameter("vignette_radius", (float)radiusVar);
-                }
-
-                if (bgParams.TryGetValue("vignette_softness", out var softnessVar))
-                {
-                    material.SetShaderParameter("vignette_softness", (float)softnessVar);
+                    return color;
                 }
             }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"[DesignConfigService] Error getting design color '{colorPath}': {ex.Message}");
+            }
+
+            return Colors.White;
         }
 
-        /// <summary>
-        /// Applies spiral border shader parameters.
-        /// </summary>
-        private static void ApplySpiralBorderParams(ShaderMaterial material, Dictionary shaderParams)
+        private static bool TryGetDesignColor(string colorPath, out Color color)
         {
-            if (shaderParams.TryGetValue("spiral_border", out var paramsVar))
+            var parts = colorPath.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            Variant current = DesignConfig;
+
+            foreach (var part in parts)
             {
-                var borderParams = (Dictionary)paramsVar;
-
-                if (borderParams.TryGetValue("border_color", out var borderColorVar))
-                {
-                    var colorDict = (Dictionary)borderColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("border_color", color);
-                }
-
-                if (borderParams.TryGetValue("border_width", out var widthVar))
-                {
-                    material.SetShaderParameter("border_width", (float)widthVar);
-                }
-
-                if (borderParams.TryGetValue("wave_speed", out var waveSpeedVar))
-                {
-                    material.SetShaderParameter("wave_speed", (float)waveSpeedVar);
-                }
-
-                if (borderParams.TryGetValue("wave_amplitude", out var waveAmpVar))
-                {
-                    material.SetShaderParameter("wave_amplitude", (float)waveAmpVar);
-                }
+            if (current.Obj is not Godot.Collections.Dictionary<string, Variant> dict || !dict.TryGetValue(part, out var next))
+            {
+                color = Colors.White;
+                return false;
             }
+
+                current = next;
+            }
+
+            if (current.Obj is Godot.Collections.Dictionary<string, Variant> colorDict && TryParseColor(colorDict, out color))
+            {
+                return true;
+            }
+
+            color = Colors.White;
+            return false;
         }
 
-        /// <summary>
-        /// Applies CRT shader parameters (phosphor, scanlines, glitch).
-        /// </summary>
-        private static void ApplyCRTParams(ShaderMaterial material, Dictionary shaderParams)
-        {
-            // Phosphor overlay
-            if (shaderParams.TryGetValue("crt_phosphor", out var phosphorVar))
-            {
-                var phosphorParams = (Dictionary)phosphorVar;
-                if (phosphorParams.TryGetValue("phosphor_color", out var phosphorColorVar))
-                {
-                    var colorDict = (Dictionary)phosphorColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("phosphor_color", color);
-                }
-            }
-
-            // Scanlines
-            if (shaderParams.TryGetValue("crt_scanlines", out var scanlinesVar))
-            {
-                var scanlineParams = (Dictionary)scanlinesVar;
-                if (scanlineParams.TryGetValue("scanline_color", out var scanlineColorVar))
-                {
-                    var colorDict = (Dictionary)scanlineColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("scanline_color", color);
-                }
-
-                if (scanlineParams.TryGetValue("scanline_intensity", out var intensityVar))
-                {
-                    material.SetShaderParameter("scanline_intensity", (float)intensityVar);
-                }
-            }
-
-            // Glitch
-            if (shaderParams.TryGetValue("crt_glitch", out var glitchVar))
-            {
-                var glitchParams = (Dictionary)glitchVar;
-                if (glitchParams.TryGetValue("glitch_color", out var glitchColorVar))
-                {
-                    var colorDict = (Dictionary)glitchColorVar;
-                    var color = ExtractColor(colorDict);
-                    material.SetShaderParameter("glitch_color", color);
-                }
-
-                if (glitchParams.TryGetValue("glitch_intensity", out var glitchIntensityVar))
-                {
-                    material.SetShaderParameter("glitch_intensity", (float)glitchIntensityVar);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Extracts a Color from a dictionary with r, g, b, a keys.
-        /// </summary>
-        private static Color ExtractColor(Dictionary colorDict)
+        private static bool TryParseColor(Godot.Collections.Dictionary<string, Variant> colorDict, out Color color)
         {
             var r = colorDict.TryGetValue("r", out var rVar) ? (float)rVar : 1f;
             var g = colorDict.TryGetValue("g", out var gVar) ? (float)gVar : 1f;
             var b = colorDict.TryGetValue("b", out var bVar) ? (float)bVar : 1f;
             var a = colorDict.TryGetValue("a", out var aVar) ? (float)aVar : 1f;
 
-            return new Color(r, g, b, a);
+            color = new Color(r, g, b, a);
+            return true;
+        }
+
+        private static bool TryGetSection(string sectionKey, out Godot.Collections.Dictionary<string, Variant> section)
+        {
+            if (DesignConfig.TryGetValue(sectionKey, out var sectionVariant) &&
+                sectionVariant.Obj is Godot.Collections.Dictionary<string, Variant> sectionDict)
+            {
+                section = sectionDict;
+                return true;
+            }
+
+            section = new Godot.Collections.Dictionary<string, Variant>();
+            return false;
+        }
+
+        private static bool TryResolveParameterVariant(Variant valueVariant, out Variant resolved)
+        {
+            resolved = default;
+
+            if (valueVariant.Obj is Godot.Collections.Dictionary<string, Variant> nestedDict)
+            {
+                if (nestedDict.TryGetValue("value", out var innerValue))
+                {
+                    return TryResolveParameterVariant(innerValue, out resolved);
+                }
+
+                if (nestedDict.TryGetValue("color_ref", out var colorRef) && colorRef.VariantType == Variant.Type.String)
+                {
+                    var color = GetDesignColor((string)colorRef);
+                    resolved = color;
+                    return true;
+                }
+
+                if (nestedDict.ContainsKey("r") && nestedDict.ContainsKey("g") && nestedDict.ContainsKey("b"))
+                {
+                    var color = TryParseColor(nestedDict, out var parsedColor) ? parsedColor : Colors.White;
+                    resolved = color;
+                    return true;
+                }
+
+                if (nestedDict.ContainsKey("x") && nestedDict.ContainsKey("y") && nestedDict.ContainsKey("z"))
+                {
+                    var x = (float)nestedDict["x"];
+                    var y = (float)nestedDict["y"];
+                    var z = (float)nestedDict["z"];
+                    resolved = new Vector3(x, y, z);
+                    return true;
+                }
+
+                if (nestedDict.TryGetValue("scalar", out var scalarValue))
+                {
+                    return TryResolveParameterVariant(scalarValue, out resolved);
+                }
+            }
+
+            switch (valueVariant.VariantType)
+            {
+                case Variant.Type.Float:
+                case Variant.Type.Int:
+                case Variant.Type.String:
+                case Variant.Type.Bool:
+                    resolved = valueVariant;
+                    return true;
+                default:
+                    if (valueVariant.Obj is Color colorValue)
+                    {
+                        resolved = colorValue;
+                        return true;
+                    }
+
+                    if (valueVariant.Obj is Vector3 vector)
+                    {
+                        resolved = vector;
+                        return true;
+                    }
+
+                    return false;
+            }
         }
 
         /// <summary>
-        /// Gets a specific design color by path (e.g., "design_system.deep_space").
+        /// Represents a shader preset resolved from the design configuration.
         /// </summary>
-        /// <param name="colorPath">Dot-separated path to the color (e.g., "design_system.deep_space").</param>
-        /// <returns>The color value, or white if not found.</returns>
-        public static Color GetDesignColor(string colorPath)
+        public readonly struct DesignShaderPreset
         {
-            try
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DesignShaderPreset"/> struct.
+            /// </summary>
+            /// <param name="shaderPath">Shader resource path or <see langword="null"/> for pass-through.</param>
+            /// <param name="parameters">Shader parameter dictionary.</param>
+            public DesignShaderPreset(string? shaderPath, System.Collections.Generic.Dictionary<string, Variant> parameters)
             {
-                var parts = colorPath.Split('.');
-                var current = (Variant)DesignConfig;
-
-                foreach (var part in parts)
-                {
-                    if (current.Obj is Dictionary dict && dict.TryGetValue(part, out var value))
-                    {
-                        current = value;
-                    }
-                    else
-                    {
-                        return Colors.White;
-                    }
-                }
-
-                if (current.Obj is Dictionary colorDict)
-                {
-                    return ExtractColor(colorDict);
-                }
-
-                return Colors.White;
+                ShaderPath = shaderPath;
+                Parameters = parameters;
             }
-            catch (Exception ex)
-            {
-                GD.PrintErr($"[DesignConfigService] Error getting design color '{colorPath}': {ex.Message}");
-                return Colors.White;
-            }
+
+            /// <summary>
+            /// Gets the shader resource path (may be null when preset removes shader).
+            /// </summary>
+            public string? ShaderPath { get; }
+
+            /// <summary>
+            /// Gets the resolved shader parameters to apply.
+            /// </summary>
+            public System.Collections.Generic.Dictionary<string, Variant> Parameters { get; }
         }
     }
 }

@@ -13,6 +13,9 @@ uniform float wave_amplitude : hint_range(0.0, 1.0, 0.01) = 0.3;  // Wave height
 uniform float border_width : hint_range(0.0, 0.1, 0.001) = 0.02;  // Border thickness
 uniform float glow_intensity : hint_range(0.0, 2.0, 0.1) = 1.0;   // Energy glow
 uniform float thread_separation : hint_range(0.0, 6.28, 0.1) = 2.094; // 120 degrees in radians
+uniform float light_thread_weight : hint_range(0.0, 2.0, 0.01) = 1.0;   // Balance control for Light strand
+uniform float shadow_thread_weight : hint_range(0.0, 2.0, 0.01) = 1.0;  // Balance control for Shadow strand
+uniform float ambition_thread_weight : hint_range(0.0, 2.0, 0.01) = 1.0; // Balance control for Ambition strand
 
 void fragment() {
 	vec2 center = vec2(0.5, 0.5);
@@ -51,16 +54,20 @@ void fragment() {
 	float stream1_intensity = smoothstep(0.3, 0.0, abs(sin(stream1_angle * 1.5))) * (0.5 + wave_pattern * wave_amplitude);
 	float stream2_intensity = smoothstep(0.3, 0.0, abs(sin(stream2_angle * 1.5))) * (0.5 + wave_pattern * wave_amplitude);
 	float stream3_intensity = smoothstep(0.3, 0.0, abs(sin(stream3_angle * 1.5))) * (0.5 + wave_pattern * wave_amplitude);
+
+	float light_weighted = stream1_intensity * light_thread_weight;
+	float shadow_weighted = stream2_intensity * shadow_thread_weight;
+	float ambition_weighted = stream3_intensity * ambition_thread_weight;
 	
 	// Combine the three colored energy streams
 	vec3 final_color = vec3(0.0);
-	final_color += light_thread.rgb * stream1_intensity;
-	final_color += shadow_thread.rgb * stream2_intensity;
-	final_color += ambition_thread.rgb * stream3_intensity;
+	final_color += light_thread.rgb * light_weighted;
+	final_color += shadow_thread.rgb * shadow_weighted;
+	final_color += ambition_thread.rgb * ambition_weighted;
 	
 	// Apply glow and border fade
 	float alpha = border_progress * glow_intensity;
-	float energy_alpha = max(stream1_intensity, max(stream2_intensity, stream3_intensity));
+	float energy_alpha = max(light_weighted, max(shadow_weighted, ambition_weighted));
 	
 	COLOR = vec4(final_color, alpha * energy_alpha);
 }

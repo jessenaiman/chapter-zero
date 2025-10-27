@@ -24,34 +24,10 @@ Use **auto_free()** to automatically release objects when they are no longer in 
 Objects that are covered by **auto_free** only live in the scope where they are used.
 These scopes include the test suite setup, test case setup, and the tests themselves.
 
-{% tabs tools-auto_free %}
-{% tab tools-auto_free GdScript %}
-
-```ruby
-func auto_free(obj :Object) -> Object:
-```
-
-{% endtab %}
-{% tab tools-auto_free C# %}
 
 ```cs
 public static T AutoFree<T>(T obj);
 ```
-
-{% endtab %}
-{% endtabs %}
-
-Here’s an small example:
-{% tabs tools-auto_free-example %}
-{% tab tools-auto_free-example GdScript %}
-
-```ruby
-# using auto_free() on Path object to register for freeing after the test is finished
-assert_object(auto_free(Path.new())).is_not_instanceof(Tree)
-```
-
-{% endtab %}
-{% tab tools-auto_free-example C# %}
 
 ```cs
 using static Assertions;
@@ -61,101 +37,9 @@ using static Assertions;
     AssertObject(AutoFree(new Godot.Path())).IsNotInstanceOf<Godot.Tree>();
 ```
 
-{% endtab %}
-{% endtabs %}
-
-Here's an extended example of a test suite to demonstrate the usage of auto_free() and freeing memory:
-
-```ruby
-extends GdUnitTestSuite
-
-var _obj_a;
-var _obj_b;
-var _obj_c;
-
-# Scope test suite setup
-func before():
-    _obj_a = auto_free(Node.new())
-    print_obj_usage("before")
-
-# Scope test case setup
-func before_test():
-    _obj_b = auto_free(Node.new())
-    print_obj_usage("before_test")
-
-# Scope test
-func test():
-    _obj_c = auto_free(Node.new())
-    # _obj_a still lives here
-    # _obj_b still lives here
-    # _obj_b still lives here
-    print_obj_usage("test")
-
-# Scope test case setup
-func after_test():
-    # _obj_a still lives here
-    # _obj_b still lives here
-    # _obj_c is freed
-    print_obj_usage("after_test")
-
-# Scope test suite setup
-func after():
-    # _obj_a still lives here
-    # _obj_b is auto freed
-    # _obj_c is freed
-    print_obj_usage("after")
-
-func _notification(what):
-    if what == NOTIFICATION_PATH_CHANGED:
-        print_header()
-    else:
-        print_obj_usage(GdObjects.notification_as_string(what))
-
-func print_header() :
-    prints("|%16s | %16s | %16s | %16s |" % ["", "_obj_a", "_obj_b", "_obj_c"])
-    prints("----------------------------------------------------------------------------")
-
-func print_obj_usage(name :String) :
-    prints("|%16s | %16s | %16s | %16s |" % [name, _obj_a, _obj_b, _obj_c])
-```
-
-|        State    |           _obj_a |           _obj_b |           _obj_c |
-|--- | --- |
-|        PARENTED |             Null |             Null |             Null |
-|      ENTER_TREE |             Null |             Null |             Null |
-| POST_ENTER_TREE |             Null |             Null |             Null |
-|           READY |             Null |             Null |             Null |
-|          before |      [Node:1515] |             Null |             Null |
-|     before_test |      [Node:1515] |      [Node:1519] |             Null |
-|            test |      [Node:1515] |      [Node:1519] |      [Node:1521] |
-|      after_test |      [Node:1515] |      [Node:1519] | [Deleted Object] |
-|           after |      [Node:1515] | [Deleted Object] | [Deleted Object] |
-|       EXIT_TREE | [Deleted Object] | [Deleted Object] | [Deleted Object] |
-|      UNPARENTED | [Deleted Object] | [Deleted Object] | [Deleted Object] |
-|       PREDELETE | [Deleted Object] | [Deleted Object] | [Deleted Object] |
-
-## create_temp_dir()
-
-This helper function creates a new directory under the temporary directory *user://tmp*,
-which can be useful for storing data during test execution.<br>
-The directory is automatically deleted after the test suite has finished executing.
-
-{% tabs tools-create_temp_dir %}
-{% tab tools-create_temp_dir GdScript %}
-
-```ruby
-func create_temp_dir(relative_path :String) -> String:
-```
-
-{% endtab %}
-{% tab tools-create_temp_dir C# %}
-
 ```cs
 public static string CreateTempDir(string path);
 ```
-
-{% endtab %}
-{% endtabs %}
 
 Here’s an example:
 

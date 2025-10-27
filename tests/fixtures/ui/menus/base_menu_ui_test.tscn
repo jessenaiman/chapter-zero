@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3vx8y2h1qm4p"]
+[gd_scene load_steps=2 format=3 uid="uid://base_menu_ui_test"]
 
-[ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
+[ext_resource type="Script" path="res://tests/fixtures/ui/menus/TestMenuStub.cs" id="1_test_menu"]
 
-[node name="MainMenu" type="Control"]
-script = ExtResource("1_main_menu")
+[node name="TestMenuStub" type="Control"]
+script = ExtResource("1_test_menu")
 enable_omega_theme = false
-enable_omega_border = true
-enable_crt_shaders = true
-enable_omega_text = true
+enable_omega_border = false
+enable_crt_shaders = false
+enable_omega_text = false
 
 [node name="ContentContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -18,7 +18,7 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 0
 custom_minimum_size = Vector2(0, 60)
-text = "Ωmega Spiral"
+text = "Test Menu"
 horizontal_alignment = 1
 vertical_alignment = 1
 

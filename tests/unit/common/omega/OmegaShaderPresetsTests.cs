@@ -127,7 +127,7 @@ public partial class OmegaShaderPresetsTests
         var presets = OmegaShaderPresets.GetAvailablePresets();
 
         AssertThat(presets).IsNotNull();
-        AssertThat(presets.Count).IsEqual(7);
+        AssertThat(presets.Count).IsGreaterEqual(7);
         AssertThat(presets).Contains("phosphor", "scanlines", "glitch", "crt", "terminal", "boot_sequence", "code_fragment_glitch_overlay");
     }
 

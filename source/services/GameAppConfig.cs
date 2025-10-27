@@ -45,12 +45,12 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Gets the main game scene path for launching gameplay.
         /// </summary>
-        public static string GameScenePath => _CachedGameScenePath ?? "res://source/stages/stage_1_ghost/ghost_terminal.tscn";
+        public static string GameScenePath => _CachedGameScenePath ?? "res://source/stages/stage_1/opening.tscn";
 
         /// <summary>
         /// Gets the opening menu scene path (bypassed for direct Ghost Terminal startup).
         /// </summary>
-        public static string OpeningScenePath => _CachedOpeningScenePath ?? "res://source/stages/stage_1_ghost/ghost_terminal.tscn";
+        public static string OpeningScenePath => _CachedOpeningScenePath ?? "res://source/stages/stage_1/opening.tscn";
 
         /// <summary>
         /// Gets the main menu scene path.

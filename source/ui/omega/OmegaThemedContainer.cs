@@ -23,6 +23,15 @@ namespace OmegaSpiral.Source.Ui.Omega;
 public partial class OmegaThemedContainer : OmegaContainer
 {
     /// <summary>
+    /// Gets or sets a value indicating whether to enable the entire Omega visual theme.
+    /// When false, disables all theming including border, shaders, and text styling.
+    /// Useful for unit tests or minimal UI modes.
+    /// Reference: https://docs.godotengine.org/en/stable/tutorials/best_practices/godot_notifications.html#ready-vs-enter-tree-vs-notification-parented
+    /// </summary>
+    [Export]
+    public bool EnableOmegaTheme { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether to enable the animated Omega border frame.
     /// </summary>
     [Export]
@@ -73,9 +82,18 @@ public partial class OmegaThemedContainer : OmegaContainer
     }
 
     /// <inheritdoc/>
+    /// <inheritdoc/>
     protected override void CreateComponents()
     {
         base.CreateComponents();
+
+        // Check if Omega theming is enabled
+        if (!EnableOmegaTheme)
+        {
+            GD.Print("[OmegaThemedContainer] Omega theme disabled - skipping frame creation");
+            return;
+        }
+
         GD.Print($"[OmegaThemedContainer] Building complete Omega frame (EnableBorder={EnableOmegaBorder}, EnableCRT={EnableCrtShaders})");
 
         // Step 1: Build the complete Omega visual frame hierarchy

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Ui.Omega
 {
@@ -83,6 +84,20 @@ namespace OmegaSpiral.Source.Ui.Omega
             _ShaderMaterial.SetShaderParameter("light_thread", OmegaSpiralColors.LightThread);
             _ShaderMaterial.SetShaderParameter("shadow_thread", OmegaSpiralColors.ShadowThread);
             _ShaderMaterial.SetShaderParameter("ambition_thread", OmegaSpiralColors.AmbitionThread);
+
+            if (DesignConfigService.TryGetShaderPreset("spiral_border_base", out var preset))
+            {
+                foreach (var parameter in preset.Parameters)
+                {
+                    // Colors are already applied from OmegaSpiralColors palette.
+                    if (parameter.Key.Contains("thread", StringComparison.Ordinal) && parameter.Key.EndsWith("_thread", StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+
+                    _ShaderMaterial.SetShaderParameter(parameter.Key, parameter.Value);
+                }
+            }
         }
 
         /// <summary>
