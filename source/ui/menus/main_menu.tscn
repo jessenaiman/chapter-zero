@@ -1,86 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3vx8y2h1qm4p"]
+[gd_scene load_steps=2 format=3 uid="uid://b3vx8y2h1qm4p"]
 
 [ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
-[ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_phosphor.tres" id="3_phosphor"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
+[ext_resource type="PackedScene" uid="uid://1bw7x5iapm3n" path="res://source/ui/omega/omega_ui.tscn" id="2_omega_ui"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_border"]
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.933333, 0.278431, 0.458824, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[node name="MainMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MainMenu" instance=ExtResource("2_omega_ui")]
 script = ExtResource("1_main_menu")
 
-[node name="Background" type="ColorRect" parent="."]
-z_index = -2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0352941, 0.0352941, 0.0509804, 1)
-material = ExtResource("2_background")
-
-[node name="PhosphorLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.18)
-material = ExtResource("3_phosphor")
-
-[node name="ScanlineLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.12)
-material = ExtResource("4_scanlines")
-
-[node name="GlitchLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.08)
-material = ExtResource("5_glitch")
-
-[node name="ContentContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ContentContainer" parent="." index="1"]
 theme_override_constants/separation = 24
 alignment = 1
 

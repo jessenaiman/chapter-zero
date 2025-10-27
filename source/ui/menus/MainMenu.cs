@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
     /// Extends MenuUi for static menu infrastructure (not sequential narrative).
     /// </summary>
     [GlobalClass]
-    public partial class MainMenu : MenuUi
+    public partial class MainMenu : BaseMenuUi
     {
         // --- EXPORTED DEPENDENCIES (Set in the Godot Inspector) ---
 

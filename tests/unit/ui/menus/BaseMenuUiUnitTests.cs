@@ -1,4 +1,4 @@
-// <copyright file="MenuUiUnitTests.cs" company="Ωmega Spiral">
+// <copyright file="BaseMenuUiUnitTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -12,9 +12,9 @@ using OmegaSpiral.Tests.Shared;
 
 [TestSuite]
 [RequireGodotRuntime]
-public class MenuUiUnitTests
+public class BaseMenuUiUnitTests
 {
-    private MenuUi? _MenuUi;
+    private BaseMenuUi? _BaseMenuUi;
     private Node? _TestSceneRoot;
     private OmegaInputRouter? _InputRouter;
 
@@ -23,7 +23,7 @@ public class MenuUiUnitTests
     {
         var sceneTree = (SceneTree)Engine.GetMainLoop();
 
-        // Ensure input router exists before MenuUi enters the tree
+        // Ensure input router exists before BaseMenuUi enters the tree
         _InputRouter = sceneTree.Root.GetNodeOrNull<OmegaInputRouter>(OmegaInputRouter.DefaultNodeName);
         if (_InputRouter == null)
         {
@@ -35,13 +35,13 @@ public class MenuUiUnitTests
         _TestSceneRoot = AutoFree(new Node())!;
         sceneTree.Root.AddChild(_TestSceneRoot);
 
-        // Create MenuUi and wrap with AutoFree for automatic cleanup
-        _MenuUi = AutoFree(new MenuUi())!;
-        _TestSceneRoot.AddChild(_MenuUi);  // _Ready() fires automatically via Godot lifecycle
+        // Create BaseMenuUi and wrap with AutoFree for automatic cleanup
+        _BaseMenuUi = AutoFree(new BaseMenuUi())!;
+        _TestSceneRoot.AddChild(_BaseMenuUi);  // _Ready() fires automatically via Godot lifecycle
 
         // Validate background/theme using shared helper
         // If this fails, all subsequent tests will cascade fail
-        OmegaUiTestHelper.ValidateBackgroundTheme(_MenuUi, "MenuUi");
+        OmegaUiTestHelper.ValidateBackgroundTheme(_BaseMenuUi, "BaseMenuUi");
     }
 
     [After]
@@ -54,7 +54,7 @@ public class MenuUiUnitTests
     public void ContentContainer_Exists()
     {
         // The ContentContainer should be created during _Ready/CacheRequiredNodes
-        var contentContainer = _MenuUi?.GetNodeOrNull<Control>("ContentContainer");
+        var contentContainer = _BaseMenuUi?.GetNodeOrNull<Control>("ContentContainer");
         AssertThat(contentContainer).IsNotNull();
     }
 
@@ -63,11 +63,11 @@ public class MenuUiUnitTests
     {
         // Add a button to the menu button container
         var button = new Button { Text = "Test Button" };
-        var menuButtonContainer = _MenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var menuButtonContainer = _BaseMenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
         menuButtonContainer?.AddChild(button);
 
         // Act: Focus the first button
-        _MenuUi?.FocusFirstButton();
+        _BaseMenuUi?.FocusFirstButton();
 
         // Assert: The button should have focus
         AssertThat(button.HasFocus()).IsTrue();
@@ -79,7 +79,7 @@ public class MenuUiUnitTests
         // Add buttons to the menu button container
         var button1 = new Button { Text = "Button 1" };
         var button2 = new Button { Text = "Button 2" };
-        var menuButtonContainer = _MenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var menuButtonContainer = _BaseMenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
         menuButtonContainer?.AddChild(button1);
         menuButtonContainer?.AddChild(button2);
 
@@ -87,7 +87,7 @@ public class MenuUiUnitTests
         button2.GrabFocus();
 
         // Act: Get the focused button
-        var focusedButton = _MenuUi?.GetFocusedButton();
+        var focusedButton = _BaseMenuUi?.GetFocusedButton();
 
         // Assert: Should return the focused button
         AssertThat(focusedButton).IsEqual(button2);
@@ -98,11 +98,11 @@ public class MenuUiUnitTests
     {
         // Add a button but don't focus it
         var button = new Button { Text = "Test Button" };
-        var menuButtonContainer = _MenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var menuButtonContainer = _BaseMenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
         menuButtonContainer?.AddChild(button);
 
         // Act: Get the focused button
-        var focusedButton = _MenuUi?.GetFocusedButton();
+        var focusedButton = _BaseMenuUi?.GetFocusedButton();
 
         // Assert: Should return null since no button has focus
         AssertThat(focusedButton).IsNull();
@@ -111,7 +111,7 @@ public class MenuUiUnitTests
     [TestCase]
     public void ConfirmRequested_ActivatesFocusedButton()
     {
-        var menuButtonContainer = _MenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var menuButtonContainer = _BaseMenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
         var button = new Button { Text = "Confirm" };
         bool pressed = false;
         button.Pressed += () => pressed = true;
@@ -132,7 +132,7 @@ public class MenuUiUnitTests
     [TestCase]
     public void NavigateDown_MovesFocusToNextButton()
     {
-        var menuButtonContainer = _MenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        var menuButtonContainer = _BaseMenuUi?.GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer");
         var firstButton = new Button { Text = "One" };
         var secondButton = new Button { Text = "Two" };
         menuButtonContainer?.AddChild(firstButton);
@@ -153,7 +153,7 @@ public class MenuUiUnitTests
     [TestCase]
     public void BackRequested_HidesMenu()
     {
-        _MenuUi!.Visible = true;
+        _BaseMenuUi!.Visible = true;
 
         var inputEvent = new InputEventAction
         {
@@ -163,6 +163,6 @@ public class MenuUiUnitTests
 
         _InputRouter?._UnhandledInput(inputEvent);
 
-        AssertThat(_MenuUi.Visible).IsFalse();
+        AssertThat(_BaseMenuUi.Visible).IsFalse();
     }
 }

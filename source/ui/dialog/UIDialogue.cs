@@ -22,19 +22,24 @@ public partial class UiDialogue : OmegaUi
 {
     /// <summary>
     /// Private fields
+    /// Following project style guide: Private fields use camelCase with underscore prefix
     /// </summary>
-    private RichTextLabel? dialogueText;
-    private Label? characterNameLabel;
-    private TextureRect? characterPortrait;
-    private VBoxContainer? choicesContainer;
-    private Control? continueIndicator;
-    private string currentText = string.Empty;
-    private Character? currentSpeaker;
-    private List<ChoiceOption> currentChoices = new List<ChoiceOption>();
-    private bool isTyping;
-    private int textPosition;
-    private float characterDelay;
-    private Godot.Timer? typewriterTimer;
+#pragma warning disable CA1707  // Remove underscores from member names
+#pragma warning disable IDE1006  // Naming rule: private fields are _camelCase per project convention
+    private RichTextLabel? _dialogueText;
+    private Label? _characterNameLabel;
+    private TextureRect? _characterPortrait;
+    private VBoxContainer? _choicesContainer;
+    private Control? _continueIndicator;
+    private string _currentText = string.Empty;
+    private Character? _currentSpeaker;
+    private List<ChoiceOption> _currentChoices = new List<ChoiceOption>();
+    private bool _isTyping;
+    private int _textPosition;
+    private float _characterDelay;
+    private Godot.Timer? _typewriterTimer;
+#pragma warning restore IDE1006
+#pragma warning restore CA1707
 
     /// <summary>
     /// Emitted when dialogue is finished displaying.
@@ -103,20 +108,20 @@ public partial class UiDialogue : OmegaUi
     public override void _Ready()
     {
         // Get references to child Ui elements
-        this.dialogueText = this.GetNode<RichTextLabel>("DialogueText");
-        this.characterNameLabel = this.GetNode<Label>("CharacterName");
-        this.characterPortrait = this.GetNode<TextureRect>("CharacterPortrait");
-        this.choicesContainer = this.GetNode<VBoxContainer>("ChoicesContainer");
-        this.continueIndicator = this.GetNode<Control>("ContinueIndicator");
+        this._dialogueText = this.GetNode<RichTextLabel>("DialogueText");
+        this._characterNameLabel = this.GetNode<Label>("CharacterName");
+        this._characterPortrait = this.GetNode<TextureRect>("CharacterPortrait");
+        this._choicesContainer = this.GetNode<VBoxContainer>("ChoicesContainer");
+        this._continueIndicator = this.GetNode<Control>("ContinueIndicator");
 
         // Initially hide the dialogue system
         this.Visible = false;
 
         // Set up the typewriter timer
-        this.typewriterTimer = new Godot.Timer();
-        this.typewriterTimer.OneShot = true;
-        this.typewriterTimer.Timeout += this.OnTypewriterTimeout;
-        this.AddChild(this.typewriterTimer);
+        this._typewriterTimer = new Godot.Timer();
+        this._typewriterTimer.OneShot = true;
+        this._typewriterTimer.Timeout += this.OnTypewriterTimeout;
+        this.AddChild(this._typewriterTimer);
 
         // Connect to any necessary signals
         ConnectSignals();
@@ -136,10 +141,10 @@ public partial class UiDialogue : OmegaUi
 
         // Set the current dialogue state
         this.IsActive = true;
-        this.currentText = text;
-        this.currentSpeaker = speaker;
-        this.textPosition = 0;
-        this.isTyping = true;
+        this._currentText = text;
+        this._currentSpeaker = speaker;
+        this._textPosition = 0;
+        this._isTyping = true;
 
         // Show the dialogue system
         this.Visible = true;
@@ -151,9 +156,9 @@ public partial class UiDialogue : OmegaUi
         this.ClearChoices();
 
         // Hide the continue indicator while typing
-        if (this.continueIndicator != null)
+        if (this._continueIndicator != null)
         {
-            this.continueIndicator.Hide();
+            this._continueIndicator.Hide();
         }
 
         // Emit the dialogue started signal
@@ -175,7 +180,7 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Store the current choices
-        this.currentChoices = new List<ChoiceOption>(choices);
+        this._currentChoices = new List<ChoiceOption>(choices);
 
         // Clear any existing choices
         this.ClearChoices();
@@ -187,20 +192,20 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Show the choices container
-        if (this.choicesContainer != null)
+        if (this._choicesContainer != null)
         {
-            this.choicesContainer.Show();
+            this._choicesContainer.Show();
         }
 
         // Hide the dialogue text and continue indicator
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Hide();
+            this._dialogueText.Hide();
         }
 
-        if (this.continueIndicator != null)
+        if (this._continueIndicator != null)
         {
-            this.continueIndicator.Hide();
+            this._continueIndicator.Hide();
         }
     }
 
@@ -211,18 +216,18 @@ public partial class UiDialogue : OmegaUi
     {
         this.Visible = false;
         this.IsActive = false;
-        this.isTyping = false;
-        this.currentText = string.Empty;
-        this.currentSpeaker = null;
-        this.textPosition = 0;
+        this._isTyping = false;
+        this._currentText = string.Empty;
+        this._currentSpeaker = null;
+        this._textPosition = 0;
 
         // Clear any existing choices
         this.ClearChoices();
 
         // Stop the typewriter timer
-        if (this.typewriterTimer != null)
+        if (this._typewriterTimer != null)
         {
-            this.typewriterTimer.Stop();
+            this._typewriterTimer.Stop();
         }
 
         // Emit the dialogue finished signal
@@ -234,31 +239,31 @@ public partial class UiDialogue : OmegaUi
     /// </summary>
     public void SkipTypewriter()
     {
-        if (!this.isTyping || string.IsNullOrEmpty(this.currentText))
+        if (!this._isTyping || string.IsNullOrEmpty(this._currentText))
         {
             return;
         }
 
         // Stop the typewriter timer
-        if (this.typewriterTimer != null)
+        if (this._typewriterTimer != null)
         {
-            this.typewriterTimer.Stop();
+            this._typewriterTimer.Stop();
         }
 
         // Display the full text immediately
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Text = this.currentText;
+            this._dialogueText.Text = this._currentText;
         }
 
         // Set the typing state to false
-        this.isTyping = false;
-        this.textPosition = this.currentText.Length;
+        this._isTyping = false;
+        this._textPosition = this._currentText.Length;
 
         // Show the continue indicator
-        if (this.continueIndicator != null)
+        if (this._continueIndicator != null)
         {
-            this.continueIndicator.Show();
+            this._continueIndicator.Show();
         }
     }
 
@@ -314,9 +319,9 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Show the message in the dialogue text
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Text = message;
+            this._dialogueText.Text = message;
         }
 
         // Show the dialogue system
@@ -335,40 +340,40 @@ public partial class UiDialogue : OmegaUi
     /// <param name="text">The text to type out.</param>
     public async Task TypeText(string text)
     {
-        if (string.IsNullOrEmpty(text) || this.dialogueText == null)
+        if (string.IsNullOrEmpty(text) || this._dialogueText == null)
         {
             return;
         }
 
         // Calculate the character delay based on the typewriter speed
-        this.characterDelay = 1.0f / this.TypewriterSpeed;
+        this._characterDelay = 1.0f / this.TypewriterSpeed;
 
         // Type out each character
-        while (this.textPosition < text.Length && this.isTyping)
+        while (this._textPosition < text.Length && this._isTyping)
         {
             // Add the next character to the displayed text
-            if (this.dialogueText != null)
+            if (this._dialogueText != null)
             {
-                this.dialogueText.Text = text.Substring(0, this.textPosition + 1);
+                this._dialogueText.Text = text.Substring(0, this._textPosition + 1);
             }
 
-            this.textPosition++;
+            this._textPosition++;
 
             // Wait for the character delay
-            if (this.typewriterTimer != null)
+            if (this._typewriterTimer != null)
             {
-                this.typewriterTimer.Start(this.characterDelay);
-                await this.ToSignal(this.typewriterTimer, Godot.Timer.SignalName.Timeout);
+                this._typewriterTimer.Start(this._characterDelay);
+                await this.ToSignal(this._typewriterTimer, Godot.Timer.SignalName.Timeout);
             }
         }
 
         // If we've finished typing, show the continue indicator
-        if (this.textPosition >= text.Length && this.isTyping)
+        if (this._textPosition >= text.Length && this._isTyping)
         {
-            this.isTyping = false;
-            if (this.continueIndicator != null)
+            this._isTyping = false;
+            if (this._continueIndicator != null)
             {
-                this.continueIndicator.Show();
+                this._continueIndicator.Show();
             }
         }
     }
@@ -379,13 +384,13 @@ public partial class UiDialogue : OmegaUi
     /// <param name="name">The new character name.</param>
     public void UpdateCharacterName(string name)
     {
-        if (string.IsNullOrEmpty(name) || this.characterNameLabel == null)
+        if (string.IsNullOrEmpty(name) || this._characterNameLabel == null)
         {
             return;
         }
 
         // Update the character name
-        this.characterNameLabel.Text = name;
+        this._characterNameLabel.Text = name;
     }
 
     /// <summary>
@@ -394,13 +399,13 @@ public partial class UiDialogue : OmegaUi
     /// <param name="portrait">The new character portrait.</param>
     public void UpdateCharacterPortrait(Texture2D portrait)
     {
-        if (portrait == null || this.characterPortrait == null)
+        if (portrait == null || this._characterPortrait == null)
         {
             return;
         }
 
         // Update the character portrait
-        this.characterPortrait.Texture = portrait;
+        this._characterPortrait.Texture = portrait;
     }
 
     /// <summary>
@@ -415,7 +420,7 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Add the choice to the current choices list
-        this.currentChoices.Add(choice);
+        this._currentChoices.Add(choice);
 
         // Create a button for the choice
         this.CreateChoiceButton(choice);
@@ -433,12 +438,12 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Remove the choice from the current choices list
-        this.currentChoices.Remove(choice);
+        this._currentChoices.Remove(choice);
 
         // Remove the corresponding button
-        if (this.choicesContainer != null)
+        if (this._choicesContainer != null)
         {
-            foreach (var child in this.choicesContainer.GetChildren())
+            foreach (var child in this._choicesContainer.GetChildren())
             {
                 if (child is Button button && button.Text == choice.Text)
                 {
@@ -456,7 +461,7 @@ public partial class UiDialogue : OmegaUi
     /// </summary>
     public void ClearAllChoices()
     {
-        this.currentChoices.Clear();
+        this._currentChoices.Clear();
         this.ClearChoices();
     }
 
@@ -472,7 +477,7 @@ public partial class UiDialogue : OmegaUi
         }
 
         this.TypewriterSpeed = speed;
-        this.characterDelay = 1.0f / this.TypewriterSpeed;
+        this._characterDelay = 1.0f / this.TypewriterSpeed;
     }
 
     /// <summary>
@@ -481,7 +486,7 @@ public partial class UiDialogue : OmegaUi
     /// <returns>The current dialogue text.</returns>
     public string GetDialogueText()
     {
-        return this.currentText;
+        return this._currentText;
     }
 
     /// <summary>
@@ -490,7 +495,7 @@ public partial class UiDialogue : OmegaUi
     /// <returns>The current character speaker, or null if none.</returns>
     public Character? GetSpeaker()
     {
-        return this.currentSpeaker;
+        return this._currentSpeaker;
     }
 
     /// <summary>
@@ -499,7 +504,7 @@ public partial class UiDialogue : OmegaUi
     /// <returns>The current dialogue choices.</returns>
     public Collection<ChoiceOption> GetChoices()
     {
-        return new Collection<ChoiceOption>(this.currentChoices);
+        return new Collection<ChoiceOption>(this._currentChoices);
     }
 
     /// <summary>
@@ -508,7 +513,7 @@ public partial class UiDialogue : OmegaUi
     /// <returns>True if the dialogue system is currently typing text, false otherwise.</returns>
     public bool IsTypingText()
     {
-        return this.isTyping;
+        return this._isTyping;
     }
 
     /// <summary>
@@ -517,7 +522,7 @@ public partial class UiDialogue : OmegaUi
     /// <returns>True if the dialogue system is currently showing choices, false otherwise.</returns>
     public bool IsShowingChoices()
     {
-        return this.choicesContainer != null && this.choicesContainer.Visible;
+        return this._choicesContainer != null && this._choicesContainer.Visible;
     }
 
     /// <summary>
@@ -526,31 +531,31 @@ public partial class UiDialogue : OmegaUi
     public void Refresh()
     {
         // Update the speaker display
-        this.UpdateSpeakerDisplay(this.currentSpeaker);
+        this.UpdateSpeakerDisplay(this._currentSpeaker);
 
         // Update the dialogue text
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Text = this.currentText;
+            this._dialogueText.Text = this._currentText;
         }
 
         // Update the choices display
         this.ClearChoices();
-        foreach (var choice in this.currentChoices)
+        foreach (var choice in this._currentChoices)
         {
             this.CreateChoiceButton(choice);
         }
 
         // Show/hide the continue indicator based on typing state
-        if (this.continueIndicator != null)
+        if (this._continueIndicator != null)
         {
-            if (this.isTyping)
+            if (this._isTyping)
             {
-                this.continueIndicator.Hide();
+                this._continueIndicator.Hide();
             }
             else
             {
-                this.continueIndicator.Show();
+                this._continueIndicator.Show();
             }
         }
     }
@@ -561,39 +566,39 @@ public partial class UiDialogue : OmegaUi
     public void Reset()
     {
         this.HideDialogue();
-        this.currentText = string.Empty;
-        this.currentSpeaker = null;
-        this.currentChoices.Clear();
-        this.textPosition = 0;
-        this.isTyping = false;
+        this._currentText = string.Empty;
+        this._currentSpeaker = null;
+        this._currentChoices.Clear();
+        this._textPosition = 0;
+        this._isTyping = false;
 
         // Reset the typewriter speed to default
         this.TypewriterSpeed = 50.0f;
-        this.characterDelay = 1.0f / this.TypewriterSpeed;
+        this._characterDelay = 1.0f / this.TypewriterSpeed;
 
         // Clear all displays
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Text = string.Empty;
+            this._dialogueText.Text = string.Empty;
         }
 
-        if (this.characterNameLabel != null)
+        if (this._characterNameLabel != null)
         {
-            this.characterNameLabel.Text = string.Empty;
-            this.characterNameLabel.Hide();
+            this._characterNameLabel.Text = string.Empty;
+            this._characterNameLabel.Hide();
         }
 
-        if (this.characterPortrait != null)
+        if (this._characterPortrait != null)
         {
-            this.characterPortrait.Texture = null;
-            this.characterPortrait.Hide();
+            this._characterPortrait.Texture = null;
+            this._characterPortrait.Hide();
         }
 
         this.ClearChoices();
 
-        if (this.continueIndicator != null)
+        if (this._continueIndicator != null)
         {
-            this.continueIndicator.Hide();
+            this._continueIndicator.Hide();
         }
     }
 
@@ -606,34 +611,34 @@ public partial class UiDialogue : OmegaUi
         if (speaker == null)
         {
             // Hide speaker information if no speaker
-            if (this.characterNameLabel != null)
+            if (this._characterNameLabel != null)
             {
-                this.characterNameLabel.Hide();
+                this._characterNameLabel.Hide();
             }
 
-            if (this.characterPortrait != null)
+            if (this._characterPortrait != null)
             {
-                this.characterPortrait.Hide();
+                this._characterPortrait.Hide();
             }
         }
         else
         {
             // Show speaker information
-            if (this.characterNameLabel != null)
+            if (this._characterNameLabel != null)
             {
-                this.characterNameLabel.Text = speaker.Name ?? string.Empty;
-                this.characterNameLabel.Show();
+                this._characterNameLabel.Text = speaker.Name ?? string.Empty;
+                this._characterNameLabel.Show();
             }
 
             // TODO: Add Portrait property to Character class
-            // if (this.characterPortrait != null && speaker.Portrait != null)
+            // if (this._characterPortrait != null && speaker.Portrait != null)
             // {
-            //     this.characterPortrait.Texture = speaker.Portrait;
-            //     this.characterPortrait.Show();
+            //     this._characterPortrait.Texture = speaker.Portrait;
+            //     this._characterPortrait.Show();
             // }
-            // else if (this.characterPortrait != null)
+            // else if (this._characterPortrait != null)
             // {
-            //     this.characterPortrait.Hide();
+            //     this._characterPortrait.Hide();
             // }
         }
     }
@@ -644,7 +649,7 @@ public partial class UiDialogue : OmegaUi
     /// <param name="choice">The dialogue choice to create a button for.</param>
     private void CreateChoiceButton(ChoiceOption choice)
     {
-        if (choice == null || this.choicesContainer == null)
+        if (choice == null || this._choicesContainer == null)
         {
             return;
         }
@@ -659,7 +664,7 @@ public partial class UiDialogue : OmegaUi
         button.Pressed += OnPressed;
 
         // Add the button to the choices container
-        this.choicesContainer.AddChild(button);
+        this._choicesContainer.AddChild(button);
     }
 
     /// <summary>
@@ -667,13 +672,13 @@ public partial class UiDialogue : OmegaUi
     /// </summary>
     private void ClearChoices()
     {
-        if (this.choicesContainer == null)
+        if (this._choicesContainer == null)
         {
             return;
         }
 
         // Remove all existing choice buttons
-        foreach (var child in this.choicesContainer.GetChildren())
+        foreach (var child in this._choicesContainer.GetChildren())
         {
             if (child is Button button)
             {
@@ -684,12 +689,12 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Hide the choices container
-        this.choicesContainer.Hide();
+        this._choicesContainer.Hide();
 
         // Show the dialogue text again
-        if (this.dialogueText != null)
+        if (this._dialogueText != null)
         {
-            this.dialogueText.Show();
+            this._dialogueText.Show();
         }
     }
 
@@ -713,7 +718,7 @@ public partial class UiDialogue : OmegaUi
         }
 
         // Find the index of the selected choice
-        var choiceIndex = this.currentChoices.IndexOf(choice);
+        var choiceIndex = this._currentChoices.IndexOf(choice);
         if (choiceIndex >= 0)
         {
             // Emit the choice selected signal
@@ -729,12 +734,12 @@ public partial class UiDialogue : OmegaUi
     /// </summary>
     private void OnContinueInput()
     {
-        if (this.isTyping)
+        if (this._isTyping)
         {
             // Skip the typewriter effect
             this.SkipTypewriter();
         }
-        else if (this.choicesContainer != null && !this.choicesContainer.Visible)
+        else if (this._choicesContainer != null && !this._choicesContainer.Visible)
         {
             // Continue to the next dialogue line or end dialogue
             // This would typically involve checking if there's more dialogue to display

@@ -42,12 +42,12 @@ namespace OmegaSpiral.Tests.Integration.Ui
         // ==================== INHERITANCE & STRUCTURE ====================
 
         /// <summary>
-        /// PauseMenu extends MenuUi.
+        /// PauseMenu extends BaseMenuUi.
         /// </summary>
         [TestCase]
         public void PauseMenu_ExtendsMenuUi()
         {
-            AssertThat(typeof(PauseMenu).BaseType).IsEqual(typeof(MenuUi));
+            AssertThat(typeof(PauseMenu).BaseType).IsEqual(typeof(BaseMenuUi));
             AssertThat(typeof(PauseMenu).IsAssignableTo(typeof(Control))).IsTrue();
         }
 

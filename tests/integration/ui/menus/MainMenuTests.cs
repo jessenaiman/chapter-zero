@@ -42,12 +42,12 @@ public partial class MainMenuTests : Node
     // ==================== INHERITANCE ====================
 
     /// <summary>
-    /// MainMenu inherits from MenuUi.
+    /// MainMenu inherits from BaseMenuUi.
     /// </summary>
     [TestCase]
-    public void InheritsFromMenuUi()
+    public void InheritsFromBaseMenuUi()
     {
-        AssertThat(_MainMenu).IsInstanceOf<MenuUi>();
+        AssertThat(_MainMenu).IsInstanceOf<BaseMenuUi>();
         AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaUi>();
     }
 
@@ -81,7 +81,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// MenuActionBar exists (inherited from MenuUi).
+    /// MenuActionBar exists (inherited from BaseMenuUi).
     /// </summary>
     [TestCase]
     public void MenuActionBar_Exists()
@@ -478,7 +478,7 @@ public partial class MainMenuTests : Node
         // Check that background uses correct dark color from design system
         var isUsingDarkVoid = IsColorCloseTo(backgroundColor, OmegaSpiralColors.DarkVoid);
         var isUsingDeepSpace = IsColorCloseTo(backgroundColor, OmegaSpiralColors.DeepSpace);
-        
+
         // Background should use either DarkVoid or DeepSpace (both are dark)
         AssertThat(isUsingDarkVoid || isUsingDeepSpace).IsTrue()
             .OverrideFailureMessage($"Background color (R={backgroundColor.R}, G={backgroundColor.G}, B={backgroundColor.B}) does not match design system dark colors");
@@ -497,105 +497,9 @@ public partial class MainMenuTests : Node
                Math.Abs(color1.G - color2.G) < tolerance &&
                Math.Abs(color1.B - color2.B) < tolerance;
     }
-
     // ==================== BORDER FRAME (SPIRAL ANIMATION) ====================
-
-    /// <summary>
-    /// BorderFrame exists and is visible.
-    /// OmegaUi creates this programmatically during initialization.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_Exists()
-    {
-        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull();
-        AssertThat(borderFrame!.Visible).IsTrue();
-    }
-
-    /// <summary>
-    /// BorderFrame has spiral shader material configured.
-    /// Uses spiral_border.gdshader for the three-stream animation.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_HasSpiralShader()
-    {
-        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull();
-        AssertThat(borderFrame!.Material).IsInstanceOf<ShaderMaterial>();
-
-        var shaderMaterial = borderFrame.Material as ShaderMaterial;
-        AssertThat(shaderMaterial).IsNotNull();
-        AssertThat(shaderMaterial!.Shader).IsNotNull();
-    }
-
-    /// <summary>
-    /// BorderFrame shader uses correct thread colors from OmegaSpiralColors.
-    /// Verifies LightThread (Silver), ShadowThread (Golden), AmbitionThread (Crimson).
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_UsesThreeThreadColors()
-    {
-        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull();
-
-        var shaderMaterial = borderFrame!.Material as ShaderMaterial;
-        AssertThat(shaderMaterial).IsNotNull();
-
-        // Verify shader parameters exist and match design colors
-        var lightThreadColor = (Color)shaderMaterial!.GetShaderParameter("light_thread");
-        var shadowThreadColor = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
-        var ambitionThreadColor = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
-
-        // Use component-wise comparison with design tolerance
-        var tolerance = OmegaSpiralColors.ColorTolerance;
-
-        // Light Thread (Silver)
-        AssertThat(Math.Abs(lightThreadColor.R - OmegaSpiralColors.LightThread.R)).IsLess(tolerance)
-            .OverrideFailureMessage($"LightThread R: expected {OmegaSpiralColors.LightThread.R}, got {lightThreadColor.R}");
-        AssertThat(Math.Abs(lightThreadColor.G - OmegaSpiralColors.LightThread.G)).IsLess(tolerance)
-            .OverrideFailureMessage($"LightThread G: expected {OmegaSpiralColors.LightThread.G}, got {lightThreadColor.G}");
-        AssertThat(Math.Abs(lightThreadColor.B - OmegaSpiralColors.LightThread.B)).IsLess(tolerance)
-            .OverrideFailureMessage($"LightThread B: expected {OmegaSpiralColors.LightThread.B}, got {lightThreadColor.B}");
-
-        // Shadow Thread (Golden)
-        AssertThat(Math.Abs(shadowThreadColor.R - OmegaSpiralColors.ShadowThread.R)).IsLess(tolerance)
-            .OverrideFailureMessage($"ShadowThread R: expected {OmegaSpiralColors.ShadowThread.R}, got {shadowThreadColor.R}");
-        AssertThat(Math.Abs(shadowThreadColor.G - OmegaSpiralColors.ShadowThread.G)).IsLess(tolerance)
-            .OverrideFailureMessage($"ShadowThread G: expected {OmegaSpiralColors.ShadowThread.G}, got {shadowThreadColor.G}");
-        AssertThat(Math.Abs(shadowThreadColor.B - OmegaSpiralColors.ShadowThread.B)).IsLess(tolerance)
-            .OverrideFailureMessage($"ShadowThread B: expected {OmegaSpiralColors.ShadowThread.B}, got {shadowThreadColor.B}");
-
-        // Ambition Thread (Crimson)
-        AssertThat(Math.Abs(ambitionThreadColor.R - OmegaSpiralColors.AmbitionThread.R)).IsLess(tolerance)
-            .OverrideFailureMessage($"AmbitionThread R: expected {OmegaSpiralColors.AmbitionThread.R}, got {ambitionThreadColor.R}");
-        AssertThat(Math.Abs(ambitionThreadColor.G - OmegaSpiralColors.AmbitionThread.G)).IsLess(tolerance)
-            .OverrideFailureMessage($"AmbitionThread G: expected {OmegaSpiralColors.AmbitionThread.G}, got {ambitionThreadColor.G}");
-        AssertThat(Math.Abs(ambitionThreadColor.B - OmegaSpiralColors.AmbitionThread.B)).IsLess(tolerance)
-            .OverrideFailureMessage($"AmbitionThread B: expected {OmegaSpiralColors.AmbitionThread.B}, got {ambitionThreadColor.B}");
-    }
-
-    /// <summary>
-    /// BorderFrame animation speed matches design specification.
-    /// Rotation speed and wave speed should be configurable.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_AnimationSpeedCorrect()
-    {
-        var borderFrame = _MainMenu.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull();
-
-        var shaderMaterial = borderFrame!.Material as ShaderMaterial;
-        AssertThat(shaderMaterial).IsNotNull();
-
-        // Default values from OmegaUi.CreateBorderFrame()
-        var rotationSpeed = (float)shaderMaterial!.GetShaderParameter("rotation_speed");
-        var waveSpeed = (float)shaderMaterial.GetShaderParameter("wave_speed");
-
-        // Verify default animation speeds (0.05 for rotation, 0.8 for wave)
-        AssertThat(Math.Abs(rotationSpeed - 0.05f)).IsLess(0.01f)
-            .OverrideFailureMessage($"Rotation speed: expected 0.05, got {rotationSpeed}");
-        AssertThat(Math.Abs(waveSpeed - 0.8f)).IsLess(0.1f)
-            .OverrideFailureMessage($"Wave speed: expected 0.8, got {waveSpeed}");
-    }
+    // NOTE: BorderFrame tests moved to OmegaBorderFrame_UnitTests.cs
+    // See: tests/integration/ui/omega/OmegaBorderFrame_UnitTests.cs
+    // All BorderFrame component tests are now consolidated in one place.
 }
 

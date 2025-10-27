@@ -1,4 +1,4 @@
-// <copyright file="MenuUiTests.cs" company="Ωmega Spiral">
+// <copyright file="BaseMenuUiTests.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -13,14 +13,14 @@ using static GdUnit4.Assertions;
 namespace OmegaSpiral.Tests.Integration.Ui;
 
 /// <summary>
-/// Integration tests for MenuUi base component.
+/// Integration tests for BaseMenuUi base component.
 /// Tests structure, button management, navigation, and API surface with real scenes.
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public partial class MenuUiTests : Node
+public partial class BaseMenuUiTests : Node
 {
-    private MenuUi _MenuUi = null!;
+    private BaseMenuUi _BaseMenuUi = null!;
 
     [Before]
     public void Setup()
@@ -32,14 +32,14 @@ public partial class MenuUiTests : Node
             sceneTree.Root.AddChild(this);
         }
 
-        _MenuUi = AutoFree(new MenuUi())!;
+        _BaseMenuUi = AutoFree(new BaseMenuUi())!;
 
         // Add to scene tree - _Ready() fires and initializes synchronously
-        AddChild(_MenuUi);
+        AddChild(_BaseMenuUi);
 
         // Validate background/theme using shared helper
         // If this fails, all subsequent tests will cascade fail
-        OmegaUiTestHelper.ValidateBackgroundTheme(_MenuUi, "MenuUi");
+        OmegaUiTestHelper.ValidateBackgroundTheme(_BaseMenuUi, "BaseMenuUi");
     }    [After]
     public void Cleanup()
     {
@@ -50,37 +50,37 @@ public partial class MenuUiTests : Node
     // ==================== INHERITANCE & API ====================
 
     /// <summary>
-    /// MenuUi extends OmegaUi.
+    /// BaseMenuUi extends OmegaUi.
     /// </summary>
     [TestCase]
-    public void MenuUi_ExtendsOmegaUi()
+    public void BaseMenuUi_ExtendsOmegaUi()
     {
-        AssertThat(typeof(MenuUi).BaseType).IsEqual(typeof(OmegaUi));
-        AssertThat(typeof(MenuUi).IsAssignableTo(typeof(Control))).IsTrue();
+        AssertThat(typeof(BaseMenuUi).BaseType).IsEqual(typeof(OmegaUi));
+        AssertThat(typeof(BaseMenuUi).IsAssignableTo(typeof(Control))).IsTrue();
     }
 
     /// <summary>
-    /// MenuUi exposes MenuMode enum with Standard value.
+    /// BaseMenuUi exposes MenuMode enum with Standard value.
     /// </summary>
     [TestCase]
-    public void MenuUi_HasMenuModeEnum()
+    public void BaseMenuUi_HasMenuModeEnum()
     {
-        var prop = typeof(MenuUi).GetProperty("Mode");
+        var prop = typeof(BaseMenuUi).GetProperty("Mode");
         AssertThat(prop).IsNotNull();
 
-        var enumType = typeof(MenuUi).GetNestedType("MenuMode");
+        var enumType = typeof(BaseMenuUi).GetNestedType("MenuMode");
         AssertThat(enumType).IsNotNull();
     }
 
     /// <summary>
-    /// MenuUi exposes protected helper methods for subclasses.
+    /// BaseMenuUi exposes protected helper methods for subclasses.
     /// </summary>
     [TestCase]
-    public void MenuUi_ExposesProtectedHelpers()
+    public void BaseMenuUi_ExposesProtectedHelpers()
     {
-        var setMenuTitle = typeof(MenuUi).GetMethod("SetMenuTitle", BindingFlags.NonPublic | BindingFlags.Instance);
-        var addButton = typeof(MenuUi).GetMethod("AddMenuButton", BindingFlags.NonPublic | BindingFlags.Instance);
-        var clearButtons = typeof(MenuUi).GetMethod("ClearMenuButtons", BindingFlags.NonPublic | BindingFlags.Instance);
+        var setMenuTitle = typeof(BaseMenuUi).GetMethod("SetMenuTitle", BindingFlags.NonPublic | BindingFlags.Instance);
+        var addButton = typeof(BaseMenuUi).GetMethod("AddMenuButton", BindingFlags.NonPublic | BindingFlags.Instance);
+        var clearButtons = typeof(BaseMenuUi).GetMethod("ClearMenuButtons", BindingFlags.NonPublic | BindingFlags.Instance);
 
         AssertThat(setMenuTitle).IsNotNull();
         AssertThat(addButton).IsNotNull();
@@ -95,7 +95,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ContentContainer_Exists()
     {
-        var container = _MenuUi?.ContentContainer;
+        var container = _BaseMenuUi?.ContentContainer;
         AssertThat(container).IsNotNull();
         AssertThat(container).IsInstanceOf<Control>();
     }
@@ -106,7 +106,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void MenuTitle_Exists()
     {
-        var title = _MenuUi?.MenuTitle;
+        var title = _BaseMenuUi?.MenuTitle;
         AssertThat(title).IsNotNull();
         AssertThat(title?.Text).IsEqual("");
     }
@@ -117,7 +117,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ButtonContainer_Exists()
     {
-        var container = _MenuUi?.MenuButtonContainer;
+        var container = _BaseMenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
         AssertThat(container).IsInstanceOf<VBoxContainer>();
     }
@@ -128,7 +128,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ActionBar_Exists()
     {
-        var actionBar = _MenuUi?.MenuActionBar;
+        var actionBar = _BaseMenuUi?.MenuActionBar;
         AssertThat(actionBar).IsNotNull();
         AssertThat(actionBar).IsInstanceOf<HBoxContainer>();
     }
@@ -141,7 +141,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void ButtonContainer_CanAddButtons()
     {
-        var container = _MenuUi?.MenuButtonContainer;
+        var container = _BaseMenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
         var initialCount = container!.GetChildCount();
@@ -152,12 +152,12 @@ public partial class MenuUiTests : Node
     }
 
     /// <summary>
-    /// MenuUi is enabled by default (mouse filter allows interaction).
+    /// BaseMenuUi is enabled by default (mouse filter allows interaction).
     /// </summary>
     [TestCase]
     public void Menu_IsEnabledByDefault()
     {
-        var container = _MenuUi?.MenuButtonContainer;
+        var container = _BaseMenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
         AssertObject(container!.MouseFilter).IsEqual(Control.MouseFilterEnum.Pass);
         AssertObject(container.Modulate).IsEqual(Colors.White);
@@ -171,7 +171,7 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void FocusFirstButton_WorksCorrectly()
     {
-        var container = _MenuUi?.MenuButtonContainer;
+        var container = _BaseMenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
         // Add test buttons
@@ -181,11 +181,14 @@ public partial class MenuUiTests : Node
         container.AddChild(button2);
 
         // Act: Focus the first button
-        _MenuUi?.FocusFirstButton();
+        _BaseMenuUi?.FocusFirstButton();
 
         // Assert: The first button should have focus
         AssertThat(button1).IsNotNull();
-        AssertThat(button1.HasFocus()).IsTrue();
+        if (button1 != null)
+        {
+            AssertThat(button1.HasFocus()).IsTrue();
+        }
     }
 
     /// <summary>
@@ -194,14 +197,14 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void GetFocusedButton_ReturnsCorrectButton()
     {
-        var container = _MenuUi?.MenuButtonContainer;
+        var container = _BaseMenuUi?.MenuButtonContainer;
         AssertThat(container).IsNotNull();
 
         var testButton = AutoFree(new Button { Text = "Test Button", Visible = true });
         container!.AddChild(testButton);
         testButton!.GrabFocus();
 
-        var focusedButton = _MenuUi!.GetFocusedButton();
+        var focusedButton = _BaseMenuUi!.GetFocusedButton();
         AssertThat(focusedButton).IsNotNull();
         AssertThat(focusedButton).IsEqual(testButton);
     }
@@ -214,6 +217,6 @@ public partial class MenuUiTests : Node
     [TestCase]
     public void MenuMode_DefaultsToStandard()
     {
-        AssertThat(_MenuUi?.Mode).IsEqual(MenuUi.MenuMode.Standard);
+        AssertThat(_BaseMenuUi?.Mode).IsEqual(BaseMenuUi.MenuMode.Standard);
     }
 }

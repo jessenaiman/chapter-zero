@@ -8,7 +8,7 @@ namespace OmegaSpiral.Source.Ui.Omega;
 /// Implementation of text renderer for Omega Ui system.
 /// Handles text display, ghost typing animations, and text formatting.
 /// </summary>
-public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
+public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
 {
     private readonly RichTextLabel _TextDisplay;
     private bool _IsAnimating;
@@ -53,7 +53,7 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
             foreach (var character in text)
             {
                 currentText += character;
-                _TextDisplay.Text = currentText;
+                CallDeferred(nameof(UpdateTextDeferred), currentText);
 
                 // Wait for the character delay, but allow for cancellation
                 await Task.Delay((int)(charDelay * 1000)).ConfigureAwait(false);
@@ -99,17 +99,26 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
     }
 
     /// <inheritdoc/>
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
 
     /// <summary>
+    /// Deferred method to update the text display on the main thread.
+    /// </summary>
+    /// <param name="text">The text to set on the RichTextLabel.</param>
+    private void UpdateTextDeferred(string text)
+    {
+        _TextDisplay.Text = text;
+    }
+
+    /// <summary>
     /// Disposes managed and unmanaged resources.
     /// </summary>
     /// <param name="disposing">Whether to dispose managed resources.</param>
-    protected virtual void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
     {
         if (!_Disposed)
         {
@@ -119,5 +128,6 @@ public class OmegaTextRenderer : IOmegaTextRenderer, IDisposable
             }
             _Disposed = true;
         }
+        base.Dispose(disposing);
     }
 }

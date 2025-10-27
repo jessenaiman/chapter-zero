@@ -1,69 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4wya03i2rn5q"]
+[gd_scene load_steps=2 format=3 uid="uid://c4wya03i2rn5q"]
 
 [ext_resource type="Script" path="res://source/ui/menus/PauseMenu.cs" id="1_pause_menu"]
-[ext_resource type="Material" path="res://source/shaders/pulsing_background.tres" id="2_background"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_phosphor.tres" id="3_phosphor"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_scanlines.tres" id="4_scanlines"]
-[ext_resource type="ShaderMaterial" path="res://source/shaders/crt_glitch.tres" id="5_glitch"]
+[ext_resource type="PackedScene" uid="uid://1bw7x5iapm3n" path="res://source/ui/omega/omega_ui.tscn" id="2_omega_ui"]
 
-[node name="PauseMenu" type="Control"]
+[node name="PauseMenu" instance=ExtResource("2_omega_ui")]
 process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_pause_menu")
 
-[node name="Background" type="ColorRect" parent="."]
-z_index = -2
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0352941, 0.0352941, 0.0509804, 0.9)
-material = ExtResource("2_background")
-
-[node name="PhosphorLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.18)
-material = ExtResource("3_phosphor")
-
-[node name="ScanlineLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.12)
-material = ExtResource("4_scanlines")
-
-[node name="GlitchLayer" type="ColorRect" parent="."]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.08)
-material = ExtResource("5_glitch")
-
-[node name="ContentContainer" type="VBoxContainer" parent="."]
+[node name="ContentContainer" parent="." index="1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

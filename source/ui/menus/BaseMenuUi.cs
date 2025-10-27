@@ -1,4 +1,4 @@
-// <copyright file="MenuUi.cs" company="Ωmega Spiral">
+// <copyright file="BaseMenuUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -12,18 +12,17 @@ using OmegaSpiral.Source.Ui.Omega;
 namespace OmegaSpiral.Source.Ui.Menus;
 
 /// <summary>
-/// Menu Ui that extends OmegaUi and adds static menu behavior for traditional game menus.
+/// Base Menu UI with optional Omega theming and menu-specific behavior.
 /// Base class for all static game menus (Main Menu, Pause, Options, etc.) - NOT for sequential narrative scenes.
-/// Key difference from OmegaUi: No sequential logic, no auto-transitions, pure user agency.
-/// <para><strong>Three Core Responsibilities:</strong></para>
+/// <para><strong>Core Responsibilities:</strong></para>
 /// <list type="number">
-/// <item><description>Standard button container structure with sensible defaults (via NodePath exports)</description></item>
-/// <item><description>Navigation helpers for keyboard/gamepad focus management</description></item>
-/// <item><description>Menu-specific shader presets (less glitchy than narrative terminals)</description></item>
+/// <item><description>Button container management and navigation</description></item>
+/// <item><description>Input routing for keyboard/gamepad</description></item>
+/// <item><description>Optional Omega visual theme (border, CRT effects)</description></item>
 /// </list>
 /// </summary>
 [GlobalClass]
-public partial class MenuUi : OmegaUi
+public partial class BaseMenuUi : OmegaContainer
 {
     private const string _ButtonAudioMetaKey = "omega_audio_registered";
 
@@ -121,87 +120,25 @@ public partial class MenuUi : OmegaUi
     /// Caches menu-specific node references in addition to base OmegaUi nodes.
     /// Uses NodePath exports for flexibility while providing sensible defaults.
     /// </summary>
+    /// <summary>
+    /// Cache menu-specific nodes from the scene.
+    /// Does NOT create nodes programmatically - scene structure is authoritative.
+    /// Override in subclasses to cache additional nodes specific to that menu type.
+    /// </summary>
     protected override void CacheRequiredNodes()
     {
         // First, let the base class cache its required nodes (TextDisplay, shader layers, etc.)
         base.CacheRequiredNodes();
 
-        // Try to cache from scene first
-        _MenuButtonContainer = MenuButtonContainerPath != null && !string.IsNullOrEmpty(MenuButtonContainerPath.ToString())
-            ? GetNodeOrNull<VBoxContainer>(MenuButtonContainerPath)
-            : null;
-
-        // If not found, CREATE the default structure programmatically
+        // Cache nodes from scene - fail if missing (scene structure is required)
         _ContentContainer = GetNodeOrNull<Control>("ContentContainer");
-        if (_ContentContainer == null)
-        {
-            _ContentContainer = new VBoxContainer
-            {
-                Name = "ContentContainer",
-                AnchorLeft = 0, AnchorTop = 0, AnchorRight = 1, AnchorBottom = 1,
-                GrowHorizontal = GrowDirection.Both,
-                GrowVertical = GrowDirection.Both
-            };
-            AddChild(_ContentContainer);
-        }
+        _MenuTitle = GetNodeOrNull<Label>("ContentContainer/MenuTitle");
+        _MenuButtonContainer = GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
+        _MenuActionBar = GetNodeOrNull<HBoxContainer>("ContentContainer/MenuActionBar");
 
-        // Create MenuTitle if it doesn't exist
-        _MenuTitle = MenuTitlePath != null && !string.IsNullOrEmpty(MenuTitlePath.ToString())
-            ? GetNodeOrNull<Label>(MenuTitlePath)
-            : null;
-
-        if (_MenuTitle == null && _ContentContainer != null)
-        {
-            _MenuTitle = new Label
-            {
-                Name = "MenuTitle",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                SizeFlagsVertical = SizeFlags.ShrinkBegin
-            };
-            _ContentContainer.AddChild(_MenuTitle);
-        }
-
-        // Create MenuButtonContainer if it doesn't exist
-        if (_MenuButtonContainer == null && _ContentContainer != null)
-        {
-            _MenuButtonContainer = new VBoxContainer
-            {
-                Name = "MenuButtonContainer",
-                SizeFlagsHorizontal = SizeFlags.ShrinkCenter,
-                SizeFlagsVertical = SizeFlags.ExpandFill,
-                Alignment = BoxContainer.AlignmentMode.Center
-            };
-            _ContentContainer.AddChild(_MenuButtonContainer);
-        }
-
-        // Create MenuActionBar if it doesn't exist
-        _MenuActionBar = MenuActionBarPath != null && !string.IsNullOrEmpty(MenuActionBarPath.ToString())
-            ? GetNodeOrNull<HBoxContainer>(MenuActionBarPath)
-            : null;
-
-        if (_MenuActionBar == null && _ContentContainer != null)
-        {
-            _MenuActionBar = new HBoxContainer
-            {
-                Name = "MenuActionBar",
-                SizeFlagsHorizontal = SizeFlags.ShrinkCenter,
-                SizeFlagsVertical = SizeFlags.ShrinkEnd,
-                Alignment = BoxContainer.AlignmentMode.Center
-            };
-            _ContentContainer.AddChild(_MenuActionBar);
-        }
-
+        // Validate: all menu nodes should exist in scene, not be created programmatically
         if (_MenuButtonContainer == null)
-            GD.PushWarning("[MenuUi] MenuButtonContainer not found at path. Buttons cannot be added.");
-    }
-
-    /// <summary>
-    /// Initializes menu-specific components after base OmegaUi initialization.
-    /// </summary>
-    private void InitializeMenuComponents()
-    {
-        // No longer needed; initialization is handled in InitializeComponentStates.
+            GD.PushWarning("[BaseMenuUi] MenuButtonContainer not found in scene at ContentContainer/MenuButtonContainer. Scene structure may be incomplete.");
     }
 
     /// <summary>
@@ -220,10 +157,8 @@ public partial class MenuUi : OmegaUi
         RegisterExistingButtons();
         SubscribeToInputRouter();
 
-        // CORRECT: Use the protected properties from OmegaUi to style the shader layers
-        if (PhosphorLayer != null) PhosphorLayer.Modulate = Colors.White;
-        if (ScanlineLayer != null) ScanlineLayer.Modulate = Colors.White;
-        if (GlitchLayer != null) GlitchLayer.Modulate = Colors.White;
+        // Shader layers are managed by OmegaThemedContainer if needed
+        // BaseMenuUi doesn't directly access them
     }
 
     /// <summary>
@@ -270,31 +205,24 @@ public partial class MenuUi : OmegaUi
 
     /// <summary>
     /// Factory method for creating menu-specific buttons.
-    /// Extends OmegaUi's CreateButton() with menu-specific styling and layout.
-    /// This method integrates the button into the menu's button container automatically.
+    /// Uses OmegaComponentFactory for consistent styling.
     /// </summary>
     /// <param name="buttonName">The name to assign to the button node.</param>
     /// <param name="buttonText">The display text for the button.</param>
-    /// <returns>A new Button node ready for the menu, already added to the menu container.</returns>
-    protected Button CreateMenuButton(string buttonName, string buttonText = "")
+    /// <returns>A new Button node ready for the menu.</returns>
+    protected virtual Button CreateMenuButton(string buttonName, string buttonText)
     {
-        var button = base.CreateButton(buttonName, buttonText);
-
-        if (_MenuButtonContainer != null)
+        var button = OmegaComponentFactory.CreateStyledButton(buttonText);
+        if (button == null)
         {
-            _MenuButtonContainer.AddChild(button);
-        }
-        else
-        {
-            GD.PushWarning($"[MenuUi] Cannot add button '{buttonName}' - MenuButtonContainer is not set.");
+            throw new InvalidOperationException($"Failed to create button: {buttonName}");
         }
 
-        RegisterButtonAudio(button);
+        button.Name = buttonName;
+        // Note: Caller must connect Pressed signal to appropriate handler
 
         return button;
-    }
-
-    /// <summary>
+    }    /// <summary>
     /// Adds a button to the menu.
     /// </summary>
     /// <param name="buttonText">The text to display on the button.</param>
@@ -304,11 +232,11 @@ public partial class MenuUi : OmegaUi
     {
         if (_MenuButtonContainer == null)
         {
-            throw new InvalidOperationException("[MenuUi] Cannot add button: MenuButtonContainer is not set.");
+            throw new InvalidOperationException("[BaseMenuUi] Cannot add button: MenuButtonContainer is not set.");
         }
         if (StyledButtonScene == null)
         {
-            throw new InvalidOperationException("[MenuUi] Cannot add button: StyledButtonScene is not set in the Inspector.");
+            throw new InvalidOperationException("[BaseMenuUi] Cannot add button: StyledButtonScene is not set in the Inspector.");
         }
 
         var button = StyledButtonScene.Instantiate<Button>();

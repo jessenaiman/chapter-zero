@@ -36,12 +36,12 @@ namespace OmegaSpiral.Tests.Integration.Ui
         // ==================== INHERITANCE & STRUCTURE ====================
 
         /// <summary>
-        /// CreditsMenu extends MenuUi.
+        /// CreditsMenu extends BaseMenuUi.
         /// </summary>
         [TestCase]
         public void CreditsMenu_ExtendsMenuUi()
         {
-            AssertThat(typeof(CreditsMenu).BaseType).IsEqual(typeof(MenuUi));
+            AssertThat(typeof(CreditsMenu).BaseType).IsEqual(typeof(BaseMenuUi));
             AssertThat(typeof(CreditsMenu).IsAssignableTo(typeof(Control))).IsTrue();
         }
 

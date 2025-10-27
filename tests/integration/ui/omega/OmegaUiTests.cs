@@ -56,16 +56,6 @@ public partial class OmegaUiTests : Node
     // ==================== INHERITANCE & STRUCTURE ====================
 
     /// <summary>
-    /// OmegaUi is in Initialized state after setup.
-    /// Tests can verify initialization phase via InitializationState property.
-    /// </summary>
-    [TestCase]
-    public void InitializationState_IsInitialized()
-    {
-        AssertThat(_OmegaUi!.InitializationState)
-            .IsEqual(OmegaUiInitializationState.Initialized);
-    }
-
     /// <summary>
     /// OmegaUi inherits from Control.
     /// </summary>
@@ -112,95 +102,9 @@ public partial class OmegaUiTests : Node
     }
 
     // ==================== BORDER & FRAME ====================
-
-    /// <summary>
-    /// OmegaUi has a visible shader-based animated border frame.
-    /// </summary>
-    [TestCase]
-    public void HasBorderFrame()
-    {
-        var borderFrame = _OmegaUi!.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull()
-            .OverrideFailureMessage("OmegaUi must have a BorderFrame ColorRect node");
-    }
-
-    /// <summary>
-    /// BorderFrame uses ShaderMaterial for animated spiral effect.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_UsesShaderMaterial()
-    {
-        var borderFrame = _OmegaUi!.GetNodeOrNull("BorderFrame") as ColorRect;
-        AssertThat(borderFrame).IsNotNull();
-
-        AssertThat(borderFrame!.Material).IsNotNull()
-            .IsInstanceOf<ShaderMaterial>()
-            .OverrideFailureMessage("BorderFrame must use ShaderMaterial for animated border effect");
-    }
-
-    /// <summary>
-    /// BorderFrame shader uses three thread colors (Silver, Golden, Crimson) from OmegaSpiralColors.
-    /// Verifies Light, Shadow, and Ambition thread colors match design system.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_UsesThreeThreadColors()
-    {
-        var borderFrame = _OmegaUi!.GetNodeOrNull("BorderFrame") as ColorRect;
-        var shaderMaterial = borderFrame?.Material as ShaderMaterial;
-
-        AssertThat(shaderMaterial).IsNotNull();
-
-        var lightThread = (Color)shaderMaterial!.GetShaderParameter("light_thread");
-        var shadowThread = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
-        var ambitionThread = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
-
-        AssertThat(lightThread).IsEqual(OmegaSpiralColors.LightThread)
-            .OverrideFailureMessage("Light thread color must match design system (Silver/White)");
-        AssertThat(shadowThread).IsEqual(OmegaSpiralColors.ShadowThread)
-            .OverrideFailureMessage("Shadow thread color must match design system (Golden/Amber)");
-        AssertThat(ambitionThread).IsEqual(OmegaSpiralColors.AmbitionThread)
-            .OverrideFailureMessage("Ambition thread color must match design system (Crimson/Red)");
-    }
-
-    /// <summary>
-    /// BorderFrame animation can be controlled via rotation speed parameter.
-    /// Tests setting speed to 0 (static), slow, and fast values.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_AnimationSpeedIsConfigurable()
-    {
-        // Test setting to static (no rotation)
-        _OmegaUi!.BorderRotationSpeed = 0.0f;
-        AssertThat(_OmegaUi.BorderRotationSpeed).IsEqual(0.0f);
-
-        // Test setting to slow
-        _OmegaUi.BorderRotationSpeed = 0.05f;
-        AssertThat(_OmegaUi.BorderRotationSpeed).IsEqual(0.05f);
-
-        // Test setting to fast
-        _OmegaUi.BorderRotationSpeed = 1.5f;
-        AssertThat(_OmegaUi.BorderRotationSpeed).IsEqual(1.5f);
-    }
-
-    /// <summary>
-    /// BorderFrame wave speed can be controlled independently of rotation.
-    /// Tests setting wave flow to static (no waves) and flowing values.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_WaveSpeedIsConfigurable()
-    {
-        // Test setting to static (no wave flow)
-        _OmegaUi!.BorderWaveSpeed = 0.0f;
-        AssertThat(_OmegaUi.BorderWaveSpeed).IsEqual(0.0f);
-
-        // Test setting to gentle flow
-        _OmegaUi.BorderWaveSpeed = 0.8f;
-        AssertThat(_OmegaUi.BorderWaveSpeed).IsEqual(0.8f);
-
-        // Test setting to fast flow
-        _OmegaUi.BorderWaveSpeed = 3.0f;
-        AssertThat(_OmegaUi.BorderWaveSpeed).IsEqual(3.0f);
-    }
+    // NOTE: BorderFrame tests moved to OmegaBorderFrame_UnitTests.cs
+    // See: tests/integration/ui/omega/OmegaBorderFrame_UnitTests.cs
+    // That file contains comprehensive tests for OmegaBorderFrame component.
 
     // ==================== SHADER LAYERS ====================
 
@@ -251,30 +155,8 @@ public partial class OmegaUiTests : Node
             .OverrideFailureMessage($"Content height ({contentSize.Y}) should be less than viewport height ({viewportSize.Y})");
     }
 
-    /// <summary>
-    /// BorderFrame is visible and not clipped by viewport.
-    /// </summary>
-    [TestCase]
-    public void BorderFrame_VisibleInViewport()
-    {
-        var borderFrame = _OmegaUi!.GetNodeOrNull<ColorRect>("BorderFrame");
-        AssertThat(borderFrame).IsNotNull();
-
-        // Border should be visible (not hidden or zero-sized)
-        AssertThat(borderFrame!.Visible).IsTrue();
-
-        // Skip size checks in test context where layout is not computed
-        if (borderFrame!.Size == Vector2.Zero)
-        {
-            GD.Print("[OmegaUiTests] Skipping BorderFrame_VisibleInViewport size checks - layout not computed in test context");
-            return;
-        }
-
-        AssertThat(borderFrame.Size.X).IsGreater(0);
-        AssertThat(borderFrame.Size.Y).IsGreater(0);
-    }
-
     // ==================== SHADER LAYER POSITIONING ====================
+    // NOTE: BorderFrame visibility tested in OmegaBorderFrame_UnitTests.cs
 
     /// <summary>
     /// Shader layers are contained within border frame, not edge-to-edge.

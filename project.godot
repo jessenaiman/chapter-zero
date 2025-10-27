@@ -15,7 +15,7 @@ config/description="A classic rpg narrative driven adventure game built with God
 run/main_scene="uid://b3vx8y2h1qm4p"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
-boot_splash/image="uid://bs61h0k5maye5"
+boot_splash/image="uid://bsoinggacqq5l"
 boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]

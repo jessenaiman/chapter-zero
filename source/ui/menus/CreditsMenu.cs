@@ -13,7 +13,7 @@ namespace OmegaSpiral.Source.Ui.Menus
     /// Extends MenuUi for consistent menu behavior and styling.
     /// </summary>
     [GlobalClass]
-    public partial class CreditsMenu : MenuUi
+    public partial class CreditsMenu : BaseMenuUi
     {
         // --- EXPORTED PROPERTIES ---
 
