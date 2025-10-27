@@ -76,137 +76,162 @@ public partial class OmegaThemedContainer : OmegaContainer
     protected override void CreateComponents()
     {
         base.CreateComponents();
-        GD.Print($"[OmegaThemedContainer.CreateComponents] Starting - EnableOmegaBorder={EnableOmegaBorder}, EnableCrtShaders={EnableCrtShaders}");
+        GD.Print($"[OmegaThemedContainer] Building complete Omega frame (EnableBorder={EnableOmegaBorder}, EnableCRT={EnableCrtShaders})");
 
-        // Create background if not already in scene
-        if (GetNodeOrNull("Background") == null)
+        // Step 1: Build the complete Omega visual frame hierarchy
+        BuildOmegaFrame();
+
+        // Step 2: Find or create ContentContainer and reparent it inside the frame
+        SetupContentContainer();
+
+        // Step 3: Compose optional text renderer
+        if (EnableOmegaText && _TextDisplay != null)
         {
-            _Background = new ColorRect
+            ComposeTextRenderer(_TextDisplay);
+        }
+
+        GD.Print($"[OmegaThemedContainer] Frame complete - ChildCount={GetChildCount()}");
+    }
+
+    /// <summary>
+    /// Builds the complete Omega visual frame: Background → CRT layers → Border.
+    /// This frame fills the entire viewport and provides the visual foundation.
+    /// </summary>
+    private void BuildOmegaFrame()
+    {
+        // Ensure this control fills the viewport
+        AnchorLeft = 0;
+        AnchorTop = 0;
+        AnchorRight = 1;
+        AnchorBottom = 1;
+        OffsetLeft = 0;
+        OffsetTop = 0;
+        OffsetRight = 0;
+        OffsetBottom = 0;
+        GD.Print($"[OmegaThemedContainer] Root control anchored to fill viewport");
+
+        // Create dark background at the back
+        _Background = new ColorRect
+        {
+            Name = "Background",
+            Color = OmegaSpiralColors.DeepSpace,
+            MouseFilter = MouseFilterEnum.Ignore,
+            AnchorLeft = 0,
+            AnchorTop = 0,
+            AnchorRight = 1,
+            AnchorBottom = 1
+        };
+        AddChild(_Background);
+        GD.Print($"[OmegaThemedContainer] Created Background - will fill viewport");
+
+        // Create CRT shader layers if enabled
+        if (EnableCrtShaders)
+        {
+            _PhosphorLayer = new ColorRect
             {
-                Name = "Background",
-                Color = OmegaSpiralColors.DeepSpace,
+                Name = "PhosphorLayer",
+                Color = OmegaSpiralColors.PhosphorGlow,
                 MouseFilter = MouseFilterEnum.Ignore,
                 AnchorLeft = 0,
                 AnchorTop = 0,
                 AnchorRight = 1,
-                AnchorBottom = 1,
-                OffsetLeft = 0,
-                OffsetTop = 0,
-                OffsetRight = 0,
-                OffsetBottom = 0
+                AnchorBottom = 1
             };
-            AddChild(_Background);
-            MoveChild(_Background, 0); // Send to back
-            GD.Print($"[OmegaThemedContainer] Created Background - Visible={_Background.Visible}, Color={_Background.Color}, ZIndex={_Background.ZIndex}");
-        }
+            AddChild(_PhosphorLayer);
 
-        // Create CRT shader layers if enabled and not already in scene
-        if (EnableCrtShaders)
-        {
-            // Create phosphor layer if not present
-            if (GetNodeOrNull("PhosphorLayer") == null)
+            _ScanlineLayer = new ColorRect
             {
-                _PhosphorLayer = new ColorRect
-                {
-                    Name = "PhosphorLayer",
-                    Color = OmegaSpiralColors.PhosphorGlow, // White with 18% opacity for phosphor effect
-                    MouseFilter = MouseFilterEnum.Ignore,
-                    AnchorLeft = 0,
-                    AnchorTop = 0,
-                    AnchorRight = 1,
-                    AnchorBottom = 1
-                };
-                AddChild(_PhosphorLayer);
-                GD.Print($"[OmegaThemedContainer] Created PhosphorLayer - Visible={_PhosphorLayer.Visible}, Color={_PhosphorLayer.Color}");
-            }
+                Name = "ScanlineLayer",
+                Color = OmegaSpiralColors.ScanlineOverlay,
+                MouseFilter = MouseFilterEnum.Ignore,
+                AnchorLeft = 0,
+                AnchorTop = 0,
+                AnchorRight = 1,
+                AnchorBottom = 1
+            };
+            AddChild(_ScanlineLayer);
 
-            // Create scanline layer if not present
-            if (GetNodeOrNull("ScanlineLayer") == null)
+            _GlitchLayer = new ColorRect
             {
-                _ScanlineLayer = new ColorRect
-                {
-                    Name = "ScanlineLayer",
-                    Color = OmegaSpiralColors.ScanlineOverlay, // White with 12% opacity for scanlines
-                    MouseFilter = MouseFilterEnum.Ignore,
-                    AnchorLeft = 0,
-                    AnchorTop = 0,
-                    AnchorRight = 1,
-                    AnchorBottom = 1
-                };
-                AddChild(_ScanlineLayer);
-                GD.Print($"[OmegaThemedContainer] Created ScanlineLayer - Visible={_ScanlineLayer.Visible}, Color={_ScanlineLayer.Color}");
-            }
+                Name = "GlitchLayer",
+                Color = OmegaSpiralColors.GlitchDistortion,
+                MouseFilter = MouseFilterEnum.Ignore,
+                AnchorLeft = 0,
+                AnchorTop = 0,
+                AnchorRight = 1,
+                AnchorBottom = 1
+            };
+            AddChild(_GlitchLayer);
 
-            // Create glitch layer if not present
-            if (GetNodeOrNull("GlitchLayer") == null)
-            {
-                _GlitchLayer = new ColorRect
-                {
-                    Name = "GlitchLayer",
-                    Color = OmegaSpiralColors.GlitchDistortion, // White with 8% opacity for glitch effect
-                    MouseFilter = MouseFilterEnum.Ignore,
-                    AnchorLeft = 0,
-                    AnchorTop = 0,
-                    AnchorRight = 1,
-                    AnchorBottom = 1
-                };
-                AddChild(_GlitchLayer);
-                GD.Print($"[OmegaThemedContainer] Created GlitchLayer - Visible={_GlitchLayer.Visible}, Color={_GlitchLayer.Color}");
-            }
+            GD.Print($"[OmegaThemedContainer] Created CRT shader layers (Phosphor, Scanline, Glitch)");
 
-            // Reorder deterministically so CRT layers sit between Background and ContentContainer
-            var contentContainer = GetNodeOrNull("ContentContainer");
-            var borderFrameNode = GetNodeOrNull("BorderFrame");
-
-            // Build the desired order: Background, Phosphor, Scanline, Glitch, Content, Border
-            var desiredOrder = new Node?[] { _Background, _PhosphorLayer, _ScanlineLayer, _GlitchLayer, contentContainer, borderFrameNode };
-
-            // Remove and re-add each node in order to guarantee exact stacking
-            foreach (var node in desiredOrder)
-            {
-                if (node == null)
-                    continue;
-
-                // Only operate on nodes that are direct children of this container
-                if (node.GetParent() == this)
-                {
-                    RemoveChild(node);
-                }
-
-                AddChild(node);
-            }
-
-            GD.Print($"[OmegaThemedContainer] Reordered children deterministically");
-
-            // Configure shader controller with any shader layer (they're all equivalent)
-            var shaderLayer = _PhosphorLayer ?? _ScanlineLayer ?? _GlitchLayer;
+            // Configure shader controller
+            var shaderLayer = _PhosphorLayer;
             if (shaderLayer != null)
             {
                 ComposeShaderController(shaderLayer);
             }
         }
 
-        // Create border frame if enabled and not already in scene
-        if (EnableOmegaBorder && GetNodeOrNull("BorderFrame") == null)
+        // Create border frame on top if enabled
+        if (EnableOmegaBorder)
         {
             _BorderFrame = OmegaComponentFactory.CreateBorderFrame();
             AddChild(_BorderFrame);
-            MoveChild(_BorderFrame, -1); // Bring to front
-            GD.Print($"[OmegaThemedContainer] Created BorderFrame - Visible={_BorderFrame.Visible}, ZIndex={_BorderFrame.ZIndex}");
+            GD.Print($"[OmegaThemedContainer] Created BorderFrame on top");
         }
+    }
 
-        // Create text renderer if Omega text enabled
-        if (EnableOmegaText && _TextDisplay != null)
+    /// <summary>
+    /// Finds the existing ContentContainer (from the scene) and ensures it's properly configured.
+    /// Centers it on screen with appropriate bezel margins and proper size flags.
+    /// If it doesn't exist, creates one with appropriate margins.
+    /// </summary>
+    private void SetupContentContainer()
+    {
+        var existingContent = GetNodeOrNull<Control>("ContentContainer");
+
+        if (existingContent != null)
         {
-            ComposeTextRenderer(_TextDisplay);
+            GD.Print($"[OmegaThemedContainer] Found existing ContentContainer - centering with bezel margins");
+
+            // Center the container with 10% margins on all sides (bezel effect)
+            existingContent.AnchorLeft = 0.05f;  // 5% margin from left
+            existingContent.AnchorTop = 0.05f;   // 5% margin from top
+            existingContent.AnchorRight = 0.95f; // 5% margin from right
+            existingContent.AnchorBottom = 0.95f; // 5% margin from bottom
+            existingContent.OffsetLeft = 0;
+            existingContent.OffsetTop = 0;
+            existingContent.OffsetRight = 0;
+            existingContent.OffsetBottom = 0;
+            existingContent.GrowHorizontal = Control.GrowDirection.Both;
+            existingContent.GrowVertical = Control.GrowDirection.Both;
+
+            // Reparent it to be the last child (on top of all Omega visual elements)
+            MoveChild(existingContent, -1);
+        }
+        else
+        {
+            GD.Print($"[OmegaThemedContainer] No existing ContentContainer - creating one with margins");
+            // Create a new content container with margins for bezel effect
+            var container = new VBoxContainer
+            {
+                Name = "ContentContainer",
+                AnchorLeft = 0.05f,
+                AnchorTop = 0.05f,
+                AnchorRight = 0.95f,
+                AnchorBottom = 0.95f,
+                GrowHorizontal = Control.GrowDirection.Both,
+                GrowVertical = Control.GrowDirection.Both
+            };
+            AddChild(container);
         }
 
-        GD.Print($"[OmegaThemedContainer.CreateComponents] Complete - ChildCount={GetChildCount()}");
+        GD.Print($"[OmegaThemedContainer] Final child order:");
         for (int i = 0; i < GetChildCount(); i++)
         {
             var child = GetChild(i);
-            var visibleStr = child is CanvasItem ci ? $"Visible={ci.Visible}" : "N/A";
-            GD.Print($"  Final Child[{i}]: {child.Name} ({child.GetType().Name}) {visibleStr}");
+            GD.Print($"  [{i}] {child.Name}");
         }
     }
 

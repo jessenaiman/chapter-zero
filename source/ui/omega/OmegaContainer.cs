@@ -53,6 +53,17 @@ public partial class OmegaContainer : Control
 
         try
         {
+            // Ensure proper anchoring so this control fills its parent
+            // This is critical for visual layers to work correctly
+            AnchorLeft = 0f;
+            AnchorTop = 0f;
+            AnchorRight = 1f;
+            AnchorBottom = 1f;
+            OffsetLeft = 0;
+            OffsetTop = 0;
+            OffsetRight = 0;
+            OffsetBottom = 0;
+
             CacheRequiredNodes();
             CreateComponents();
             InitializeComponentStates();

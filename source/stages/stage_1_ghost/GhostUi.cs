@@ -16,16 +16,19 @@ using OmegaSpiral.Source.Scripts.Stages.Stage1;
 namespace OmegaSpiral.Source.Stages.Stage1;
 
 /// <summary>
-/// Stage 1 Ghost Ui - extends NarrativeUi with Stage 1-specific behavior.
-/// Loads ghost.yaml via GhostTerminalCinematicDirector and presents the opening sequence.
-/// Implements Dreamweaver selection through philosophical questions with score tracking.
+/// Stage 1 Ghost Terminal UI - orchestrates the narrative sequence from ghost.yaml.
+/// Extends NarrativeUi to inherit all presentation logic (shaders, text, choices).
+/// Only handles Ghost-specific concerns: script loading and Dreamweaver score tracking.
 /// </summary>
 [GlobalClass]
 public partial class GhostUi : NarrativeUi
 {
-    private GhostCinematicDirector? _Director;
     private NarrativeScript? _Script;
     private int _CurrentMomentIndex;
+
+    /// <summary>
+    /// Tracks accumulated Dreamweaver affiliation scores throughout the stage.
+    /// </summary>
     private Dictionary<string, int> _DreamweaverScores = new()
     {
         { "light", 0 },
@@ -40,15 +43,15 @@ public partial class GhostUi : NarrativeUi
     /// <inheritdoc/>
     public override void _Ready()
     {
-        base._Ready(); // Initialize OmegaUi components first
+        base._Ready(); // Initialize NarrativeUi (which initializes OmegaThemedContainer + all presentation logic)
 
         // Initialize audio manager
         _AudioManager = new GhostAudioManager();
         AddChild(_AudioManager);
 
         // Get singleton references
-        this._SceneManager = this.GetNode<SceneManager>("/root/SceneManager");
-        this._GameState = this.GetNode<GameState>("/root/GameState");
+        _SceneManager = GetNode<SceneManager>("/root/SceneManager");
+        _GameState = GetNode<GameState>("/root/GameState");
 
         // Load ghost.yaml script
         if (!LoadGhostScript())
@@ -62,24 +65,15 @@ public partial class GhostUi : NarrativeUi
     }
 
     /// <summary>
-    /// Starts the Ghost Terminal narrative sequence.
-    /// Called deferred to ensure all nodes are ready.
-    /// </summary>
-    private async void StartGhostSequence()
-    {
-        await PresentNextMomentAsync().ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Loads the ghost.yaml narrative script using the GhostTerminalCinematicDirector.
+    /// Loads the ghost.yaml narrative script using the GhostCinematicDirector.
     /// </summary>
     /// <returns><see langword="true"/> if loaded successfully, <see langword="false"/> otherwise.</returns>
-    protected virtual bool LoadGhostScript()
+    private bool LoadGhostScript()
     {
         try
         {
-            _Director = new GhostCinematicDirector();
-            var plan = _Director.GetPlan();
+            var director = new GhostCinematicDirector();
+            var plan = director.GetPlan();
             _Script = plan.Script;
             _CurrentMomentIndex = 0;
 
@@ -97,15 +91,24 @@ public partial class GhostUi : NarrativeUi
     }
 
     /// <summary>
+    /// Starts the Ghost Terminal narrative sequence.
+    /// Called deferred to ensure all nodes are ready.
+    /// </summary>
+    private async void StartGhostSequence()
+    {
+        await PresentNextMomentAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Presents the next narrative moment from ghost.yaml.
-    /// Handles different moment types: narrative, question, composite.
+    /// Delegates to base class for all presentation logic (shaders, text, choices).
+    /// Only handles Ghost-specific concerns (score tracking, secret reveal ceremony).
     /// </summary>
     /// <returns>A task representing the async operation.</returns>
-    protected virtual async Task PresentNextMomentAsync()
+    private async Task PresentNextMomentAsync()
     {
         if (_Script == null || _CurrentMomentIndex >= _Script.Moments.Count)
         {
-            // Finished all moments - determine dominant Dreamweaver and transition
             await CompleteGhostSequenceAsync().ConfigureAwait(false);
             return;
         }
@@ -135,39 +138,66 @@ public partial class GhostUi : NarrativeUi
     }
 
     /// <summary>
-    /// Presents a narrative moment (type: "narrative") - displays lines with optional visual preset.
-    /// Special handling for CODE_FRAGMENT_GLITCH_OVERLAY preset implements secret reveal ceremony.
+    /// Presents a narrative moment (type: "narrative").
+    /// Converts ContentBlock to NarrativeBeat and delegates to base class.
+    /// Special handling for secret reveal ceremony.
     /// </summary>
     /// <param name="moment">The narrative moment to present.</param>
     /// <returns>A task representing the async operation.</returns>
-    protected virtual async Task PresentNarrativeMomentAsync(ContentBlock moment)
+    private async Task PresentNarrativeMomentAsync(ContentBlock moment)
     {
-        // Apply visual preset if specified (e.g., "boot_sequence", "secret_reveal")
-        if (!string.IsNullOrEmpty(moment.VisualPreset) && ShaderController != null)
-        {
-            await ShaderController.ApplyVisualPresetAsync(moment.VisualPreset).ConfigureAwait(false);
-        }
-
-        // Special handling for secret reveal ceremony
+        // Special handling for secret reveal ceremony (stage-specific visual logic)
         if (string.Equals(moment.VisualPreset, "CODE_FRAGMENT_GLITCH_OVERLAY", StringComparison.OrdinalIgnoreCase))
         {
             await PresentSecretRevealCeremonyAsync(moment).ConfigureAwait(false);
+            await PresentNextMomentAsync().ConfigureAwait(false);
             return;
         }
 
-        // Display narrative lines using base class text renderer
-        if (moment.Lines != null && moment.Lines.Count > 0)
+        // Convert ContentBlock to NarrativeBeat for base class
+        var beats = ConvertToNarrativeBeats(moment).ToArray();
+        await PlayNarrativeSequenceAsync(beats).ConfigureAwait(false);
+
+        // Auto-advance to next moment
+        await PresentNextMomentAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Presents a question moment (type: "question").
+    /// Delegates to base class PresentChoicesAsync and tracks Dreamweaver scores.
+    /// </summary>
+    /// <param name="moment">The question moment to present.</param>
+    /// <returns>A task representing the async operation.</returns>
+    private async Task PresentQuestionMomentAsync(ContentBlock moment)
+    {
+        // Display setup lines if present
+        if (moment.Setup != null && moment.Setup.Count > 0)
         {
-            foreach (var line in moment.Lines)
+            var setupBeats = moment.Setup.Select(line => new NarrativeUi.NarrativeBeat
             {
-                await AppendTextAsync(line).ConfigureAwait(false);
-            }
+                Text = line,
+                VisualPreset = null,
+                DelaySeconds = 0
+            }).ToArray();
+            await PlayNarrativeSequenceAsync(setupBeats).ConfigureAwait(false);
         }
 
-        // Handle pause if specified
-        if (moment.Pause.HasValue && moment.Pause.Value > 0)
+        // Present choices using base class (handles all choice UI logic)
+        if (moment.Options != null && moment.Options.Count > 0)
         {
-            await Task.Delay((int)(moment.Pause.Value * 1000)).ConfigureAwait(false);
+            var choiceTexts = moment.Options
+                .Where(o => !string.IsNullOrEmpty(o.Text))
+                .Select(o => o.Text!)
+                .ToArray();
+
+            var selectedText = await PresentChoicesAsync(moment.Prompt ?? string.Empty, choiceTexts).ConfigureAwait(false);
+
+            // Find selected option and track Dreamweaver scores (Ghost-specific logic)
+            var selectedOption = moment.Options.FirstOrDefault(o => o.Text == selectedText);
+            if (selectedOption != null)
+            {
+                TrackDreamweaverScores(selectedOption);
+            }
         }
 
         // Auto-advance to next moment
@@ -175,12 +205,120 @@ public partial class GhostUi : NarrativeUi
     }
 
     /// <summary>
+    /// Presents a composite moment (type: "composite") - setup + question + continuation.
+    /// </summary>
+    /// <param name="moment">The composite moment to present.</param>
+    /// <returns>A task representing the async operation.</returns>
+    private async Task PresentCompositeMomentAsync(ContentBlock moment)
+    {
+        // Display setup narrative
+        if (moment.Setup != null && moment.Setup.Count > 0)
+        {
+            var setupBeats = moment.Setup.Select(line => new NarrativeUi.NarrativeBeat
+            {
+                Text = line,
+                VisualPreset = null,
+                DelaySeconds = 0
+            }).ToArray();
+            await PlayNarrativeSequenceAsync(setupBeats).ConfigureAwait(false);
+        }
+
+        // Present the question part (delegates to base class for choices)
+        if (moment.Options != null && moment.Options.Count > 0)
+        {
+            var choiceTexts = moment.Options
+                .Where(o => !string.IsNullOrEmpty(o.Text))
+                .Select(o => o.Text!)
+                .ToArray();
+
+            var selectedText = await PresentChoicesAsync(moment.Prompt ?? string.Empty, choiceTexts).ConfigureAwait(false);
+
+            // Find selected option and track Dreamweaver scores
+            var selectedOption = moment.Options.FirstOrDefault(o => o.Text == selectedText);
+            if (selectedOption != null)
+            {
+                TrackDreamweaverScores(selectedOption);
+            }
+        }
+
+        // Display continuation narrative after choice
+        if (moment.Continuation != null && moment.Continuation.Count > 0)
+        {
+            var continuationBeats = moment.Continuation.Select(line => new NarrativeUi.NarrativeBeat
+            {
+                Text = line,
+                VisualPreset = null,
+                DelaySeconds = 0
+            }).ToArray();
+            await PlayNarrativeSequenceAsync(continuationBeats).ConfigureAwait(false);
+        }
+
+        // Auto-advance to next moment
+        await PresentNextMomentAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Converts a ContentBlock narrative moment to NarrativeBeat format for base class.
+    /// </summary>
+    /// <param name="moment">The content block to convert.</param>
+    /// <returns>An enumerable of narrative beats.</returns>
+    private IEnumerable<NarrativeUi.NarrativeBeat> ConvertToNarrativeBeats(ContentBlock moment)
+    {
+        // Apply visual preset first
+        if (!string.IsNullOrEmpty(moment.VisualPreset))
+        {
+            yield return new NarrativeUi.NarrativeBeat
+            {
+                Text = string.Empty,
+                VisualPreset = moment.VisualPreset,
+                DelaySeconds = 0.5f // Allow shader to settle
+            };
+        }
+        else
+        {
+            // Default to terminal preset if none specified
+            yield return new NarrativeUi.NarrativeBeat
+            {
+                Text = string.Empty,
+                VisualPreset = "terminal",
+                DelaySeconds = 0
+            };
+        }
+
+        // Add all narrative lines as beats
+        if (moment.Lines != null)
+        {
+            foreach (var line in moment.Lines)
+            {
+                yield return new NarrativeUi.NarrativeBeat
+                {
+                    Text = line,
+                    VisualPreset = null,
+                    DelaySeconds = 0
+                };
+            }
+        }
+
+        // Add pause at end if specified
+        if (moment.Pause.HasValue && moment.Pause.Value > 0)
+        {
+            yield return new NarrativeUi.NarrativeBeat
+            {
+                Text = string.Empty,
+                VisualPreset = null,
+                DelaySeconds = moment.Pause.Value
+            };
+        }
+    }
+
+    /// <summary>
     /// Presents the secret reveal ceremony with symbol-by-symbol text reveal and audio sync.
     /// Implements the 4-second orchestrated buildup with Ωmega Spiral symbols.
+    /// This is Ghost-specific stage logic that extends base class presentation.
     /// </summary>
     /// <param name="moment">The moment containing the secret reveal content.</param>
     /// <returns>A task representing the async operation.</returns>
-    protected virtual async Task PresentSecretRevealCeremonyAsync(ContentBlock moment)
+    private async Task PresentSecretRevealCeremonyAsync(ContentBlock moment)
     {
         // Start the 4-second secret reveal audio buildup
         if (_AudioManager != null)
@@ -253,85 +391,7 @@ public partial class GhostUi : NarrativeUi
         }
     }
 
-    /// <summary>
-    /// Presents a question moment (type: "question") - shows prompt and waits for player choice.
-    /// </summary>
-    /// <param name="moment">The question moment to present.</param>
-    /// <returns>A task representing the async operation.</returns>
-    protected virtual async Task PresentQuestionMomentAsync(ContentBlock moment)
-    {
-        // Display setup lines if present
-        if (moment.Setup != null && moment.Setup.Count > 0)
-        {
-            foreach (var line in moment.Setup)
-            {
-                await AppendTextAsync(line).ConfigureAwait(false);
-            }
-        }
 
-        // Display prompt
-        if (!string.IsNullOrEmpty(moment.Prompt))
-        {
-            await AppendTextAsync(moment.Prompt).ConfigureAwait(false);
-        }
-
-        // Display context
-        if (!string.IsNullOrEmpty(moment.Context))
-        {
-            await AppendTextAsync(moment.Context).ConfigureAwait(false);
-        }
-
-        // Present choices and wait for selection
-        if (moment.Options != null && moment.Options.Count > 0)
-        {
-            // Build choice array for base class presentation (filter out nulls)
-            var choiceTexts = moment.Options
-                .Where(o => !string.IsNullOrEmpty(o.Text))
-                .Select(o => o.Text!)
-                .ToArray();
-
-            var selectedText = await PresentChoicesAsync(moment.Prompt ?? string.Empty, choiceTexts).ConfigureAwait(false);
-
-            // Find the selected option and track scores
-            var selectedOption = moment.Options.FirstOrDefault(o => o.Text == selectedText);
-            if (selectedOption != null)
-            {
-                TrackDreamweaverScores(selectedOption);
-            }
-        }
-
-        // Auto-advance to next moment
-        await PresentNextMomentAsync().ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Presents a composite moment (type: "composite") - setup + question + continuation.
-    /// </summary>
-    /// <param name="moment">The composite moment to present.</param>
-    /// <returns>A task representing the async operation.</returns>
-    protected virtual async Task PresentCompositeMomentAsync(ContentBlock moment)
-    {
-        // Display setup narrative
-        if (moment.Setup != null && moment.Setup.Count > 0)
-        {
-            foreach (var line in moment.Setup)
-            {
-                await AppendTextAsync(line).ConfigureAwait(false);
-            }
-        }
-
-        // Present the question part
-        await PresentQuestionMomentAsync(moment).ConfigureAwait(false);
-
-        // Display continuation narrative after choice
-        if (moment.Continuation != null && moment.Continuation.Count > 0)
-        {
-            foreach (var line in moment.Continuation)
-            {
-                await AppendTextAsync(line).ConfigureAwait(false);
-            }
-        }
-    }
 
     /// <summary>
     /// Tracks Dreamweaver scores from a player's choice.
@@ -385,7 +445,9 @@ public partial class GhostUi : NarrativeUi
             // TODO: Update scene transition to actual next stage name
             // this._SceneManager.TransitionToScene("Scene2NethackSequence");
             GD.Print($"[GhostUi] Would transition to next stage here");
-        }        await Task.CompletedTask;
+        }
+
+        await Task.CompletedTask;
     }
 
     /// <summary>

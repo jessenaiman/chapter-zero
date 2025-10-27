@@ -102,7 +102,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             {
                 var launchButton = stageButtonScene.Instantiate<StageButton>();
                 launchButton.Name = "StartButton";
-                launchButton.Configure($"{firstStage.Id}", $"Launch {firstStage.DisplayName}", StageButton.ContentStatus.Ready);
+                launchButton.Configure($"{firstStage.Id}", "Start Here", firstStage.DisplayName, StageButton.ContentStatus.Ready);
                 launchButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
                 GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(launchButton);
                 _StartButton = launchButton;
@@ -114,7 +114,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             {
                 var stageButton = stageButtonScene.Instantiate<StageButton>();
                 stageButton.Name = $"Stage{stage.Id}Button";
-                stageButton.Configure($"{stage.Id}", $"Stage {stage.Id} · {stage.DisplayName}", StageButton.ContentStatus.Ready);
+                stageButton.Configure($"{stage.Id}", $"Stage {stage.Id}", stage.DisplayName, StageButton.ContentStatus.Ready);
                 stageButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
                 GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(stageButton);
                 createdCount++;

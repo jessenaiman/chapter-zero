@@ -51,9 +51,7 @@ When an asynchronous method awaits a Task directly, continuation usually occurs 
 - Use `<c>` for inline code snippets.
 - Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
 
-- use the `problems` tool. If the number is > 0 fix all of them. Do not ask if I want them fixed, do not suggest fixing them, supress them, or suggest they are unrelated to the task.
-- a clean project is your responsibility
-- Do not alter config files, only show in chat the settings to change with examples I can copy
+- Do not alter config files, suggest the user make these changes
 
 
 ## Naming Conventions

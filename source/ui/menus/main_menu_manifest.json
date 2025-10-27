@@ -3,7 +3,7 @@
 	{
 	  "id": 1,
 	  "type": "narrative_terminal",
-	  "path": "res://source/stages/stage_1_ghost/ghost_start.tscn",
+	  "path": "res://source/stages/stage_1_ghost/ghost_terminal.tscn",
 	  "supportsThreads": true,
 	  "displayName": "Start Here: Ghost Terminal"
 	},

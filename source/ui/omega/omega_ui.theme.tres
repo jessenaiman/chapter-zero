@@ -14,6 +14,30 @@ corner_radius_bottom_right = 18
 shadow_color = Color(0.0, 0.0, 0.0, 0.6)
 shadow_size = 16
 
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.2, 0.2, 0.2, 0.9)
+border_color = Color(0.8, 0.8, 0.8, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="3"]
+bg_color = Color(0.3, 0.3, 0.3, 0.95)
+border_color = Color(1.0, 1.0, 1.0, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
 default_font_sizes/font_size = 24
 default_font_sizes/title_font_size = 56
 default_font_sizes/label_font_size = 20
@@ -30,6 +54,14 @@ default_constants/margin_right = 64
 default_constants/separation = 24
 
 default_styles/panel = SubResource("1")
+Button/styles/normal = SubResource("2")
+Button/styles/hover = SubResource("3")
+Button/styles/pressed = SubResource("3")
+Button/styles/focus = SubResource("3")
+Button/colors/font_color = Color(1.0, 0.843, 0.2, 1.0)
+Button/colors/font_hover_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1.0)
 
 [resource]
 default_font_sizes/font_size = 24
@@ -45,3 +77,11 @@ default_constants/margin_left = 64
 default_constants/margin_right = 64
 default_constants/separation = 24
 default_styles/panel = SubResource("1")
+Button/styles/normal = SubResource("2")
+Button/styles/hover = SubResource("3")
+Button/styles/pressed = SubResource("3")
+Button/styles/focus = SubResource("3")
+Button/colors/font_color = Color(1.0, 0.843, 0.2, 1.0)
+Button/colors/font_hover_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1.0)

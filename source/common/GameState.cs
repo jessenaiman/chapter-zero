@@ -98,7 +98,7 @@ public partial class GameState : Node
     /// <summary>
     /// Gets the save/load manager for database operations.
     /// </summary>
-    private SaveLoadManager? saveLoadManager;
+    private SaveLoadManager? _SaveLoadManager;
 
     /// <inheritdoc/>
     public override void _Ready()
@@ -116,7 +116,7 @@ public partial class GameState : Node
             // Ensure database is created and migrated
             context.Database.Migrate();
 
-            saveLoadManager = new SaveLoadManager(context);
+            _SaveLoadManager = new SaveLoadManager(context);
         }
         catch (Exception ex)
         {
@@ -228,14 +228,14 @@ public partial class GameState : Node
     /// <returns>True if the save was successful, false otherwise.</returns>
     public async Task<bool> SaveGameAsync(string saveSlot = "default")
     {
-        if (saveLoadManager == null)
+        if (_SaveLoadManager == null)
         {
             GD.PrintErr("SaveLoadManager not initialized");
             return false;
         }
 
         this.LastSaveTime = DateTime.Now;
-        return await saveLoadManager.SaveGameAsync(this, saveSlot).ConfigureAwait(false);
+        return await _SaveLoadManager.SaveGameAsync(this, saveSlot).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,13 +254,13 @@ public partial class GameState : Node
     /// <returns>True if the game was loaded successfully, false otherwise.</returns>
     public async Task<bool> LoadGameAsync(string saveSlot = "default")
     {
-        if (saveLoadManager == null)
+        if (_SaveLoadManager == null)
         {
             GD.PrintErr("SaveLoadManager not initialized");
             return false;
         }
 
-        var loadedState = await saveLoadManager.LoadGameAsync(saveSlot).ConfigureAwait(false);
+        var loadedState = await _SaveLoadManager.LoadGameAsync(saveSlot).ConfigureAwait(false);
         if (loadedState == null)
         {
             return false;

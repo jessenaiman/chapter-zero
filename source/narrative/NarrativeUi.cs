@@ -214,6 +214,16 @@ public partial class NarrativeUi : OmegaThemedContainer
     protected override void CacheRequiredNodes()
     {
         base.CacheRequiredNodes();
+        // ChoiceContainer can be either a direct child or under ContentContainer
         _ChoiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+        if (_ChoiceContainer == null)
+        {
+            // Try looking under ContentContainer (nested structure)
+            var contentContainer = GetNodeOrNull<Control>("ContentContainer");
+            if (contentContainer != null)
+            {
+                _ChoiceContainer = contentContainer.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+            }
+        }
     }
 }

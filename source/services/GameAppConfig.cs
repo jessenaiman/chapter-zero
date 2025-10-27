@@ -13,6 +13,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
     public partial class GameAppConfig : Node
     {
         private const string _ConfigFilePath = "user://omega_spiral_config.cfg";
+        private const string _UiLayoutConfigPath = "res://source/resources/ui_layout_config.json";
 
         private static string? _CachedGameScenePath;
         private static string? _CachedOpeningScenePath;
@@ -20,12 +21,21 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         private static string? _CachedMainMenuScenePathAddon;
         private static string? _CachedEndingScenePath;
 
+        private static float _CachedBezelMargin;
+        private static float _CachedStageNameWidthRatio;
+        private static float _CachedStatusLabelWidthRatio;
+        private static int _CachedButtonHeight;
+        private static int _CachedButtonPaddingH;
+        private static int _CachedButtonPaddingV;
+        private static int _CachedButtonSpacing;
+
         private ConfigFile _ConfigFile = null!;
 
         public override void _Ready()
         {
             this._ConfigFile = new ConfigFile();
             this.LoadConfig();
+            this.LoadUiLayoutConfig();
             this.Name = "AppConfig";
 
             // Load design colors and apply to all shader materials
@@ -35,12 +45,12 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         /// <summary>
         /// Gets the main game scene path for launching gameplay.
         /// </summary>
-        public static string GameScenePath => _CachedGameScenePath ?? "res://source/stages/stage_1/opening.tscn";
+        public static string GameScenePath => _CachedGameScenePath ?? "res://source/stages/stage_1_ghost/ghost_terminal.tscn";
 
         /// <summary>
         /// Gets the opening menu scene path (bypassed for direct Ghost Terminal startup).
         /// </summary>
-        public static string OpeningScenePath => _CachedOpeningScenePath ?? "res://source/stages/stage_1/opening.tscn";
+        public static string OpeningScenePath => _CachedOpeningScenePath ?? "res://source/stages/stage_1_ghost/ghost_terminal.tscn";
 
         /// <summary>
         /// Gets the main menu scene path.
@@ -150,6 +160,54 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
         }
 
         /// <summary>
+        /// Loads UI layout configuration from the JSON file.
+        /// </summary>
+        private void LoadUiLayoutConfig()
+        {
+            if (!ResourceLoader.Exists(_UiLayoutConfigPath))
+            {
+                GD.PrintErr($"Failed to find UI layout config: {_UiLayoutConfigPath}");
+                return;
+            }
+
+            try
+            {
+                var jsonString = Godot.FileAccess.GetFileAsString(_UiLayoutConfigPath);
+                var json = new Json();
+                if (json.Parse(jsonString) != Error.Ok)
+                {
+                    GD.PrintErr($"Failed to parse UI layout config JSON: {json.GetErrorMessage()}");
+                    return;
+                }
+
+                var root = (Godot.Collections.Dictionary<string, Variant>)json.Data;
+                if (!root.ContainsKey("ui_layout"))
+                {
+                    GD.PrintErr("UI layout config missing 'ui_layout' section");
+                    return;
+                }
+
+                var uiLayout = (Godot.Collections.Dictionary<string, Variant>)root["ui_layout"];
+                _CachedBezelMargin = (float)uiLayout["bezel_margin"];
+                _CachedStageNameWidthRatio = (float)uiLayout["stage_name_width"];
+                _CachedStatusLabelWidthRatio = (float)uiLayout["status_label_width"];
+                _CachedButtonHeight = (int)uiLayout["button_height"];
+                _CachedButtonPaddingH = (int)uiLayout["button_padding_h"];
+                _CachedButtonPaddingV = (int)uiLayout["button_padding_v"];
+                _CachedButtonSpacing = (int)uiLayout["button_spacing"];
+
+                GD.Print("[GameAppConfig] UI layout config loaded successfully");
+            }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"[GameAppConfig] Error loading UI layout config: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Creates default configuration settings.
+        /// </summary>
+        /// <summary>
         /// Creates default configuration settings.
         /// </summary>
         private void CreateDefaultConfig()
@@ -172,6 +230,8 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
             // Accessibility
             this._ConfigFile.SetValue("accessibility", "screen_reader_enabled", false);
             this._ConfigFile.SetValue("accessibility", "text_size_scale", 1.0f);
+
+            // UI Layout settings are loaded from source/resources/ui_layout_config.json, not hardcoded here
         }
 
         /// <summary>
@@ -209,5 +269,51 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
             this._ConfigFile.SetValue(section, key, value);
             this.SaveConfig();
         }
+
+        /// <summary>
+        /// Gets a UI layout setting value.
+        /// </summary>
+        /// <param name="key">The layout key (e.g., "bezel_margin", "stage_name_width").</param>
+        /// <param name="defaultValue">The default value if not found.</param>
+        /// <returns>The UI layout value or default.</returns>
+        public Variant GetUiLayoutSetting(string key, Variant defaultValue)
+        {
+            return defaultValue;  // Values are now loaded from JSON config file
+        }
+
+        /// <summary>
+        /// Gets the bezel margin as a fraction (0.0 to 1.0).
+        /// </summary>
+        public float BezelMargin => _CachedBezelMargin;
+
+        /// <summary>
+        /// Gets the stage name label width as a fraction of available width (0.0 to 1.0).
+        /// </summary>
+        public float StageNameWidthRatio => _CachedStageNameWidthRatio;
+
+        /// <summary>
+        /// Gets the status label width as a fraction of available width (0.0 to 1.0).
+        /// </summary>
+        public float StatusLabelWidthRatio => _CachedStatusLabelWidthRatio;
+
+        /// <summary>
+        /// Gets the button height in pixels.
+        /// </summary>
+        public int ButtonHeight => _CachedButtonHeight;
+
+        /// <summary>
+        /// Gets the horizontal button padding in pixels.
+        /// </summary>
+        public int ButtonPaddingH => _CachedButtonPaddingH;
+
+        /// <summary>
+        /// Gets the vertical button padding in pixels.
+        /// </summary>
+        public int ButtonPaddingV => _CachedButtonPaddingV;
+
+        /// <summary>
+        /// Gets the button spacing in pixels.
+        /// </summary>
+        public int ButtonSpacing => _CachedButtonSpacing;
     }
 }

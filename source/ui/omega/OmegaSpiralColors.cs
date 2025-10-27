@@ -162,16 +162,18 @@ public static class OmegaSpiralColors
     // ==================== SHADER LAYER OPACITY PRESETS ====================
 
     /// <summary>
-    /// PhosphorGlow - White with 18% opacity for phosphor glow effect.
+    /// PhosphorGlow - White with 30% opacity for phosphor glow effect.
     /// Creates the glowing energy stream effect like the logo's center burst.
+    /// Increased from 18% to 30% for stronger terminal aesthetic and better text visibility.
     /// </summary>
-    public static Color PhosphorGlow => PureWhite * new Color(1, 1, 1, 0.18f);
+    public static Color PhosphorGlow => PureWhite * new Color(1, 1, 1, 0.30f);
 
     /// <summary>
-    /// ScanlineOverlay - White with 12% opacity for CRT scanline pattern.
+    /// ScanlineOverlay - White with 18% opacity for CRT scanline pattern.
     /// Adds retro horizontal lines for authentic CRT aesthetic.
+    /// Increased from 12% to 18% to create stronger scanline effect on terminal screens.
     /// </summary>
-    public static Color ScanlineOverlay => PureWhite * new Color(1, 1, 1, 0.12f);
+    public static Color ScanlineOverlay => PureWhite * new Color(1, 1, 1, 0.18f);
 
     /// <summary>
     /// GlitchDistortion - White with 8% opacity for glitch distortion effect.

@@ -15,14 +15,33 @@ public partial class StageButton : Button
     /// <param name="newStageId">The stage id to assign.</param>
     /// <param name="title">The display title for the stage.</param>
     /// <param name="newStatus">The content status for the stage.</param>
-    public void Configure(string newStageId, string title, ContentStatus newStatus)
+    /// <summary>
+    /// Configures the stage button with id, title, and status.
+    /// </summary>
+    /// <param name="newStageId">The stage id to assign.</param>
+    /// <param name="stageName">The stage name (e.g., "Stage 2").</param>
+    /// <param name="gameTitle">The game title in yellow (e.g., "Nethack").</param>
+    /// <param name="newStatus">The content status for the stage.</param>
+    /// <summary>
+    /// Configures the stage button with id, title, and status.
+    /// </summary>
+    /// <param name="newStageId">The stage id to assign.</param>
+    /// <param name="stageName">The stage name (e.g., "Stage 2").</param>
+    /// <param name="gameTitle">The game title in yellow (e.g., "Nethack").</param>
+    /// <param name="newStatus">The content status for the stage.</param>
+    public void Configure(string newStageId, string stageName, string gameTitle, ContentStatus newStatus)
     {
         StageId = newStageId;
         Status = newStatus;
-        Text = title;
-        if (GetNodeOrNull<Label>("HBox/NameLabel") is { } nameLabel)
+        
+        if (GetNodeOrNull<Label>("HBox/StageNameLabel") is { } stageNameLabel)
         {
-            nameLabel.Text = title;
+            stageNameLabel.Text = stageName;
+        }
+        
+        if (GetNodeOrNull<Label>("HBox/GameTitleLabel") is { } gameTitleLabel)
+        {
+            gameTitleLabel.Text = gameTitle;
         }
     }
     /// <summary>
@@ -76,9 +95,57 @@ public partial class StageButton : Button
     /// <summary>
     /// Called when the node enters the scene tree.
     /// </summary>
+    /// <summary>
+    /// Called when the node enters the scene tree.
+    /// </summary>
     public override void _Ready()
     {
         Pressed += OnPressed;
+        ApplyConfigBasedSizing();
+    }
+
+    /// <summary>
+    /// Applies UI layout settings from config to this button and its child labels.
+    /// </summary>
+    private void ApplyConfigBasedSizing()
+    {
+        var appConfig = GetNode<OmegaSpiral.Source.Scripts.Infrastructure.GameAppConfig>("/root/AppConfig");
+        if (appConfig == null)
+        {
+            GD.PrintErr("StageButton: AppConfig not found");
+            return;
+        }
+
+        // Set button height
+        var buttonHeight = appConfig.ButtonHeight;
+        CustomMinimumSize = new Vector2(CustomMinimumSize.X, buttonHeight);
+
+        // Set HBox padding
+        var hbox = GetNodeOrNull<HBoxContainer>("HBox");
+        if (hbox != null)
+        {
+            hbox.AddThemeConstantOverride("margin_left", appConfig.ButtonPaddingH);
+            hbox.AddThemeConstantOverride("margin_right", appConfig.ButtonPaddingH);
+            hbox.AddThemeConstantOverride("margin_top", appConfig.ButtonPaddingV);
+            hbox.AddThemeConstantOverride("margin_bottom", appConfig.ButtonPaddingV);
+            hbox.AddThemeConstantOverride("separation", appConfig.ButtonSpacing);
+        }
+
+        // Set stage name label width (as percentage of viewport)
+        if (GetNodeOrNull<Label>("HBox/StageNameLabel") is { } stageNameLabel)
+        {
+            var viewportWidth = GetViewportRect().Size.X;
+            var stageNameWidth = (int)(viewportWidth * appConfig.StageNameWidthRatio);
+            stageNameLabel.CustomMinimumSize = new Vector2(stageNameWidth, 0);
+        }
+
+        // Set status label width (as percentage of viewport)
+        if (GetNodeOrNull<Label>("HBox/StatusLabel") is { } statusLabel)
+        {
+            var viewportWidth = GetViewportRect().Size.X;
+            var statusWidth = (int)(viewportWidth * appConfig.StatusLabelWidthRatio);
+            statusLabel.CustomMinimumSize = new Vector2(statusWidth, 0);
+        }
     }
 
     /// <summary>
