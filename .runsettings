@@ -39,7 +39,7 @@
             <Logger friendlyName="console" enabled="True">
                 <Configuration>
                     <!-- Verbosity: quiet, minimal, normal, detailed, diagnostic -->
-                    <Verbosity>detailed</Verbosity>
+                    <Verbosity>normal</Verbosity>
                 </Configuration>
             </Logger>
 

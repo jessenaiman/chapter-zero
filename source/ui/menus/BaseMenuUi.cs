@@ -12,17 +12,17 @@ using OmegaSpiral.Source.Ui.Omega;
 namespace OmegaSpiral.Source.Ui.Menus;
 
 /// <summary>
-/// Base Menu UI with optional Omega theming and menu-specific behavior.
+/// Base Menu UI with Omega theming and menu-specific behavior.
 /// Base class for all static game menus (Main Menu, Pause, Options, etc.) - NOT for sequential narrative scenes.
 /// <para><strong>Core Responsibilities:</strong></para>
 /// <list type="number">
 /// <item><description>Button container management and navigation</description></item>
 /// <item><description>Input routing for keyboard/gamepad</description></item>
-/// <item><description>Optional Omega visual theme (border, CRT effects)</description></item>
+/// <item><description>Omega visual theme (border, CRT effects) - enabled by default</description></item>
 /// </list>
 /// </summary>
 [GlobalClass]
-public partial class BaseMenuUi : OmegaContainer
+public partial class BaseMenuUi : OmegaThemedContainer
 {
     private const string _ButtonAudioMetaKey = "omega_audio_registered";
 

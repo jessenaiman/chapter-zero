@@ -26,11 +26,14 @@ public partial class MainMenuTests : Node
     private MainMenu _MainMenu = null!;
 
     [Before]
-    public void Setup()
+    public async Task Setup()
     {
         _Runner = ISceneRunner.Load("res://source/ui/menus/main_menu.tscn");
         _MainMenu = (MainMenu)_Runner.Scene();
         AssertThat(_MainMenu).IsNotNull();
+
+        // Wait for scene initialization
+        await _Runner.SimulateFrames(10);
     }
 
     [After]
@@ -48,7 +51,7 @@ public partial class MainMenuTests : Node
     public void InheritsFromBaseMenuUi()
     {
         AssertThat(_MainMenu).IsInstanceOf<BaseMenuUi>();
-        AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaUi>();
+        AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaThemedContainer>();
     }
 
     // ==================== SCENE STRUCTURE ====================
@@ -502,4 +505,3 @@ public partial class MainMenuTests : Node
     // See: tests/integration/ui/omega/OmegaBorderFrame_UnitTests.cs
     // All BorderFrame component tests are now consolidated in one place.
 }
-

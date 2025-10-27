@@ -18,22 +18,29 @@ namespace OmegaSpiral.Tests.Integration.Ui
     [RequireGodotRuntime]
     public partial class CreditsMenuTests : Node
     {
-        private CreditsMenu _CreditsMenu = null!;
+    private ISceneRunner? _Runner;
+    private CreditsMenu _CreditsMenu = null!;
 
-        [Before]
-        public void Setup()
-        {
-            // Load the actual scene file used in the game to test real UI behavior
-            var scene = AutoFree(ResourceLoader.Load<PackedScene>("res://source/ui/menus/credits_menu.tscn"))!;
-            _CreditsMenu = AutoFree(scene.Instantiate<CreditsMenu>())!;
-            AddChild(_CreditsMenu);
+    [Before]
+    public async Task Setup()
+    {
+        // Load CreditsMenu scene to test real UI behavior
+        _Runner = ISceneRunner.Load("res://source/ui/menus/credits_menu.tscn");
+        _CreditsMenu = (CreditsMenu)_Runner.Scene();
 
-            // Validate background/theme using shared helper
-            // If this fails, all subsequent tests will cascade fail
-            OmegaUiTestHelper.ValidateBackgroundTheme(_CreditsMenu, "CreditsMenu");
-        }
+        // Wait for scene initialization
+        await _Runner.SimulateFrames(10);
 
-        // ==================== INHERITANCE & STRUCTURE ====================
+        // Validate background/theme using shared helper
+        // If this fails, all subsequent tests will cascade fail
+        OmegaUiTestHelper.ValidateBackgroundTheme(_CreditsMenu, "CreditsMenu");
+    }
+
+    [After]
+    public void Cleanup()
+    {
+        _Runner?.Dispose();
+    }        // ==================== INHERITANCE & STRUCTURE ====================
 
         /// <summary>
         /// CreditsMenu extends BaseMenuUi.

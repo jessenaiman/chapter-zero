@@ -139,36 +139,6 @@ namespace OmegaSpiral.Tests.Integration.Ui.Omega
             AssertThat(true).IsTrue(); // If we got here, no exception was thrown
         }
 
-        // ==================== INTEGRATION ====================
 
-        /// <summary>
-        /// Background configured in OmegaUi scene has design system color.
-        /// Tests the real integration with omega_ui.tscn scene.
-        /// </summary>
-        [TestCase]
-        public void IntegrationTest_OmegaUiSceneBackground()
-        {
-            // Load omega_ui.tscn scene
-            var runner = ISceneRunner.Load("res://source/ui/omega/omega_ui.tscn");
-            var omegaUi = runner.Scene() as OmegaUi;
-
-            AssertThat(omegaUi).IsNotNull();
-
-            try
-            {
-                // Get Background node from loaded scene
-                var background = omegaUi!.GetNodeOrNull<ColorRect>("Background");
-                AssertThat(background).IsNotNull()
-                    .OverrideFailureMessage("OmegaUi scene must have Background node");
-
-                // Verify it has design system color applied
-                AssertThat(background!.Color).IsEqual(OmegaSpiralColors.DeepSpace)
-                    .OverrideFailureMessage("Background in omega_ui.tscn should be colored with DeepSpace from design system");
-            }
-            finally
-            {
-                runner.Dispose();
-            }
-        }
     }
 }

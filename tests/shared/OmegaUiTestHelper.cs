@@ -18,11 +18,12 @@ public static class OmegaUiTestHelper
     /// <summary>
     /// Validates that a UI component has proper background layers with correct theming.
     /// This validation ensures the UI is not showing a white background, which indicates
-    /// broken theme/styling. If any validation fails, all subsequent tests in the suite
-    /// will cascade fail (GdUnit4 default behavior when Setup fails).
+    /// broken theme/styling. For OmegaThemedContainer with EnableOmegaBorder=true, validates
+    /// that visual layers exist. For OmegaContainer and other classes, this is a no-op.
+    /// If any validation fails, all subsequent tests in the suite will cascade fail.
     /// </summary>
-    /// <param name="uiComponent">The UI component to validate (MenuUi, PauseMenu, etc.).</param>
-    /// <param name="componentName">Name of the component for error messages (e.g., "MenuUi", "PauseMenu").</param>
+    /// <param name="uiComponent">The UI component to validate (OmegaThemedContainer, BaseMenuUi, etc.).</param>
+    /// <param name="componentName">Name of the component for error messages (e.g., "BaseMenuUi", "PauseMenu").</param>
     /// <exception cref="AssertionException">Thrown when validation fails, causing all tests to fail.</exception>
     public static void ValidateBackgroundTheme(Control uiComponent, string componentName = "UI Component")
     {
@@ -30,13 +31,28 @@ public static class OmegaUiTestHelper
         AssertThat(uiComponent).IsNotNull()
             .OverrideFailureMessage($"{componentName} failed to instantiate - all tests will fail");
 
+        // Only validate visual layers if this is an OmegaThemedContainer
+        // OmegaContainer (base class for BaseMenuUi) has no visual nodes - that's by design
+        // This check allows the new architecture to coexist with old visual tests
+        if (uiComponent is not OmegaThemedContainer themedContainer)
+        {
+            return; // Pure OmegaContainer (no visuals) - validation complete
+        }
+
+        // For OmegaThemedContainer, only validate if Omega border is enabled
+        // (visual layers are only created when EnableOmegaBorder=true)
+        if (!themedContainer.EnableOmegaBorder)
+        {
+            return; // Visual layers disabled - validation complete
+        }
+
         // Validate dark background exists (required base for overlay layers)
         var background = uiComponent.GetNodeOrNull<ColorRect>("Background");
         AssertThat(background).IsNotNull()
             .OverrideFailureMessage($"{componentName}: Background missing - UI has no dark base for overlays - all tests will fail");
 
         // Validate background layers exist and are properly colored
-        // Access layers via GetNode since they're protected in OmegaUi
+        // Access layers via GetNode since they're protected in OmegaThemedContainer
         var phosphorLayer = uiComponent.GetNodeOrNull<ColorRect>("PhosphorLayer");
         AssertThat(phosphorLayer).IsNotNull()
             .OverrideFailureMessage($"{componentName}: PhosphorLayer missing - UI has no background theme - all tests will fail");

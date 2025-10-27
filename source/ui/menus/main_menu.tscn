@@ -1,12 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3vx8y2h1qm4p"]
 
 [ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
-[ext_resource type="PackedScene" uid="uid://1bw7x5iapm3n" path="res://source/ui/omega/omega_ui.tscn" id="2_omega_ui"]
 
-[node name="MainMenu" instance=ExtResource("2_omega_ui")]
+[node name="MainMenu" type="Control"]
 script = ExtResource("1_main_menu")
 
-[node name="ContentContainer" parent="." index="1"]
+[node name="ContentContainer" type="VBoxContainer" parent="."]
 theme_override_constants/separation = 24
 alignment = 1
 

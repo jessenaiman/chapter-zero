@@ -128,16 +128,26 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
         /// </summary>
         private void AddMainMenuActions()
         {
-            _OptionsButton = CreateMenuButton("OptionsButton", "Options");
-            _OptionsButton.Pressed += OnOptionsPressed;
+            // Get the menu button container (stage buttons + options/quit all go here)
+            var buttonContainer = GetNodeOrNull<VBoxContainer>("ContentContainer/MenuButtonContainer");
 
-            _QuitButton = CreateMenuButton("QuitButton", "Quit Game");
-            _QuitButton.Pressed += OnQuitPressed;
+            if (buttonContainer != null)
+            {
+                _OptionsButton = CreateMenuButton("OptionsButton", "Options");
+                _OptionsButton.Pressed += OnOptionsPressed;
+                buttonContainer.AddChild(_OptionsButton);
+
+                _QuitButton = CreateMenuButton("QuitButton", "Quit Game");
+                _QuitButton.Pressed += OnQuitPressed;
+                buttonContainer.AddChild(_QuitButton);
+            }
+            else
+            {
+                GD.PrintErr("[MainMenu] MenuButtonContainer not found - cannot add Options/Quit buttons");
+            }
 
             FocusFirstButton(); // Enable keyboard/gamepad navigation
-        }
-
-        /// <summary>
+        }        /// <summary>
         /// Handles stage selection from any stage button.
         /// Transitions to the selected stage using the scene path from the manifest.
         /// </summary>

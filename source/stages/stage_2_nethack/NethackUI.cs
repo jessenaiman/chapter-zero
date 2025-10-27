@@ -8,13 +8,13 @@ using OmegaSpiral.Source.Ui.Omega;
 namespace OmegaSpiral.Source.Stages.Nethack;
 
 /// <summary>
-/// Nethack Ui that extends OmegaUi and adds game-driven dungeon mechanics.
+/// Nethack Ui that extends OmegaThemedContainer and adds game-driven dungeon mechanics.
 /// Handles turn-based combat, inventory, exploration, and player agency.
 /// Base class for Stage 2 (Nethack gameplay experience).
 /// Differs from NarrativeUi - this supports non-linear player-driven gameplay, not sequential story beats.
 /// </summary>
 [GlobalClass]
-public partial class NethackUi : OmegaUi
+public partial class NethackUi : OmegaThemedContainer
 {
     /// <summary>
     /// Game state for Nethack dungeon exploration.

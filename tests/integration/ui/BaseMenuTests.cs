@@ -5,6 +5,7 @@
 using System.Reflection;
 using GdUnit4;
 using Godot;
+using OmegaSpiral.Source.Stages.Stage0Start;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Omega;
 using OmegaSpiral.Tests.Shared;
@@ -18,44 +19,40 @@ namespace OmegaSpiral.Tests.Integration.Ui;
 /// </summary>
 [TestSuite]
 [RequireGodotRuntime]
-public partial class BaseMenuUiTests : Node
+public partial class BaseMenuUiTests
 {
-    private BaseMenuUi _BaseMenuUi = null!;
+    private ISceneRunner? _Runner;
+    private BaseMenuUi? _BaseMenuUi;
 
     [Before]
-    public void Setup()
+    public async Task Setup()
     {
-        // Ensure the test Node is in the scene tree for proper Godot lifecycle
-        var sceneTree = (SceneTree)Engine.GetMainLoop();
-        if (GetParent() == null)
-        {
-            sceneTree.Root.AddChild(this);
-        }
+        // Load MainMenu scene (extends BaseMenuUi) to test BaseMenuUi functionality with real scene structure
+        _Runner = ISceneRunner.Load("res://source/ui/menus/main_menu.tscn");
+        var mainMenu = (MainMenu)_Runner.Scene();
+        _BaseMenuUi = mainMenu;
 
-        _BaseMenuUi = AutoFree(new BaseMenuUi())!;
-
-        // Add to scene tree - _Ready() fires and initializes synchronously
-        AddChild(_BaseMenuUi);
+        // Wait for scene initialization
+        await _Runner.SimulateFrames(10);
 
         // Validate background/theme using shared helper
         // If this fails, all subsequent tests will cascade fail
         OmegaUiTestHelper.ValidateBackgroundTheme(_BaseMenuUi, "BaseMenuUi");
-    }    [After]
-    public void Cleanup()
-    {
-        // AutoFree() handles cleanup automatically, no manual action needed
-        // GdUnit4 will free the object when the test completes
     }
 
-    // ==================== INHERITANCE & API ====================
+    [After]
+    public void Cleanup()
+    {
+        _Runner?.Dispose();
+    }    // ==================== INHERITANCE & API ====================
 
     /// <summary>
-    /// BaseMenuUi extends OmegaUi.
+    /// BaseMenuUi extends OmegaThemedContainer.
     /// </summary>
     [TestCase]
-    public void BaseMenuUi_ExtendsOmegaUi()
+    public void BaseMenuUi_ExtendsOmegaThemedContainer()
     {
-        AssertThat(typeof(BaseMenuUi).BaseType).IsEqual(typeof(OmegaUi));
+        AssertThat(typeof(BaseMenuUi).BaseType).IsEqual(typeof(OmegaThemedContainer));
         AssertThat(typeof(BaseMenuUi).IsAssignableTo(typeof(Control))).IsTrue();
     }
 
@@ -108,7 +105,8 @@ public partial class BaseMenuUiTests : Node
     {
         var title = _BaseMenuUi?.MenuTitle;
         AssertThat(title).IsNotNull();
-        AssertThat(title?.Text).IsEqual("");
+        // MainMenu scene has "Ωmega Spiral" as title text
+        AssertThat(title?.Text).IsNotEmpty();
     }
 
     /// <summary>

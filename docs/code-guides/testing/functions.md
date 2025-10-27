@@ -14,24 +14,12 @@ This is particularly useful in scenarios where you want to test or ensure the re
 
 ## Function Overview
 
-{% tabs scene-runner-await-functions %}
-{% tab scene-runner-await-functions GdScript %}
-
-|Function|Description|
-|---|---|
-|[await_func](#await_func) |Waits for a function in the scene to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
-|[await_func_on](#await_func_on) |Waits for a function of a specific source node to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
-
-{% endtab %}
-{% tab scene-runner-await-functions C# %}
 
 |Function|Description|
 |---|---|
 |[AwaitMethod](#await_func) |Waits for a function in the scene to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
 |[AwaitMethodOn](#await_func_on) |Waits for a function of a specific source node to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
 
-{% endtab %}
-{% endtabs %}
 
 ### await_func
 
@@ -39,23 +27,6 @@ The **await_func** function pauses execution until a specified function in the s
 It returns a [GdUnitFuncAssert]({{site.baseurl}}/testing/assert-function/#functionmethod-assertions) object, which provides a suite of
 assertion methods to verify the returned value.
 
-{% tabs scene-runner-await_func %}
-{% tab scene-runner-await_func GdScript %}
-
-It takes the following arguments:
-
-```gd
-## The await_func function pauses execution until a specified function in the scene returns a value.
-## It returns a [GdUnitFuncAssert], which provides a suite of assertion methods to verify the returned value.
-## [member func_name] : The name of the function to wait for.
-## [member args] : Optional function arguments
-func await_func(func_name: String, args := []) -> GdUnitFuncAssert:
-```
-
-Here is an example of how to use await_func:
-
-{% endtab %}
-{% tab scene-runner-await_func C# %}
 
 It takes the following arguments:
 
@@ -78,8 +49,6 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 await runner.AwaitMethod<bool>("color_cycle").IsEqual("black").WithTimeout(5000);
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### await_func_on
 
@@ -87,36 +56,6 @@ The **await_func_on** function extends the functionality of await_func by allowi
 It waits for a specified function on that node to return a value and returns
 a [GdUnitFuncAssert]({{site.baseurl}}/testing/assert-function/#functionmethod-assertions) object for assertions.
 
-{% tabs scene-runner-await_func_on %}
-{% tab scene-runner-await_func_on GdScript %}
-
-It takes the following arguments:
-
-```gd
-## The await_func_on function extends the functionality of await_func by allowing you to specify a source node within the scene.
-## It waits for a specified function on that node to return a value and returns a [GdUnitFuncAssert] object for assertions.
-## [member source] : The object where implements the function.
-## [member func_name] : The name of the function to wait for.
-## [member args] : optional function arguments
-func await_func_on(source: Object, func_name: String, args := []) -> GdUnitFuncAssert:
-```
-
-Here is an example of how to use await_func_on:
-
-```gd
-var runner := scene_runner("res://test_scene.tscn")
-# grab the colorRect instance from the scene
-var box1: ColorRect = runner.get_property("_box1")
-
-# call function `start_color_cycle` how is emit the signal
-box1.start_color_cycle()
-
-# Waits until the function `has_parent()` on source `door` returns false or fails after an timeout of 100ms
-await runner.await_func_on(box1, "panel_color_change", [box1, Color.RED]).wait_until(100).is_false()
-```
-
-{% endtab %}
-{% tab scene-runner-await_func_on C# %}
 
 It takes the following arguments:
 
@@ -126,6 +65,3 @@ This function is not yet supported in C#.
 
 ```cs
 ```
-
-{% endtab %}
-{% endtabs %}

@@ -126,7 +126,7 @@ public partial class OmegaContainer_UnitTests
     public void OmegaContainer_IsGlobalClass()
     {
         var attributes = typeof(OmegaContainer).GetCustomAttributes(typeof(GlobalClassAttribute), false);
-        AssertThat(attributes.Length).IsGreaterThan(0);
+        AssertThat(attributes.Length).IsGreater(0);
     }
 
     // ==================== INITIALIZATION LIFECYCLE ====================
@@ -217,7 +217,7 @@ public partial class OmegaContainer_UnitTests
 
         // Act
         sceneTree.Root.AddChild(_Container);
-        await sceneTree.WaitForFrames(1);
+        await AssertSignal(_Container).IsEmitted(OmegaContainer.SignalName.InitializationCompleted).WithTimeout(100);
 
         // Assert
         AssertThat(signalEmitted).IsTrue()

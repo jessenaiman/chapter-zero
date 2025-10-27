@@ -19,27 +19,29 @@ namespace OmegaSpiral.Tests.Integration.Ui
     [RequireGodotRuntime]
     public partial class PauseMenuTests : Node
     {
-        private PauseMenu _PauseMenu = null!;
+    private ISceneRunner? _Runner;
+    private PauseMenu _PauseMenu = null!;
 
-        [Before]
-        public void Setup()
-        {
-            // Load the actual scene file used in the game to test real UI behavior
-            var scene = AutoFree(ResourceLoader.Load<PackedScene>("res://source/ui/menus/pause_menu.tscn"))!;
-            _PauseMenu = AutoFree(scene.Instantiate<PauseMenu>())!;
-            AddChild(_PauseMenu); // Add to scene tree for proper initialization
+    [Before]
+    public async Task Setup()
+    {
+        // Load PauseMenu scene to test real UI behavior
+        _Runner = ISceneRunner.Load("res://source/ui/menus/pause_menu.tscn");
+        _PauseMenu = (PauseMenu)_Runner.Scene();
 
-            // Validate background/theme using shared helper
-            // If this fails, all subsequent tests will cascade fail
-            OmegaUiTestHelper.ValidateBackgroundTheme(_PauseMenu, "PauseMenu");
-        }        [After]
-        public void Cleanup()
-        {
-            // AutoFree() handles cleanup automatically, no manual action needed
-            // GdUnit4 will free the object when the test completes
-        }
+        // Wait for scene initialization
+        await _Runner.SimulateFrames(10);
 
-        // ==================== INHERITANCE & STRUCTURE ====================
+        // Validate background/theme using shared helper
+        // If this fails, all subsequent tests will cascade fail
+        OmegaUiTestHelper.ValidateBackgroundTheme(_PauseMenu, "PauseMenu");
+    }
+
+    [After]
+    public void Cleanup()
+    {
+        _Runner?.Dispose();
+    }        // ==================== INHERITANCE & STRUCTURE ====================
 
         /// <summary>
         /// PauseMenu extends BaseMenuUi.
