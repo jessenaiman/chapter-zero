@@ -4,6 +4,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Ui.Menus;
+using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Ui.Menus
 {
@@ -13,7 +14,7 @@ namespace OmegaSpiral.Source.Ui.Menus
     /// Extends MenuUi for consistent menu behavior and styling.
     /// </summary>
     [GlobalClass]
-    public partial class PauseMenu : BaseMenuUi
+    public partial class PauseMenu : MenuUi
     {
         // --- EXPORTED PROPERTIES ---
 
@@ -91,11 +92,42 @@ namespace OmegaSpiral.Source.Ui.Menus
         /// </summary>
         protected override void PopulateMenuButtons()
         {
-            // Create menu buttons dynamically
-            _ResumeButton = CreateMenuButton("ResumeButton", "Resume Game");
-            _RestartButton = CreateMenuButton("RestartButton", "Restart Level");
-            _MainMenuButton = CreateMenuButton("MainMenuButton", "Main Menu");
-            _QuitButton = CreateMenuButton("QuitButton", "Quit Game");
+            // Create menu buttons
+            _ResumeButton = new OmegaUiButton
+            {
+                Name = "ResumeButton",
+                Text = "Resume Game",
+                FocusMode = Control.FocusModeEnum.All,
+                SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+            };
+
+            _RestartButton = new OmegaUiButton
+            {
+                Name = "RestartButton",
+                Text = "Restart Level",
+                FocusMode = Control.FocusModeEnum.All,
+                SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+            };
+
+            _MainMenuButton = new OmegaUiButton
+            {
+                Name = "MainMenuButton",
+                Text = "Main Menu",
+                FocusMode = Control.FocusModeEnum.All,
+                SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+            };
+
+            _QuitButton = new OmegaUiButton
+            {
+                Name = "QuitButton",
+                Text = "Quit Game",
+                FocusMode = Control.FocusModeEnum.All,
+                SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+            };
 
             // Connect button signals
             if (_ResumeButton != null)

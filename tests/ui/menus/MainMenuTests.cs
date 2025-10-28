@@ -45,12 +45,12 @@ public partial class MainMenuTests : Node
     // ==================== INHERITANCE ====================
 
     /// <summary>
-    /// MainMenu inherits from BaseMenuUi.
+    /// MainMenu inherits from MenuUi.
     /// </summary>
     [TestCase]
-    public void InheritsFromBaseMenuUi()
+    public void InheritsFromMenuUi()
     {
-        AssertThat(_MainMenu).IsInstanceOf<BaseMenuUi>();
+        AssertThat(_MainMenu).IsInstanceOf<MenuUi>();
         AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaThemedContainer>();
     }
 
@@ -64,7 +64,7 @@ public partial class MainMenuTests : Node
     {
         var title = _MainMenu.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
 
-        AssertThat(title).IsNotNull();
+
         AssertThat(title!.Text).IsEqual("Ωmega Spiral");
         AssertThat(title.HorizontalAlignment).IsEqual(HorizontalAlignment.Center);
     }
@@ -84,7 +84,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// MenuActionBar exists (inherited from BaseMenuUi).
+    /// MenuActionBar exists (inherited from MenuUi).
     /// </summary>
     [TestCase]
     public void MenuActionBar_Exists()

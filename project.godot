@@ -31,6 +31,7 @@ Player="*res://source/common/Player.cs"
 CombatEvents="*res://source/combat/CombatEvents.cs"
 AudioManager="*res://source/audio/AudioManager.cs"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+AppConfig="*res://source/services/GameAppConfig.cs"
 
 [dialogic]
 

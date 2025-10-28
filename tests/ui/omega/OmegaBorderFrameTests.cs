@@ -19,31 +19,44 @@ namespace OmegaSpiral.Tests.Ui.Omega
     [RequireGodotRuntime]
     public partial class OmegaBorderFrame_UnitTests
     {
-        private OmegaBorderFrame? _BorderFrame;
+        private ISceneRunner _Runner = null!;
+        private OmegaBorderFrame _BorderFrame = null!;
 
         /// <summary>
         /// Sets up test fixtures before each test.
-        /// Creates a new OmegaBorderFrame instance.
+        /// Loads test fixture scene and adds BorderFrame to it.
+        /// This ensures Godot processes layout and sizing correctly.
         /// </summary>
         [Before]
-        public void Setup()
+        public async Task Setup()
         {
-            _BorderFrame = AutoFree(new OmegaBorderFrame())!;
+            // Load test fixture scene with proper Control parent
+            _Runner = ISceneRunner.Load("res://tests/fixtures/border_frame_test.tscn");
+
+            // Create BorderFrame and add to fixture scene
+            _BorderFrame = new OmegaBorderFrame();
+            _Runner.Scene().AddChild(_BorderFrame);
+
+            // Let Godot process the scene tree (layout, sizing, etc.)
+            await _Runner.AwaitIdleFrame();
         }
 
+        // ==================== CRITICAL INTEGRATION TESTS ====================
+
         /// <summary>
-        /// Cleans up test fixtures after each test.
+        /// CRITICAL: BorderFrame must have non-zero size to render.
+        /// This will FAIL until the component is properly integrated into a scene.
         /// </summary>
-    [After]
-    public void Cleanup()
-    {
-        if (_BorderFrame != null)
+        [TestCase]
+        [RequireGodotRuntime]
+        public void BorderFrame_HasNonZeroSize()
         {
-            GD.Print("Freeing OmegaBorderFrame...");
-            _BorderFrame.QueueFree();
-            _BorderFrame = null;
+            // This should FAIL because BorderFrame isn't in scene tree yet
+            AssertThat(_BorderFrame!.Size.X).IsGreater(0f);
+            AssertThat(_BorderFrame.Size.Y).IsGreater(0f);
         }
-    }        // ==================== INITIALIZATION ====================
+
+        // ==================== INITIALIZATION ====================
 
         /// <summary>
         /// OmegaBorderFrame initializes without errors.
@@ -287,8 +300,7 @@ namespace OmegaSpiral.Tests.Ui.Omega
         [RequireGodotRuntime]
         public void BorderFrame_IsVisibleByDefault()
         {
-            AssertThat(_BorderFrame!.Visible).IsTrue()
-                .OverrideFailureMessage("BorderFrame should be visible by default");
+            AssertThat(_BorderFrame!.Visible).IsTrue();
         }
     }
 }

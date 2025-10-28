@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Ui.Omega;
@@ -32,8 +31,49 @@ public partial class NarrativeUi : OmegaThemedContainer
         /// <summary>Gets the delay before displaying this beat in seconds.</summary>
         public float DelaySeconds { get; set; }
 
-        /// <summary>Gets the typing speed for this beat (characters per second).</summary>
-        public float TypingSpeed { get; set; } = 30f;
+        /// <summary>Gets the typing speed for this beat (characters per second). Default pulled from design config.</summary>
+        public float TypingSpeed { get; set; } = -1f; // -1 means use design config default
+    }
+
+    /// <summary>
+    /// Plays the boot sequence at the start of any narrative UI.
+    /// Applies the boot_sequence shader effect and displays boot text.
+    /// Can be overridden by subclasses to customize boot behavior.
+    /// Called automatically before the main narrative begins.
+    /// </summary>
+    /// <returns>A task representing the async operation.</returns>
+    protected virtual async Task PlayBootSequenceAsync()
+    {
+        if (ShaderController == null)
+        {
+            GD.PushWarning("[NarrativeUi] ShaderController not available for boot sequence.");
+            return;
+        }
+
+        // Try to apply boot sequence shader effect (fail gracefully if preset not found)
+        try
+        {
+            await ShaderController.ApplyVisualPresetAsync("boot_sequence").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[NarrativeUi] Boot sequence shader preset failed (continuing without effect): {ex.Message}");
+        }
+
+        // Display default boot text (subclasses can override this method for custom boot sequences)
+        await DisplayBootTextAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Displays the boot sequence text. Override this method in subclasses to provide custom boot sequences.
+    /// </summary>
+    /// <returns>A task representing the async operation.</returns>
+    protected virtual async Task DisplayBootTextAsync()
+    {
+        await AppendTextAsync("[INITIALIZING NARRATIVE INTERFACE...]", 50f).ConfigureAwait(false);
+        await Task.Delay(500).ConfigureAwait(false);
+        await AppendTextAsync("[SYSTEM READY]", 50f).ConfigureAwait(false);
+        await Task.Delay(300).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -52,10 +92,17 @@ public partial class NarrativeUi : OmegaThemedContainer
 
         foreach (var beat in beats)
         {
-            // Apply visual preset if specified
+            // Apply visual preset if specified (fail gracefully if not found)
             if (!string.IsNullOrEmpty(beat.VisualPreset) && ShaderController != null)
             {
-                await ShaderController.ApplyVisualPresetAsync(beat.VisualPreset).ConfigureAwait(false);
+                try
+                {
+                    await ShaderController.ApplyVisualPresetAsync(beat.VisualPreset).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    GD.PrintErr($"[NarrativeUi] Visual preset '{beat.VisualPreset}' failed (continuing without effect): {ex.Message}");
+                }
             }
 
             // Wait for delay before displaying text
@@ -65,11 +112,50 @@ public partial class NarrativeUi : OmegaThemedContainer
             }
 
             // Display the beat text with typing animation
-            if (!string.IsNullOrEmpty(beat.Text) && TextRenderer != null)
+            if (!string.IsNullOrEmpty(beat.Text))
             {
-                await AppendTextAsync(beat.Text, beat.TypingSpeed).ConfigureAwait(false);
+                // Use configured typing speed if beat doesn't specify one
+                float typingSpeed = beat.TypingSpeed > 0 ? beat.TypingSpeed : GetNarrativeTypingSpeed();
+
+                // Add line break if text doesn't end with one
+                string textToDisplay = beat.Text;
+                if (!textToDisplay.EndsWith("\n", StringComparison.Ordinal))
+                {
+                    textToDisplay += "\n";
+                }
+
+                await AppendTextAsync(textToDisplay, typingSpeed).ConfigureAwait(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Gets the default typing speed for narrative text from design configuration.
+    /// </summary>
+    /// <returns>Characters per second for typewriter effect.</returns>
+    private static float GetNarrativeTypingSpeed()
+    {
+        try
+        {
+            var designConfig = OmegaSpiral.Source.Scripts.Infrastructure.DesignConfigService.DesignConfig;
+            if (designConfig.TryGetValue("ui_tokens", out var tokensVariant) &&
+                tokensVariant.Obj is Godot.Collections.Dictionary<string, Variant> tokens &&
+                tokens.TryGetValue("narrative", out var narrativeVariant) &&
+                narrativeVariant.Obj is Godot.Collections.Dictionary<string, Variant> narrative &&
+                narrative.TryGetValue("typing_speed", out var speedVariant) &&
+                speedVariant.Obj is Godot.Collections.Dictionary<string, Variant> speedDict &&
+                speedDict.TryGetValue("value", out var valueVariant))
+            {
+                return valueVariant.AsSingle();
+            }
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[NarrativeUi] Failed to load typing speed from design config: {ex.Message}");
+        }
+
+        // Fallback default
+        return 15f;
     }
 
     /// <summary>
@@ -159,6 +245,7 @@ public partial class NarrativeUi : OmegaThemedContainer
     protected void ClearNarrative()
     {
         ClearText();
+        ClearChoiceButtons();
         if (_ChoiceContainer != null)
         {
             _ChoiceContainer.Visible = false;
@@ -167,6 +254,7 @@ public partial class NarrativeUi : OmegaThemedContainer
 
     /// <summary>
     /// Presents narrative choices and returns the selected option.
+    /// Creates buttons directly for consistent Omega styling.
     /// </summary>
     /// <param name="prompt">The prompt text before choices.</param>
     /// <param name="choices">Array of choice texts.</param>
@@ -180,50 +268,122 @@ public partial class NarrativeUi : OmegaThemedContainer
         }
 
         // Display the prompt
-        await AppendTextAsync(prompt).ConfigureAwait(false);
+        await AppendTextAsync(prompt + "\n").ConfigureAwait(false);
 
-        // Check if we have a choice presenter
-        if (_ChoicePresenter == null && _ChoiceContainer != null)
+        // Ensure we have a choice container
+        if (_ChoiceContainer == null)
         {
-            _ChoicePresenter = new OmegaChoicePresenter(_ChoiceContainer);
+            GD.PushError("[NarrativeUi] Choice container not found - cannot present choices.");
+            return choices[0];
         }
 
-        if (_ChoicePresenter != null)
-        {
-            // Use the choice presenter to show buttons and wait for selection
-            var selectedIndex = await _ChoicePresenter.PresentChoicesAsync(choices.ToList()).ConfigureAwait(false);
+        // Clear any existing choice buttons
+        ClearChoiceButtons();
 
-            if (selectedIndex.Count > 0 && selectedIndex[0] >= 0 && selectedIndex[0] < choices.Length)
+        // Create task completion source for async selection
+        var selectionTaskSource = new TaskCompletionSource<string>();
+
+        // Create choice buttons
+        for (int i = 0; i < choices.Length; i++)
+        {
+            var button = new OmegaUiButton { Text = choices[i], Name = $"ChoiceButton{i}" };
+            if (button != null)
             {
-                var selectedChoice = choices[selectedIndex[0]];
-                _ChoicePresenter.HideChoices();
-                return selectedChoice;
+                string selectedChoice = choices[i]; // Capture for closure
+                button.Pressed += () => OnChoiceSelected(selectedChoice, selectionTaskSource);
+                _ChoiceContainer.AddChild(button);
+                _ChoiceButtons.Add(button);
             }
         }
 
-        // Fallback: return first choice if presenter not available
-        GD.PushWarning("[NarrativeUi] Choice presenter not available, using first choice as fallback.");
-        return choices[0];
+        // Show choice container
+        _ChoiceContainer.Visible = true;
+
+        // Wait for user selection
+        return await selectionTaskSource.Task.ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Handles choice selection by completing the task with the selected choice.
+    /// </summary>
+    /// <param name="selectedChoice">The text of the selected choice.</param>
+    /// <param name="taskSource">The task completion source to complete.</param>
+    private void OnChoiceSelected(string selectedChoice, TaskCompletionSource<string> taskSource)
+    {
+        // Hide choice container after selection
+        if (_ChoiceContainer != null)
+        {
+            _ChoiceContainer.Visible = false;
+        }
+
+        // Clear buttons after selection
+        ClearChoiceButtons();
+
+        // Complete the task with the selected choice
+        taskSource.TrySetResult(selectedChoice);
+    }
+
+    /// <summary>
+    /// Clears all choice buttons from the container.
+    /// </summary>
+    private void ClearChoiceButtons()
+    {
+        foreach (var button in _ChoiceButtons)
+        {
+            if (_ChoiceContainer != null)
+            {
+                _ChoiceContainer.RemoveChild(button);
+            }
+            button.QueueFree();
+        }
+        _ChoiceButtons.Clear();
     }
 
     // Cache for choice container to avoid repeated lookups
     private VBoxContainer? _ChoiceContainer;
-    private IOmegaChoicePresenter? _ChoicePresenter;
+    private readonly List<Button> _ChoiceButtons = new();
+    private bool _BootSequenceCompleted;
 
     /// <inheritdoc/>
-    protected override void CacheRequiredNodes()
+    public override void _Ready()
     {
-        base.CacheRequiredNodes();
-        // ChoiceContainer can be either a direct child or under ContentContainer
-        _ChoiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-        if (_ChoiceContainer == null)
+        base._Ready();
+
+        // Cache ChoiceContainer
+        _ChoiceContainer = FindChoiceContainerRecursive(this);
+
+        // Play boot sequence on first ready (deferred to ensure all nodes initialized)
+        if (!_BootSequenceCompleted)
         {
-            // Try looking under ContentContainer (nested structure)
-            var contentContainer = GetNodeOrNull<Control>("ContentContainer");
-            if (contentContainer != null)
-            {
-                _ChoiceContainer = contentContainer.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-            }
+            CallDeferred(nameof(PlayBootSequenceDeferred));
         }
+    }
+
+    /// <summary>
+    /// Deferred boot sequence playback to ensure all components are ready.
+    /// </summary>
+    private async void PlayBootSequenceDeferred()
+    {
+        await PlayBootSequenceAsync().ConfigureAwait(false);
+        _BootSequenceCompleted = true;
+    }
+
+    /// <summary>
+    /// Recursively searches for a VBoxContainer named "ChoiceContainer" in the node tree.
+    /// </summary>
+    private VBoxContainer? FindChoiceContainerRecursive(Node node)
+    {
+        if (node is VBoxContainer container && node.Name == "ChoiceContainer")
+        {
+            return container;
+        }
+
+        for (int i = 0; i < node.GetChildCount(); i++)
+        {
+            var found = FindChoiceContainerRecursive(node.GetChild(i));
+            if (found != null) return found;
+        }
+
+        return null;
     }
 }

@@ -1,7 +1,7 @@
 {
-  "_doc": "Omega Spiral design configuration. Values are normalized (0.0 - 1.0). Use _doc fields for inline documentation.",
+  "_doc": "Omega Spiral design configuration file. This JSON defines the core design system, UI tokens, shader presets, and stage mappings for the game 'Omega Spiral - Chapter Zero'. All color values are normalized between 0.0 and 1.0 for easy scaling. Shader parameters are tuned to match the ghost_design_document.md baseline. Use _doc fields for inline documentation to maintain sync with runtime configuration. This file is referenced by scenes, shaders, and UI components for consistent theming.",
   "design_system": {
-    "_doc": "Core palette shared across UI and shaders.",
+    "_doc": "Core color palette shared across UI elements, shaders, and narrative threads. Each color includes RGB values (normalized), alpha, and hex for easy reference. These colors represent the game's aesthetic: deep space voids, warm accents, and thread-specific hues for the Dreamweavers. Use these in Godot shaders or UI materials for consistency.",
     "deep_space": {
       "_doc": "Primary background void.",
       "r": 0.054902,
@@ -103,9 +103,9 @@
     }
   },
   "ui_tokens": {
-    "_doc": "Documented UI layout tokens mirroring GameAppConfig.",
+    "_doc": "UI layout and geometry tokens for consistent interface design. These values define spacing, margins, and dimensions used in menus and UI elements. They mirror settings from GameAppConfig and are referenced by scene manifests for responsive design. All values are in pixels or fractions of the screen.",
     "menu": {
-      "_doc": "Global menu geometry values (Stage manifests reference these).",
+      "_doc": "Global menu geometry settings used across stages and scenes. These values ensure consistent button sizing and spacing in UI menus. Stage manifests and UI scripts reference these for layout calculations.",
       "bezel_margin": {
         "_doc": "Content inset from screen edge (fraction).",
         "value": 0.05
@@ -126,12 +126,23 @@
         "_doc": "Spacing between stacked buttons.",
         "value": 16
       }
+    },
+    "narrative": {
+      "_doc": "Narrative text rendering settings for story-driven sequences.",
+      "typing_speed": {
+        "_doc": "Characters per second for typewriter effect. Lower values evoke struggling/thinking system.",
+        "value": 15
+      },
+      "line_pause": {
+        "_doc": "Pause duration in seconds between narrative lines.",
+        "value": 0.3
+      }
     }
   },
   "shader_presets": {
-    "_doc": "Shader materials and parameter documentation.",
+    "_doc": "Collection of shader material presets and their parameters for various visual effects in Omega Spiral. Each preset includes a shader resource path and configurable parameters with defaults tuned to match the ghost_design_document.md baseline. These are used in scene materials for effects like borders, CRT distortions, and backgrounds. Parameters are normalized or in specific units as noted.",
     "spiral_border_base": {
-      "_doc": "Default Omega border frame animation.",
+      "_doc": "Default preset for the Omega spiral border frame animation. This shader creates animated energy streams around the screen border. Parameters control rotation, wave properties, and thread intensities for the three Dreamweaver threads (Light, Shadow, Ambition). Used in scene backgrounds for thematic framing.",
       "shader": "res://source/shaders/spiral_border.gdshader",
       "parameters": {
         "_doc": "Uniform defaults are tuned to match ghost_design_document.md baseline.",
@@ -338,9 +349,9 @@
     }
   },
   "stage_presets": {
-    "_doc": "Maps stage visual states to preset stacks.",
+    "_doc": "Defines stage-specific visual state mappings to shader preset stacks. Each stage (e.g., ghost_terminal) has states like boot_sequence, stable_baseline, etc., each with a visual_stack of presets applied in order. These stacks ensure consistent progression from initial glitch to stable terminal states. Based on ghost_design_document.md and stage-review docs for accurate visual fidelity.",
     "ghost_terminal": {
-      "_doc": "Stage 1 · Ghost Terminal visual stacks from ghost_design_document.md",
+      "_doc": "Stage 1: Ghost Terminal visual stacks from ghost_design_document.md. Defines the progression of visual effects for the initial ghost terminal scene, transitioning from heavy glitch to stable states. Each state maps to a stack of shader presets applied in sequence.",
       "states": {
         "boot_sequence": {
           "_doc": "State 1: Heavy glitch introduction.",

@@ -1,5 +1,5 @@
 
-// <copyright file="UiBattlerLifeBar.cs" company="Ωmega Spiral">
+// <copyright file="UIBattlerLifeBar.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -8,22 +8,20 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 
-#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
 /// <summary>
 /// An element of the <see cref="UiBattlerEntry"/> that visually shows player <see cref="Battler"/> life points.
 /// The LifeBar also can show an action icon to demonstrate when the player has queued an action for
 /// one of their Battlers.
 /// </summary>
 [GlobalClass]
-public partial class UiBattlerLifeBar : TextureProgressBar
-#pragma warning restore IDE1006
+public partial class UIBattlerLifeBar : TextureProgressBar
 {
-    private float targetValue;
-    private Tween? tween;
-    private AnimationPlayer? anim;
-    private Label? nameLabel;
-    private TextureRect? queuedActionIcon;
-    private Label? valueLabel;
+    private float _TargetValue;
+    private Tween? _Tween;
+    private AnimationPlayer? _Anim;
+    private Label? _NameLabel;
+    private TextureRect? _QueuedActionIcon;
+    private Label? _ValueLabel;
 
     /// <summary>
     /// Gets or sets rate of the animation relative to the maximum value.
@@ -43,27 +41,27 @@ public partial class UiBattlerLifeBar : TextureProgressBar
     /// </summary>
     public float TargetValue
     {
-        get => this.targetValue;
+        get => this._TargetValue;
         set
         {
             // If the amount is lower than the current TargetValue, it means the battler lost health.
-            if (this.targetValue > value)
+            if (this._TargetValue > value)
             {
-                this.anim?.Play("damage");
+                this._Anim?.Play("damage");
             }
 
-            this.targetValue = value;
+            this._TargetValue = value;
 
-            this.tween?.Kill();
+            this._Tween?.Kill();
 
-            var duration = Math.Abs(this.targetValue - this.Value) / this.MaxValue * this.FillRate;
-            this.tween = this.CreateTween().SetTrans(Tween.TransitionType.Quad);
-            this.tween.TweenProperty(this, "value", this.targetValue, duration);
-            this.tween.TweenCallback(Callable.From(() =>
+            var duration = Math.Abs(this._TargetValue - this.Value) / this.MaxValue * this.FillRate;
+            this._Tween = this.CreateTween().SetTrans(Tween.TransitionType.Quad);
+            this._Tween.TweenProperty(this, "value", this._TargetValue, duration);
+            this._Tween.TweenCallback(Callable.From(() =>
             {
                 if (this.Value < this.DangerCutoff * this.MaxValue)
                 {
-                    this.anim?.Play("danger");
+                    this._Anim?.Play("danger");
                 }
             }));
         }
@@ -74,10 +72,10 @@ public partial class UiBattlerLifeBar : TextureProgressBar
     {
         base._Ready();
 
-        this.anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.nameLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Name");
-        this.queuedActionIcon = this.GetNode<TextureRect>("MarginContainer/HBoxContainer/QueuedActionIcon");
-        this.valueLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Value");
+        this._Anim = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        this._NameLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Name");
+        this._QueuedActionIcon = this.GetNode<TextureRect>("MarginContainer/HBoxContainer/QueuedActionIcon");
+        this._ValueLabel = this.GetNode<Label>("MarginContainer/HBoxContainer/Value");
 
         this.ValueChanged += this.OnValueChanged;
     }
@@ -90,9 +88,9 @@ public partial class UiBattlerLifeBar : TextureProgressBar
     /// <param name="startHp">The starting hit points.</param>
     public void Setup(string battlerName, int maxHp, int startHp)
     {
-        if (this.nameLabel != null)
+        if (this._NameLabel != null)
         {
-            this.nameLabel.Text = battlerName;
+            this._NameLabel.Text = battlerName;
         }
 
         this.MaxValue = maxHp;
@@ -105,9 +103,9 @@ public partial class UiBattlerLifeBar : TextureProgressBar
     /// <param name="texture">The texture to display.</param>
     public void SetActionIcon(Texture2D? texture)
     {
-        if (this.queuedActionIcon != null)
+        if (this._QueuedActionIcon != null)
         {
-            this.queuedActionIcon.Texture = texture;
+            this._QueuedActionIcon.Texture = texture;
         }
     }
 
@@ -117,9 +115,9 @@ public partial class UiBattlerLifeBar : TextureProgressBar
     /// <param name="newValue">The new value of the life bar.</param>
     private void OnValueChanged(double newValue)
     {
-        if (this.valueLabel != null)
+        if (this._ValueLabel != null)
         {
-            this.valueLabel.Text = ((int) newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            this._ValueLabel.Text = ((int) newValue).ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

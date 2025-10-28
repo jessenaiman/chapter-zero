@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using System;
 using System.Threading.Tasks;
 
 namespace OmegaSpiral.Source.Ui.Omega;
@@ -23,15 +24,6 @@ namespace OmegaSpiral.Source.Ui.Omega;
 public partial class OmegaThemedContainer : OmegaContainer
 {
     /// <summary>
-    /// Gets or sets a value indicating whether to enable the entire Omega visual theme.
-    /// When false, disables all theming including border, shaders, and text styling.
-    /// Useful for unit tests or minimal UI modes.
-    /// Reference: https://docs.godotengine.org/en/stable/tutorials/best_practices/godot_notifications.html#ready-vs-enter-tree-vs-notification-parented
-    /// </summary>
-    [Export]
-    public bool EnableOmegaTheme { get; set; } = true;
-
-    /// <summary>
     /// Gets or sets a value indicating whether to enable the animated Omega border frame.
     /// </summary>
     [Export]
@@ -51,73 +43,81 @@ public partial class OmegaThemedContainer : OmegaContainer
 
     private OmegaBorderFrame? _BorderFrame;
     private ColorRect? _Background;
-    private ColorRect? _PhosphorLayer;
+    private ColorRect? _PhosphorLayer; // Phosphor shader layer
     private ColorRect? _ScanlineLayer;
     private ColorRect? _GlitchLayer;
-    private RichTextLabel? _TextDisplay;
+    private OmegaTextRenderer? _TextDisplay;
 
     /// <inheritdoc/>
-    protected override void CacheRequiredNodes()
+    public override bool _Set(StringName property, Variant value)
     {
-        base.CacheRequiredNodes();
-        GD.Print($"[OmegaThemedContainer.CacheRequiredNodes] ChildCount before cache={GetChildCount()}");
-
-        // List all children
-        for (int i = 0; i < GetChildCount(); i++)
+        switch ((string)property)
         {
-            var child = GetChild(i);
-            GD.Print($"  Child[{i}]: {child.Name} ({child.GetType().Name})");
+            case "enable_omega_border":
+                EnableOmegaBorder = value.AsBool();
+                return true;
+            case "enable_crt_shaders":
+                EnableCrtShaders = value.AsBool();
+                return true;
+            case "enable_omega_text":
+                EnableOmegaText = value.AsBool();
+                return true;
         }
 
-        // Cache optional background
-        _Background = GetNodeOrNull<ColorRect>("Background");
-
-        // Cache optional CRT shader layers
-        _PhosphorLayer = GetNodeOrNull<ColorRect>("PhosphorLayer");
-        _ScanlineLayer = GetNodeOrNull<ColorRect>("ScanlineLayer");
-        _GlitchLayer = GetNodeOrNull<ColorRect>("GlitchLayer");
-
-        // Cache optional text display
-        _TextDisplay = GetNodeOrNull<RichTextLabel>("ContentContainer/TextDisplay");
+        return base._Set(property, value);
     }
 
-    /// <inheritdoc/>
-    /// <inheritdoc/>
-    protected override void CreateComponents()
+    /// <summary>
+    /// Standard Godot lifecycle - discovers Omega visual frame nodes.
+    /// The frame is built in the scene file, not in code.
+    /// </summary>
+    public override void _Ready()
     {
-        base.CreateComponents();
+        base._Ready();
 
-        // Check if Omega theming is enabled
-        if (!EnableOmegaTheme)
+        // Discover Omega frame nodes (built in scene, not code)
+        // Look for them at standard locations
+        _Background = GetNodeOrNull<ColorRect>("Background") ?? GetNodeOrNull<ColorRect>("OmegaFrame/Background");
+        _PhosphorLayer = GetNodeOrNull<ColorRect>("CrtFrame/PhosphorLayer") ?? GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/PhosphorLayer");
+        _ScanlineLayer = GetNodeOrNull<ColorRect>("CrtFrame/ScanlineLayer") ?? GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/ScanlineLayer");
+        _GlitchLayer = GetNodeOrNull<ColorRect>("CrtFrame/GlitchLayer") ?? GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/GlitchLayer");
+        _TextDisplay = FindTextDisplayRecursive(this);
+
+        GD.Print($"[OmegaThemedContainer._Ready] Discovered frame nodes - Background:{_Background != null}, Phosphor:{_PhosphorLayer != null}, Scanline:{_ScanlineLayer != null}, Glitch:{_GlitchLayer != null}");
+
+        // Assign to base property if found
+        if (_TextDisplay != null)
         {
-            GD.Print("[OmegaThemedContainer] Omega theme disabled - skipping frame creation");
-            return;
+            TextRenderer = _TextDisplay;
+        }
+    }
+
+    /// <summary>
+    /// Recursively searches for an OmegaTextRenderer named "TextDisplay" in the node tree.
+    /// </summary>
+    private OmegaTextRenderer? FindTextDisplayRecursive(Node node)
+    {
+        if (node is OmegaTextRenderer renderer && node.Name == "TextDisplay")
+        {
+            return renderer;
         }
 
-        GD.Print($"[OmegaThemedContainer] Building complete Omega frame (EnableBorder={EnableOmegaBorder}, EnableCRT={EnableCrtShaders})");
-
-        // Step 1: Build the complete Omega visual frame hierarchy
-        BuildOmegaFrame();
-
-        // Step 2: Find or create ContentContainer and reparent it inside the frame
-        SetupContentContainer();
-
-        // Step 3: Compose optional text renderer
-        if (EnableOmegaText && _TextDisplay != null)
+        for (int i = 0; i < node.GetChildCount(); i++)
         {
-            ComposeTextRenderer(_TextDisplay);
+            var found = FindTextDisplayRecursive(node.GetChild(i));
+            if (found != null) return found;
         }
 
-        GD.Print($"[OmegaThemedContainer] Frame complete - ChildCount={GetChildCount()}");
+        return null;
     }
 
     /// <summary>
     /// Builds the complete Omega visual frame: Background → CRT layers → Border.
-    /// This frame fills the entire viewport and provides the visual foundation.
+    /// Creates a 4:3 aspect ratio CRT-style container centered in the viewport.
     /// </summary>
     private void BuildOmegaFrame()
     {
-        // Ensure this control fills the viewport
+        // Ensure root control fills viewport to center the 4:3 container
         AnchorLeft = 0;
         AnchorTop = 0;
         AnchorRight = 1;
@@ -126,9 +126,9 @@ public partial class OmegaThemedContainer : OmegaContainer
         OffsetTop = 0;
         OffsetRight = 0;
         OffsetBottom = 0;
-        GD.Print($"[OmegaThemedContainer] Root control anchored to fill viewport");
+        GD.Print($"[OmegaThemedContainer] Root control fills viewport");
 
-        // Create dark background at the back
+        // Create fullscreen background (letterbox bars for 4:3 content)
         _Background = new ColorRect
         {
             Name = "Background",
@@ -137,25 +137,39 @@ public partial class OmegaThemedContainer : OmegaContainer
             AnchorLeft = 0,
             AnchorTop = 0,
             AnchorRight = 1,
-            AnchorBottom = 1
+            AnchorBottom = 1,
+            ZIndex = -10 // Behind everything
         };
         AddChild(_Background);
-        GD.Print($"[OmegaThemedContainer] Created Background - will fill viewport");
+        GD.Print($"[OmegaThemedContainer] Created fullscreen background");
 
-        // Create CRT shader layers if enabled
+        // Get bezel margin from config (defaults to 5% if not available)
+        var appConfig = GetNodeOrNull<OmegaSpiral.Source.Scripts.Infrastructure.GameAppConfig>("/root/AppConfig");
+        float bezelMargin = appConfig?.BezelMargin ?? 0.05f;
+
+        GD.Print($"[OmegaThemedContainer] Using bezel margin: {bezelMargin * 100}%");
+
+        // Create 4:3 aspect ratio container for CRT effect
+        // Uses anchor-based positioning with bezel margins
+        var crtFrame = new AspectRatioContainer
+        {
+            Name = "CrtFrame",
+            Ratio = 4.0f / 3.0f,
+            StretchMode = AspectRatioContainer.StretchModeEnum.Fit,
+            AnchorLeft = bezelMargin,
+            AnchorTop = bezelMargin,
+            AnchorRight = 1.0f - bezelMargin,
+            AnchorBottom = 1.0f - bezelMargin,
+            GrowHorizontal = Control.GrowDirection.Both,
+            GrowVertical = Control.GrowDirection.Both
+        };
+        AddChild(crtFrame);
+        GD.Print($"[OmegaThemedContainer] Created 4:3 CRT frame with {bezelMargin * 100}% margins");
+
+        // Create CRT shader layers inside the 4:3 frame
         if (EnableCrtShaders)
         {
-            _PhosphorLayer = new ColorRect
-            {
-                Name = "PhosphorLayer",
-                Color = OmegaSpiralColors.PhosphorGlow,
-                MouseFilter = MouseFilterEnum.Ignore,
-                AnchorLeft = 0,
-                AnchorTop = 0,
-                AnchorRight = 1,
-                AnchorBottom = 1
-            };
-            AddChild(_PhosphorLayer);
+            // PhosphorLayer will be created as OmegaShaderController below
 
             _ScanlineLayer = new ColorRect
             {
@@ -165,9 +179,10 @@ public partial class OmegaThemedContainer : OmegaContainer
                 AnchorLeft = 0,
                 AnchorTop = 0,
                 AnchorRight = 1,
-                AnchorBottom = 1
+                AnchorBottom = 1,
+                ZIndex = -8 // Behind content
             };
-            AddChild(_ScanlineLayer);
+            crtFrame.AddChild(_ScanlineLayer);
 
             _GlitchLayer = new ColorRect
             {
@@ -177,79 +192,117 @@ public partial class OmegaThemedContainer : OmegaContainer
                 AnchorLeft = 0,
                 AnchorTop = 0,
                 AnchorRight = 1,
-                AnchorBottom = 1
+                AnchorBottom = 1,
+                ZIndex = -7 // Behind content
             };
-            AddChild(_GlitchLayer);
+            crtFrame.AddChild(_GlitchLayer);
 
-            GD.Print($"[OmegaThemedContainer] Created CRT shader layers (Phosphor, Scanline, Glitch)");
+            GD.Print($"[OmegaThemedContainer] Created CRT shader layers inside 4:3 frame");
 
-            // Configure shader controller
-            var shaderLayer = _PhosphorLayer;
-            if (shaderLayer != null)
+            // Create shader controller as the primary layer (replaces PhosphorLayer)
+            // It will automatically discover and manage the child shader layers
+            var shaderController = new OmegaShaderController
             {
-                ComposeShaderController(shaderLayer);
+                Name = "ShaderController",
+                Color = OmegaSpiralColors.PhosphorGlow,
+                MouseFilter = MouseFilterEnum.Ignore,
+                AnchorLeft = 0,
+                AnchorTop = 0,
+                AnchorRight = 1,
+                AnchorBottom = 1,
+                ZIndex = -10 // Behind everything
+            };
+            crtFrame.AddChild(shaderController);
+
+            // Move shader layers to be children of the controller
+            if (_ScanlineLayer != null)
+            {
+                _ScanlineLayer.GetParent()?.RemoveChild(_ScanlineLayer);
+                shaderController.AddChild(_ScanlineLayer);
             }
+
+            if (_GlitchLayer != null)
+            {
+                _GlitchLayer.GetParent()?.RemoveChild(_GlitchLayer);
+                shaderController.AddChild(_GlitchLayer);
+            }
+
+            // Replace PhosphorLayer with the controller
+            if (_PhosphorLayer != null)
+            {
+                _PhosphorLayer.QueueFree();
+            }
+            _PhosphorLayer = shaderController; // Cache it
+
+            // Assign to base property
+            ShaderController = shaderController;
+            CallDeferred(nameof(ApplyDefaultShaderStack));
         }
 
-        // Create border frame on top if enabled
+        // Create border frame on top of the 4:3 container
         if (EnableOmegaBorder)
         {
-            _BorderFrame = OmegaComponentFactory.CreateBorderFrame();
-            AddChild(_BorderFrame);
-            GD.Print($"[OmegaThemedContainer] Created BorderFrame on top");
+            _BorderFrame = new OmegaBorderFrame();
+            _BorderFrame.ZIndex = 100; // On top of everything
+            crtFrame.AddChild(_BorderFrame);
+            GD.Print($"[OmegaThemedContainer] Created BorderFrame on top of 4:3 frame");
         }
     }
 
     /// <summary>
-    /// Finds the existing ContentContainer (from the scene) and ensures it's properly configured.
-    /// Centers it on screen with appropriate bezel margins and proper size flags.
-    /// If it doesn't exist, creates one with appropriate margins.
+    /// Moves ContentContainer inside the 4:3 CRT frame.
+    /// The scene file defines ContentContainer's content, but we reparent it into the aspect ratio container.
     /// </summary>
     private void SetupContentContainer()
     {
         var existingContent = GetNodeOrNull<Control>("ContentContainer");
+        var crtFrame = GetNodeOrNull<AspectRatioContainer>("CrtFrame");
+
+        if (crtFrame == null)
+        {
+            GD.PrintErr("[OmegaThemedContainer] CrtFrame not found - cannot setup content!");
+            return;
+        }
 
         if (existingContent != null)
         {
-            GD.Print($"[OmegaThemedContainer] Found existing ContentContainer - centering with bezel margins");
+            GD.Print($"[OmegaThemedContainer] Found existing ContentContainer - reparenting into CRT frame");
 
-            // Center the container with 10% margins on all sides (bezel effect)
-            existingContent.AnchorLeft = 0.05f;  // 5% margin from left
-            existingContent.AnchorTop = 0.05f;   // 5% margin from top
-            existingContent.AnchorRight = 0.95f; // 5% margin from right
-            existingContent.AnchorBottom = 0.95f; // 5% margin from bottom
+            // Reparent ContentContainer into the 4:3 CRT frame
+            RemoveChild(existingContent);
+            crtFrame.AddChild(existingContent);
+
+            // Ensure it fills the CRT frame
+            existingContent.AnchorLeft = 0;
+            existingContent.AnchorTop = 0;
+            existingContent.AnchorRight = 1;
+            existingContent.AnchorBottom = 1;
             existingContent.OffsetLeft = 0;
             existingContent.OffsetTop = 0;
             existingContent.OffsetRight = 0;
             existingContent.OffsetBottom = 0;
-            existingContent.GrowHorizontal = Control.GrowDirection.Both;
-            existingContent.GrowVertical = Control.GrowDirection.Both;
-
-            // Reparent it to be the last child (on top of all Omega visual elements)
-            MoveChild(existingContent, -1);
         }
         else
         {
-            GD.Print($"[OmegaThemedContainer] No existing ContentContainer - creating one with margins");
-            // Create a new content container with margins for bezel effect
-            var container = new VBoxContainer
-            {
-                Name = "ContentContainer",
-                AnchorLeft = 0.05f,
-                AnchorTop = 0.05f,
-                AnchorRight = 0.95f,
-                AnchorBottom = 0.95f,
-                GrowHorizontal = Control.GrowDirection.Both,
-                GrowVertical = Control.GrowDirection.Both
-            };
-            AddChild(container);
+            GD.PrintErr("[OmegaThemedContainer] No ContentContainer found in scene - this is required!");
         }
 
         GD.Print($"[OmegaThemedContainer] Final child order:");
         for (int i = 0; i < GetChildCount(); i++)
         {
             var child = GetChild(i);
-            GD.Print($"  [{i}] {child.Name}");
+            var zIndex = child is CanvasItem ci ? ci.ZIndex : 0;
+            GD.Print($"  [{i}] {child.Name} (ZIndex={zIndex})");
+        }
+
+        if (crtFrame != null)
+        {
+            GD.Print($"[OmegaThemedContainer] CrtFrame children:");
+            for (int i = 0; i < crtFrame.GetChildCount(); i++)
+            {
+                var child = crtFrame.GetChild(i);
+                GD.Print($"  [{i}] {child.Name}");
+            }
         }
     }
 
@@ -332,6 +385,30 @@ public partial class OmegaThemedContainer : OmegaContainer
         }
 
         await ShaderController.PixelDissolveAsync(durationSeconds).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Applies the default CRT shader stack (phosphor → scanlines → glitch).
+    /// Deferred call to ensure all nodes are ready.
+    /// </summary>
+    private async void ApplyDefaultShaderStack()
+    {
+        if (!EnableCrtShaders || ShaderController == null)
+        {
+            return;
+        }
+
+        try
+        {
+            await ShaderController.ApplyPresetStackAsync(
+                "crt_phosphor_base",
+                "crt_scanlines_base",
+                "crt_glitch_base").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[OmegaThemedContainer] Failed to apply default shader stack: {ex.Message}");
+        }
     }
 
     /// <summary>

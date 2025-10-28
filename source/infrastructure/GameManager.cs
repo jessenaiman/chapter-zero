@@ -28,6 +28,12 @@ public partial class GameManager : Node
     private StageBase? _CurrentStage;
     private AudioManager? _AudioManager;
     private OmegaInputRouter? _InputRouter;
+    private JournalSystem _Journal = new();
+
+    /// <summary>
+    /// Gets the journal system that tracks the playthrough transcript.
+    /// </summary>
+    public JournalSystem Journal => _Journal;
 
     /// <summary>
     /// Gets the current stage index (0-based). Returns -1 if no stage is active.
@@ -78,6 +84,10 @@ public partial class GameManager : Node
         if (_CurrentStageIndex >= StageScenes.Length)
         {
             GD.Print("[GameManager] All stages complete. Game finished!");
+
+            // Write the playthrough transcript before signaling completion
+            _Journal.WritePlaythroughToFile();
+
             EmitSignal(SignalName.GameComplete);
             return;
         }

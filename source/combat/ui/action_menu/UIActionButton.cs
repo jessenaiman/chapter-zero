@@ -1,5 +1,5 @@
 
-// <copyright file="UiActionButton.cs" company="Ωmega Spiral">
+// <copyright file="UIActionButton.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
@@ -12,41 +12,39 @@ namespace OmegaSpiral.Source.Scripts.Combat.Ui.ActionMenu;
 /// A button representing a single <see cref="OmegaSpiral.Source.Combat.Actions.BattlerAction"/>, shown in the player's <see cref="UiActionMenu"/>.
 /// </summary>
 [GlobalClass]
-#pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
-public partial class UiActionButton : TextureButton
-#pragma warning restore IDE1006
+public partial class UIActionButton : TextureButton
 {
-    private TextureRect? icon;
-    private Label? nameLabel;
+    private TextureRect? _Icon;
+    private Label? _NameLabel;
 
-    private BattlerAction? action;
+    private BattlerAction? _Action;
 
     /// <summary>
     /// Gets or sets the action associated with this button, which determines the button's icon and label.
     /// </summary>
     public BattlerAction? Action
     {
-        get => this.action;
+        get => this._Action;
         set
         {
-            this.action = value;
+            this._Action = value;
 
-            if (!this.IsInsideTree() || this.action is null)
+            if (!this.IsInsideTree() || this._Action is null)
             {
                 // In C#, we need to wait for the node to be ready before accessing child nodes
                 // We'll call the setup method when the node is ready instead
-                this.action = value;
+                this._Action = value;
                 return;
             }
 
-            if (this.icon != null && this.action is not null)
+            if (this._Icon != null && this._Action is not null)
             {
-                this.icon.Texture = this.action.Icon;
+                this._Icon.Texture = this._Action.Icon;
             }
 
-            if (this.nameLabel != null && this.action is not null)
+            if (this._NameLabel != null && this._Action is not null)
             {
-                this.nameLabel.Text = this.action.Label;
+                this._NameLabel.Text = this._Action.Label;
             }
 
             // In C# Godot, we can call this directly since it's not async
@@ -58,16 +56,16 @@ public partial class UiActionButton : TextureButton
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.icon = this.GetNode<TextureRect>("MarginContainer/Items/Icon");
-        this.nameLabel = this.GetNode<Label>("MarginContainer/Items/Name");
+        this._Icon = this.GetNode<TextureRect>("MarginContainer/Items/Icon");
+        this._NameLabel = this.GetNode<Label>("MarginContainer/Items/Name");
 
         // If Action was set before the node was ready, apply it now
-        if (this.action is not null)
+        if (this._Action is not null)
         {
-            if (this.icon != null)
-                this.icon.Texture = this.action.Icon;
-            if (this.nameLabel != null)
-                this.nameLabel.Text = this.action.Label;
+            if (this._Icon != null)
+                this._Icon.Texture = this._Action.Icon;
+            if (this._NameLabel != null)
+                this._NameLabel.Text = this._Action.Label;
             var marginContainer = this.GetNode<Control>("MarginContainer");
             this.CustomMinimumSize = marginContainer?.Size ?? Vector2.Zero;
         }

@@ -1,4 +1,8 @@
 shader_type canvas_item;
+render_mode unshaded, blend_add;
+
+// Godot 4.6 requires explicit SCREEN_TEXTURE uniform
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 // ============================================================================
 // CRT Scanlines Shader - Movement Overlay Layer for Stage 1 Terminal
@@ -86,29 +90,23 @@ float calculate_scanline_intensity(float uv_y, float time_offset, float count, f
 // ============================================================================
 void fragment() {
     // Sample the underlying texture (from phosphor layer)
-    vec4 base_color = texture(TEXTURE, UV);
+    vec4 base_color = texture(SCREEN_TEXTURE, SCREEN_UV);
 
-    // Calculate scanline intensity at this pixel
+    // For additive blending: scanlines work by adding a small overlay
+    // This creates the appearance of lines without requiring darkening
     float scanline = calculate_scanline_intensity(
-        UV.y,
+        SCREEN_UV.y,
         time * scanline_speed,
         scanline_count,
         scanline_thickness
     );
 
-    // Apply scanline darkening effect
-    // Note: Scanlines darken the image, not brighten it (authentic CRT behavior)
-    float darkening = 1.0 - (scanline * scanline_opacity);
-    vec3 scanlined_color = base_color.rgb * darkening;
+    // Create scanline effect using additive overlay
+    // The scanline_tint is typically a light color, so we add a small amount
+    vec3 scanline_overlay = scanline_tint * scanline * scanline_opacity;
 
-    // Apply thread-specific color tint
-    scanlined_color *= scanline_tint;
-
-    // Ensure color values stay in valid range
-    scanlined_color = clamp(scanlined_color, 0.0, 1.0);
-
-    // Output with original alpha channel preserved
-    COLOR = vec4(scanlined_color, base_color.a);
+    // Output with scanline overlay for additive blending
+    COLOR = vec4(scanline_overlay, 1.0);
 }
 
 // ============================================================================

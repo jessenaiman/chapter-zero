@@ -1,4 +1,8 @@
 shader_type canvas_item;
+render_mode unshaded, blend_add;
+
+// Godot 4.6 requires explicit SCREEN_TEXTURE uniform
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 // ============================================================================
 // CRT Glitch Shader - Interference Overlay Layer for Stage 1 Terminal
@@ -36,20 +40,20 @@ uniform float time;
 
 // === Glitch Control ===
 uniform float glitch_intensity : hint_range(0.0, 1.0) = 0.0;
-uniform float interference_speed : hint_range(0.0, 30.0) = 10.0;
+uniform float interference_speed : hint_range(0.0, 30.0) = 5.0;
 
 // === Chromatic Aberration ===
-uniform float chromatic_offset : hint_range(0.0, 20.0) = 3.0;
+uniform float chromatic_offset : hint_range(0.0, 20.0) = 2.0;
 
 // === Block Corruption ===
 uniform float block_size : hint_range(4.0, 64.0) = 16.0;
 uniform float block_intensity : hint_range(0.0, 1.0) = 0.5;
 
 // === Noise/Static ===
-uniform float noise_amount : hint_range(0.0, 1.0) = 0.15;
+uniform float noise_amount : hint_range(0.0, 1.0) = 0.1;
 
 // === Horizontal Displacement ===
-uniform float displacement_strength : hint_range(0.0, 0.2) = 0.05;
+uniform float displacement_strength : hint_range(0.0, 0.2) = 0.02;
 
 // === Palette Styling ===
 // Default tint values match the warm copper highlights from the Omega Spiral logo
@@ -165,19 +169,19 @@ float calculate_block_corruption(vec2 uv, float time_offset, float block_sz) {
 void fragment() {
     // Performance optimization: skip all calculations if no glitch
     if (glitch_intensity < 0.001) {
-        COLOR = texture(TEXTURE, UV);
+        COLOR = texture(SCREEN_TEXTURE, SCREEN_UV);
     } else {
 
     // Calculate horizontal displacement for this scanline
     float displacement = calculate_horizontal_displacement(
-        UV.y,
+        SCREEN_UV.y,
         time,
         interference_speed,
         displacement_strength * glitch_intensity
     );
 
     // Apply displacement to UV coordinates
-    vec2 displaced_uv = UV + vec2(displacement, 0.0);
+    vec2 displaced_uv = SCREEN_UV + vec2(displacement, 0.0);
 
     // Clamp UV to valid range (prevent sampling outside texture)
     displaced_uv = clamp(displaced_uv, 0.0, 1.0);
@@ -194,23 +198,23 @@ void fragment() {
         vec2 pixel_size = vec2(1.0 / 1920.0, 1.0 / 1080.0);
         vec2 offset_uv = pixel_size * (chromatic_offset * glitch_intensity);
 
-        float r = texture(TEXTURE, displaced_uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
-        float g = texture(TEXTURE, displaced_uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
-        float b = texture(TEXTURE, displaced_uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
+        float r = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
+        float g = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
+        float b = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
 
         color = vec3(r, g, b);
     } else {
-        color = texture(TEXTURE, displaced_uv).rgb;
+        color = texture(SCREEN_TEXTURE, displaced_uv).rgb;
     }
 
     // Add digital block corruption
-    float block_corruption = calculate_block_corruption(UV, time, block_size);
-    float block_noise = random(UV + time);
+    float block_corruption = calculate_block_corruption(SCREEN_UV, time, block_size);
+    float block_noise = random(SCREEN_UV + time);
     vec3 tinted_block = vec3(block_noise) * glitch_tint;
     color = mix(color, tinted_block, block_corruption * block_intensity * glitch_intensity);
 
     // Add noise/static overlay
-    float static_noise = noise(UV, time);
+    float static_noise = noise(SCREEN_UV, time);
     vec3 tinted_static = (vec3(static_noise) - vec3(0.5)) * glitch_tint;
     color += tinted_static * noise_amount * glitch_intensity;
 
@@ -221,8 +225,14 @@ void fragment() {
     // Ensure color stays in valid range
     color = clamp(color, 0.0, 1.0);
 
-    // Output final color with original alpha
-    COLOR = vec4(color, texture(TEXTURE, UV).a);
+    // Scale glitch effect intensity and output for additive blending
+    // Only output glitch colors when active (glitch_intensity > 0)
+    vec3 glitch_output = color * glitch_intensity;
+
+    // Output final color with additive blending
+    // When glitch_intensity = 0, output is black (no effect)
+    // When glitch_intensity = 1, output is full glitch effect
+    COLOR = vec4(glitch_output, 1.0);
     }
 }
 

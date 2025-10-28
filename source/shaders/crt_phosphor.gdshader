@@ -1,4 +1,5 @@
 shader_type canvas_item;
+render_mode unshaded, blend_add;
 
 // ============================================================================
 // CRT Phosphor Shader - Base Visual Layer for Stage 1 Terminal
@@ -10,6 +11,9 @@ shader_type canvas_item;
 // - Thread-specific color tinting (Light/Shadow/Ambition)
 // - Chromatic aberration on edges
 // ============================================================================
+
+// Godot 4.6 requires explicit SCREEN_TEXTURE uniform
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 // === Screen Curvature ===
 uniform float curvature_strength : hint_range(0.0, 1.0) = 0.15;
@@ -78,7 +82,7 @@ vec3 adjust_levels(vec3 color, float bright, float contra) {
 // ============================================================================
 void fragment() {
     // Get curved UV coordinates
-    vec2 curved_uv = curve_screen(UV, curvature_strength);
+    vec2 curved_uv = curve_screen(SCREEN_UV, curvature_strength);
 
     // Check if we're outside the curved screen bounds
     if (curved_uv.x < 0.0 || curved_uv.x > 1.0 || curved_uv.y < 0.0 || curved_uv.y > 1.0) {
@@ -89,9 +93,9 @@ void fragment() {
     float phosphor_offset = 0.0005 * phosphor_spread;
     float phosphor_safe_glow = max(phosphor_glow, 0.0001);
 
-    float phosphor_r = texture(TEXTURE, curved_uv + vec2(phosphor_offset, 0.0)).r;
-    float phosphor_g = texture(TEXTURE, curved_uv).g;
-    float phosphor_b = texture(TEXTURE, curved_uv - vec2(phosphor_offset, 0.0)).b;
+    float phosphor_r = texture(SCREEN_TEXTURE, curved_uv + vec2(phosphor_offset, 0.0)).r;
+    float phosphor_g = texture(SCREEN_TEXTURE, curved_uv).g;
+    float phosphor_b = texture(SCREEN_TEXTURE, curved_uv - vec2(phosphor_offset, 0.0)).b;
 
     vec3 color = vec3(phosphor_r, phosphor_g, phosphor_b);
     color *= phosphor_tint;
@@ -104,9 +108,9 @@ void fragment() {
         float aberration_amount = chromatic_aberration * 0.001 * aberration_distance;
 
         vec3 aberration_color = vec3(
-            texture(TEXTURE, curved_uv + aberration_centered * aberration_amount).r,
-            texture(TEXTURE, curved_uv).g,
-            texture(TEXTURE, curved_uv - aberration_centered * aberration_amount).b);
+            texture(SCREEN_TEXTURE, curved_uv + aberration_centered * aberration_amount).r,
+            texture(SCREEN_TEXTURE, curved_uv).g,
+            texture(SCREEN_TEXTURE, curved_uv - aberration_centered * aberration_amount).b);
 
         color = mix(color, aberration_color, 0.3);
     }
@@ -121,7 +125,8 @@ void fragment() {
     // Ensure we don't exceed color bounds
     color = clamp(color, 0.0, 1.0);
 
-    // Output final color
+    // Output final color with full opacity for additive blending
+    // Additive blend mode will add this color to the framebuffer
     COLOR = vec4(color, 1.0);
     }
 }

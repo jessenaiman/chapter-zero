@@ -45,12 +45,6 @@ namespace OmegaSpiral.Tests.Ui;
 
             // Wait for scene initialization
             await _Runner.SimulateFrames(10);
-
-            // Validate background/theme using shared helper
-            if (_PauseMenu != null)
-            {
-                OmegaUiTestHelper.ValidateBackgroundTheme(_PauseMenu, "PauseMenu");
-            }
         }
 
     [After]
@@ -70,12 +64,12 @@ namespace OmegaSpiral.Tests.Ui;
     }        // ==================== INHERITANCE & STRUCTURE ====================
 
         /// <summary>
-        /// PauseMenu extends BaseMenuUi.
+        /// PauseMenu extends MenuUi.
         /// </summary>
         [TestCase]
         public void PauseMenu_ExtendsMenuUi()
         {
-            AssertThat(typeof(PauseMenu).BaseType).IsEqual(typeof(BaseMenuUi));
+            AssertThat(typeof(PauseMenu).BaseType).IsEqual(typeof(MenuUi));
             AssertThat(typeof(PauseMenu).IsAssignableTo(typeof(Control))).IsTrue();
         }
 
@@ -153,4 +147,3 @@ namespace OmegaSpiral.Tests.Ui;
         // Those are Omega framework concerns, not PauseMenu-specific concerns
         // To visually verify this menu, run the pause_menu.tscn scene in the editor
     }
-

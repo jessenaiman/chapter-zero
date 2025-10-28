@@ -24,36 +24,44 @@ namespace OmegaSpiral.Source.Ui.Omega
         /// </summary>
         public OmegaBorderFrame()
         {
-            try
-            {
-                Initialize();
-            }
-            catch (Exception ex)
-            {
-                GD.PushError($"[OmegaBorderFrame] Initialization failed: {ex.Message}");
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Sets up the border frame properties and shader.
-        /// Called during construction to configure layout and visual appearance.
-        /// </summary>
-        private void Initialize()
-        {
-            // Configure layout
+            // Configure basic layout properties in constructor
             Name = "BorderFrame";
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
             SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-            ZIndex = 10; // Render above background layers but below content
-            MouseFilter = MouseFilterEnum.Ignore; // Don't intercept mouse events
+            ZIndex = 10;
+            MouseFilter = MouseFilterEnum.Ignore;
 
             // Anchor to fill entire parent control
             AnchorLeft = 0;
             AnchorTop = 0;
             AnchorRight = 1;
             AnchorBottom = 1;
+        }
 
+        /// <summary>
+        /// Called when the node enters the scene tree.
+        /// Initializes the shader and animation parameters here (not in constructor).
+        /// </summary>
+        public override void _Ready()
+        {
+            base._Ready();
+            try
+            {
+                InitializeShader();
+            }
+            catch (Exception ex)
+            {
+                GD.PushError($"[OmegaBorderFrame] Shader initialization failed: {ex.Message}");
+                // Don't rethrow - allow the border to function without shader
+            }
+        }
+
+        /// <summary>
+        /// Sets up the shader and animation parameters.
+        /// Called from _Ready() to initialize after the node enters the scene tree.
+        /// </summary>
+        private void InitializeShader()
+        {
             // Load spiral border shader
             var shader = GD.Load<Shader>("res://source/shaders/spiral_border.gdshader");
             if (shader == null)
@@ -109,12 +117,12 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            _ShaderMaterial.SetShaderParameter("rotation_speed", 0.05f);   // Very slow spiral rotation
-            _ShaderMaterial.SetShaderParameter("wave_speed", 0.8f);        // Gentle wave flow
-            _ShaderMaterial.SetShaderParameter("wave_frequency", 8.0f);    // Moderate wavelength density
-            _ShaderMaterial.SetShaderParameter("wave_amplitude", 0.25f);   // Subtle wave height
-            _ShaderMaterial.SetShaderParameter("border_width", 0.015f);    // ~1.5% of viewport
-            _ShaderMaterial.SetShaderParameter("glow_intensity", 1.2f);    // Moderate glow
+            _ShaderMaterial.SetShaderParameter("rotation_speed", 0.15f);      // Moderate spiral rotation
+            _ShaderMaterial.SetShaderParameter("flow_speed", 2.0f);           // Flowing particle speed
+            _ShaderMaterial.SetShaderParameter("particle_density", 20.0f);    // Number of light particles
+            _ShaderMaterial.SetShaderParameter("trail_length", 1.5f);         // Length of flowing trails
+            _ShaderMaterial.SetShaderParameter("line_width", 0.003f);         // Very thin border line
+            _ShaderMaterial.SetShaderParameter("glow_intensity", 2.5f);       // Strong glow like logo
         }
 
         /// <summary>

@@ -25,14 +25,21 @@ public partial class MainMenu_IntegrationTests
     private MainMenu? _MainMenu;
 
     [Before]
-    public void Setup()
+    public async Task Setup()
     {
         // Load the actual scene file used in the game
         _Runner = ISceneRunner.Load("res://source/ui/menus/main_menu.tscn");
-        _MainMenu = (MainMenu)_Runner.Scene();
 
-        AssertThat(_MainMenu).IsNotNull()
-            .OverrideFailureMessage("MainMenu scene failed to load - check scene file exists and is valid");
+        AssertThat(_Runner).IsNotNull();
+
+        var scene = _Runner.Scene();
+        AssertThat(scene).IsNotNull();
+
+        _MainMenu = scene as MainMenu;
+        AssertThat(_MainMenu).IsNotNull();
+
+        // Wait for scene initialization
+        await _Runner.SimulateFrames(10);
     }
 
     [After]
@@ -49,27 +56,25 @@ public partial class MainMenu_IntegrationTests
     /// <summary>
     /// Tests that all required menu nodes exist (smoke test for scene integrity).
     /// </summary>
-    [TestCase]
+    [TestCase(Timeout = 5000)]
     public void MainMenu_HasRequiredNodes()
     {
+        AssertThat(_MainMenu).IsNotNull();
+        if (_MainMenu == null) return;
+
         // Core structure
-        AssertThat(_MainMenu!.GetNodeOrNull("ContentContainer")).IsNotNull()
-            .OverrideFailureMessage("ContentContainer missing");
-        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuTitle")).IsNotNull()
-            .OverrideFailureMessage("MenuTitle missing");
-        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuButtonContainer")).IsNotNull()
-            .OverrideFailureMessage("MenuButtonContainer missing");
-        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuActionBar")).IsNotNull()
-            .OverrideFailureMessage("MenuActionBar missing");
+        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer")).IsNotNull();
+        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuTitle")).IsNotNull();
+        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuButtonContainer")).IsNotNull();
+        AssertThat(_MainMenu.GetNodeOrNull("ContentContainer/MenuActionBar")).IsNotNull();
     }
 
     /// <summary>
-    /// Tests that MainMenu extends BaseMenuUi which extends OmegaThemedContainer.
+    /// Tests that MainMenu extends MenuUi which extends OmegaThemedContainer.
     /// </summary>
-    [TestCase]
+    [TestCase(Timeout = 2000)]
     public void MainMenu_InheritsOmegaTheming()
     {
-        AssertThat(_MainMenu).IsInstanceOf<OmegaThemedContainer>()
-            .OverrideFailureMessage("MainMenu should inherit from OmegaThemedContainer through BaseMenuUi");
+        AssertThat(_MainMenu).IsInstanceOf<OmegaThemedContainer>();
     }
 }

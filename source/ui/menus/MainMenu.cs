@@ -3,7 +3,6 @@ using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Ui.Menus;
-using OmegaSpiral.Source.Ui.Components;
 using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Stages.Stage0Start
@@ -14,7 +13,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
     /// Extends MenuUi for static menu infrastructure (not sequential narrative).
     /// </summary>
     [GlobalClass]
-    public partial class MainMenu : BaseMenuUi
+    public partial class MainMenu : MenuUi
     {
         // --- EXPORTED DEPENDENCIES (Set in the Godot Inspector) ---
 
@@ -26,10 +25,16 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
     public string StageManifestPath { get; set; } = "res://source/ui/menus/main_menu_manifest.json";
 
     /// <summary>
-    /// Path to the StageButton scene template.
+    /// Initializes a new instance of the <see cref="MainMenu"/> class.
+    /// Sets up correct node paths for OmegaFrame structure.
     /// </summary>
-    [Export(PropertyHint.File, "*.tscn")]
-    public string StageButtonScenePath { get; set; } = "res://source/ui/components/stage_button.tscn";
+    public MainMenu()
+    {
+        // Override default MenuUi paths to match OmegaFrame structure
+        MenuTitlePath = "OmegaFrame/CrtFrame/ContentContainer/MenuTitle";
+        MenuButtonContainerPath = "OmegaFrame/CrtFrame/ContentContainer/MenuButtonContainer";
+        MenuActionBarPath = "OmegaFrame/CrtFrame/ContentContainer/MenuActionBar";
+    }
 
     // --- PRIVATE FIELDS ---
 
@@ -56,11 +61,35 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             _SceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
             SetMenuTitle("Ωmega Spiral");
 
-            // Set title color to amber from OmegaSpiralColors design palette
-            var titleLabel = GetNodeOrNull<Label>("ContentContainer/MenuTitle");
+            // Set title with bold single color and subtle shadow effect
+            var titleLabel = GetNodeOrNull<Label>("OmegaFrame/CrtFrame/ContentContainer/MenuTitle");
             if (titleLabel != null)
             {
-                titleLabel.Modulate = OmegaSpiralColors.WarmAmber;
+                // Apply Orbitron Black font for maximum impact
+                var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_title.tres");
+                if (orbitronFont != null)
+                {
+                    titleLabel.AddThemeFontOverride("font", orbitronFont);
+                    titleLabel.AddThemeFontSizeOverride("font_size", 48); // Much larger
+                }
+
+                // Apply shadow shader effect (no animation, just depth)
+                var shadowShader = GD.Load<Shader>("res://source/shaders/title_gradient.gdshader");
+                if (shadowShader != null)
+                {
+                    var shaderMaterial = new ShaderMaterial { Shader = shadowShader };
+
+                    // Set primary color to Ambition (Crimson Red) - bold single color
+                    shaderMaterial.SetShaderParameter("color_primary", OmegaSpiralColors.AmbitionThread);
+
+                    // Shadow color for depth effect
+                    shaderMaterial.SetShaderParameter("color_shadow", Colors.Black);
+
+                    // Subtle shadow offset for 3D depth
+                    shaderMaterial.SetShaderParameter("shadow_offset", 0.02f);
+
+                    titleLabel.Material = shaderMaterial;
+                }
             }
         }
 
@@ -76,7 +105,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
         /// <summary>
         /// Loads the stage manifest and populates the dynamic list of stage buttons.
-        /// Uses custom StageButton component with status indicators and OmegaUI styling.
+        /// Uses OmegaUiButton for unified visual consistency across all buttons.
         /// </summary>
         private void PopulateStageList()
         {
@@ -88,35 +117,39 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
                 return;
             }
 
-            // Load StageButton scene template
-            var stageButtonScene = GD.Load<PackedScene>(StageButtonScenePath);
-            if (stageButtonScene == null)
-            {
-                GD.PrintErr($"[MainMenu] Failed to load StageButton scene: {StageButtonScenePath}");
-                return;
-            }
+            var buttonContainer = GetNode<VBoxContainer>("OmegaFrame/CrtFrame/ContentContainer/MenuButtonContainer");
 
-            // Create "Launch" button for first stage with special styling
+            // Create "Start Here" button for first stage
             var firstStage = stages.OrderBy(s => s.Id).FirstOrDefault();
             if (firstStage != null)
             {
-                var launchButton = stageButtonScene.Instantiate<StageButton>();
-                launchButton.Name = "StartButton";
-                launchButton.Configure($"{firstStage.Id}", "Start Here", firstStage.DisplayName, StageButton.ContentStatus.Ready);
-                launchButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
-                GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(launchButton);
-                _StartButton = launchButton;
+                var startButton = new OmegaUiButton
+                {
+                    Name = "StartButton",
+                    Text = $"Start Here - {firstStage.DisplayName}",
+                    FocusMode = Control.FocusModeEnum.All,
+                    SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                    SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+                };
+                startButton.Pressed += () => OnStageSelected(firstStage.Id);
+                buttonContainer.AddChild(startButton);
+                _StartButton = startButton;
             }
 
             // Create stage selection buttons (stages 2-6)
             int createdCount = 0;
             foreach (var stage in stages.OrderBy(s => s.Id).Skip(1))
             {
-                var stageButton = stageButtonScene.Instantiate<StageButton>();
-                stageButton.Name = $"Stage{stage.Id}Button";
-                stageButton.Configure($"{stage.Id}", $"Stage {stage.Id}", stage.DisplayName, StageButton.ContentStatus.Ready);
-                stageButton.ClickedStage += (stageId) => OnStageSelected(int.Parse(stageId));
-                GetNode<VBoxContainer>("ContentContainer/MenuButtonContainer").AddChild(stageButton);
+                var stageButton = new OmegaUiButton
+                {
+                    Name = $"Stage{stage.Id}Button",
+                    Text = $"Stage {stage.Id} - {stage.DisplayName}",
+                    FocusMode = Control.FocusModeEnum.All,
+                    SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                    SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+                };
+                stageButton.Pressed += () => OnStageSelected(stage.Id);
+                buttonContainer.AddChild(stageButton);
                 createdCount++;
             }
 
@@ -133,11 +166,25 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
             if (buttonContainer != null)
             {
-                _OptionsButton = CreateMenuButton("OptionsButton", "Options");
+                _OptionsButton = new OmegaUiButton
+                {
+                    Name = "OptionsButton",
+                    Text = "Options",
+                    FocusMode = Control.FocusModeEnum.All,
+                    SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                    SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+                };
                 _OptionsButton.Pressed += OnOptionsPressed;
                 buttonContainer.AddChild(_OptionsButton);
 
-                _QuitButton = CreateMenuButton("QuitButton", "Quit Game");
+                _QuitButton = new OmegaUiButton
+                {
+                    Name = "QuitButton",
+                    Text = "Quit Game",
+                    FocusMode = Control.FocusModeEnum.All,
+                    SizeFlagsHorizontal = Control.SizeFlags.Fill,
+                    SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+                };
                 _QuitButton.Pressed += OnQuitPressed;
                 buttonContainer.AddChild(_QuitButton);
             }

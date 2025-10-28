@@ -35,6 +35,7 @@ obj/
 .godot/shader_cache/
 .godot/mono/
 .godot/imported/
+.serana/
 
 # IDE and OS clutter
 .vscode/

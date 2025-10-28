@@ -48,11 +48,12 @@ public class NarrativeScript
     public string? Speaker { get; set; }
 
     /// <summary>
-    /// Gets or sets the sequential list of narrative moments.
+    /// Gets or sets the sequential list of narrative scenes.
     /// Rendered in order from index 0 to N.
+    /// Each scene can contain either narrative lines or a question with answers.
     /// </summary>
-    [YamlMember(Alias = "moments")]
-    public List<ContentBlock> Moments { get; set; } = new();
+    [YamlMember(Alias = "scenes")]
+    public List<ContentBlock> Scenes { get; set; } = new();
 }
 
 /// <summary>
@@ -150,6 +151,22 @@ public class ContentBlock : NarrativeElement
     public string? JournalEntry { get; set; }
 
     // ========== QUESTION fields (type: "question" or "composite") ==========
+
+    /// <summary>
+    /// Gets or sets the question text for scenes with questions.
+    /// </summary>
+    [YamlMember(Alias = "question")]
+    public string? Question { get; set; }
+
+    /// <summary>
+    /// Gets or sets the answer options for the question.
+    /// See <see cref="ChoiceOption"/> for the choice structure.
+    /// Scoring is automatic: if answer.owner matches current dreamweaver thread → +2, else → +1 to answer.owner.
+    /// </summary>
+    [YamlMember(Alias = "answers")]
+    public List<ChoiceOption>? Answers { get; set; }
+
+    // ========== LEGACY fields (for backwards compatibility) ==========
 
     /// <summary>
     /// Gets or sets the setup narrative lines (for "composite" blocks - shown before question).

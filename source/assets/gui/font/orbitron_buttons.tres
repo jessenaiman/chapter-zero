@@ -1,0 +1,10 @@
+[gd_resource type="FontFile" load_steps=2 format=3 uid="uid://orbitron_buttons"]
+
+[ext_resource type="FontFile" path="res://source/assets/fonts/Orbitron/static/Orbitron-Bold.ttf" id="1"]
+
+[resource]
+font_data = ExtResource("1")
+antialiasing = 1
+hinting = 2
+subpixel_positioning = 1
+force_autohinter = false

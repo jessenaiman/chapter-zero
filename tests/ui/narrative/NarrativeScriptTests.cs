@@ -27,8 +27,8 @@ public class NarrativeScriptTests
 
         // Assert
         AssertThat(script.Title).IsEqual(string.Empty);
-        AssertThat(script.Moments).IsNotNull();
-        AssertThat(script.Moments.Count).IsEqual(0);
+        AssertThat(script.Scenes).IsNotNull();
+        AssertThat(script.Scenes.Count).IsEqual(0);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public class NarrativeScriptTests
         // Assert
         AssertThat(block.Type).IsEqual(string.Empty);
         AssertThat(block.Lines).IsNull();
-        AssertThat(block.Options).IsNull();
+        AssertThat(block.Answers).IsNull();
         AssertThat(block.Owner).IsNull();
     }
 

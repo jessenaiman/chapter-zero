@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 public partial class UiBattlerEntry : TextureButton
 {
     private UiBattlerEnergyBar? energy;
-    private UiBattlerLifeBar? life;
+    private UIBattlerLifeBar? life;
 
     private Battler? battler;
 
@@ -93,7 +93,7 @@ public partial class UiBattlerEntry : TextureButton
     public override void _Ready()
     {
         this.energy = this.GetNode<UiBattlerEnergyBar>("VBoxContainer/CenterContainer/EnergyBar");
-        this.life = this.GetNode<UiBattlerLifeBar>("VBoxContainer/LifeBar");
+        this.life = this.GetNode<UIBattlerLifeBar>("VBoxContainer/LifeBar");
 
         // If Battler was set before the node was ready, apply it now
         if (this.battler != null && this.energy != null && this.life != null)

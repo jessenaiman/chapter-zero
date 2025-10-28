@@ -3,7 +3,7 @@
 // </copyright>
 
 using Godot;
-using System;
+using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
@@ -29,116 +29,41 @@ public partial class OmegaContainer : Control
     public delegate void InitializationCompletedEventHandler();
 
     /// <summary>
-    /// Gets the shader controller component if composed.
+    /// Gets the shader controller component if present in the scene.
     /// </summary>
-    protected IOmegaShaderController? ShaderController { get; private set; }
+    public OmegaShaderController? ShaderController { get; protected set; }
 
     /// <summary>
-    /// Gets the text renderer component if composed.
+    /// Gets the text renderer component if present in the scene.
     /// </summary>
-    protected IOmegaTextRenderer? TextRenderer { get; private set; }
+    public OmegaTextRenderer? TextRenderer { get; protected set; }
 
     /// <summary>
-    /// Gets the choice presenter component if composed.
+    /// Gets or sets the choice presenter component.
+    /// This references the narrative-driven choice presenter for managing player choices.
     /// </summary>
-    protected IOmegaChoicePresenter? ChoicePresenter { get; private set; }
+    public NarrativeChoicePresenter? ChoicePresenter { get; protected set; }
 
     /// <summary>
     /// Called by Godot when the node enters the scene tree.
-    /// Template method that orchestrates initialization sequence.
+    /// Standard initialization pattern - subclasses override to implement specific behavior.
     /// </summary>
     public override void _Ready()
     {
         base._Ready();
 
-        try
-        {
-            // Ensure proper anchoring so this control fills its parent
-            // This is critical for visual layers to work correctly
-            AnchorLeft = 0f;
-            AnchorTop = 0f;
-            AnchorRight = 1f;
-            AnchorBottom = 1f;
-            OffsetLeft = 0;
-            OffsetTop = 0;
-            OffsetRight = 0;
-            OffsetBottom = 0;
+        // Ensure proper anchoring so this control fills its parent
+        AnchorLeft = 0f;
+        AnchorTop = 0f;
+        AnchorRight = 1f;
+        AnchorBottom = 1f;
+        OffsetLeft = 0;
+        OffsetTop = 0;
+        OffsetRight = 0;
+        OffsetBottom = 0;
 
-            CacheRequiredNodes();
-            CreateComponents();
-            InitializeComponentStates();
-
-            // Defer signal emission to ensure scene tree is fully initialized
-            // This makes the signal emission asynchronous for proper testability
-            CallDeferred(MethodName.EmitSignal, SignalName.InitializationCompleted);
-        }
-        catch (Exception ex)
-        {
-            GD.PushError($"[{GetType().Name}] Initialization failed: {ex.Message}");
-            throw;
-        }
-    }
-
-    /// <summary>
-    /// Caches references to child nodes from the scene.
-    /// Override to cache scene-specific nodes.
-    /// </summary>
-    /// <remarks>
-    /// Scene structure is authoritative - nodes should exist in .tscn files.
-    /// This method just caches references for performance.
-    /// </remarks>
-    protected virtual void CacheRequiredNodes()
-    {
-        // Subclasses override to cache their specific nodes
-    }
-
-    /// <summary>
-    /// Creates and composes component instances.
-    /// Override to create Omega components via OmegaComponentFactory.
-    /// </summary>
-    /// <remarks>
-    /// Use OmegaComponentFactory to create themed components.
-    /// Use Compose* helper methods to assign to protected properties.
-    /// </remarks>
-    protected virtual void CreateComponents()
-    {
-        // Subclasses override to create their components
-    }
-
-    /// <summary>
-    /// Initializes component states after creation.
-    /// Override to set initial values, configure components, etc.
-    /// </summary>
-    protected virtual void InitializeComponentStates()
-    {
-        // Subclasses override to initialize their state
-    }
-
-    /// <summary>
-    /// Helper to compose a shader controller from a ColorRect.
-    /// </summary>
-    /// <param name="display">The ColorRect to apply shaders to.</param>
-    protected void ComposeShaderController(ColorRect display)
-    {
-        ShaderController = OmegaComponentFactory.CreateShaderController(display);
-    }
-
-    /// <summary>
-    /// Helper to compose a text renderer from a RichTextLabel.
-    /// </summary>
-    /// <param name="textDisplay">The RichTextLabel to render text on.</param>
-    protected void ComposeTextRenderer(RichTextLabel textDisplay)
-    {
-        TextRenderer = OmegaComponentFactory.CreateTextRenderer(textDisplay);
-    }
-
-    /// <summary>
-    /// Helper to compose a choice presenter from a VBoxContainer.
-    /// </summary>
-    /// <param name="choiceContainer">The VBoxContainer to hold choice buttons.</param>
-    protected void ComposeChoicePresenter(VBoxContainer choiceContainer)
-    {
-        ChoicePresenter = OmegaComponentFactory.CreateChoicePresenter(choiceContainer);
+        // Emit signal to indicate initialization is complete
+        EmitSignal(SignalName.InitializationCompleted);
     }
 
     /// <summary>
@@ -148,6 +73,7 @@ public partial class OmegaContainer : Control
     public override void _ExitTree()
     {
         base._ExitTree();
-        // Godot handles cleanup automatically via reference counting
+        // Reset shader effects in the Node owner (this), not in the service
+        ShaderController?.ResetShaderEffects();
     }
 }

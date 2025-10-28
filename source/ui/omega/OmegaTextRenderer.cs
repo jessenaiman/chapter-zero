@@ -5,24 +5,23 @@ using System.Threading.Tasks;
 namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
-/// Implementation of text renderer for Omega Ui system.
+/// Text renderer for Omega UI system - standard Godot RichTextLabel with text animation.
 /// Handles text display, ghost typing animations, and text formatting.
+/// Use as a normal Godot node - add to scene tree or instantiate with 'new OmegaTextRenderer()'.
 /// </summary>
-public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
+[GlobalClass]
+public partial class OmegaTextRenderer : RichTextLabel
 {
-    private readonly RichTextLabel _TextDisplay;
     private bool _IsAnimating;
-    private bool _Disposed;
 
     /// <summary>
     /// Initializes a new instance of the OmegaTextRenderer.
+    /// Standard Godot node - no parameters needed.
     /// </summary>
-    /// <param name="textDisplay">The RichTextLabel node to display text on.</param>
-    /// <exception cref="ArgumentNullException">Thrown when textDisplay is null.</exception>
-    public OmegaTextRenderer(RichTextLabel textDisplay)
+    public OmegaTextRenderer()
     {
-        _TextDisplay = textDisplay ?? throw new ArgumentNullException(nameof(textDisplay));
-        _TextDisplay.BbcodeEnabled = true; // Enable BBCode for formatting
+        BbcodeEnabled = true; // Enable BBCode for formatting
+        SetTextColor(OmegaSpiralColors.WarmAmber); // Apply default Omega color
     }
 
     /// <inheritdoc/>
@@ -47,7 +46,7 @@ public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
 
         try
         {
-            var currentText = _TextDisplay.Text;
+            var currentText = this.Text;
             var charDelay = 1.0f / typingSpeed; // seconds per character
 
             foreach (var character in text)
@@ -68,7 +67,7 @@ public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
     /// <inheritdoc/>
     public void ClearText()
     {
-        _TextDisplay.Text = "";
+        this.Text = "";
     }
 
     /// <inheritdoc/>
@@ -76,33 +75,29 @@ public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
     {
         // Store color for future text - RichTextLabel handles this via BBCode
         // This is a simplified implementation - full implementation would track color state
-        _TextDisplay.AddThemeColorOverride("default_color", color);
+        this.AddThemeColorOverride("default_color", color);
     }
 
     /// <inheritdoc/>
     public string GetCurrentText()
     {
-        return _TextDisplay.Text;
+        return this.Text;
     }
 
     /// <inheritdoc/>
     public void ScrollToBottom()
     {
         // For RichTextLabel, we can scroll to the end by setting scroll following
-        _TextDisplay.ScrollFollowing = true;
+        this.ScrollFollowing = true;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Gets whether the renderer is currently animating text.
+    /// </summary>
+    /// <returns><see langword="true"/> if text animation is in progress, <see langword="false"/> otherwise.</returns>
     public bool IsAnimating()
     {
         return _IsAnimating;
-    }
-
-    /// <inheritdoc/>
-    void IDisposable.Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -111,23 +106,6 @@ public partial class OmegaTextRenderer : Node, IOmegaTextRenderer, IDisposable
     /// <param name="text">The text to set on the RichTextLabel.</param>
     private void UpdateTextDeferred(string text)
     {
-        _TextDisplay.Text = text;
-    }
-
-    /// <summary>
-    /// Disposes managed and unmanaged resources.
-    /// </summary>
-    /// <param name="disposing">Whether to dispose managed resources.</param>
-    protected override void Dispose(bool disposing)
-    {
-        if (!_Disposed)
-        {
-            if (disposing)
-            {
-                _IsAnimating = false;
-            }
-            _Disposed = true;
-        }
-        base.Dispose(disposing);
+        this.Text = text;
     }
 }

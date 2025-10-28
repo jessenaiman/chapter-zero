@@ -1,13 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4wya03i2rn5q"]
+[gd_scene load_steps=3 format=3 uid="uid://c4wya03i2rn5q"]
 
 [ext_resource type="Script" path="res://source/ui/menus/PauseMenu.cs" id="1_pause_menu"]
+[ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2"]
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
 script = ExtResource("1_pause_menu")
-enable_omega_theme = false
 
-[node name="ContentContainer" type="VBoxContainer" parent="."]
+[node name="OmegaFrame" parent="." instance=ExtResource("2")]
+
+[node name="ContentContainer" type="VBoxContainer" parent="OmegaFrame/CrtFrame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,21 +18,21 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
-[node name="MenuTitle" type="Label" parent="ContentContainer"]
+[node name="MenuTitle" type="Label" parent="OmegaFrame/CrtFrame/ContentContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "PAUSED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MenuButtonContainer" type="VBoxContainer" parent="ContentContainer"]
+[node name="MenuButtonContainer" type="VBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="MenuActionBar" type="HBoxContainer" parent="ContentContainer"]
+[node name="MenuActionBar" type="HBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8

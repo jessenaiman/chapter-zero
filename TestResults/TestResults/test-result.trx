@@ -1,189 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="39f57afd-705c-48e9-8313-3173e433f858" name="@omega 2025-10-27 12:42:50" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-10-27T12:42:50.1420556-04:00" queuing="2025-10-27T12:42:50.1420556-04:00" start="2025-10-27T12:42:27.9420972-04:00" finish="2025-10-27T12:42:50.3049503-04:00" />
-  <TestSettings name="default" id="c43b8844-824e-4c47-a238-12926a2ed81c">
-    <Deployment runDeploymentRoot="_omega_2025-10-27_12_42_50" />
+<TestRun id="c4d9689b-ef58-45d5-af2f-96086e622634" name="@omega 2025-10-28 04:34:51" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-10-28T04:34:51.2278752-04:00" queuing="2025-10-28T04:34:51.2278752-04:00" start="2025-10-28T04:34:30.2767254-04:00" finish="2025-10-28T04:34:54.5638920-04:00" />
+  <TestSettings name="default" id="afe64a48-1ff7-4170-80c5-4b2eff8e5557">
+    <Deployment runDeploymentRoot="_omega_2025-10-28_04_34_51" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="b055a760-07b1-46c8-a0e2-d32ff0545abf" testId="ff4bcdee-fd64-4962-a1a6-e7658d8173f5" testName="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.TerminalInput_AcceptsSelection_ReturnsCorrectIndex" computerName="omega" duration="00:00:00.0200000" startTime="2025-10-27T12:42:49.4701464-04:00" endTime="2025-10-27T12:42:49.4706272-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b055a760-07b1-46c8-a0e2-d32ff0545abf">
+    <UnitTestResult executionId="868607a7-409f-4b85-8bc0-647669ac6859" testId="da2f7d97-22a4-4a60-a876-fd3f1babc11c" testName="AudioManagerTests.OnUiConfirm_DucksAmbientAndRestores" computerName="omega" duration="00:00:00.3600000" startTime="2025-10-28T04:34:50.0460366-04:00" endTime="2025-10-28T04:34:50.0464533-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="868607a7-409f-4b85-8bc0-647669ac6859">
       <Output>
-        <StdErr>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Message>
-        </ErrorInfo>
+        <StdOut>AudioManager: Initialized successfully</StdOut>
       </Output>
     </UnitTestResult>
-    <UnitTestResult executionId="5cdaaa5a-676b-4db6-911d-52b241f8aeb8" testId="5f9d2dc6-e3b9-4e18-ad06-06cb674f93b1" testName="[After].ShaderAndText_InteractWithoutInterference" computerName="omega" startTime="2025-10-27T12:42:50.0879285-04:00" endTime="2025-10-27T12:42:50.0879309-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5cdaaa5a-676b-4db6-911d-52b241f8aeb8">
+    <UnitTestResult executionId="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" testId="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974" testName="AudioManagerTests.OnUiHover_EmitsCueStarted" computerName="omega" duration="00:00:00.0240000" startTime="2025-10-28T04:34:49.6988241-04:00" endTime="2025-10-28T04:34:49.7005176-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d">
       <Output>
-        <StdErr>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Message>
-        </ErrorInfo>
+        <StdOut>AudioManager: Initialized successfully</StdOut>
       </Output>
     </UnitTestResult>
-    <UnitTestResult executionId="2e52e788-1881-49c1-baed-b78fb6b95fab" testId="ff4bcdee-fd64-4962-a1a6-e7658d8173f5" testName="[After].TerminalInput_AcceptsSelection_ReturnsCorrectIndex" computerName="omega" startTime="2025-10-27T12:42:50.0883022-04:00" endTime="2025-10-27T12:42:50.0883047-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2e52e788-1881-49c1-baed-b78fb6b95fab">
+    <UnitTestResult executionId="71ee96e6-557c-4687-8135-357504bd684b" testId="bc47a7da-3e4b-4c34-a514-558a463471fc" testName="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests.GhostYaml_LoadsSuccessfully" computerName="omega" duration="00:00:00.1100000" startTime="2025-10-28T04:34:50.1844953-04:00" endTime="2025-10-28T04:34:50.1848716-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71ee96e6-557c-4687-8135-357504bd684b">
       <Output>
-        <StdErr>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="108d7830-49e0-4495-b8ef-428865a4a798" testId="18d567c8-0d5f-46a5-bc2e-9ccca6bd540c" testName="[After].Components_InitializeWithoutConflicts" computerName="omega" startTime="2025-10-27T12:42:50.0874956-04:00" endTime="2025-10-27T12:42:50.0874991-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="108d7830-49e0-4495-b8ef-428865a4a798">
-      <Output>
-        <StdErr>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="64e16cb3-46f0-4605-9da4-dfd40ef38b2d" testId="5f9d2dc6-e3b9-4e18-ad06-06cb674f93b1" testName="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.ShaderAndText_InteractWithoutInterference" computerName="omega" duration="00:00:00.0530000" startTime="2025-10-27T12:42:49.4515660-04:00" endTime="2025-10-27T12:42:49.4520788-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64e16cb3-46f0-4605-9da4-dfd40ef38b2d">
-      <Output>
-        <StdOut>[DesignConfigService] Design config loaded successfully.</StdOut>
-        <ErrorInfo>
-          <Message>Unknown shader preset: phosphor (Parameter 'presetName')</Message>
-          <StackTrace>   at OmegaSpiral.Source.Ui.Omega.OmegaShaderController.ApplyVisualPresetAsync(String presetName) in /home/adam/Dev/omega-spiral/chapter-zero/source/ui/omega/OmegaShaderController.cs:line 36
-   at OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.ShaderAndText_InteractWithoutInterference() in /home/adam/Dev/omega-spiral/chapter-zero/tests/integration/common/OmegaIntegrationTests.cs:line 97
-   at GdUnit4.Core.Execution.ExecutionStage`1.ExecuteStage(ExecutionContext context)
-   at GdUnit4.Core.Execution.ExecutionStage`1.Execute(ExecutionContext context)
-</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="3ca0eb7c-b767-466c-8a11-c857234a4221" testId="2554887a-19f4-4c1c-87c5-d086bd068f43" testName="[After].ComponentLifecycle_ManagedProperly" computerName="omega" startTime="2025-10-27T12:42:50.0867487-04:00" endTime="2025-10-27T12:42:50.0868052-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ca0eb7c-b767-466c-8a11-c857234a4221">
-      <Output>
-        <StdErr>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="9e7b75f1-2645-44ab-9fbf-63ee11a01634" testId="e7c866b8-7233-4019-8287-c5881376386c" testName="[After].TextDisplay_AndChoiceInput_DontInterfere" computerName="omega" startTime="2025-10-27T12:42:50.0887017-04:00" endTime="2025-10-27T12:42:50.0887044-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e7b75f1-2645-44ab-9fbf-63ee11a01634">
-      <Output>
-        <StdErr>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="d43e18df-7cdf-4c1e-9a63-9b2a0eedc387" testId="18d567c8-0d5f-46a5-bc2e-9ccca6bd540c" testName="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.Components_InitializeWithoutConflicts" computerName="omega" duration="00:00:00.0210000" startTime="2025-10-27T12:42:49.4170046-04:00" endTime="2025-10-27T12:42:49.4193288-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d43e18df-7cdf-4c1e-9a63-9b2a0eedc387" />
-    <UnitTestResult executionId="ecf1a42d-3215-4176-90fe-a1a92b2a53f1" testId="2554887a-19f4-4c1c-87c5-d086bd068f43" testName="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.ComponentLifecycle_ManagedProperly" computerName="omega" duration="00:00:00.0140000" startTime="2025-10-27T12:42:50.0798567-04:00" endTime="2025-10-27T12:42:50.0802627-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ecf1a42d-3215-4176-90fe-a1a92b2a53f1">
-      <Output>
-        <StdOut>\u001b[92m✓ Component lifecycle managed properly\u001b[39m\u001b[0m</StdOut>
-        <StdErr>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="393dab28-d646-4fa5-880f-8d54c4451047" testId="e7c866b8-7233-4019-8287-c5881376386c" testName="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests.TextDisplay_AndChoiceInput_DontInterfere" computerName="omega" duration="00:00:00.5930000" startTime="2025-10-27T12:42:50.0645084-04:00" endTime="2025-10-27T12:42:50.0649792-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="393dab28-d646-4fa5-880f-8d54c4451047">
-      <Output>
-        <StdErr>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</StdErr>
-        <ErrorInfo>
-          <Message>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Message>
-        </ErrorInfo>
+        <StdOut>[GhostYamlTest] Loaded 8 scenes</StdOut>
       </Output>
     </UnitTestResult>
   </Results>
   <TestDefinitions>
-    <UnitTest name="Components_InitializeWithoutConflicts" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="18d567c8-0d5f-46a5-bc2e-9ccca6bd540c">
-      <Execution id="d43e18df-7cdf-4c1e-9a63-9b2a0eedc387" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests" name="Components_InitializeWithoutConflicts" />
+    <UnitTest name="OnUiConfirm_DucksAmbientAndRestores" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="da2f7d97-22a4-4a60-a876-fd3f1babc11c">
+      <Execution id="868607a7-409f-4b85-8bc0-647669ac6859" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiConfirm_DucksAmbientAndRestores" />
     </UnitTest>
-    <UnitTest name="ComponentLifecycle_ManagedProperly" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="2554887a-19f4-4c1c-87c5-d086bd068f43">
-      <Execution id="ecf1a42d-3215-4176-90fe-a1a92b2a53f1" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests" name="ComponentLifecycle_ManagedProperly" />
+    <UnitTest name="GhostYaml_LoadsSuccessfully" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="bc47a7da-3e4b-4c34-a514-558a463471fc">
+      <Execution id="71ee96e6-557c-4687-8135-357504bd684b" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests" name="GhostYaml_LoadsSuccessfully" />
     </UnitTest>
-    <UnitTest name="ShaderAndText_InteractWithoutInterference" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="5f9d2dc6-e3b9-4e18-ad06-06cb674f93b1">
-      <Execution id="64e16cb3-46f0-4605-9da4-dfd40ef38b2d" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests" name="ShaderAndText_InteractWithoutInterference" />
-    </UnitTest>
-    <UnitTest name="TerminalInput_AcceptsSelection_ReturnsCorrectIndex" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="ff4bcdee-fd64-4962-a1a6-e7658d8173f5">
-      <Execution id="b055a760-07b1-46c8-a0e2-d32ff0545abf" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests" name="TerminalInput_AcceptsSelection_ReturnsCorrectIndex" />
-    </UnitTest>
-    <UnitTest name="TextDisplay_AndChoiceInput_DontInterfere" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="e7c866b8-7233-4019-8287-c5881376386c">
-      <Execution id="393dab28-d646-4fa5-880f-8d54c4451047" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests" name="TextDisplay_AndChoiceInput_DontInterfere" />
+    <UnitTest name="OnUiHover_EmitsCueStarted" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974">
+      <Execution id="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiHover_EmitsCueStarted" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="ff4bcdee-fd64-4962-a1a6-e7658d8173f5" executionId="b055a760-07b1-46c8-a0e2-d32ff0545abf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="5f9d2dc6-e3b9-4e18-ad06-06cb674f93b1" executionId="5cdaaa5a-676b-4db6-911d-52b241f8aeb8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="ff4bcdee-fd64-4962-a1a6-e7658d8173f5" executionId="2e52e788-1881-49c1-baed-b78fb6b95fab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="18d567c8-0d5f-46a5-bc2e-9ccca6bd540c" executionId="108d7830-49e0-4495-b8ef-428865a4a798" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="5f9d2dc6-e3b9-4e18-ad06-06cb674f93b1" executionId="64e16cb3-46f0-4605-9da4-dfd40ef38b2d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2554887a-19f4-4c1c-87c5-d086bd068f43" executionId="3ca0eb7c-b767-466c-8a11-c857234a4221" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e7c866b8-7233-4019-8287-c5881376386c" executionId="9e7b75f1-2645-44ab-9fbf-63ee11a01634" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="18d567c8-0d5f-46a5-bc2e-9ccca6bd540c" executionId="d43e18df-7cdf-4c1e-9a63-9b2a0eedc387" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2554887a-19f4-4c1c-87c5-d086bd068f43" executionId="ecf1a42d-3215-4176-90fe-a1a92b2a53f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e7c866b8-7233-4019-8287-c5881376386c" executionId="393dab28-d646-4fa5-880f-8d54c4451047" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da2f7d97-22a4-4a60-a876-fd3f1babc11c" executionId="868607a7-409f-4b85-8bc0-647669ac6859" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974" executionId="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bc47a7da-3e4b-4c34-a514-558a463471fc" executionId="71ee96e6-557c-4687-8135-357504bd684b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
   <ResultSummary outcome="Failed">
-    <Counters total="10" executed="10" passed="4" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>Running on GdUnit4 test engine version: 5.0.0.0
 Discover tests from assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
 Discover:  TestSuite AudioManagerTests with 2 TestCases found.
-Discover:  TestSuite BaseMenuUiUnitTests with 4 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.BaseMenuUiTests with 12 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.CreditsMenuTests with 7 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.PauseMenuTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.ChoiceButtonTests with 7 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.OmegaBackground_UnitTests with 7 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.OmegaBorderFrame_UnitTests with 14 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.OmegaComponentFactory_UnitTests with 17 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.OmegaContainer_UnitTests with 17 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Omega.OmegaTextRendererTests with 12 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Menus.MainMenuTests with 24 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Ui.Menus.MainMenu_IntegrationTests with 2 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Integration.Common.OmegaIntegrationTests with 5 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Services.GameAppConfigTests with 9 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.CharacterDataTests with 12 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.ChoiceOptionTests with 9 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptLoaderTests with 3 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptTests with 7 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeUiTests with 10 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiTests with 12 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiUnitTests with 4 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.CreditsMenuTests with 8 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenuTests with 24 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenu_IntegrationTests with 2 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.PauseMenuTests with 6 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.ChoiceButtonTests with 7 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaBorderFrame_UnitTests with 15 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaContainer_UnitTests with 5 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests with 4 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.GameStateTests with 6 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.SceneManagerTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaChoicePresenterTests with 8 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaShaderControllerTests with 11 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.IOmegaChoicePresenterTests with 3 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.IOmegaShaderControllerTests with 4 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.IOmegaTextRendererTests with 5 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaShaderPresetsTests with 11 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaSpiralColorsTests with 15 TestCases found.
-Discover tests done, 29 TestSuites and total 255 Tests found.
+Discover:  TestSuite OmegaSpiral.Tests.Unit.Services.GameAppConfigTests with 9 TestCases found.
+Discover tests done, 21 TestSuites and total 177 Tests found.
 Running on GdUnit4 test engine version: 5.0.0.0
 Set test session timeout to: 00:30:00
 Detected IDE Unknown
@@ -215,10 +102,10 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. CORE API HASH: 3234800178
 .. EDITOR API HASH: 4055853480
 .. SceneTreeFTI: traversal method DEFAULT
-.. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/TimelineResourceLoader.gd
-.. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/TimelineResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
 .. Loading resource: /home/adam/.config/godot/editor_settings-4.6.tres
 .. EditorSettings: Load OK!
 .. EditorTheme: Generating new theme for the config '66886095'.
@@ -252,6 +139,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://source/common/Player.cs
 .. Loading resource: res://source/combat/CombatEvents.cs
 .. Loading resource: res://source/audio/AudioManager.cs
+.. Loading resource: res://source/services/GameAppConfig.cs
 .. [  66% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Initializing plugins...\u001b[39m\u001b[0m
 .. Loading resource: res://addons/dialogic/plugin.gd
 .. Loading resource: res://addons/dialogic/Editor/editor_main.tscn
@@ -526,16 +414,20 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading editor layout...\u001b[39m\u001b[0m
 .. [  16% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading docks...\u001b[39m\u001b[0m
 .. [  33% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Reopening scenes...\u001b[39m\u001b[0m
-.. Loading resource: res://source/ui/menus/main_menu.tscn
-.. Loading resource: res://source/ui/menus/MainMenu.cs
-.. Loading resource: res://source/ui/menus/BaseMenuUi.cs
-.. Loading resource: res://source/ui/omega/OmegaThemedContainer.cs
-.. Loading resource: res://source/ui/omega/OmegaContainer.cs
 .. Loading resource: res://source/stages/stage_1_ghost/ghost_terminal.tscn
 .. Loading resource: res://source/stages/stage_1_ghost/GhostUi.cs
 .. Loading resource: res://source/narrative/NarrativeUi.cs
+.. Loading resource: res://source/ui/omega/OmegaThemedContainer.cs
+.. Loading resource: res://source/ui/omega/OmegaContainer.cs
 .. Loading resource: res://source/stages/main.tscn
 .. Loading resource: res://source/ui/menus/main_menu.tscn
+.. Loading resource: res://source/ui/menus/MainMenu.cs
+.. Loading resource: res://source/ui/menus/MenuUi.cs
+.. Loading resource: res://source/ui/omega/omega_ui_frame.tscn
+.. Loading resource: res://source/ui/omega/OmegaBorderFrame.cs
+.. Loading resource: res://source/shaders/crt_phosphor.gdshader
+.. Loading resource: res://source/shaders/crt_scanlines.gdshader
+.. Loading resource: res://source/shaders/crt_glitch.gdshader
 .. Loading resource: res://source/ui/menus/credits_menu.tscn
 .. Loading resource: res://source/ui/menus/CreditsMenu.cs
 .. [  50% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading central editor layout...\u001b[39m\u001b[0m
@@ -545,12 +437,12 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
 .. \u001b[0m
 .. Failed to bind socket. Error: 3.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x5d2e68f8: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x5d2e68f8: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x5d2e68f8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x5d2e68f8: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x5d2e68f8: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x5d2e68f8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x5a0cbf08: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x5a0cbf08: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x5a0cbf08: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x5a0cbf08: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x5a0cbf08: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x5a0cbf08: Switch to application keys for outbound traffic
 .. Unloading addon: res://addons/dialogic/plugin.cfg
 .. Unloading addon: res://addons/gdUnit4/plugin.cfg
 .. Unloading addon: res://addons/godot_xterm/plugin.cfg
@@ -562,9 +454,9 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. XR: Clearing primary interface
 .. XR: Removed interface "Native mobile"
 .. XR: Removed interface "OpenXR"
-.. Leaked instance: UndoRedo:2141108392411
-.. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
+.. Leaked instance: UndoRedo:2140688962014
 :: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+.. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 :: at: cleanup (core/object/object.cpp:2570)
 .. Orphan StringName: RenderingDevice (static: 2, total: 4)
 .. Orphan StringName: Mesh (static: 18, total: 22)
@@ -639,58 +531,24 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 Rebuild Godot Project ends with exit code: 0
 
 ======== Running GdUnit4 Godot Runtime Test Runner ========
-    [DesignConfigService] Design config loaded successfully.
-    &amp;#x1B;[92m&amp;#x2713; Component lifecycle managed properly&amp;#x1B;[39m&amp;#x1B;[0m
-:: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-:: at: cleanup (core/object/object.cpp:2570)
-:: ERROR: 26 resources still in use at exit (run with --verbose for details).
-:: at: clear (core/io/resource.cpp:801)
-GdUnit4 Godot Runtime Test Runner ends with exit code: 0
-
-Completed tests for assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
-Test execution stopped.
+    AudioManager: Initialized successfully
+    AudioManager: Initialized successfully
+    [GhostYamlTest] Loaded 8 scenes
+    [GhostYamlTest] Opening scene lines:
+      [FADE_TO_STABLE]
+      [Shard #472: 03/09/2025 - Echo archive active...]
+GdUnit4 Godot Runtime Test Runner is not terminated, force process kill.
+======== Running GdUnit4 Default Test Runner ========
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-27T12:42:49.4755758-04:00">
-        <Text>Unknown shader preset: phosphor (Parameter 'presetName')</Text>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T04:34:50.2116772-04:00">
+        <Text>The server returned an unexpected status code.
+   at GdUnit4.Core.Runners.BaseTestRunner.ValidateResponse(Response response)
+   at GdUnit4.Core.Runners.BaseTestRunner.&lt;&gt;c__DisplayClass19_0.&lt;&lt;RunAndWait&gt;b__0&gt;d.MoveNext()</Text>
       </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:49.4755928-04:00">
-        <Text>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0658431-04:00">
-        <Text>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0815163-04:00">
-        <Text>Warning:
-    Detected &lt;2&gt; orphan nodes during test execution!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0876108-04:00">
-        <Text>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0879688-04:00">
-        <Text>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0884583-04:00">
-        <Text>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0887274-04:00">
-        <Text>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Text>
-      </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-10-27T12:42:50.0893576-04:00">
-        <Text>Warning:
-    Detected &lt;1&gt; orphan nodes during test suite setup stage!
-    Check Setup:32 and Cleanup:57 for unfreed instances!</Text>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T04:34:54.5334601-04:00">
+        <Text>The active test run was aborted. Reason: Test host process crashed</Text>
       </RunInfo>
     </RunInfos>
   </ResultSummary>

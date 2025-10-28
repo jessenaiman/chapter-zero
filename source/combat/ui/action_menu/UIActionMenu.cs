@@ -62,7 +62,7 @@ public partial class UiActionMenu : UiListMenu
             {
                 this.battler.Stats.EnergyChanged += () =>
                 {
-                    foreach (var entry in this.Entries.OfType<UiActionButton>())
+                    foreach (var entry in this.Entries.OfType<UIActionButton>())
                     {
                         bool canUseAction = this.battler?.Stats?.Energy >= entry.Action?.EnergyCost;
                         entry.Disabled = !canUseAction || this.IsDisabled;
@@ -137,7 +137,7 @@ public partial class UiActionMenu : UiListMenu
     /// <param name="entry">The pressed button entry.</param>
     protected override void OnEntryPressed(BaseButton entry)
     {
-        var actionEntry = entry as UiActionButton;
+        var actionEntry = entry as UIActionButton;
         if (actionEntry is null || actionEntry.Action is null || this.battler is null || this.battlerList is null)
         {
             return;
@@ -235,7 +235,7 @@ public partial class UiActionMenu : UiListMenu
         {
             bool canUseAction = this.battler.Stats?.Energy >= action.EnergyCost;
 
-            var newEntry = this.CreateEntry() as UiActionButton;
+            var newEntry = this.CreateEntry() as UIActionButton;
             if (newEntry != null)
             {
                 newEntry.Action = action;

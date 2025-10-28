@@ -1,38 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3vx8y2h1qm4p"]
+[gd_scene load_steps=3 format=3 uid="uid://b3vx8y2h1qm4p"]
 
 [ext_resource type="Script" path="res://source/ui/menus/MainMenu.cs" id="1_main_menu"]
+[ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2_omega_frame"]
 
 [node name="MainMenu" type="Control"]
 script = ExtResource("1_main_menu")
-enable_omega_theme = false
 enable_omega_border = true
 enable_crt_shaders = true
 enable_omega_text = true
 
-[node name="ContentContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-theme_override_constants/separation = 24
-alignment = 1
+[node name="OmegaFrame" parent="." instance=ExtResource("2_omega_frame")]
 
-[node name="MenuTitle" type="Label" parent="ContentContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-custom_minimum_size = Vector2(0, 60)
-text = "Ωmega Spiral"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuButtonContainer" type="VBoxContainer" parent="ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 3
-custom_minimum_size = Vector2(0, 400)
-theme_override_constants/separation = 16
-alignment = 1
-
-[node name="MenuActionBar" type="HBoxContainer" parent="ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_constants/separation = 12
-alignment = 1

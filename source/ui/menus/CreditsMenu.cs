@@ -13,7 +13,7 @@ namespace OmegaSpiral.Source.Ui.Menus
     /// Extends MenuUi for consistent menu behavior and styling.
     /// </summary>
     [GlobalClass]
-    public partial class CreditsMenu : BaseMenuUi
+    public partial class CreditsMenu : MenuUi
     {
         // --- EXPORTED PROPERTIES ---
 
@@ -48,60 +48,88 @@ namespace OmegaSpiral.Source.Ui.Menus
             // Set the menu title
             SetMenuTitle("CREDITS");
 
-            // Try to cache scroll container from scene first
-            _CreditsScroll = GetNodeOrNull<ScrollContainer>("ContentContainer/CreditsScrollContainer");
-            _CreditsContent = GetNodeOrNull<VBoxContainer>("ContentContainer/CreditsScrollContainer/CreditsContent");
+            // Defer node caching until after reparenting completes
+            CallDeferred(nameof(CacheCreditsNodes));
+        }
 
-            // If not found in scene, create programmatically
-            var contentContainer = GetNodeOrNull<Control>("ContentContainer");
-            if (contentContainer != null && _CreditsScroll == null)
+        /// <summary>
+        /// Caches CreditsMenu-specific nodes after reparenting completes.
+        /// Uses exported paths first, then falls back to FindChild for robustness.
+        /// Idempotent: safe to call multiple times without creating duplicates.
+        /// </summary>
+        private void CacheCreditsNodes()
+        {
+            // Try to resolve ContentContainer using exported path or recursive search
+            var contentContainer = ContentContainer;
+            if (contentContainer == null)
             {
-                _CreditsScroll = new ScrollContainer
+                contentContainer = FindChild("ContentContainer", true, false) as Control;
+                if (contentContainer == null)
                 {
-                    Name = "CreditsScrollContainer",
-                    SizeFlagsHorizontal = SizeFlags.ExpandFill,
-                    SizeFlagsVertical = SizeFlags.ExpandFill,
-                    FollowFocus = true
-                };
-
-                // Insert before MenuButtonContainer to maintain proper order
-                var menuButtonContainer = contentContainer.GetNodeOrNull<VBoxContainer>("MenuButtonContainer");
-                if (menuButtonContainer != null)
-                {
-                    var index = menuButtonContainer.GetIndex();
-                    contentContainer.AddChild(_CreditsScroll);
-                    contentContainer.MoveChild(_CreditsScroll, index);
+                    GD.PushWarning("[CreditsMenu] ContentContainer not found after reparenting");
+                    return;
                 }
-                else
-                {
-                    contentContainer.AddChild(_CreditsScroll);
-                }
-
-                _CreditsContent = new VBoxContainer
-                {
-                    Name = "CreditsContent",
-                    SizeFlagsHorizontal = SizeFlags.ExpandFill,
-                    Alignment = BoxContainer.AlignmentMode.Center
-                };
-                _CreditsScroll.AddChild(_CreditsContent);
             }
 
-            // Populate credits content
+            // Cache CreditsScrollContainer with fallback to FindChild
+            _CreditsScroll ??= GetNodeOrNull<ScrollContainer>("CreditsScrollContainer")
+                            ?? contentContainer.GetNodeOrNull<ScrollContainer>("CreditsScrollContainer")
+                            ?? FindChild("CreditsScrollContainer", true, false) as ScrollContainer;
+
+            if (_CreditsScroll == null)
+                GD.PushWarning("[CreditsMenu] CreditsScrollContainer not found");
+
+            // Cache CreditsContent with fallback to FindChild
+            _CreditsContent ??= GetNodeOrNull<VBoxContainer>("CreditsContent")
+                             ?? contentContainer.GetNodeOrNull<VBoxContainer>("CreditsContent")
+                             ?? FindChild("CreditsContent", true, false) as VBoxContainer;
+
+            if (_CreditsContent == null)
+                GD.PushWarning("[CreditsMenu] CreditsContent not found");
+
+            // Cache MenuButtonContainer with fallback to FindChild
+            var menuButtonContainer = MenuButtonContainer
+                                   ?? FindChild("MenuButtonContainer", true, false) as VBoxContainer;
+
+            if (menuButtonContainer == null)
+                GD.PushWarning("[CreditsMenu] MenuButtonContainer not found");
+
+            // Cache MenuTitle with fallback to FindChild
+            var menuTitle = MenuTitle
+                          ?? FindChild("MenuTitle", true, false) as Label;
+
+            if (menuTitle == null)
+                GD.PushWarning("[CreditsMenu] MenuTitle not found");
+
+            // Cache BackButton with fallback to FindChild
+            _BackButton ??= GetNodeOrNull<Button>("BackButton")
+                         ?? contentContainer.GetNodeOrNull<Button>("BackButton")
+                         ?? FindChild("BackButton", true, false) as Button;
+
+            if (_BackButton == null)
+                GD.PushWarning("[CreditsMenu] BackButton not found");
+
+            GD.Print("[CreditsMenu] Node caching completed after reparenting");
+
+            // Populate credits after caching nodes
             PopulateCredits();
         }
 
         /// <summary>
-        /// Populates the credits menu with a back button.
+        /// Populates the credits menu with a back button in the action bar.
         /// Called by MenuBase after initialization completes.
         /// </summary>
         protected override void PopulateMenuButtons()
         {
-            // Create back button dynamically
-            _BackButton = CreateMenuButton("BackButton", "Back");
-
-            // Connect button signal
+            // Create back button via AddMenuButton to attach to MenuButtonContainer after reparenting
+            _BackButton = AddMenuButton("Back", OnBackPressed);
             if (_BackButton != null)
-                _BackButton.Pressed += OnBackPressed;
+            {
+                _BackButton.Name = "BackButton";
+            }
+
+            // Ensure focus on the back button when showing the menu
+            FocusFirstButton();
         }
 
         /// <summary>
@@ -112,18 +140,19 @@ namespace OmegaSpiral.Source.Ui.Menus
         {
             base._Process(delta);
 
-            if (_IsScrolling && _CreditsScroll != null)
+            if (_IsScrolling && _CreditsScroll != null && _CreditsContent != null)
             {
                 // Scroll the credits
                 float newScroll = (float)(_CreditsScroll.ScrollVertical + ScrollSpeed * delta);
                 _CreditsScroll.ScrollVertical = (int)newScroll;
 
-                // Check if we've reached the end
-                if (_CreditsContent != null)
-                {
-                    float contentHeight = _CreditsContent.GetCombinedMinimumSize().Y;
-                    float visibleHeight = _CreditsScroll.GetViewportRect().Size.Y;
+                // Check if we've reached the end, guarding against zero height
+                float contentHeight = _CreditsContent.GetCombinedMinimumSize().Y;
+                float visibleHeight = _CreditsScroll.GetViewportRect().Size.Y;
 
+                // Only proceed if we have valid dimensions
+                if (visibleHeight > 0 && contentHeight > 0)
+                {
                     if (newScroll >= contentHeight - visibleHeight)
                     {
                         if (LoopCredits)
@@ -223,7 +252,7 @@ namespace OmegaSpiral.Source.Ui.Menus
                 Text = text,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                CustomMinimumSize = new Vector2(0, fontSize + 10)
+                CustomMinimumSize = new Vector2(400, fontSize + 10)
             };
 
             // Set font size (simplified - would need proper theme setup)

@@ -8,6 +8,7 @@ using GdUnit4;
 using Godot;
 using static GdUnit4.Assertions;
 using OmegaSpiral.Source.Scripts.Stages.Stage1;
+using OmegaSpiral.Source.Stages.Stage1;
 
 /// <summary>
 /// Verifies GhostTerminalCinematicDirector loads and parses ghost.yaml correctly.
@@ -34,12 +35,13 @@ public static class GhostCinematicDirectorTests
     public static async Task GetPlan_ReturnsNonNull()
     {
         // Arrange
-        var director = new GhostCinematicDirector();  // instantiate
+        var loader = new GhostDataLoader();  // instantiate
 
         // Act
-        var plan = director.GetPlan();  // instance call
+        var plan = loader.GetPlan();  // instance call
 
         // Assert
         AssertThat(plan).IsNotNull();
+        AssertThat(plan.Script).IsNotNull();
     }
 }

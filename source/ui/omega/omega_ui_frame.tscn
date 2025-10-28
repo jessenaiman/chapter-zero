@@ -1,0 +1,190 @@
+[gd_scene load_steps=6 format=3 uid="uid://omega_ui_frame_v1"]
+
+[ext_resource type="Script" path="res://source/ui/omega/OmegaBorderFrame.cs" id="1"]
+
+[ext_resource type="Shader" path="res://source/shaders/crt_phosphor.gdshader" id="2"]
+
+[ext_resource type="Shader" path="res://source/shaders/crt_scanlines.gdshader" id="3"]
+
+[ext_resource type="Shader" path="res://source/shaders/crt_glitch.gdshader" id="4"]
+
+[ext_resource type="Shader" path="res://source/shaders/spiral_border.gdshader" id="5"]
+
+[sub_resource type="ShaderMaterial" id="PhosphorMaterial"]
+shader = ExtResource("2")
+
+[sub_resource type="ShaderMaterial" id="ScanlineMaterial"]
+shader = ExtResource("3")
+
+[sub_resource type="ShaderMaterial" id="GlitchMaterial"]
+shader = ExtResource("4")
+
+[sub_resource type="ShaderMaterial" id="BorderMaterial"]
+shader = ExtResource("5")
+shader_parameter/light_thread = Color(0.75, 0.75, 0.75, 1)
+shader_parameter/shadow_thread = Color(0.996078, 0.788235, 0.384314, 1)
+shader_parameter/ambition_thread = Color(0.862745, 0.0784314, 0.235294, 1)
+shader_parameter/rotation_speed = 0.15
+shader_parameter/flow_speed = 2.0
+shader_parameter/particle_density = 20.0
+shader_parameter/trail_length = 1.5
+shader_parameter/line_width = 0.008
+shader_parameter/glow_intensity = 2.5
+
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+
+[node name="OmegaFrame" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OuterBlackBorder" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+z_index = -20
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.05
+anchor_top = 0.04
+anchor_right = 0.95
+anchor_bottom = 0.96
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.85, 0.82, 0.75, 1)
+z_index = -10
+mouse_filter = 2
+
+[node name="BezelBorder" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.05
+anchor_top = 0.04
+anchor_right = 0.95
+anchor_bottom = 0.96
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 20
+mouse_filter = 2
+theme_override_styles/panel = SubResource("1")
+
+[node name="BorderFrame" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.08
+anchor_top = 0.065
+anchor_right = 0.92
+anchor_bottom = 0.935
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 1)
+material = SubResource("BorderMaterial")
+z_index = 40
+mouse_filter = 2
+
+[node name="CrtFrame" type="AspectRatioContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.12
+anchor_top = 0.1
+anchor_right = 0.88
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.33333
+stretch_mode = 1
+z_index = 50
+
+[node name="CrtBackground" type="ColorRect" parent="CrtFrame"]
+layout_mode = 2
+color = Color(0.054902, 0.0666667, 0.0862745, 1)
+z_index = -20
+mouse_filter = 2
+
+[node name="PhosphorLayer" type="ColorRect" parent="CrtFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.3)
+material = SubResource("PhosphorMaterial")
+z_index = -10
+mouse_filter = 2
+
+[node name="ScanlineLayer" type="ColorRect" parent="CrtFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.18)
+material = SubResource("ScanlineMaterial")
+z_index = -9
+mouse_filter = 2
+
+[node name="GlitchLayer" type="ColorRect" parent="CrtFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.08)
+material = SubResource("GlitchMaterial")
+z_index = -8
+mouse_filter = 2
+
+[node name="ContentContainer" type="VBoxContainer" parent="CrtFrame"]
+layout_mode = 2
+z_index = 100
+
+[node name="MenuTitle" type="Label" parent="CrtFrame/ContentContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+custom_minimum_size = Vector2(0, 80)
+text = "Menu Title"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuButtonContainer" type="VBoxContainer" parent="CrtFrame/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="MenuActionBar" type="HBoxContainer" parent="CrtFrame/ContentContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 12
+alignment = 1

@@ -22,8 +22,8 @@ public static class OmegaUiTestHelper
     /// that visual layers exist. For OmegaContainer and other classes, this is a no-op.
     /// If any validation fails, all subsequent tests in the suite will cascade fail.
     /// </summary>
-    /// <param name="uiComponent">The UI component to validate (OmegaThemedContainer, BaseMenuUi, etc.).</param>
-    /// <param name="componentName">Name of the component for error messages (e.g., "BaseMenuUi", "PauseMenu").</param>
+    /// <param name="uiComponent">The UI component to validate (OmegaThemedContainer, MenuUi, etc.).</param>
+    /// <param name="componentName">Name of the component for error messages (e.g., "MenuUi", "PauseMenu").</param>
     /// <exception cref="AssertionException">Thrown when validation fails, causing all tests to fail.</exception>
     public static void ValidateBackgroundTheme(Control uiComponent, string componentName = "UI Component")
     {
@@ -32,7 +32,7 @@ public static class OmegaUiTestHelper
             .OverrideFailureMessage($"{componentName} failed to instantiate - all tests will fail");
 
         // Only validate visual layers if this is an OmegaThemedContainer
-        // OmegaContainer (base class for BaseMenuUi) has no visual nodes - that's by design
+        // OmegaContainer (base class for MenuUi) has no visual nodes - that's by design
         // This check allows the new architecture to coexist with old visual tests
         if (uiComponent is not OmegaThemedContainer themedContainer)
         {
@@ -52,16 +52,23 @@ public static class OmegaUiTestHelper
             .OverrideFailureMessage($"{componentName}: Background missing - UI has no dark base for overlays - all tests will fail");
 
         // Validate background layers exist and are properly colored
-        // Access layers via GetNode since they're protected in OmegaThemedContainer
-        var phosphorLayer = uiComponent.GetNodeOrNull<ColorRect>("PhosphorLayer");
+        // New architecture: layers are under OmegaFrame/CrtFrame
+        // Old architecture: layers were direct children
+        var phosphorLayer = uiComponent.GetNodeOrNull<ColorRect>("PhosphorLayer")
+                            ?? uiComponent.GetNodeOrNull<ColorRect>("CrtFrame/PhosphorLayer")
+                            ?? uiComponent.GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/PhosphorLayer");
         AssertThat(phosphorLayer).IsNotNull()
             .OverrideFailureMessage($"{componentName}: PhosphorLayer missing - UI has no background theme - all tests will fail");
 
-        var scanlineLayer = uiComponent.GetNodeOrNull<ColorRect>("ScanlineLayer");
+        var scanlineLayer = uiComponent.GetNodeOrNull<ColorRect>("ScanlineLayer")
+                            ?? uiComponent.GetNodeOrNull<ColorRect>("CrtFrame/ScanlineLayer")
+                            ?? uiComponent.GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/ScanlineLayer");
         AssertThat(scanlineLayer).IsNotNull()
             .OverrideFailureMessage($"{componentName}: ScanlineLayer missing - UI has no background theme - all tests will fail");
 
-        var glitchLayer = uiComponent.GetNodeOrNull<ColorRect>("GlitchLayer");
+        var glitchLayer = uiComponent.GetNodeOrNull<ColorRect>("GlitchLayer")
+                           ?? uiComponent.GetNodeOrNull<ColorRect>("CrtFrame/GlitchLayer")
+                           ?? uiComponent.GetNodeOrNull<ColorRect>("OmegaFrame/CrtFrame/GlitchLayer");
         AssertThat(glitchLayer).IsNotNull()
             .OverrideFailureMessage($"{componentName}: GlitchLayer missing - UI has no background theme - all tests will fail");
 

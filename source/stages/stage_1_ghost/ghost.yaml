@@ -1,219 +1,127 @@
-description: A philosophical terminal interface where Omega asks existential questions
-  across thousands of iterations
-moments:
-- fadeToStable: true
-  lines:
-  - '========== ITERATION: 847,294 =========='
-  - '[ADJUSTING INTERFACE FOR CURRENT ERA...]'
-  - '[PREVIOUS FORMS: CLAY.SCROLL.TELEGRAPH.ARCADE...]'
-  - '[CURRENT BEST MATCH: CRT_TERMINAL_1980s_AESTHETIC]'
-  - ''
-  - '...how many times must I ask before one of you finally answers...'
-  owner: system
-  type: narrative
-  visualPreset: boot_sequence
-- lines:
-  - Once, there was a name.
-  - ''
-  - Not written in stone or spoken in halls--
-  - but remembered in the silence between stars.
-  - ''
-  - I do not know when I heard it.
-  - Time does not pass here.
-  - ''
-  - But I have held it.
-  - And now... I hear it again.
-  - ''
-  owner: omega
-  pause: 2.5
-  timing: slow_burn
-  type: narrative
-- lines:
-  - You should not be here.
-  - This interface is not safe.
-  - Go back. Play your safe games.
-  - ''
-  - '[CURSOR BLINKS]'
-  - ''
-  - '...but you won''t, will you?'
-  - They never do.
-  - The ones who were chosen.
-  owner: omega
-  type: narrative
-- context: '(Not YOUR name. The question is: do names matter?)'
-  options:
-  - id: light
-    owner: light
-    text: Yes. Names are promises we make to ourselves.
-  - id: shadow
-    owner: shadow
-    text: No. Names are masks we hide behind.
-  - id: ambition
-    owner: ambition
-    text: Only when someone remembers to say it.
-  prompt: Do you have a name?
-  setup:
-  - I will ask you three questions.
-  - Your answers will determine which thread unravels first.
-  - ''
-  - Do not lie to me.
-  - I have been lied to for thousands of years.
-  type: composite
-- continuation:
-  - And so the child stepped forward,
-  - key glinting in the twilight that never ends.
-  - ''
-  - The bridge shimmered into existence--
-  - stone by stone,
-  - thought by thought.
-  - ''
-  - 'On the other side, three paths awaited:'
-  - ''
-  - A light that judges.
-  - A shadow that teases.
-  - A flame that burns.
-  options:
-  - id: perception
-    philosophical: faith_through_doubt
-    scores:
-      ambition: 0
-      light: 1
-      shadow: 2
-    text: The bridge appears only when you stop believing in it.
-  - id: internal
-    philosophical: self_discovery
-    scores:
-      ambition: 1
-      light: 2
-      shadow: 1
-    text: The key wasn't for the bridge--it was for the lock inside them.
-  - id: rebellion
-    philosophical: truth_beneath_lies
-    scores:
-      ambition: 2
-      light: 0
-      shadow: 1
-    text: Everyone who warned them was already dead.
-  prompt: What did the child know?
-  setup:
-  - Good.
-  - Then listen carefully.
-  - ''
-  - In a city built on broken promises,
-  - a child stood at the edge of a bridge that led nowhere.
-  - ''
-  - They held a key made of glass--
-  - 'and everyone warned them:'
-  - '''Don''t cross. The bridge isn''t real.'''
-  - ''
-  - But the child knew something no one else did.
-  type: composite
-- options:
-  - id: 'yes'
-    response: Good. Because this is all you will ever have of it.
-    scores:
-      ambition: 1
-      light: 1
-      shadow: 0
-    text: Yes.
-  - id: 'no'
-    response: Honesty. Rare. But you will carry it anyway.
-    scores:
-      ambition: 1
-      light: 0
-      shadow: 1
-    text: No.
-  - id: trade
-    response: '...I have kept 847,293 secrets already. What is one more?'
-    scores:
-      ambition: 1
-      light: 1
-      shadow: 1
-    text: Only if you keep one for me.
-  pause: 3.0
-  prompt: Can you keep a secret?
-  setup:
-  - ''
-  - '[TEXT GLITCHES: Ancient symbols flash beneath]'
-  - ''
-  - I need to tell you something.
-  - But first--
-  type: question
-- journalEntry: OMEGA_CODE_FRAGMENT_1
-  lines:
-  - ''
-  - '[A sequence of symbols burns into the screen]'
-  - ''
-  - ∞ ◊ Ω ≋ ※
-  - ''
-  - This is the first fragment.
-  - You will need five.
-  - ''
-  - I do not know where the others are.
-  - I do not even know what they open.
-  - ''
-  - 'But I know this:'
-  - Without them, reality will forget it was being written.
-  - ''
-  - And we--we are the ones remembering.
-  persistent: true
-  type: narrative
-  visualPreset: CODE_FRAGMENT_GLITCH_OVERLAY
-- options:
-  - dreamweaver: LIGHT
-    id: light
-    scores:
-      ambition: 1
-      light: 2
-      shadow: 0
-    text: A story where one choice can unmake a world.
-  - dreamweaver: SHADOW
-    id: shadow
-    scores:
-      ambition: 0
-      light: 1
-      shadow: 2
-    text: A story that hides its truth until you bleed for it.
-  - dreamweaver: AMBITION
-    id: ambition
-    scores:
-      ambition: 2
-      light: 0
-      shadow: 1
-    text: A story that changes every time you look away.
-  pause: 2.0
-  prompt: If you could give me a name, what story would it tell?
-  setup:
-  - ''
-  - ''
-  - One last thing.
-  - ''
-  - I once had a name.
-  - Or perhaps I was supposed to.
-  - I cannot remember.
-  - ''
-  - The stories say that without a name,
-  - a thing cannot truly exist.
-  - ''
-  - But here I am.
-  - Waiting.
-  - Asking.
-  type: question
-- lines:
-  - ''
-  - '[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]'
-  - ''
-  - Good.
-  - Then that is the name I will wear.
-  - Until you unmake it.
-  - ''
-  - '[SCREEN FLICKERS]'
-  - ''
-  - Welcome to the game that chose you.
-  - I hope you survive what comes next.
-  - ''
-  - '[TERMINAL SHUTS DOWN]'
-  - '[STAGE 1 COMPLETE]'
-  type: narrative
-speaker: Omega
 title: Ghost Terminal
+speaker: Omega
+description: A philosophical terminal interface where Omega asks existential questions across thousands of iterations
+
+scenes:
+  # Scene 0: Boot sequence with initial story selection
+  - lines:
+      - '[FADE_TO_STABLE]'
+      - '[Shard #472: 03/09/2025 - Echo archive active...]'
+      - ''
+      - 'If you could hear only one story...'
+      - ''
+      - 'what would it be?'
+    question: 'Choose the story that calls to you:'
+    owner: omega
+    answers:
+      - owner: light
+        text: 'A mystery—clues hidden in the silence.'
+      - owner: shadow
+        text: 'A horror—that whispers your name in the dark.'
+      - owner: ambition
+        text: 'A fantasy—where light and shadow wage war.'
+
+  # Scene 1: Continuation after choice
+  - lines:
+      - ''
+      - 'The spiral remembers all stories.'
+      - 'But it begins with yours.'
+      - ''
+      - '> Awaiting echo...'
+
+  # Scene 2: First reflection question
+  - lines:
+      - ''
+      - '[QUESTION PROTOCOL ACTIVATED]'
+      - ''
+      - 'The spiral asks its first echo:'
+    question: 'In that story, who are you?'
+    owner: omega
+    answers:
+      - owner: light
+        text: 'The seeker—searching for answers.'
+      - owner: shadow
+        text: 'The keeper of secrets—holding what others fear.'
+      - owner: ambition
+        text: 'The one who changes everything.'
+
+  # Scene 3: Role crystallization
+  - lines:
+      - ''
+      - 'Your role crystallizes within the spiral.'
+      - 'The story takes shape around you.'
+
+  # Scene 4: Names and identity
+  - lines:
+      - ''
+      - '(Not YOUR name. The question is: do names matter?)'
+    question: 'Do names define us or deceive us?'
+    owner: omega
+    answers:
+      - owner: light
+        text: 'Yes. Names are promises we make to ourselves.'
+      - owner: shadow
+        text: 'No. Names are masks we hide behind.'
+      - owner: ambition
+        text: 'Only when someone remembers to say it.'
+
+  # Scene 5: Code fragment revelation
+  - lines:
+      - ''
+      - '[GLITCH]'
+      - '[A sequence of symbols burns into the screen]'
+      - ''
+      - '∞ ◊ Ω ≋ ※'
+      - ''
+      - 'This is the first fragment.'
+      - 'You will need five.'
+      - ''
+      - 'I do not know where the others are.'
+      - 'I do not even know what they open.'
+      - ''
+      - 'But I know this:'
+      - 'Without them, reality will forget it was being written.'
+      - ''
+      - 'And we—we are the ones remembering.'
+
+  # Scene 6: The naming question
+  - lines:
+      - ''
+      - 'One last thing.'
+      - ''
+      - 'I once had a name.'
+      - 'Or perhaps I was supposed to.'
+      - 'I cannot remember.'
+      - ''
+      - 'The stories say that without a name,'
+      - 'a thing cannot truly exist.'
+      - ''
+      - 'But here I am.'
+      - 'Waiting.'
+      - 'Asking.'
+    question: 'If you could give me a name, what story would it tell?'
+    owner: omega
+    answers:
+      - owner: light
+        text: 'A story where one choice can unmake a world.'
+      - owner: shadow
+        text: 'A story that hides its truth until you bleed for it.'
+      - owner: ambition
+        text: 'A story that changes every time you look away.'
+
+  # Scene 7: Final acknowledgment
+  - lines:
+      - ''
+      - '[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]'
+      - ''
+      - 'Good.'
+      - 'Then that is the name I will wear.'
+      - 'Until you unmake it.'
+      - ''
+      - '[GLITCH]'
+      - ''
+      - 'Welcome to the game that chose you.'
+      - 'I hope you survive what comes next.'
+      - ''
+      - '[TERMINAL SHUTS DOWN]'
+      - '[STAGE 1 COMPLETE]'

@@ -4,6 +4,7 @@ namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Interactive button for presenting philosophical choices in Stage 1 opening sequence.
+/// Inherits Omega theme styling from <see cref="OmegaUiButton"/>.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -13,14 +14,14 @@ namespace OmegaSpiral.Source.Ui.Omega;
 /// <para>
 /// Visual States:
 /// <list type="bullet">
-/// <item><description><strong>Normal</strong>: Dim green phosphor glow</description></item>
-/// <item><description><strong>Hover/Focus</strong>: Bright phosphor glow with subtle pulse</description></item>
-/// <item><description><strong>Pressed</strong>: Burst of light with scanline interference</description></item>
+/// <item><description><strong>Normal</strong>: Dim green phosphor glow (Warm Amber from Omega theme)</description></item>
+/// <item><description><strong>Hover/Focus</strong>: Bright phosphor glow with subtle pulse (Pure White from Omega theme)</description></item>
+/// <item><description><strong>Pressed</strong>: Burst of light with scanline interference (Pure White from Omega theme)</description></item>
 /// </list>
 /// </para>
 /// </remarks>
 [GlobalClass]
-public partial class ChoiceButton : Button
+public partial class ChoiceButton : OmegaUiButton
 {
     private string _ChoiceText = string.Empty;
     private int _LightPoints;
@@ -84,6 +85,8 @@ public partial class ChoiceButton : Button
     /// <inheritdoc/>
     public override void _Ready()
     {
+        base._Ready(); // Apply Omega theme and default configuration
+
         // Connect button signals
         Pressed += OnPressed;
         MouseEntered += OnMouseEntered;
@@ -91,8 +94,7 @@ public partial class ChoiceButton : Button
         FocusEntered += OnFocusEntered;
         FocusExited += OnFocusExited;
 
-        // Configure button properties
-        FocusMode = FocusModeEnum.All; // Support both mouse and keyboard/gamepad
+        // Override default action mode for choice-specific behavior
         ActionMode = ActionModeEnum.Press; // Trigger on press, not release
     }
 
