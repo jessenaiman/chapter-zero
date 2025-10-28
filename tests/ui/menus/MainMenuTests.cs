@@ -51,7 +51,7 @@ public partial class MainMenuTests : Node
     public void InheritsFromMenuUi()
     {
         AssertThat(_MainMenu).IsInstanceOf<MenuUi>();
-        AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaThemedContainer>();
+        AssertThat(_MainMenu).IsInstanceOf<OmegaSpiral.Source.Ui.Omega.OmegaContainer>();
     }
 
     // ==================== SCENE STRUCTURE ====================

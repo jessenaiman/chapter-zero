@@ -17,8 +17,7 @@
       "alwaysAllow": [
         "write_memory"
       ]
-    }
-  },
+    },
   "godot": {
     "command": "node",
     "args": [
@@ -81,5 +80,6 @@
     "alwaysAllow": [
       "resolve-library-id"
     ]
+  }
   }
 }

@@ -30,7 +30,7 @@ public class NarrativeDataLoader
         try
         {
             var jsonText = Godot.FileAccess.GetFileAsString(jsonPath);
-            
+
             if (string.IsNullOrWhiteSpace(jsonText))
             {
                 GD.PrintErr($"[NarrativeDataLoader] Narrative file is empty: {jsonPath}");

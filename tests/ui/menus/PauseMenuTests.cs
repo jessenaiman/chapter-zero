@@ -143,7 +143,7 @@ namespace OmegaSpiral.Tests.Ui;
         }
         // ==================== VISUAL COMPONENT TESTS ====================
 
-        // NOTE: Visual component tests (ShaderController, BorderFrame, etc.) moved to OmegaThemedContainer_Tests
+        // NOTE: Visual component tests (ShaderController, BorderFrame, etc.) moved to OmegaContainer_Tests
         // Those are Omega framework concerns, not PauseMenu-specific concerns
         // To visually verify this menu, run the pause_menu.tscn scene in the editor
     }

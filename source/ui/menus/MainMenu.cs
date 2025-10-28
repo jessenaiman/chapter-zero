@@ -40,8 +40,8 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
     private readonly ManifestLoader _ManifestLoader = new();
 
-#pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
-    private SceneManager? _SceneManager;
+#pragma warning disable CA2213 // StageManager is an autoload singleton managed by Godot's scene tree
+    private StageManager? _StageManager;
 #pragma warning restore CA2213
 
     // Button references created dynamically
@@ -58,7 +58,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
         {
             base._Ready(); // MenuBase calls PopulateMenuButtons() after initialization
 
-            _SceneManager = GetNodeOrNull<SceneManager>("/root/SceneManager");
+            _StageManager = GetNodeOrNull<StageManager>("/root/StageManager");
             SetMenuTitle("Ωmega Spiral");
 
             // Set title with bold single color and subtle shadow effect
@@ -218,15 +218,15 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
                 return;
             }
 
-            // Use SceneManager for scene transitions if available
-            if (_SceneManager != null)
+            // Use StageManager for scene transitions if available
+            if (_StageManager != null)
             {
-                _SceneManager.TransitionToScene(entryScenePath, showLoadingScreen: false);
+                _StageManager.TransitionToScene(entryScenePath, showLoadingScreen: false);
                 return;
             }
 
             // Fallback to direct scene change
-            GD.PrintErr("[MainMenu] SceneManager not found! Using fallback scene change.");
+            GD.PrintErr("[MainMenu] StageManager not found! Using fallback scene change.");
             var nextScene = GD.Load<PackedScene>(entryScenePath);
             if (nextScene != null)
             {

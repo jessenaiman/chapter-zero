@@ -16,7 +16,7 @@
      - ReCacheRequiredNodes() (re-caches MenuButtonContainer)
      - Then _Ready() chain calls PopulateMenuButtons()
    - Result: ✅ MenuButtonContainer guaranteed to be cached before AddMenuButton
-   - Inheritance chain: CreditsMenu → MenuUi → OmegaThemedContainer → OmegaContainer
+   - Inheritance chain: CreditsMenu → MenuUi → OmegaContainer → OmegaContainer
 
 3. **Defensive Null Checks (VALIDATED)**
    - ShowCredits: ✅ Guards _CreditsScroll with null check

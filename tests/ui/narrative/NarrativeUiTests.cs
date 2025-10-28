@@ -25,7 +25,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_InitializesWithDefaults()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat();
+        var beat = new NarrativeBeat();
 
         // Assert
         AssertThat(beat.Text).IsEqual(string.Empty);
@@ -41,7 +41,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsCustomValues()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Custom text",
             VisualPreset = "glitch_preset",
@@ -63,7 +63,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsNullVisualPreset()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Text without effects",
             VisualPreset = null
@@ -81,7 +81,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsZeroDelay()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Immediate text",
             DelaySeconds = 0f
@@ -99,7 +99,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsCustomTypingSpeed()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Fast text",
             TypingSpeed = 60f
@@ -117,7 +117,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsNegativeDelay()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Pre-delayed text",
             DelaySeconds = -0.5f
@@ -135,7 +135,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsVerySlowTypingSpeed()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Very slow text",
             TypingSpeed = 10f
@@ -153,7 +153,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsEmptyTextWithEffects()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = string.Empty,
             VisualPreset = "screen_flash",
@@ -173,7 +173,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsVeryFastTypingSpeed()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Instant text",
             TypingSpeed = 120f
@@ -191,7 +191,7 @@ public class NarrativeUiTests
     public void NarrativeBeat_SupportsLongDelay()
     {
         // Arrange & Act
-        var beat = new NarrativeUi.NarrativeBeat
+        var beat = new NarrativeBeat
         {
             Text = "Dramatic text",
             DelaySeconds = 5.0f

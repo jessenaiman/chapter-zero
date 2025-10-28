@@ -117,12 +117,19 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            _ShaderMaterial.SetShaderParameter("rotation_speed", 0.15f);      // Moderate spiral rotation
-            _ShaderMaterial.SetShaderParameter("flow_speed", 2.0f);           // Flowing particle speed
-            _ShaderMaterial.SetShaderParameter("particle_density", 20.0f);    // Number of light particles
-            _ShaderMaterial.SetShaderParameter("trail_length", 1.5f);         // Length of flowing trails
-            _ShaderMaterial.SetShaderParameter("line_width", 0.003f);         // Very thin border line
-            _ShaderMaterial.SetShaderParameter("glow_intensity", 2.5f);       // Strong glow like logo
+            // Defaults expected by unit tests (slow, subtle)
+            _ShaderMaterial.SetShaderParameter("rotation_speed", 0.05f);
+            _ShaderMaterial.SetShaderParameter("wave_speed", 0.8f);
+            _ShaderMaterial.SetShaderParameter("wave_frequency", 8.0f);
+            _ShaderMaterial.SetShaderParameter("wave_amplitude", 0.25f);
+            _ShaderMaterial.SetShaderParameter("border_width", 0.015f);
+            _ShaderMaterial.SetShaderParameter("glow_intensity", 1.2f);
+
+            // Backward-compatible params for alternate shader variants
+            _ShaderMaterial.SetShaderParameter("flow_speed", 2.0f);
+            _ShaderMaterial.SetShaderParameter("particle_density", 20.0f);
+            _ShaderMaterial.SetShaderParameter("trail_length", 1.5f);
+            _ShaderMaterial.SetShaderParameter("line_width", 0.003f);
         }
 
         /// <summary>

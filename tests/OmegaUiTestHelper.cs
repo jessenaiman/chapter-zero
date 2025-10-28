@@ -18,11 +18,11 @@ public static class OmegaUiTestHelper
     /// <summary>
     /// Validates that a UI component has proper background layers with correct theming.
     /// This validation ensures the UI is not showing a white background, which indicates
-    /// broken theme/styling. For OmegaThemedContainer with EnableOmegaBorder=true, validates
+    /// broken theme/styling. For OmegaContainer with EnableOmegaBorder=true, validates
     /// that visual layers exist. For OmegaContainer and other classes, this is a no-op.
     /// If any validation fails, all subsequent tests in the suite will cascade fail.
     /// </summary>
-    /// <param name="uiComponent">The UI component to validate (OmegaThemedContainer, MenuUi, etc.).</param>
+    /// <param name="uiComponent">The UI component to validate (OmegaContainer, MenuUi, etc.).</param>
     /// <param name="componentName">Name of the component for error messages (e.g., "MenuUi", "PauseMenu").</param>
     /// <exception cref="AssertionException">Thrown when validation fails, causing all tests to fail.</exception>
     public static void ValidateBackgroundTheme(Control uiComponent, string componentName = "UI Component")
@@ -31,19 +31,12 @@ public static class OmegaUiTestHelper
         AssertThat(uiComponent).IsNotNull()
             .OverrideFailureMessage($"{componentName} failed to instantiate - all tests will fail");
 
-        // Only validate visual layers if this is an OmegaThemedContainer
+        // Only validate visual layers if this is an OmegaContainer
         // OmegaContainer (base class for MenuUi) has no visual nodes - that's by design
         // This check allows the new architecture to coexist with old visual tests
-        if (uiComponent is not OmegaThemedContainer themedContainer)
+        if (uiComponent is not OmegaContainer themedContainer)
         {
             return; // Pure OmegaContainer (no visuals) - validation complete
-        }
-
-        // For OmegaThemedContainer, only validate if Omega border is enabled
-        // (visual layers are only created when EnableOmegaBorder=true)
-        if (!themedContainer.EnableOmegaBorder)
-        {
-            return; // Visual layers disabled - validation complete
         }
 
         // Validate dark background exists (required base for overlay layers)

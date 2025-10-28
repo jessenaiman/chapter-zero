@@ -15,7 +15,7 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure;
 [GlobalClass]
 public abstract partial class SceneBase : Control, IManifestAware
 {
-    private StageManifest? _loadedManifest;
+    private StageManifest? _LoadedManifest;
 
     /// <summary>
     /// Gets the identifier of the current beat (should align with manifest entry where applicable).
@@ -29,14 +29,14 @@ public abstract partial class SceneBase : Control, IManifestAware
     public virtual string ManifestPath => string.Empty;
 
     /// <summary>
-    /// Gets the loaded stage manifest. Accessible for debugging and standalone scene testing.
+    /// Gets the loaded manifest associated with this scene (for debugging/testing).
     /// </summary>
-    public object? LoadedManifest => _loadedManifest;
+    public object? LoadedManifest => _LoadedManifest;
 
     /// <summary>
     /// Gets the loaded manifest data as the strongly-typed StageManifest.
     /// </summary>
-    protected StageManifest? LoadedStageManifest => _loadedManifest;
+    protected StageManifest? LoadedStageManifest => _LoadedManifest;
 
     /// <summary>
     /// Adds a <see cref="RichTextLabel"/> to the specified container.
@@ -111,9 +111,9 @@ public abstract partial class SceneBase : Control, IManifestAware
         try
         {
             var loader = new StageManifestLoader();
-            _loadedManifest = loader.LoadManifest(ManifestPath);
+            _LoadedManifest = loader.LoadManifest(ManifestPath);
 
-            if (_loadedManifest == null)
+            if (_LoadedManifest == null)
             {
                 GD.PrintErr($"[SceneBase] Failed to load stage manifest from: {ManifestPath}");
                 return;
@@ -128,21 +128,21 @@ public abstract partial class SceneBase : Control, IManifestAware
     }
 
     /// <summary>
-    /// Retrieves the active <see cref="StageController"/> for the current scene tree, if any.
+    /// Retrieves the active <see cref="StageManager"/> for the current scene tree, if any.
     /// </summary>
-    /// <returns>The active stage controller or <c>null</c> if none registered.</returns>
-    protected StageController? GetStageController()
+    /// <returns>The active stage manager or <c>null</c> if none registered.</returns>
+    protected StageManager? GetStageManager()
     {
-        return StageController.GetActiveController(GetTree());
+        return GetNodeOrNull<StageManager>("/root/StageManager");
     }
 
     /// <summary>
-    /// Awards affinity points to the active stage controller, if available.
+    /// Awards affinity points to the active stage manager, if available.
     /// </summary>
     /// <param name="alignmentId">Alignment identifier (e.g., light, shadow, ambition).</param>
     /// <param name="points">Points to award (can be negative).</param>
     protected void AwardAffinity(string alignmentId, int points)
     {
-        GetStageController()?.AwardAffinityScore(alignmentId, points);
+        GetStageManager()?.SetDreamweaverThread(alignmentId);
     }
 }

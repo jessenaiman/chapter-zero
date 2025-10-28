@@ -17,7 +17,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Ui;
 /// It provides a rich interface for storytelling and player interaction with NPCs.
 /// </summary>
 #pragma warning disable IDE1006  // Naming: 2-letter acronym Ui stays uppercase per C# style guide
-public partial class UiDialogue : OmegaThemedContainer
+public partial class UiDialogue : OmegaContainer
 #pragma warning restore IDE1006
 {
     /// <summary>

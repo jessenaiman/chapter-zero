@@ -2,17 +2,14 @@
 
 This directory contains all the C# scripts for the Omega Spiral game, built with Godot 4.5 and .NET 10 and C# 14.
 
-## Architecture Overview
-
-The game follows an MVC-like architecture with the following key components:
-
-- **GameState.cs**: Singleton autoload that manages global game state
-- **SceneManager.cs**: Handles scene transitions and state validation
-- **Controller Scripts**: Handle scene-specific logic and user interactions
-- **Data Models**: Represent game entities and data structures
-- **Utility Scripts**: Provide common functionality
-
-## Script Reference
+## High‑level components
++-------------------+ +-------------------+ +-------------------+
+| Stage‑specific | ----> | Stage Manager | ----> | Godot Scene |
+| Director (e.g. | (StageManager) | (ghost_terminal.tscn) |
+| GhostCinematic | – Handles scene | – UI root inherits |
+| Director) | transitions, | NarrativeUi |
++-------------------+ player state, +-------------------+
+validation
 
 ### Core Systems
 
@@ -25,14 +22,8 @@ The game follows an MVC-like architecture with the following key components:
 - Cross-scene state persistence
 - Dreamweaver scoring and selection
 - Party and inventory management
-
-**Public API**:
-- `SaveGame()`: Saves current state to user://savegame.json
-- `LoadGame()`: Loads state from save file
-- `UpdateDreamweaverScore(type, points)`: Updates alignment scores
-- `GetHighestScoringDreamweaver()`: Returns dominant dreamweaver type
-
-#### SceneManager.cs
+-
+#### StageManager.cs
 **Purpose**: Manages scene transitions and state validation
 
 **Key Features**:
@@ -134,13 +125,6 @@ The game follows an MVC-like architecture with the following key components:
 
 ### Utility Scripts
 
-#### JsonSchemaValidator.cs
-**Purpose**: Validates JSON data against schemas
-**Features**:
-- Schema-based validation
-- Error reporting
-- Data integrity checks
-
 #### SceneLoader.cs
 **Purpose**: Handles scene loading and resource management
 **Features**:
@@ -164,21 +148,6 @@ The game follows an MVC-like architecture with the following key components:
 - `DreamweaverThread`: Hero, Villain, Trickster
 - `CharacterRace`: Human, Elf, Dwarf, Orc, etc.
 - `CharacterClass`: Fighter, Mage, Rogue, etc.
-
-## Dependencies
-
-- **Godot 4.5** (Mono version)
-- **.NET 10.0**
-- **Newtonsoft.Json** (for complex JSON operations)
-- **NUnit** (for testing)
-
-## Testing
-
-Unit tests are located in the `/Tests/` directory:
-- `StatePersistenceTests.cs`: Cross-scene state management
-- `SaveLoadTests.cs`: Save/load functionality
-- `NarrativeTerminalSchemaTests.cs`: Schema validation
-- `NarrativeTerminalIntegrationTests.cs`: Integration testing
 
 ## Performance Considerations
 
@@ -206,3 +175,46 @@ Source/Scripts/
 - Follow C# naming conventions
 - Use Godot's resource system for assets
 - Implement proper error handling and logging
+
+### Component responsibilities
+
+| Component | Responsibility |
+|-----------|----------------|
+| **Stage‑specific Director** (e.g. `GhostCinematicDirector`) | *Loads the YAML script*, builds a **handler** (Dreamweaver scoring, visual presets) and calls the **generic `CinematicDirector`**. |
+| **`CinematicDirector`** (`source/infrastructure/CinematicDirector.cs`) | *Narrative engine*: iterates `NarrativeScript.Scenes`, forwards lines/choices to the handler, processes command tags (`[GLITCH]`, `[FADE_TO_STABLE]`). |
+| **`NarrativeUi`** (`source/ui/narrative/NarrativeUi.cs`) | UI‑only: `EnqueueLineAsync`, `PresentChoicesAsync`, `ApplyCrtPresetAsync`, emits `Ready` / `SequenceComplete`. |
+| **`StageManager`** (`source/services/StageManager.cs`) | Global manager: stores `PlayerName`, `DreamweaverThread`, `CurrentSceneIndex`; validates and performs Godot scene transitions (`TransitionToScene`). |
+| **`NarrativeDataLoader`** (`source/infrastructure/NarrativeDataLoader.cs`) | Deserialises any stage YAML (`ghost.yaml`, `nethack.yaml`, …) into a `NarrativeScript`. |
+| **`NarrativeHandler`** (tiny glue class per stage) | Implements `INarrativeHandler` – connects `NarrativeUi` to `StageManager` and `GameStateSignals` (Dreamweaver scoring, milestones). |
+
+### Typical flow for a stage (e.g. Ghost Terminal)
+
+1. **Director** → `NarrativeDataLoader` loads `ghost.yaml` → `NarrativeScript`.
+2. **Director** → Instantiates `ghost_terminal.tscn` (root node = `NarrativeUi`).
+3. **Director** → Creates a `NarrativeHandler` that holds references to:
+   - The UI (`NarrativeUi`)
+   - `StageManager` (for scene changes)
+   - `GameStateSignals` (for global events)
+4. **Director** → Calls `CinematicDirector.PlayAsync(script, handler)`.
+5. **CinematicDirector** → Walks each scene:
+   - Sends normal lines to `handler.DisplayLinesAsync`.
+   - Handles command tags via `handler.HandleCommandLineAsync`.
+   - When a scene has a `question` + `choice`, calls `handler.PresentChoiceAsync`.
+   - After a choice, `handler.ProcessChoiceAsync` updates Dreamweaver scores.
+6. When the script finishes, `handler.NotifySequenceCompleteAsync` fires the UI signal and the director tells `StageManager` to load the next stage (if any).
+
+---
+
+## How to add a new stage (e.g. Nethack)
+
+1. **Create a YAML script** (`nethack.yaml`) that follows the common schema (`title`, `speaker`, `description`, `scenes` with `lines`, optional `question`, `owner`, `choice`).
+2. **Add a new scene file** (`nethack.tscn`) whose root node inherits `NarrativeUi`.
+3. **Write a tiny director** (`NethackCinematicDirector`) that:
+   ```csharp
+   var plan = new NarrativeDataLoader()
+                 .Load<NethackCinematicPlan>("res://source/stages/stage_2_nethack/nethack.yaml");
+   var ui   = LoadAndInstantiate<NarrativeUi>("res://source/stages/stage_2_nethack/nethack.tscn");
+   var handler = new NethackHandler(ui, GetNode<StageManager>(), GetNode<GameStateSignals>());
+   await new CinematicDirector().PlayAsync(plan.Script, handler);
+   EmitStageComplete();
+   ```

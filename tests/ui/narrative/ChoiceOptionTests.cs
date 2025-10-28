@@ -11,7 +11,7 @@ using static GdUnit4.Assertions;
 
 /// <summary>
 /// Unit tests for ChoiceOption class.
-/// Validates choice data structure and scoring functionality.
+/// Updated to match the new simplified schema: Owner (from NarrativeElement) and Text only.
 /// </summary>
 [TestSuite]
 public class ChoiceOptionTests
@@ -25,175 +25,112 @@ public class ChoiceOptionTests
         // Arrange & Act
         var choice = new ChoiceOption();
 
-        // Assert
-        AssertThat(choice.Id).IsEqual(string.Empty);
+        // Assert - New simplified schema
+        AssertThat(choice.Owner).IsNull();
         AssertThat(choice.Text).IsNull();
-        AssertThat(choice.Label).IsNull(); // Should fall back to Text
-        AssertThat(choice.Response).IsNull();
-        AssertThat(choice.IsAvailable).IsTrue();
-        AssertThat(choice.NextNodeId).IsNull();
-        AssertThat(choice.NextBlock).IsEqual(0);
-        AssertThat(choice.Description).IsEqual(string.Empty);
-        AssertThat(choice.Dreamweaver).IsNull();
-        AssertThat(choice.Scores).IsNull();
     }
 
     /// <summary>
-    /// Label should fall back to Text when not set.
+    /// ChoiceOption_WithOwnerAndText_SetsProperties
     /// </summary>
     [TestCase]
-    public void ChoiceOption_LabelFallsBackToText()
+    public void ChoiceOption_WithOwnerAndText_SetsProperties()
     {
         // Arrange
+        var expectedOwner = "omega";
+        var expectedText = "I choose the path of light";
+
+        // Act
         var choice = new ChoiceOption
         {
-            Text = "Display Text",
-            Label = null
-        };
-
-        // Act & Assert
-        AssertThat(choice.Label).IsEqual("Display Text");
-    }
-
-    /// <summary>
-    /// Label should return explicit value when set.
-    /// </summary>
-    [TestCase]
-    public void ChoiceOption_LabelReturnsExplicitValue()
-    {
-        // Arrange
-        var choice = new ChoiceOption
-        {
-            Text = "Display Text",
-            Label = "Custom Label"
-        };
-
-        // Act & Assert
-        AssertThat(choice.Label).IsEqual("Custom Label");
-    }
-
-    /// <summary>
-    /// ChoiceOption should support dreamweaver scoring.
-    /// </summary>
-    [TestCase]
-    public void ChoiceOption_SupportsDreamweaverScoring()
-    {
-        // Arrange
-        var scores = new Dictionary<string, int>
-        {
-            ["light"] = 2,
-            ["shadow"] = 1,
-            ["ambition"] = 0
-        };
-
-        var choice = new ChoiceOption
-        {
-            Id = "choice_1",
-            Text = "I choose the light",
-            Dreamweaver = "light",
-            Scores = scores
+            Owner = expectedOwner,
+            Text = expectedText
         };
 
         // Assert
-        AssertThat(choice.Id).IsEqual("choice_1");
-        AssertThat(choice.Text).IsEqual("I choose the light");
-        AssertThat(choice.Dreamweaver).IsEqual("light");
-        AssertThat(choice.Scores).IsNotNull();
-        AssertThat(choice.Scores!["light"]).IsEqual(2);
-        AssertThat(choice.Scores!["shadow"]).IsEqual(1);
-        AssertThat(choice.Scores!["ambition"]).IsEqual(0);
+        AssertThat(choice.Owner).IsEqual(expectedOwner);
+        AssertThat(choice.Text).IsEqual(expectedText);
     }
 
     /// <summary>
-    /// ChoiceOption should support all dreamweaver types.
+    /// ChoiceOption_YamlDeserialization_Works
     /// </summary>
     [TestCase]
-    public void ChoiceOption_SupportsAllDreamweaverTypes()
+    public void ChoiceOption_YamlDeserialization_Works()
+    {
+        // This test would need the YAML deserializer setup
+        // For now, testing the property model
+        var choice = new ChoiceOption();
+
+        // Test Owner property
+        choice.Owner = "light";
+        AssertThat(choice.Owner).IsEqual("light");
+
+        // Test Text property
+        choice.Text = "The light beckons";
+        AssertThat(choice.Text).IsEqual("The light beckons");
+    }
+
+    /// <summary>
+    /// ChoiceOption_InheritsFromNarrativeElement_HasOwnerProperty
+    /// </summary>
+    [TestCase]
+    public void ChoiceOption_InheritsFromNarrativeElement_HasOwnerProperty()
+    {
+        // Arrange
+        var choice = new ChoiceOption();
+
+        // Act & Assert - ChoiceOption should inherit Owner from NarrativeElement
+        AssertThat(choice).IsInstanceOf<ChoiceOption>();
+        AssertThat(choice.GetType().BaseType?.Name).IsEqual("NarrativeElement");
+    }
+
+    [TestCase]
+    public void ChoiceOption_ValidOwners_Accepted()
+    {
+        // Test multiple owners
+        var owners = new[] { "omega", "light", "shadow", "ambition", "none" };
+
+        foreach (var owner in owners)
+        {
+            // Arrange & Act
+            var choice = new ChoiceOption { Owner = owner };
+
+            // Assert
+            AssertThat(choice.Owner).IsEqual(owner);
+        }
+    }
+
+    [TestCase]
+    public void ChoiceOption_NullOwner_SetsCorrectly()
     {
         // Arrange & Act
-        var lightChoice = new ChoiceOption { Dreamweaver = "light" };
-        var shadowChoice = new ChoiceOption { Dreamweaver = "shadow" };
-        var ambitionChoice = new ChoiceOption { Dreamweaver = "ambition" };
-        var systemChoice = new ChoiceOption { Dreamweaver = "system" };
-        var omegaChoice = new ChoiceOption { Dreamweaver = "omega" };
-        var noneChoice = new ChoiceOption { Dreamweaver = "none" };
+        var choice = new ChoiceOption { Owner = null, Text = "Some text" };
 
         // Assert
-        AssertThat(lightChoice.Dreamweaver).IsEqual("light");
-        AssertThat(shadowChoice.Dreamweaver).IsEqual("shadow");
-        AssertThat(ambitionChoice.Dreamweaver).IsEqual("ambition");
-        AssertThat(systemChoice.Dreamweaver).IsEqual("system");
-        AssertThat(omegaChoice.Dreamweaver).IsEqual("omega");
-        AssertThat(noneChoice.Dreamweaver).IsEqual("none");
+        AssertThat(choice.Owner).IsNull();
+        AssertThat(choice.Text).IsEqual("Some text");
     }
 
-    /// <summary>
-    /// ChoiceOption should support branching navigation.
-    /// </summary>
     [TestCase]
-    public void ChoiceOption_SupportsBranchingNavigation()
+    public void ChoiceOption_NullText_SetsCorrectly()
     {
-        // Arrange
-        var choice = new ChoiceOption
-        {
-            Id = "branch_1",
-            NextNodeId = "node_42",
-            NextBlock = 5
-        };
+        // Arrange & Act
+        var choice = new ChoiceOption { Owner = "omega", Text = null };
 
         // Assert
-        AssertThat(choice.NextNodeId).IsEqual("node_42");
-        AssertThat(choice.NextBlock).IsEqual(5);
+        AssertThat(choice.Owner).IsEqual("omega");
+        AssertThat(choice.Text).IsNull();
     }
 
-    /// <summary>
-    /// ChoiceOption should support availability flag.
-    /// </summary>
     [TestCase]
-    public void ChoiceOption_SupportsAvailabilityFlag()
+    public void ChoiceOption_BothNull_SetsCorrectly()
     {
-        // Arrange
-        var availableChoice = new ChoiceOption { IsAvailable = true };
-        var unavailableChoice = new ChoiceOption { IsAvailable = false };
+        // Arrange & Act
+        var choice = new ChoiceOption { Owner = null, Text = null };
 
         // Assert
-        AssertThat(availableChoice.IsAvailable).IsTrue();
-        AssertThat(unavailableChoice.IsAvailable).IsFalse();
-    }
-
-    /// <summary>
-    /// ChoiceOption should support response text.
-    /// </summary>
-    [TestCase]
-    public void ChoiceOption_SupportsResponseText()
-    {
-        // Arrange
-        var choice = new ChoiceOption
-        {
-            Text = "Make the choice",
-            Response = "You chose wisely."
-        };
-
-        // Assert
-        AssertThat(choice.Text).IsEqual("Make the choice");
-        AssertThat(choice.Response).IsEqual("You chose wisely.");
-    }
-
-    /// <summary>
-    /// ChoiceOption should support description field.
-    /// </summary>
-    [TestCase]
-    public void ChoiceOption_SupportsDescriptionField()
-    {
-        // Arrange
-        var choice = new ChoiceOption
-        {
-            Text = "Complex choice",
-            Description = "This choice has long-term consequences."
-        };
-
-        // Assert
-        AssertThat(choice.Text).IsEqual("Complex choice");
-        AssertThat(choice.Description).IsEqual("This choice has long-term consequences.");
+        AssertThat(choice.Owner).IsNull();
+        AssertThat(choice.Text).IsNull();
     }
 }

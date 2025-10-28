@@ -1,63 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="c4d9689b-ef58-45d5-af2f-96086e622634" name="@omega 2025-10-28 04:34:51" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-10-28T04:34:51.2278752-04:00" queuing="2025-10-28T04:34:51.2278752-04:00" start="2025-10-28T04:34:30.2767254-04:00" finish="2025-10-28T04:34:54.5638920-04:00" />
-  <TestSettings name="default" id="afe64a48-1ff7-4170-80c5-4b2eff8e5557">
-    <Deployment runDeploymentRoot="_omega_2025-10-28_04_34_51" />
+<TestRun id="7d2db172-6096-41f5-97a5-8fa5ce8ffd69" name="@omega 2025-10-28 16:22:13" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-10-28T16:22:13.6441164-04:00" queuing="2025-10-28T16:22:13.6441164-04:00" start="2025-10-28T16:21:51.4716282-04:00" finish="2025-10-28T16:22:16.7251430-04:00" />
+  <TestSettings name="default" id="04692b43-dcae-4070-b556-767d625e63dd">
+    <Deployment runDeploymentRoot="_omega_2025-10-28_16_22_13" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="868607a7-409f-4b85-8bc0-647669ac6859" testId="da2f7d97-22a4-4a60-a876-fd3f1babc11c" testName="AudioManagerTests.OnUiConfirm_DucksAmbientAndRestores" computerName="omega" duration="00:00:00.3600000" startTime="2025-10-28T04:34:50.0460366-04:00" endTime="2025-10-28T04:34:50.0464533-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="868607a7-409f-4b85-8bc0-647669ac6859">
-      <Output>
-        <StdOut>AudioManager: Initialized successfully</StdOut>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" testId="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974" testName="AudioManagerTests.OnUiHover_EmitsCueStarted" computerName="omega" duration="00:00:00.0240000" startTime="2025-10-28T04:34:49.6988241-04:00" endTime="2025-10-28T04:34:49.7005176-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d">
-      <Output>
-        <StdOut>AudioManager: Initialized successfully</StdOut>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="71ee96e6-557c-4687-8135-357504bd684b" testId="bc47a7da-3e4b-4c34-a514-558a463471fc" testName="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests.GhostYaml_LoadsSuccessfully" computerName="omega" duration="00:00:00.1100000" startTime="2025-10-28T04:34:50.1844953-04:00" endTime="2025-10-28T04:34:50.1848716-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71ee96e6-557c-4687-8135-357504bd684b">
+    <UnitTestResult executionId="c0977e3d-a376-48fa-8346-938c22354249" testId="4475fce5-639f-4649-abae-ad7d2f9ca18c" testName="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests.GhostYaml_LoadsSuccessfully" computerName="omega" duration="00:00:00.1600000" startTime="2025-10-28T16:22:12.2098705-04:00" endTime="2025-10-28T16:22:12.2115469-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c0977e3d-a376-48fa-8346-938c22354249">
       <Output>
         <StdOut>[GhostYamlTest] Loaded 8 scenes</StdOut>
       </Output>
     </UnitTestResult>
   </Results>
   <TestDefinitions>
-    <UnitTest name="OnUiConfirm_DucksAmbientAndRestores" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="da2f7d97-22a4-4a60-a876-fd3f1babc11c">
-      <Execution id="868607a7-409f-4b85-8bc0-647669ac6859" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiConfirm_DucksAmbientAndRestores" />
-    </UnitTest>
-    <UnitTest name="GhostYaml_LoadsSuccessfully" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="bc47a7da-3e4b-4c34-a514-558a463471fc">
-      <Execution id="71ee96e6-557c-4687-8135-357504bd684b" />
+    <UnitTest name="GhostYaml_LoadsSuccessfully" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="4475fce5-639f-4649-abae-ad7d2f9ca18c">
+      <Execution id="c0977e3d-a376-48fa-8346-938c22354249" />
       <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests" name="GhostYaml_LoadsSuccessfully" />
-    </UnitTest>
-    <UnitTest name="OnUiHover_EmitsCueStarted" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974">
-      <Execution id="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" />
-      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiHover_EmitsCueStarted" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="da2f7d97-22a4-4a60-a876-fd3f1babc11c" executionId="868607a7-409f-4b85-8bc0-647669ac6859" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="d9bfa5b9-93f7-4f7b-8bdc-ac3f74ef1974" executionId="3ca76a7a-a49d-462d-99aa-ffd18ffdc86d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="bc47a7da-3e4b-4c34-a514-558a463471fc" executionId="71ee96e6-557c-4687-8135-357504bd684b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4475fce5-639f-4649-abae-ad7d2f9ca18c" executionId="c0977e3d-a376-48fa-8346-938c22354249" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
   <ResultSummary outcome="Failed">
-    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>Running on GdUnit4 test engine version: 5.0.0.0
 Discover tests from assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
 Discover:  TestSuite AudioManagerTests with 2 TestCases found.
-Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.CharacterDataTests with 12 TestCases found.
-Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.ChoiceOptionTests with 9 TestCases found.
+Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.ChoiceOptionTests with 8 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptLoaderTests with 3 TestCases found.
-Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptTests with 7 TestCases found.
+Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptTests with 5 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeUiTests with 10 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiTests with 12 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiUnitTests with 4 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Ui.CreditsMenuTests with 8 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenuTests with 24 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenu_IntegrationTests with 2 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.PauseMenuTests with 6 TestCases found.
@@ -66,11 +44,9 @@ Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaBorderFrame_UnitTests with 
 Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaContainer_UnitTests with 5 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests with 4 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.GameStateTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.SceneManagerTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaShaderPresetsTests with 11 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaSpiralColorsTests with 15 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Unit.Services.GameAppConfigTests with 9 TestCases found.
-Discover tests done, 21 TestSuites and total 177 Tests found.
+Discover tests done, 17 TestSuites and total 137 Tests found.
 Running on GdUnit4 test engine version: 5.0.0.0
 Set test session timeout to: 00:30:00
 Detected IDE Unknown
@@ -130,8 +106,12 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  33% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Verifying GDExtensions...\u001b[39m\u001b[0m
 .. [  50% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Creating autoload scripts...\u001b[39m\u001b[0m
 .. Loading resource: res://source/infrastructure/GameManager.cs
+:: ERROR: Failed to create an autoload, script 'res://source/infrastructure/GameManager.cs' is not compiling.
 .. Loading resource: res://source/scripts/SceneManager.cs
 .. Loading resource: res://source/common/GameState.cs
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
+:: ERROR: Failed to create an autoload, script 'res://source/scripts/SceneManager.cs' is not compiling.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
 .. Loading resource: res://source/field/FieldEvents.cs
 .. Loading resource: res://source/field/FieldCamera.cs
 .. Loading resource: res://source/field/gameboard/Gameboard.cs
@@ -410,39 +390,98 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  83% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Starting file scan...\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mfirst_scan_filesystem\u001b[22m
 .. \u001b[0m
+.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | Started Registering global classes... (2 steps)\u001b[39m\u001b[0m
+.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
+.. [  33% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
+.. \u001b[92m[ DONE ]\u001b[39m \u001b[1mupdate_scripts_classes\u001b[22m
+.. \u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Started Loading editor (5 steps)\u001b[39m\u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading editor layout...\u001b[39m\u001b[0m
 .. [  16% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading docks...\u001b[39m\u001b[0m
 .. [  33% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Reopening scenes...\u001b[39m\u001b[0m
-.. Loading resource: res://source/stages/stage_1_ghost/ghost_terminal.tscn
-.. Loading resource: res://source/stages/stage_1_ghost/GhostUi.cs
-.. Loading resource: res://source/narrative/NarrativeUi.cs
-.. Loading resource: res://source/ui/omega/OmegaThemedContainer.cs
-.. Loading resource: res://source/ui/omega/OmegaContainer.cs
 .. Loading resource: res://source/stages/main.tscn
 .. Loading resource: res://source/ui/menus/main_menu.tscn
 .. Loading resource: res://source/ui/menus/MainMenu.cs
 .. Loading resource: res://source/ui/menus/MenuUi.cs
+.. Loading resource: res://source/ui/omega/OmegaContainer.cs
+:: WARNING: res://source/ui/menus/main_menu.tscn:4 - ext_resource, invalid UID: uid://omega_ui_frame_v1 - using text path instead: res://source/ui/omega/omega_ui_frame.tscn
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://source/ui/omega/omega_ui_frame.tscn
-.. Loading resource: res://source/ui/omega/OmegaBorderFrame.cs
-.. Loading resource: res://source/shaders/crt_phosphor.gdshader
-.. Loading resource: res://source/shaders/crt_scanlines.gdshader
-.. Loading resource: res://source/shaders/crt_glitch.gdshader
+.. Loading resource: res://source/shaders/spiral_border.gdshader
+:: WARNING: res://source/ui/omega/omega_ui_frame.tscn:4 - ext_resource, invalid UID: uid://d12xf8v7m9ak - using text path instead: res://source/shaders/crt_unified.gdshader
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://source/shaders/crt_unified.gdshader
+:: WARNING: Parent path 'OmegaFrame' for node 'OuterBlackBorder' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'BorderFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'CrtFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtBackground' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtEffectsLayer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'ContentContainer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
 .. Loading resource: res://source/ui/menus/credits_menu.tscn
 .. Loading resource: res://source/ui/menus/CreditsMenu.cs
+:: WARNING: res://source/ui/menus/credits_menu.tscn:4 - ext_resource, invalid UID: uid://omega_ui_frame_v1 - using text path instead: res://source/ui/omega/omega_ui_frame.tscn
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: Parent path 'OmegaFrame' for node 'OuterBlackBorder' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'BorderFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'CrtFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtBackground' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtEffectsLayer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'ContentContainer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'ContentContainer' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame/ContentContainer' for node 'MenuTitle' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame/ContentContainer' for node 'CreditsScrollContainer' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame/ContentContainer/CreditsScrollContainer' for node 'CreditsContent' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame/ContentContainer' for node 'MenuButtonContainer' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame/ContentContainer' for node 'MenuActionBar' has vanished when instantiating: 'res://source/ui/menus/credits_menu.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+.. Loading resource: res://source/ui/omega/omega_ui_frame.tscn
+:: WARNING: res://source/ui/omega/omega_ui_frame.tscn:4 - ext_resource, invalid UID: uid://d12xf8v7m9ak - using text path instead: res://source/shaders/crt_unified.gdshader
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: Parent path 'OmegaFrame' for node 'OuterBlackBorder' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'BorderFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame' for node 'CrtFrame' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtBackground' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'CrtEffectsLayer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
+:: WARNING: Parent path 'OmegaFrame/CrtFrame' for node 'ContentContainer' has vanished when instantiating: 'res://source/ui/omega/omega_ui_frame.tscn'.
+:: at: instantiate (scene/resources/packed_scene.cpp:205)
 .. [  50% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading central editor layout...\u001b[39m\u001b[0m
 .. [  66% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading plugin window layout...\u001b[39m\u001b[0m
 .. Loading resource: res://source/ui/menus/main_menu_manifest.json
+.. Loading resource: res://source/shaders/title_gradient.gdshader
+.. Loading resource: res://source/shaders/pulsing_background.gdshader
+.. Loading resource: res://source/shaders/crt_glitch.gdshader
 .. [  83% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Editor layout ready.\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
 .. \u001b[0m
 .. Failed to bind socket. Error: 3.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x5a0cbf08: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x5a0cbf08: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x5a0cbf08: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x5a0cbf08: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x5a0cbf08: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x5a0cbf08: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6e903d18: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6e903d18: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6e903d18: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6e903d18: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6e903d18: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6e903d18: Switch to application keys for outbound traffic
 .. Unloading addon: res://addons/dialogic/plugin.cfg
 .. Unloading addon: res://addons/gdUnit4/plugin.cfg
 .. Unloading addon: res://addons/godot_xterm/plugin.cfg
@@ -454,10 +493,10 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. XR: Clearing primary interface
 .. XR: Removed interface "Native mobile"
 .. XR: Removed interface "OpenXR"
-.. Leaked instance: UndoRedo:2140688962014
 :: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-.. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 :: at: cleanup (core/object/object.cpp:2570)
+.. Leaked instance: UndoRedo:2140789625308
+.. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 .. Orphan StringName: RenderingDevice (static: 2, total: 4)
 .. Orphan StringName: Mesh (static: 18, total: 22)
 .. Orphan StringName: Tween (static: 2, total: 6)
@@ -473,7 +512,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: InputEventMouse (static: 4, total: 6)
 .. Orphan StringName: ThemeDB (static: 2, total: 4)
 .. Orphan StringName: InputEventWithModifiers (static: 9, total: 11)
-.. Orphan StringName: Control (static: 234, total: 236)
+.. Orphan StringName: Control (static: 223, total: 225)
 .. Orphan StringName: Shape3D (static: 11, total: 15)
 .. Orphan StringName: Input (static: 2, total: 4)
 .. Orphan StringName: InputEventFromWindow (static: 12, total: 14)
@@ -482,11 +521,11 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: Font (static: 5, total: 9)
 .. Orphan StringName: RenderingServer (static: 2, total: 4)
 .. Orphan StringName: Image (static: 2, total: 6)
-.. Orphan StringName: Resource (static: 464, total: 468)
+.. Orphan StringName: Resource (static: 465, total: 469)
 .. Orphan StringName: StyleBoxFlat (static: 5, total: 7)
 .. Orphan StringName: Schema (static: 0, total: 2)
 .. Orphan StringName: OS (static: 2, total: 4)
-.. Orphan StringName: Viewport (static: 61, total: 65)
+.. Orphan StringName: Viewport (static: 60, total: 64)
 .. Orphan StringName: MultiplayerAPI (static: 4, total: 8)
 .. Orphan StringName: Timer (static: 2, total: 4)
 .. Orphan StringName: DisplayServer (static: 2, total: 4)
@@ -496,7 +535,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: ConcavePolygonShape3D (static: 2, total: 6)
 .. Orphan StringName: Thread (static: 2, total: 4)
 .. Orphan StringName: RegExMatch (static: 2, total: 4)
-.. Orphan StringName: CanvasItem (static: 282, total: 286)
+.. Orphan StringName: CanvasItem (static: 271, total: 275)
 .. Orphan StringName: SceneTree (static: 2, total: 6)
 .. Orphan StringName: InputEventMouseMotion (static: 2, total: 4)
 .. Orphan StringName: InputEventMouseButton (static: 2, total: 4)
@@ -507,11 +546,11 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: World2D (static: 2, total: 6)
 .. Orphan StringName: ShaderMaterial (static: 2, total: 4)
 .. Orphan StringName: Material (static: 13, total: 17)
-.. Orphan StringName: Node (static: 578, total: 583)
+.. Orphan StringName: Node (static: 566, total: 571)
 .. Orphan StringName: ProjectSettings (static: 2, total: 6)
 .. Orphan StringName: TextServer (static: 5, total: 9)
 .. Orphan StringName: RefCounted (static: 790, total: 794)
-.. Orphan StringName: Object (static: 1486, total: 1490)
+.. Orphan StringName: Object (static: 1472, total: 1476)
 .. Orphan StringName: Theme (static: 3, total: 7)
 .. Orphan StringName: YAMLResult (static: 0, total: 2)
 .. Orphan StringName: YAMLStyle (static: 0, total: 2)
@@ -521,18 +560,20 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: ResourceFormatLoader (static: 2, total: 6)
 .. Orphan StringName: MultiMesh (static: 2, total: 6)
 .. Orphan StringName: Texture2D (static: 20, total: 24)
-.. Orphan StringName: Window (static: 64, total: 68)
+.. Orphan StringName: Window (static: 63, total: 67)
 .. Orphan StringName: StyleBox (static: 6, total: 10)
 .. Orphan StringName: ClassDB (static: 2, total: 6)
 .. Orphan StringName: RegEx (static: 2, total: 4)
-.. Orphan StringName: Script (static: 12, total: 14)
+.. Orphan StringName: Script (static: 11, total: 13)
 .. Orphan StringName: YAML (static: 0, total: 2)
 .. StringName: 69 unclaimed string names at exit.
 Rebuild Godot Project ends with exit code: 0
 
 ======== Running GdUnit4 Godot Runtime Test Runner ========
-    AudioManager: Initialized successfully
-    AudioManager: Initialized successfully
+:: ERROR: Failed to instantiate an autoload, script 'res://source/infrastructure/GameManager.cs' does not inherit from 'Node'.
+:: at: start (main/main.cpp:4276)
+:: ERROR: Failed to instantiate an autoload, script 'res://source/scripts/SceneManager.cs' does not inherit from 'Node'.
+:: at: start (main/main.cpp:4276)
     [GhostYamlTest] Loaded 8 scenes
     [GhostYamlTest] Opening scene lines:
       [FADE_TO_STABLE]
@@ -542,12 +583,12 @@ GdUnit4 Godot Runtime Test Runner is not terminated, force process kill.
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T04:34:50.2116772-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T16:22:12.2366066-04:00">
         <Text>The server returned an unexpected status code.
    at GdUnit4.Core.Runners.BaseTestRunner.ValidateResponse(Response response)
    at GdUnit4.Core.Runners.BaseTestRunner.&lt;&gt;c__DisplayClass19_0.&lt;&lt;RunAndWait&gt;b__0&gt;d.MoveNext()</Text>
       </RunInfo>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T04:34:54.5334601-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T16:22:16.6518362-04:00">
         <Text>The active test run was aborted. Reason: Test host process crashed</Text>
       </RunInfo>
     </RunInfos>

@@ -9,7 +9,7 @@ The CallDeferred timing breaks the menu button attachment pattern:
 3. PopulateMenuButtons() calls `AddMenuButton("Back", OnBackPressed)`
 4. AddMenuButton() throws InvalidOperationException because MenuButtonContainer = null (lookup failed pre-reparenting)
 5. Then `CallDeferred(nameof(CacheCreditsNodes))` → executes next frame (too late!)
-6. OmegaThemedContainer reparents ContentContainer into CrtFrame during its lifecycle
+6. OmegaContainer reparents ContentContainer into CrtFrame during its lifecycle
 
 ### Root Cause
 MenuUi.CacheRequiredNodes() runs BEFORE reparenting, so MenuButtonContainer lookup fails because it's still under ContentContainer (not yet inside CrtFrame).
@@ -35,7 +35,7 @@ Two viable approaches:
 - Con: Bypasses automatic lifecycle call
 
 ### Architecture
-- OmegaThemedContainer.CreateComponents() reparents ContentContainer into CrtFrame
+- OmegaContainer.CreateComponents() reparents ContentContainer into CrtFrame
 - This happens in OmegaUi initialization (before _Ready)
 - MenuUi.CacheRequiredNodes() called during OmegaUi init (pre-reparent)
 - MenuUi.ReCacheRequiredNodes() designed to re-cache post-reparent

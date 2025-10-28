@@ -130,6 +130,12 @@ public static class OmegaSpiralColors
     /// </summary>
     public static Color DisabledGray => GetColorFromConfig("disabled_gray", new(0.5f, 0.5f, 0.5f, 0.5f));
 
+    /// <summary>
+    /// Phosphor Green - Stage 1 CRT monochrome text color.
+    /// Authentic 1980s terminal green (approx. #33FF33).
+    /// </summary>
+    public static Color PhosphorGreen => GetColorFromConfig("phosphor_green", new(0.2f, 1.0f, 0.2f, 1.0f));
+
     // ==================== DREAMWEAVER THREAD COLORS (FROM LOGO) ====================
 
     /// <summary>

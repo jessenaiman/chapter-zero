@@ -48,7 +48,7 @@ public partial class MainMenu_IntegrationTests
         _Runner?.Dispose();
     }
 
-    // NOTE: Visual component tests (BorderFrame, PhosphorLayer, etc.) moved to OmegaThemedContainer_Tests
+    // NOTE: Visual component tests (BorderFrame, PhosphorLayer, etc.) moved to OmegaContainer_Tests
     // Those are Omega framework concerns, not MainMenu-specific concerns
 
     // ==================== MENU STRUCTURE ====================
@@ -70,11 +70,11 @@ public partial class MainMenu_IntegrationTests
     }
 
     /// <summary>
-    /// Tests that MainMenu extends MenuUi which extends OmegaThemedContainer.
+    /// Tests that MainMenu extends MenuUi which extends OmegaContainer.
     /// </summary>
     [TestCase(Timeout = 2000)]
     public void MainMenu_InheritsOmegaTheming()
     {
-        AssertThat(_MainMenu).IsInstanceOf<OmegaThemedContainer>();
+        AssertThat(_MainMenu).IsInstanceOf<OmegaContainer>();
     }
 }

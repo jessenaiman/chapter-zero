@@ -1,23 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://omega_ui_frame_v1"]
+[gd_scene load_steps=3 format=3 uid="uid://cxutlugvk2o8k"]
 
-[ext_resource type="Script" path="res://source/ui/omega/OmegaBorderFrame.cs" id="1"]
-
-[ext_resource type="Shader" path="res://source/shaders/crt_phosphor.gdshader" id="2"]
-
-[ext_resource type="Shader" path="res://source/shaders/crt_scanlines.gdshader" id="3"]
-
-[ext_resource type="Shader" path="res://source/shaders/crt_glitch.gdshader" id="4"]
-
-[ext_resource type="Shader" path="res://source/shaders/spiral_border.gdshader" id="5"]
-
-[sub_resource type="ShaderMaterial" id="PhosphorMaterial"]
-shader = ExtResource("2")
-
-[sub_resource type="ShaderMaterial" id="ScanlineMaterial"]
-shader = ExtResource("3")
-
-[sub_resource type="ShaderMaterial" id="GlitchMaterial"]
-shader = ExtResource("4")
+[ext_resource type="Shader" uid="uid://8cv0y0vgndor" path="res://source/shaders/spiral_border.gdshader" id="5"]
+[ext_resource type="Shader" uid="uid://d12xf8v7m9ak" path="res://source/shaders/crt_unified.gdshader" id="6"]
 
 [sub_resource type="ShaderMaterial" id="BorderMaterial"]
 shader = ExtResource("5")
@@ -31,160 +15,85 @@ shader_parameter/trail_length = 1.5
 shader_parameter/line_width = 0.008
 shader_parameter/glow_intensity = 2.5
 
-[sub_resource type="StyleBoxFlat" id="1"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0, 0, 0, 1)
+[sub_resource type="ShaderMaterial" id="CrtUnifiedMaterial"]
+shader = ExtResource("6")
+shader_parameter/curvature_strength = 0.15
+shader_parameter/phosphor_glow = 1.2
+shader_parameter/phosphor_tint = Color(0.7725, 0.6196, 0.3725, 1)
+shader_parameter/phosphor_spread = 1.0
+shader_parameter/vignette_strength = 0.3
+shader_parameter/vignette_softness = 0.5
+shader_parameter/chromatic_aberration = 1.5
+shader_parameter/brightness = 1.0
+shader_parameter/contrast = 1.1
+shader_parameter/scanline_opacity = 0.08
+shader_parameter/scanline_speed = 5.0
+shader_parameter/scanline_count = 400.0
+shader_parameter/scanline_thickness = 1.2
+shader_parameter/scanline_tint = Color(0.6078, 0.4157, 0.251, 1)
+shader_parameter/glitch_intensity = 0.0
+shader_parameter/interference_speed = 5.0
+shader_parameter/chromatic_offset = 2.0
+shader_parameter/block_size = 16.0
+shader_parameter/block_intensity = 0.5
+shader_parameter/noise_amount = 0.1
+shader_parameter/displacement_strength = 0.02
+shader_parameter/glitch_tint = Color(0.6078, 0.4157, 0.251, 1)
+shader_parameter/glitch_flash_tint = Color(0.7725, 0.6196, 0.3725, 1)
 
 [node name="OmegaFrame" type="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 3
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OuterBlackBorder" type="ColorRect" parent="."]
+[node name="OuterBlackBorder" type="ColorRect" parent="OmegaFrame"]
 layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
 color = Color(0, 0, 0, 1)
-z_index = -20
-mouse_filter = 2
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="BorderFrame" type="ColorRect" parent="OmegaFrame"]
 layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.05
-anchor_top = 0.04
-anchor_right = 0.95
-anchor_bottom = 0.96
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.85, 0.82, 0.75, 1)
-z_index = -10
-mouse_filter = 2
-
-[node name="BezelBorder" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.05
-anchor_top = 0.04
-anchor_right = 0.95
-anchor_bottom = 0.96
-grow_horizontal = 2
-grow_vertical = 2
-z_index = 20
-mouse_filter = 2
-theme_override_styles/panel = SubResource("1")
-
-[node name="BorderFrame" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.08
-anchor_top = 0.065
-anchor_right = 0.92
-anchor_bottom = 0.935
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 1)
+anchors_left = 0.08
+anchors_top = 0.1
+anchors_right = 0.92
+anchors_bottom = 0.9
 material = SubResource("BorderMaterial")
-z_index = 40
-mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
-[node name="CrtFrame" type="AspectRatioContainer" parent="."]
+[node name="CrtFrame" type="AspectRatioContainer" parent="OmegaFrame"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.12
-anchor_top = 0.1
-anchor_right = 0.88
-anchor_bottom = 0.9
-grow_horizontal = 2
-grow_vertical = 2
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
 ratio = 1.33333
-stretch_mode = 1
-z_index = 50
 
-[node name="CrtBackground" type="ColorRect" parent="CrtFrame"]
+[node name="CrtBackground" type="ColorRect" parent="OmegaFrame/CrtFrame"]
 layout_mode = 2
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
 color = Color(0.054902, 0.0666667, 0.0862745, 1)
-z_index = -20
-mouse_filter = 2
 
-[node name="PhosphorLayer" type="ColorRect" parent="CrtFrame"]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0.3)
-material = SubResource("PhosphorMaterial")
-z_index = -10
-mouse_filter = 2
-
-[node name="ScanlineLayer" type="ColorRect" parent="CrtFrame"]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0.18)
-material = SubResource("ScanlineMaterial")
-z_index = -9
-mouse_filter = 2
-
-[node name="GlitchLayer" type="ColorRect" parent="CrtFrame"]
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0.08)
-material = SubResource("GlitchMaterial")
-z_index = -8
-mouse_filter = 2
-
-[node name="ContentContainer" type="VBoxContainer" parent="CrtFrame"]
+[node name="CrtEffectsLayer" type="ColorRect" parent="OmegaFrame/CrtFrame"]
 layout_mode = 2
-z_index = 100
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+material = SubResource("CrtUnifiedMaterial")
+color = Color(1, 1, 1, 0)
 
-[node name="MenuTitle" type="Label" parent="CrtFrame/ContentContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-custom_minimum_size = Vector2(0, 80)
-text = "Menu Title"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuButtonContainer" type="VBoxContainer" parent="CrtFrame/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 3
-theme_override_constants/separation = 16
-alignment = 1
-
-[node name="MenuActionBar" type="HBoxContainer" parent="CrtFrame/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_constants/separation = 12
-alignment = 1
+[node name="ContentContainer" type="VBoxContainer" parent="OmegaFrame/CrtFrame"]

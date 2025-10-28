@@ -47,12 +47,12 @@ public partial class MenuUiTests
     }    // ==================== INHERITANCE & API ====================
 
     /// <summary>
-    /// MenuUi extends OmegaThemedContainer.
+    /// MenuUi extends OmegaContainer.
     /// </summary>
     [TestCase(Timeout = 2000)]
-    public void MenuUi_ExtendsOmegaThemedContainer()
+    public void MenuUi_ExtendsOmegaContainer()
     {
-        AssertThat(typeof(MenuUi).BaseType).IsEqual(typeof(OmegaThemedContainer));
+        AssertThat(typeof(MenuUi).BaseType).IsEqual(typeof(OmegaContainer));
         AssertThat(typeof(MenuUi).IsAssignableTo(typeof(Control))).IsTrue();
     }
 

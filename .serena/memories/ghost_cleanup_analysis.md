@@ -10,7 +10,7 @@
 - `GetThreadColor()` - Thread-specific colors
 - `OmegaChoicePresenter` integration - Choice UI handling
 
-### From OmegaThemedContainer (via NarrativeUi):
+### From OmegaContainer (via NarrativeUi):
 - `ShaderController` - Visual effects management
 - `TextRenderer` - Text typing animation
 - `AppendTextAsync()` - Append text to display
@@ -35,7 +35,7 @@
    - Ghost doesn't reset ChoiceContainer visibility
    - Could cause UI state bugs
 
-### Not Properly Using from OmegaThemedContainer:
+### Not Properly Using from OmegaContainer:
 - `ApplyVisualPresetAsync()` calls exist but shader presets likely not defined
 - No usage of `PixelDissolveAsync()` for transitions
 

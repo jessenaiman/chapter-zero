@@ -22,7 +22,7 @@ namespace OmegaSpiral.Source.Ui.Menus;
 /// </list>
 /// </summary>
 [GlobalClass]
-public partial class MenuUi : OmegaThemedContainer
+public partial class MenuUi : OmegaContainer
 {
     private const string _ButtonAudioMetaKey = "omega_audio_registered";
 
@@ -104,7 +104,7 @@ public partial class MenuUi : OmegaThemedContainer
             return;
         }
 
-        // Base OmegaThemedContainer initialization builds Omega frame if enabled
+        // Base OmegaContainer initialization builds Omega frame if enabled
         base._Ready();
 
         // Cache menu-specific nodes using standard Godot GetNodeOrNull

@@ -12,7 +12,7 @@ public partial class SceneNavigator : Node
 {
     private SceneFlowLoader _flowLoader = new();
     private string? _currentSceneId;
-    private SceneManager? _sceneManager;
+    private StageManager? _sceneManager;
 
     /// <summary>
     /// Initializes the navigator with a specific stage's scene flow.
@@ -20,7 +20,7 @@ public partial class SceneNavigator : Node
     /// <param name="stageFlowPath">Path to the stage's scene_flow.json file.</param>
     public void Initialize(string stageFlowPath)
     {
-        _sceneManager = GetNode<SceneManager>("/root/SceneManager");
+        _sceneManager = GetNode<StageManager>("/root/StageManager");
 
         var flow = _flowLoader.LoadSceneFlow(stageFlowPath);
         if (flow == null)
@@ -80,7 +80,7 @@ public partial class SceneNavigator : Node
 
         if (_sceneManager == null)
         {
-            GD.PrintErr("[SceneNavigator] SceneManager not found");
+            GD.PrintErr("[SceneNavigator] StageManager not found");
             return false;
         }
 
