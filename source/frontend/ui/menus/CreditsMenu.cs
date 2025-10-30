@@ -3,7 +3,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Ui.Menus;
 
 namespace OmegaSpiral.Source.Ui.Menus
 {

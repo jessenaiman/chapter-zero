@@ -1,5 +1,4 @@
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon.Models
-{
+namespace OmegaSpiral.Source.Backend.Dungeon;
     /// <summary>
     /// Defines the supported interactive object types within dungeon stages.
     /// </summary>
@@ -20,4 +19,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon.Models
         /// </summary>
         Chest,
     }
-}

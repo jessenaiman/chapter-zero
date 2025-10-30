@@ -1,5 +1,4 @@
 using Godot;
-using OmegaSpiral.Source.Scripts.Common;
 
 namespace OmegaSpiral.Source.Scripts.Stages.Stage4;
 

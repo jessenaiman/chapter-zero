@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Manages scene navigation based on scene flow configuration.

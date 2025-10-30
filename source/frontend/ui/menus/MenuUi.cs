@@ -2,10 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Linq;
 using Godot;
-using OmegaSpiral.Source.Audio;
 using OmegaSpiral.Source.InputSystem;
 using OmegaSpiral.Source.Ui.Omega;
 

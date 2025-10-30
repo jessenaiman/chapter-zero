@@ -2,8 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Common
-{
+namespace OmegaSpiral.Source.Backend.Common;
     /// <summary>
     /// Types of log entries for the combat log.
     /// </summary>
@@ -59,4 +58,3 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// </summary>
         System = 9,
     }
-}

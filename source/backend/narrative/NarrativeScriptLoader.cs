@@ -2,13 +2,11 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
-using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace OmegaSpiral.Source.Narrative;
+namespace OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Generic YAML narrative script loader.

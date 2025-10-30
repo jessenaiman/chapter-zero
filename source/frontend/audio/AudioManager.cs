@@ -1,9 +1,6 @@
 using Godot;
-using Godot.Collections;
-using System;
-using System.Collections.Generic;
 using OmegaSpiral.Source.Audio;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Centralized audio management system for the Omega Spiral game.

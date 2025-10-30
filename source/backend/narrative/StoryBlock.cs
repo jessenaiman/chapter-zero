@@ -2,9 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-
-namespace OmegaSpiral.Source.Narrative;
+namespace OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Represents a story block used in narrative scenes.

@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Godot;
 using FileAccess = Godot.FileAccess;
 using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Represents a single scene in a stage's scene flow.

@@ -4,11 +4,11 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.persistence;
+using OmegaSpiral.Source.Backend.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Global game state singleton managing player progress, Dreamweaver alignment, and persistence.

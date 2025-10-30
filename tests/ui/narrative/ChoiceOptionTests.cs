@@ -5,8 +5,6 @@
 namespace OmegaSpiral.TestsUi.Narrative;
 
 using GdUnit4;
-using System.Collections.Generic;
-using OmegaSpiral.Source.Narrative;
 using static GdUnit4.Assertions;
 
 /// <summary>

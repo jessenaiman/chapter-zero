@@ -5,8 +5,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Represents a collected story shard.
     /// </summary>
@@ -38,4 +37,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
         [MaxLength(1000)]
         public string Content { get; set; } = string.Empty;
     }
-}

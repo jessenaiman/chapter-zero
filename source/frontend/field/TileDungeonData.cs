@@ -2,11 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using Godot;
-using OmegaSpiral.Source.Scripts.Common;
-
 namespace OmegaSpiral.Source.Scripts.Field
 {
+    using Godot;
+    using OmegaSpiral.Source.Backend.Common;
     /// <summary>
     /// Represents the data structure for a tile-based dungeon, including tilemap, legend, Ui, and controls.
     /// </summary>

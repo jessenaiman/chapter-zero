@@ -2,26 +2,25 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Linq;
-using Godot;
-using GdUnit4;
-using OmegaSpiral.Source.Stages.Stage0Start;
-using OmegaSpiral.Source.Ui.Menus;
-using OmegaSpiral.Source.Ui.Omega;
-using OmegaSpiral.Source.Scripts.Infrastructure;
-using static GdUnit4.Assertions;
+namespace OmegaSpiral.Tests.Ui
+{
+    using Godot;
+    using GdUnit4;
+    using OmegaSpiral.Source.Backend;
+    using OmegaSpiral.Source.Stages.Stage0Start;
+    using OmegaSpiral.Source.Ui.Menus;
+    using OmegaSpiral.Source.Ui.Omega;
+    using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Ui;
-
-/// <summary>
-/// Integration tests for MainMenu.
-/// Tests manifest loading (6 stages), button creation (1 Launch + 5 Stage buttons + Options + Quit),
-/// no duplicate first stage, and button signal handlers.
-/// Follows 1:1 test-to-class mapping: MainMenuTests.cs tests MainMenu.cs.
-/// </summary>
-[TestSuite]
-[RequireGodotRuntime]
-public partial class MainMenuTests : Node
+    /// <summary>
+    /// Integration tests for MainMenu.
+    /// Tests manifest loading (6 stages), button creation (1 Launch + 5 Stage buttons + Options + Quit),
+    /// no duplicate first stage, and button signal handlers.
+    /// Follows 1:1 test-to-class mapping: MainMenuTests.cs tests MainMenu.cs.
+    /// </summary>
+    [TestSuite]
+    [RequireGodotRuntime]
+    public partial class MainMenuTests : Node
 {
     private ISceneRunner _Runner = null!;
     private MainMenu _MainMenu = null!;
@@ -505,4 +504,5 @@ public partial class MainMenuTests : Node
     // NOTE: BorderFrame tests moved to OmegaBorderFrame_UnitTests.cs
     // See: tests/integration/ui/omega/OmegaBorderFrame_UnitTests.cs
     // All BorderFrame component tests are now consolidated in one place.
+}
 }

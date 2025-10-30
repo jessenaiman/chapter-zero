@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 #pragma warning disable CA1852
 
-namespace OmegaSpiral.Source.Scripts.persistence.migrations
-{
+namespace OmegaSpiral.Source.Backend.Persistence.Migrations;
     [DbContext(typeof(OmegaSpiral.Source.Scripts.persistence.GameDbContext))]
     partial class GameDbContextModelSnapshot : ModelSnapshot
     {
@@ -267,4 +266,3 @@ namespace OmegaSpiral.Source.Scripts.persistence.migrations
 #pragma warning restore 612, 618
         }
     }
-}

@@ -2,11 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Represents a single scene entry in a stage manifest.

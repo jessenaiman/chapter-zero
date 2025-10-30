@@ -5,10 +5,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Represents a game save file stored in the database.
     /// </summary>
@@ -98,4 +97,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
         /// </summary>
         public Collection<NarratorMessage> NarratorQueue { get; set; } = new();
     }
-}

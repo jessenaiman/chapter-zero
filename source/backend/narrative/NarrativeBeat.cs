@@ -2,7 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Narrative;
+namespace OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Represents a narrative beat with text, visual preset, delay, and typing speed.

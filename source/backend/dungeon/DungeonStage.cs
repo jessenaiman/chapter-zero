@@ -1,9 +1,9 @@
+// TODO: Remove this file as it uses old dungeon logic (DungeonObjectDefinition, DungeonInteractionResult) that was removed.
 using System.Collections.ObjectModel;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 using OmegaSpiral.Source.Scripts.domain.Dungeon.Models;
 
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon
-{
+namespace OmegaSpiral.Source.Backend.Dungeon;
     /// <summary>
     /// Represents a single Dreamweaver-owned ASCII dungeon stage.
     /// </summary>
@@ -143,4 +143,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon
             return result;
         }
     }
-}

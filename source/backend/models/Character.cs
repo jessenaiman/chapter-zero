@@ -1,4 +1,4 @@
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
 namespace OmegaSpiral.Domain.Models
 {
@@ -81,7 +81,7 @@ namespace OmegaSpiral.Domain.Models
         /// <param name="name">The character's name.</param>
         /// <param name="characterClass">The character's class from common enums.</param>
         /// <param name="race">The character's race from common enums.</param>
-        public Character(string name, OmegaSpiral.Source.Scripts.Common.CharacterClass characterClass, OmegaSpiral.Source.Scripts.Common.CharacterRace race)
+        public Character(string name, OmegaSpiral.Source.Backend.Common.CharacterClass characterClass, OmegaSpiral.Source.Backend.Common.CharacterRace race)
         {
             this.Identity = new CharacterIdentity(
                 id: Guid.NewGuid().ToString(),
@@ -373,11 +373,11 @@ namespace OmegaSpiral.Domain.Models
         /// </summary>
         /// <param name="commonClass">The common enum character class.</param>
         /// <returns>A new domain model CharacterClass instance.</returns>
-        private static CharacterClass CreateCharacterClassFromCommonEnum(OmegaSpiral.Source.Scripts.Common.CharacterClass commonClass)
+        private static CharacterClass CreateCharacterClassFromCommonEnum(OmegaSpiral.Source.Backend.Common.CharacterClass commonClass)
         {
             return commonClass switch
             {
-                Source.Scripts.Common.CharacterClass.Fighter => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Fighter => new CharacterClass
                 {
                     Id = "fighter",
                     Name = "Fighter",
@@ -391,7 +391,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 10,
                     IconPath = "res://assets/icons/fighter.png"
                 },
-                Source.Scripts.Common.CharacterClass.Mage => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Mage => new CharacterClass
                 {
                     Id = "mage",
                     Name = "Mage",
@@ -405,7 +405,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 8,
                     IconPath = "res://assets/icons/mage.png"
                 },
-                Source.Scripts.Common.CharacterClass.Priest => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Priest => new CharacterClass
                 {
                     Id = "priest",
                     Name = "Priest",
@@ -419,7 +419,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 8,
                     IconPath = "res://assets/icons/priest.png"
                 },
-                Source.Scripts.Common.CharacterClass.Thief => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Thief => new CharacterClass
                 {
                     Id = "thief",
                     Name = "Thief",
@@ -433,7 +433,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 15,
                     IconPath = "res://assets/icons/thief.png"
                 },
-                Source.Scripts.Common.CharacterClass.Bard => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Bard => new CharacterClass
                 {
                     Id = "bard",
                     Name = "Bard",
@@ -447,7 +447,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 12,
                     IconPath = "res://assets/icons/bard.png"
                 },
-                Source.Scripts.Common.CharacterClass.Paladin => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Paladin => new CharacterClass
                 {
                     Id = "paladin",
                     Name = "Paladin",
@@ -461,7 +461,7 @@ namespace OmegaSpiral.Domain.Models
                     BaseSpeed = 9,
                     IconPath = "res://assets/icons/paladin.png"
                 },
-                Source.Scripts.Common.CharacterClass.Ranger => new CharacterClass
+                OmegaSpiral.Source.Backend.Common.CharacterClass.Ranger => new CharacterClass
                 {
                     Id = "ranger",
                     Name = "Ranger",

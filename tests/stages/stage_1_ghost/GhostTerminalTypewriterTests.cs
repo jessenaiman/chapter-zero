@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using GdUnit4;
 using Godot;
 using OmegaSpiral.Source.Stages.Stage1;
-using OmegaSpiral.Source.Narrative;
 using static GdUnit4.Assertions;
 
 /// <summary>

@@ -3,7 +3,6 @@
 // </copyright>
 
 using GdUnit4;
-using Godot;
 using OmegaSpiral.Source.Stages.Stage0Start;
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;

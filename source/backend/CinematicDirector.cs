@@ -2,11 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using OmegaSpiral.Source.Frontend;
-using OmegaSpiral.Source.Narrative;
+using OmegaSpiral.Source.Backend.Narrative;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Base class for stage cinematic directors that load YAML narrative scripts and cache their plans.
@@ -14,8 +12,13 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure;
 /// Each stage director inherits this and implements abstract methods for data path and plan building.
 /// </summary>
 /// <typeparam name="TPlan">The plan record type for this stage (e.g., GhostTerminalCinematicPlan, NethackCinematicPlan).</typeparam>
+/// <summary>
+/// Abstract base class for loading and caching stage-specific YAML cinematic plans.
+/// Handles YAML loading with thread-safe lazy caching. Plans are data containers,
+/// not controllers. Controllers (IStageBase implementations) use plans to orchestrate stage execution.
+/// </summary>
+/// <typeparam name="TPlan">The stage-specific plan type (e.g., GhostTerminalCinematicPlan).</typeparam>
 public abstract class CinematicDirector<TPlan>
-    where TPlan : IStageBase
 {
     private readonly object _SyncRoot = new();
     private TPlan? _CachedPlan;

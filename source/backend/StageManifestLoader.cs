@@ -3,9 +3,8 @@
 // </copyright>
 
 using Godot;
-using System.Collections.Generic;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Loads stage manifests from JSON files.

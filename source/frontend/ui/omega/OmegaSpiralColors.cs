@@ -2,7 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 
 namespace OmegaSpiral.Source.Ui.Omega;

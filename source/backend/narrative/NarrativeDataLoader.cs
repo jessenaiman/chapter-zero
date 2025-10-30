@@ -5,7 +5,7 @@
 using Godot;
 using System.Text.Json;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Generic loader for narrative JSON files.

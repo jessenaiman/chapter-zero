@@ -2,12 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OmegaSpiral.Source.Narrative;
-
-namespace OmegaSpiral.Source.Narrative
-{
+namespace OmegaSpiral.Source.Backend.Narrative;
     /// <summary>
     /// Minimal contract that a UI component must implement for the generic narrative engine.
     /// The engine drives the script; the UI implements the concrete presentation.
@@ -49,4 +44,3 @@ namespace OmegaSpiral.Source.Narrative
         /// </summary>
         Task NotifySequenceCompleteAsync();
     }
-}

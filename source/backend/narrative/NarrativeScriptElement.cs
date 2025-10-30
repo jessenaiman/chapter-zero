@@ -2,10 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace OmegaSpiral.Source.Narrative;
+namespace OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Represents a single choice option within a question scene.

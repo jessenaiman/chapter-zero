@@ -4,8 +4,7 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Backend.Common;
 
 namespace OmegaSpiral.Source.Scripts.Field;
 /// <summary>

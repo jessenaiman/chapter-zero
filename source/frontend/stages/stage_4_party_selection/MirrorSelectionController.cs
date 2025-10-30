@@ -3,8 +3,6 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Collections.ObjectModel;
 // <copyright file="UiCombatLog.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.

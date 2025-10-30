@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 
 namespace OmegaSpiral.Source.Ui.Omega
 {

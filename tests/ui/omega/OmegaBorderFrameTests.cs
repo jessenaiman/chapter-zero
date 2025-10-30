@@ -1,11 +1,11 @@
+namespace OmegaSpiral.Tests.Ui.Omega
+{
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Ui.Omega
-{
     /// <summary>
     /// Integration tests for OmegaBorderFrame component.
     /// Tests the animated spiral border frame used by all Omega UI instances.

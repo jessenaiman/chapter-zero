@@ -2,8 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using OmegaSpiral.Source.Narrative;
-using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Backend;
+using OmegaSpiral.Source.Backend.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage2;
 

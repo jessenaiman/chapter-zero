@@ -5,8 +5,7 @@
 using Godot;
 using Microsoft.EntityFrameworkCore;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Database context for the Omega Spiral game save system.
     /// </summary>
@@ -131,4 +130,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
                 .IsUnique();
         }
     }
-}

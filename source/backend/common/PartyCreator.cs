@@ -5,7 +5,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 /// <summary>
 /// Handles party creation for the Wizardry-style character creation scene.
 /// Provides Ui for selecting character classes, races, and managing party composition.

@@ -6,7 +6,7 @@
 using Godot;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// An autoload that provides easy access to the player's state, including both Combat and Field

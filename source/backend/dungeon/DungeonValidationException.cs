@@ -1,5 +1,4 @@
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon
-{
+namespace OmegaSpiral.Source.Backend.Dungeon;
     /// <summary>
     /// Represents domain validation failures that occur when constructing dungeon aggregates or value objects.
     /// </summary>
@@ -32,4 +31,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon
         {
         }
     }
-}

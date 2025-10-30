@@ -3,9 +3,8 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 
-namespace OmegaSpiral.Source.Dreamweavers;
+namespace OmegaSpiral.Source.Backend.Dreamweavers;
 
 /// <summary>
 /// Represents a lightweight Dreamweaver persona with AI personality traits.

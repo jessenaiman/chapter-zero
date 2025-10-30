@@ -6,10 +6,9 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Represents a Dreamweaver affinity score for database persistence.
     /// This is the Entity Framework entity used for saving/loading scores to SQLite.
@@ -51,4 +50,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
         [Required]
         public int Score { get; set; }
     }
-}

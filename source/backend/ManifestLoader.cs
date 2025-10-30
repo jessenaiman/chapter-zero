@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Collections.ObjectModel;
 using Godot;
 using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Represents a stage entry from the manifest.
@@ -99,29 +95,29 @@ public class ManifestLoader : BaseManifestLoader<IReadOnlyList<ManifestStage>>
             return stages;
         }
 
-        var dict = (Dictionary)jsonData;
+        var dict = (Dictionary) jsonData;
 
         // Accept either 'scenes' or 'stages' as the root array key to be tolerant of
         // differing manifest formats across branches or tooling.
         Array? scenesArray = null;
         if (dict.ContainsKey("scenes"))
         {
-            scenesArray = (Array)dict["scenes"];
+            scenesArray = (Array) dict["scenes"];
         }
         else if (dict.ContainsKey("stages"))
         {
-            scenesArray = (Array)dict["stages"];
+            scenesArray = (Array) dict["stages"];
         }
 
         if (scenesArray != null)
         {
             foreach (var stageVariant in scenesArray)
             {
-                var stageDict = (Dictionary)stageVariant;
+                var stageDict = (Dictionary) stageVariant;
 
                 var stage = new ManifestStage
                 {
-                    Id = (int)stageDict["id"].AsInt32(),
+                    Id = (int) stageDict["id"].AsInt32(),
                     Type = stageDict["type"].AsString(),
                     Path = stageDict["path"].AsString(),
                     SupportsThreads = stageDict.ContainsKey("supportsThreads") && stageDict["supportsThreads"].AsBool(),

@@ -3,7 +3,6 @@
 // </copyright>
 
 using System.Text.Json.Serialization;
-using Godot;
 
 namespace OmegaSpiral.Domain.Models
 {
@@ -152,4 +151,3 @@ namespace OmegaSpiral.Domain.Models
         }
     }
 }
-

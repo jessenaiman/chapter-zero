@@ -2,10 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using OmegaSpiral.Source.Scripts.Common;
-using OmegaSpiral.Source.Scripts;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

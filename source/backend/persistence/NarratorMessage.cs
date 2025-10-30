@@ -5,8 +5,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Represents a narrator message in the queue.
     /// </summary>
@@ -43,4 +42,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
         /// </summary>
         public int Order { get; set; }
     }
-}

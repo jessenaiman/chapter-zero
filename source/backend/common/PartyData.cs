@@ -4,8 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts
-{
+namespace OmegaSpiral.Source.Backend;
     /// <summary>
     /// Classic CRPG party creation and management system.
     /// </summary>
@@ -281,4 +280,3 @@ namespace OmegaSpiral.Source.Scripts
             return party;
         }
     }
-}

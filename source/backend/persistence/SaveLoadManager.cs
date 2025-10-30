@@ -5,10 +5,9 @@
 using System.Text.Json;
 using Godot;
 using Microsoft.EntityFrameworkCore;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Manages saving and loading game state using Entity Framework Core with SQLite.
     /// </summary>
@@ -404,4 +403,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
             return gameState;
         }
     }
-}

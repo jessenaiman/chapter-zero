@@ -13,7 +13,7 @@ void fragment() {
     // Use COLOR.rgb (from ColorRect's color property) as the base color instead of uniform
     vec3 effective_base_color = COLOR.rgb;
     vec3 effective_glow_color = effective_base_color + glow_color;
-    
+
     float pulse = (sin(TIME * pulse_speed) * 0.5 + 0.5) * pulse_strength;
     vec3 color = mix(effective_base_color, effective_glow_color, pulse);
 

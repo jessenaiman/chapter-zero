@@ -4,7 +4,6 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
-using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Combat;
 using Gamepiece = OmegaSpiral.Source.Scripts.Field.gamepieces.Gamepiece;

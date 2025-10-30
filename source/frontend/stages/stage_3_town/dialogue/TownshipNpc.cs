@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OmegaSpiral.Source.Scripts.Common.Dialogue;
 

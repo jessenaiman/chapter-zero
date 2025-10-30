@@ -3,7 +3,6 @@
 // </copyright>
 
 using Godot;
-using System.Threading.Tasks;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

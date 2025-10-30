@@ -1,8 +1,5 @@
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using OmegaSpiral.Source.Backend;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
@@ -93,22 +90,22 @@ public partial class OmegaShaderController : ColorRect
         if (string.IsNullOrEmpty(presetName))
             throw new ArgumentException("Preset name cannot be null or empty", nameof(presetName));
 
-        // Get the preset configuration
-        var preset = OmegaShaderPresets.GetPreset(presetName);
-        if (preset == null)
+        // Get the preset configuration from DesignConfigService
+        if (!DesignConfigService.TryGetShaderPreset(presetName, out var preset) || preset == null)
         {
-            GD.PrintErr($"[OmegaShaderController] Shader preset '{presetName}' not found. Available presets: {string.Join(", ", OmegaShaderPresets.GetAvailablePresets())}");
+            var availablePresets = DesignConfigService.Configuration.ShaderPresets?.Keys.ToList() ?? new List<string>();
+            GD.PrintErr($"[OmegaShaderController] Shader preset '{presetName}' not found. Available presets: {string.Join(", ", availablePresets)}");
             return;
         }
 
-        if (string.IsNullOrEmpty(preset.ShaderPath))
+        if (string.IsNullOrEmpty(preset.Shader))
         {
             ResetShaderEffects();
             await Task.CompletedTask.ConfigureAwait(false);
             return;
         }
 
-        var material = GD.Load<ShaderMaterial>(preset.ShaderPath)?.Duplicate() as ShaderMaterial;
+        var material = GD.Load<ShaderMaterial>(preset.Shader)?.Duplicate() as ShaderMaterial;
         if (material == null)
         {
             throw new InvalidOperationException($"Failed to load shader material: {presetName}");
@@ -118,11 +115,11 @@ public partial class OmegaShaderController : ColorRect
         {
             foreach (var param in preset.Parameters)
             {
-                material.SetShaderParameter(param.Key, param.Value);
+                material.SetShaderParameter(param.Key, Variant.From(param.Value));
             }
         }
 
-        var targetLayer = ResolveLayerFromShader(preset.ShaderPath);
+        var targetLayer = ResolveLayerFromShader(preset.Shader);
         if (!_LayerMap.TryGetValue(targetLayer, out var target))
         {
             target = _LayerMap.GetValueOrDefault(_PrimaryLayer, _LayerMap.Values.First());

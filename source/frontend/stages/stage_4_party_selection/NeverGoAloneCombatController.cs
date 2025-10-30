@@ -4,7 +4,6 @@
 
 using Godot;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
-using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

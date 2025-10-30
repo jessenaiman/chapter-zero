@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable RCS1021, CA1861
 
-namespace OmegaSpiral.Source.Scripts.persistence.migrations
-{
+namespace OmegaSpiral.Source.Backend.Persistence.Migrations;
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
@@ -226,4 +225,3 @@ namespace OmegaSpiral.Source.Scripts.persistence.migrations
                 name: "GameSaves");
         }
     }
-}

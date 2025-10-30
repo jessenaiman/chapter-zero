@@ -2,12 +2,12 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OmegaSpiral.Source.Scripts.persistence
+namespace OmegaSpiral.Source.Backend.Persistence
 {
+    using System.Collections.ObjectModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     /// <summary>
     /// Represents the player's party data for saving.
     /// </summary>

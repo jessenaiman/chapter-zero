@@ -3,9 +3,8 @@
 // </copyright>
 
 using Godot;
-using System;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Abstract base class for nodes that load and manage manifest data.

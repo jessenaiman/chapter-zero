@@ -2,8 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Common
-{
+namespace OmegaSpiral.Source.Backend.Common;
     /// <summary>
     /// Dreamweaver alignment type for narrative influence.
     /// </summary>
@@ -123,4 +122,3 @@ namespace OmegaSpiral.Source.Scripts.Common
         /// <summary>Exit tile.</summary>
         Exit = 5,
     }
-}

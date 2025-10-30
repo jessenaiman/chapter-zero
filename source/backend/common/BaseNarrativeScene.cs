@@ -1,7 +1,6 @@
 using Godot;
-using OmegaSpiral.Source.Scripts.Common;
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Base class for all narrative scenes across stages 1, 2, and 3.

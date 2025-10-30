@@ -1,0 +1,47 @@
+{
+  "_doc": "Spiral border shader configuration. This shader creates animated energy streams around the screen border. Parameters control rotation, wave properties, and thread intensities for the three Dreamweaver threads (Light, Shadow, Ambition). Used in scene backgrounds for thematic framing.",
+  "shader": "res://source/frontend/shaders/spiral_border.gdshader",
+  "parameters": {
+    "_doc": "Uniform defaults are tuned to match ghost_design_document.md baseline.",
+    "rotation_speed": {
+      "_doc": "Radians/sec rotation.",
+      "value": 0.05
+    },
+    "wave_speed": {
+      "_doc": "Wave flow speed.",
+      "value": 0.8
+    },
+    "wave_frequency": {
+      "_doc": "Wave density.",
+      "value": 8.0
+    },
+    "wave_amplitude": {
+      "_doc": "Wave height.",
+      "value": 0.25
+    },
+    "border_width": {
+      "_doc": "Thickness as fraction of viewport.",
+      "value": 0.015
+    },
+    "glow_intensity": {
+      "_doc": "Glow multiplier.",
+      "value": 1.2
+    },
+    "thread_separation": {
+      "_doc": "Radians between energy streams.",
+      "value": 2.094
+    },
+    "light_thread_weight": {
+      "_doc": "Intensity scale for Light strand.",
+      "value": 1.0
+    },
+    "shadow_thread_weight": {
+      "_doc": "Intensity scale for Shadow strand.",
+      "value": 1.0
+    },
+    "ambition_thread_weight": {
+      "_doc": "Intensity scale for Ambition strand.",
+      "value": 1.0
+    }
+  }
+}

@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
+using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Omega;
-using OmegaSpiral.Source.Infrastructure;
 
 namespace OmegaSpiral.Source.Stages.Stage0Start
 {
@@ -18,34 +15,34 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
     {
         // --- EXPORTED DEPENDENCIES (Set in the Godot Inspector) ---
 
-    /// <summary>
-    /// Path to the stage manifest JSON file.
-    /// </summary>
-    [ExportGroup("Data Sources")]
-    [Export(PropertyHint.File, "*.json")]
-    public string StageManifestPath { get; set; } = "res://source/ui/menus/main_menu_manifest.json";
+        /// <summary>
+        /// Path to the stage manifest JSON file.
+        /// </summary>
+        [ExportGroup("Data Sources")]
+        [Export(PropertyHint.File, "*.json")]
+        public string StageManifestPath { get; set; } = "res://source/ui/menus/main_menu_manifest.json";
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MainMenu"/> class.
-    /// Sets up correct node paths for OmegaFrame structure.
-    /// </summary>
-    public MainMenu()
-    {
-        // Override default MenuUi paths to match OmegaFrame structure
-        MenuTitlePath = "OmegaFrame/CrtFrame/ContentContainer/MenuTitle";
-        MenuButtonContainerPath = "OmegaFrame/CrtFrame/ContentContainer/MenuButtonContainer";
-        MenuActionBarPath = "OmegaFrame/CrtFrame/ContentContainer/MenuActionBar";
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainMenu"/> class.
+        /// Sets up correct node paths for OmegaFrame structure.
+        /// </summary>
+        public MainMenu()
+        {
+            // Override default MenuUi paths to match OmegaFrame structure
+            MenuTitlePath = "OmegaFrame/CrtFrame/ContentContainer/MenuTitle";
+            MenuButtonContainerPath = "OmegaFrame/CrtFrame/ContentContainer/MenuButtonContainer";
+            MenuActionBarPath = "OmegaFrame/CrtFrame/ContentContainer/MenuActionBar";
+        }
 
-    // --- PRIVATE FIELDS ---
+        // --- PRIVATE FIELDS ---
 
-    private readonly ManifestLoader _ManifestLoader = new();
+        private readonly ManifestLoader _ManifestLoader = new();
 
 #pragma warning disable CA2213 // SceneManager is an autoload singleton managed by Godot's scene tree
-    private SceneManager? _StageManager;
+        private SceneManager? _StageManager;
 #pragma warning restore CA2213
 
-    private GameManager? _GameManager;
+        private GameManager? _GameManager;
 
         /// <summary>
         /// Populates the GameManager's StageScenes array from the manifest.
@@ -87,8 +84,8 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
             GD.Print($"[MainMenu] Populated GameManager with {stageScenes.Count} stage scenes.");
         }
 
-    // Button references created dynamically
-    private Button? _StartButton;
+        // Button references created dynamically
+        private Button? _StartButton;
         private Button? _OptionsButton;
         private Button? _QuitButton;
 
@@ -302,10 +299,10 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
 
             FocusFirstButton(); // Enable keyboard/gamepad navigation
         }        /// <summary>
-        /// Handles stage selection from any stage button.
-        /// Starts the game at the selected stage using GameManager.
-        /// </summary>
-        /// <param name="stageId">The numeric stage ID to start at (1-based).</param>
+                 /// Handles stage selection from any stage button.
+                 /// Starts the game at the selected stage using GameManager.
+                 /// </summary>
+                 /// <param name="stageId">The numeric stage ID to start at (1-based).</param>
         private async void OnStageSelected(int stageId)
         {
             if (_GameManager == null)

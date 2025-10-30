@@ -1,9 +1,8 @@
 using System.Collections.ObjectModel;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 using OmegaSpiral.Source.Scripts.domain.Dungeon.Models;
 
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon
-{
+namespace OmegaSpiral.Source.Backend.Dungeon;
     /// <summary>
     /// Represents the aggregate responsible for orchestrating the ASCII dungeon stages encountered in Scene 2.
     /// </summary>
@@ -51,4 +50,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon
             return new AsciiDungeonSequence(new ReadOnlyCollection<DungeonStage>(stages));
         }
     }
-}

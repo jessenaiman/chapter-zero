@@ -2,8 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon
-{
+namespace OmegaSpiral.Source.Backend.Dungeon;
     /// <summary>
     /// Publishes domain events related to dungeon progression.
     /// </summary>
@@ -21,4 +20,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon
         /// <param name="domainEvent">The stage entered event.</param>
         void PublishStageEntered(DungeonStageEnteredEvent domainEvent);
     }
-}

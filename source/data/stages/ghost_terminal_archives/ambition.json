@@ -1,8 +1,0 @@
-{
-  "id": "ambition",
-  "name": "Ambition",
-  "description": "The ambitious drive persona",
-  "traits": ["ambitious", "focused", "strategic"],
-  "dialogue_style": "determined",
-  "narrative_influence": "progressive"
-}

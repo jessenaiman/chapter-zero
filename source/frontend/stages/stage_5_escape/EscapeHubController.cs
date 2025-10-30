@@ -3,8 +3,6 @@
 // </copyright>
 
 using Godot;
-using System;
-using System.Collections.Generic;
 using Timer = Godot.Timer;
 
 namespace OmegaSpiral.Stages.Stage5

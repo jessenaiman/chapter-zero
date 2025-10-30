@@ -1,10 +1,14 @@
+// <copyright file="GhostCinematicDirector.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
+// </copyright>
+
+namespace OmegaSpiral.Source.Stages.Stage1;
+
 using System;
 using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Infrastructure;
-using OmegaSpiral.Source.Narrative;
-
-namespace OmegaSpiral.Source.Stages.Stage1;
+using OmegaSpiral.Source.Backend.Narrative;
+using OmegaSpiral.Source.Frontend;
 
 /// <summary>
 /// Lightweight stage orchestrator for Stage 1: Ghost Terminal.

@@ -5,10 +5,7 @@
 using GdUnit4;
 using static GdUnit4.Assertions;
 using Godot;
-using OmegaSpiral.Source.Stages.Stage0Start;
 using OmegaSpiral.Source.Ui.Menus;
-using OmegaSpiral.Source.Ui.Omega;
-using OmegaSpiral.Tests.Shared;
 
 namespace OmegaSpiral.Tests.Ui;
 

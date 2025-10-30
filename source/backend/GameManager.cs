@@ -3,13 +3,10 @@
 // </copyright>
 
 using Godot;
-using System.Threading.Tasks;
-using OmegaSpiral.Source.Audio;
 using OmegaSpiral.Source.Frontend;
-using OmegaSpiral.Source.Infrastructure;
 using OmegaSpiral.Source.InputSystem;
 
-namespace OmegaSpiral.Source.Services;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Global game orchestrator. Manages STAGE progression (Stage 1 → Stage 2 → Stage 3 → etc.).

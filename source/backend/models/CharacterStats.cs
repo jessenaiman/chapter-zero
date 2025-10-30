@@ -1,6 +1,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
 
 namespace OmegaSpiral.Domain.Models
 {

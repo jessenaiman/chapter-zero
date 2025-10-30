@@ -1,9 +1,10 @@
-// <copyright file="UiDialogue.cs" company="Omega Spiral">
-// Copyright (c) Omega Spiral. All rights reserved.
+// <copyright file="UiDialogue.cs" company="Ωmega Spiral">
+// Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Narrative;
+using OmegaSpiral.Source.Backend.Models;
+using OmegaSpiral.Source.Backend.Narrative;
 using OmegaSpiral.Source.Ui.Omega;
 using System.Collections.ObjectModel;
 

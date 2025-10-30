@@ -3,11 +3,8 @@
 // </copyright>
 
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace OmegaSpiral.Source.Narrative;
+namespace OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Narrative-driven choice presenter that IS a VBoxContainer node.

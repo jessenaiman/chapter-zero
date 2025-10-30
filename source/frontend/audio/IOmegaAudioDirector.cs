@@ -2,9 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using OmegaSpiral.Source.Scripts.Common;
-
 namespace OmegaSpiral.Source.Audio;
+
+using OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Defines orchestration callbacks for the Omega audio system.

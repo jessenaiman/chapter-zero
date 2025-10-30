@@ -2,7 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Factory class for creating default party configurations for the Scene5 demo.

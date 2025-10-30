@@ -4,8 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure
-{
+namespace OmegaSpiral.Source.Backend;
     /// <summary>
     /// Manages scene loading with support for loading screens and transitions.
     /// Provides a consistent pattern for all scene changes throughout the game.
@@ -86,4 +85,3 @@ namespace OmegaSpiral.Source.Scripts.Infrastructure
             // Loading screen logic will be implemented via scene
         }
     }
-}

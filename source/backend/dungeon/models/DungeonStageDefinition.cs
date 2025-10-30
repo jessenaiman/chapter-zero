@@ -1,7 +1,7 @@
-using OmegaSpiral.Source.Scripts.Common;
+// TODO: Remove this file as it uses DungeonObjectDefinition which was removed as old logic.
+namespace OmegaSpiral.Source.Backend.Dungeon;
 
-namespace OmegaSpiral.Source.Scripts.domain.Dungeon.Models
-{
+using OmegaSpiral.Source.Backend.Common;
     /// <summary>
     /// Immutable definition describing a Dreamweaver-owned ASCII dungeon stage.
     /// </summary>
@@ -16,4 +16,3 @@ namespace OmegaSpiral.Source.Scripts.domain.Dungeon.Models
         IReadOnlyList<string> Map,
         IReadOnlyDictionary<char, string> Legend,
         IReadOnlyDictionary<char, DungeonObjectDefinition> Objects);
-}

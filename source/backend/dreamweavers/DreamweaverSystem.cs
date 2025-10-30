@@ -4,7 +4,7 @@
 
 using Godot;
 
-namespace OmegaSpiral.Source.Dreamweavers;
+namespace OmegaSpiral.Source.Backend.Dreamweavers;
 
 /// <summary>
 /// Main orchestrator for the Dreamweaver LLM system.

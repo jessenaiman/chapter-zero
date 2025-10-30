@@ -2,13 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OmegaSpiral.Source.Narrative;
-
-namespace OmegaSpiral.Source.Narrative
-{
+namespace OmegaSpiral.Source.Backend.Narrative;
     /// <summary>
     /// Generic narrative engine that drives a <see cref="NarrativeScriptRoot"/> using an <see cref="INarrativeHandler"/>.
     /// It is stage‑agnostic – any UI that implements the handler contract can be used.
@@ -82,4 +76,3 @@ namespace OmegaSpiral.Source.Narrative
                 await Task.Delay(TimeSpan.FromSeconds(scene.Pause.Value)).ConfigureAwait(false);
         }
     }
-}

@@ -3,9 +3,8 @@
 // </copyright>
 
 using Godot;
-using System;
 
-namespace OmegaSpiral.Source.Scripts.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Generic abstract base class for strongly-typed manifest loading.

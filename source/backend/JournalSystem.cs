@@ -2,13 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Godot;
 
-namespace OmegaSpiral.Source.Infrastructure;
+namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Represents a single stage's narrative record within a playthrough journal.

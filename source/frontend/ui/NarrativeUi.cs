@@ -1,83 +1,91 @@
-// <copyright file="NarrativeUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
-// </copyright>
 
-using System;
-using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Ui.Omega;
 
-namespace OmegaSpiral.Source.Narrative;
-
-/// <summary>
-/// Simplified Narrative UI extending OmegaContainer for sequential story progression.
-/// Handles narrative beats, persona transitions, and choices using Godot signals and coroutines.
-/// Base class for narrative stages; implements INarrativeHandler.
-/// </summary>
-[GlobalClass]
-public partial class NarrativeUi : OmegaContainer, INarrativeHandler
+namespace OmegaSpiral.Source.Narrative
 {
-    [Export] public bool EnableBootSequence { get; set; } = true;
-    [Export] public float DefaultTypingSpeed { get; set; } = 15f;
-    [Export] public float PersonaTransitionDuration { get; set; } = 3.0f;
-    [Export] public string BootSequenceText { get; set; } = "[INITIALIZING NARRATIVE INTERFACE...]\n[SYSTEM READY]";
+    using OmegaSpiral.Source.Backend.Narrative;
 
-    [Signal] public delegate void ChoiceSelectedEventHandler(string choice);
-
-    private VBoxContainer? _choiceContainer;
-    private bool _bootSequencePlayed;
-
-    /// <inheritdoc/>
-    public override void _Ready()
+    /// <summary>
+    /// Simplified Narrative UI extending OmegaContainer for sequential story progression.
+    /// Handles narrative beats, persona transitions, and choices using Godot signals and coroutines.
+    /// Base class for narrative stages; implements INarrativeHandler.
+    /// </summary>
+    [GlobalClass]
+    public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     {
-        base._Ready();
-        _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-        TextRenderer = GetNodeOrNull<OmegaTextRenderer>("TextRenderer");
-        if (EnableBootSequence && !_bootSequencePlayed)
+        [Export]
+        public bool EnableBootSequence { get; set; } = true;
+
+        [Export]
+        public float DefaultTypingSpeed { get; set; } = 15f;
+
+        [Export]
+        public float PersonaTransitionDuration { get; set; } = 3.0f;
+
+        [Export]
+        public string BootSequenceText { get; set; } = "[INITIALIZING NARRATIVE INTERFACE...]\n[SYSTEM READY]";
+
+        [Signal]
+        public delegate void ChoiceSelectedEventHandler(string choice);
+
+        private VBoxContainer? _choiceContainer;
+        private bool _bootSequencePlayed;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+            TextRenderer = GetNodeOrNull<OmegaTextRenderer>("TextRenderer");
+            if (EnableBootSequence && !_bootSequencePlayed)
         {
             CallDeferred(nameof(StartBootSequence));
         }
-    }
+        }
 
-    /// <summary>
-    /// Starts the boot sequence using a coroutine.
-    /// </summary>
-    private async void StartBootSequence()
-    {
-        await PlayBootSequenceCoroutine();
-        _bootSequencePlayed = true;
-    }
+        /// <summary>
+        /// Starts the boot sequence using a coroutine.
+        /// </summary>
+        private async void StartBootSequence()
+        {
+            await PlayBootSequenceCoroutine();
+            _bootSequencePlayed = true;
+        }
 
-    /// <summary>
-    /// Plays boot sequence with shader and text display.
-    /// </summary>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    protected virtual async Task PlayBootSequenceCoroutine()
-    {
-        var lines = BootSequenceText.Split('\n');
-        await PlayBootSequenceAsync(lines, 50f, 0.5f);
-    }
+        /// <summary>
+        /// Plays boot sequence with shader and text display.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        protected virtual async Task PlayBootSequenceCoroutine()
+        {
+            var lines = BootSequenceText.Split('\n');
+            await PlayBootSequenceAsync(lines, 50f, 0.5f);
+        }
 
-    /// <summary>
-    /// Plays narrative beats sequentially.
-    /// </summary>
-    /// <param name="beats">The beats to play.</param>
-    protected async void PlayNarrativeSequence(NarrativeBeat[] beats)
-    {
-        await PlayNarrativeBeatsAsync(beats);
-    }
+        /// <summary>
+        /// Plays narrative beats sequentially.
+        /// </summary>
+        /// <param name="beats">The beats to play.</param>
+        protected async void PlayNarrativeSequence(NarrativeBeat[] beats)
+        {
+            await PlayNarrativeBeatsAsync(beats);
+        }
 
-    /// <summary>
-    /// Transitions persona with shader animation.
-    /// </summary>
-    /// <param name="threadName">Thread name (light/shadow/ambition).</param>
-    protected async void TransitionPersona(string threadName)
-    {
-        if (string.IsNullOrEmpty(threadName) || ShaderController == null) return;
+        /// <summary>
+        /// Transitions persona with shader animation.
+        /// </summary>
+        /// <param name="threadName">Thread name (light/shadow/ambition).</param>
+        protected async void TransitionPersona(string threadName)
+        {
+            if (string.IsNullOrEmpty(threadName) || ShaderController == null)
+            {
+                return;
+            }
 
-        Color targetColor = GetThreadColor(threadName);
-        var material = ShaderController.GetCurrentShaderMaterial();
-        if (material != null)
+            Color targetColor = GetThreadColor(threadName);
+            var material = ShaderController.GetCurrentShaderMaterial();
+            if (material != null)
         {
             await CrossfadePhosphorTint(material, targetColor, PersonaTransitionDuration);
         }
@@ -88,7 +96,7 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// </summary>
     /// <param name="threadName">Thread name.</param>
     /// <returns>Color.</returns>
-    private static Color GetThreadColor(string threadName)
+        private static Color GetThreadColor(string threadName)
     {
         return threadName.ToLowerInvariant() switch
         {
@@ -105,16 +113,16 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// <param name="material">Shader material.</param>
     /// <param name="targetColor">Target color.</param>
     /// <param name="duration">Duration in seconds.</param>
-    private async Task CrossfadePhosphorTint(ShaderMaterial material, Color targetColor, float duration)
+        private async Task CrossfadePhosphorTint(ShaderMaterial material, Color targetColor, float duration)
     {
         Variant currentVariant = material.GetShaderParameter("phosphor_tint");
         Vector3 currentTint = currentVariant.VariantType == Variant.Type.Vector3 ? currentVariant.AsVector3() : new Vector3(1.0f, 0.9f, 0.5f);
         Vector3 targetTint = new(targetColor.R, targetColor.G, targetColor.B);
 
-        int totalFrames = (int) (duration * 60);
+        int totalFrames = (int)(duration * 60);
         for (int frame = 0; frame <= totalFrames; frame++)
         {
-            float t = (float) frame / totalFrames;
+            float t = (float)frame / totalFrames;
             Vector3 interpolated = currentTint.Lerp(targetTint, t);
             material.SetShaderParameter("phosphor_tint", interpolated);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -125,7 +133,7 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// <summary>
     /// Clears narrative display.
     /// </summary>
-    protected void ClearNarrative()
+        protected void ClearNarrative()
     {
         ClearText();
         if (_choiceContainer != null)
@@ -144,9 +152,12 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// <param name="prompt">Prompt text.</param>
     /// <param name="choices">Choice texts.</param>
     /// <returns>Selected choice.</returns>
-    protected async Task<string> PresentChoices(string prompt, string[] choices)
+        protected async Task<string> PresentChoices(string prompt, string[] choices)
     {
-        if (choices == null || choices.Length == 0 || _choiceContainer == null) return string.Empty;
+        if (choices == null || choices.Length == 0 || _choiceContainer == null)
+        {
+            return string.Empty;
+        }
 
         await AppendTextAsync(prompt + "\n", DefaultTypingSpeed);
 
@@ -160,13 +171,18 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
 
         var result = await ToSignal(this, SignalName.ChoiceSelected);
         ClearNarrative();
-        return (string) result[0];
+        return (string)result[0];
     }
 
     // INarrativeHandler implementation (simplified)
-    async Task INarrativeHandler.PlayBootSequenceAsync() => await PlayBootSequenceCoroutine();
+        async Task INarrativeHandler.PlayBootSequenceAsync() => await PlayBootSequenceCoroutine();
 
-    public async Task DisplayLinesAsync(IList<string> lines)
+        /// <summary>
+        /// Displays a list of lines with typing effect.
+        /// </summary>
+        /// <param name="lines">The lines to display.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task DisplayLinesAsync(IList<string> lines)
     {
         foreach (var line in lines)
         {
@@ -175,9 +191,19 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
         }
     }
 
-    public Task<bool> HandleCommandLineAsync(string line) => Task.FromResult(false);
+        /// <summary>
+        /// Handles command line input.
+        /// </summary>
+        /// <param name="line">The command line to handle.</param>
+        /// <returns>A task representing the asynchronous operation, with a boolean result.</returns>
+        public Task<bool> HandleCommandLineAsync(string line) => Task.FromResult(false);
 
-    public async Task ApplySceneEffectsAsync(NarrativeScriptElement scene)
+        /// <summary>
+        /// Applies scene effects based on the narrative script element.
+        /// </summary>
+        /// <param name="scene">The narrative script element to apply effects for.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public async Task ApplySceneEffectsAsync(NarrativeScriptElement scene)
     {
         if (scene.Pause.HasValue && scene.Pause.Value > 0)
         {
@@ -185,7 +211,14 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
         }
     }
 
-    public async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
+        /// <summary>
+        /// Presents a choice to the user and waits for selection.
+        /// </summary>
+        /// <param name="question">The question to present.</param>
+        /// <param name="speaker">The speaker of the question.</param>
+        /// <param name="choices">The available choices.</param>
+        /// <returns>A task representing the asynchronous operation, with the selected choice.</returns>
+        public async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
     {
         await AppendTextAsync($"{question}\n", DefaultTypingSpeed);
         var container = _choiceContainer ?? new VBoxContainer { Name = "ChoiceContainer" };
@@ -201,6 +234,17 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
         return await tcs.Task;
     }
 
-    public Task ProcessChoiceAsync(ChoiceOption selected) => Task.CompletedTask;
-    public Task NotifySequenceCompleteAsync() => Task.CompletedTask;
+        /// <summary>
+        /// Processes the selected choice.
+        /// </summary>
+        /// <param name="selected">The selected choice option.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task ProcessChoiceAsync(ChoiceOption selected) => Task.CompletedTask;
+
+        /// <summary>
+        /// Notifies that the narrative sequence is complete.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task NotifySequenceCompleteAsync() => Task.CompletedTask;
+}
 }

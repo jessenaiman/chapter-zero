@@ -6,7 +6,6 @@ namespace OmegaSpiral.Tests.Stages.Stage1Ghost;
 
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Source.Stages.Stage1;
 using static GdUnit4.Assertions;
 
 /// <summary>

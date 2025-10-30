@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 /// <summary>
 /// Scene manager for Omega Spiral game.

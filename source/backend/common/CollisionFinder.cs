@@ -3,10 +3,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
 using Godot;
 
-namespace OmegaSpiral.Source.Scripts.Common;
+namespace OmegaSpiral.Source.Backend.Common;
 /// <summary>
 /// Find all collision shapes of a given mask within a specified search radius.
 ///

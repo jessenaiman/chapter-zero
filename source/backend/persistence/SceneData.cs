@@ -5,8 +5,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OmegaSpiral.Source.Scripts.persistence
-{
+namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
     /// Represents scene-specific data stored as key-value pairs.
     /// </summary>
@@ -44,4 +43,3 @@ namespace OmegaSpiral.Source.Scripts.persistence
         [Required]
         public string Value { get; set; } = string.Empty;
     }
-}

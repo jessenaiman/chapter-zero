@@ -2,21 +2,21 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using GdUnit4;
-using Godot;
-using OmegaSpiral.Source.Scripts.Infrastructure;
-using OmegaSpiral.Source.Ui.Omega;
-using static GdUnit4.Assertions;
+namespace OmegaSpiral.Tests.Unit.Common.Omega
+{
+    using GdUnit4;
+    using Godot;
+    using OmegaSpiral.Source.Backend;
+    using OmegaSpiral.Source.Ui.Omega;
+    using static GdUnit4.Assertions;
 
-namespace OmegaSpiral.Tests.Unit.Common.Omega;
-
-/// <summary>
-/// Unit tests for OmegaSpiralColors design palette.
-/// Verifies that color constants match the official design specification from omega_spiral_colors.json.
-/// </summary>
-[TestSuite]
-[RequireGodotRuntime]
-public partial class OmegaSpiralColorsTests
+    /// <summary>
+    /// Unit tests for OmegaSpiralColors design palette.
+    /// Verifies that color constants match the official design specification from omega_spiral_colors.json.
+    /// </summary>
+    [TestSuite]
+    [RequireGodotRuntime]
+    public partial class OmegaSpiralColorsTests
 {
     /// <summary>
     /// WarmAmber color matches design specification from design document.
@@ -285,4 +285,5 @@ public partial class OmegaSpiralColorsTests
         AssertThat(OmegaSpiralColors.GlitchDistortion.G).IsEqual(1.0f);
         AssertThat(OmegaSpiralColors.GlitchDistortion.B).IsEqual(1.0f);
     }
+}
 }

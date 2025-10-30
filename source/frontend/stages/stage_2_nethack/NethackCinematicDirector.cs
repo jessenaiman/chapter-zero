@@ -2,10 +2,8 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading.Tasks;
 using Godot;
-using OmegaSpiral.Source.Infrastructure;
+using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage2;

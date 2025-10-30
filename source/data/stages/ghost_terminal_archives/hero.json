@@ -1,8 +1,0 @@
-{
-  "id": "hero",
-  "name": "Hero",
-  "description": "The courageous hero persona",
-  "traits": ["brave", "determined", "protective"],
-  "dialogue_style": "confident",
-  "narrative_influence": "positive"
-}

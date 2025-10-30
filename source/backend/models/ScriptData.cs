@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace OmegaSpiral.Source.Scripts.domain.Models;
+namespace OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
 /// Represents script data for narrative content.
