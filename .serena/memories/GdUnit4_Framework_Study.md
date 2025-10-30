@@ -1,7 +1,7 @@
 # GdUnit4 C# Framework - Comprehensive Study
 
 ## Document Purpose
-Complete understanding of GdUnit4 test framework as it applies to Omega Spiral's failing tests.
+Complete understanding of GdUnit4 test framework as it applies to Ωmega Spiral's failing tests.
 Following: gdUnit4Net-README.mdx, csharp-setup.md, scene-runner.md, gdunit4-tools.instructions.md, signals.instructions.md
 
 ## 1. CORE FRAMEWORK CONCEPTS
@@ -231,7 +231,7 @@ public class MyUITest
   - Uses `ISceneRunner.Load()`
   - Accesses Godot nodes, signals, or properties
   - Calls Godot engine methods
-  
+
 - Logic-only tests (pure C# calculations) don't need it - they run faster
 
 ### 8.2 Performance Impact
@@ -348,4 +348,3 @@ await AssertSignal(runner.Scene()).IsEmitted("my_signal");  // Passes
 6. **Scene tree must be properly structured** in .tscn file - _Ready() expects nodes to exist
 7. **Must not create assumptions about timing** - use async/await patterns
 8. **Must dispose runners properly** to avoid orphan nodes
-

@@ -51,7 +51,7 @@ public partial class OmegaUiButton : Button
     }
 
     /// <summary>
-    /// Applies the Omega Spiral color theme to this button.
+    /// Applies the Ωmega Spiral color theme to this button.
     /// Called automatically in constructor, but can be called again to reapply if needed.
     /// </summary>
     protected void ApplyOmegaTheme()

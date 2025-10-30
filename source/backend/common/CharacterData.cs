@@ -42,12 +42,8 @@ public sealed record CharacterData(
     public Character ToCharacter()
     {
         return new Character(
-            id: this.Id,
             name: this.Name,
-            characterClass: this.Name, // Use name as class for now
-            health: 100,
-            maxHealth: 100,
-            experience: 0,
-            level: 1);
+            characterClass: CharacterClass.Fighter,
+            race: CharacterRace.Human);
     }
 }

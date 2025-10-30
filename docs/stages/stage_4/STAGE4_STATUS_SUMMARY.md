@@ -1,7 +1,7 @@
 # Stage 4 Status Summary
 
 **Date**: October 19, 2025
-**Project**: chapter-zero (Omega Spiral)
+**Project**: chapter-zero (Ωmega Spiral)
 **Stage**: Stage 4 - Field Combat System (godot-open-rpg refactor)
 
 ---

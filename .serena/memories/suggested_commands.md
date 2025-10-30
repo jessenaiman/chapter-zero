@@ -1,4 +1,4 @@
-# Suggested Commands for Omega Spiral Development
+# Suggested Commands for Ωmega Spiral Development
 
 ## Build Commands
 - `dotnet build --no-restore` - Build the C# project

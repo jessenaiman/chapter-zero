@@ -1,5 +1,5 @@
 {
-  "_doc": "Omega Spiral design configuration file. This JSON defines the core design system, UI tokens, shader presets, and stage mappings for the game 'Omega Spiral - Chapter Zero'. All color values are normalized between 0.0 and 1.0 for easy scaling. Shader parameters are tuned to match the ghost_design_document.md baseline. Use _doc fields for inline documentation to maintain sync with runtime configuration. This file is referenced by scenes, shaders, and UI components for consistent theming.",
+  "_doc": "Ωmega Spiral design configuration file. This JSON defines the core design system, UI tokens, shader presets, and stage mappings for the game 'Ωmega Spiral - Chapter Zero'. All color values are normalized between 0.0 and 1.0 for easy scaling. Shader parameters are tuned to match the ghost_design_document.md baseline. Use _doc fields for inline documentation to maintain sync with runtime configuration. This file is referenced by scenes, shaders, and UI components for consistent theming.",
   "design_system": {
     "_doc": "Core color palette shared across UI elements, shaders, and narrative threads. Each color includes RGB values (normalized), alpha, and hex for easy reference. These colors represent the game's aesthetic: deep space voids, warm accents, and thread-specific hues for the Dreamweavers. Use these in Godot shaders or UI materials for consistency.",
     "deep_space": {
@@ -140,7 +140,7 @@
     }
   },
   "shader_presets": {
-    "_doc": "Collection of shader material presets and their parameters for various visual effects in Omega Spiral. Each preset includes a shader resource path and configurable parameters with defaults tuned to match the ghost_design_document.md baseline. These are used in scene materials for effects like borders, CRT distortions, and backgrounds. Parameters are normalized or in specific units as noted.",
+    "_doc": "Collection of shader material presets and their parameters for various visual effects in Ωmega Spiral. Each preset includes a shader resource path and configurable parameters with defaults tuned to match the ghost_design_document.md baseline. These are used in scene materials for effects like borders, CRT distortions, and backgrounds. Parameters are normalized or in specific units as noted.",
     "spiral_border_base": {
       "_doc": "Default preset for the Omega spiral border frame animation. This shader creates animated energy streams around the screen border. Parameters control rotation, wave properties, and thread intensities for the three Dreamweaver threads (Light, Shadow, Ambition). Used in scene backgrounds for thematic framing.",
       "shader": "res://source/shaders/spiral_border.gdshader",

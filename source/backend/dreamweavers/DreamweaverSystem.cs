@@ -100,7 +100,7 @@ public partial class DreamweaverSystem : Node
         if (persona == null)
         {
             GD.PrintErr($"Cannot get system prompt for unknown persona: {personaId}");
-            return "You are a narrative guide in Omega Spiral.";
+            return "You are a narrative guide in Ωmega Spiral.";
         }
 
         return persona.SystemPrompt;

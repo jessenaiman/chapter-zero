@@ -18,7 +18,6 @@ addons/nobodywho/*.pdb
 # Ignore git repositories within addons
 addons/**/[.git|.gitignore]/
 addons/**/.github
-addons/
 
 # Chat exports (may contain sensitive tokens)
 chat-export-*.json

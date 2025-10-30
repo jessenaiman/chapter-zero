@@ -1,7 +1,7 @@
 # Stage 4: Liminal Township Implementation Summary
 
 ## Overview
-This document summarizes the implementation of Stage 4: Liminal Township for the Omega Spiral project. The implementation focuses on creating a nostalgic JRPG village experience with liminal elements that hint at the simulation nature, while integrating with the existing Omega Spiral narrative systems.
+This document summarizes the implementation of Stage 4: Liminal Township for the Ωmega Spiral project. The implementation focuses on creating a nostalgic JRPG village experience with liminal elements that hint at the simulation nature, while integrating with the existing Ωmega Spiral narrative systems.
 
 ## Key Features Implemented
 
@@ -32,7 +32,7 @@ This document summarizes the implementation of Stage 4: Liminal Township for the
 ### 5. Integration Points
 - Connected Stage 4 to main menu and stage selection systems
 - Updated scene loading to use new liminal_township.tscn
-- Integrated with existing Omega Spiral GameState system
+- Integrated with existing Ωmega Spiral GameState system
 - Maintained compatibility with existing RPG systems
 
 ## Technical Implementation
@@ -101,7 +101,7 @@ This document summarizes the implementation of Stage 4: Liminal Township for the
 - Confirmed resource paths are correctly configured
 
 ### Dialogue System
-- Integrated with existing Omega Spiral dialogue architecture
+- Integrated with existing Ωmega Spiral dialogue architecture
 - Extended base classes rather than duplicating functionality
 - Maintained compatibility with existing GameState system
 
@@ -126,4 +126,4 @@ This document summarizes the implementation of Stage 4: Liminal Township for the
 4. Conduct full playthrough testing
 
 ## Conclusion
-The Stage 4 implementation successfully delivers a nostalgic JRPG town experience with integrated liminal elements that hint at the simulation nature. The implementation builds upon the existing Omega Spiral architecture while adding new capabilities for NPC dialogue and liminal storytelling. The modular design ensures maintainability and extensibility for future enhancements.
+The Stage 4 implementation successfully delivers a nostalgic JRPG town experience with integrated liminal elements that hint at the simulation nature. The implementation builds upon the existing Ωmega Spiral architecture while adding new capabilities for NPC dialogue and liminal storytelling. The modular design ensures maintainability and extensibility for future enhancements.

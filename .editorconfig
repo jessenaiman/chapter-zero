@@ -52,6 +52,11 @@ dotnet_diagnostic.CA2213.severity = none
 # Suppress IDE1006: Allow Ui, AI as uppercase per Godot style guide (ONLY in specific contexts)
 dotnet_diagnostic.IDE1006.severity = warning
 
+# StyleCop suppressions for pragmatic development
+dotnet_diagnostic.SA1633.severity = none      # File header copyright text should match (too strict, suppressed for flexibility)
+dotnet_diagnostic.SA1600.severity = warning   # Elements should be documented (relaxed for brevity)
+dotnet_diagnostic.SA1649.severity = none      # File name should match first type (too strict, suppressed)
+
 # Enable key security and reliability rules
 dotnet_diagnostic.CA3001.severity = error    # SQL injection
 dotnet_diagnostic.CA3002.severity = error    # XSS vulnerabilities

@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cllb8hd26meae"]
+[gd_scene load_steps=6 format=3 uid="uid://cllb8hd26meae"]
 
-[ext_resource type="Script" uid="uid://bvtoo1bhre25b" path="res://source/stages/stage_1_ghost/GhostStageManager.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2"]
 [ext_resource type="Script" path="res://source/ui/omega/OmegaTextRenderer.cs" id="3"]
+[ext_resource type="Script" path="res://source/stages/stage_1_ghost/GhostUi.cs" id="4"]
 
 [node name="GhostTerminal" type="Control" unique_id=497145942]
 layout_mode = 3
@@ -11,36 +11,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
 default_typing_speed = 15.0
 
 [node name="OmegaFrame" parent="." instance=ExtResource("2")]
 
-[node name="MenuTitle" parent="OmegaFrame/CrtFrame/ContentContainer"]
+[node name="MenuTitle" parent="OmegaFrame/ContentContainer"]
 visible = false
 
-[node name="MenuButtonContainer" parent="OmegaFrame/CrtFrame/ContentContainer"]
+[node name="MenuButtonContainer" parent="OmegaFrame/ContentContainer"]
 visible = false
 
-[node name="MenuActionBar" parent="OmegaFrame/CrtFrame/ContentContainer"]
+[node name="MenuActionBar" parent="OmegaFrame/ContentContainer"]
 visible = false
 
-[node name="NarrativeViewport" type="MarginContainer" parent="OmegaFrame/CrtFrame/ContentContainer" unique_id=1126409552]
+[node name="NarrativeViewport" type="MarginContainer" parent="OmegaFrame/ContentContainer" unique_id=1126409552]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_bottom = 48
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("4")
 
-[node name="NarrativeStack" type="VBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport" unique_id=5720449]
+[node name="NarrativeStack" type="VBoxContainer" parent="OmegaFrame/ContentContainer/NarrativeViewport" unique_id=5720449]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 24
+theme_override_constants/separation = 16
 
-[node name="TextDisplay" type="RichTextLabel" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=1684461506]
+[node name="TextDisplay" type="RichTextLabel" parent="OmegaFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=1684461506]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -48,17 +48,19 @@ bbcode_enabled = true
 fit_content = false
 autowrap_mode = 3
 scroll_following = true
+theme_override_colors/default_color = Color(0.992157, 0.788235, 0.384314, 1)
+theme_override_font_sizes/normal_font_size = 14
 script = ExtResource("3")
 
-[node name="Terminal" type="Terminal" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport/NarrativeStack"]
+[node name="Terminal" type="Terminal" parent="OmegaFrame/ContentContainer/NarrativeViewport/NarrativeStack"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ChoiceContainer" type="VBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=187836256]
+[node name="ChoiceContainer" type="VBoxContainer" parent="OmegaFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=187836256]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 visible = false
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 alignment = 0

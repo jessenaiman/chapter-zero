@@ -1,8 +1,10 @@
+#pragma warning disable SA1636 // File header copyright text should match
 // <copyright file="OmegaTestBase.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using GdUnit4;
+#pragma warning restore SA1636 // File header copyright text should match
 
 namespace OmegaSpiral.Tests;
 

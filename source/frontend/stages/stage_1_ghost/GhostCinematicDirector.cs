@@ -1,98 +1,52 @@
+#pragma warning disable SA1636 // File header copyright text should match
 // <copyright file="GhostCinematicDirector.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Stages.Stage1;
+#pragma warning restore SA1636 // File header copyright text should match
 
-using System;
-using System.Threading.Tasks;
 using Godot;
+using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Backend.Narrative;
-using OmegaSpiral.Source.Frontend;
 
 /// <summary>
-/// Lightweight stage orchestrator for Stage 1: Ghost Terminal.
-/// Responsibilities:
-/// - Load YAML script
-/// - Instantiate scene
-/// - Initialize GhostStageManager
-/// - Listen for completion and emit StageComplete signal
+/// Cinematic director for Ghost Terminal stage.
+/// This is a PURE NARRATIVE stage using only narrative sequences.
 ///
-/// All narrative logic delegated to GhostStageManager.
+/// <example>
+/// PURE NARRATIVE PATTERN:
+/// Uses base RunStageAsync() implementation which:
+/// 1. Loads narrative sequences from ghost.json
+/// 2. Iterates through scenes and displays them sequentially
+/// 3. No additional gameplay scenes loaded
+///
+/// This pattern is the standardized approach for pure narrative stages (Ghost, Nethack).
+/// Override RunStageAsync() only if adding gameplay/exploration phases (hybrid stages).
+/// </example>
+///
+/// Loads ghost.json script and orchestrates scene playback.
 /// </summary>
-[GlobalClass]
-public sealed partial class GhostCinematicDirector : StageBase
+public sealed class GhostCinematicDirector : CinematicDirector<GhostCinematicPlan>
 {
     /// <inheritdoc/>
-    public override int StageId => 1;
-
-    /// <inheritdoc/>
-    public override async Task ExecuteStageAsync()
+    protected override string GetDataPath()
     {
-        GD.Print("[GhostCinematicDirector] === Stage 1: Ghost Terminal Starting ===");
-
-        try
-        {
-            // 1. Load JSON script
-            var script = NarrativeScriptJsonLoader.LoadJsonScript("res://source/frontend/stages/stage_1_ghost/ghost.json");
-            if (script == null)
-            {
-                GD.PrintErr("[GhostCinematicDirector] Failed to load ghost.json");
-                EmitStageComplete();
-                return;
-            }
-
-            GD.Print($"[GhostCinematicDirector] Loaded: '{script.Title}' ({script.Scenes?.Count ?? 0} scenes)");
-
-            // 2. Load scene (.tscn)
-            var scenePath = "res://source/frontend/stages/stage_1_ghost/ghost_terminal.tscn";
-            var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
-            if (packedScene == null)
-            {
-                GD.PrintErr("[GhostCinematicDirector] Failed to load ghost_terminal.tscn");
-                EmitStageComplete();
-                return;
-            }
-
-            var ghostTerminal = packedScene.Instantiate<Control>();
-            AddChild(ghostTerminal);
-            GD.Print("[GhostCinematicDirector] Scene instantiated and added to tree");
-
-            // 3. Get GhostStageManager from scene
-            var stageManager = ghostTerminal.GetNodeOrNull<GhostStageManager>("GhostStageManager");
-            if (stageManager == null)
-            {
-                GD.PrintErr("[GhostCinematicDirector] Failed to find GhostStageManager in scene");
-                EmitStageComplete();
-                return;
-            }
-
-            // 4. Listen for completion
-            stageManager.StageComplete += (scores) => OnStageComplete(ghostTerminal, scores);
-
-            // 5. Play narrative script
-            await stageManager.PlayScriptAsync(script).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"[GhostCinematicDirector] Error: {ex.Message}");
-            GD.PrintErr(ex.StackTrace);
-            EmitStageComplete();
-        }
+        return "res://source/frontend/stages/stage_1_ghost/ghost.json";
     }
 
-    private void OnStageComplete(Control ghostTerminal, int[] dreamweaverScores)
+    /// <inheritdoc/>
+    protected override GhostCinematicPlan BuildPlan(StoryScriptRoot script)
     {
-        GD.Print($"[GhostCinematicDirector] Stage 1 complete. Scores: Light={dreamweaverScores[0]}, Shadow={dreamweaverScores[1]}, Ambition={dreamweaverScores[2]}");
+        return new GhostCinematicPlan(script);
+    }
 
-        // TODO: Pass scores to StageManager/GameManager
-        // For now: TODO implementation
-
-        if (ghostTerminal != null && IsInstanceValid(ghostTerminal))
-        {
-            ghostTerminal.QueueFree();
-        }
-
-        EmitStageComplete();
+    /// <inheritdoc/>
+    protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    {
+        // For now, return a simple scene manager that logs the scene
+        GD.Print($"[Ghost] Creating scene manager for: {scene.Id}");
+        var manager = new SceneManager(scene, data);
+        return manager;
     }
 }

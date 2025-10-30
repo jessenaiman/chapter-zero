@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    GdUnit4Net Test Configuration for Omega Spiral
+    GdUnit4Net Test Configuration for Ωmega Spiral
 
     This configuration file provides settings for test execution using GdUnit4Net,
     the VSTest-compatible testing framework for Godot C# projects.

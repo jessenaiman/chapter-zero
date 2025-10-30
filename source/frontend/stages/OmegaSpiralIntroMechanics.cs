@@ -6,7 +6,7 @@ using Godot;
 
 namespace OmegaSpiral.Source.Narrative.IntroMechanics;
 /// <summary>
-/// Implements engaging intro mechanics for the Game Omega Spiral opening scene.
+/// Implements engaging intro mechanics for the Game Ωmega Spiral opening scene.
 /// Provides interactive elements, visual effects, and narrative hooks to draw players into the experience.
 /// </summary>
 [GlobalClass]
@@ -79,7 +79,7 @@ public partial class OmegaSpiralIntroMechanics : Node
     /// </summary>
     private void InitializeNarrativeElements()
     {
-        // Core narrative elements for Omega Spiral
+        // Core narrative elements for Ωmega Spiral
         this.narrativeElements.Add(new IntroNarrativeElement
         {
             Text = "[center][color=#ffffff]ΩMEGA SPIRAL[/color][/center]",

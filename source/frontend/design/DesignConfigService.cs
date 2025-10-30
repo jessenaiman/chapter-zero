@@ -1,9 +1,13 @@
+// <copyright file="DesignConfigService.cs" company="Omega Spiral">
+// Copyright (c) Omega Spiral. All rights reserved.
+// </copyright>
+
+namespace OmegaSpiral.Source.Design;
+
 using System;
 using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
-
-namespace OmegaSpiral.Source.Design;
 
 /// <summary>
 /// Provides access to design colors and shader defaults defined in <c>colors_config.json</c>.

@@ -1,6 +1,6 @@
 # 🚨 GdUnit4 C# Testing - Critical Memory Management & Orphan Node Prevention
 
-**PURPOSE:** Omega Spiral tests had persistent orphan node issues. This memory documents the EXACT patterns to prevent them.
+**PURPOSE:** Ωmega Spiral tests had persistent orphan node issues. This memory documents the EXACT patterns to prevent them.
 
 ---
 
@@ -391,7 +391,7 @@ public class GhostTerminalSceneLoadTests
 
 ---
 
-## Why Omega Spiral Had Orphan Nodes
+## Why Ωmega Spiral Had Orphan Nodes
 
 1. ❌ Stored node references in class fields
 2. ❌ Multiple `[Before]/[After]` methods (only first/last ran)

@@ -3,7 +3,7 @@ using OmegaSpiral.Source.Audio;
 using OmegaSpiral.Source.Backend.Common;
 
 /// <summary>
-/// Centralized audio management system for the Omega Spiral game.
+/// Centralized audio management system for the Ωmega Spiral game.
 /// Handles all audio playback, player pooling, bus management, and asset caching.
 /// Serves as the foundation for category-specific audio managers like NarrativeAudioManager.
 /// </summary>

@@ -1,4 +1,4 @@
-# Code Style and Conventions for Omega Spiral
+# Code Style and Conventions for Ωmega Spiral
 
 ## Language and Framework
 - **Language**: C# 14 (preview)

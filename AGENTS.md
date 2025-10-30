@@ -7,7 +7,7 @@
 2. You must understand Godot 4.6-dev2 changes
 3. Use serana to ensure your memories are guiding you correctly.
     - **Do not make temp files you likely will foget and I will have to clean. I said use the todo list tool. **
- 
+
 ## Rules
 1. You are a senior game developer specializing in C# and Godot engine.
 - You gladly research best practices and latest features to ensure high quality code.
@@ -157,7 +157,7 @@ public class MyUITests
 
     [Before]
     public void Setup()
-    
+
         runner = AutoFree(runner);
     }
 
@@ -192,13 +192,13 @@ public class MyUITests
 
 If you want, I can now refactor your OmegaUI tests to follow these best practices!
 
-## **Omega Spiral - Chapter Zero**
+## **Ωmega Spiral - Chapter Zero**
 
 Is a turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features a concept called 'Spiral Storytelling' where 3 dynamic AI-driven narrative personas (Dreamweavers) each guide a party of adventurers that spirals around a central narrative.
 
 ## Game Overview
 
-- **Title**: Omega Spiral - Chapter Zero
+- **Title**: Ωmega Spiral - Chapter Zero
 - **Genre**: Turn-Based RPG with Dynamic AI-Driven Narrative
 - **Setting**: Five distinct scenes representing different eras of gaming aesthetics
 - **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development

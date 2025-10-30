@@ -4,7 +4,7 @@ using OmegaSpiral.Source.Design;
 namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
-/// Lightweight palette helper that surfaces commonly used Omega Spiral colors and constants.
+/// Lightweight palette helper that surfaces commonly used Ωmega Spiral colors and constants.
 /// Internally delegates to <see cref="DesignConfigService"/> so tests and legacy callers remain stable
 /// while the new single-source JSON configuration drives actual values.
 /// </summary>

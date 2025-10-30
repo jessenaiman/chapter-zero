@@ -1,251 +1,221 @@
+// <copyright file="NarrativeUi.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
+// </copyright>
+
+namespace OmegaSpiral.Source.Narrative;
 
 using Godot;
+using OmegaSpiral.Source.Backend.Narrative;
 using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.Ui.Omega;
 
-namespace OmegaSpiral.Source.Narrative
+/// <summary>
+/// Narrative UI component for displaying story text and player choices.
+/// Minimal extension of OmegaContainer - lets OmegaUI handle all styling.
+/// Text color: warm amber (#FDC962), background: handled by OmegaUI frame.
+/// </summary>
+[GlobalClass]
+public partial class NarrativeUi : OmegaContainer
 {
-    using OmegaSpiral.Source.Backend.Narrative;
+    /// <summary>
+    /// Gets or sets a value indicating whether to show boot sequence on ready.
+    /// </summary>
+    [Export]
+    public bool EnableBootSequence { get; set; } = true;
 
     /// <summary>
-    /// Simplified Narrative UI extending OmegaContainer for sequential story progression.
-    /// Handles narrative beats, persona transitions, and choices using Godot signals and coroutines.
-    /// Base class for narrative stages; implements INarrativeHandler.
+    /// Gets or sets the boot sequence text with xterm styling.
     /// </summary>
-    [GlobalClass]
-    public partial class NarrativeUi : OmegaContainer, INarrativeHandler
+    [Export]
+    public string BootSequenceText { get; set; } = "[SYSTEM INITIALIZING...]\n[NARRATIVE ENGINE LOADED]\n[Ωmega SPIRAL READY]\n$> ";
+
+    /// <summary>
+    /// Gets or sets the typing speed (characters per second).
+    /// </summary>
+    [Export]
+    public float TypingSpeed { get; set; } = 20f;
+
+    private VBoxContainer? TextContainer { get; set; }
+
+    private VBoxContainer? ChoiceContainer { get; set; }
+
+    private RichTextLabel? TextDisplay { get; set; }
+
+    /// <summary>
+    /// Initializes the UI component.
+    /// OmegaUI frame provides styling; this just orchestrates narrative flow.
+    /// </summary>
+    public override void _Ready()
     {
-        [Export]
-        public bool EnableBootSequence { get; set; } = true;
-
-        [Export]
-        public float DefaultTypingSpeed { get; set; } = 15f;
-
-        [Export]
-        public float PersonaTransitionDuration { get; set; } = 3.0f;
-
-        [Export]
-        public string BootSequenceText { get; set; } = "[INITIALIZING NARRATIVE INTERFACE...]\n[SYSTEM READY]";
-
-        [Signal]
-        public delegate void ChoiceSelectedEventHandler(string choice);
-
-        private VBoxContainer? _choiceContainer;
-        private bool _bootSequencePlayed;
-
-        public override void _Ready()
-        {
-            base._Ready();
-            _choiceContainer = GetNodeOrNull<VBoxContainer>("ChoiceContainer");
-            TextRenderer = GetNodeOrNull<OmegaTextRenderer>("TextRenderer");
-            if (EnableBootSequence && !_bootSequencePlayed)
-        {
-            CallDeferred(nameof(StartBootSequence));
-        }
-        }
-
-        /// <summary>
-        /// Starts the boot sequence using a coroutine.
-        /// </summary>
-        private async void StartBootSequence()
-        {
-            await PlayBootSequenceCoroutine();
-            _bootSequencePlayed = true;
-        }
-
-        /// <summary>
-        /// Plays boot sequence with shader and text display.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        protected virtual async Task PlayBootSequenceCoroutine()
-        {
-            var lines = BootSequenceText.Split('\n');
-            await PlayBootSequenceAsync(lines, 50f, 0.5f);
-        }
-
-        /// <summary>
-        /// Plays narrative beats sequentially.
-        /// </summary>
-        /// <param name="beats">The beats to play.</param>
-        protected async void PlayNarrativeSequence(NarrativeBeat[] beats)
-        {
-            await PlayNarrativeBeatsAsync(beats);
-        }
-
-        /// <summary>
-        /// Transitions persona with shader animation.
-        /// </summary>
-        /// <param name="threadName">Thread name (light/shadow/ambition).</param>
-        protected async void TransitionPersona(string threadName)
-        {
-            if (string.IsNullOrEmpty(threadName) || ShaderController == null)
-            {
-                return;
-            }
-
-            Color targetColor = GetThreadColor(threadName);
-            var material = ShaderController.GetCurrentShaderMaterial();
-            if (material != null)
-        {
-            await CrossfadePhosphorTint(material, targetColor, PersonaTransitionDuration);
-        }
+        base._Ready();
+        this.TextContainer = this.GetNodeOrNull<VBoxContainer>("TextContainer");
+        this.ChoiceContainer = this.GetNodeOrNull<VBoxContainer>("ChoiceContainer");
+        this.TextDisplay = this.GetNodeOrNull<RichTextLabel>("TextDisplay");
     }
 
     /// <summary>
-    /// Gets thread color.
+    /// Displays lines of text in the UI.
     /// </summary>
-    /// <param name="threadName">Thread name.</param>
-    /// <returns>Color.</returns>
-        private static Color GetThreadColor(string threadName)
+    /// <param name="lines">The lines to display.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task DisplayLinesAsync(IList<string> lines)
     {
-        return threadName.ToLowerInvariant() switch
+        if (this.TextContainer == null)
         {
-            "light" => DesignConfigService.GetColor("light_thread"),
-            "shadow" => DesignConfigService.GetColor("shadow_thread"),
-            "ambition" => DesignConfigService.GetColor("ambition_thread"),
-            _ => DesignConfigService.GetColor("warm_amber")
-        };
-    }
-
-    /// <summary>
-    /// Crossfades phosphor tint.
-    /// </summary>
-    /// <param name="material">Shader material.</param>
-    /// <param name="targetColor">Target color.</param>
-    /// <param name="duration">Duration in seconds.</param>
-        private async Task CrossfadePhosphorTint(ShaderMaterial material, Color targetColor, float duration)
-    {
-        Variant currentVariant = material.GetShaderParameter("phosphor_tint");
-        Vector3 currentTint = currentVariant.VariantType == Variant.Type.Vector3 ? currentVariant.AsVector3() : new Vector3(1.0f, 0.9f, 0.5f);
-        Vector3 targetTint = new(targetColor.R, targetColor.G, targetColor.B);
-
-        int totalFrames = (int)(duration * 60);
-        for (int frame = 0; frame <= totalFrames; frame++)
-        {
-            float t = (float)frame / totalFrames;
-            Vector3 interpolated = currentTint.Lerp(targetTint, t);
-            material.SetShaderParameter("phosphor_tint", interpolated);
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        }
-        material.SetShaderParameter("phosphor_tint", targetTint);
-    }
-
-    /// <summary>
-    /// Clears narrative display.
-    /// </summary>
-        protected void ClearNarrative()
-    {
-        ClearText();
-        if (_choiceContainer != null)
-        {
-            foreach (Node child in _choiceContainer.GetChildren())
-            {
-                child.QueueFree();
-            }
-            _choiceContainer.Visible = false;
-        }
-    }
-
-    /// <summary>
-    /// Presents choices using signals.
-    /// </summary>
-    /// <param name="prompt">Prompt text.</param>
-    /// <param name="choices">Choice texts.</param>
-    /// <returns>Selected choice.</returns>
-        protected async Task<string> PresentChoices(string prompt, string[] choices)
-    {
-        if (choices == null || choices.Length == 0 || _choiceContainer == null)
-        {
-            return string.Empty;
+            return;
         }
 
-        await AppendTextAsync(prompt + "\n", DefaultTypingSpeed);
-
-        foreach (var choice in choices)
-        {
-            var button = new OmegaUiButton { Text = choice };
-            button.Pressed += () => EmitSignal(SignalName.ChoiceSelected, choice);
-            _choiceContainer.AddChild(button);
-        }
-        _choiceContainer.Visible = true;
-
-        var result = await ToSignal(this, SignalName.ChoiceSelected);
-        ClearNarrative();
-        return (string)result[0];
-    }
-
-    // INarrativeHandler implementation (simplified)
-        async Task INarrativeHandler.PlayBootSequenceAsync() => await PlayBootSequenceCoroutine();
-
-        /// <summary>
-        /// Displays a list of lines with typing effect.
-        /// </summary>
-        /// <param name="lines">The lines to display.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DisplayLinesAsync(IList<string> lines)
-    {
         foreach (var line in lines)
         {
-            await AppendTextAsync(line, DefaultTypingSpeed);
-            await ToSignal(GetTree().CreateTimer(0.12f), SceneTreeTimer.SignalName.Timeout);
+            var label = new Label { Text = line };
+            this.TextContainer.AddChild(label);
+            GD.Print($"[NarrativeUi] {line}");
+            await this.ToSignal(this.GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
         }
     }
 
-        /// <summary>
-        /// Handles command line input.
-        /// </summary>
-        /// <param name="line">The command line to handle.</param>
-        /// <returns>A task representing the asynchronous operation, with a boolean result.</returns>
-        public Task<bool> HandleCommandLineAsync(string line) => Task.FromResult(false);
-
-        /// <summary>
-        /// Applies scene effects based on the narrative script element.
-        /// </summary>
-        /// <param name="scene">The narrative script element to apply effects for.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task ApplySceneEffectsAsync(NarrativeScriptElement scene)
+    /// <summary>
+    /// Presents a set of choices to the player.
+    /// </summary>
+    /// <param name="question">The question to display.</param>
+    /// <param name="speaker">The character asking the question.</param>
+    /// <param name="choices">The available choices.</param>
+    /// <returns>A task representing the asynchronous operation, with the selected choice.</returns>
+    public async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
     {
-        if (scene.Pause.HasValue && scene.Pause.Value > 0)
+        if (this.ChoiceContainer == null)
         {
-            await ToSignal(GetTree().CreateTimer(scene.Pause.Value), SceneTreeTimer.SignalName.Timeout);
+            return choices.Count > 0 ? choices[0] : throw new InvalidOperationException("No choices available");
         }
-    }
 
-        /// <summary>
-        /// Presents a choice to the user and waits for selection.
-        /// </summary>
-        /// <param name="question">The question to present.</param>
-        /// <param name="speaker">The speaker of the question.</param>
-        /// <param name="choices">The available choices.</param>
-        /// <returns>A task representing the asynchronous operation, with the selected choice.</returns>
-        public async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
-    {
-        await AppendTextAsync($"{question}\n", DefaultTypingSpeed);
-        var container = _choiceContainer ?? new VBoxContainer { Name = "ChoiceContainer" };
-        if (container.GetParent() != this) AddChild(container);
+        // Display question
+        var questionLabel = new Label { Text = question };
+        this.ChoiceContainer.AddChild(questionLabel);
+        GD.Print($"[NarrativeUi] Question: {question}");
 
         var tcs = new TaskCompletionSource<ChoiceOption>();
+
+        // Create buttons for each choice
         foreach (var choice in choices)
         {
             var button = new Button { Text = choice.Text };
-            button.Pressed += () => tcs.TrySetResult(choice);
-            container.AddChild(button);
+            button.Pressed += () =>
+            {
+                GD.Print($"[NarrativeUi] Selected: {choice.Text}");
+                tcs.TrySetResult(choice);
+            };
+            this.ChoiceContainer.AddChild(button);
         }
-        return await tcs.Task;
+
+        this.ChoiceContainer.Visible = true;
+        var result = await tcs.Task;
+        this.ChoiceContainer.Visible = false;
+
+        // Clear choices
+        foreach (Node child in this.ChoiceContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        return result;
     }
 
-        /// <summary>
-        /// Processes the selected choice.
-        /// </summary>
-        /// <param name="selected">The selected choice option.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public Task ProcessChoiceAsync(ChoiceOption selected) => Task.CompletedTask;
+    /// <summary>
+    /// Handles command lines (for future expansion).
+    /// </summary>
+    /// <param name="line">The command line.</param>
+    /// <returns>A task representing whether the command was handled.</returns>
+    public Task<bool> HandleCommandLineAsync(string line)
+    {
+        GD.Print($"[NarrativeUi] Command: {line}");
+        return Task.FromResult(false);
+    }
 
-        /// <summary>
-        /// Notifies that the narrative sequence is complete.
-        /// </summary>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        public Task NotifySequenceCompleteAsync() => Task.CompletedTask;
-}
+    /// <summary>
+    /// Applies scene-specific effects like pauses.
+    /// </summary>
+    /// <param name="scene">The scene element.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task ApplySceneEffectsAsync(StoryScriptElement scene)
+    {
+        if (scene.Pause.HasValue && scene.Pause.Value > 0)
+        {
+            await this.ToSignal(this.GetTree().CreateTimer(scene.Pause.Value), SceneTreeTimer.SignalName.Timeout);
+        }
+    }
+
+    /// <summary>
+    /// Processes a player choice (for game state updates).
+    /// </summary>
+    /// <param name="selected">The selected choice.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public Task ProcessChoiceAsync(ChoiceOption selected)
+    {
+        GD.Print($"[NarrativeUi] Processing choice: {selected.Text}");
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Plays boot sequence if enabled.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task PlayBootSequenceAsync()
+    {
+        if (!this.EnableBootSequence)
+        {
+            return;
+        }
+
+        GD.Print("[NarrativeUi] Boot sequence starting...");
+        var lines = this.BootSequenceText.Split('\n');
+        await this.DisplayLinesAsync(lines);
+        GD.Print("[NarrativeUi] Boot sequence complete");
+    }
+
+    /// <summary>
+    /// Notifies that the narrative sequence is complete.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public Task NotifySequenceCompleteAsync()
+    {
+        GD.Print("[NarrativeUi] Narrative sequence complete");
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Clears all displayed text and choices.
+    /// </summary>
+    public void Clear()
+    {
+        if (this.TextContainer != null)
+        {
+            foreach (Node child in this.TextContainer.GetChildren())
+            {
+                child.QueueFree();
+            }
+        }
+
+        if (this.ChoiceContainer != null)
+        {
+            foreach (Node child in this.ChoiceContainer.GetChildren())
+            {
+                child.QueueFree();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Types text character by character with xterm effect.
+    /// </summary>
+    /// <param name="text">The text to type.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task TypeTextAsync(string text)
+    {
+        float delayPerChar = 1.0f / this.TypingSpeed;
+        foreach (char c in text)
+        {
+            GD.Print(c);
+            await this.ToSignal(this.GetTree().CreateTimer(delayPerChar), SceneTreeTimer.SignalName.Timeout);
+        }
+    }
 }

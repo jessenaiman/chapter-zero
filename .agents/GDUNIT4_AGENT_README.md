@@ -334,5 +334,4 @@ pip install qwen_agent pillow requests
 
 ## License & Attribution
 
-Part of the **Omega Spiral - Chapter Zero** game project. Uses Qwen-Agent framework from Alibaba and Pollinations API for image generation.
-
+Part of the **Ωmega Spiral - Chapter Zero** game project. Uses Qwen-Agent framework from Alibaba and Pollinations API for image generation.

@@ -2,60 +2,68 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using OmegaSpiral.Source.Backend.Narrative;
-
 namespace OmegaSpiral.Source.Backend;
 
+using Godot;
+using OmegaSpiral.Source.Backend.Narrative;
+
 /// <summary>
-/// Base class for stage cinematic directors that load JSON narrative scripts and cache their plans.
+/// Non-generic interface for running stages.
+/// Allows GameManager to work with any stage director without caring about the specific plan type.
+/// </summary>
+public interface ICinematicDirector
+{
+    /// <summary>
+    /// Runs the stage.
+    /// </summary>
+    /// <returns>A task that completes when the stage is finished.</returns>
+    Task RunStageAsync();
+}
+
+/// <summary>
+/// Base class for stage story directors that load JSON story scripts and cache their plans.
 /// Handles thread-safe caching, loading, and plan building for all stages.
 /// Each stage director inherits this and implements abstract methods for data path and plan building.
 /// </summary>
-/// <typeparam name="TPlan">The plan record type for this stage (e.g., GhostTerminalCinematicPlan, NethackCinematicPlan).</typeparam>
-/// <summary>
-/// Abstract base class for loading and caching stage-specific JSON cinematic plans.
-/// Handles JSON loading with thread-safe lazy caching. Plans are data containers,
-/// not controllers. Controllers (IStageBase implementations) use plans to orchestrate stage execution.
-/// </summary>
-/// <typeparam name="TPlan">The stage-specific plan type (e.g., GhostTerminalCinematicPlan).</typeparam>
-public abstract class CinematicDirector<TPlan>
+/// <typeparam name="TPlan">The plan record type for this stage (e.g., GhostTerminalStoryPlan, NethackStoryPlan).</typeparam>
+public abstract class CinematicDirector<TPlan> : ICinematicDirector
+    where TPlan : StoryPlan
 {
-    private readonly object _SyncRoot = new();
-    private TPlan? _CachedPlan;
+    /// <summary>
+    /// Gets the cached plan for this stage.
+    /// </summary>
+    protected TPlan? Plan { get; private set; }
 
     /// <summary>
-    /// Gets the cached cinematic plan, loading and translating data if necessary.
-    /// Thread-safe lazy loading with double-check locking pattern.
+    /// Runs the stage by iterating through scenes, creating SceneManager for each, awaiting completion.
+    ///
+    /// PURE NARRATIVE PATTERN (Default):
+    /// Uses base implementation for stages with narrative sequences only (Ghost, Nethack).
+    ///
+    /// HYBRID STAGE PATTERN (Override):
+    /// Subclasses can override this method and call RunStageWithGameplayAsync(scenePath)
+    /// to combine narrative sequences with interactive gameplay scenes.
+    /// This is the standardized approach for hybrid stages (Town, PartySelection, Escape).
     /// </summary>
-    /// <returns>A fully populated cinematic plan.</returns>
-    public TPlan GetPlan()
+    /// <returns>A task that completes when the stage is finished.</returns>
+    public virtual async Task RunStageAsync()
     {
-        if (_CachedPlan != null)
-        {
-            return _CachedPlan;
-        }
+        var script = StoryLoader.LoadJsonScript(this.GetDataPath());
+        this.Plan = this.BuildPlan(script);
 
-        lock (_SyncRoot)
+        if (this.Plan?.Script?.Scenes != null)
         {
-            if (_CachedPlan == null)
+            foreach (var scene in this.Plan.Script.Scenes)
             {
-                NarrativeScriptRoot script = LoadJsonScript();
-                _CachedPlan = BuildPlan(script);
+                // Query NarrativeEngine for what's needed - stub for now
+                var data = this.GatherSceneData(scene);
+
+                var sceneManager = this.CreateSceneManager(scene, data);
+                await sceneManager.RunSceneAsync();
             }
         }
 
-        return _CachedPlan;
-    }
-
-    /// <summary>
-    /// Forces the director to reload content from disk. Useful for tests when stage data is modified.
-    /// </summary>
-    public void Reset()
-    {
-        lock (_SyncRoot)
-        {
-            _CachedPlan = default;
-        }
+        // Signal GameManager - stub
     }
 
     /// <summary>
@@ -66,20 +74,89 @@ public abstract class CinematicDirector<TPlan>
     protected abstract string GetDataPath();
 
     /// <summary>
-    /// Loads the JSON script from the path.
+    /// Builds the plan from the parsed script.
+    /// Must be implemented by subclasses.
     /// </summary>
-    /// <returns>Parsed NarrativeScriptRoot.</returns>
-    private NarrativeScriptRoot LoadJsonScript()
+    /// <param name="script">The parsed narrative script.</param>
+    /// <returns>The stage-specific plan.</returns>
+    protected abstract TPlan BuildPlan(StoryScriptRoot script);
+
+    /// <summary>
+    /// Creates a SceneManager for the given scene.
+    /// Must be implemented by subclasses.
+    /// </summary>
+    /// <param name="scene">The scene data.</param>
+    /// <param name="data">Additional data for the scene.</param>
+    /// <returns>The SceneManager instance.</returns>
+    protected abstract SceneManager CreateSceneManager(StoryScriptElement scene, object data);
+
+    /// <summary>
+    /// Gathers data required for the scene.
+    /// Stub implementation - subclasses can override.
+    /// </summary>
+    /// <param name="scene">The scene data.</param>
+    /// <returns>Data object for the scene.</returns>
+    protected virtual object GatherSceneData(StoryScriptElement scene)
     {
-        string path = GetDataPath();
-        return NarrativeScriptJsonLoader.LoadJsonScript(path);
+        // Query NarrativeEngine - stub
+        return new object();
     }
 
     /// <summary>
-    /// Transforms a loaded NarrativeScriptRoot into the stage-specific plan.
-    /// Must be implemented by subclasses.
+    /// Overload: Runs the narrative sequence followed by a gameplay scene.
+    /// For hybrid stages that combine story narration with interactive gameplay.
+    /// Call this from a subclass override of RunStageAsync() for hybrid behavior.
     /// </summary>
-    /// <param name="script">The loaded JSON narrative script.</param>
-    /// <returns>Stage-specific plan object.</returns>
-    protected abstract TPlan BuildPlan(NarrativeScriptRoot script);
+    /// <param name="gameplayScenePath">Path to the gameplay scene .tscn file.</param>
+    /// <returns>A task that completes when both narrative and gameplay are finished.</returns>
+    protected async Task RunStageWithGameplayAsync(string gameplayScenePath)
+    {
+        // Phase 1: Run narrative sequences
+        GD.Print("[CinematicDirector] Starting narrative phase...");
+        var script = StoryLoader.LoadJsonScript(this.GetDataPath());
+        this.Plan = this.BuildPlan(script);
+
+        if (this.Plan?.Script?.Scenes != null)
+        {
+            foreach (var scene in this.Plan.Script.Scenes)
+            {
+                var data = this.GatherSceneData(scene);
+                var sceneManager = this.CreateSceneManager(scene, data);
+                await sceneManager.RunSceneAsync();
+            }
+        }
+
+        // Phase 2: Load and run gameplay scene
+        GD.Print($"[CinematicDirector] Starting gameplay phase: {gameplayScenePath}");
+        await this.RunGameplaySceneAsync(gameplayScenePath);
+
+        GD.Print("[CinematicDirector] Hybrid stage complete");
+    }
+
+    /// <summary>
+    /// Helper: Loads and runs a gameplay/exploration scene.
+    /// </summary>
+    /// <param name="scenePath">Path to the .tscn file.</param>
+    /// <returns>A task that completes when the scene is finished.</returns>
+    protected virtual async Task RunGameplaySceneAsync(string scenePath)
+    {
+        var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
+        if (packedScene == null)
+        {
+            GD.PrintErr($"[CinematicDirector] Failed to load gameplay scene: {scenePath}");
+            return;
+        }
+
+        var instance = packedScene.Instantiate();
+        if (instance != null)
+        {
+            // Get root node using GetTree() - this requires a Node context
+            // For now, we'll defer actual scene loading to stage-specific directors
+            GD.Print($"[CinematicDirector] Prepared gameplay scene: {scenePath}");
+        }
+
+        // TODO: Implement scene completion detection and awaiting
+        // Stage-specific directors should override this to handle actual scene loading
+        await Task.CompletedTask;
+    }
 }

@@ -1,7 +1,7 @@
 # Stage 4 Implementation Summary
 
 ## Overview
-This document summarizes the complete implementation of Stage 4: Liminal Township for the Omega Spiral project. The implementation includes a shared dialogue system architecture using SOLID principles, Stage 4 specific scene elements, and comprehensive testing.
+This document summarizes the complete implementation of Stage 4: Liminal Township for the Ωmega Spiral project. The implementation includes a shared dialogue system architecture using SOLID principles, Stage 4 specific scene elements, and comprehensive testing.
 
 ## Completed Components
 
@@ -53,7 +53,7 @@ This document summarizes the complete implementation of Stage 4: Liminal Townshi
 - Player wake-up sequence in a nostalgic JRPG village
 - Liminal township environmental elements (duplicate footprints, fading banners, echoing sounds)
 - Dreamweaver presence mechanics with translucent avatars near key POIs
-- Integration with existing Omega Spiral narrative systems
+- Integration with existing Ωmega Spiral narrative systems
 - Proper scene transitions from Stage 3 to Stage 4
 
 ### 5. Comprehensive Testing

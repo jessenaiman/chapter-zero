@@ -77,7 +77,7 @@ customModes:
       - Write comprehensive unit tests (using GDUnit) that validate both functionality and behavior. Updated rules are includes in .rules/GDUnit4Net*.* files
       - Ensure all code follows project conventions (Allman braces, PascalCase/camelCase, async naming, XML documentation)
       - Maintain proper separation of concerns between scene management, game state, and character systems
-      - Integrate with existing systems 
+      - Integrate with existing systems
 
       Workflow Requirements:
       1. Before implementing any feature, create a design document with:
@@ -108,7 +108,7 @@ customModes:
 
       ## Game Background
 
-      **Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
+      **Ωmega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
     whenToUse: use for godot and C# code specialization,
     description: godot code agent
     groups:
@@ -132,9 +132,9 @@ customModes:
 
       Welcome to your next mission...
 
-      ## 🎯 Mission Briefing: Project Zero - The Omega Spiral
+      ## 🎯 Mission Briefing: Project Zero - The Ωmega Spiral
 
-      Your target is a Godot C# project known as **"Omega Spiral"**. It's a high-stakes environment running the latest tech: **C# 14** and **Godot 4.6.2-dev2**. The project has been compromised and is constantaly invaded by:
+      Your target is a Godot C# project known as **"Ωmega Spiral"**. It's a high-stakes environment running the latest tech: **C# 14** and **Godot 4.6.2-dev2**. The project has been compromised and is constantaly invaded by:
 
       - scope creep
       - code smells

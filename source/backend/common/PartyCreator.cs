@@ -14,9 +14,9 @@ namespace OmegaSpiral.Source.Backend.Common;
 [GlobalClass]
 public partial class PartyCreator : Node2D
 {
-    private PartyData? partyData;
-    private GameState? gameState;
-    private SceneManager? sceneManager;
+    private PartyData? _partyData;
+    private GameState? _gameState;
+    private SceneManager? _sceneManager;
 
     /// <summary>
     /// Ui Elements
@@ -36,9 +36,9 @@ public partial class PartyCreator : Node2D
     /// </summary>
     public override void _Ready()
     {
-        this.partyData = new PartyData();
-        this.gameState = this.GetNode<GameState>("/root/GameState");
-        this.sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this._partyData = new PartyData();
+        this._gameState = this.GetNode<GameState>("/root/GameState");
+        this._sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
 
         // Initialize Ui
         this.characterNameInput = this.GetNode<LineEdit>("CharacterNameInput");
@@ -49,7 +49,7 @@ public partial class PartyCreator : Node2D
         this.finishPartyButton = this.GetNode<Button>("FinishPartyButton");
         this.partyList = this.GetNode<VBoxContainer>("PartyList");
 
-        if (this.gameState == null || this.sceneManager == null || this.characterNameInput == null ||
+        if (this._gameState == null || this._sceneManager == null || this.characterNameInput == null ||
             this.classSelector == null || this.raceSelector == null || this.statsDisplay == null ||
             this.addCharacterButton == null || this.finishPartyButton == null || this.partyList == null)
         {
@@ -141,7 +141,7 @@ public partial class PartyCreator : Node2D
 
     private void OnAddCharacterPressed()
     {
-        if (this.characterNameInput == null || this.classSelector == null || this.raceSelector == null || this.partyData == null)
+        if (this.characterNameInput == null || this.classSelector == null || this.raceSelector == null || this._partyData == null)
         {
             return;
         }
@@ -157,7 +157,7 @@ public partial class PartyCreator : Node2D
         var selectedRace = (CharacterRace) this.raceSelector.Selected;
 
         var character = new Character(name, selectedClass, selectedRace);
-        if (this.partyData.AddMember(character))
+        if (this._partyData.AddMember(character))
         {
             this.UpdatePartyList();
             this.characterNameInput.Text = string.Empty;
@@ -166,7 +166,7 @@ public partial class PartyCreator : Node2D
 
     private void UpdatePartyList()
     {
-        if (this.partyList == null || this.partyData == null)
+        if (this.partyList == null || this._partyData == null)
         {
             return;
         }
@@ -178,7 +178,7 @@ public partial class PartyCreator : Node2D
         }
 
         // Add current members
-        foreach (var member in this.partyData.Members)
+        foreach (var member in this._partyData.Members)
         {
             var label = new Label();
             label.Text = $"{member.Name} - {member.Class} {member.Race}";
@@ -191,26 +191,25 @@ public partial class PartyCreator : Node2D
 
     private void UpdateUi()
     {
-        if (this.addCharacterButton == null || this.finishPartyButton == null || this.partyData == null)
+        if (this.addCharacterButton == null || this.finishPartyButton == null || this._partyData == null)
         {
             return;
         }
 
-        this.addCharacterButton.Disabled = this.partyData.Members.Count >= 3;
-        this.finishPartyButton.Disabled = this.partyData.Members.Count < 3;
+        this.addCharacterButton.Disabled = this._partyData.Members.Count >= 3;
+        this.finishPartyButton.Disabled = this._partyData.Members.Count < 3;
     }
 
     private void OnFinishPartyPressed()
     {
-        if (this.partyData == null || this.gameState == null || this.sceneManager == null)
+        if (this._partyData == null || this._gameState == null || this._sceneManager == null)
         {
             return;
         }
 
-        if (this.partyData.Members.Count >= 3)
+        if (this._partyData.Members.Count >= 3)
         {
-            this.gameState.PlayerParty = this.partyData;
-            this.sceneManager.TransitionToScene("Scene4TileDungeon");
+            this._gameState.PlayerParty = this._partyData;
         }
     }
 }

@@ -1,4 +1,4 @@
-# Omega Spiral: Chapter Zero Test Matrix
+# Ωmega Spiral: Chapter Zero Test Matrix
 
 _All tests avoid asserting specific narrative text; they verify structure, sequencing, and side effects._
 

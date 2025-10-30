@@ -1,8 +1,10 @@
+#pragma warning disable SA1636 // File header copyright text should match
 // <copyright file="MenuUiTestHelper.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 using Godot;
+#pragma warning restore SA1636 // File header copyright text should match
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 

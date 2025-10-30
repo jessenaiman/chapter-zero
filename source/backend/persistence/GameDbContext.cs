@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OmegaSpiral.Source.Backend.Persistence;
     /// <summary>
-    /// Database context for the Omega Spiral game save system.
+    /// Database context for the Ωmega Spiral game save system.
     /// </summary>
     public class GameDbContext : DbContext
     {

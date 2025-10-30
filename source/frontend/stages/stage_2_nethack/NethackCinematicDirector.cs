@@ -1,71 +1,50 @@
+#pragma warning disable SA1636 // File header copyright text should match
 // <copyright file="NethackCinematicDirector.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
+namespace OmegaSpiral.Source.Stages.Stage2;
+#pragma warning restore SA1636 // File header copyright text should match
+
 using Godot;
 using OmegaSpiral.Source.Backend;
-using OmegaSpiral.Source.Frontend;
-using OmegaSpiral.Source.Narrative;
-
-namespace OmegaSpiral.Source.Stages.Stage2;
+using OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
-/// Stage controller for Stage 2: Nethack.
-/// Thin orchestrator that loads the narrative script and delegates playback to the generic engine.
-/// The NarrativeUi component handles all rendering; the director only manages the stage lifecycle.
+/// Cinematic director for Nethack stage.
+/// This is a PURE NARRATIVE stage using only narrative sequences.
+///
+/// <example>
+/// PURE NARRATIVE PATTERN:
+/// Uses base RunStageAsync() implementation which:
+/// 1. Loads narrative sequences from nethack.json
+/// 2. Iterates through scenes and displays them sequentially
+/// 3. No additional gameplay scenes loaded
+///
+/// This pattern is the standardized approach for pure narrative stages (Ghost, Nethack).
+/// Override RunStageAsync() only if adding gameplay/exploration phases (hybrid stages).
+/// </example>
+///
+/// Loads nethack.json script and orchestrates scene playback.
 /// </summary>
-[GlobalClass]
-public sealed partial class NethackCinematicDirector : StageBase
+public sealed class NethackCinematicDirector : CinematicDirector<NethackCinematicPlan>
 {
-    private readonly NethackDataLoader _DataLoader = new();
-    private NarrativeUi? _NarrativeUi;
-
     /// <inheritdoc/>
-    public override int StageId => 2;
-
-    /// <inheritdoc/>
-    public override async Task ExecuteStageAsync()
+    protected override string GetDataPath()
     {
-        GD.Print("[NethackCinematicDirector] === Stage 2: Nethack Starting ===");
+        return "res://source/frontend/stages/stage_2_nethack/nethack.json";
+    }
 
-        try
-        {
-            // Load the narrative plan using CinematicDirector pattern
-            var plan = _DataLoader.GetPlan();
-            GD.Print($"[NethackCinematicDirector] Loaded: '{plan.Script.Title}' ({plan.Script.Scenes?.Count ?? 0} scenes)");
+    /// <inheritdoc/>
+    protected override NethackCinematicPlan BuildPlan(StoryScriptRoot script)
+    {
+        return new NethackCinematicPlan(script);
+    }
 
-            // Create a NarrativeUi instance (no scene file needed – UI is instantiated programmatically)
-            _NarrativeUi = new NarrativeUi();
-            if (_NarrativeUi == null)
-            {
-                GD.PrintErr("[NethackCinematicDirector] Failed to create NarrativeUi");
-                EmitStageComplete();
-                return;
-            }
-
-            // Add UI to the scene tree (triggers _Ready)
-            AddChild(_NarrativeUi);
-            GD.Print("[NethackCinematicDirector] NarrativeUi instantiated and added to tree");
-
-            // Run the generic narrative engine to drive the script
-            var engine = new NarrativeEngine();
-            await engine.PlayAsync(plan.Script, _NarrativeUi).ConfigureAwait(false);
-
-            GD.Print("[NethackCinematicDirector] Narrative engine completed");
-
-            // Cleanup
-            if (_NarrativeUi != null && IsInstanceValid(_NarrativeUi))
-            {
-                _NarrativeUi.QueueFree();
-            }
-
-            EmitStageComplete();
-        }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"[NethackCinematicDirector] Error: {ex.Message}");
-            GD.PrintErr(ex.StackTrace);
-            EmitStageComplete();
-        }
+    /// <inheritdoc/>
+    protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    {
+        GD.Print($"[Nethack] Creating scene manager for: {scene.Id}");
+        return new SceneManager(scene, data);
     }
 }
