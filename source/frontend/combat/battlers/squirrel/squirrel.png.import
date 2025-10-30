@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbgfjvlm8kx4k"
-path="res://.godot/imported/squirrel.png-6f91c1fe6a9bb1965234e1f033289ba5.ctex"
+path="res://.godot/imported/squirrel.png-c34b22c4dfac380f0de74e680c4d1b67.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/battlers/squirrel/squirrel.png"
-dest_files=["res://.godot/imported/squirrel.png-6f91c1fe6a9bb1965234e1f033289ba5.ctex"]
+source_file="res://source/frontend/combat/battlers/squirrel/squirrel.png"
+dest_files=["res://.godot/imported/squirrel.png-c34b22c4dfac380f0de74e680c4d1b67.ctex"]
 
 [params]
 

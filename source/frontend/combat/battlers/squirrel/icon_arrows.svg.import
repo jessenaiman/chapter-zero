@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt7jcphqs175b"
-path="res://.godot/imported/icon_arrows.svg-6049f069f92e17e828addbdaf71923b5.ctex"
+path="res://.godot/imported/icon_arrows.svg-2d67b1c16695c07cc178cbf0481dcc0b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/battlers/squirrel/icon_arrows.svg"
-dest_files=["res://.godot/imported/icon_arrows.svg-6049f069f92e17e828addbdaf71923b5.ctex"]
+source_file="res://source/frontend/combat/battlers/squirrel/icon_arrows.svg"
+dest_files=["res://.godot/imported/icon_arrows.svg-2d67b1c16695c07cc178cbf0481dcc0b.ctex"]
 
 [params]
 

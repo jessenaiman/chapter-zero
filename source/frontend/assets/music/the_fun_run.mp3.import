@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://dj7yf3u7fdxdu"
-path="res://.godot/imported/the_fun_run.mp3-e3496bd50df7e48be978b2e9168226dc.mp3str"
+path="res://.godot/imported/the_fun_run.mp3-d9e43b8d6bdd578c27adc373073ae8be.mp3str"
 
 [deps]
 
-source_file="res://source/assets/music/the_fun_run.mp3"
-dest_files=["res://.godot/imported/the_fun_run.mp3-e3496bd50df7e48be978b2e9168226dc.mp3str"]
+source_file="res://source/frontend/assets/music/the_fun_run.mp3"
+dest_files=["res://.godot/imported/the_fun_run.mp3-d9e43b8d6bdd578c27adc373073ae8be.mp3str"]
 
 [params]
 

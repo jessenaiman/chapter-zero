@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ilvqn3ue35xw"
-path="res://.godot/imported/menu_selection_arrow.png-f3770a5557e92dfa0229227db48fe3d8.ctex"
+path="res://.godot/imported/menu_selection_arrow.png-d878a376a1e704a0c90d97e62bf511e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/ui/action_menu/menu_selection_arrow.png"
-dest_files=["res://.godot/imported/menu_selection_arrow.png-f3770a5557e92dfa0229227db48fe3d8.ctex"]
+source_file="res://source/frontend/combat/ui/action_menu/menu_selection_arrow.png"
+dest_files=["res://.godot/imported/menu_selection_arrow.png-d878a376a1e704a0c90d97e62bf511e5.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://w55nt3s833tb"
-path="res://.godot/imported/steppes.png-b66b5416edd7e42769c174bc97a45337.ctex"
+path="res://.godot/imported/steppes.png-2db1bb4664b13918b5efdc67f9030fbe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/arenas/steppes.png"
-dest_files=["res://.godot/imported/steppes.png-b66b5416edd7e42769c174bc97a45337.ctex"]
+source_file="res://source/frontend/combat/arenas/steppes.png"
+dest_files=["res://.godot/imported/steppes.png-2db1bb4664b13918b5efdc67f9030fbe.ctex"]
 
 [params]
 

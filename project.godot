@@ -36,33 +36,33 @@ AppConfig="*res://source/services/GameAppConfig.cs"
 [dialogic]
 
 directories/dch_directory={
-"enemy_ghost": "res://source/overworld/maps/town/enemy_ghost.dch",
-"fan_of_four": "res://source/overworld/maps/town/fan_of_four.dch",
-"ghost": "res://source/overworld/maps/forest/ghost.dch",
-"monk": "res://source/overworld/maps/town/monk.dch",
-"runner": "res://source/overworld/maps/town/runner.dch",
-"smith": "res://source/overworld/maps/town/smith.dch",
-"thief": "res://source/overworld/maps/town/thief.dch",
-"warrior": "res://source/overworld/maps/town/warrior.dch",
-"wizard": "res://source/overworld/maps/town/wizard.dch"
+"forest/ghost": "res://source/frontend/overworld/maps/forest/ghost.dch",
+"town/enemy_ghost": "res://source/frontend/overworld/maps/town/enemy_ghost.dch",
+"town/fan_of_four": "res://source/frontend/overworld/maps/town/fan_of_four.dch",
+"town/monk": "res://source/frontend/overworld/maps/town/monk.dch",
+"town/runner": "res://source/frontend/overworld/maps/town/runner.dch",
+"town/smith": "res://source/frontend/overworld/maps/town/smith.dch",
+"town/thief": "res://source/frontend/overworld/maps/town/thief.dch",
+"town/warrior": "res://source/frontend/overworld/maps/town/warrior.dch",
+"town/wizard": "res://source/frontend/overworld/maps/town/wizard.dch"
 }
 directories/dtl_directory={
-"encounter_before_combat": "res://source/overworld/maps/town/encounter_before_combat.dtl",
-"encounter_on_loss": "res://source/overworld/maps/town/encounter_on_loss.dtl",
-"encounter_on_victory": "res://source/overworld/maps/town/encounter_on_victory.dtl",
-"fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
-"ghost": "res://source/overworld/maps/forest/ghost.dtl",
-"monk": "res://source/overworld/maps/town/monk.dtl",
-"opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
-"runner": "res://source/overworld/maps/town/runner.dtl",
-"sign": "res://source/overworld/maps/town/sign.dtl",
-"smith": "res://source/overworld/maps/town/smith.dtl",
-"strange_tree": "res://source/overworld/maps/town/strange_tree.dtl",
-"thief": "res://source/overworld/maps/town/thief.dtl",
-"wand_pedestal": "res://source/overworld/maps/house/wand_pedestal.dtl",
-"wand_pedestal_occupied": "res://source/overworld/maps/house/wand_pedestal_occupied.dtl",
-"warrior": "res://source/overworld/maps/town/warrior.dtl",
-"wizard": "res://source/overworld/maps/town/wizard.dtl"
+"forest/ghost": "res://source/frontend/overworld/maps/forest/ghost.dtl",
+"house/wand_pedestal": "res://source/frontend/overworld/maps/house/wand_pedestal.dtl",
+"house/wand_pedestal_occupied": "res://source/frontend/overworld/maps/house/wand_pedestal_occupied.dtl",
+"maps/opening_cutscene": "res://source/frontend/overworld/maps/opening_cutscene.dtl",
+"town/encounter_before_combat": "res://source/frontend/overworld/maps/town/encounter_before_combat.dtl",
+"town/encounter_on_loss": "res://source/frontend/overworld/maps/town/encounter_on_loss.dtl",
+"town/encounter_on_victory": "res://source/frontend/overworld/maps/town/encounter_on_victory.dtl",
+"town/fan_of_four": "res://source/frontend/overworld/maps/town/fan_of_four.dtl",
+"town/monk": "res://source/frontend/overworld/maps/town/monk.dtl",
+"town/runner": "res://source/frontend/overworld/maps/town/runner.dtl",
+"town/sign": "res://source/frontend/overworld/maps/town/sign.dtl",
+"town/smith": "res://source/frontend/overworld/maps/town/smith.dtl",
+"town/strange_tree": "res://source/frontend/overworld/maps/town/strange_tree.dtl",
+"town/thief": "res://source/frontend/overworld/maps/town/thief.dtl",
+"town/warrior": "res://source/frontend/overworld/maps/town/warrior.dtl",
+"town/wizard": "res://source/frontend/overworld/maps/town/wizard.dtl"
 }
 
 [display]

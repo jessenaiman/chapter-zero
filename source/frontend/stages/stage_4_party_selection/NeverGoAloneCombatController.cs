@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Backend.Common;
 using OmegaSpiral.Source.Scripts.Combat.Battlers;
 
 namespace OmegaSpiral.Source.Stages.Stage4
@@ -13,7 +14,7 @@ namespace OmegaSpiral.Source.Stages.Stage4
     /// </summary>
     [GlobalClass]
     public partial class NeverGoAloneCombatController : Node
-{
+    {
         /// <summary>
         /// Note: BattlerRoster cannot be exported as it's not a supported Godot type.
         /// </summary>

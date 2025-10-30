@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Frontend;
 using OmegaSpiral.Source.Scripts.Common.ScreenTransitions;
 using OmegaSpiral.Source.Scripts.Field;
 using OmegaSpiral.Source.Scripts.Combat;
@@ -44,7 +45,7 @@ public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.c
     [Export]
     public PackedScene? CombatArena { get; set; }
 
-    private DialogicIntegration? dialogic;
+    private Node? dialogic;
     private CombatEvents? combatEvents;
     private FieldEvents? fieldEvents;
     private ScreenTransition? transition;
@@ -56,8 +57,8 @@ public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.c
 
         if (!Engine.IsEditorHint())
         {
-            // Get autoload references
-            this.dialogic = this.GetNodeOrNull<DialogicIntegration>("/root/Dialogic");
+            // Get autoload references (Dialogic 2.x is a GDScript autoload)
+            this.dialogic = this.GetNodeOrNull<Node>("/root/Dialogic");
             this.combatEvents = this.GetNodeOrNull<CombatEvents>("/root/CombatEvents");
             this.fieldEvents = this.GetNodeOrNull<FieldEvents>("/root/FieldEvents");
             this.transition = this.GetNodeOrNull<ScreenTransition>("/root/Transition");
@@ -95,10 +96,11 @@ public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.c
             return;
         }
 
-        // Play pre-combat dialogue
+        // Play pre-combat dialogue (Dialogic 2.x API)
         if (!string.IsNullOrEmpty(this.PreCombatTimeline) && this.dialogic != null)
         {
-            await this.dialogic.StartTimelineAsync(this.PreCombatTimeline).ConfigureAwait(false);
+            this.dialogic.Call("start", this.PreCombatTimeline);
+            await this.ToSignal(this.dialogic, "timeline_ended");
         }
 
         // Trigger combat and wait for outcome
@@ -117,17 +119,19 @@ public partial class CombatEncounterTrigger : OmegaSpiral.Source.Scripts.Field.c
                 await this.transition.ClearScreen(0.2f).ConfigureAwait(false);
             }
 
-            // Play appropriate post-combat dialogue
+            // Play appropriate post-combat dialogue (Dialogic 2.x API)
             if (didPlayerWin && !string.IsNullOrEmpty(this.VictoryTimeline) && this.dialogic != null)
             {
-                await this.dialogic.StartTimelineAsync(this.VictoryTimeline).ConfigureAwait(false);
+                this.dialogic.Call("start", this.VictoryTimeline);
+                await this.ToSignal(this.dialogic, "timeline_ended");
 
                 // If this was a roaming encounter, remove it from the field after victory
                 this.DeactivateEncounter();
             }
             else if (!didPlayerWin && !string.IsNullOrEmpty(this.LossTimeline) && this.dialogic != null)
             {
-                await this.dialogic.StartTimelineAsync(this.LossTimeline).ConfigureAwait(false);
+                this.dialogic.Call("start", this.LossTimeline);
+                await this.ToSignal(this.dialogic, "timeline_ended");
 
                 // TODO: Implement game over logic
                 GD.Print("Game Over - Player party defeated!");

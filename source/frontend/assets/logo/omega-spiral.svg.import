@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbwwnmnwpibp0"
-path="res://.godot/imported/omega-spiral.svg-ef4a4e1cceed5328dd5097960bc7bf83.ctex"
+path="res://.godot/imported/omega-spiral.svg-6fb86c9f1790420cb049223229aa9c91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/assets/logo/omega-spiral.svg"
-dest_files=["res://.godot/imported/omega-spiral.svg-ef4a4e1cceed5328dd5097960bc7bf83.ctex"]
+source_file="res://source/frontend/assets/logo/omega-spiral.svg"
+dest_files=["res://.godot/imported/omega-spiral.svg-6fb86c9f1790420cb049223229aa9c91.ctex"]
 
 [params]
 

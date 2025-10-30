@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://dagiejnj8dwqb"
-path="res://.godot/imported/squashin_bugs_fixed.mp3-287b246034c7a705c4c1b01a84ff5330.mp3str"
+path="res://.godot/imported/squashin_bugs_fixed.mp3-4bd859469c140d08847d348c0db1a0c1.mp3str"
 
 [deps]
 
-source_file="res://source/assets/music/squashin_bugs_fixed.mp3"
-dest_files=["res://.godot/imported/squashin_bugs_fixed.mp3-287b246034c7a705c4c1b01a84ff5330.mp3str"]
+source_file="res://source/frontend/assets/music/squashin_bugs_fixed.mp3"
+dest_files=["res://.godot/imported/squashin_bugs_fixed.mp3-4bd859469c140d08847d348c0db1a0c1.mp3str"]
 
 [params]
 

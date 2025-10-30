@@ -3,6 +3,9 @@
 // </copyright>
 
 using System.Collections.ObjectModel;
+using OmegaSpiral.Source.Backend;
+using OmegaSpiral.Source.Backend.Common;
+using OmegaSpiral.Source.Backend.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {

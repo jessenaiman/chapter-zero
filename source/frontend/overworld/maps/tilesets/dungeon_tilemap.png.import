@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dm4h0uo6gjp22"
-path="res://.godot/imported/dungeon_tilemap.png-6d2b728a61e5016fc30871fbb02d14a7.ctex"
+path="res://.godot/imported/dungeon_tilemap.png-9088c074aaaef8cf04a6b3eb51e3d493.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/overworld/maps/tilesets/dungeon_tilemap.png"
-dest_files=["res://.godot/imported/dungeon_tilemap.png-6d2b728a61e5016fc30871fbb02d14a7.ctex"]
+source_file="res://source/frontend/overworld/maps/tilesets/dungeon_tilemap.png"
+dest_files=["res://.godot/imported/dungeon_tilemap.png-9088c074aaaef8cf04a6b3eb51e3d493.ctex"]
 
 [params]
 

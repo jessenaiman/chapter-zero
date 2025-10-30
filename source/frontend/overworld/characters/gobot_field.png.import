@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://4ua1ohn2tllf"
-path="res://.godot/imported/gobot_field.png-6524a862d9b031283ddadd238e294696.ctex"
+path="res://.godot/imported/gobot_field.png-908239d2a8bf24f10af5ddba599eeedb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/overworld/characters/gobot_field.png"
-dest_files=["res://.godot/imported/gobot_field.png-6524a862d9b031283ddadd238e294696.ctex"]
+source_file="res://source/frontend/overworld/characters/gobot_field.png"
+dest_files=["res://.godot/imported/gobot_field.png-908239d2a8bf24f10af5ddba599eeedb.ctex"]
 
 [params]
 

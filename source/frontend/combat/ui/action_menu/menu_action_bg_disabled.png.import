@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://l36jkvkb3cuh"
-path="res://.godot/imported/menu_action_bg_disabled.png-5f7b5e08e736f194dd71beeb122a4ed6.ctex"
+path="res://.godot/imported/menu_action_bg_disabled.png-5a21b30bbbd31fa6762167d31f9348c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/ui/action_menu/menu_action_bg_disabled.png"
-dest_files=["res://.godot/imported/menu_action_bg_disabled.png-5f7b5e08e736f194dd71beeb122a4ed6.ctex"]
+source_file="res://source/frontend/combat/ui/action_menu/menu_action_bg_disabled.png"
+dest_files=["res://.godot/imported/menu_action_bg_disabled.png-5a21b30bbbd31fa6762167d31f9348c6.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bim8qe7og54p7"
-path="res://.godot/imported/logo-dissapate.png-197b4969057400b16998ed0535dc5656.ctex"
+path="res://.godot/imported/logo-dissapate.png-5634561e362be955a66c300f38ec4357.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/assets/logo/logo-dissapate.png"
-dest_files=["res://.godot/imported/logo-dissapate.png-197b4969057400b16998ed0535dc5656.ctex"]
+source_file="res://source/frontend/assets/logo/logo-dissapate.png"
+dest_files=["res://.godot/imported/logo-dissapate.png-5634561e362be955a66c300f38ec4357.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7grintgjlsvy"
-path="res://.godot/imported/stages_architecture.png-2e9e732c6453b5085aaadbce91f99de3.ctex"
+path="res://.godot/imported/stages_architecture.png-89e03a8f0fe1ef5211efe48044b7d124.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/stages/stages_architecture.png"
-dest_files=["res://.godot/imported/stages_architecture.png-2e9e732c6453b5085aaadbce91f99de3.ctex"]
+source_file="res://source/frontend/stages/stages_architecture.png"
+dest_files=["res://.godot/imported/stages_architecture.png-89e03a8f0fe1ef5211efe48044b7d124.ctex"]
 
 [params]
 

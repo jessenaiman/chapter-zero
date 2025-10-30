@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cphula2vuhdqy"
-path="res://.godot/imported/portrait_bg_ally.png-5dabb6e03c871656b79195e9e5e1d11e.ctex"
+path="res://.godot/imported/portrait_bg_ally.png-1e89cde2b7b08266557efff5f9a09b42.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/combat/ui/turn_bar/portrait_bg_ally.png"
-dest_files=["res://.godot/imported/portrait_bg_ally.png-5dabb6e03c871656b79195e9e5e1d11e.ctex"]
+source_file="res://source/frontend/combat/ui/turn_bar/portrait_bg_ally.png"
+dest_files=["res://.godot/imported/portrait_bg_ally.png-1e89cde2b7b08266557efff5f9a09b42.ctex"]
 
 [params]
 

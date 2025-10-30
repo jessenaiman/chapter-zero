@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://doea2mk0aaedo"
-path="res://.godot/imported/character_generic.png-a435f978790d833244fd60fbcbb4db41.ctex"
+path="res://.godot/imported/character_generic.png-5c8a5d1c0b66958dbb917e9c3a5c0bc6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://source/overworld/characters/character_generic.png"
-dest_files=["res://.godot/imported/character_generic.png-a435f978790d833244fd60fbcbb4db41.ctex"]
+source_file="res://source/frontend/overworld/characters/character_generic.png"
+dest_files=["res://.godot/imported/character_generic.png-5c8a5d1c0b66958dbb917e9c3a5c0bc6.ctex"]
 
 [params]
 

@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://d14dgrxs04lu8"
-path="res://.godot/imported/Orbitron-SemiBold.ttf-b050ac474cf7d5a97f6c220349b33a42.fontdata"
+path="res://.godot/imported/Orbitron-SemiBold.ttf-38df9670372fb0a55896830e2cfba67b.fontdata"
 
 [deps]
 
-source_file="res://source/assets/fonts/Orbitron/static/Orbitron-SemiBold.ttf"
-dest_files=["res://.godot/imported/Orbitron-SemiBold.ttf-b050ac474cf7d5a97f6c220349b33a42.fontdata"]
+source_file="res://source/frontend/assets/fonts/Orbitron/static/Orbitron-SemiBold.ttf"
+dest_files=["res://.godot/imported/Orbitron-SemiBold.ttf-38df9670372fb0a55896830e2cfba67b.fontdata"]
 
 [params]
 

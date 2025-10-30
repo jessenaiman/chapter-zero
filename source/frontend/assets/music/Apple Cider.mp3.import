@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://ctnn0hqkx67k7"
-path="res://.godot/imported/Apple Cider.mp3-76693172e71f47caf2465d9c1f5c88ac.mp3str"
+path="res://.godot/imported/Apple Cider.mp3-7788ea589a1aacaaa147fbe24b911abf.mp3str"
 
 [deps]
 
-source_file="res://source/assets/music/Apple Cider.mp3"
-dest_files=["res://.godot/imported/Apple Cider.mp3-76693172e71f47caf2465d9c1f5c88ac.mp3str"]
+source_file="res://source/frontend/assets/music/Apple Cider.mp3"
+dest_files=["res://.godot/imported/Apple Cider.mp3-7788ea589a1aacaaa147fbe24b911abf.mp3str"]
 
 [params]
 

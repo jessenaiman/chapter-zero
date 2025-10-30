@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Backend.Common;
 
 namespace OmegaSpiral.Source.Stages.Stage4
 {
@@ -14,33 +15,33 @@ namespace OmegaSpiral.Source.Stages.Stage4
     public partial class MirrorSelectionController : Control
     {
 
-                [Export]
-                private Label? promptLabel;
+        [Export]
+        private Label? promptLabel;
 
-                [Export]
-                private VBoxContainer? characterContainer;
+        [Export]
+        private VBoxContainer? characterContainer;
 
-                [Export]
-                private Label? dwCommentLabel;
+        [Export]
+        private Label? dwCommentLabel;
 
-                [Export]
-                private Button? confirmButton;
+        [Export]
+        private Button? confirmButton;
 
-                /// <summary>
-                /// Disposes of all IDisposable fields.
-                /// </summary>
-                public new void Dispose()
-                {
-                    promptLabel?.Dispose();
-                    characterContainer?.Dispose();
-                    dwCommentLabel?.Dispose();
-                    confirmButton?.Dispose();
-                }
+        /// <summary>
+        /// Disposes of all IDisposable fields.
+        /// </summary>
+        public new void Dispose()
+        {
+            promptLabel?.Dispose();
+            characterContainer?.Dispose();
+            dwCommentLabel?.Dispose();
+            confirmButton?.Dispose();
+        }
 
-                ~MirrorSelectionController()
-                {
-                    Dispose();
-                }
+        ~MirrorSelectionController()
+        {
+            Dispose();
+        }
 
         private Godot.Collections.Array<Godot.Collections.Dictionary<string, Variant>> availableCharacters = new();
         private List<CharacterData> characterDataList = new();

@@ -4,6 +4,7 @@
 
 using Godot;
 using OmegaSpiral.Source.Backend;
+using OmegaSpiral.Source.Frontend;
 using OmegaSpiral.Source.Narrative;
 
 namespace OmegaSpiral.Source.Stages.Stage2;
