@@ -14,16 +14,12 @@
   },
   "hub": {
     "environment": {
-      "location": "ghost_terminal_plaza",
+      "location": "town",
       "description": [
-        "Stage 2’s hub recompiled with tearing skyboxes and looping geometry.",
+        "Stage 3’s town breaking apart with tearing skyboxes glitching pixels and sprites, fragmented text from npcs.",
         "Fragments of town signage flicker between eras; NPC silhouettes phase in and out."
       ],
-      "visualGlitches": [
-        "Tiles load twice then snap back.",
-        "Dreamweaver sigils smear horizontally for a single frame."
-      ],
-      "musicCue": "score_stage5_plaza_emergency"
+      "musicCue": "score_stage5_emergency"
     },
     "dreamweaverArguments": [
       {

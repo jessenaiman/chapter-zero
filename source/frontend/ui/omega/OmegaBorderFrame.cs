@@ -86,9 +86,9 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            _ShaderMaterial.SetShaderParameter("light_thread", DesignConfigService.GetColor("light_thread"));
-            _ShaderMaterial.SetShaderParameter("shadow_thread", DesignConfigService.GetColor("shadow_thread"));
-            _ShaderMaterial.SetShaderParameter("ambition_thread", DesignConfigService.GetColor("ambition_thread"));
+            _ShaderMaterial.SetShaderParameter("light_thread", DesignService.GetColor("light_thread"));
+            _ShaderMaterial.SetShaderParameter("shadow_thread", DesignService.GetColor("shadow_thread"));
+            _ShaderMaterial.SetShaderParameter("ambition_thread", DesignService.GetColor("ambition_thread"));
         }
 
         /// <summary>
@@ -100,11 +100,11 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            if (DesignConfigService.TryGetShaderDefaults("spiral_border", out var defaults) && defaults.Count > 0)
+            if (DesignService.TryGetShaderDefaults("spiral_border", out var defaults) && defaults.Count > 0)
             {
                 foreach (var entry in defaults)
                 {
-                    _ShaderMaterial.SetShaderParameter(entry.Key, entry.Value);
+                    _ShaderMaterial.SetShaderParameter(entry.Key, Variant.From(entry.Value));
                 }
                 return;
             }

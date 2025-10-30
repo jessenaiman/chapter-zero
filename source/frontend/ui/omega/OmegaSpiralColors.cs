@@ -5,7 +5,7 @@ namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Lightweight palette helper that surfaces commonly used Ωmega Spiral colors and constants.
-/// Internally delegates to <see cref="DesignConfigService"/> so tests and legacy callers remain stable
+/// Internally delegates to <see cref="DesignService"/> so tests and legacy callers remain stable
 /// while the new single-source JSON configuration drives actual values.
 /// </summary>
 public static class OmegaSpiralColors
@@ -40,7 +40,7 @@ public static class OmegaSpiralColors
 
     private static Color Get(string key)
     {
-        return DesignConfigService.GetColor(key);
+        return DesignService.GetColor(key);
     }
 
     /// <summary>

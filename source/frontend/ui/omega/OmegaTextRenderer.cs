@@ -20,7 +20,7 @@ public partial class OmegaTextRenderer : RichTextLabel
     public OmegaTextRenderer()
     {
         BbcodeEnabled = true; // Enable BBCode for formatting
-        SetTextColor(DesignConfigService.GetColor("warm_amber")); // Apply default Omega color
+        SetTextColor(DesignService.GetColor("warm_amber")); // Apply default Omega color
     }
 
     /// <inheritdoc/>

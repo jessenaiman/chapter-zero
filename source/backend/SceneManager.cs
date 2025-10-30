@@ -47,20 +47,97 @@ public partial class SceneManager : Node
     /// Runs the scene by loading .tscn, displaying narrative, handling UI, signals when done.
     /// </summary>
     /// <returns>A task that completes when the scene is finished.</returns>
-    public async Task RunSceneAsync()
+    /// <summary>
+    /// Runs the scene by loading .tscn, displaying narrative, handling UI, signals when done.
+    /// </summary>
+    /// <returns>A task that completes when the scene is finished.</returns>
+    public virtual async Task RunSceneAsync()
     {
-        // Load .tscn - stub, assume sceneData has scenePath
-        // var scenePath = sceneData.ScenePath;
-        // var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
-        // var instance = packedScene.Instantiate();
-        // AddChild(instance);
+        try
+        {
+            GD.Print($"[SceneManager] Running scene: {this.SceneData.Id ?? "unknown"}");
 
-        // Run the scene (display narrative, handle UI) - stub
-        // Use NarrativeEngine to play the scene
+            // Get the scene tree to add UI nodes
+            var tree = Engine.GetMainLoop() as SceneTree;
+            if (tree == null)
+            {
+                GD.PrintErr("[SceneManager] Could not get scene tree");
+                return;
+            }
 
-        // For now, just delay
-        await Task.Delay(1000);
+            // Try to find or instantiate the UI handler for this scene
+            // Subclasses can override this behavior
+            var handler = this.GetOrCreateUiHandler(tree);
+            if (handler == null)
+            {
+                GD.PrintErr("[SceneManager] No UI handler available for scene");
+                return;
+            }
 
-        // Signal completion - stub
+            // Display the scene using the handler
+            await this.RunSceneWithHandlerAsync(handler);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[SceneManager] Error running scene: {ex.Message}");
+            GD.PrintErr(ex.StackTrace);
+        }
+    }
+
+    /// <summary>
+    /// Gets or creates the UI handler for this scene.
+    /// Subclasses override this to provide stage-specific handlers.
+    /// </summary>
+    /// <param name="tree">The active scene tree.</param>
+    /// <returns>The story handler instance, or null if unavailable.</returns>
+    protected virtual IStoryHandler? GetOrCreateUiHandler(SceneTree tree)
+    {
+        // Base implementation: try to find any IStoryHandler in the scene tree
+        var root = tree.Root;
+        return root?.FindChild("NarrativeUi", owned: true) as IStoryHandler
+            ?? root?.FindChild("GhostUi", owned: true) as IStoryHandler;
+    }
+
+    /// <summary>
+    /// Runs the scene using the given UI handler.
+    /// Displays narrative, handles choices, applies effects.
+    /// </summary>
+    /// <param name="handler">The story handler to use for display.</param>
+    /// <returns>A task that completes when the scene finishes.</returns>
+    protected virtual async Task RunSceneWithHandlerAsync(IStoryHandler handler)
+    {
+        // Boot sequence for first scene
+        GD.Print($"[SceneManager] Displaying lines for scene: {this.SceneData.Id}");
+
+        // Display narrative lines
+        if (this.SceneData.Lines?.Count > 0)
+        {
+            await handler.DisplayLinesAsync(this.SceneData.Lines).ConfigureAwait(false);
+        }
+
+        // Apply scene effects (pause, shader effects, etc.)
+        await handler.ApplySceneEffectsAsync(this.SceneData).ConfigureAwait(false);
+
+        // Present choices if available
+        if (!string.IsNullOrWhiteSpace(this.SceneData.Question) && this.SceneData.Choice?.Count > 0)
+        {
+            ChoiceOption selectedChoice = await handler.PresentChoiceAsync(
+                this.SceneData.Question,
+                this.SceneData.Owner ?? "system",
+                this.SceneData.Choice).ConfigureAwait(false);
+
+            GD.Print($"[SceneManager] Selected choice: {selectedChoice.Id}");
+
+            // Process the choice
+            await handler.ProcessChoiceAsync(selectedChoice).ConfigureAwait(false);
+        }
+
+        // Final pause if specified
+        if (this.SceneData.Pause.HasValue && this.SceneData.Pause.Value > 0)
+        {
+            await Task.Delay(this.SceneData.Pause.Value).ConfigureAwait(false);
+        }
+
+        GD.Print($"[SceneManager] Completed scene: {this.SceneData.Id}");
     }
 }

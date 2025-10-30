@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Design;
 
 namespace OmegaSpiral.Source.Narrative.IntroMechanics;
 /// <summary>
@@ -82,7 +83,7 @@ public partial class OmegaSpiralIntroMechanics : Node
         // Core narrative elements for Ωmega Spiral
         this.narrativeElements.Add(new IntroNarrativeElement
         {
-            Text = "[center][color=#ffffff]ΩMEGA SPIRAL[/color][/center]",
+            Text = $"[center][color={DesignService.GetColor("intro_white").ToHtml()}]ΩMEGA SPIRAL[/color][/center]",
             Duration = 2.0f,
             EffectType = NarrativeEffectType.FadeIn,
             AudioCue = "res://source/assets/sfx/confirmation_002.ogg"
@@ -90,7 +91,7 @@ public partial class OmegaSpiralIntroMechanics : Node
 
         this.narrativeElements.Add(new IntroNarrativeElement
         {
-            Text = "[center][color=#cccccc]A Revolutionary Narrative Experience[/color][/center]",
+            Text = $"[center][color={DesignService.GetColor("intro_gray_light").ToHtml()}]A Revolutionary Narrative Experience[/color][/center]",
             Duration = 1.5f,
             EffectType = NarrativeEffectType.Typewriter,
             AudioCue = "res://source/assets/sfx/drop_002.ogg"
@@ -98,7 +99,7 @@ public partial class OmegaSpiralIntroMechanics : Node
 
         this.narrativeElements.Add(new IntroNarrativeElement
         {
-            Text = "[center][color=#aaaaaa]Five Eras of Gaming Aesthetics Await[/color][/center]",
+            Text = $"[center][color={DesignService.GetColor("intro_gray_medium").ToHtml()}]Five Eras of Gaming Aesthetics Await[/color][/center]",
             Duration = 1.5f,
             EffectType = NarrativeEffectType.Glow,
             AudioCue = "res://source/assets/sfx/impactWood_light_002.ogg"
@@ -106,7 +107,7 @@ public partial class OmegaSpiralIntroMechanics : Node
 
         this.narrativeElements.Add(new IntroNarrativeElement
         {
-            Text = "[center][color=#999999]Dynamic AI-Driven Dreamweavers Adapt to Your Choices[/color][/center]",
+            Text = $"[center][color={DesignService.GetColor("intro_gray_dark").ToHtml()}]Dynamic AI-Driven Dreamweavers Adapt to Your Choices[/color][/center]",
             Duration = 2.0f,
             EffectType = NarrativeEffectType.Pulse,
             AudioCue = "res://source/assets/sfx/chop.ogg"
@@ -114,7 +115,7 @@ public partial class OmegaSpiralIntroMechanics : Node
 
         this.narrativeElements.Add(new IntroNarrativeElement
         {
-            Text = "[center][color=#888888]The Journey Begins...[/color][/center]",
+            Text = $"[center][color={DesignService.GetColor("intro_gray_darker").ToHtml()}]The Journey Begins...[/color][/center]",
             Duration = 1.0f,
             EffectType = NarrativeEffectType.FadeOut,
             AudioCue = "res://source/assets/sfx/error_006.ogg"

@@ -62,6 +62,7 @@ public partial class GameManager : Node
 
         GD.Print($"[GameManager] Starting game from stage {startStageIndex}");
 
+        // Run the game loop and await completion
         await this.RunGameLoopAsync().ConfigureAwait(false);
     }
 

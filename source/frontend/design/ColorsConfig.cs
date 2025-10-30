@@ -1,43 +1,26 @@
-// <copyright file="ColorValue.cs" company="Ωmega Spiral">
+// <copyright file="ColorsConfig.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
 namespace OmegaSpiral.Source.Design;
 
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 /// <summary>
-/// Root configuration for design colors and shader defaults loaded from colors_config.json.
+/// Internal configuration wrapper for design colors and shader presets loaded from JSON.
+/// Provides type-safe access to the design system.
 /// </summary>
-public sealed class ColorsConfig
+internal sealed class ColorsConfig
 {
-    /// <summary>Named RGBA color palette.</summary>
-    [JsonProperty("colors")]
+    /// <summary>
+    /// Gets or sets the color palette dictionary (key -> ColorValue).
+    /// Maps color names like "warm_amber" to their RGBA values.
+    /// </summary>
     public Dictionary<string, ColorValue> Colors { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>Shader default parameter mappings keyed by shader identifier.</summary>
-    [JsonProperty("shader_values")]
-    public Dictionary<string, Dictionary<string, float>> ShaderValues { get; set; } = new(StringComparer.OrdinalIgnoreCase);
-}
-
-/// <summary>
-/// Normalized RGBA color value (0.0-1.0 range).
-/// </summary>
-public sealed class ColorValue
-{
-    [JsonProperty("r")]
-    public float R { get; set; }
-
-    [JsonProperty("g")]
-    public float G { get; set; }
-
-    [JsonProperty("b")]
-    public float B { get; set; }
-
-    [JsonProperty("a")]
-    public float A { get; set; } = 1.0f;
-
-    [JsonProperty("hex")]
-    public string? Hex { get; set; }
+    /// <summary>
+    /// Gets or sets the shader presets dictionary (key -> ShaderPreset).
+    /// Maps preset names like "spiral_border_base" to shader paths and parameters.
+    /// </summary>
+    public Dictionary<string, ShaderPreset> ShaderPresets { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 }

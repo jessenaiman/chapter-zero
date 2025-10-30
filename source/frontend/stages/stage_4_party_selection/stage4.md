@@ -26,21 +26,5 @@ The retro dungeon crawler interlude where the player recruits echo party members
 
 - **Presentation Tiers**: Three art layers (wireframe → vector neon → faux 8x8) reflect the system “remembering” nostalgia eras as the player digs deeper.
 - **Echo Personalities**: Each rescued echo grants combat utility *and* narrative fragments hinting at the existence of parallel players.
-- **Dreamweaver Banter**: Light, Mischief, and Wrath debate which echoes to release, foreshadowing the fracture in Stage 5.
+- **Dreamweaver Banter**: Light, Mischief, and Wrath debate the unique differences of this reboot, perhaps they can escape the loop
 - **Memory Cost Mechanic**: Rescuing echoes should visibly erode something (e.g., deduct lore entries, scramble Ui) to reinforce stakes.
-
----
-
-## Implementation Checklist
-
-1. Finalise JSON content: echo roster, tier beats, combat encounters, Omega log interrupts.
-2. Extend `NarrativeSceneFactory` mapping for vault structures; add GDUnit coverage.
-3. Build hub/combat scenes with tier-based shader toggles and Dreamweaver VO hooks.
-4. Persist rescued echoes and memory costs into `GameState` for Stage 4 hand-off.
-
----
-
-## QA / Validation
-
-- Automated: `dotnet test --filter "FullyQualifiedName~EchoVaultDirectorTests"`
-- Manual: Verify tier presentation swaps, echo recruitment flow, and Dreamweaver alignment deltas; confirm lore hints about additional players trigger per design.

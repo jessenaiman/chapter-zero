@@ -42,11 +42,10 @@ public sealed class GhostCinematicDirector : CinematicDirector<GhostCinematicPla
     }
 
     /// <inheritdoc/>
+    /// <inheritdoc/>
     protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
     {
-        // For now, return a simple scene manager that logs the scene
-        GD.Print($"[Ghost] Creating scene manager for: {scene.Id}");
-        var manager = new SceneManager(scene, data);
-        return manager;
+        GD.Print($"[GhostCinematicDirector] Creating GhostSceneManager for: {scene.Id}");
+        return new GhostSceneManager(scene, data);
     }
 }

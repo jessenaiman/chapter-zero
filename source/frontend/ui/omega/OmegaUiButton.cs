@@ -15,6 +15,11 @@ namespace OmegaSpiral.Source.Ui.Omega;
 /// Automatically applies Omega color scheme:
 /// - Normal: Warm Amber
 /// - Hover/Focus/Pressed: Pure White
+///
+/// This is a pure styling component - buttons remain focused on their domain responsibility
+/// (responding to user interaction). Parent components (like NarrativeUi) coordinate
+/// button signals with orchestrators.
+///
 /// Subclasses can override _Ready() to add additional behavior but should call base._Ready().
 /// </remarks>
 [GlobalClass]
@@ -57,8 +62,8 @@ public partial class OmegaUiButton : Button
     protected void ApplyOmegaTheme()
     {
         // Font colors
-        var warmAmber = DesignConfigService.GetColor("warm_amber");
-        var pureWhite = DesignConfigService.GetColor("pure_white");
+        var warmAmber = DesignService.GetColor("warm_amber");
+        var pureWhite = DesignService.GetColor("pure_white");
 
         AddThemeColorOverride("font_color", warmAmber);
         AddThemeColorOverride("font_hover_color", pureWhite);

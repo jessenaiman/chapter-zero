@@ -12,7 +12,7 @@ using OmegaSpiral.Source.Ui.Omega;
 /// <summary>
 /// Narrative UI component for displaying story text and player choices.
 /// Minimal extension of OmegaContainer - lets OmegaUI handle all styling.
-/// Text color: warm amber (#FDC962), background: handled by OmegaUI frame.
+/// Text color: warm amber (#FEC962), background: handled by OmegaUI frame.
 /// </summary>
 [GlobalClass]
 public partial class NarrativeUi : OmegaContainer
@@ -55,6 +55,7 @@ public partial class NarrativeUi : OmegaContainer
 
     /// <summary>
     /// Displays lines of text in the UI.
+    /// Emits narrative_display_finished signal when all lines have been displayed.
     /// </summary>
     /// <param name="lines">The lines to display.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -72,10 +73,14 @@ public partial class NarrativeUi : OmegaContainer
             GD.Print($"[NarrativeUi] {line}");
             await this.ToSignal(this.GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
         }
+
+        // Signal that narrative display is complete
+        this.EmitInteractionComplete("display_finished", default);
     }
 
     /// <summary>
     /// Presents a set of choices to the player.
+    /// Creates buttons and waits for selection, then emits interaction_complete signal.
     /// </summary>
     /// <param name="question">The question to display.</param>
     /// <param name="speaker">The character asking the question.</param>
@@ -116,6 +121,9 @@ public partial class NarrativeUi : OmegaContainer
         {
             child.QueueFree();
         }
+
+        // Signal that choice presentation is complete
+        this.EmitInteractionComplete("choice_made", result.Text ?? string.Empty);
 
         return result;
     }

@@ -6,6 +6,7 @@
 using Godot;
 using System.Globalization;
 using OmegaSpiral.Source.Combat.Actions;
+using OmegaSpiral.Source.Design;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Ui.EffectLabels;
 /// <summary>
@@ -38,25 +39,25 @@ public partial class UiDamageLabel : Marker2D
     /// Gets or sets label color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
-    public Color ColorDamage { get; set; } = new Color("#b0305c");
+    public Color ColorDamage { get; set; } = DesignService.GetColor("damage_color");
 
     /// <summary>
     /// Gets or sets label outline color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
-    public Color ColorDamageOutline { get; set; } = new Color("#b0305c");
+    public Color ColorDamageOutline { get; set; } = DesignService.GetColor("damage_color");
 
     /// <summary>
     /// Gets or sets label color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
-    public Color ColorHeal { get; set; } = new Color("#3ca370");
+    public Color ColorHeal { get; set; } = DesignService.GetColor("heal_color");
 
     /// <summary>
     /// Gets or sets label outline color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
-    public Color ColorHealOutline { get; set; } = new Color("#3ca370");
+    public Color ColorHealOutline { get; set; } = DesignService.GetColor("heal_color");
 
     private int amount;
 

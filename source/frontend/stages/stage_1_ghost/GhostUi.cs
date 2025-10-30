@@ -77,7 +77,7 @@ public partial class GhostUi : NarrativeUi
     {
         if (scene.Pause.HasValue && scene.Pause.Value > 0)
         {
-            await Task.Delay((int)(scene.Pause.Value * 1000));
+            await Task.Delay((int) (scene.Pause.Value * 1000));
         }
 
         // Apply shader effects based on tags
@@ -170,7 +170,7 @@ public partial class GhostUi : NarrativeUi
             var textDisplay = this.GetNodeOrNull<RichTextLabel>("NarrativeStack/TextDisplay");
             if (textDisplay != null)
             {
-                var bootText = "[color=#fdc962][INITIALIZING GHOST TERMINAL...]\n[LOADING ARCHIVES...]\n[SYSTEM READY][/color]";
+                var bootText = $"[color={OmegaSpiralColors.WarmAmber.ToHtml()}][INITIALIZING GHOST TERMINAL...]\n[LOADING ARCHIVES...]\n[SYSTEM READY][/color]";
                 textDisplay.Text = bootText;
             }
 
@@ -204,7 +204,7 @@ public partial class GhostUi : NarrativeUi
         foreach (char c in text)
         {
             this.Terminal.Call("write", c.ToString());
-            await Task.Delay((int)(1000 / this.DefaultTypingSpeed));
+            await Task.Delay((int) (1000 / this.DefaultTypingSpeed));
         }
     }
 
