@@ -5,8 +5,7 @@
 namespace OmegaSpiral.Tests.Unit.Common.Omega
 {
     using GdUnit4;
-    using Godot;
-    using OmegaSpiral.Source.Backend;
+    using OmegaSpiral.Source.Design;
     using OmegaSpiral.Source.Ui.Omega;
     using static GdUnit4.Assertions;
 
@@ -25,19 +24,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void WarmAmber_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.WarmAmber;
-        var designConfig = DesignConfigService.DesignConfig;
-        var designSystem = designConfig["design_system"].AsGodotDictionary();
-        var designColorDict = designSystem["warm_amber"].AsGodotDictionary();
-        var designColor = new Color(
-            (float)designColorDict["r"].AsDouble(),
-            (float)designColorDict["g"].AsDouble(),
-            (float)designColorDict["b"].AsDouble(),
-            (float)designColorDict["a"].AsDouble()
-        );
-
-        // Debug output to understand the discrepancy
-        GD.Print($"WarmAmber - OmegaSpiralColors: R={color.R}, G={color.G}, B={color.B}");
-        GD.Print($"WarmAmber - DesignConfig: R={designColor.R}, G={designColor.G}, B={designColor.B}");
+        var designColor = DesignConfigService.GetColor("warm_amber");
 
         // Verify color exists and has full opacity
         AssertThat(color.A).IsEqual(1.0f);
@@ -54,7 +41,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void PureWhite_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.PureWhite;
-        var designColor = DesignConfigService.GetDesignColor("design_system.pure_white");
+        var designColor = DesignConfigService.GetColor("pure_white");
 
         AssertThat(color.R).IsEqual(designColor.R);
         AssertThat(color.G).IsEqual(designColor.G);
@@ -69,7 +56,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void NeonMagenta_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.NeonMagenta;
-        var designColor = DesignConfigService.GetDesignColor("design_system.neon_magenta");
+        var designColor = DesignConfigService.GetColor("neon_magenta");
 
         // Verify color exists and has full opacity
         AssertThat(color.A).IsEqual(1.0f);
@@ -86,7 +73,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void DeepSpace_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.DeepSpace;
-        var designColor = DesignConfigService.GetDesignColor("design_system.deep_space");
+        var designColor = DesignConfigService.GetColor("deep_space");
 
         // Verify color exists and has full opacity
         AssertThat(color.A).IsEqual(1.0f);
@@ -103,7 +90,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void PhosphorGlow_HasCorrectOpacity()
     {
         var color = OmegaSpiralColors.PhosphorGlow;
-        var designColor = DesignConfigService.GetDesignColor("design_system.phosphor_glow");
+        var designColor = DesignConfigService.GetColor("phosphor_glow");
 
         AssertThat(color.R).IsEqual(designColor.R);
         AssertThat(color.G).IsEqual(designColor.G);
@@ -119,7 +106,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void ScanlineOverlay_HasCorrectOpacity()
     {
         var color = OmegaSpiralColors.ScanlineOverlay;
-        var designColor = DesignConfigService.GetDesignColor("design_system.scanline_overlay");
+        var designColor = DesignConfigService.GetColor("scanline_overlay");
 
         AssertThat(color.R).IsEqual(designColor.R);
         AssertThat(color.G).IsEqual(designColor.G);
@@ -135,7 +122,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void GlitchDistortion_HasCorrectOpacity()
     {
         var color = OmegaSpiralColors.GlitchDistortion;
-        var designColor = DesignConfigService.GetDesignColor("design_system.glitch_distortion");
+        var designColor = DesignConfigService.GetColor("glitch_distortion");
 
         AssertThat(color.R).IsEqual(designColor.R);
         AssertThat(color.G).IsEqual(designColor.G);
@@ -153,7 +140,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void LightThread_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.LightThread;
-        var designColor = DesignConfigService.GetDesignColor("design_system.light_thread");
+        var designColor = DesignConfigService.GetColor("light_thread");
 
         AssertThat(Math.Abs(color.R - designColor.R)).IsLess(OmegaSpiralColors.ColorTolerance);
         AssertThat(Math.Abs(color.G - designColor.G)).IsLess(OmegaSpiralColors.ColorTolerance);
@@ -168,7 +155,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void ShadowThread_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.ShadowThread;
-        var designColor = DesignConfigService.GetDesignColor("design_system.shadow_thread");
+        var designColor = DesignConfigService.GetColor("shadow_thread");
 
         AssertThat(Math.Abs(color.R - designColor.R)).IsLess(OmegaSpiralColors.ColorTolerance);
         AssertThat(Math.Abs(color.G - designColor.G)).IsLess(OmegaSpiralColors.ColorTolerance);
@@ -183,7 +170,7 @@ namespace OmegaSpiral.Tests.Unit.Common.Omega
     public void AmbitionThread_MatchesDesignSpec()
     {
         var color = OmegaSpiralColors.AmbitionThread;
-        var designColor = DesignConfigService.GetDesignColor("design_system.ambition_thread");
+        var designColor = DesignConfigService.GetColor("ambition_thread");
 
         AssertThat(Math.Abs(color.R - designColor.R)).IsLess(OmegaSpiralColors.ColorTolerance);
         AssertThat(Math.Abs(color.G - designColor.G)).IsLess(OmegaSpiralColors.ColorTolerance);

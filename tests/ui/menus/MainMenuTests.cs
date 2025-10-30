@@ -7,6 +7,7 @@ namespace OmegaSpiral.Tests.Ui
     using Godot;
     using GdUnit4;
     using OmegaSpiral.Source.Backend;
+    using OmegaSpiral.Source.Design;
     using OmegaSpiral.Source.Stages.Stage0Start;
     using OmegaSpiral.Source.Ui.Menus;
     using OmegaSpiral.Source.Ui.Omega;
@@ -275,7 +276,7 @@ namespace OmegaSpiral.Tests.Ui
         var title = _MainMenu.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
         AssertThat(title).IsNotNull();
 
-        var expectedAmber = DesignConfigService.GetDesignColor("design_system.warm_amber");
+        var expectedAmber = DesignConfigService.GetColor("warm_amber");
         var actualColor = title!.Modulate;
 
         // Use design-specified tolerance for float precision
@@ -385,7 +386,7 @@ namespace OmegaSpiral.Tests.Ui
         var phosphorLayer = _MainMenu.GetNodeOrNull<ColorRect>("PhosphorLayer");
         AssertThat(phosphorLayer).IsNotNull();
 
-        var expectedColor = DesignConfigService.GetDesignColor("design_system.phosphor_glow");
+        var expectedColor = DesignConfigService.GetColor("phosphor_glow");
         var actualColor = phosphorLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -406,7 +407,7 @@ namespace OmegaSpiral.Tests.Ui
         var scanlineLayer = _MainMenu.GetNodeOrNull<ColorRect>("ScanlineLayer");
         AssertThat(scanlineLayer).IsNotNull();
 
-        var expectedColor = DesignConfigService.GetDesignColor("design_system.scanline_overlay");
+        var expectedColor = DesignConfigService.GetColor("scanline_overlay");
         var actualColor = scanlineLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -426,7 +427,7 @@ namespace OmegaSpiral.Tests.Ui
         var glitchLayer = _MainMenu.GetNodeOrNull<ColorRect>("GlitchLayer");
         AssertThat(glitchLayer).IsNotNull();
 
-        var expectedColor = DesignConfigService.GetDesignColor("design_system.glitch_distortion");
+        var expectedColor = DesignConfigService.GetColor("glitch_distortion");
         var actualColor = glitchLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -446,7 +447,7 @@ namespace OmegaSpiral.Tests.Ui
         var background = _MainMenu.GetNodeOrNull<ColorRect>("Background");
         AssertThat(background).IsNotNull();
 
-        var expectedColor = DesignConfigService.GetDesignColor("design_system.deep_space");
+        var expectedColor = DesignConfigService.GetColor("deep_space");
         var actualColor = background!.Color;
 
         // Use design-specified tolerance for float precision
@@ -479,8 +480,8 @@ namespace OmegaSpiral.Tests.Ui
             .OverrideFailureMessage($"Background ColorRect color property is white (R={backgroundColor.R}, G={backgroundColor.G}, B={backgroundColor.B}), it should be dark");
 
         // Check that background uses correct dark color from design system
-        var isUsingDeepSpace = IsColorCloseTo(backgroundColor, DesignConfigService.GetDesignColor("design_system.deep_space"));
-        var isUsingDarkVoid = IsColorCloseTo(backgroundColor, DesignConfigService.GetDesignColor("design_system.dark_void"));
+        var isUsingDeepSpace = IsColorCloseTo(backgroundColor, DesignConfigService.GetColor("deep_space"));
+        var isUsingDarkVoid = IsColorCloseTo(backgroundColor, DesignConfigService.GetColor("dark_void"));
 
         // Background should use either DeepSpace or DarkVoid (both are dark)
         AssertThat(isUsingDeepSpace || isUsingDarkVoid).IsTrue()

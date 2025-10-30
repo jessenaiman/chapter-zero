@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using Newtonsoft.Json;
 
 namespace OmegaSpiral.Source.Backend.Dreamweavers;
 
@@ -48,13 +49,13 @@ public sealed class Persona
     public string SystemPrompt { get; }
 
     /// <summary>
-    /// Loads a persona from its YAML configuration file.
+    /// Loads a persona from its JSON configuration file.
     /// </summary>
     /// <param name="personaId">The persona identifier ("hero", "shadow", "ambition").</param>
     /// <returns>The loaded persona, or null if the file doesn't exist or fails to load.</returns>
-    public static Persona? LoadFromYaml(string personaId)
+    public static Persona? LoadFromJson(string personaId)
     {
-        var path = $"res://source/data/personas/{personaId}.yaml";
+        var path = $"res://source/data/personas/{personaId}.json";
 
         if (!Godot.FileAccess.FileExists(path))
         {
@@ -64,17 +65,25 @@ public sealed class Persona
 
         try
         {
-            var yamlData = ConfigurationService.LoadConfiguration(path);
-            if (yamlData == null)
+            using var file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+            if (file == null)
             {
-                GD.PrintErr($"Failed to load persona config for {personaId}");
+                GD.PrintErr($"Failed to open persona config: {path}");
                 return null;
             }
 
-            var id = yamlData.GetValueOrDefault("personaId", Variant.From(personaId)).AsString();
-            var name = yamlData.GetValueOrDefault("name", Variant.From("Unknown")).AsString();
-            var archetype = yamlData.GetValueOrDefault("archetype", Variant.From("neutral")).AsString();
-            var systemPrompt = yamlData.GetValueOrDefault("systemPrompt", Variant.From("You are a narrative guide.")).AsString();
+            var jsonContent = file.GetAsText();
+            var jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonContent);
+            if (jsonData == null)
+            {
+                GD.PrintErr($"Failed to deserialize persona config for {personaId}");
+                return null;
+            }
+
+            var id = jsonData.GetValueOrDefault("personaId", personaId);
+            var name = jsonData.GetValueOrDefault("name", "Unknown");
+            var archetype = jsonData.GetValueOrDefault("archetype", "neutral");
+            var systemPrompt = jsonData.GetValueOrDefault("systemPrompt", "You are a narrative guide.");
 
             return new Persona(id, name, archetype, systemPrompt);
         }
@@ -86,13 +95,13 @@ public sealed class Persona
     }
 
     /// <summary>
-    /// Gets a persona by its ID. Loads it from YAML on first access (lazy initialization).
+    /// Gets a persona by its ID. Loads it from JSON on first access (lazy initialization).
     /// </summary>
     /// <param name="personaId">The persona identifier ("hero", "shadow", "ambition").</param>
     /// <returns>The persona, or null if the ID is not recognized or fails to load.</returns>
     public static Persona? GetPersona(string personaId) => personaId switch
     {
-        "hero" or "shadow" or "ambition" => LoadFromYaml(personaId),
+        "hero" or "shadow" or "ambition" => LoadFromJson(personaId),
         _ => null,
     };
 }

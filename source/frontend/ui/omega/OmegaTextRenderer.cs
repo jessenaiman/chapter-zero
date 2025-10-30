@@ -1,4 +1,5 @@
 using Godot;
+using OmegaSpiral.Source.Design;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
@@ -19,7 +20,7 @@ public partial class OmegaTextRenderer : RichTextLabel
     public OmegaTextRenderer()
     {
         BbcodeEnabled = true; // Enable BBCode for formatting
-        SetTextColor(OmegaSpiralColors.WarmAmber); // Apply default Omega color
+        SetTextColor(DesignConfigService.GetColor("warm_amber")); // Apply default Omega color
     }
 
     /// <inheritdoc/>

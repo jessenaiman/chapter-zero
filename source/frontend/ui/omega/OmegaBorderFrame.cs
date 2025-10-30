@@ -1,4 +1,5 @@
 using Godot;
+using OmegaSpiral.Source.Design;
 
 namespace OmegaSpiral.Source.Ui.Omega
 {
@@ -71,11 +72,9 @@ namespace OmegaSpiral.Source.Ui.Omega
             _ShaderMaterial = new ShaderMaterial { Shader = shader };
             Material = _ShaderMaterial;
 
-            // Apply design system colors
+            // Apply design system colors and shader defaults
             ApplyDesignSystemColors();
-
-            // Apply animation parameters (slow, subtle animation by default)
-            SetAnimationDefaults();
+            ApplyShaderDefaults();
         }
 
         /// <summary>
@@ -87,43 +86,48 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            _ShaderMaterial.SetShaderParameter("light_thread", OmegaSpiralColors.LightThread);
-            _ShaderMaterial.SetShaderParameter("shadow_thread", OmegaSpiralColors.ShadowThread);
-            _ShaderMaterial.SetShaderParameter("ambition_thread", OmegaSpiralColors.AmbitionThread);
-
-            if (DesignConfigService.TryGetShaderPreset("spiral_border_base", out var preset))
-            {
-                foreach (var parameter in preset.Parameters)
-                {
-                    // Colors are already applied from OmegaSpiralColors palette.
-                    if (parameter.Key.Contains("thread", StringComparison.Ordinal) && parameter.Key.EndsWith("_thread", StringComparison.Ordinal))
-                    {
-                        continue;
-                    }
-
-                    _ShaderMaterial.SetShaderParameter(parameter.Key, parameter.Value);
-                }
-            }
+            _ShaderMaterial.SetShaderParameter("light_thread", DesignConfigService.GetColor("light_thread"));
+            _ShaderMaterial.SetShaderParameter("shadow_thread", DesignConfigService.GetColor("shadow_thread"));
+            _ShaderMaterial.SetShaderParameter("ambition_thread", DesignConfigService.GetColor("ambition_thread"));
         }
 
         /// <summary>
-        /// Sets default animation parameters for the spiral border.
-        /// These can be overridden via ConfigureAnimationSpeed() or direct shader parameter access.
+        /// Applies default animation parameters from the design configuration.
+        /// Falls back to legacy values if configuration is missing.
         /// </summary>
-        private void SetAnimationDefaults()
+        private void ApplyShaderDefaults()
         {
             if (_ShaderMaterial == null)
                 return;
 
-            // Defaults expected by unit tests (slow, subtle)
+            if (DesignConfigService.TryGetShaderDefaults("spiral_border", out var defaults) && defaults.Count > 0)
+            {
+                foreach (var entry in defaults)
+                {
+                    _ShaderMaterial.SetShaderParameter(entry.Key, entry.Value);
+                }
+                return;
+            }
+
+            ApplyFallbackDefaults();
+        }
+
+        /// <summary>
+        /// Applies fallback constants to preserve legacy behavior when configuration is missing.
+        /// </summary>
+        private void ApplyFallbackDefaults()
+        {
+            if (_ShaderMaterial == null)
+            {
+                return;
+            }
+
             _ShaderMaterial.SetShaderParameter("rotation_speed", 0.05f);
             _ShaderMaterial.SetShaderParameter("wave_speed", 0.8f);
             _ShaderMaterial.SetShaderParameter("wave_frequency", 8.0f);
             _ShaderMaterial.SetShaderParameter("wave_amplitude", 0.25f);
             _ShaderMaterial.SetShaderParameter("border_width", 0.015f);
             _ShaderMaterial.SetShaderParameter("glow_intensity", 1.2f);
-
-            // Backward-compatible params for alternate shader variants
             _ShaderMaterial.SetShaderParameter("flow_speed", 2.0f);
             _ShaderMaterial.SetShaderParameter("particle_density", 20.0f);
             _ShaderMaterial.SetShaderParameter("trail_length", 1.5f);
@@ -177,9 +181,9 @@ namespace OmegaSpiral.Source.Ui.Omega
         /// <summary>
         /// Updates the three thread colors used by the spiral border animation.
         /// </summary>
-        /// <param name="lightThread">Silver/light thread color (typically LightThread from OmegaSpiralColors).</param>
-        /// <param name="shadowThread">Golden/shadow thread color (typically ShadowThread from OmegaSpiralColors).</param>
-        /// <param name="ambitionThread">Crimson/ambition thread color (typically AmbitionThread from OmegaSpiralColors).</param>
+        /// <param name="lightThread">Silver/light thread color from the design palette.</param>
+        /// <param name="shadowThread">Golden/shadow thread color from the design palette.</param>
+        /// <param name="ambitionThread">Crimson/ambition thread color from the design palette.</param>
         public void UpdateThreadColors(Color lightThread, Color shadowThread, Color ambitionThread)
         {
             if (_ShaderMaterial == null)

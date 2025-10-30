@@ -1,5 +1,7 @@
+using System.Linq;
 using Godot;
 using OmegaSpiral.Source.Backend;
+using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Omega;
 
@@ -178,7 +180,7 @@ namespace OmegaSpiral.Source.Stages.Stage0Start
                     var shaderMaterial = new ShaderMaterial { Shader = shadowShader };
 
                     // Set primary color to Ambition (Crimson Red) - bold single color
-                    shaderMaterial.SetShaderParameter("color_primary", OmegaSpiralColors.AmbitionThread);
+                    shaderMaterial.SetShaderParameter("color_primary", DesignConfigService.GetColor("ambition_thread"));
 
                     // Shadow color for depth effect
                     shaderMaterial.SetShaderParameter("color_shadow", Colors.Black);

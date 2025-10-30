@@ -14,7 +14,7 @@ namespace OmegaSpiral.Source.Stages.Stage2;
 public sealed class NethackDataLoader : CinematicDirector<NethackCinematicPlan>
 {
     /// <inheritdoc/>
-    protected override string GetDataPath() => "res://source/stages/stage_2_nethack/nethack.yaml";
+    protected override string GetDataPath() => "res://source/frontend/stages/stage_2_nethack/nethack.json";
 
     /// <inheritdoc/>
     protected override NethackCinematicPlan BuildPlan(NarrativeScriptRoot script)

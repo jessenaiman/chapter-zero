@@ -7,14 +7,14 @@ using OmegaSpiral.Source.Backend.Narrative;
 namespace OmegaSpiral.Source.Backend;
 
 /// <summary>
-/// Base class for stage cinematic directors that load YAML narrative scripts and cache their plans.
+/// Base class for stage cinematic directors that load JSON narrative scripts and cache their plans.
 /// Handles thread-safe caching, loading, and plan building for all stages.
 /// Each stage director inherits this and implements abstract methods for data path and plan building.
 /// </summary>
 /// <typeparam name="TPlan">The plan record type for this stage (e.g., GhostTerminalCinematicPlan, NethackCinematicPlan).</typeparam>
 /// <summary>
-/// Abstract base class for loading and caching stage-specific YAML cinematic plans.
-/// Handles YAML loading with thread-safe lazy caching. Plans are data containers,
+/// Abstract base class for loading and caching stage-specific JSON cinematic plans.
+/// Handles JSON loading with thread-safe lazy caching. Plans are data containers,
 /// not controllers. Controllers (IStageBase implementations) use plans to orchestrate stage execution.
 /// </summary>
 /// <typeparam name="TPlan">The stage-specific plan type (e.g., GhostTerminalCinematicPlan).</typeparam>
@@ -39,7 +39,7 @@ public abstract class CinematicDirector<TPlan>
         {
             if (_CachedPlan == null)
             {
-                NarrativeScriptRoot script = LoadYamlScript();
+                NarrativeScriptRoot script = LoadJsonScript();
                 _CachedPlan = BuildPlan(script);
             }
         }
@@ -59,27 +59,27 @@ public abstract class CinematicDirector<TPlan>
     }
 
     /// <summary>
-    /// Gets the path to the YAML script file for this stage.
+    /// Gets the path to the JSON script file for this stage.
     /// Must be implemented by subclasses.
     /// </summary>
-    /// <returns>Path to YAML file (e.g., "res://source/stages/stage_1_ghost/ghost.yaml").</returns>
+    /// <returns>Path to JSON file (e.g., "res://source/frontend/stages/stage_1_ghost/ghost.json").</returns>
     protected abstract string GetDataPath();
 
     /// <summary>
-    /// Loads the YAML script from the path.
+    /// Loads the JSON script from the path.
     /// </summary>
     /// <returns>Parsed NarrativeScriptRoot.</returns>
-    private NarrativeScriptRoot LoadYamlScript()
+    private NarrativeScriptRoot LoadJsonScript()
     {
         string path = GetDataPath();
-        return NarrativeScriptLoader.LoadYamlScript(path);
+        return NarrativeScriptJsonLoader.LoadJsonScript(path);
     }
 
     /// <summary>
     /// Transforms a loaded NarrativeScriptRoot into the stage-specific plan.
     /// Must be implemented by subclasses.
     /// </summary>
-    /// <param name="script">The loaded YAML narrative script.</param>
+    /// <param name="script">The loaded JSON narrative script.</param>
     /// <returns>Stage-specific plan object.</returns>
     protected abstract TPlan BuildPlan(NarrativeScriptRoot script);
 }

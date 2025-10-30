@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Design;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
@@ -28,40 +29,43 @@ public partial class OmegaUiButton : Button
         ApplyOmegaTheme();
     }
 
-        /// <summary>
-        /// Called when the node enters the scene tree.
-        /// Sets up default button configuration and applies Orbitron font.
-        /// </summary>
-        public override void _Ready()
+    /// <summary>
+    /// Called when the node enters the scene tree.
+    /// Sets up default button configuration and applies Orbitron font.
+    /// </summary>
+    public override void _Ready()
+    {
+        base._Ready();
+
+        // Default configuration for Omega buttons
+        FocusMode = FocusModeEnum.All; // Support keyboard/gamepad navigation
+        SizeFlagsHorizontal = SizeFlags.ExpandFill; // Fill horizontal space by default
+
+        // Apply Orbitron Bold font for buttons
+        var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_buttons.tres");
+        if (orbitronFont != null)
         {
-            base._Ready();
+            AddThemeFontOverride("font", orbitronFont);
+            AddThemeFontSizeOverride("font_size", 20);
+        }
+    }
 
-            // Default configuration for Omega buttons
-            FocusMode = FocusModeEnum.All; // Support keyboard/gamepad navigation
-            SizeFlagsHorizontal = SizeFlags.ExpandFill; // Fill horizontal space by default
-
-            // Apply Orbitron Bold font for buttons
-            var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_buttons.tres");
-            if (orbitronFont != null)
-            {
-                AddThemeFontOverride("font", orbitronFont);
-                AddThemeFontSizeOverride("font_size", 20);
-            }
-        }    /// <summary>
+    /// <summary>
     /// Applies the Omega Spiral color theme to this button.
     /// Called automatically in constructor, but can be called again to reapply if needed.
     /// </summary>
     protected void ApplyOmegaTheme()
     {
         // Font colors
-        AddThemeColorOverride("font_color", OmegaSpiralColors.WarmAmber);
-        AddThemeColorOverride("font_hover_color", OmegaSpiralColors.PureWhite);
-        AddThemeColorOverride("font_pressed_color", OmegaSpiralColors.PureWhite);
-        AddThemeColorOverride("font_focus_color", OmegaSpiralColors.PureWhite);
+        var warmAmber = DesignConfigService.GetColor("warm_amber");
+        var pureWhite = DesignConfigService.GetColor("pure_white");
 
-        // Background stays transparent/dark
-        var transparentBg = new Color(0, 0, 0, 0);
-        AddThemeColorOverride("font_outline_color", OmegaSpiralColors.WarmAmber);
+        AddThemeColorOverride("font_color", warmAmber);
+        AddThemeColorOverride("font_hover_color", pureWhite);
+        AddThemeColorOverride("font_pressed_color", pureWhite);
+        AddThemeColorOverride("font_focus_color", pureWhite);
+
+        AddThemeColorOverride("font_outline_color", warmAmber);
 
         // Border constants for retro terminal look
         AddThemeConstantOverride("outline_size", 0);

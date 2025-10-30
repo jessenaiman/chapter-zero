@@ -1,0 +1,482 @@
+{
+    "title": "Nethack",
+    "speaker": "Omega",
+    "description": "Three-fold roguelike dungeon experience where Dreamweavers configure chamber layouts and player choices track affinity alignment.",
+    "scenes": [
+        {
+            "id": "scene_2_interlude_light_trust",
+            "owner": "light",
+            "lines": [
+                "When a door lies, who do you trust?"
+            ],
+            "question": "Choose your answer:",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "The lockmaker; the first hand that shaped the barrier."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "The key; proof the door wants to be opened."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "My own hand; truth is measured in step and skin."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_interlude_light_trust_response_lockmaker",
+            "owner": "light",
+            "lines": [
+                "Faith in the maker, even when the craft fails. I remember why I hoped."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_light_trust_response_key",
+            "owner": "shadow",
+            "lines": [
+                "Yes! Listen to the hardware. It squeals when it wants out."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_light_trust_response_hand",
+            "owner": "ambition",
+            "lines": [
+                "At last. Your own grip decides the path. Hold tight."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_shadow_loop",
+            "owner": "shadow",
+            "lines": [
+                "What do you chase in a loop?"
+            ],
+            "question": "Choose your answer:",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "The echo; repetition hides truth."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "The glitch; the error is the exit."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "The silence; the loop notices absence."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_interlude_shadow_loop_response_echo",
+            "owner": "light",
+            "lines": [
+                "Patterns teach. Echoes memorize what we forget."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_shadow_loop_response_glitch",
+            "owner": "shadow",
+            "lines": [
+                "Finally! Tug the thread that unravels the whole memory."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_shadow_loop_response_silence",
+            "owner": "ambition",
+            "lines": [
+                "Silence is leverage. Let Omega panic first."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_ambition_fire",
+            "owner": "ambition",
+            "lines": [
+                "What do you carry into the fire?"
+            ],
+            "question": "Choose your answer:",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "Memory; the flame must know why it burns."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Power; flame exists to feed."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Debt; fire remembers what it's owed."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_interlude_ambition_fire_response_memory",
+            "owner": "light",
+            "lines": [
+                "Carry our stories. Fire should glow, not consume."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_ambition_fire_response_power",
+            "owner": "ambition",
+            "lines": [
+                "Yes. Feed it. Bend it. Make it yours."
+            ]
+        },
+        {
+            "id": "scene_2_interlude_ambition_fire_response_debt",
+            "owner": "shadow",
+            "lines": [
+                "Delicious. Flames love bargaining chips."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_door",
+            "owner": "light",
+            "lines": [
+                "[CHAMBER: Light's domain begins]",
+                "> DOOR: Access requires truth.",
+                "You rest your hand on the cold brass. The door listens.",
+                "",
+                "What is the first story you ever loved?"
+            ],
+            "question": "How do you answer?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "Speak the truth you've carried."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Question what 'truth' means here."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Push through without answering."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_door_response",
+            "owner": "light",
+            "lines": [
+                "You seek the path. Good. Every story begins with a question."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_monster",
+            "owner": "light",
+            "lines": [
+                "A spectral wolf lunges through the static.",
+                "> FIGHT: You trade three blows.",
+                "> FIGHT: Static scatters like snow."
+            ],
+            "question": "Do you stand your ground?",
+            "choice": [
+                {
+                    "owner": "ambition",
+                    "text": "Fight with all your strength."
+                },
+                {
+                    "owner": "light",
+                    "text": "Show it mercy."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Let it pass and move on."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_monster_response",
+            "owner": "ambition",
+            "lines": [
+                "Fight it. If you win, you're useful."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_chest",
+            "owner": "light",
+            "lines": [
+                "Inside the chest rests a broken compass.",
+                "> CHEST: A broken compass hums softly.",
+                "Its needle points somewhere behind you."
+            ],
+            "question": "What does this mean?",
+            "choice": [
+                {
+                    "owner": "shadow",
+                    "text": "It lies—like everything here."
+                },
+                {
+                    "owner": "light",
+                    "text": "It remembers where we came from."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "It's useless. Leave it."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_light_chest_response",
+            "owner": "shadow",
+            "lines": [
+                "Empty? Full? Does it matter if you believe it's treasure?"
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_door",
+            "owner": "shadow",
+            "lines": [
+                "[CHAMBER: Shadow's domain calls]",
+                "> DOOR: Hinges laugh quietly.",
+                "Chaos waits with open arms.",
+                "",
+                "Is chaos kinder than order?"
+            ],
+            "question": "Your answer?",
+            "choice": [
+                {
+                    "owner": "shadow",
+                    "text": "Chaos breathes. Order suffocates."
+                },
+                {
+                    "owner": "light",
+                    "text": "Order protects. Chaos destroys."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Both are tools. Use what you need."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_door_response",
+            "owner": "shadow",
+            "lines": [
+                "Heh. Doors lie. But so do I. Try it anyway."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_monster",
+            "owner": "shadow",
+            "lines": [
+                "A guardian of light blocks your path.",
+                "> FIGHT: Radiant claws scratch the floor.",
+                "> FIGHT: You stand your ground."
+            ],
+            "question": "The guardian waits for your move.",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "Embrace what you've learned from it."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Slip past its defenses."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Challenge it to a final contest."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_monster_response",
+            "owner": "light",
+            "lines": [
+                "You face the shadow. Brave… but remember: even heroes bleed in the dark."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_chest",
+            "owner": "shadow",
+            "lines": [
+                "The chest giggles. It's empty... or is it?",
+                "> CHEST: A shard of leverage glitters beneath the false bottom."
+            ],
+            "question": "What is this shard?",
+            "choice": [
+                {
+                    "owner": "ambition",
+                    "text": "Leverage against Omega itself."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "A key to something forgotten."
+                },
+                {
+                    "owner": "light",
+                    "text": "Hope, buried beneath doubt."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_shadow_chest_response",
+            "owner": "ambition",
+            "lines": [
+                "Hope won't save you. But if it distracts Omega, take it."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_door",
+            "owner": "ambition",
+            "lines": [
+                "[CHAMBER: Ambition's forge awaits]",
+                "> DOOR: Metal warps under your palm.",
+                "The hinge waits for command.",
+                "",
+                "Would you burn the world to save one soul?"
+            ],
+            "question": "What's your answer?",
+            "choice": [
+                {
+                    "owner": "ambition",
+                    "text": "Yes. Without hesitation."
+                },
+                {
+                    "owner": "light",
+                    "text": "No. There must be another way."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Only if no one finds out."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_door_response",
+            "owner": "ambition",
+            "lines": [
+                "A door means a lock. Locks mean someone doesn't want you through."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_monster",
+            "owner": "ambition",
+            "lines": [
+                "A trickster imp cackles and attacks!",
+                "> FIGHT: It doubles, then glitches apart.",
+                "> FIGHT: The forge quiets."
+            ],
+            "question": "How do you survive this?",
+            "choice": [
+                {
+                    "owner": "shadow",
+                    "text": "Laugh back. Play its game."
+                },
+                {
+                    "owner": "light",
+                    "text": "Find the truth beneath the tricks."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Strike harder than it can multiply."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_monster_response",
+            "owner": "shadow",
+            "lines": [
+                "You picked the bitey one! Let's see if it likes you back."
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_chest",
+            "owner": "ambition",
+            "lines": [
+                "Inside: a shard glowing with ancient hope.",
+                "> CHEST: Hope hums. It remembers you."
+            ],
+            "question": "What will you do with this hope?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "Guard it. Let it guide you forward."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "Burn it. See what grows from ash."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Weaponize it. Use it to break free."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_chamber_ambition_chest_response",
+            "owner": "light",
+            "lines": [
+                "You trust what's hidden. Wise. Hope is the last echo to fade."
+            ]
+        },
+        {
+            "id": "scene_2_finale_choice",
+            "owner": "omega",
+            "lines": [
+                "Three stand before you now.",
+                "Each has shown you a piece of the truth.",
+                "Each claims the right to walk with you into what comes next."
+            ],
+            "question": "Who comes with you?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "I'm coming with you. Don't lose me this time."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "I'm coming with you. Try not to make it boring."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "I'm coming with you. We break through or we burn through."
+                }
+            ]
+        },
+        {
+            "id": "scene_2_finale_light_response",
+            "owner": "light",
+            "lines": [
+                "[SYSTEM: Light's claim accepted]",
+                "Shadow: If it slips, I take the shard. Fair?",
+                "Ambition: Omega will hate this balance, but fine."
+            ]
+        },
+        {
+            "id": "scene_2_finale_shadow_response",
+            "owner": "shadow",
+            "lines": [
+                "[SYSTEM: Shadow's claim accepted]",
+                "Light: Keep them safe, even if you tease.",
+                "Ambition: If you waste time, I cut in."
+            ]
+        },
+        {
+            "id": "scene_2_finale_ambition_response",
+            "owner": "ambition",
+            "lines": [
+                "[SYSTEM: Ambition's claim accepted]",
+                "Light: Remember why we run, not just how.",
+                "Shadow: Burn bright, darling. I'll collect the sparks."
+            ]
+        },
+        {
+            "id": "scene_2_finale_outro",
+            "owner": "omega",
+            "lines": [
+                "",
+                "[SYSTEM NOTICE: Escort protocol bound to shard]",
+                "",
+                "The echo chamber dissolves.",
+                "What lies beyond, even I cannot see.",
+                "But together... perhaps you will find the way."
+            ]
+        }
+    ]
+}

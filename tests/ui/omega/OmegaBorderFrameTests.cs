@@ -2,7 +2,7 @@ namespace OmegaSpiral.Tests.Ui.Omega
 {
 using GdUnit4;
 using Godot;
-using OmegaSpiral.Source.Backend;
+using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
@@ -129,9 +129,9 @@ using static GdUnit4.Assertions;
             var shadowThread = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
             var ambitionThread = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
 
-            var expectedLight = DesignConfigService.GetDesignColor("design_system.light_thread");
-            var expectedShadow = DesignConfigService.GetDesignColor("design_system.shadow_thread");
-            var expectedAmbition = DesignConfigService.GetDesignColor("design_system.ambition_thread");
+            var expectedLight = DesignConfigService.GetColor("light_thread");
+            var expectedShadow = DesignConfigService.GetColor("shadow_thread");
+            var expectedAmbition = DesignConfigService.GetColor("ambition_thread");
 
             AssertThat(lightThread).IsEqual(expectedLight)
                 .OverrideFailureMessage("Light thread must match design system");
@@ -154,7 +154,8 @@ using static GdUnit4.Assertions;
             var shaderMaterial = _BorderFrame!.GetShaderMaterial();
             AssertThat(shaderMaterial).IsNotNull();
 
-            // Check default animation parameters
+            AssertThat(DesignConfigService.TryGetShaderDefaults("spiral_border", out var defaults)).IsTrue();
+
             var rotationSpeed = (float)shaderMaterial!.GetShaderParameter("rotation_speed");
             var waveSpeed = (float)shaderMaterial.GetShaderParameter("wave_speed");
             var waveFrequency = (float)shaderMaterial.GetShaderParameter("wave_frequency");
@@ -162,19 +163,18 @@ using static GdUnit4.Assertions;
             var borderWidth = (float)shaderMaterial.GetShaderParameter("border_width");
             var glowIntensity = (float)shaderMaterial.GetShaderParameter("glow_intensity");
 
-            // Verify defaults match intended slow, subtle animation
-            AssertThat(rotationSpeed).IsEqual(0.05f)
-                .OverrideFailureMessage("Default rotation_speed should be 0.05 (very slow)");
-            AssertThat(waveSpeed).IsEqual(0.8f)
-                .OverrideFailureMessage("Default wave_speed should be 0.8 (gentle)");
-            AssertThat(waveFrequency).IsEqual(8.0f)
-                .OverrideFailureMessage("Default wave_frequency should be 8.0");
-            AssertThat(waveAmplitude).IsEqual(0.25f)
-                .OverrideFailureMessage("Default wave_amplitude should be 0.25 (subtle)");
-            AssertThat(borderWidth).IsEqual(0.015f)
-                .OverrideFailureMessage("Default border_width should be 0.015");
-            AssertThat(glowIntensity).IsEqual(1.2f)
-                .OverrideFailureMessage("Default glow_intensity should be 1.2");
+            AssertThat(rotationSpeed).IsEqual(defaults!["rotation_speed"])
+                .OverrideFailureMessage("rotation_speed should match configuration");
+            AssertThat(waveSpeed).IsEqual(defaults["wave_speed"])
+                .OverrideFailureMessage("wave_speed should match configuration");
+            AssertThat(waveFrequency).IsEqual(defaults["wave_frequency"])
+                .OverrideFailureMessage("wave_frequency should match configuration");
+            AssertThat(waveAmplitude).IsEqual(defaults["wave_amplitude"])
+                .OverrideFailureMessage("wave_amplitude should match configuration");
+            AssertThat(borderWidth).IsEqual(defaults["border_width"])
+                .OverrideFailureMessage("border_width should match configuration");
+            AssertThat(glowIntensity).IsEqual(defaults["glow_intensity"])
+                .OverrideFailureMessage("glow_intensity should match configuration");
         }
 
         /// <summary>
@@ -184,7 +184,9 @@ using static GdUnit4.Assertions;
         [RequireGodotRuntime]
         public void GetRotationSpeed_ReturnsCurrent()
         {
-            AssertThat(_BorderFrame!.GetRotationSpeed()).IsEqual(0.05f);
+            DesignConfigService.TryGetShaderDefaults("spiral_border", out var defaults);
+            var expected = defaults?.GetValueOrDefault("rotation_speed") ?? 0.05f;
+            AssertThat(_BorderFrame!.GetRotationSpeed()).IsEqual(expected);
         }
 
         /// <summary>
@@ -194,7 +196,9 @@ using static GdUnit4.Assertions;
         [RequireGodotRuntime]
         public void GetWaveSpeed_ReturnsCurrent()
         {
-            AssertThat(_BorderFrame!.GetWaveSpeed()).IsEqual(0.8f);
+            DesignConfigService.TryGetShaderDefaults("spiral_border", out var defaults);
+            var expected = defaults?.GetValueOrDefault("wave_speed") ?? 0.8f;
+            AssertThat(_BorderFrame!.GetWaveSpeed()).IsEqual(expected);
         }
 
         /// <summary>
@@ -280,10 +284,10 @@ using static GdUnit4.Assertions;
             _BorderFrame!.UpdateThreadColors(Colors.Red, Colors.Green, Colors.Blue);
 
             // Revert to design system
-            _BorderFrame.UpdateThreadColors(
-                DesignConfigService.GetDesignColor("design_system.light_thread"),
-                DesignConfigService.GetDesignColor("design_system.shadow_thread"),
-                DesignConfigService.GetDesignColor("design_system.ambition_thread")
+        _BorderFrame.UpdateThreadColors(
+                DesignConfigService.GetColor("light_thread"),
+                DesignConfigService.GetColor("shadow_thread"),
+                DesignConfigService.GetColor("ambition_thread")
             );
 
             var shaderMaterial = _BorderFrame.GetShaderMaterial();
@@ -291,9 +295,9 @@ using static GdUnit4.Assertions;
             var shadow = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
             var ambition = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
 
-            AssertThat(light).IsEqual(DesignConfigService.GetDesignColor("design_system.light_thread"));
-            AssertThat(shadow).IsEqual(DesignConfigService.GetDesignColor("design_system.shadow_thread"));
-            AssertThat(ambition).IsEqual(DesignConfigService.GetDesignColor("design_system.ambition_thread"));
+            AssertThat(light).IsEqual(DesignConfigService.GetColor("light_thread"));
+            AssertThat(shadow).IsEqual(DesignConfigService.GetColor("shadow_thread"));
+            AssertThat(ambition).IsEqual(DesignConfigService.GetColor("ambition_thread"));
         }
 
         // ==================== VISIBILITY ====================

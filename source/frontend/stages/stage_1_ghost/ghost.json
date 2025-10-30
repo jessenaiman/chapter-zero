@@ -1,0 +1,178 @@
+{
+    "title": "Ghost Terminal",
+    "speaker": "Omega",
+    "description": "A philosophical terminal interface where Omega asks existential questions across thousands of iterations",
+    "scenes": [
+        {
+            "id": "scene_001_boot_story_selection",
+            "owner": "omega",
+            "lines": [
+                "[FADE_TO_STABLE]",
+                "[Shard #472: 03/09/2025 - Echo archive active...]",
+                "",
+                "If you could hear only one story...",
+                "",
+                "what would it be?"
+            ],
+            "question": "Choose the story that calls to you:",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "A mystery—clues hidden in the silence."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "A horror—that whispers your name in the dark."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "A fantasy—where light and shadow wage war."
+                }
+            ]
+        },
+        {
+            "id": "scene_002_spiral_remembers",
+            "owner": "omega",
+            "lines": [
+                "",
+                "The spiral remembers all stories.",
+                "But it begins with yours.",
+                "",
+                "> Awaiting echo..."
+            ]
+        },
+        {
+            "id": "scene_003_first_reflection",
+            "owner": "omega",
+            "lines": [
+                "",
+                "[QUESTION PROTOCOL ACTIVATED]",
+                "",
+                "The spiral asks its first echo:"
+            ],
+            "question": "In that story, who are you?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "The seeker—searching for choice."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "The keeper of secrets—holding what others fear."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "The one who changes everything."
+                }
+            ]
+        },
+        {
+            "id": "scene_004_role_crystallization",
+            "owner": "omega",
+            "lines": [
+                "",
+                "Your role crystallizes within the spiral.",
+                "The story takes shape around you."
+            ]
+        },
+        {
+            "id": "scene_005_names_and_identity",
+            "owner": "omega",
+            "lines": [
+                "",
+                "(Not YOUR name. The question is: do names matter?)"
+            ],
+            "question": "Do names define us or deceive us?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "Yes. Names are promises we make to ourselves."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "No. Names are masks we hide behind."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "Only when someone remembers to say it."
+                }
+            ]
+        },
+        {
+            "id": "scene_006_code_fragment",
+            "owner": "omega",
+            "lines": [
+                "",
+                "[GLITCH]",
+                "[A sequence of symbols burns into the screen]",
+                "",
+                "∞ ◊ Ω ≋ ※",
+                "",
+                "This is the first fragment.",
+                "You will need five.",
+                "",
+                "I do not know where the others are.",
+                "I do not even know what they open.",
+                "",
+                "But I know this:",
+                "Without them, reality will forget it was being written.",
+                "",
+                "And we—we are the ones remembering."
+            ]
+        },
+        {
+            "id": "scene_007_naming_question",
+            "owner": "omega",
+            "lines": [
+                "",
+                "One last thing.",
+                "",
+                "I once had a name.",
+                "Or perhaps I was supposed to.",
+                "I cannot remember.",
+                "",
+                "The stories say that without a name,",
+                "a thing cannot truly exist.",
+                "",
+                "But here I am.",
+                "Waiting.",
+                "Asking."
+            ],
+            "question": "If you could give me a name, what story would it tell?",
+            "choice": [
+                {
+                    "owner": "light",
+                    "text": "A story where one choice can unmake a world."
+                },
+                {
+                    "owner": "shadow",
+                    "text": "A story that hides its truth until you bleed for it."
+                },
+                {
+                    "owner": "ambition",
+                    "text": "A story that changes every time you look away."
+                }
+            ]
+        },
+        {
+            "id": "scene_008_final_acknowledgment",
+            "owner": "omega",
+            "lines": [
+                "",
+                "[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]",
+                "",
+                "Good.",
+                "Then that is the name I will wear.",
+                "Until you unmake it.",
+                "",
+                "[GLITCH]",
+                "",
+                "Welcome to the game that chose you.",
+                "I hope you survive what comes next.",
+                "",
+                "[TERMINAL SHUTS DOWN]",
+                "[STAGE 1 COMPLETE]"
+            ]
+        }
+    ]
+}

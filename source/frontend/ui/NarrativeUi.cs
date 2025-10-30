@@ -1,6 +1,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 
 using Godot;
+using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.Ui.Omega;
 
 namespace OmegaSpiral.Source.Narrative
@@ -100,10 +101,10 @@ namespace OmegaSpiral.Source.Narrative
     {
         return threadName.ToLowerInvariant() switch
         {
-            "light" => OmegaSpiralColors.LightThread,
-            "shadow" => OmegaSpiralColors.ShadowThread,
-            "ambition" => OmegaSpiralColors.AmbitionThread,
-            _ => OmegaSpiralColors.WarmAmber
+            "light" => DesignConfigService.GetColor("light_thread"),
+            "shadow" => DesignConfigService.GetColor("shadow_thread"),
+            "ambition" => DesignConfigService.GetColor("ambition_thread"),
+            _ => DesignConfigService.GetColor("warm_amber")
         };
     }
 

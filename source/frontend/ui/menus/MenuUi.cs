@@ -3,6 +3,7 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.InputSystem;
 using OmegaSpiral.Source.Ui.Omega;
 
@@ -237,7 +238,7 @@ public partial class MenuUi : OmegaContainer
         if (_MenuButtonContainer != null)
         {
             _MenuButtonContainer.MouseFilter = enabled ? MouseFilterEnum.Stop : MouseFilterEnum.Ignore;
-            _MenuButtonContainer.Modulate = enabled ? Colors.White : OmegaSpiralColors.DisabledGray;
+            _MenuButtonContainer.Modulate = enabled ? Colors.White : DesignConfigService.GetColor("disabled_gray");
         }
 
         if (_MenuActionBar != null)

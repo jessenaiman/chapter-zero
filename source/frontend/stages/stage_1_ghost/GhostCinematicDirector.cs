@@ -33,11 +33,11 @@ public sealed partial class GhostCinematicDirector : StageBase
 
         try
         {
-            // 1. Load YAML script
-            var script = NarrativeScriptLoader.LoadYamlScript("res://source/stages/stage_1_ghost/ghost.yaml");
+            // 1. Load JSON script
+            var script = NarrativeScriptJsonLoader.LoadJsonScript("res://source/frontend/stages/stage_1_ghost/ghost.json");
             if (script == null)
             {
-                GD.PrintErr("[GhostCinematicDirector] Failed to load ghost.yaml");
+                GD.PrintErr("[GhostCinematicDirector] Failed to load ghost.json");
                 EmitStageComplete();
                 return;
             }
@@ -45,7 +45,7 @@ public sealed partial class GhostCinematicDirector : StageBase
             GD.Print($"[GhostCinematicDirector] Loaded: '{script.Title}' ({script.Scenes?.Count ?? 0} scenes)");
 
             // 2. Load scene (.tscn)
-            var scenePath = "res://source/stages/stage_1_ghost/ghost_terminal.tscn";
+            var scenePath = "res://source/frontend/stages/stage_1_ghost/ghost_terminal.tscn";
             var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
             if (packedScene == null)
             {
