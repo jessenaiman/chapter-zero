@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://-hmaxqqwtqiu1"]
+
+[ext_resource type="Script" path="res://source/stages/stage_2_nethack/NethackCinematicDirector.cs" id="1"]
+[ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2"]
+
+[node name="NethackTerminal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="OmegaFrame" parent="." instance=ExtResource("2")]

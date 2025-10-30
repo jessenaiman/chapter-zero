@@ -1,31 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="7d2db172-6096-41f5-97a5-8fa5ce8ffd69" name="@omega 2025-10-28 16:22:13" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-10-28T16:22:13.6441164-04:00" queuing="2025-10-28T16:22:13.6441164-04:00" start="2025-10-28T16:21:51.4716282-04:00" finish="2025-10-28T16:22:16.7251430-04:00" />
-  <TestSettings name="default" id="04692b43-dcae-4070-b556-767d625e63dd">
-    <Deployment runDeploymentRoot="_omega_2025-10-28_16_22_13" />
+<TestRun id="3489daf9-d711-4346-b2a0-fa7ec5dc34bc" name="@omega 2025-10-29 19:15:31" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-10-29T19:15:31.6034102-04:00" queuing="2025-10-29T19:15:31.6034102-04:00" start="2025-10-29T19:15:08.8342576-04:00" finish="2025-10-29T19:15:34.9655226-04:00" />
+  <TestSettings name="default" id="95e8fe06-d6a2-4058-8c01-0bccb75c39a0">
+    <Deployment runDeploymentRoot="_omega_2025-10-29_19_15_31" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="c0977e3d-a376-48fa-8346-938c22354249" testId="4475fce5-639f-4649-abae-ad7d2f9ca18c" testName="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests.GhostYaml_LoadsSuccessfully" computerName="omega" duration="00:00:00.1600000" startTime="2025-10-28T16:22:12.2098705-04:00" endTime="2025-10-28T16:22:12.2115469-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c0977e3d-a376-48fa-8346-938c22354249">
+    <UnitTestResult executionId="90cd5cd9-b831-4ab7-85a3-59f130cbbf68" testId="2668e337-b057-4c27-b9d9-0df7a9e2212c" testName="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests.GhostYaml_LoadsSuccessfully" computerName="omega" duration="00:00:00.1050000" startTime="2025-10-29T19:15:30.5733108-04:00" endTime="2025-10-29T19:15:30.5736812-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90cd5cd9-b831-4ab7-85a3-59f130cbbf68">
       <Output>
         <StdOut>[GhostYamlTest] Loaded 8 scenes</StdOut>
       </Output>
     </UnitTestResult>
+    <UnitTestResult executionId="a84e5a75-a10e-49b1-afae-c148944211f0" testId="ae7c0a7d-9f9a-4cf8-9a33-c2e60c102e2a" testName="AudioManagerTests.OnUiConfirm_DucksAmbientAndRestores" computerName="omega" duration="00:00:00.3700000" startTime="2025-10-29T19:15:30.4399511-04:00" endTime="2025-10-29T19:15:30.4403405-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a84e5a75-a10e-49b1-afae-c148944211f0">
+      <Output>
+        <StdOut>AudioManager: Initialized successfully</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7a6c297a-635f-47fe-a480-434ededf50b1" testId="4ac074a4-2bba-40de-b88b-e17c16f2278f" testName="AudioManagerTests.OnUiHover_EmitsCueStarted" computerName="omega" duration="00:00:00.0350000" startTime="2025-10-29T19:15:30.0746871-04:00" endTime="2025-10-29T19:15:30.0765718-04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a6c297a-635f-47fe-a480-434ededf50b1">
+      <Output>
+        <StdOut>AudioManager: Initialized successfully</StdOut>
+      </Output>
+    </UnitTestResult>
   </Results>
   <TestDefinitions>
-    <UnitTest name="GhostYaml_LoadsSuccessfully" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="4475fce5-639f-4649-abae-ad7d2f9ca18c">
-      <Execution id="c0977e3d-a376-48fa-8346-938c22354249" />
+    <UnitTest name="OnUiConfirm_DucksAmbientAndRestores" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="ae7c0a7d-9f9a-4cf8-9a33-c2e60c102e2a">
+      <Execution id="a84e5a75-a10e-49b1-afae-c148944211f0" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiConfirm_DucksAmbientAndRestores" />
+    </UnitTest>
+    <UnitTest name="GhostYaml_LoadsSuccessfully" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="2668e337-b057-4c27-b9d9-0df7a9e2212c">
+      <Execution id="90cd5cd9-b831-4ab7-85a3-59f130cbbf68" />
       <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests" name="GhostYaml_LoadsSuccessfully" />
+    </UnitTest>
+    <UnitTest name="OnUiHover_EmitsCueStarted" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="4ac074a4-2bba-40de-b88b-e17c16f2278f">
+      <Execution id="7a6c297a-635f-47fe-a480-434ededf50b1" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="AudioManagerTests" name="OnUiHover_EmitsCueStarted" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="4475fce5-639f-4649-abae-ad7d2f9ca18c" executionId="c0977e3d-a376-48fa-8346-938c22354249" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2668e337-b057-4c27-b9d9-0df7a9e2212c" executionId="90cd5cd9-b831-4ab7-85a3-59f130cbbf68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae7c0a7d-9f9a-4cf8-9a33-c2e60c102e2a" executionId="a84e5a75-a10e-49b1-afae-c148944211f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ac074a4-2bba-40de-b88b-e17c16f2278f" executionId="7a6c297a-635f-47fe-a480-434ededf50b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
   <ResultSummary outcome="Failed">
-    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>Running on GdUnit4 test engine version: 5.0.0.0
 Discover tests from assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
@@ -34,19 +54,18 @@ Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.ChoiceOptionTests with 8 Test
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptLoaderTests with 3 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeScriptTests with 5 TestCases found.
 Discover:  TestSuite OmegaSpiral.TestsUi.Narrative.NarrativeUiTests with 10 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiTests with 12 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaShaderPresetsTests with 11 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaSpiralColorsTests with 18 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiUnitTests with 4 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.CreditsMenuTests with 8 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenuTests with 24 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.MainMenu_IntegrationTests with 2 TestCases found.
+Discover:  TestSuite OmegaSpiral.Tests.Ui.MenuUiTests with 12 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.PauseMenuTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.ChoiceButtonTests with 7 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaBorderFrame_UnitTests with 15 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Ui.Omega.OmegaContainer_UnitTests with 5 TestCases found.
 Discover:  TestSuite OmegaSpiral.Tests.Stages.Stage1Ghost.GhostYamlPlaybackTests with 4 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.GameStateTests with 6 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Common.Omega.OmegaSpiralColorsTests with 15 TestCases found.
-Discover:  TestSuite OmegaSpiral.Tests.Unit.Services.GameAppConfigTests with 9 TestCases found.
-Discover tests done, 17 TestSuites and total 137 Tests found.
+Discover tests done, 16 TestSuites and total 137 Tests found.
 Running on GdUnit4 test engine version: 5.0.0.0
 Set test session timeout to: 00:30:00
 Detected IDE Unknown
@@ -91,7 +110,6 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Found .NET Sdk version '10.0.100': /usr/lib/dotnet/sdk/10.0.100-rc.2.25502.107/
 .. Loading resource: /home/adam/.cache/godot/editor_doc_cache-4.6.res
 .. Loaded system CA certificates
-.. Failed to bind socket. Error: 3.
 .. Loading resource: res://addons/godot_xterm/themes/fonts/regular.tres
 .. Loading resource: res://addons/godot_xterm/themes/fonts/jet_brains_mono/jet_brains_mono_nl-regular-2.304.ttf
 .. Loading resource: res://.godot/imported/jet_brains_mono_nl-regular-2.304.ttf-96fa438503371775be3cc744a4450fc2.fontdata
@@ -106,12 +124,30 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  33% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Verifying GDExtensions...\u001b[39m\u001b[0m
 .. [  50% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Creating autoload scripts...\u001b[39m\u001b[0m
 .. Loading resource: res://source/infrastructure/GameManager.cs
-:: ERROR: Failed to create an autoload, script 'res://source/infrastructure/GameManager.cs' is not compiling.
+:: ERROR: Cannot open file 'res://source/infrastructure/GameManager.cs'.
+.. Failed loading resource: res://source/infrastructure/GameManager.cs
 .. Loading resource: res://source/scripts/SceneManager.cs
+.. Failed loading resource: res://source/scripts/SceneManager.cs
 .. Loading resource: res://source/common/GameState.cs
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: ERROR: Failed to create an autoload, script 'res://source/scripts/SceneManager.cs' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
+:: at: read_all_file_utf8 (modules/mono/utils/string_utils.cpp:152)
+:: ERROR: Failed to read file: 'res://source/infrastructure/GameManager.cs'.
+:: at: load_source_code (modules/mono/csharp_script.cpp:2772)
+:: ERROR: Cannot load C# script file 'res://source/infrastructure/GameManager.cs'.
+:: at: load (modules/mono/csharp_script.cpp:2852)
+:: ERROR: Failed loading resource: res://source/infrastructure/GameManager.cs.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/infrastructure/GameManager.cs.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: ERROR: Cannot open file 'res://source/scripts/SceneManager.cs'.
+:: at: read_all_file_utf8 (modules/mono/utils/string_utils.cpp:152)
+:: ERROR: Failed to read file: 'res://source/scripts/SceneManager.cs'.
+:: at: load_source_code (modules/mono/csharp_script.cpp:2772)
+:: ERROR: Cannot load C# script file 'res://source/scripts/SceneManager.cs'.
+:: at: load (modules/mono/csharp_script.cpp:2852)
+:: ERROR: Failed loading resource: res://source/scripts/SceneManager.cs.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/SceneManager.cs.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
 .. Loading resource: res://source/field/FieldEvents.cs
 .. Loading resource: res://source/field/FieldCamera.cs
 .. Loading resource: res://source/field/gameboard/Gameboard.cs
@@ -390,9 +426,10 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  83% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Starting file scan...\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mfirst_scan_filesystem\u001b[22m
 .. \u001b[0m
-.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | Started Registering global classes... (2 steps)\u001b[39m\u001b[0m
+.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | Started Registering global classes... (3 steps)\u001b[39m\u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
-.. [  33% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
+.. [  25% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | GhostCinematicDirector\u001b[39m\u001b[0m
+.. [  50% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | GhostUi\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mupdate_scripts_classes\u001b[22m
 .. \u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Started Loading editor (5 steps)\u001b[39m\u001b[0m
@@ -475,13 +512,28 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  83% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Editor layout ready.\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
 .. \u001b[0m
-.. Failed to bind socket. Error: 3.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6e903d18: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6e903d18: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6e903d18: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6e903d18: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6e903d18: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6e903d18: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x3325db98: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x3325db98: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x3325db98: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x3325db98: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x3325db98: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x3325db98: Switch to application keys for outbound traffic
+.. .NET: Reloading assemblies...
+.. Unloading assembly load context...
+.. Assembly load context unloaded successfully.
+.. Found class for script res://source/ui/omega/OmegaContainer.cs
+.. Found class for script res://source/ui/menus/MenuUi.cs
+.. Found class for script res://source/ui/menus/CreditsMenu.cs
+.. Found class for script res://source/ui/menus/MainMenu.cs
+.. Found class for script res://source/services/GameAppConfig.cs
+.. Found class for script res://source/audio/AudioManager.cs
+.. Found class for script res://source/combat/CombatEvents.cs
+.. Found class for script res://source/common/Player.cs
+.. Found class for script res://source/field/gamepieces/GamepieceRegistry.cs
+.. Found class for script res://source/field/gameboard/Gameboard.cs
+.. Found class for script res://source/field/FieldCamera.cs
+.. Found class for script res://source/field/FieldEvents.cs
+.. Found class for script res://source/common/GameState.cs
 .. Unloading addon: res://addons/dialogic/plugin.cfg
 .. Unloading addon: res://addons/gdUnit4/plugin.cfg
 .. Unloading addon: res://addons/godot_xterm/plugin.cfg
@@ -495,7 +547,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. XR: Removed interface "OpenXR"
 :: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
 :: at: cleanup (core/object/object.cpp:2570)
-.. Leaked instance: UndoRedo:2140789625308
+.. Leaked instance: UndoRedo:2140454080990
 .. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 .. Orphan StringName: RenderingDevice (static: 2, total: 4)
 .. Orphan StringName: Mesh (static: 18, total: 22)
@@ -521,7 +573,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: Font (static: 5, total: 9)
 .. Orphan StringName: RenderingServer (static: 2, total: 4)
 .. Orphan StringName: Image (static: 2, total: 6)
-.. Orphan StringName: Resource (static: 465, total: 469)
+.. Orphan StringName: Resource (static: 466, total: 470)
 .. Orphan StringName: StyleBoxFlat (static: 5, total: 7)
 .. Orphan StringName: Schema (static: 0, total: 2)
 .. Orphan StringName: OS (static: 2, total: 4)
@@ -564,16 +616,34 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: StyleBox (static: 6, total: 10)
 .. Orphan StringName: ClassDB (static: 2, total: 6)
 .. Orphan StringName: RegEx (static: 2, total: 4)
-.. Orphan StringName: Script (static: 11, total: 13)
+.. Orphan StringName: Script (static: 13, total: 15)
 .. Orphan StringName: YAML (static: 0, total: 2)
 .. StringName: 69 unclaimed string names at exit.
 Rebuild Godot Project ends with exit code: 0
 
 ======== Running GdUnit4 Godot Runtime Test Runner ========
-:: ERROR: Failed to instantiate an autoload, script 'res://source/infrastructure/GameManager.cs' does not inherit from 'Node'.
-:: at: start (main/main.cpp:4276)
-:: ERROR: Failed to instantiate an autoload, script 'res://source/scripts/SceneManager.cs' does not inherit from 'Node'.
-:: at: start (main/main.cpp:4276)
+:: ERROR: Cannot open file 'res://source/infrastructure/GameManager.cs'.
+:: at: read_all_file_utf8 (modules/mono/utils/string_utils.cpp:152)
+:: ERROR: Failed to read file: 'res://source/infrastructure/GameManager.cs'.
+:: at: load_source_code (modules/mono/csharp_script.cpp:2772)
+:: ERROR: Cannot load C# script file 'res://source/infrastructure/GameManager.cs'.
+:: at: load (modules/mono/csharp_script.cpp:2852)
+:: ERROR: Failed loading resource: res://source/infrastructure/GameManager.cs.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to instantiate an autoload, can't load from path: res://source/infrastructure/GameManager.cs.
+:: at: start (main/main.cpp:4270)
+:: ERROR: Cannot open file 'res://source/scripts/SceneManager.cs'.
+:: at: read_all_file_utf8 (modules/mono/utils/string_utils.cpp:152)
+:: ERROR: Failed to read file: 'res://source/scripts/SceneManager.cs'.
+:: at: load_source_code (modules/mono/csharp_script.cpp:2772)
+:: ERROR: Cannot load C# script file 'res://source/scripts/SceneManager.cs'.
+:: at: load (modules/mono/csharp_script.cpp:2852)
+:: ERROR: Failed loading resource: res://source/scripts/SceneManager.cs.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to instantiate an autoload, can't load from path: res://source/scripts/SceneManager.cs.
+:: at: start (main/main.cpp:4270)
+    AudioManager: Initialized successfully
+    AudioManager: Initialized successfully
     [GhostYamlTest] Loaded 8 scenes
     [GhostYamlTest] Opening scene lines:
       [FADE_TO_STABLE]
@@ -583,12 +653,12 @@ GdUnit4 Godot Runtime Test Runner is not terminated, force process kill.
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T16:22:12.2366066-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-29T19:15:30.6061617-04:00">
         <Text>The server returned an unexpected status code.
    at GdUnit4.Core.Runners.BaseTestRunner.ValidateResponse(Response response)
    at GdUnit4.Core.Runners.BaseTestRunner.&lt;&gt;c__DisplayClass19_0.&lt;&lt;RunAndWait&gt;b__0&gt;d.MoveNext()</Text>
       </RunInfo>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-28T16:22:16.6518362-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-10-29T19:15:34.9345105-04:00">
         <Text>The active test run was aborted. Reason: Test host process crashed</Text>
       </RunInfo>
     </RunInfos>

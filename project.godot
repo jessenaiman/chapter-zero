@@ -20,8 +20,8 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
-GameManager="*res://source/infrastructure/GameManager.cs"
-SceneManager="*res://source/scripts/SceneManager.cs"
+GameManager="*res://source/services/GameManager.cs"
+SceneManager="*res://source/services/SceneManager.cs"
 GameState="*res://source/common/GameState.cs"
 FieldEvents="*res://source/field/FieldEvents.cs"
 FieldCamera="*res://source/field/FieldCamera.cs"

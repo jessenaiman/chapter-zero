@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fhQqMt6gHX4=",
+  "dgSpecHash": "cNbF8qalLEw=",
   "success": true,
   "projectFilePath": "/home/adam/Dev/omega-spiral/chapter-zero/chapter-zero.csproj",
   "expectedPackageFiles": [
@@ -58,6 +58,8 @@
     "/home/adam/.nuget/packages/sqlitepclraw.core/2.1.6/sqlitepclraw.core.2.1.6.nupkg.sha512",
     "/home/adam/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.6/sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
     "/home/adam/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.6/sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
+    "/home/adam/.nuget/packages/stylecop.analyzers/1.2.0-beta.556/stylecop.analyzers.1.2.0-beta.556.nupkg.sha512",
+    "/home/adam/.nuget/packages/stylecop.analyzers.unstable/1.2.0.556/stylecop.analyzers.unstable.1.2.0.556.nupkg.sha512",
     "/home/adam/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition/9.0.0/system.composition.9.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/system.composition.attributedmodel/9.0.0/system.composition.attributedmodel.9.0.0.nupkg.sha512",

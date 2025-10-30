@@ -8,6 +8,7 @@ using GdUnit4;
 using OmegaSpiral.Source.Stages.Stage0Start;
 using OmegaSpiral.Source.Ui.Menus;
 using OmegaSpiral.Source.Ui.Omega;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 using static GdUnit4.Assertions;
 
 namespace OmegaSpiral.Tests.Ui;
@@ -266,7 +267,7 @@ public partial class MainMenuTests : Node
     // ==================== VISUAL DESIGN COMPLIANCE ====================
 
     /// <summary>
-    /// MenuTitle uses amber color from OmegaSpiralColors.WarmAmber design palette.
+    /// MenuTitle uses amber color from OmegaSpiralColors design palette.
     /// Verifies UI compliance with centralized design specification.
     /// </summary>
     [TestCase]
@@ -275,7 +276,7 @@ public partial class MainMenuTests : Node
         var title = _MainMenu.GetNodeOrNull<Label>("ContentContainer/MenuTitle");
         AssertThat(title).IsNotNull();
 
-        var expectedAmber = OmegaSpiralColors.WarmAmber;
+        var expectedAmber = DesignConfigService.GetDesignColor("design_system.warm_amber");
         var actualColor = title!.Modulate;
 
         // Use design-specified tolerance for float precision
@@ -376,7 +377,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// PhosphorLayer (CRT shader effect) is visible with correct opacity from OmegaSpiralColors.PhosphorGlow.
+    /// PhosphorLayer (CRT shader effect) is visible with correct opacity from design document.
     /// Enables the amber phosphor glow effect over the content.
     /// </summary>
     [TestCase]
@@ -385,7 +386,7 @@ public partial class MainMenuTests : Node
         var phosphorLayer = _MainMenu.GetNodeOrNull<ColorRect>("PhosphorLayer");
         AssertThat(phosphorLayer).IsNotNull();
 
-        var expectedColor = OmegaSpiralColors.PhosphorGlow;
+        var expectedColor = DesignConfigService.GetDesignColor("design_system.phosphor_glow");
         var actualColor = phosphorLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -397,7 +398,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// ScanlineLayer (CRT scanline effect) is visible with correct opacity from OmegaSpiralColors.ScanlineOverlay.
+    /// ScanlineLayer (CRT scanline effect) is visible with correct opacity from design document.
     /// Adds scanline pattern overlay for retro aesthetic.
     /// </summary>
     [TestCase]
@@ -406,7 +407,7 @@ public partial class MainMenuTests : Node
         var scanlineLayer = _MainMenu.GetNodeOrNull<ColorRect>("ScanlineLayer");
         AssertThat(scanlineLayer).IsNotNull();
 
-        var expectedColor = OmegaSpiralColors.ScanlineOverlay;
+        var expectedColor = DesignConfigService.GetDesignColor("design_system.scanline_overlay");
         var actualColor = scanlineLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -417,7 +418,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// GlitchLayer (CRT glitch effect) is visible with correct opacity from OmegaSpiralColors.GlitchDistortion.
+    /// GlitchLayer (CRT glitch effect) is visible with correct opacity from design document.
     /// Adds glitch distortion effect for authentic retro feel.
     /// </summary>
     [TestCase]
@@ -426,7 +427,7 @@ public partial class MainMenuTests : Node
         var glitchLayer = _MainMenu.GetNodeOrNull<ColorRect>("GlitchLayer");
         AssertThat(glitchLayer).IsNotNull();
 
-        var expectedColor = OmegaSpiralColors.GlitchDistortion;
+        var expectedColor = DesignConfigService.GetDesignColor("design_system.glitch_distortion");
         var actualColor = glitchLayer!.Color;
 
         AssertThat(Math.Abs(actualColor.A - expectedColor.A)).IsLess(OmegaSpiralColors.OpacityTolerance)
@@ -437,7 +438,7 @@ public partial class MainMenuTests : Node
     }
 
     /// <summary>
-    /// Background uses correct dark color from OmegaSpiralColors.DarkVoid design palette.
+    /// Background uses correct dark color from design palette.
     /// Verifies UI compliance with centralized design specification.
     /// </summary>
     [TestCase]
@@ -446,7 +447,7 @@ public partial class MainMenuTests : Node
         var background = _MainMenu.GetNodeOrNull<ColorRect>("Background");
         AssertThat(background).IsNotNull();
 
-        var expectedColor = OmegaSpiralColors.DarkVoid;
+        var expectedColor = DesignConfigService.GetDesignColor("design_system.deep_space");
         var actualColor = background!.Color;
 
         // Use design-specified tolerance for float precision
@@ -479,11 +480,11 @@ public partial class MainMenuTests : Node
             .OverrideFailureMessage($"Background ColorRect color property is white (R={backgroundColor.R}, G={backgroundColor.G}, B={backgroundColor.B}), it should be dark");
 
         // Check that background uses correct dark color from design system
-        var isUsingDarkVoid = IsColorCloseTo(backgroundColor, OmegaSpiralColors.DarkVoid);
-        var isUsingDeepSpace = IsColorCloseTo(backgroundColor, OmegaSpiralColors.DeepSpace);
+        var isUsingDeepSpace = IsColorCloseTo(backgroundColor, DesignConfigService.GetDesignColor("design_system.deep_space"));
+        var isUsingDarkVoid = IsColorCloseTo(backgroundColor, DesignConfigService.GetDesignColor("design_system.dark_void"));
 
-        // Background should use either DarkVoid or DeepSpace (both are dark)
-        AssertThat(isUsingDarkVoid || isUsingDeepSpace).IsTrue()
+        // Background should use either DeepSpace or DarkVoid (both are dark)
+        AssertThat(isUsingDeepSpace || isUsingDarkVoid).IsTrue()
             .OverrideFailureMessage($"Background color (R={backgroundColor.R}, G={backgroundColor.G}, B={backgroundColor.B}) does not match design system dark colors");
     }
 

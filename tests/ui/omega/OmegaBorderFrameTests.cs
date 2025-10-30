@@ -1,5 +1,6 @@
 using GdUnit4;
 using Godot;
+using OmegaSpiral.Source.Scripts.Infrastructure;
 using OmegaSpiral.Source.Ui.Omega;
 using static GdUnit4.Assertions;
 
@@ -114,8 +115,8 @@ namespace OmegaSpiral.Tests.Ui.Omega
         }
 
         /// <summary>
-        /// BorderFrame shader uses three thread colors from OmegaSpiralColors.
-        /// Verifies Light, Shadow, and Ambition thread colors are applied.
+        /// BorderFrame shader uses three thread colors from design system.
+        /// Verifies Light, Shadow, and Ambition thread colors are applied from design document.
         /// </summary>
         [TestCase]
         [RequireGodotRuntime]
@@ -128,12 +129,16 @@ namespace OmegaSpiral.Tests.Ui.Omega
             var shadowThread = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
             var ambitionThread = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
 
-            AssertThat(lightThread).IsEqual(OmegaSpiralColors.LightThread)
-                .OverrideFailureMessage("Light thread must match design system (Silver/White)");
-            AssertThat(shadowThread).IsEqual(OmegaSpiralColors.ShadowThread)
-                .OverrideFailureMessage("Shadow thread must match design system (Golden/Amber)");
-            AssertThat(ambitionThread).IsEqual(OmegaSpiralColors.AmbitionThread)
-                .OverrideFailureMessage("Ambition thread must match design system (Crimson/Red)");
+            var expectedLight = DesignConfigService.GetDesignColor("design_system.light_thread");
+            var expectedShadow = DesignConfigService.GetDesignColor("design_system.shadow_thread");
+            var expectedAmbition = DesignConfigService.GetDesignColor("design_system.ambition_thread");
+
+            AssertThat(lightThread).IsEqual(expectedLight)
+                .OverrideFailureMessage("Light thread must match design system");
+            AssertThat(shadowThread).IsEqual(expectedShadow)
+                .OverrideFailureMessage("Shadow thread must match design system");
+            AssertThat(ambitionThread).IsEqual(expectedAmbition)
+                .OverrideFailureMessage("Ambition thread must match design system");
         }
 
         // ==================== ANIMATION PARAMETERS ====================
@@ -276,9 +281,9 @@ namespace OmegaSpiral.Tests.Ui.Omega
 
             // Revert to design system
             _BorderFrame.UpdateThreadColors(
-                OmegaSpiralColors.LightThread,
-                OmegaSpiralColors.ShadowThread,
-                OmegaSpiralColors.AmbitionThread
+                DesignConfigService.GetDesignColor("design_system.light_thread"),
+                DesignConfigService.GetDesignColor("design_system.shadow_thread"),
+                DesignConfigService.GetDesignColor("design_system.ambition_thread")
             );
 
             var shaderMaterial = _BorderFrame.GetShaderMaterial();
@@ -286,9 +291,9 @@ namespace OmegaSpiral.Tests.Ui.Omega
             var shadow = (Color)shaderMaterial.GetShaderParameter("shadow_thread");
             var ambition = (Color)shaderMaterial.GetShaderParameter("ambition_thread");
 
-            AssertThat(light).IsEqual(OmegaSpiralColors.LightThread);
-            AssertThat(shadow).IsEqual(OmegaSpiralColors.ShadowThread);
-            AssertThat(ambition).IsEqual(OmegaSpiralColors.AmbitionThread);
+            AssertThat(light).IsEqual(DesignConfigService.GetDesignColor("design_system.light_thread"));
+            AssertThat(shadow).IsEqual(DesignConfigService.GetDesignColor("design_system.shadow_thread"));
+            AssertThat(ambition).IsEqual(DesignConfigService.GetDesignColor("design_system.ambition_thread"));
         }
 
         // ==================== VISIBILITY ====================

@@ -65,11 +65,11 @@ public class GhostYamlPlaybackTests
         AssertThat(openingScene.Owner).IsEqual("omega");
 
         // Assert - Scene should have answers
-        AssertThat(openingScene.Answers).IsNotNull();
-        AssertThat(openingScene.Answers!.Count).IsEqual(3);
+        AssertThat(openingScene.Choice).IsNotNull();
+        AssertThat(openingScene.Choice!.Count).IsEqual(3);
 
         // Assert - Each answer should have owner and text
-        foreach (var answer in openingScene.Answers)
+        foreach (var answer in openingScene.Choice)
         {
             AssertThat(answer.Owner).IsNotNull();
             AssertThat(answer.Text).IsNotNull();
@@ -77,7 +77,7 @@ public class GhostYamlPlaybackTests
         }
 
         // Assert - Answers should have different owners (light, shadow, ambition)
-        var owners = openingScene.Answers.Select(a => a.Owner).ToList();
+        var owners = openingScene.Choice.Select(a => a.Owner).ToList();
         AssertThat(owners).Contains("light");
         AssertThat(owners).Contains("shadow");
         AssertThat(owners).Contains("ambition");
@@ -105,7 +105,7 @@ public class GhostYamlPlaybackTests
 
         GD.Print($"[GhostYamlTest] Question: {openingScene.Question}");
         GD.Print("[GhostYamlTest] Answers:");
-        foreach (var answer in openingScene.Answers!)
+        foreach (var answer in openingScene.Choice!)
         {
             GD.Print($"  [{answer.Owner}] {answer.Text}");
         }
@@ -121,7 +121,8 @@ public class GhostYamlPlaybackTests
     /// </summary>
     [TestCase]
     [RequireGodotRuntime]
-    public void GhostYaml_AllScenes_AreValid(){
+    public void GhostYaml_AllScenes_AreValid()
+    {
         var loader = new GhostDataLoader();
         var plan = loader.GetPlan();
 
@@ -133,8 +134,8 @@ public class GhostYamlPlaybackTests
             // Scene must have lines OR question+answers
             bool hasLines = scene.Lines != null && scene.Lines.Count > 0;
             bool hasQuestion = !string.IsNullOrEmpty(scene.Question) &&
-                               scene.Answers != null &&
-                               scene.Answers.Count > 0;
+                               scene.Choice != null &&
+                               scene.Choice.Count > 0;
 
             AssertThat(hasLines || hasQuestion)
                 .OverrideFailureMessage($"Scene {i} must have either lines or question+answers")
@@ -143,7 +144,7 @@ public class GhostYamlPlaybackTests
             GD.Print($"[GhostYamlTest] Scene {i}: " +
                      $"lines={scene.Lines?.Count ?? 0}, " +
                      $"question={!string.IsNullOrEmpty(scene.Question)}, " +
-                     $"answers={scene.Answers?.Count ?? 0}");
+                     $"answers={scene.Choice?.Count ?? 0}");
         }
     }
 }
