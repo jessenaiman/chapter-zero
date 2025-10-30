@@ -9,8 +9,6 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <!-- Fix assembly unloading issues -->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <!--Disable warning of invalid/incompatible GodotSharp version-->
-    <NoWarn>NU1605</NoWarn>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   <!-- Allow unhandled exceptions to remain as warnings for better debugging -->
   <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -26,24 +24,22 @@
     <PrivateAssets>all</PrivateAssets>
     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   </PackageReference>
-  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.14.28" />
+  <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.14.28" />
+  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.0-rc.2.25502.107" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.0-rc.2.25502.107" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0-rc.2.25502.107" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0-rc.2.25502.107" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0-rc.2.25502.107">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Pastel" Version="7.0.0" />
-    <PackageReference Include="Spectre.Console" Version="0.52.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Pastel" Version="7.0.1" />
+    <PackageReference Include="Spectre.Console" Version="0.53.0" />
   </ItemGroup>
 
 
