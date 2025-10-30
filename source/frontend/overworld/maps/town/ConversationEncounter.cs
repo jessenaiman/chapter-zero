@@ -73,10 +73,10 @@ public partial class ConversationEncounter : Interaction
 
     private Task TriggerCombat()
     {
-        var fieldEvents = GetNode("/root/FieldEvents");
-        if (fieldEvents != null && CombatArena != null)
+        var fieldEvents = this.GetNode("/root/FieldEvents");
+        if (fieldEvents != null && this.CombatArena != null)
         {
-            fieldEvents.EmitSignal("combat_triggered", CombatArena);
+            fieldEvents.EmitSignal("combat_triggered", this.CombatArena);
         }
 
         return Task.CompletedTask;

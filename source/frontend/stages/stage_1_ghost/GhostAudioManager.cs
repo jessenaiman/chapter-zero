@@ -118,41 +118,41 @@ public partial class GhostAudioManager : Node
         _CrtHumPlayer.Bus = AmbientBus;
         _CrtHumPlayer.VolumeDb = -24.0f; // Subliminal, felt more than heard
         _CrtHumPlayer.PitchScale = 1.0f;
-        AddChild(_CrtHumPlayer);
-        _CrtHumPlayer.Owner = GetTree().Root;
+        this.AddChild(_CrtHumPlayer);
+        _CrtHumPlayer.Owner = this.GetTree().Root;
 
         // Create interference player (always present with random spikes)
         _InterferencePlayer = new AudioStreamPlayer();
         _InterferencePlayer.Bus = AmbientBus;
         _InterferencePlayer.VolumeDb = -18.0f; // For spikes
-        AddChild(_InterferencePlayer);
-        _InterferencePlayer.Owner = GetTree().Root;
+        this.AddChild(_InterferencePlayer);
+        _InterferencePlayer.Owner = this.GetTree().Root;
 
         // Create ghost typing player
         _GhostTypingPlayer = new AudioStreamPlayer();
         _GhostTypingPlayer.Bus = AmbientBus;
         _GhostTypingPlayer.VolumeDb = -12.0f; // Noticeable but not intrusive
-        AddChild(_GhostTypingPlayer);
-        _GhostTypingPlayer.Owner = GetTree().Root;
+        this.AddChild(_GhostTypingPlayer);
+        _GhostTypingPlayer.Owner = this.GetTree().Root;
 
         // Initialize state-specific players
         _BootSequencePlayer = new AudioStreamPlayer();
         _BootSequencePlayer.Bus = EffectsBus;
-        AddChild(_BootSequencePlayer);
-        _BootSequencePlayer.Owner = GetTree().Root;
+        this.AddChild(_BootSequencePlayer);
+        _BootSequencePlayer.Owner = this.GetTree().Root;
 
         _SecretRevealPlayer = new AudioStreamPlayer();
         _SecretRevealPlayer.Bus = EffectsBus;
-        AddChild(_SecretRevealPlayer);
-        _SecretRevealPlayer.Owner = GetTree().Root;
+        this.AddChild(_SecretRevealPlayer);
+        _SecretRevealPlayer.Owner = this.GetTree().Root;
 
         _ResonantTonePlayer = new AudioStreamPlayer();
         _ResonantTonePlayer.Bus = EffectsBus;
-        AddChild(_ResonantTonePlayer);
-        _ResonantTonePlayer.Owner = GetTree().Root;
+        this.AddChild(_ResonantTonePlayer);
+        _ResonantTonePlayer.Owner = this.GetTree().Root;
 
         // Start core layers
-        StartCoreLayers();
+        this.StartCoreLayers();
     }
 
     /// <summary>
@@ -161,13 +161,13 @@ public partial class GhostAudioManager : Node
     private void StartCoreLayers()
     {
         // Start CRT hum continuously
-        if (_CrtHumPlayer != null)
+        if (this._CrtHumPlayer != null)
         {
-            var humStream = ResourceLoader.Load<AudioStream>(_AudioResources["crt_hum"]);
+            var humStream = ResourceLoader.Load<AudioStream>(this._AudioResources["crt_hum"]);
             if (humStream != null)
             {
-                _CrtHumPlayer.Stream = humStream;
-                _CrtHumPlayer.Play();
+                this._CrtHumPlayer.Stream = humStream;
+                this._CrtHumPlayer.Play();
             }
             else
             {
@@ -194,11 +194,11 @@ public partial class GhostAudioManager : Node
         _InterferenceTimer.Timeout += () =>
         {
             PlayElectricalInterference();
-            _InterferenceTimer.WaitTime = GD.RandRange(3.0f, 7.0f);
+            this._InterferenceTimer.WaitTime = GD.RandRange(3.0f, 7.0f);
         };
-        AddChild(_InterferenceTimer);
-        _InterferenceTimer.Owner = GetTree().Root;
-        _InterferenceTimer.Start();
+        this.AddChild(this._InterferenceTimer);
+        this._InterferenceTimer.Owner = this.GetTree().Root;
+        this._InterferenceTimer.Start();
     }
 
     /// <summary>
@@ -206,13 +206,13 @@ public partial class GhostAudioManager : Node
     /// </summary>
     private void PlayElectricalInterference()
     {
-        if (_InterferencePlayer != null && _AudioResources.ContainsKey("electrical_interference"))
+        if (this._InterferencePlayer != null && this._AudioResources.ContainsKey("electrical_interference"))
         {
-            var stream = ResourceLoader.Load<AudioStream>(_AudioResources["electrical_interference"]);
+            var stream = ResourceLoader.Load<AudioStream>(this._AudioResources["electrical_interference"]);
             if (stream != null)
             {
-                _InterferencePlayer.Stream = stream;
-                _InterferencePlayer.Play();
+                this._InterferencePlayer.Stream = stream;
+                this._InterferencePlayer.Play();
             }
         }
     }
@@ -229,11 +229,11 @@ public partial class GhostAudioManager : Node
         _GhostTypingTimer.Timeout += () =>
         {
             PlayGhostTyping();
-            _GhostTypingTimer.WaitTime = GD.RandRange(5.0f, 10.0f);
+            this._GhostTypingTimer.WaitTime = GD.RandRange(5.0f, 10.0f);
         };
-        AddChild(_GhostTypingTimer);
-        _GhostTypingTimer.Owner = GetTree().Root;
-        _GhostTypingTimer.Start();
+        this.AddChild(this._GhostTypingTimer);
+        this._GhostTypingTimer.Owner = this.GetTree().Root;
+        this._GhostTypingTimer.Start();
     }
 
     /// <summary>
@@ -241,12 +241,12 @@ public partial class GhostAudioManager : Node
     /// </summary>
     private void PlayGhostTyping()
     {
-        if (_GhostTypingPlayer != null)
+        if (this._GhostTypingPlayer != null)
         {
-            _GhostTypingPlayer.Stream = ResourceLoader.Load<AudioStream>(_AudioResources["typewriter_keys"]);
-            if (_GhostTypingPlayer.Stream != null)
+            this._GhostTypingPlayer.Stream = ResourceLoader.Load<AudioStream>(this._AudioResources["typewriter_keys"]);
+            if (this._GhostTypingPlayer.Stream != null)
             {
-                _GhostTypingPlayer.Play();
+                this._GhostTypingPlayer.Play();
             }
         }
     }
@@ -263,14 +263,14 @@ public partial class GhostAudioManager : Node
         GD.Print("[GhostAudioManager] Entering boot sequence audio state");
 
         // Layer multiple historical audio artifacts
-        if (_BootSequencePlayer != null)
+        if (this._BootSequencePlayer != null)
         {
             // Play telegraph morse pattern
-            _BootSequencePlayer.Stream = ResourceLoader.Load<AudioStream>(_AudioResources["telegraph_morse"]);
-            if (_BootSequencePlayer.Stream != null)
+            this._BootSequencePlayer.Stream = ResourceLoader.Load<AudioStream>(this._AudioResources["telegraph_morse"]);
+            if (this._BootSequencePlayer.Stream != null)
             {
-                _BootSequencePlayer.VolumeDb = -10.0f;
-                _BootSequencePlayer.Play();
+                this._BootSequencePlayer.VolumeDb = -10.0f;
+                this._BootSequencePlayer.Play();
             }
 
             // Brief delay before adding other layers
@@ -282,8 +282,8 @@ public partial class GhostAudioManager : Node
             if (modemPlayer.Stream != null)
             {
                 modemPlayer.VolumeDb = -8.0f;
-                AddChild(modemPlayer);
-                modemPlayer.Owner = GetTree().Root;
+                this.AddChild(modemPlayer);
+                modemPlayer.Owner = this.GetTree().Root;
                 modemPlayer.Play();
 
                 // Wait for modem handshake to complete
@@ -347,15 +347,15 @@ public partial class GhostAudioManager : Node
             Bus = EffectsBus,
             VolumeDb = -15.0f
         };
-        AddChild(subBassPlayer);
-        subBassPlayer.Owner = GetTree().Root;
+        this.AddChild(subBassPlayer);
+        subBassPlayer.Owner = this.GetTree().Root;
         // Note: Would need a 40Hz sine wave audio file
         // subBassPlayer.Stream = ResourceLoader.Load<AudioStream>("res://source/assets/audio/stage1/sub_bass_40hz.wav");
         // subBassPlayer.Play();
 
         // 1.0s: Modem tones return (fragmented, glitching)
         await Task.Delay(500).ConfigureAwait(false);
-        if (_AudioResources.ContainsKey("modem_handshake"))
+        if (this._AudioResources.ContainsKey("modem_handshake"))
         {
             var modemFragmentPlayer = new AudioStreamPlayer
             {
@@ -363,8 +363,8 @@ public partial class GhostAudioManager : Node
                 VolumeDb = -14.0f,
                 PitchScale = 0.8f // Slightly detuned for glitch effect
             };
-            AddChild(modemFragmentPlayer);
-            modemFragmentPlayer.Owner = GetTree().Root;
+            this.AddChild(modemFragmentPlayer);
+            modemFragmentPlayer.Owner = this.GetTree().Root;
             modemFragmentPlayer.Stream = ResourceLoader.Load<AudioStream>(_AudioResources["modem_handshake"]);
             if (modemFragmentPlayer.Stream != null)
             {
@@ -376,7 +376,7 @@ public partial class GhostAudioManager : Node
         await Task.Delay(500).ConfigureAwait(false);
         for (int i = 0; i < 3; i++)
         {
-            if (_AudioResources.ContainsKey("typewriter_keys"))
+            if (this._AudioResources.ContainsKey("typewriter_keys"))
             {
                 var ghostTyper = new AudioStreamPlayer
                 {
@@ -384,7 +384,7 @@ public partial class GhostAudioManager : Node
                     VolumeDb = -10.0f,
                     PitchScale = 0.9f + (i * 0.1f) // Slightly different pitches
                 };
-                AddChild(ghostTyper);
+                this.AddChild(ghostTyper);
                 ghostTyper.Stream = ResourceLoader.Load<AudioStream>(_AudioResources["typewriter_keys"]);
                 if (ghostTyper.Stream != null)
                 {
@@ -407,20 +407,20 @@ public partial class GhostAudioManager : Node
         await Task.Delay(300).ConfigureAwait(false);
 
         // 3.0s: Clean Tibetan singing bowl tone begins
-        if (_ResonantTonePlayer != null)
+        if (this._ResonantTonePlayer != null)
         {
-            _ResonantTonePlayer.Stream = ResourceLoader.Load<AudioStream>(_AudioResources["tibetan_singing_bowl"]);
-            if (_ResonantTonePlayer.Stream != null)
+            this._ResonantTonePlayer.Stream = ResourceLoader.Load<AudioStream>(this._AudioResources["tibetan_singing_bowl"]);
+            if (this._ResonantTonePlayer.Stream != null)
             {
-                _ResonantTonePlayer.VolumeDb = -6.0f; // More prominent during reveal
-                _ResonantTonePlayer.Play();
+                this._ResonantTonePlayer.VolumeDb = -6.0f; // More prominent during reveal
+                this._ResonantTonePlayer.Play();
             }
         }
 
         // Restore CRT hum at slightly elevated level
-        if (_CrtHumPlayer != null)
+        if (this._CrtHumPlayer != null)
         {
-            _CrtHumPlayer.VolumeDb = -22.0f; // Slightly more intense than baseline
+            this._CrtHumPlayer.VolumeDb = -22.0f; // Slightly more intense than baseline
         }
 
         // Wait for singing bowl to sustain (6-second sustain per design doc)
@@ -448,13 +448,13 @@ public partial class GhostAudioManager : Node
             Bus = EffectsBus,
             VolumeDb = -8.0f
         };
-        AddChild(overtonePlayer);
-        overtonePlayer.Owner = GetTree().Root;
+        this.AddChild(overtonePlayer);
+        overtonePlayer.Owner = this.GetTree().Root;
 
         var overtoneKey = $"symbol_tone_{symbolIndex + 1:D2}_{symbolNames[symbolIndex]}";
-        if (_AudioResources.ContainsKey(overtoneKey))
+        if (this._AudioResources.ContainsKey(overtoneKey))
         {
-            overtonePlayer.Stream = ResourceLoader.Load<AudioStream>(_AudioResources[overtoneKey]);
+            overtonePlayer.Stream = ResourceLoader.Load<AudioStream>(this._AudioResources[overtoneKey]);
             if (overtonePlayer.Stream != null)
             {
                 overtonePlayer.Play();
@@ -485,9 +485,9 @@ public partial class GhostAudioManager : Node
         }
 
         // Stop ghost typing briefly to create more focused atmosphere
-        if (_GhostTypingPlayer != null)
+        if (this._GhostTypingPlayer != null)
         {
-            _GhostTypingPlayer.Stop();
+            this._GhostTypingPlayer.Stop();
         }
 
         // Play thread-specific lock sound
@@ -514,16 +514,16 @@ public partial class GhostAudioManager : Node
     /// </summary>
     public void PlayChoiceHoverSound()
     {
-        if (!_IsInitialized) return;
+        if (!this._IsInitialized) return;
 
-        if (_UiAudio != null && _AudioResources.ContainsKey("choice_hover"))
+        if (this._UiAudio != null && this._AudioResources.ContainsKey("choice_hover"))
         {
-            var stream = ResourceLoader.Load<AudioStream>(_AudioResources["choice_hover"]);
+            var stream = ResourceLoader.Load<AudioStream>(this._AudioResources["choice_hover"]);
             if (stream != null)
             {
-                _UiAudio.Stream = stream;
-                _UiAudio.VolumeDb = -18.0f;
-                _UiAudio.Play();
+                this._UiAudio.Stream = stream;
+                this._UiAudio.VolumeDb = -18.0f;
+                this._UiAudio.Play();
             }
         }
     }
@@ -544,14 +544,14 @@ public partial class GhostAudioManager : Node
             _ => "choice_confirm_light"
         };
 
-        if (_UiAudio != null && _AudioResources.ContainsKey(confirmKey))
+        if (this._UiAudio != null && this._AudioResources.ContainsKey(confirmKey))
         {
-            var stream = ResourceLoader.Load<AudioStream>(_AudioResources[confirmKey]);
+            var stream = ResourceLoader.Load<AudioStream>(this._AudioResources[confirmKey]);
             if (stream != null)
             {
-                _UiAudio.Stream = stream;
-                _UiAudio.VolumeDb = -12.0f;
-                _UiAudio.Play();
+                this._UiAudio.Stream = stream;
+                this._UiAudio.VolumeDb = -12.0f;
+                this._UiAudio.Play();
             }
         }
     }
@@ -563,15 +563,15 @@ public partial class GhostAudioManager : Node
     /// <returns>True if the audio was played successfully.</returns>
     public bool PlayAudioEffect(string audioKey)
     {
-        if (!_IsInitialized) return false;
+        if (!this._IsInitialized) return false;
 
-        if (_EffectsAudio != null && _AudioResources.ContainsKey(audioKey))
+        if (this._EffectsAudio != null && this._AudioResources.ContainsKey(audioKey))
         {
-            var stream = ResourceLoader.Load<AudioStream>(_AudioResources[audioKey]);
+            var stream = ResourceLoader.Load<AudioStream>(this._AudioResources[audioKey]);
             if (stream != null)
             {
-                _EffectsAudio.Stream = stream;
-                _EffectsAudio.Play();
+                this._EffectsAudio.Stream = stream;
+                this._EffectsAudio.Play();
                 return true;
             }
         }
@@ -588,17 +588,17 @@ public partial class GhostAudioManager : Node
     /// <returns>True if the audio was played successfully.</returns>
     public bool PlayAudioEffect(string audioKey, float volumeDb, float pitchScale = 1.0f)
     {
-        if (!_IsInitialized) return false;
+        if (!this._IsInitialized) return false;
 
-        if (_EffectsAudio != null && _AudioResources.ContainsKey(audioKey))
+        if (this._EffectsAudio != null && this._AudioResources.ContainsKey(audioKey))
         {
-            var stream = ResourceLoader.Load<AudioStream>(_AudioResources[audioKey]);
+            var stream = ResourceLoader.Load<AudioStream>(this._AudioResources[audioKey]);
             if (stream != null)
             {
-                _EffectsAudio.Stream = stream;
-                _EffectsAudio.VolumeDb = volumeDb;
-                _EffectsAudio.PitchScale = pitchScale;
-                _EffectsAudio.Play();
+                this._EffectsAudio.Stream = stream;
+                this._EffectsAudio.VolumeDb = volumeDb;
+                this._EffectsAudio.PitchScale = pitchScale;
+                this._EffectsAudio.Play();
                 return true;
             }
         }
@@ -657,16 +657,16 @@ public partial class GhostAudioManager : Node
     /// <param name="enabled">Whether to enable the ghost typing audio.</param>
     public void SetGhostTypingEnabled(bool enabled)
     {
-        if (_GhostTypingTimer != null)
+        if (this._GhostTypingTimer != null)
         {
             if (enabled)
             {
-                _GhostTypingTimer.Start();
+                this._GhostTypingTimer.Start();
             }
             else
             {
-                _GhostTypingTimer.Stop();
-                _GhostTypingPlayer?.Stop();
+                this._GhostTypingTimer.Stop();
+                this._GhostTypingPlayer?.Stop();
             }
         }
     }

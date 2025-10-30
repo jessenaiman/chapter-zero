@@ -13,7 +13,7 @@ public partial class UiTestHarness : Panel
     {
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.F12)
         {
-            CaptureScreenshotForTest(_DefaultHotkeyScreenshotName);
+            this.CaptureScreenshotForTest(UiTestHarness._DefaultHotkeyScreenshotName);
         }
     }
 

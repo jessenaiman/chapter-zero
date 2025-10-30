@@ -42,20 +42,10 @@ dotnet_naming_symbols.private_fields.required_modifiers =
 
 dotnet_naming_style.private_prefix_pascal_acronym.required_prefix = _
 dotnet_naming_style.private_prefix_pascal_acronym.capitalization = pascal_case
-dotnet_naming_style.private_prefix_pascal_acronym.required_suffix =
-
-# Essential suppressions for Godot C# compatibility
-# Suppress CA1501: Godot's inheritance chains (Node -> Control -> etc.) trigger this
-dotnet_diagnostic.CA1501.severity = none
-# Suppress CA2213: Godot manages node lifetimes, not Dispose patterns
-dotnet_diagnostic.CA2213.severity = none
-# Suppress IDE1006: Allow Ui, AI as uppercase per Godot style guide (ONLY in specific contexts)
-dotnet_diagnostic.IDE1006.severity = warning
 
 # StyleCop suppressions for pragmatic development
-dotnet_diagnostic.SA1633.severity = none      # File header copyright text should match (too strict, suppressed for flexibility)
-dotnet_diagnostic.SA1600.severity = warning   # Elements should be documented (relaxed for brevity)
-dotnet_diagnostic.SA1649.severity = none      # File name should match first type (too strict, suppressed)
+dotnet_diagnostic.SA1600.severity = error    # Elements should be documented (relaxed for brevity)
+dotnet_diagnostic.SA1649.severity = error    # File name should match first type (too strict, suppressed)
 
 # Enable key security and reliability rules
 dotnet_diagnostic.CA3001.severity = error    # SQL injection
@@ -72,8 +62,8 @@ dotnet_diagnostic.RCS1139.severity = error    # Add summary element
 dotnet_diagnostic.RCS1140.severity = error    # Add exception documentation
 dotnet_diagnostic.RCS1154.severity = error    # Sort modifiers
 dotnet_diagnostic.RCS1155.severity = error    # Use StringComparison
-dotnet_diagnostic.RCS1001.severity = error    # Add braces
-dotnet_diagnostic.RCS1003.severity = error    # Add braces to if-else
+dotnet_diagnostic.RCS1001.severity = none     # Add braces
+dotnet_diagnostic.RCS1003.severity = none     # Add braces to if-else
 dotnet_diagnostic.RCS1018.severity = error    # Add accessibility modifiers
 dotnet_diagnostic.RCS1110.severity = error    # Declare type inside namespace
 dotnet_diagnostic.RCS1225.severity = error    # Make class sealed
@@ -85,8 +75,3 @@ dotnet_diagnostic.CS0246.severity = none      # Type not found (Godot generated)
 dotnet_diagnostic.CS0103.severity = none      # Name does not exist (Godot generated)
 dotnet_diagnostic.CS0117.severity = none      # No definition (Godot generated)
 dotnet_diagnostic.CS1061.severity = none      # No extension method (Godot generated)
-
-# Test-specific suppressions
-[tests/**/*.cs]
-dotnet_diagnostic.CA1822.severity = none      # Unused member (test isolation)
-# Note: IDE1006 is now a warning instead of suppressed, so private field naming rules are enforced

@@ -356,10 +356,10 @@ namespace OmegaSpiral.Domain.Models
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId))
                 return;
 
-            if (!_categoryAssignments.TryGetValue(category, out var value))
+            if (!this._categoryAssignments.TryGetValue(category, out var value))
             {
                 value = new List<string>();
-                _categoryAssignments[category] = value;
+                this._categoryAssignments[category] = value;
             }
             if (!value.Contains(itemId))
             {
@@ -375,7 +375,7 @@ namespace OmegaSpiral.Domain.Models
         public void RemoveFromCategory(string category, string itemId)
         {
             if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(itemId) ||
-                !_categoryAssignments.TryGetValue(category, out var value))
+                !this._categoryAssignments.TryGetValue(category, out var value))
             {
                 return;
             }
@@ -389,7 +389,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A read-only list of item IDs in the specified category.</returns>
         public ReadOnlyCollection<string> GetCategoryItems(string category)
         {
-            return _categoryAssignments.TryGetValue(category, out var value) ?
+            return this._categoryAssignments.TryGetValue(category, out var value) ?
                 new ReadOnlyCollection<string>(value) :
                 new ReadOnlyCollection<string>(new List<string>());
         }
@@ -400,7 +400,7 @@ namespace OmegaSpiral.Domain.Models
         /// <returns>A read-only list of all category names.</returns>
         public ReadOnlyCollection<string> GetCategories()
         {
-            return new ReadOnlyCollection<string>(_categoryAssignments.Keys.ToList());
+            return new ReadOnlyCollection<string>(this._categoryAssignments.Keys.ToList());
         }
 
         /// <summary>
@@ -409,19 +409,19 @@ namespace OmegaSpiral.Domain.Models
         public void Validate()
         {
             // Remove orphaned item IDs and quantities
-            _itemIds.RemoveAll(id => !ItemQuantities.ContainsKey(id));
-            ItemQuantities.Keys.Where(id => !_itemIds.Contains(id)).ToList().ForEach(id => ItemQuantities.Remove(id));
+            this._itemIds.RemoveAll(id => !this.ItemQuantities.ContainsKey(id));
+            this.ItemQuantities.Keys.Where(id => !this._itemIds.Contains(id)).ToList().ForEach(id => this.ItemQuantities.Remove(id));
 
             // Remove invalid equipped items
-            EquippedItems.Keys.Where(slot => !_itemIds.Contains(EquippedItems[slot])).ToList().ForEach(slot => EquippedItems.Remove(slot));
+            this.EquippedItems.Keys.Where(slot => !this._itemIds.Contains(this.EquippedItems[slot])).ToList().ForEach(slot => this.EquippedItems.Remove(slot));
 
             // Remove invalid custom data
-            CustomItemData.Keys.Where(id => !_itemIds.Contains(id)).ToList().ForEach(id => CustomItemData.Remove(id));
+            this.CustomItemData.Keys.Where(id => !this._itemIds.Contains(id)).ToList().ForEach(id => this.CustomItemData.Remove(id));
 
             // Remove invalid category items
-            foreach (var kvp in _categoryAssignments)
+            foreach (var kvp in this._categoryAssignments)
             {
-                kvp.Value.RemoveAll(id => !_itemIds.Contains(id));
+                kvp.Value.RemoveAll(id => !this._itemIds.Contains(id));
             }
         }
     }

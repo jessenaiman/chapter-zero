@@ -21,7 +21,7 @@ namespace OmegaSpiral.Source.Backend.Persistence;
         /// <param name="context">The database context.</param>
         public SaveLoadManager(GameDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace OmegaSpiral.Source.Backend.Persistence;
         {
             try
             {
-                // Check if save already exists
-                var existingSave = await _context.GameSaves!
-                    .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot).ConfigureAwait(false);
+                var existingSave = await this._context.GameSaves!
+                    .FirstOrDefaultAsync(s => s.SaveSlot == saveSlot)
+                    .ConfigureAwait(false);
 
                 if (existingSave != null)
                 {
@@ -48,10 +48,10 @@ namespace OmegaSpiral.Source.Backend.Persistence;
                 {
                     // Create new save
                     var newSave = CreateGameSaveFromGameState(gameState, saveSlot);
-                    _context.GameSaves!.Add(newSave);
+                    this._context.GameSaves!.Add(newSave);
                 }
 
-                await _context.SaveChangesAsync().ConfigureAwait(false);
+                await this._context.SaveChangesAsync().ConfigureAwait(false);
                 GD.Print($"Game saved successfully to slot: {saveSlot}");
                 return true;
             }
@@ -71,7 +71,7 @@ namespace OmegaSpiral.Source.Backend.Persistence;
         {
             try
             {
-                var gameSave = await _context.GameSaves!
+                var gameSave = await this._context.GameSaves!
                     .Include(gs => gs.Shards)
                     .Include(gs => gs.SceneData)
                     .Include(gs => gs.DreamweaverScores)
@@ -105,7 +105,7 @@ namespace OmegaSpiral.Source.Backend.Persistence;
         {
             try
             {
-                return await _context.GameSaves!
+                return await this._context.GameSaves!
                     .OrderByDescending(gs => gs.LastModifiedAt)
                     .Select(gs => gs.SaveSlot)
                     .ToListAsync().ConfigureAwait(false);
@@ -126,7 +126,7 @@ namespace OmegaSpiral.Source.Backend.Persistence;
         {
             try
             {
-                var gameSave = await _context.GameSaves!
+                var gameSave = await this._context.GameSaves!
                     .FirstOrDefaultAsync(gs => gs.SaveSlot == saveSlot).ConfigureAwait(false);
 
                 if (gameSave == null)
@@ -134,8 +134,8 @@ namespace OmegaSpiral.Source.Backend.Persistence;
                     return false;
                 }
 
-                _context.GameSaves!.Remove(gameSave);
-                await _context.SaveChangesAsync().ConfigureAwait(false);
+                this._context.GameSaves!.Remove(gameSave);
+                await this._context.SaveChangesAsync().ConfigureAwait(false);
                 GD.Print($"Save slot deleted: {saveSlot}");
                 return true;
             }
