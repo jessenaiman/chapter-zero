@@ -2,7 +2,7 @@
 // Copyright (c) Omega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Design;
+namespace OmegaSpiral.Source.Frontend.Design;
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,10 @@ using Godot;
 using Newtonsoft.Json;
 
 /// <summary>
-/// Provides access to design colors and shader defaults defined in <c>colors_config.json</c>.
+/// Provides a static façade for retrieving UI design data (colors and shader presets) from the
+/// <c>omega_spiral_colors_config.json</c> configuration file.
+/// The service lazily loads the JSON once per application domain and caches the parsed
+/// <see cref="ColorsConfig"/> instance for fast subsequent look‑ups.
 /// </summary>
 public static class DesignService
 {
@@ -18,9 +21,13 @@ public static class DesignService
     private static readonly Lazy<ColorsConfig> _Config = new(LoadConfig, System.Threading.LazyThreadSafetyMode.ExecutionAndPublication);
 
     /// <summary>
-    /// Gets a color by name from the palette; returns white if missing.
+    /// Retrieves a <see cref="Godot.Color"/> from the design palette.
+    /// If the supplied <paramref name="name"/> is null, empty, or whitespace the method returns
+    /// <see cref="Godot.Colors.White"/>. When the key does not exist in the configuration a warning
+    /// is emitted and <see cref="Godot.Colors.White"/> is returned as a safe fallback.
     /// </summary>
-    /// <param name="name">Palette key, e.g., <c>warm_amber</c>.</param>
+    /// <param name="name">The palette key, e.g. <c>warm_amber</c>. Case‑insensitive.</param>
+    /// <returns>A <see cref="Godot.Color"/> representing the requested palette entry.</returns>
     public static Color GetColor(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -39,11 +46,13 @@ public static class DesignService
     }
 
     /// <summary>
-    /// Attempts to retrieve the full shader preset for a given preset key.
+    /// Attempts to obtain the full <see cref="ShaderPreset"/> definition for the supplied
+    /// <paramref name="presetKey"/>.
     /// </summary>
-    /// <param name="presetKey">Key within <c>shader_presets</c> (e.g., <c>spiral_border_base</c>).</param>
-    /// <param name="preset">The shader preset on success (includes shader path and parameters).</param>
-    /// <returns>True if the preset exists; false otherwise.</returns>
+    /// <param name="presetKey">Key within the <c>shader_presets</c> dictionary (e.g. <c>spiral_border_base</c>).</param>
+    /// <param name="preset">When the method returns <c>true</c>, this out parameter contains the
+    /// resolved <see cref="ShaderPreset"/>; otherwise it is <c>null</c>.</param>
+    /// <returns><c>true</c> if a matching preset was found; otherwise <c>false</c>.</returns>
     public static bool TryGetShaderPreset(string presetKey, out ShaderPreset? preset)
     {
         preset = null;
@@ -65,11 +74,14 @@ public static class DesignService
     }
 
     /// <summary>
-    /// Attempts to retrieve default shader parameters for a given shader preset key.
+    /// Retrieves the default parameter map for a shader preset.
+    /// The returned dictionary is read‑only and contains values of type <c>object</c> because
+    /// shader parameters can be floats, vectors, colors, etc.
     /// </summary>
-    /// <param name="presetKey">Key within <c>shader_presets</c> (e.g., <c>spiral_border_base</c>).</param>
-    /// <param name="parameters">Resolved parameter map on success.</param>
-    /// <returns>True if the preset exists; false otherwise.</returns>
+    /// <param name="presetKey">Key within the <c>shader_presets</c> collection.</param>
+    /// <param name="parameters">On success, receives an <see cref="IReadOnlyDictionary{TKey,TValue}"/>
+    /// where <c>TKey</c> is <c>string</c> and <c>TValue</c> is <c>object</c>.</param>
+    /// <returns><c>true</c> if the preset exists and contains a parameter dictionary; otherwise <c>false</c>.</returns>
     public static bool TryGetShaderDefaults(string presetKey, out IReadOnlyDictionary<string, object> parameters)
     {
         parameters = new Dictionary<string, object>();

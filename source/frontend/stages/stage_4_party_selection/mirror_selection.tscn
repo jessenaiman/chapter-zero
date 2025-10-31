@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://some_uid"]
 
-[ext_resource type="Script" path="res://source/scripts/field/narrative/MirrorSelectionController.cs" id="1"]
+[ext_resource type="Script" path="res://source/frontend/field/narrative/MirrorSelectionController.cs" id="1"]
 [ext_resource type="Theme" path="res://source/assets/gui/default.theme" id="2"]
 
 [sub_resource type="Theme" id="3"]

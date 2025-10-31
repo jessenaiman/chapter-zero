@@ -34,12 +34,15 @@ public partial class SceneManager : Node
     }
 
     /// <summary>
-    /// Gets or sets the scene data for this manager.
+    /// Gets or sets the <see cref="StoryScriptElement"/> containing the narrative data for this scene.
+    /// This includes lines, choices, pauses, and other metadata required to drive the UI handler.
     /// </summary>
     protected StoryScriptElement SceneData { get; set; }
 
     /// <summary>
-    /// Gets or sets the additional data for this scene.
+    /// Gets or sets an opaque payload that can be used by derived managers to store any additional
+    /// context required for the scene (e.g., gameplay state, references to other services, etc.).
+    /// The type is deliberately generic to allow flexibility while keeping the base class lightweight.
     /// </summary>
     protected object AdditionalData { get; set; }
 
@@ -94,8 +97,8 @@ public partial class SceneManager : Node
     {
         // Base implementation: try to find any IStoryHandler in the scene tree
         var root = tree.Root;
-        return root?.FindChild("NarrativeUi", owned: true) as IStoryHandler
-            ?? root?.FindChild("GhostUi", owned: true) as IStoryHandler;
+        return root?.FindChild("NarrativeUi", recursive: true, owned: false) as IStoryHandler
+            ?? root?.FindChild("GhostUi", recursive: true, owned: false) as IStoryHandler;
     }
 
     /// <summary>
@@ -128,8 +131,17 @@ public partial class SceneManager : Node
 
             GD.Print($"[SceneManager] Selected choice: {selectedChoice.Id}");
 
-            // Process the choice
-            await handler.ProcessChoiceAsync(selectedChoice).ConfigureAwait(false);
+            // Process the choice if a valid selection was made
+            // The handler may return null when the player cancels or no choice is available.
+            // Guard against null to avoid passing a null argument to ProcessChoiceAsync (CS8604).
+            if (selectedChoice != null)
+            {
+                await handler.ProcessChoiceAsync(selectedChoice).ConfigureAwait(false);
+            }
+            else
+            {
+                GD.PrintErr("[SceneManager] No choice was selected; skipping ProcessChoiceAsync.");
+            }
         }
 
         // Final pause if specified

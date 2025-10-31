@@ -12,17 +12,19 @@ using OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Cinematic director for Ghost Terminal stage.
-/// This is a PURE NARRATIVE stage using only narrative sequences.
+/// This is a NARRATIVE WITH UI stage that loads a scene before running narrative sequences.
 ///
 /// <example>
-/// PURE NARRATIVE PATTERN:
+/// NARRATIVE WITH UI PATTERN:
+/// Overrides GetScenePath() to load ghost_terminal.tscn before narrative.
 /// Uses base RunStageAsync() implementation which:
-/// 1. Loads narrative sequences from ghost.json
-/// 2. Iterates through scenes and displays them sequentially
-/// 3. No additional gameplay scenes loaded
+/// 1. Loads the UI scene
+/// 2. Loads narrative sequences from ghost.json
+/// 3. Iterates through scenes and displays them sequentially
 ///
-/// This pattern is the standardized approach for pure narrative stages (Ghost, Nethack).
-/// Override RunStageAsync() only if adding gameplay/exploration phases (hybrid stages).
+/// This pattern is for narrative stages that need a visual UI scene (Ghost).
+/// Pure narrative stages don't override GetScenePath().
+/// Hybrid stages override RunStageAsync() for complex scene management.
 /// </example>
 ///
 /// Loads ghost.json script and orchestrates scene playback.
@@ -36,12 +38,32 @@ public sealed class GhostCinematicDirector : CinematicDirector<GhostCinematicPla
     }
 
     /// <inheritdoc/>
+    protected override string? GetScenePath()
+    {
+        return "res://source/frontend/stages/stage_1_ghost/ghost_terminal.tscn";
+    }
+
+    /// <inheritdoc/>
+    protected override async Task LoadUiSceneAsync(string scenePath)
+    {
+        var tree = Engine.GetMainLoop() as SceneTree;
+        if (tree == null)
+        {
+            GD.PrintErr("[GhostCinematicDirector] Could not get scene tree");
+            return;
+        }
+
+        GD.Print($"[GhostCinematicDirector] Changing scene to: {scenePath}");
+        tree.ChangeSceneToFile(scenePath);
+        await Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
     protected override GhostCinematicPlan BuildPlan(StoryScriptRoot script)
     {
         return new GhostCinematicPlan(script);
     }
 
-    /// <inheritdoc/>
     /// <inheritdoc/>
     protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
     {

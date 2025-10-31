@@ -2,20 +2,20 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Narrative;
 
+using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
-using OmegaSpiral.Source.Design;
 using OmegaSpiral.Source.Ui.Omega;
 
+namespace OmegaSpiral.Source.Narrative;
 /// <summary>
 /// Narrative UI component for displaying story text and player choices.
 /// Minimal extension of OmegaContainer - lets OmegaUI handle all styling.
 /// Text color: warm amber (#FEC962), background: handled by OmegaUI frame.
 /// </summary>
 [GlobalClass]
-public partial class NarrativeUi : OmegaContainer
+public partial class NarrativeUi : OmegaContainer, IStoryHandler
 {
     /// <summary>
     /// Gets or sets a value indicating whether to show boot sequence on ready.
@@ -59,7 +59,7 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="lines">The lines to display.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task DisplayLinesAsync(IList<string> lines)
+    public virtual async Task DisplayLinesAsync(IList<string> lines)
     {
         if (this.TextContainer == null)
         {
@@ -86,7 +86,7 @@ public partial class NarrativeUi : OmegaContainer
     /// <param name="speaker">The character asking the question.</param>
     /// <param name="choices">The available choices.</param>
     /// <returns>A task representing the asynchronous operation, with the selected choice.</returns>
-    public async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
+    public virtual async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
     {
         if (this.ChoiceContainer == null)
         {
@@ -133,7 +133,7 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="line">The command line.</param>
     /// <returns>A task representing whether the command was handled.</returns>
-    public Task<bool> HandleCommandLineAsync(string line)
+    public virtual Task<bool> HandleCommandLineAsync(string line)
     {
         GD.Print($"[NarrativeUi] Command: {line}");
         return Task.FromResult(false);
@@ -144,7 +144,7 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="scene">The scene element.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task ApplySceneEffectsAsync(StoryScriptElement scene)
+    public virtual async Task ApplySceneEffectsAsync(StoryScriptElement scene)
     {
         if (scene.Pause.HasValue && scene.Pause.Value > 0)
         {
@@ -157,7 +157,7 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="selected">The selected choice.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public Task ProcessChoiceAsync(ChoiceOption selected)
+    public virtual Task ProcessChoiceAsync(ChoiceOption selected)
     {
         GD.Print($"[NarrativeUi] Processing choice: {selected.Text}");
         return Task.CompletedTask;
@@ -167,7 +167,7 @@ public partial class NarrativeUi : OmegaContainer
     /// Plays boot sequence if enabled.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task PlayBootSequenceAsync()
+    public virtual async Task PlayBootSequenceAsync()
     {
         if (!this.EnableBootSequence)
         {
@@ -184,7 +184,7 @@ public partial class NarrativeUi : OmegaContainer
     /// Notifies that the narrative sequence is complete.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public Task NotifySequenceCompleteAsync()
+    public virtual Task NotifySequenceCompleteAsync()
     {
         GD.Print("[NarrativeUi] Narrative sequence complete");
         return Task.CompletedTask;

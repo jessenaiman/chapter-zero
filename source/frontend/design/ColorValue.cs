@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace OmegaSpiral.Source.Design;
+namespace OmegaSpiral.Source.Frontend.Design;
 
 /// <summary>
 /// Represents a color value with RGBA components and optional metadata.

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GameboardProperties" load_steps=2 format=3 uid="uid://k63mv5dbd1uk"]
 
-[ext_resource type="Script" uid="uid://cyl76x7u73s67" path="res://source/scripts/field/gameboard/GameboardProperties.cs" id="1_0hcip"]
+[ext_resource type="Script" uid="uid://cyl76x7u73s67" path="res://source/frontend/field/gameboard/GameboardProperties.cs" id="1_0hcip"]
 
 [resource]
 script = ExtResource("1_0hcip")

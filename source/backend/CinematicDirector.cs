@@ -40,7 +40,11 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// PURE NARRATIVE PATTERN (Default):
     /// Uses base implementation for stages with narrative sequences only (Ghost, Nethack).
     ///
-    /// HYBRID STAGE PATTERN (Override):
+    /// NARRATIVE WITH UI PATTERN (Override GetScenePath):
+    /// Subclasses can override GetScenePath() to return a scene path, which will be loaded
+    /// before running narrative sequences. This is for narrative stages that need a UI scene (Ghost).
+    ///
+    /// HYBRID STAGE PATTERN (Override RunStageAsync):
     /// Subclasses can override this method and call RunStageWithGameplayAsync(scenePath)
     /// to combine narrative sequences with interactive gameplay scenes.
     /// This is the standardized approach for hybrid stages (Town, PartySelection, Escape).
@@ -48,6 +52,15 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// <returns>A task that completes when the stage is finished.</returns>
     public virtual async Task RunStageAsync()
     {
+        // Optional: Load UI scene if specified by subclass
+        var scenePath = this.GetScenePath();
+        if (!string.IsNullOrEmpty(scenePath))
+        {
+            GD.Print($"[CinematicDirector] Loading UI scene: {scenePath}");
+            await this.LoadUiSceneAsync(scenePath);
+        }
+
+        // Run narrative sequences
         var script = StoryLoader.LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
 
@@ -72,6 +85,16 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// </summary>
     /// <returns>Path to JSON file (e.g., "res://source/frontend/stages/stage_1_ghost/ghost.json").</returns>
     protected abstract string GetDataPath();
+
+    /// <summary>
+    /// Gets the path to a UI scene to load before running narrative sequences.
+    /// Override in subclasses that need a visual scene for narrative display.
+    /// </summary>
+    /// <returns>Path to .tscn file, or null if no scene should be loaded.</returns>
+    protected virtual string? GetScenePath()
+    {
+        return null;
+    }
 
     /// <summary>
     /// Builds the plan from the parsed script.
@@ -103,7 +126,40 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     }
 
     /// <summary>
-    /// Overload: Runs the narrative sequence followed by a gameplay scene.
+    /// Loads a UI scene into the scene tree.
+    /// Uses ResourceLoader to instantiate the scene but does NOT run narrative on it.
+    /// The scene is simply added to the tree for UI display during narrative playback.
+    /// </summary>
+    /// <param name="scenePath">Path to the .tscn file.</param>
+    /// <returns>A task that completes when the scene is loaded.</returns>
+    protected virtual async Task LoadUiSceneAsync(string scenePath)
+    {
+        var packedScene = ResourceLoader.Load<PackedScene>(scenePath);
+        if (packedScene == null)
+        {
+            GD.PrintErr($"[CinematicDirector] Failed to load UI scene: {scenePath}");
+            return;
+        }
+
+        var tree = Engine.GetMainLoop() as SceneTree;
+        if (tree == null)
+        {
+            GD.PrintErr("[CinematicDirector] Could not get scene tree");
+            return;
+        }
+
+        var instance = packedScene.Instantiate();
+        if (instance != null)
+        {
+            tree.Root.AddChild(instance);
+            GD.Print($"[CinematicDirector] UI scene loaded: {scenePath}");
+        }
+
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Hybrid stage helper: Runs the narrative sequence followed by a gameplay scene.
     /// For hybrid stages that combine story narration with interactive gameplay.
     /// Call this from a subclass override of RunStageAsync() for hybrid behavior.
     /// </summary>
@@ -128,7 +184,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
 
         // Phase 2: Load and run gameplay scene
         GD.Print($"[CinematicDirector] Starting gameplay phase: {gameplayScenePath}");
-        await this.RunGameplaySceneAsync(gameplayScenePath);
+        await this.LoadUiSceneAsync(gameplayScenePath);
 
         GD.Print("[CinematicDirector] Hybrid stage complete");
     }

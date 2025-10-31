@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c63y6b25bs4bk"]
 
-[ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_menus_template/base/nodes/menus/main_menu/main_menu.tscn" id="1_0i2sc"]
+[ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="" id="1_0i2sc"]
 [ext_resource type="Script" uid="uid://b5qy5nr1wivs4" path="res://addons/maaacks_menus_template/examples/scenes/menus/main_menu/main_menu_with_animations.gd" id="2_ncvk7"]
 [ext_resource type="PackedScene" uid="uid://dy8sr0cd8nbiu" path="res://addons/maaacks_menus_template/examples/scenes/overlaid_menus/main_menu_options_overlaid_menu.tscn" id="3_4saoe"]
 [ext_resource type="PackedScene" uid="uid://n111yfgskspp" path="res://addons/maaacks_menus_template/examples/scenes/overlaid_menus/main_menu_credits_overlaid_menu.tscn" id="4_801fg"]
@@ -134,7 +134,7 @@ tracks/3/keys = {
 "update": 1,
 "values": [2]
 }
-tracks/4/type = "value"
+tracks/4:type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("MenuContainer:modulate")
@@ -146,7 +146,7 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
-tracks/5/type = "value"
+tracks/5:type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/path = NodePath("VersionMargin/VersionContainer:modulate")
@@ -158,7 +158,7 @@ tracks/5/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
-tracks/6/type = "value"
+tracks/6:type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/path = NodePath("MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer:lock")
@@ -174,7 +174,7 @@ tracks/6/keys = {
 [sub_resource type="Animation" id="4"]
 resource_name = "OpenSubMenu"
 length = 0.2
-tracks/0/type = "value"
+tracks/0:type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("MenuContainer:modulate")
@@ -213,7 +213,7 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
-tracks/2/type = "value"
+tracks/2:type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/path = NodePath("MenuContainer/MenuButtonsMargin/MenuButtonsContainer:modulate")
@@ -237,7 +237,7 @@ tracks/3/keys = {
 "update": 1,
 "values": [2]
 }
-tracks/4/type = "value"
+tracks/4:type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/path = NodePath("MenuContainer:modulate")
@@ -261,7 +261,7 @@ tracks/5/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
-tracks/6/type = "value"
+tracks/6:type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/path = NodePath("MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer:lock")
@@ -317,16 +317,8 @@ graph_offset = Vector2(-180.277, 49)
 script = ExtResource("2_ncvk7")
 options_packed_scene = ExtResource("3_4saoe")
 credits_packed_scene = ExtResource("4_801fg")
-
-[node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1"]
-libraries = {
-&"": SubResource("AnimationLibrary_2kqig")
-}
-
-[node name="MenuAnimationTree" type="AnimationTree" parent="." index="2"]
-tree_root = SubResource("AnimationNodeStateMachine_vikuh")
-anim_player = NodePath("../MenuAnimationPlayer")
-parameters/conditions/intro_done = false
+signal_game_start = true
+game_scene_path = ""
 
 [node name="VersionContainer" parent="VersionMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
@@ -351,4 +343,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-metadata/_edit_lock_ = true
+
+[connection signal="game_started" from="." to="GameManager" method="StartGame"]

@@ -2,7 +2,7 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-namespace OmegaSpiral.Source.Design;
+namespace OmegaSpiral.Source.Frontend.Design;
 
 using System.Collections.Generic;
 

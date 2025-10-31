@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="AttackBattlerAction" load_steps=3 format=3 uid="uid://c01ilo1olkfsm"]
 
-[ext_resource type="Texture2D" uid="uid://dt7jcphqs175b" path="res://source/combat/battlers/squirrel/icon_arrows.svg" id="1_eedy7"]
-[ext_resource type="Script" uid="uid://cpbigevghfrjn" path="res://source/combat/actions/BattlerActionAttack.cs" id="2_x25ju"]
+[ext_resource type="Texture2D" uid="uid://dt7jcphqs175b" path="res://source/frontend/combat/battlers/squirrel/icon_arrows.svg" id="1_eedy7"]
+[ext_resource type="Script" uid="uid://cpbigevghfrjn" path="res://source/frontend/combat/actions/BattlerActionAttack.cs" id="2_x25ju"]
 
 [resource]
 script = ExtResource("2_x25ju")

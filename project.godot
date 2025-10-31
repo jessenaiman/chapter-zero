@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="uid://byvydukidk6i2"
+run/main_scene="uid://c63y6b25bs4bk"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bsoinggacqq5l"
@@ -31,7 +31,7 @@ Player="*res://source/backend/common/Player.cs"
 CombatEvents="*res://source/frontend/combat/CombatEvents.cs"
 AudioManager="*res://source/frontend/audio/AudioManager.cs"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-AppConfig="*res://source/backend/GameAppConfig.cs"
+AppConfig="*res://addons/maaacks_menus_template/base/nodes/autoloads/app_config/app_config.tscn"
 SceneLoader="*res://addons/maaacks_menus_template/base/nodes/autoloads/scene_loader/scene_loader.gd"
 
 [dialogic]

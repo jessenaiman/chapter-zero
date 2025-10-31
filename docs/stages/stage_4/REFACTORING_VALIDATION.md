@@ -14,17 +14,18 @@ This document validates that all core godot-open-rpg functionality has been corr
 
 | System | Original (GDScript) | Refactored (C#) | Status |
 |--------|---------------------|-----------------|--------|
-| **Camera** | `res://source/field/field_camera.gd` | `res://source/scripts/field/FieldCamera.cs` | ✅ **Implemented** |
-| **CombatEvents** | `res://source/combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
-| **FieldEvents** | `res://source/field/field_events.gd` | `res://source/scripts/field/FieldEvents.cs` | ✅ **Implemented** |
-| **Gameboard** | `res://source/field/gameboard/gameboard.gd` | `res://source/scripts/field/gameboard/Gameboard.cs` | ✅ **Implemented** |
-| **GamepieceRegistry** | `res://source/field/gamepieces/gamepiece_registry.gd` | `res://source/scripts/field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
+| **Camera** | `res://source/field/field_camera.gd` | `res://source/frontend/field/FieldCamera.cs` | ✅ **Implemented** |
+| **CombatEvents** | `res://source/frontend/combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
+| **FieldEvents** | `res://source/field/field_events.gd` | `res://source/frontend/field/FieldEvents.cs` | ✅ **Implemented** |
+| **Gameboard** | `res://source/field/gameboard/gameboard.gd` | `res://source/frontend/field/gameboard/Gameboard.cs` | ✅ **Implemented** |
+| **GamepieceRegistry** | `res://source/field/gamepieces/gamepiece_registry.gd` | `res://source/frontend/field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
 | **Music** | `res://source/common/music/music_player.tscn` | `res://source/scripts/common/music/music_player.tscn` | ✅ **Implemented** |
 | **Player** | `res://source/common/player.gd` | `res://source/scripts/common/Player.cs` | ✅ **Implemented** |
 | **Transition** | `res://source/common/screen_transitions/ScreenTransition.tscn` | `res://source/scripts/common/screen_transitions/screen_transition.tscn` | ✅ **Implemented** |
 | **Dialogic** | `res://addons/dialogic/Core/DialogicGameHandler.gd` | `res://addons/dialogic/Core/DialogicGameHandler.gd` | ✅ **Preserved (addon)** |
 
 **Additional chapter-zero Autoloads** (not in original):
+
 - `SceneManager` - Scene transition management
 - `GameState` - Global game state
 - `NarratorEngine` - Narrative system (chapter-zero specific)
@@ -165,6 +166,7 @@ This document validates that all core godot-open-rpg functionality has been corr
 ❌ **Build Status**: FAILING (Exit Code: 1)
 
 **Critical Errors**:
+
 1. ❌ GdUnit4 test files cannot find `GdUnitTestSuite` type
 2. ❌ Character domain model has nullable reference errors
 3. ⚠️ Obsolete `TileMap` usage in performance tests
@@ -247,12 +249,14 @@ This document validates that all core godot-open-rpg functionality has been corr
 ### Refactoring Status: **95% Complete** ✅
 
 **Summary**:
+
 - All core systems successfully refactored from GDScript to C#
 - Scene structure and game logic preserved
 - Dialogic integration maintained
 - Build errors prevent validation testing
 
 **Next Steps**:
+
 1. Fix Character model nullable issues (15 minutes)
 2. Configure GdUnit4 properly (30 minutes)
 3. Update obsolete TileMap references (10 minutes)
@@ -261,6 +265,7 @@ This document validates that all core godot-open-rpg functionality has been corr
 6. Automated test execution (1 hour)
 
 **Risk Assessment**: LOW
+
 - Refactoring is architecturally sound
 - Build errors are isolated to specific files
 - No fundamental design issues detected
@@ -295,6 +300,7 @@ This document validates that all core godot-open-rpg functionality has been corr
 ### Dialogue Timelines (Preserved)
 
 All `.dtl` files preserved in same locations:
+
 - `warrior.dtl`, `thief.dtl`, `monk.dtl`, `smith.dtl`, `wizard.dtl`, `runner.dtl`
 - `strange_tree.dtl`, `sign.dtl`, `fan_of_four.dtl`
 - `encounter_before_combat.dtl`, `encounter_on_victory.dtl`, `encounter_on_loss.dtl`

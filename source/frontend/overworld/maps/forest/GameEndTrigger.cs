@@ -15,8 +15,8 @@ namespace OmegaSpiral.Source.Overworld.Maps.forest;
 [GlobalClass]
 public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes.Trigger
 {
-    private Gamepiece? gamepiece;
-    private Godot.Timer? timer;
+    private Gamepiece? _Gamepiece;
+    private Godot.Timer? _Timer;
 
     /// <summary>
     /// Gets or sets the Dialogic timeline to play during the ending sequence.
@@ -37,7 +37,7 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
 
         if (!Engine.IsEditorHint())
         {
-            this.timer = this.GetNode<Godot.Timer>("Timer");
+            this._Timer = this.GetNode<Godot.Timer>("Timer");
         }
     }
 
@@ -47,7 +47,7 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
     /// <returns>A task representing the asynchronous operation.</returns>
     protected override async Task ExecuteAsync()
     {
-        if (this.gamepiece == null)
+        if (this._Gamepiece == null)
         {
             return;
         }
@@ -57,15 +57,15 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
         if (gameboard != null)
         {
             var destinationPixel = (Vector2) gameboard.Call("cell_to_pixel", new Vector2I(53, 30));
-            this.gamepiece.Call("move_to", destinationPixel);
-            await this.ToSignal(this.gamepiece, "arrived");
+            this._Gamepiece.Call("move_to", destinationPixel);
+            await this.ToSignal(this._Gamepiece, "arrived");
         }
 
         // Wait for a moment
-        if (this.timer != null)
+        if (this._Timer != null)
         {
-            this.timer.Start();
-            await this.ToSignal(this.timer, Godot.Timer.SignalName.Timeout);
+            this._Timer.Start();
+            await this.ToSignal(this._Timer, Godot.Timer.SignalName.Timeout);
         }
 
         // Start the Dialogic timeline
@@ -77,10 +77,10 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
         }
 
         // Wait for another moment
-        if (this.timer != null)
+        if (this._Timer != null)
         {
-            this.timer.Start();
-            await this.ToSignal(this.timer, Godot.Timer.SignalName.Timeout);
+            this._Timer.Start();
+            await this.ToSignal(this._Timer, Godot.Timer.SignalName.Timeout);
         }
 
         // Note that the lunge animation also includes a screen transition and some text
@@ -107,7 +107,7 @@ public partial class GameEndTrigger : OmegaSpiral.Source.Scripts.Field.cutscenes
 
         if (!Engine.IsEditorHint())
         {
-            this.gamepiece = area.Owner as Gamepiece;
+            this._Gamepiece = area.Owner as Gamepiece;
         }
     }
 }

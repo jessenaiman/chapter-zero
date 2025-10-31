@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
+using OmegaSpiral.Source.Stages.Stage1;
+using OmegaSpiral.Source.Stages.Stage2;
 using OmegaSpiral.Source.Stages.Stage3;
 using OmegaSpiral.Source.Stages.Stage4;
 using OmegaSpiral.Source.Stages.Stage5;
@@ -19,6 +21,12 @@ using OmegaSpiral.Source.Stages.Stage5;
 [GlobalClass]
 public partial class GameManager : Node
 {
+    /// <summary>
+    /// Signal emitted when the game has finished running.
+    /// </summary>
+    [Signal]
+    public delegate void GameFinishedEventHandler();
+
     /// <summary>
     /// Gets a value indicating whether the game is currently running.
     /// </summary>
@@ -42,6 +50,18 @@ public partial class GameManager : Node
     public override void _Ready()
     {
         GD.Print("[GameManager] Ready. Awaiting start command from MainMenu.");
+    }
+
+    /// <summary>
+    /// Starts the game in the background (fire-and-forget).
+    /// Properly handles async/await interop with GDScript.
+    /// </summary>
+    /// <param name="startStageIndex">The stage index to start from (default: 0).</param>
+    public void StartGame(int startStageIndex = 0)
+    {
+        // Fire off the async operation without awaiting (fire-and-forget).
+        // This allows GDScript to continue running without blocking.
+        _ = this.StartGameAsync(startStageIndex);
     }
 
     /// <summary>
@@ -89,6 +109,7 @@ public partial class GameManager : Node
 
         GD.Print("[GameManager] All stages completed!");
         this.IsRunning = false;
+        this.EmitSignal(SignalName.GameFinished);
     }
 
     private ICinematicDirector? CreateCinematicDirector(string stageId)
@@ -96,11 +117,11 @@ public partial class GameManager : Node
         // Factory method to create the appropriate director for each stage
         return stageId switch
         {
-            "stage_1_ghost" => new Stages.Stage1.GhostCinematicDirector(),
-            "stage_2_nethack" => new Stages.Stage2.NethackCinematicDirector(),
-            "stage_3_town" => new OmegaSpiral.Source.Stages.Stage3.TownCinematicDirector(),
-            "stage_4_party_selection" => new OmegaSpiral.Source.Stages.Stage4.PartySelectionCinematicDirector(),
-            "stage_5_escape" => new OmegaSpiral.Source.Stages.Stage5.EscapeCinematicDirector(),
+            "stage_1_ghost" => new GhostCinematicDirector(),
+            "stage_2_nethack" => new NethackCinematicDirector(),
+            "stage_3_town" => new TownCinematicDirector(),
+            "stage_4_party_selection" => new PartySelectionCinematicDirector(),
+            "stage_5_escape" => new EscapeCinematicDirector(),
             _ => null,
         };
     }

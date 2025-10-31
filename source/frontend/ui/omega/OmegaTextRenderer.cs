@@ -1,5 +1,5 @@
 using Godot;
-using OmegaSpiral.Source.Design;
+using OmegaSpiral.Source.Frontend.Design;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 

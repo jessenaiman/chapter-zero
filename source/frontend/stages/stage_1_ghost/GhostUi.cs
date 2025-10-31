@@ -52,7 +52,7 @@ public partial class GhostUi : NarrativeUi
     /// </summary>
     /// <param name="lines">The lines to display.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public new async Task DisplayLinesAsync(IList<string> lines)
+    public override async Task DisplayLinesAsync(IList<string> lines)
     {
         foreach (var line in lines)
         {
@@ -66,14 +66,14 @@ public partial class GhostUi : NarrativeUi
     /// </summary>
     /// <param name="line">The command line.</param>
     /// <returns>Always false.</returns>
-    public new Task<bool> HandleCommandLineAsync(string line) => Task.FromResult(false);
+    public override Task<bool> HandleCommandLineAsync(string line) => Task.FromResult(false);
 
     /// <summary>
     /// Applies scene effects based on the script element.
     /// </summary>
     /// <param name="scene">The narrative script element.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public new async Task ApplySceneEffectsAsync(StoryScriptElement scene)
+    public override async Task ApplySceneEffectsAsync(StoryScriptElement scene)
     {
         if (scene.Pause.HasValue && scene.Pause.Value > 0)
         {
@@ -98,7 +98,7 @@ public partial class GhostUi : NarrativeUi
     /// <param name="speaker">The speaker.</param>
     /// <param name="choices">The available choices.</param>
     /// <returns>The selected choice.</returns>
-    public new async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
+    public override async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
     {
         await this.TypeTextAsync(question + "\n");
 
@@ -133,7 +133,7 @@ public partial class GhostUi : NarrativeUi
     /// </summary>
     /// <param name="selected">The selected choice.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public new Task ProcessChoiceAsync(ChoiceOption selected)
+    public override Task ProcessChoiceAsync(ChoiceOption selected)
     {
         // Handle choice processing, e.g., update scores
         GD.Print($"Choice selected: {selected.Text}");
@@ -144,7 +144,7 @@ public partial class GhostUi : NarrativeUi
     /// Notifies that the sequence is complete.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public new Task NotifySequenceCompleteAsync()
+    public override Task NotifySequenceCompleteAsync()
     {
         GD.Print("Sequence complete");
         return Task.CompletedTask;
@@ -162,7 +162,7 @@ public partial class GhostUi : NarrativeUi
     /// <summary>
     /// Plays boot sequence with terminal effects.
     /// </summary>
-    private new async Task PlayBootSequenceAsync()
+    public override async Task PlayBootSequenceAsync()
     {
         if (this.Terminal == null)
         {

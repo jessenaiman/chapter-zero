@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctuol1ff8u5e2"]
 
-[ext_resource type="PackedScene" uid="uid://oot0x5n44b2r" path="res://source/scripts/field/cutscenes/Interaction.tscn" id="1_j1qab"]
-[ext_resource type="Script" uid="uid://c2ux7md6xqvp0" path="res://source/overworld/maps/house/WandPedestalInteraction.cs" id="2_vpehh"]
-[ext_resource type="Resource" uid="uid://dqv2webtqx23s" path="res://source/overworld/maps/house/wand_pedestal_occupied.dtl" id="3_dfiym"]
-[ext_resource type="Resource" uid="uid://ddvjgirk1peou" path="res://source/overworld/maps/house/wand_pedestal.dtl" id="4_s2fj7"]
+[ext_resource type="PackedScene" uid="uid://oot0x5n44b2r" path="res://source/frontend/field/cutscenes/Interaction.tscn" id="1_j1qab"]
+[ext_resource type="Script" uid="uid://c2ux7md6xqvp0" path="res://source/frontend/overworld/maps/house/WandPedestalInteraction.cs" id="2_vpehh"]
+[ext_resource type="Resource" uid="uid://dqv2webtqx23s" path="res://source/frontend/overworld/maps/house/wand_pedestal_occupied.dtl" id="3_dfiym"]
+[ext_resource type="Resource" uid="uid://ddvjgirk1peou" path="res://source/frontend/overworld/maps/house/wand_pedestal.dtl" id="4_s2fj7"]
 
 [node name="WandPedestalInteraction" instance=ExtResource("1_j1qab")]
 script = ExtResource("2_vpehh")
