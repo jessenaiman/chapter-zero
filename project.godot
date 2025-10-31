@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="res://source/scenes/opening/opening.tscn"
+run/main_scene="uid://cyqy6dvynho67"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bsoinggacqq5l"
@@ -20,21 +20,21 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
-GameManager="*res://source/backend/GameManager.cs"
-SceneManager="*res://source/backend/SceneManager.cs"
-GameState="*res://source/backend/common/GameState.cs"
+GameManager="*res://source/frontend/autoloads/GameManager.cs"
+SceneManager="*res://source/frontend/autoloads/SceneManager.cs"
+GameState="*res://source/frontend/autoloads/GameState.cs"
+Player="*res://source/frontend/autoloads/Player.cs"
+AudioManager="*res://source/frontend/autoloads/AudioManager.cs"
 FieldEvents="*res://source/frontend/field/FieldEvents.cs"
 FieldCamera="*res://source/frontend/field/FieldCamera.cs"
 Gameboard="*res://source/frontend/field/gameboard/Gameboard.cs"
 GamepieceRegistry="*res://source/frontend/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://source/backend/common/Player.cs"
 CombatEvents="*res://source/frontend/combat/CombatEvents.cs"
-AudioManager="*res://source/frontend/audio/AudioManager.cs"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-AppConfig="*res://addons/maaacks_menus_template/base/nodes/autoloads/app_config/app_config.tscn"
-SceneLoader="*res://addons/maaacks_menus_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
-ProjectMusicController="*res://addons/maaacks_menus_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
-ProjectUISoundController="*res://addons/maaacks_menus_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
+AppConfig="*res://source/frontend/ui/menu/nodes/autoloads/app_config/app_config.tscn"
+SceneLoader="*res://source/frontend/ui/menu/nodes/autoloads/scene_loader/scene_loader.tscn"
+ProjectMusicController="*res://source/frontend/ui/menu/nodes/autoloads/music_controller/project_music_controller.tscn"
+ProjectUISoundController="*res://source/frontend/ui/menu/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
 
 [dialogic]
 
@@ -79,7 +79,7 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_menus_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
 
 [gui]
 
@@ -87,7 +87,7 @@ theme/custom="res://theme.tres"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/maaacks_menus_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_menus_template/base/translations/menus_translations.fr.translation")
+locale/translations=PackedStringArray("res://source/frontend/ui/menu/translations/menus_translations.en.translation", "res://source/frontend/ui/menu/translations/menus_translations.fr.translation")
 
 [maaacks_menus_template]
 

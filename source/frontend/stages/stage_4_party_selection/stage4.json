@@ -17,8 +17,8 @@
   },
   "points_ledger": [
     { "beat_id": "echo_slot_1", "owner": "light" },
-    { "beat_id": "echo_slot_2", "owner": "mischief" },
-    { "beat_id": "echo_slot_3", "owner": "wrath" }
+    { "beat_id": "echo_slot_2", "owner": "shadow" },
+    { "beat_id": "echo_slot_3", "owner": "ambition" }
   ],
   "beats": [
     {
@@ -29,13 +29,13 @@
       "prompt": "Choose your first echo. The archive remembers their fall; you will carry their chance.",
       "dreamweaver_intro": {
         "light": "Omega has trapped players here before. These frames are what remains.",
-        "mischief": "Tap the glass and they wake. But you'll owe them. You'll owe yourself.",
-        "wrath": "We take three. No more, or the loop noticed us last time."
+        "shadow": "Tap the glass and they wake. But you'll owe them. You'll owe yourself.",
+        "ambition": "We take three. No more, or the loop noticed us last time."
       },
       "champion_whispers": {
         "light": "I trust your hand. Slow is safe; safe is death. Decide.",
-        "mischief": "Remember the pack. We move together or we fade.",
-        "wrath": "Speed. Precision. Take the ones who fight back."
+        "shadow": "Remember the pack. We move together or we fade.",
+        "ambition": "Speed. Precision. Take the ones who fight back."
       },
       "options": ["gate_sentinel", "spark_archivist", "courier_shadow", "echo_reroll_1"]
     },
@@ -53,12 +53,12 @@
       "id": "echo_slot_2",
       "type": "selection",
       "tier": 1,
-      "owner": "mischief",
+      "owner": "shadow",
       "prompt": "The archive flexes. Choose the second echo before Omega recalibrates.",
       "dreamweaver_intro": {
         "light": "The first echo steadied the archive. The second strains it.",
-        "mischief": "Omega hears the glitch. Keep moving.",
-        "wrath": "Choose. Then fight. Then run."
+        "shadow": "Omega hears the glitch. Keep moving.",
+        "ambition": "Choose. Then fight. Then run."
       },
       "options": ["auric_mentor", "veiled_jester", "ashen_vanguard", "echo_reroll_2"]
     },
@@ -79,12 +79,12 @@
       "id": "echo_slot_3",
       "type": "selection",
       "tier": 2,
-      "owner": "wrath",
+      "owner": "ambition",
       "prompt": "Final pull. After this the archive collapses. Choose the echo that completes the break.",
       "dreamweaver_intro": {
         "light": "Three echoes together? This never happened. In any loop.",
-        "mischief": "I love firsts. I hate endings. You see the problem.",
-        "wrath": "Final pull. After this, the archive collapses."
+        "shadow": "I love firsts. I hate endings. You see the problem.",
+        "ambition": "Final pull. After this, the archive collapses."
       },
       "options": ["twin_eclipse", "glitched_shade", "duplicate_echo"]
     },
@@ -110,11 +110,11 @@
           "You felt that steadiness? That was hope returning.",
           "We traded pieces of you, but we leave with more than we entered."
         ],
-        "mischief": [
+        "shadow": [
           "That roster? Omega will choke on it.",
           "Stage four is raw code—if we make it."
         ],
-        "wrath": [
+        "ambition": [
           "Now we hunt. Nothing escapes.",
           "If this fails, there are no more chances."
         ],
@@ -143,11 +143,11 @@
           "supportive": "You felt that steadiness? That was hope returning.",
           "caution": "Even with them beside you, do not forget what you surrendered."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "Ha! Solid opener. Let's see the loop chew through that.",
           "caution": "You sure? I'd have gone flashier. Keep them entertained."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Good spine. Aim them at the front and push.",
           "caution": "If they waver, you replace them. No sentiment."
         }
@@ -170,11 +170,11 @@
           "supportive": "They know what we lost. Let them guide us back.",
           "caution": "Careful. Knowledge cuts both ways."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "Sparks! Great. I like fireworks.",
           "caution": "Just don't burn my threads, okay?"
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Power, thin skin. Guard them.",
           "caution": "If they hesitate, replace them."
         }
@@ -183,7 +183,7 @@
     {
       "id": "courier_shadow",
       "name": "Courier in Shadow // Iteration 91",
-      "owner": "mischief",
+      "owner": "shadow",
       "archetype": "rogue",
       "description": "Ran messages through Omega's blind spots until the loop caught them.",
       "mechanics": {
@@ -197,11 +197,11 @@
           "supportive": "We’ll keep them honest together.",
           "caution": "Speed is useful. Lies less so."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "That grin? Perfect. Don’t lose it.",
           "caution": "Remember: run smart, not just fast."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Use them to flank. No mercy.",
           "caution": "They flee once, I strike."
         }
@@ -224,11 +224,11 @@
           "supportive": "Feel that calm? That’s them anchoring us.",
           "caution": "Guard them; they carry our hope."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "A healer? Fine. Try not to nap mid-fight.",
           "caution": "Don’t let them slow us down."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "If they keep us on our feet, they stay.",
           "caution": "If they falter, we leave them."
         }
@@ -237,7 +237,7 @@
     {
       "id": "veiled_jester",
       "name": "Veiled Jester // Iteration 307",
-      "owner": "mischief",
+      "owner": "shadow",
       "archetype": "trickster",
       "description": "Mocked Omega in the open, vanished before containment.",
       "mechanics": {
@@ -251,11 +251,11 @@
           "supportive": "Balance and wit. Perhaps this time we dance instead of crawl.",
           "caution": "Too much chaos invites Omega's gaze. Keep them focused."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "Oh yes, perfect glitch fuel.",
           "caution": "Boring pick, but maybe reliable. Prove me wrong."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Use them to blind, then strike.",
           "caution": "If they play games, leave them in the archive."
         }
@@ -264,7 +264,7 @@
     {
       "id": "ashen_vanguard",
       "name": "Ashen Vanguard // Iteration 12",
-      "owner": "wrath",
+      "owner": "ambition",
       "archetype": "striker",
       "description": "Burned everything but the goal. Still smolders.",
       "mechanics": {
@@ -278,11 +278,11 @@
           "supportive": "We need their fire, but temper it.",
           "caution": "Fire scorches allies too. Tell them to breathe."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "That blade hums. I like it.",
           "caution": "Make sure they know when to stop."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Finally. Someone who understands force.",
           "caution": "Push them harder. They can take it."
         }
@@ -305,11 +305,11 @@
           "supportive": "With them, our line holds even when the code shakes.",
           "caution": "We just traded another memory. Hold tight to what's left."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "That roster? Omega will choke on it.",
           "caution": "Careful. Too much harmony and Omega notices."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Now we hunt. Nothing escapes.",
           "caution": "If this fails, no more chances. Remember that."
         }
@@ -318,7 +318,7 @@
     {
       "id": "glitched_shade",
       "name": "Glitched Shade // Orphan Record",
-      "owner": "wrath",
+      "owner": "ambition",
       "archetype": "wildcard",
       "description": "An echo Omega failed to catalog. Power wild, loyalty certain.",
       "mechanics": {
@@ -332,11 +332,11 @@
           "supportive": "If you can steer it, we might finally win.",
           "caution": "It frightens me. Do not let it swallow you."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "Yes. Yes. YES.",
           "caution": "Ride the glitch, don't drown in it."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Uncatalogued power. Use it.",
           "caution": "If it turns on us, I end it."
         }
@@ -345,7 +345,7 @@
     {
       "id": "duplicate_echo",
       "name": "Duplicate Echo",
-      "owner": "mischief",
+      "owner": "shadow",
       "archetype": "duplicate",
       "description": "Pull a second copy of an existing echo, risking loop instability.",
       "mechanics": {
@@ -359,11 +359,11 @@
           "supportive": "If it keeps you safe, I won’t protest.",
           "caution": "Careful. The archive hates duplicates."
         },
-        "mischief": {
+        "shadow": {
           "supportive": "Double trouble. I approve.",
           "caution": "Omega will see this. Be ready."
         },
-        "wrath": {
+        "ambition": {
           "supportive": "Two shields or two blades. Efficient.",
           "caution": "Do not rely on copies forever."
         }
@@ -376,11 +376,11 @@
       "stage": "echo_slot_1",
       "description": "Shuffle Echo Frames (risk: introduces static).",
       "effect": "[ERROR] ARCHIVE INDEX UNSTABLE",
-      "owner": "mischief",
+      "owner": "shadow",
       "dreamweaver_reactions": {
         "light": "Stop before the watchdog catches it!",
-        "mischief": "Heh. Twist the dial. See what falls out.",
-        "wrath": "One more glitch and the archive closes. Enough."
+        "shadow": "Heh. Twist the dial. See what falls out.",
+        "ambition": "One more glitch and the archive closes. Enough."
       }
     },
     {
@@ -388,11 +388,11 @@
       "stage": "echo_slot_2",
       "description": "Scramble Tier-1 frames. High chance of static wisp spawn.",
       "effect": "[ERROR] ARCHIVE SHUFFLE - WARNING: UNDEFINED RECORDS",
-      "owner": "mischief",
+      "owner": "shadow",
       "dreamweaver_reactions": {
         "light": "This is reckless.",
-        "mischief": "Chaos is our ally—sometimes.",
-        "wrath": "If this spawns another wisp, you answer for it."
+        "shadow": "Chaos is our ally—sometimes.",
+        "ambition": "If this spawns another wisp, you answer for it."
       }
     }
   ],

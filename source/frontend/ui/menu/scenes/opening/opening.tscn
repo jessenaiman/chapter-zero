@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyqy6dvynho67"]
+
+[ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://source/frontend/ui/menu/nodes/opening/opening.tscn" id="1_tjbcx"]
+[ext_resource type="Texture2D" uid="uid://5rltpvy6c5b" path="res://source/frontend/assets/godot_engine_logo/logo_vertical_color_dark.png" id="2_5ncfi"]
+
+[node name="Opening" unique_id=531273940 instance=ExtResource("1_tjbcx")]
+next_scene_path = "res://source/frontend/ui/menu/scenes/menus/main_menu/main_menu_with_animations.tscn"
+images = Array[Texture2D]([ExtResource("2_5ncfi")])

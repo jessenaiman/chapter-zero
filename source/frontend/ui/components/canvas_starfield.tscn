@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3456789012cdef0"]
+
+[ext_resource type="Script" path="res://source/frontend/ui/components/CanvasStarfield.cs" id="1_bcdef"]
+
+[node name="CanvasStarfield" type="Node2D"]
+script = ExtResource("1_bcdef")
+StarCount = 200
+StarColor = Color(1, 0.95, 0.8, 1)
+TwinkleSpeed = 1.8
+MinStarSize = 1.0
+MaxStarSize = 2.5

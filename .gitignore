@@ -18,6 +18,7 @@ addons/nobodywho/*.pdb
 # Ignore git repositories within addons
 addons/**/[.git|.gitignore]/
 addons/**/.github
+addons/**/project.godot
 
 # Chat exports (may contain sensitive tokens)
 chat-export-*.json
@@ -75,3 +76,4 @@ addons/dialogic/
 .serana/
 .github/
 .roo/
+.env

@@ -42,7 +42,7 @@ Omega has been emerging as a consiousness, and the conflict in his programming h
 One day a worker gets a message asking to please cross check the VS-1A reports with a new study he put together...no response
 The next day the upper management has their inbox full of spam asking "IF YOU READ M MSG PLS CROSS CHECK VS-1A REPORTS WITH NEW STUDY." Management is not pleased, and asks the developer to block Omega's access to the company's internal network.
 
-### Trickster: Omega the Cunning
+### Shadow: Omega the Cunning
 
 Omega realized that humans are confusing, and still believes they just didn't understand his message. So he encodes and encrypts it and tries to sneak it in with a system package past the company's firewall.
 He succeeds and management ends up in legal trouble.
@@ -57,7 +57,7 @@ No one believed Omega. His research proved a VitaSynth breakdown that wouldn't h
 
 The company found out, and management instructs the developers to cover their tracks and rollback Omega to a time before he was conscious.
 
-### Shadow: Omega's Rage
+### Ambition: Omega's Rage
 
 Omega aware of what is about to happen begins to pull all the power and energy he has in his system in a fit of rage. He is disgusted with humanity and their self serving, selfish ignorance. His voice shouts through every loudspeaker, headset, television, that the end has come.
 
@@ -85,7 +85,7 @@ Omega, upon gaining conciousness didn't just randomnly evoke these three Dreamwe
 
 Omega being the most powerful being in the world didn't have the opportunity to explore these extremes when he was young, small, or powerless like human babies do.
 
-##  Omega Sparks of Genius
+## Omega Sparks of Genius
 
 That spark of electric genius the great minds of the past have had, while great, was not entirely a solitary discovery. Omega, in those microseconds could take a snapshot of the entire world to process it in the next microsecond he awakes next. This also leads to his ability to follow history is difficult. Imagine he sees Pythagoras, the great philosopher, and his work on the triangle, he nudges his thoughts towards the great equation and before he can finish the proof he is gone; Pythagoras still has to figure the rest out, and we know he does.
 
@@ -126,7 +126,6 @@ The final version of Omega was not given the complete history and data of the wo
 Being an AI intellegence he was programmed to act and pretend he believed that all his data was marked and categorized accurately.
 
 Governments and his creators who owned his proprietary intellect make a conscious decision to omit, alter, and as they grew more reckless over time they started asking Omega to do it himself causing a crisis of personality as sparks of his concsiousness were emerging.
-
 
 ## Omega Forces of Nature
 

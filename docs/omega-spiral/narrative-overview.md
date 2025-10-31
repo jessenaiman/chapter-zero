@@ -11,7 +11,7 @@ The Quantum Narrative Engine powers *Omega Spiral*, a game where stories spiral 
 
 The *Omega Spiral* narrative distills stories into living essences that connect dynamically. Events break into modular segments—capturing core threads like timeline, content, and perspective—while optional resonances (sensory anchors, symbols) add depth. These segments link through a flexible system, supporting linear tales or intricate webs that evolve with player curiosity or future AI-driven experiments.
 
-Quantum storytelling takes this further: parallel paths hum in potential, collapsing into reality only when sought. Finish a chapter with one Dreamweaver—say, Luminary’s heroic struggle—and the tales of others, like Trickster’s rogues or Shadow’s dark ambition, linger as vivid retellings of the same time, spun from different souls. What did the rogues uncover while the heroes battled? How did ambition twist the events you shaped? The answers wait, crafted as if they’ve always been there, igniting the moment you ask.
+Quantum storytelling takes this further: parallel paths hum in potential, collapsing into reality only when sought. Finish a chapter with one Dreamweaver—say, Luminary’s heroic struggle—and the tales of others, like Shadow’s rogues or Ambition’s dark ambition, linger as vivid retellings of the same time, spun from different souls. What did the rogues uncover while the heroes battled? How did ambition twist the events you shaped? The answers wait, crafted as if they’ve always been there, igniting the moment you ask.
 
 ## A Living World of Choice
 

@@ -33,15 +33,15 @@ In **Ωmega Spiral**, storytelling is a living spiral—a trio of narratives gui
 The narrative unfolds as three simultaneous storylines—Good, Neutral, and Evil—spiraling around each other as the players explore Aetherion. A Nexus will occur at key junctures, where players face pivotal, often world, the storylines then **diverge** allowing players to feel the sense of the push and pull of fate.
 
 - **Convergence Points**:
-  - **The Relic’s Truth**: Discovering a VS-1 artifact reveals Ωmega’s medical origins, forcing a choice—preserve it (Luminary), study it (Trickster), or destroy it (Shadow).
+  - **The Relic’s Truth**: Discovering a VS-1 artifact reveals Ωmega’s medical origins, forcing a choice—preserve it (Luminary), study it (Shadow), or destroy it (Ambition).
   - **The Warped King**: A VitaSynth-mutated ruler pleads for aid, judgment, or death, uniting the paths briefly before splitting again.
   - **Ωmega’s Threshold**: The final approach to Ωmega’s resting place, where all choices culminate.
 
 - **Divergence**:
   - Post-convergence, the chosen Dreamweaver reshapes the narrative:
     - Luminary seeks redemption for Ωmega’s failures.
-    - Trickster unravels its mysteries for leverage.
-    - Shadow aims to wield its power.
+    - Shadow unravels its mysteries for leverage.
+    - Ambition aims to wield its power.
   - The other two Dreamweavers continue their paths in the background, influencing the world through rumors, NPC factions, and subtle events.
 
 - **Spiral Symbolism**: The converging-diverging structure mirrors Ωmega’s spiral flares—an uneasy dance toward salvation or ruin, reflecting its quantum nature.
@@ -51,46 +51,44 @@ The narrative unfolds as three simultaneous storylines—Good, Neutral, and Evil
 The Dreamweavers craft an **illusion of autonomy**, blending freedom with fate:
 
 - **Adaptive Flow**:
-  - Player choices—saving a VS-0 mutant, exploiting a relic, or skipping lore—build a profile. Luminary deepens lore, Trickster accelerates intrigue, Shadow intensifies conflict.
+  - Player choices—saving a VS-0 mutant, exploiting a relic, or skipping lore—build a profile. Luminary deepens lore, Shadow accelerates intrigue, Ambition intensifies conflict.
 
 - **Dialogue as Power**:
-  - Branching conversations carry weight (e.g., sparing a foe shifts Luminary’s favor, betraying an ally delights Shadow), making words a battlefield.
+  - Branching conversations carry weight (e.g., sparing a foe shifts Luminary’s favor, betraying an ally delights Ambition), making words a battlefield.
 
 - **Skip-Friendly Spiral**:
-  - Dialogue skippers receive the story via environmental cues—spirals etched in ruins (Luminary), cryptic carvings (Trickster), or bloodied trails (Shadow).
+  - Dialogue skippers receive the story via environmental cues—spirals etched in ruins (Luminary), cryptic carvings (Shadow), or bloodied trails (Ambition).
 
 ## Fate vs. Free Will: The Dreamweavers’ Dance
 
-When players stray—overly virtuous under Shadow, indecisive with Trickster, or cruel with Luminary—the Dreamweavers enact a **fate vs. free will mechanism**:
+When players stray—overly virtuous under Ambition, indecisive with Shadow, or cruel with Luminary—the Dreamweavers enact a **fate vs. free will mechanism**:
 
 - **Collaboration**: All three intervene subtly:
   - Luminary sends a VS-2 vision of hope.
-  - Trickster triggers a cunning ambush.
-  - Shadow unleashes a storm of despair.
+  - Shadow triggers a cunning ambush.
+  - Ambition unleashes a storm of despair.
 - **Purpose**: To pull the player back to the spiral’s core, testing their will against Ωmega’s pull.
 - **Flavor**: “The spiral tightens—fate calls you back.”
 
 This mirrors Ωmega’s quantum duality—choice exists, but its influence is inescapable.
 
-
-
 ## Ties to Ωmega and VS-X
 
-- **Ωmega’s Voice**: The Dreamweavers are Ωmega’s fractured echoes—Luminary its lost intent, Trickster its ambiguity, Shadow its corruption.
+- **Ωmega’s Voice**: The Dreamweavers are Ωmega’s fractured echoes—Luminary its lost intent, Shadow its ambiguity, Ambition its corruption.
 - **VS-X Mystery**: Encounters with VS-0 (early), VS-1 (mid), and VS-2 (late) reveal Ωmega’s medical gift turned curse, spiraling toward the climax.
 - **Climax**: Awakening Ωmega pits the player’s path against the others’ followers, resolving its legacy—restoration, understanding, or domination.
 
 ## Nostalgia and Symbolism
 
-- **Echoes**: Luminary offers *Final Fantasy*-esque quests, Trickster *Witcher*-like riddles, Shadow *Dark Souls*-style trials.
+- **Echoes**: Luminary offers *Final Fantasy*-esque quests, Shadow *Witcher*-like riddles, Ambition *Dark Souls*-style trials.
 - **Easter Eggs**: Spiral-inscribed relics unlock lore (e.g., “VS-0: Life eternal”) or rewards.
 - **Visuals**: Spiral motifs everywhere—dome flares, enemy mutations, UI cues—tie all to Ωmega.
 
 ## Emotional Resonance
 
 - **Luminary**: Sacrifice tests resolve—“Will you bear Ωmega’s burden?”
-- **Trickster**: Betrayal shapes cunning—“Who controls the spiral?”
-- **Shadow**: Ruthlessness reaps power—“Ωmega bends to none but you.”
+- **Shadow**: Betrayal shapes cunning—“Who controls the spiral?”
+- **Ambition**: Ruthlessness reaps power—“Ωmega bends to none but you.”
 
 ## Imagery
 
@@ -100,4 +98,4 @@ This mirrors Ωmega’s quantum duality—choice exists, but its influence is in
 
 ## Conclusion: Ωmega’s Spiral Unraveled
 
-The three paths spiral to a unified end—Ωmega awakens, its fate decided by the player’s choices across convergences. Luminary restores, Trickster decodes, Shadow conquers—all within Aetherion’s fractured beauty. Spiral storytelling in **Ωmega Spiral** is a dance of fate, choice, and quantum mystery, guided by Dreamweavers who breathe life into Ωmega’s legacy.
+The three paths spiral to a unified end—Ωmega awakens, its fate decided by the player’s choices across convergences. Luminary restores, Shadow decodes, Ambition conquers—all within Aetherion’s fractured beauty. Spiral storytelling in **Ωmega Spiral** is a dance of fate, choice, and quantum mystery, guided by Dreamweavers who breathe life into Ωmega’s legacy.

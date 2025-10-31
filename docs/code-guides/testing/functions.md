@@ -48,20 +48,3 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 // Waits until the function `color_cycle()` returns black or fails after an timeout of 5s
 await runner.AwaitMethod<bool>("color_cycle").IsEqual("black").WithTimeout(5000);
 ```
-
-
-### await_func_on
-
-The **await_func_on** function extends the functionality of await_func by allowing you to specify a source node within the scene.
-It waits for a specified function on that node to return a value and returns
-a [GdUnitFuncAssert]({{site.baseurl}}/testing/assert-function/#functionmethod-assertions) object for assertions.
-
-
-It takes the following arguments:
-
-```cs
-This function is not yet supported in C#.
-```
-
-```cs
-```

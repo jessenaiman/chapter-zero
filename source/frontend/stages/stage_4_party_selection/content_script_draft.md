@@ -20,22 +20,22 @@ The chamber breathes. Dust motes drift through a dark lattice of framed light.
 Each frame hums with a half-remembered silhouette. None of them are your own.
 
 Light:  “The archive stirs. We have so little time.”
-Mischief: “Omega stockpiles failures here. We call them… opportunities.”
-Wrath: “Choose quickly. Every echo you pull thins the bars.”
+Shadow: “Omega stockpiles failures here. We call them… opportunities.”
+Ambition: “Choose quickly. Every echo you pull thins the bars.”
 ```
 
 ## Simple Point Tally
 
-- Hidden ledger tracks Light, Mischief, and Wrath across the three echo selections.
+- Hidden ledger tracks Light, Shadow, and Ambition across the three echo selections.
 - Each decision point is “owned” by one Dreamweaver. Choosing their favored echo awards them **+1 point**.
 - Selecting an echo aligned with a different Dreamweaver sends the point to that patron instead.
 - Totals remain unseen until the Stage 3 finale summary.
 
 | Decision Point | Owner | Owner-Favored Choice (example) | Alternate Outcome |
 | -------------- | ----- | -------------------------------- | ----------------- |
-| Beat 1 – First Echo | Light | Gate Sentinel, Spark Archivist, Scribe → Light +1 | Courier (Mischief) → Mischief +1 |
-| Beat 3 – Second Echo | Mischief | Veiled Jester or reroll chaos → Mischief +1 | Auric Mentor → Light +1 / Ashen Vanguard → Wrath +1 |
-| Beat 5 – Final Echo | Wrath | Ashen Vanguard pairing or Glitched Shade → Wrath +1 | Twin Eclipse → Light +1 / Duplicate Guardian → Mischief +1 |
+| Beat 1 – First Echo | Light | Gate Sentinel, Spark Archivist, Scribe → Light +1 | Courier (Shadow) → Shadow +1 |
+| Beat 3 – Second Echo | Shadow | Veiled Jester or reroll chaos → Shadow +1 | Auric Mentor → Light +1 / Ashen Vanguard → Ambition +1 |
+| Beat 5 – Final Echo | Ambition | Ashen Vanguard pairing or Glitched Shade → Ambition +1 | Twin Eclipse → Light +1 / Duplicate Guardian → Shadow +1 |
 
 ## Structure Overview
 
@@ -58,8 +58,8 @@ Wrath: “Choose quickly. Every echo you pull thins the bars.”
 
 ```
 Light:   “Omega has trapped players here before. These frames are what remains.”
-Mischief: “Tap the glass and they wake. But you’ll owe them. You’ll owe yourself.”
-Wrath:  “We take three. No more, or the loop noticed us last time.”
+Shadow: “Tap the glass and they wake. But you’ll owe them. You’ll owe yourself.”
+Ambition:  “We take three. No more, or the loop noticed us last time.”
 Champion whisper (depends on Stage 2 winner):
     Light champ:   “I trust your hand. Slow is safe; safe is death. Decide.”
     Shadow champ:  “Remember the pack. We move together or we fade.”
@@ -67,15 +67,15 @@ Champion whisper (depends on Stage 2 winner):
 ```
 
 **Owner:** Light
-**Point Rule:** Accept one of Light’s favored echoes (Gate Sentinel, Spark Archivist, Scribe) → Light +1. Choose Mischief’s Courier → Mischief +1.
+**Point Rule:** Accept one of Light’s favored echoes (Gate Sentinel, Spark Archivist, Scribe) → Light +1. Choose Shadow’s Courier → Shadow +1.
 **Dreamweaver reaction variants:**
 
 - Light (supportive): “You felt that steadiness? That was hope returning.”
 - Light (concerned): “Even with them beside you, do not forget what you surrendered.”
-- Mischief (supportive): “Ha! Solid opener. Let’s see the loop chew through that.”
-- Mischief (skeptical): “You sure? I’d have gone flashier. Keep them entertained.”
-- Wrath (supportive): “Good spine. Aim them at the front and push.”
-- Wrath (warning): “If they waver, you replace them. No sentiment.”
+- Shadow (supportive): “Ha! Solid opener. Let’s see the loop chew through that.”
+- Shadow (skeptical): “You sure? I’d have gone flashier. Keep them entertained.”
+- Ambition (supportive): “Good spine. Aim them at the front and push.”
+- Ambition (warning): “If they waver, you replace them. No sentiment.”
 
 ### Echo options (Tier 0)
 
@@ -87,8 +87,8 @@ Champion whisper (depends on Stage 2 winner):
      ```
      Frame empties. The silhouette steps forward, helm cracked.
      Light: “They remember your grip from the gate. Take it.”
-     Wrath: “Do not waste their sacrifice. Again.”
-     Mischief: “Look, the gap they left… same shape as you.”
+     Ambition: “Do not waste their sacrifice. Again.”
+     Shadow: “Look, the gap they left… same shape as you.”
      ```
 
 2. **“Spark Archivist // Iteration 188”**
@@ -99,7 +99,7 @@ Champion whisper (depends on Stage 2 winner):
 3. **“Courier in Shadow // Iteration 91”**
    - Visual: sprinting silhouette carrying a data disk.
    - Mechanics: Rogue archetype ( high initiative).
-   - Mischief: “Oh, I liked this one. Quick fingers, quicker feet.”
+   - Shadow: “Oh, I liked this one. Quick fingers, quicker feet.”
 
 4. **Reroll node**
    - Text: “Shuffle Echo Frames (risk: introduces static).”
@@ -114,7 +114,7 @@ On defeat: echo returns to frame with scars; Dreamweavers comment (“It hurt to
 
 ---
 
-## Tier 1 — Second Echo Slot (Decision Point 2: Mischief-owned)
+## Tier 1 — Second Echo Slot (Decision Point 2: Shadow-owned)
 
 ### Presentation Upgrade
 
@@ -125,20 +125,20 @@ On defeat: echo returns to frame with scars; Dreamweavers comment (“It hurt to
 
 ```
 Light: “The first echo steadied the archive. The second strains it.”
-Mischief: “Omega hears the glitch. Keep moving.”
-Wrath: “Choose. Then fight. Then run.”
+Shadow: “Omega hears the glitch. Keep moving.”
+Ambition: “Choose. Then fight. Then run.”
 ```
 
-**Owner:** Mischief
-**Point Rule:** Choose Mischief’s Veiled Jester (or trigger reroll chaos she endorses) → Mischief +1. Selecting Light’s Auric Mentor → Light +1. Selecting Wrath’s Ashen Vanguard → Wrath +1.
+**Owner:** Shadow
+**Point Rule:** Choose Shadow’s Veiled Jester (or trigger reroll chaos she endorses) → Shadow +1. Selecting Light’s Auric Mentor → Light +1. Selecting Ambition’s Ashen Vanguard → Ambition +1.
 **Dreamweaver reaction variants:**
 
 - Light (supportive): “Balance and wit. Perhaps this time we dance instead of crawl.”
 - Light (uneasy): “Too much chaos invites Omega’s gaze. Keep them focused.”
-- Mischief (supportive): “Oh yes, perfect glitch fuel. We can work with this.”
-- Mischief (critical): “Boring pick, but maybe reliable. Prove me wrong.”
-- Wrath (supportive): “Speed or flame—either breaks the guard. Use them.”
-- Wrath (dismissive): “If they play games, leave them in the archive.”
+- Shadow (supportive): “Oh yes, perfect glitch fuel. We can work with this.”
+- Shadow (critical): “Boring pick, but maybe reliable. Prove me wrong.”
+- Ambition (supportive): “Speed or flame—either breaks the guard. Use them.”
+- Ambition (dismissive): “If they play games, leave them in the archive.”
 
 ### Echo options (Tier 1)
 
@@ -149,23 +149,23 @@ Unlocked by Stage2 champion:
   Light: “They taught me patience. I never listened. Maybe you will.”
 - If Shadow champion:
   **“Veiled Jester // Iteration 307”** – trickster archetype (dodge + debuff).
-  Mischief: “Heh. They laughed at Omega and lived. Once.”
+  Shadow: “Heh. They laughed at Omega and lived. Once.”
 - If Ambition champion:
   **“Ashen Vanguard // Iteration 12”** – striker archetype (high damage, low defense).
-  Wrath: “They burned everything but the goal. Perfect.”
+  Ambition: “They burned everything but the goal. Perfect.”
 
 Baseline echos remain (in case player wants duplicates).
 Each selection scrubs a “memory field” from player: `[SYSTEM] Personal Artifact — Childhood Song: REDACTED`.
 
 ### Combat 2
 
-Encounter: Wolf pack w/ static wisp (appears if trickster taken).
+Encounter: Wolf pack w/ static wisp (appears if shadow taken).
 Omega log mid-fight: `[WATCHDOG] Party size exceeds baseline > adjusting difficulty.`
 Dreamweavers push urgency: “Omega noticed. Finish it before he rewrites the arena!”
 
 ---
 
-## Tier 2 — Final Echo Slot (Decision Point 3: Wrath-owned)
+## Tier 2 — Final Echo Slot (Decision Point 3: Ambition-owned)
 
 ### Presentation Upgrade
 
@@ -176,21 +176,21 @@ Dreamweavers push urgency: “Omega noticed. Finish it before he rewrites the ar
 
 ```
 Light: “Three echoes together? This never happened. In any loop.”
-Mischief: “I love firsts. I hate endings. You see the problem.”
-Wrath: “Final pull. After this, the archive collapses.”
+Shadow: “I love firsts. I hate endings. You see the problem.”
+Ambition: “Final pull. After this, the archive collapses.”
 Champion whisper: personalised pep talk.
 ```
 
-**Owner:** Wrath
-**Point Rule:** Accept Wrath’s Ashen Vanguard pairing or the unstable Glitched Shade → Wrath +1. Taking Twin Eclipse gives Light +1; duplicating Mischief-aligned echoes awards Mischief +1.
+**Owner:** Ambition
+**Point Rule:** Accept Ambition’s Ashen Vanguard pairing or the unstable Glitched Shade → Ambition +1. Taking Twin Eclipse gives Light +1; duplicating Shadow-aligned echoes awards Shadow +1.
 **Dreamweaver reaction variants:**
 
 - Light (supportive): “With them, our line holds even when the code shakes.”
 - Light (troubled): “We just traded another memory. Hold tight to what’s left.”
-- Mischief (supportive): “That roster? Omega will choke on it. Delicious.”
-- Mischief (worried): “Careful. Too much fury and we burn ourselves.”
-- Wrath (supportive): “Now we hunt. Nothing escapes.”
-- Wrath (critical): “If this fails, no more chances. Remember that.”
+- Shadow (supportive): “That roster? Omega will choke on it. Delicious.”
+- Shadow (worried): “Careful. Too much fury and we burn ourselves.”
+- Ambition (supportive): “Now we hunt. Nothing escapes.”
+- Ambition (critical): “If this fails, no more chances. Remember that.”
 
 ### Echo options (Tier 2)
 
@@ -205,7 +205,7 @@ Combo picks rather than single classes; picking one consumes two slots:
 2. **“Glitched Shade // Orphan Record”**
    - Omega-corrupted echo.
    - Effect: random ability each combat round (good or bad).
-   - Mischief ecstatic; Light terrified; Wrath suspicious.
+   - Shadow ecstatic; Light terrified; Ambition suspicious.
 
 3. **“Duplicate Echo”** (if player wants to double up).
    - Dreamweavers disapprove but allow.
@@ -222,8 +222,8 @@ Regardless of victory:
 ```
 [SYSTEM] ARCHIVE CAPACITY EXCEEDED
 Light: “Hold on to them. The vault is failing.”
-Mischief: “Stage four is raw code. If we get there.”
-Wrath: “Run!”
+Shadow: “Stage four is raw code. If we get there.”
+Ambition: “Run!”
 ```
 Screen tears → Stage 4 boot sequence (JRPG town). Dreamweavers’ voices cut to static.
 

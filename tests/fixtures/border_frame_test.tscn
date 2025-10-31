@@ -1,5 +1,0 @@
-[gd_scene load_steps=1 format=3]
-
-[node name="BorderFrameFixture" type="Control"]
-layout_mode = 3
-anchors_preset = 15
