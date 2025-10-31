@@ -4,7 +4,7 @@ This plugin automatically checks GitHub for new releases. When a new release is 
 
 ## Starting an Update
 
-> [!IMPORTANT]
+> [!IMPORTANT]  
 > Save the state of the project, and close all open scenes and scripts.
 
 Select the option from `Project > Tools > Update Maaack's Menus Template to v...`.

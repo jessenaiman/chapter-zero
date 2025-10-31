@@ -44,7 +44,7 @@ func get_http_request() -> HTTPRequest:
 	return _http_request
 
 func get_api_key() -> String:
-	if api_key_file.is_empty():
+	if api_key_file.is_empty(): 
 		return ""
 	var file := FileAccess.open(api_key_file, FileAccess.READ)
 	var error := FileAccess.get_open_error()

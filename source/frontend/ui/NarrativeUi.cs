@@ -2,8 +2,9 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
 using OmegaSpiral.Source.Ui.Omega;
@@ -15,7 +16,7 @@ namespace OmegaSpiral.Source.Narrative;
 /// Text color: warm amber (#FEC962), background: handled by OmegaUI frame.
 /// </summary>
 [GlobalClass]
-public partial class NarrativeUi : OmegaContainer, IStoryHandler
+public partial class NarrativeUi : OmegaContainer
 {
     /// <summary>
     /// Gets or sets a value indicating whether to show boot sequence on ready.

@@ -2,11 +2,11 @@
 
 ![Plugins Suite](../media/maaacks-plugin-suite-256x256.gif)
 
-Maaack's Game Template is a culmination of a suite of plugins, that can be downloaded individually, if desired.
+Maaack's Game Template is a culmination of a suite of plugins, that can be downloaded individually, if desired.  
 
 ## GitHub
 
-- [Game Template](https://github.com/Maaack/Godot-Game-Template)
+- [Game Template](https://github.com/Maaack/Godot-Game-Template) 
     - [Menus Template](https://github.com/Maaack/Godot-Menus-Template)
         - [Options Menus](https://github.com/Maaack/Godot-Options-Menus)
             - [Input Remapping](https://github.com/Maaack/Godot-Input-Remapping)
@@ -17,7 +17,7 @@ Maaack's Game Template is a culmination of a suite of plugins, that can be downl
 
 ## Godot Asset Library
 
-- [Game Template](https://godotengine.org/asset-library/asset/2709)
+- [Game Template](https://godotengine.org/asset-library/asset/2709) 
     - [Menus Template](https://godotengine.org/asset-library/asset/2899)
         - [Options Menus](https://godotengine.org/asset-library/asset/3058)
             - [Input Remapping](https://godotengine.org/asset-library/asset/4051)
@@ -28,4 +28,5 @@ Maaack's Game Template is a culmination of a suite of plugins, that can be downl
 
 ## YouTube Video
 
-[![All Plugins Video](https://img.youtube.com/vi/3yzaUSaROhw/hqdefault.jpg)](https://youtu.be/3yzaUSaROhw)
+[![All Plugins Video](https://img.youtube.com/vi/3yzaUSaROhw/hqdefault.jpg)](https://youtu.be/3yzaUSaROhw)  
+

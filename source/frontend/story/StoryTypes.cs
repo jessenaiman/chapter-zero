@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Source.Backend.Narrative;
 
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -22,9 +23,67 @@ public class ChoiceOption
     public string? Text { get; set; }
 
     /// <summary>
+    /// Gets or sets the dreamweaver owner associated with this choice.
+    /// </summary>
+    public string? Owner { get; set; }
+
+    /// <summary>
     /// Gets or sets the choice value or effect.
     /// </summary>
     public string? Value { get; set; }
+
+    /// <summary>
+    /// Gets or sets the optional point value awarded when this choice is selected.
+    /// Defaults to <see langword="null"/> to indicate that global scoring rules apply.
+    /// </summary>
+    public int? Points { get; set; }
+}
+
+/// <summary>
+/// Represents a single outcome within an encounter definition.
+/// </summary>
+public class EncounterOutcome
+{
+    /// <summary>
+    /// Gets or sets the identifier for this outcome.
+    /// </summary>
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the owning dreamweaver for this outcome.
+    /// </summary>
+    public string? Owner { get; set; }
+
+    /// <summary>
+    /// Gets or sets the narrative text to present for this outcome.
+    /// </summary>
+    public string? Text { get; set; }
+
+    /// <summary>
+    /// Gets or sets the dreamweaver points to award when this outcome is chosen.
+    /// </summary>
+    public int Points { get; set; }
+}
+
+/// <summary>
+/// Represents an encounter block embedded within a story scene.
+/// </summary>
+public class EncounterDefinition
+{
+    /// <summary>
+    /// Gets or sets the encounter identifier.
+    /// </summary>
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the dreamweaver owner that triggered this encounter.
+    /// </summary>
+    public string? Owner { get; set; }
+
+    /// <summary>
+    /// Gets or sets the encounter outcomes presented to the player.
+    /// </summary>
+    public IList<EncounterOutcome> Outcomes { get; set; } = new List<EncounterOutcome>();
 }
 
 /// <summary>
@@ -77,6 +136,11 @@ public class StoryScriptElement
     /// Gets or sets the presentation tier for this scene.
     /// </summary>
     public int? Tier { get; set; }
+
+    /// <summary>
+    /// Gets or sets the optional encounter definitions for this scene.
+    /// </summary>
+    public IList<EncounterDefinition>? Encounters { get; set; }
 }
 
 /// <summary>
@@ -162,57 +226,6 @@ public class StoryScriptRoot
 }
 
 /// <summary>
-/// Interface for handling story presentation and interaction.
-/// UI implementations must provide these methods to display story content.
-/// </summary>
-public interface IStoryHandler
-{
-    /// <summary>
-    /// Plays the boot sequence for the story handler.
-    /// </summary>
-    Task PlayBootSequenceAsync();
-
-    /// <summary>
-    /// Displays a collection of narrative lines.
-    /// </summary>
-    /// <param name="lines">The lines to display.</param>
-    Task DisplayLinesAsync(IList<string> lines);
-
-    /// <summary>
-    /// Applies scene-specific visual and timing effects.
-    /// </summary>
-    /// <param name="scene">The scene to apply effects for.</param>
-    Task ApplySceneEffectsAsync(StoryScriptElement scene);
-
-    /// <summary>
-    /// Handles a command line from the script.
-    /// </summary>
-    /// <param name="command">The command line to handle.</param>
-    /// <returns>True if the command was handled, false otherwise.</returns>
-    Task<bool> HandleCommandLineAsync(string command);
-
-    /// <summary>
-    /// Presents a choice to the user.
-    /// </summary>
-    /// <param name="question">The question to present.</param>
-    /// <param name="context">The context information.</param>
-    /// <param name="choices">The available choices.</param>
-    /// <returns>The selected choice.</returns>
-    Task<ChoiceOption> PresentChoiceAsync(string question, string context, IList<ChoiceOption> choices);
-
-    /// <summary>
-    /// Processes a selected choice.
-    /// </summary>
-    /// <param name="choice">The choice to process.</param>
-    Task ProcessChoiceAsync(ChoiceOption choice);
-
-    /// <summary>
-    /// Notifies that the story sequence is complete.
-    /// </summary>
-    Task NotifySequenceCompleteAsync();
-}
-
-/// <summary>
 /// Base class for story plans that wrap script data for stage-specific access patterns.
 /// </summary>
 public abstract class StoryPlan
@@ -221,4 +234,51 @@ public abstract class StoryPlan
     /// Gets the script data for this plan.
     /// </summary>
     public StoryScriptRoot Script { get; protected set; } = new();
+}
+
+/// <summary>
+/// Represents the result of executing a single scene.
+/// </summary>
+public sealed class SceneResult
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SceneResult"/> class.
+    /// </summary>
+    /// <param name="scene">The scene that was executed.</param>
+    /// <param name="selectedChoice">The choice selected by the player, if any.</param>
+    public SceneResult(StoryScriptElement scene, ChoiceOption? selectedChoice)
+    {
+        this.Scene = scene ?? throw new ArgumentNullException(nameof(scene));
+        this.SelectedChoice = selectedChoice;
+    }
+
+    /// <summary>
+    /// Gets the scene that was executed.
+    /// </summary>
+    public StoryScriptElement Scene { get; }
+
+    /// <summary>
+    /// Gets the choice selected by the player, if any.
+    /// </summary>
+    public ChoiceOption? SelectedChoice { get; }
+}
+
+/// <summary>
+/// Event arguments describing a completed scene.
+/// </summary>
+public sealed class SceneResultEventArgs : EventArgs
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SceneResultEventArgs"/> class.
+    /// </summary>
+    /// <param name="result">The scene execution result.</param>
+    public SceneResultEventArgs(SceneResult result)
+    {
+        this.Result = result ?? throw new ArgumentNullException(nameof(result));
+    }
+
+    /// <summary>
+    /// Gets the scene execution result.
+    /// </summary>
+    public SceneResult Result { get; }
 }

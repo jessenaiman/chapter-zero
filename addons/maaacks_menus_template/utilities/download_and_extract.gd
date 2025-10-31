@@ -44,7 +44,7 @@ enum DownloadAndExtractStage{
 ## If not empty, zipped file paths that do not contain a match to the string will be ignored.
 @export var path_match_string : String = ""
 ## Assuming zip file contains a single base directory, the flag copies all of the contents,
-## as if they were at the base of the zip file. It never makes the base directory locally.
+## as if they were at the base of the zip file. It never makes the base directory locally. 
 @export var skip_base_zip_dir : bool = false
 ## Forces a download and extraction even if the files already exist.
 @export var force : bool = false
@@ -246,7 +246,7 @@ func _extract_next_zipped_file() -> void:
 	var extract_path_dir := extract_path
 	if not extract_path_dir.ends_with("/"):
 		extract_path_dir += "/"
-	var full_path := extract_path_dir
+	var full_path := extract_path_dir 
 	if skip_base_zip_dir:
 		full_path += zipped_file_path.replace(base_zip_path, "")
 	else:

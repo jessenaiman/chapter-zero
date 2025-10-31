@@ -33,7 +33,7 @@ This page covers the `ProjectMusicController`, which is used to blend music in b
     4.  Make sure that the `bus` property is set to `Music` and `autoplay` is `true`.
     5.  Save the scene.
 
-## Internal Details
+## Internal Details 
 
 When a background music player is about to exit the scene tree, it gets reparented to the autoload node. This allows it to continue playing until the next scene is ready and a new background music player is detected. If the audio stream players share the same stream, then the controller will seek the next player to the same position on the stream, before removing the previous one. If a different stream is detected and a fade out duration is set, then the previous player will blend into the next one, by having its volume lowered to zero over the fade out duration.
 

@@ -185,4 +185,31 @@ public static class DesignService
             }
         }
     }
+
+    /// <summary>
+    /// Retrieves a <see cref="Godot.Shader"/> resource from the project's shader library.
+    /// The method follows the same KISS pattern as <see cref="GetColor"/> – it builds the
+    /// resource path, caches the loaded shader, and returns a fallback empty shader if the
+    /// file cannot be found.
+    /// </summary>
+    /// <param name="name">The base filename of the shader without extension (e.g. "spiral_border").</param>
+    /// <returns>A <see cref="Godot.Shader"/> instance ready for use in a <see cref="ShaderMaterial"/>.</returns>
+    public static Shader GetShader(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            GD.PushWarning("[DesignService] Shader name is empty; returning a dummy shader.");
+            return new Shader();
+        }
+
+        // Build the absolute resource path. All shaders are stored under "source/shaders".
+        var path = $"res://source/shaders/{name}.gdshader";
+        var shader = GD.Load<Shader>(path);
+        if (shader == null)
+        {
+            GD.PushWarning($"[DesignService] Shader not found at {path}; returning a dummy shader.");
+            return new Shader();
+        }
+        return shader;
+    }
 }

@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Source.Stages.Stage3;
 
+using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Backend.Narrative;
@@ -26,10 +27,10 @@ using OmegaSpiral.Source.Backend.Narrative;
 public sealed class TownCinematicDirector : CinematicDirector<TownCinematicPlan>
 {
     /// <inheritdoc/>
-    public override async Task RunStageAsync()
+    public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
         // HYBRID PATTERN: Run narrative first, then gameplay
-        await this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_3_town/town_main_start.tscn");
+        return this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_3_town/town_main_start.tscn");
     }
 
     /// <inheritdoc/>

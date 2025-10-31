@@ -20,7 +20,7 @@ const MINIMUM_VOLUME_DB = -80
 		fade_out_duration = value
 		if fade_out_duration < 0:
 			fade_out_duration = 0
-
+			
 @export var fade_in_duration : float = 0.0 :
 	set(value):
 		fade_in_duration = value
@@ -118,7 +118,7 @@ func play_stream_player(stream_player : AudioStreamPlayer) -> void:
 	if stream_player == music_stream_player : return
 	if stream_player.stream == null and not empty_streams_stop_player:
 			return
-	if _is_matching_stream(stream_player) :
+	if _is_matching_stream(stream_player) : 
 		_blend_and_remove_stream_player(stream_player)
 	else:
 		_blend_and_connect_stream_player(stream_player)

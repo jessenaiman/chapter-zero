@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Source.Stages.Stage4;
 
+using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Backend.Narrative;
@@ -26,11 +27,11 @@ using OmegaSpiral.Source.Backend.Narrative;
 public sealed class PartySelectionCinematicDirector : CinematicDirector<PartySelectionCinematicPlan>
 {
     /// <inheritdoc/>
-    public override async Task RunStageAsync()
+    public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
         // HYBRID PATTERN: Run narrative first, then party selection UI
         // TODO: Implement party selection scene path
-        await this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_4_party_selection/party_selection_ui.tscn");
+        return this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_4_party_selection/party_selection_ui.tscn");
     }
 
     /// <inheritdoc/>

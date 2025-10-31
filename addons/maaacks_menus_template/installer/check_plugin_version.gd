@@ -36,7 +36,7 @@ const API_RELEASES_URL := "https://api.github.com/repos/%s/%s/releases"
 var _zipball_url : String
 
 func get_plugin_version() -> String :
-	if not plugin_directory.is_empty():
+	if not plugin_directory.is_empty(): 
 		for enabled_plugin in ProjectSettings.get_setting("editor_plugins/enabled"):
 			if enabled_plugin.contains(plugin_directory):
 				var config := ConfigFile.new()

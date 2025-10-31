@@ -4,7 +4,9 @@
 
 namespace OmegaSpiral.Source.Backend;
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
@@ -32,6 +34,11 @@ public partial class GameManager : Node
     /// </summary>
     public bool IsRunning { get; private set; }
 
+    /// <summary>
+    /// Gets the accumulated dreamweaver points for the current playthrough.
+    /// </summary>
+    public IReadOnlyDictionary<string, int> DreamweaverPoints => this.dreamweaverPoints;
+
     private List<string> StageIds { get; } = new()
     {
         "stage_1_ghost",
@@ -42,6 +49,8 @@ public partial class GameManager : Node
     };
 
     private int CurrentStageIndex { get; set; }
+
+    private readonly Dictionary<string, int> dreamweaverPoints = new(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Called when the node enters the scene tree.
@@ -79,6 +88,7 @@ public partial class GameManager : Node
 
         this.IsRunning = true;
         this.CurrentStageIndex = startStageIndex;
+        this.dreamweaverPoints.Clear();
 
         GD.Print($"[GameManager] Starting game from stage {startStageIndex}");
 
@@ -96,8 +106,10 @@ public partial class GameManager : Node
             var director = this.CreateCinematicDirector(stageId);
             if (director != null)
             {
-                await director.RunStageAsync().ConfigureAwait(false);
+                var sceneResults = await director.RunStageAsync().ConfigureAwait(false);
+                this.UpdateDreamweaverPoints(sceneResults);
                 GD.Print($"[GameManager] Stage {this.CurrentStageIndex + 1} completed.");
+                this.LogDreamweaverPoints(stageId);
             }
             else
             {
@@ -110,6 +122,61 @@ public partial class GameManager : Node
         GD.Print("[GameManager] All stages completed!");
         this.IsRunning = false;
         this.EmitSignal(SignalName.GameFinished);
+    }
+
+    private void UpdateDreamweaverPoints(IEnumerable<SceneResult> sceneResults)
+    {
+        foreach (var result in sceneResults)
+        {
+            var owner = result.Scene.Owner;
+            if (!string.IsNullOrWhiteSpace(owner))
+            {
+                this.AddDreamweaverPoints(owner, 1);
+            }
+
+            var choiceOwner = result.SelectedChoice?.Owner;
+            if (string.IsNullOrWhiteSpace(choiceOwner))
+            {
+                continue;
+            }
+
+            int bonusPoints = result.SelectedChoice?.Points
+                ?? (owner != null && string.Equals(owner, choiceOwner, StringComparison.OrdinalIgnoreCase) ? 2 : 0);
+
+            if (bonusPoints > 0)
+            {
+                this.AddDreamweaverPoints(choiceOwner, bonusPoints);
+            }
+        }
+    }
+
+    private void AddDreamweaverPoints(string dreamweaverId, int points)
+    {
+        if (string.IsNullOrWhiteSpace(dreamweaverId) || points == 0)
+        {
+            return;
+        }
+
+        if (this.dreamweaverPoints.TryGetValue(dreamweaverId, out int current))
+        {
+            this.dreamweaverPoints[dreamweaverId] = current + points;
+        }
+        else
+        {
+            this.dreamweaverPoints[dreamweaverId] = points;
+        }
+    }
+
+    private void LogDreamweaverPoints(string stageId)
+    {
+        if (this.dreamweaverPoints.Count == 0)
+        {
+            GD.Print($"[GameManager] No dreamweaver points recorded after {stageId}.");
+            return;
+        }
+
+        var summary = string.Join(", ", this.dreamweaverPoints.Select(kvp => $"{kvp.Key}:{kvp.Value}"));
+        GD.Print($"[GameManager] Dreamweaver points after {stageId}: {summary}");
     }
 
     private ICinematicDirector? CreateCinematicDirector(string stageId)

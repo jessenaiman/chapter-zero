@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Source.Backend;
 
+using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
 
@@ -16,8 +17,8 @@ public interface ICinematicDirector
     /// <summary>
     /// Runs the stage.
     /// </summary>
-    /// <returns>A task that completes when the stage is finished.</returns>
-    Task RunStageAsync();
+    /// <returns>A task that completes when the stage is finished and yields the scene results.</returns>
+    Task<IReadOnlyList<SceneResult>> RunStageAsync();
 }
 
 /// <summary>
@@ -50,7 +51,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// This is the standardized approach for hybrid stages (Town, PartySelection, Escape).
     /// </summary>
     /// <returns>A task that completes when the stage is finished.</returns>
-    public virtual async Task RunStageAsync()
+    public virtual async Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
         // Optional: Load UI scene if specified by subclass
         var scenePath = this.GetScenePath();
@@ -64,6 +65,8 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
         var script = StoryLoader.LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
 
+        var results = new List<SceneResult>();
+
         if (this.Plan?.Script?.Scenes != null)
         {
             foreach (var scene in this.Plan.Script.Scenes)
@@ -72,18 +75,20 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
                 var data = this.GatherSceneData(scene);
 
                 var sceneManager = this.CreateSceneManager(scene, data);
-                await sceneManager.RunSceneAsync();
+                var result = await sceneManager.RunSceneAsync();
+                results.Add(result);
             }
         }
 
         // Signal GameManager - stub
+        return results;
     }
 
     /// <summary>
     /// Gets the path to the JSON script file for this stage.
     /// Must be implemented by subclasses.
     /// </summary>
-    /// <returns>Path to JSON file (e.g., "res://source/frontend/stages/stage_1_ghost/ghost.json").</returns>
+    /// <returns>Path to narrative data file (e.g., "res://source/frontend/stages/stage_1_ghost/ghost.json").</returns>
     protected abstract string GetDataPath();
 
     /// <summary>
@@ -165,12 +170,14 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// </summary>
     /// <param name="gameplayScenePath">Path to the gameplay scene .tscn file.</param>
     /// <returns>A task that completes when both narrative and gameplay are finished.</returns>
-    protected async Task RunStageWithGameplayAsync(string gameplayScenePath)
+    protected async Task<IReadOnlyList<SceneResult>> RunStageWithGameplayAsync(string gameplayScenePath)
     {
         // Phase 1: Run narrative sequences
         GD.Print("[CinematicDirector] Starting narrative phase...");
         var script = StoryLoader.LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
+
+        var results = new List<SceneResult>();
 
         if (this.Plan?.Script?.Scenes != null)
         {
@@ -178,7 +185,8 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
             {
                 var data = this.GatherSceneData(scene);
                 var sceneManager = this.CreateSceneManager(scene, data);
-                await sceneManager.RunSceneAsync();
+                var result = await sceneManager.RunSceneAsync();
+                results.Add(result);
             }
         }
 
@@ -187,6 +195,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
         await this.LoadUiSceneAsync(gameplayScenePath);
 
         GD.Print("[CinematicDirector] Hybrid stage complete");
+        return results;
     }
 
     /// <summary>

@@ -4,6 +4,7 @@
 
 namespace OmegaSpiral.Source.Stages.Stage5;
 
+using System.Collections.Generic;
 using Godot;
 using OmegaSpiral.Source.Backend;
 using OmegaSpiral.Source.Backend.Narrative;
@@ -26,10 +27,10 @@ using OmegaSpiral.Source.Backend.Narrative;
 public sealed class EscapeCinematicDirector : CinematicDirector<EscapeCinematicPlan>
 {
     /// <inheritdoc/>
-    public override async Task RunStageAsync()
+    public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
         // HYBRID PATTERN: Run narrative first, then escape sequence
-        await this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_5_escape/escape_hub_start.tscn");
+        return this.RunStageWithGameplayAsync("res://source/frontend/stages/stage_5_escape/escape_hub_start.tscn");
     }
 
     /// <inheritdoc/>

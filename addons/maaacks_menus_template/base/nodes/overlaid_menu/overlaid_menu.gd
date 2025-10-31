@@ -15,7 +15,7 @@ var _initial_pause_state : bool = false
 var _initial_focus_mode : FocusMode = FOCUS_ALL
 var _initial_mouse_mode : Input.MouseMode
 var _initial_focus_control
-var _scene_tree : SceneTree
+var _scene_tree : SceneTree 
 
 func close() -> void:
 	_scene_tree.paused = _initial_pause_state

@@ -30,25 +30,9 @@ var sub_menu : Control
 @onready var exit_button = %ExitButton
 
 func get_game_scene_path() -> String:
-	if not game_scene_path.is_empty():
-		return game_scene_path
-
-	# Try to read the value from the project's AppConfig autoload.
-	# The project may replace the addon's AppConfig (GDScript) with a C# autoload
-	# (e.g. GameAppConfig). Accessing a non-existent property directly will raise
-	# an error, so use `get()` which safely returns null if the property doesn't
-	# exist. Try both snake_case and PascalCase just in case.
-	var cfg_val = null
-	# snake_case (what the addon exposes)
-	cfg_val = AppConfig.get("game_scene_path")
-	if cfg_val == null or cfg_val == "":
-		# PascalCase (C# property naming)
-		cfg_val = AppConfig.get("GameScenePath")
-
-	if cfg_val == null:
-		return ""
-
-	return cfg_val
+	if game_scene_path.is_empty():
+		return AppConfig.game_scene_path
+	return game_scene_path
 
 func load_game_scene() -> void:
 	if signal_game_start:

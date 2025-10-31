@@ -2,21 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtw2eou0w0bex"
-path.s3tc="res://.godot/imported/hst.png-32647943c6e34f9d789fd33a0417cd79.s3tc.ctex"
+uid="uid://dy16hmrcq0q7v"
+path="res://.godot/imported/logo.png-a3824d9c0667300ba2144b0fe344b03e.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/starlight/psf-textures/hst.png"
-dest_files=["res://.godot/imported/hst.png-32647943c6e34f9d789fd33a0417cd79.s3tc.ctex"]
+source_file="res://source/assets/plugin_logo/logo.png"
+dest_files=["res://.godot/imported/logo.png-a3824d9c0667300ba2144b0fe344b03e.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -24,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -38,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

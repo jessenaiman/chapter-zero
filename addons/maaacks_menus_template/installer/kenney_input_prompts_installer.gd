@@ -254,7 +254,7 @@ func _configure_icons() -> void:
 	_clean_up_or_complete()
 
 func _configure_and_complete() -> void:
-	if _configuration_index >= 0:
+	if _configuration_index >= 0: 
 		_configure_icons()
 		return
 	_clean_up_or_complete()

@@ -18,10 +18,10 @@ There are a number of ways to then show the scene when it is ready, or even swit
 
 A scene can be loaded as soon as it is ready, by listening for the `scene_loaded` signal from the `SceneLoader`.
 
-An example of this is in `level_loader.gd` of [Maaack's Game Template](https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/extras/scripts/level_loader.gd), which loads scenes in the background and displays a loading screen, but doesn't change the whole scene when the next one is ready. Instead, it loads the next level into a container.
+An example of this is in `level_loader.gd` of [Maaack's Game Template](https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/extras/scripts/level_loader.gd), which loads scenes in the background and displays a loading screen, but doesn't change the whole scene when the next one is ready. Instead, it loads the next level into a container.  
 
 
-Below is an example of reacting to `SceneLoader` signals to open the loaded scene in an optional `container` node, or switch to it entirely.
+Below is an example of reacting to `SceneLoader` signals to open the loaded scene in an optional `container` node, or switch to it entirely.  
 
 ```
 SceneLoader.load_scene(path_to_scene, true)
@@ -38,11 +38,11 @@ else:
 
 ### On User Input or a Timed Event
 
-A scene could load the next scene based on a timer, or when the player indicates that they are ready.
+A scene could load the next scene based on a timer, or when the player indicates that they are ready.  
 
-An example is in `opening.gd` of [Maaack's Game Template](https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/base/scenes/opening/opening.gd), which starts loading the main menu immediately, and switches to it when its animations finish. Player's input can speed them up the animations, so by the end, if the next scene is not ready, a loading screen can be shown instead.
+An example is in `opening.gd` of [Maaack's Game Template](https://github.com/Maaack/Godot-Game-Template/blob/main/addons/maaacks_game_template/base/scenes/opening/opening.gd), which starts loading the main menu immediately, and switches to it when its animations finish. Player's input can speed them up the animations, so by the end, if the next scene is not ready, a loading screen can be shown instead.  
 
-Below is an example of starting the load of the next scene.
+Below is an example of starting the load of the next scene.  
 
 ```
 func _ready() -> void:
@@ -50,7 +50,7 @@ func _ready() -> void:
 	SceneLoader.load_scene(path_to_scene, true)
 ```
 
-Below is an example of reacting to the player's input to either show the next scene or a loading screen.
+Below is an example of reacting to the player's input to either show the next scene or a loading screen.  
 
 ```
 func _unhandled_input(event : InputEvent) -> void:

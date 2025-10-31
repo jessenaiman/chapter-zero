@@ -4,15 +4,23 @@
 
 namespace OmegaSpiral.Source.Backend;
 
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 using OmegaSpiral.Source.Backend.Narrative;
+using OmegaSpiral.Source.Narrative;
+using OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
 /// Per-scene manager that takes data from CinematicDirector, loads .tscn, runs the scene, signals completion.
 /// </summary>
 public partial class SceneManager : Node
 {
+    private static readonly string[] DefaultHandlerNames = { "NarrativeUi", "GhostUi" };
+
+    private readonly IReadOnlyList<string> handlerPreferences;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SceneManager"/> class (parameterless for Godot autoload).
     /// </summary>
@@ -20,6 +28,7 @@ public partial class SceneManager : Node
     {
         this.SceneData = new StoryScriptElement();
         this.AdditionalData = new object();
+        this.handlerPreferences = DefaultHandlerNames;
     }
 
     /// <summary>
@@ -27,10 +36,12 @@ public partial class SceneManager : Node
     /// </summary>
     /// <param name="scene">The scene data.</param>
     /// <param name="data">Additional data for the scene.</param>
-    public SceneManager(StoryScriptElement scene, object data)
+    /// <param name="preferredHandlers">Optional ordered list of handler node names to search for.</param>
+    public SceneManager(StoryScriptElement scene, object data, IReadOnlyList<string>? preferredHandlers = null)
     {
         this.SceneData = scene;
         this.AdditionalData = data;
+        this.handlerPreferences = preferredHandlers ?? DefaultHandlerNames;
     }
 
     /// <summary>
@@ -54,7 +65,7 @@ public partial class SceneManager : Node
     /// Runs the scene by loading .tscn, displaying narrative, handling UI, signals when done.
     /// </summary>
     /// <returns>A task that completes when the scene is finished.</returns>
-    public virtual async Task RunSceneAsync()
+    public virtual async Task<SceneResult> RunSceneAsync()
     {
         try
         {
@@ -65,7 +76,7 @@ public partial class SceneManager : Node
             if (tree == null)
             {
                 GD.PrintErr("[SceneManager] Could not get scene tree");
-                return;
+                return new SceneResult(this.SceneData, null);
             }
 
             // Try to find or instantiate the UI handler for this scene
@@ -74,16 +85,17 @@ public partial class SceneManager : Node
             if (handler == null)
             {
                 GD.PrintErr("[SceneManager] No UI handler available for scene");
-                return;
+                return new SceneResult(this.SceneData, null);
             }
 
             // Display the scene using the handler
-            await this.RunSceneWithHandlerAsync(handler);
+            return await this.RunSceneWithHandlerAsync(handler);
         }
         catch (Exception ex)
         {
             GD.PrintErr($"[SceneManager] Error running scene: {ex.Message}");
             GD.PrintErr(ex.StackTrace);
+            return new SceneResult(this.SceneData, null);
         }
     }
 
@@ -93,12 +105,28 @@ public partial class SceneManager : Node
     /// </summary>
     /// <param name="tree">The active scene tree.</param>
     /// <returns>The story handler instance, or null if unavailable.</returns>
-    protected virtual IStoryHandler? GetOrCreateUiHandler(SceneTree tree)
+    protected virtual NarrativeUi? GetOrCreateUiHandler(SceneTree tree)
     {
-        // Base implementation: try to find any IStoryHandler in the scene tree
         var root = tree.Root;
-        return root?.FindChild("NarrativeUi", recursive: true, owned: false) as IStoryHandler
-            ?? root?.FindChild("GhostUi", recursive: true, owned: false) as IStoryHandler;
+        if (root == null)
+        {
+            return null;
+        }
+
+        foreach (var handlerName in this.handlerPreferences)
+        {
+            if (string.IsNullOrWhiteSpace(handlerName))
+            {
+                continue;
+            }
+
+            if (root.FindChild(handlerName, recursive: true, owned: false) is NarrativeUi handler)
+            {
+                return handler;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -107,36 +135,34 @@ public partial class SceneManager : Node
     /// </summary>
     /// <param name="handler">The story handler to use for display.</param>
     /// <returns>A task that completes when the scene finishes.</returns>
-    protected virtual async Task RunSceneWithHandlerAsync(IStoryHandler handler)
+    protected virtual async Task<SceneResult> RunSceneWithHandlerAsync(NarrativeUi handler)
     {
-        // Boot sequence for first scene
         GD.Print($"[SceneManager] Displaying lines for scene: {this.SceneData.Id}");
 
-        // Display narrative lines
         if (this.SceneData.Lines?.Count > 0)
         {
-            await handler.DisplayLinesAsync(this.SceneData.Lines).ConfigureAwait(false);
+            await WaitForInteractionAsync(handler, "display_finished", () => handler.DisplayLinesAsync(this.SceneData.Lines));
         }
 
-        // Apply scene effects (pause, shader effects, etc.)
-        await handler.ApplySceneEffectsAsync(this.SceneData).ConfigureAwait(false);
+        await handler.ApplySceneEffectsAsync(this.SceneData);
 
-        // Present choices if available
+        ChoiceOption? selectedChoice = null;
+
         if (!string.IsNullOrWhiteSpace(this.SceneData.Question) && this.SceneData.Choice?.Count > 0)
         {
-            ChoiceOption selectedChoice = await handler.PresentChoiceAsync(
-                this.SceneData.Question,
-                this.SceneData.Owner ?? "system",
-                this.SceneData.Choice).ConfigureAwait(false);
+            selectedChoice = await WaitForInteractionAsync(
+                handler,
+                "choice_made",
+                () => handler.PresentChoiceAsync(
+                    this.SceneData.Question,
+                    this.SceneData.Owner ?? "system",
+                    this.SceneData.Choice));
 
-            GD.Print($"[SceneManager] Selected choice: {selectedChoice.Id}");
+            GD.Print($"[SceneManager] Selected choice: {selectedChoice?.Id}");
 
-            // Process the choice if a valid selection was made
-            // The handler may return null when the player cancels or no choice is available.
-            // Guard against null to avoid passing a null argument to ProcessChoiceAsync (CS8604).
             if (selectedChoice != null)
             {
-                await handler.ProcessChoiceAsync(selectedChoice).ConfigureAwait(false);
+                await handler.ProcessChoiceAsync(selectedChoice);
             }
             else
             {
@@ -144,12 +170,68 @@ public partial class SceneManager : Node
             }
         }
 
-        // Final pause if specified
         if (this.SceneData.Pause.HasValue && this.SceneData.Pause.Value > 0)
         {
-            await Task.Delay(this.SceneData.Pause.Value).ConfigureAwait(false);
+            await Task.Delay(this.SceneData.Pause.Value);
         }
 
         GD.Print($"[SceneManager] Completed scene: {this.SceneData.Id}");
+        return new SceneResult(this.SceneData, selectedChoice);
+    }
+
+    private static async Task WaitForInteractionAsync(NarrativeUi handler, string eventType, Func<Task> action)
+    {
+        await WaitForInteractionAsync<object?>(handler, eventType, async () =>
+        {
+            await action();
+            return null;
+        });
+    }
+
+    private static async Task<T> WaitForInteractionAsync<T>(NarrativeUi handler, string eventType, Func<Task<T>> action)
+    {
+        if (handler == null)
+        {
+            throw new ArgumentNullException(nameof(handler));
+        }
+
+        if (action == null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        var tcs = new TaskCompletionSource<Variant>();
+        Callable callable = default;
+
+        callable = Callable.From<string, Variant>((evt, context) =>
+        {
+            if (!string.Equals(evt, eventType, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            if (handler.IsConnected(OmegaContainer.SignalName.InteractionComplete, callable))
+            {
+                handler.Disconnect(OmegaContainer.SignalName.InteractionComplete, callable);
+            }
+
+            tcs.TrySetResult(context);
+        });
+
+        handler.Connect(OmegaContainer.SignalName.InteractionComplete, callable);
+
+        try
+        {
+            var result = await action();
+            await tcs.Task;
+            return result;
+        }
+        finally
+        {
+            if (handler.IsConnected(OmegaContainer.SignalName.InteractionComplete, callable))
+            {
+                handler.Disconnect(OmegaContainer.SignalName.InteractionComplete, callable);
+            }
+        }
     }
 }

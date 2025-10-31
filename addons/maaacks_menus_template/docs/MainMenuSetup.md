@@ -13,7 +13,7 @@ The positions and anchor presets of the UI elements can be adjusted to match mos
 ## Scene Structure
 Some designs may require rearranging the nodes in the scene tree. This is easier once the inheritance to the parent scene is cleared. However, if editing `main_menu_with_animations.tscn`, keep in mind that there are animations, and moving elements outside of the animated containers may have undesired effects.
 
-## 3D Background
+## 3D Background 
 When adding a 3D background to the menu, it is recommended to use a `SubViewportContainer` in place of or right above the `BackgroundTextureRect`. Then add a `SubViewport` to it, and finally the 3D world node to that. This structure gives fine-tune control of scaling, allows for layering 3D views when they have transparency, and makes it easy to add a texture shader to the whole background.
 
 ## Theming

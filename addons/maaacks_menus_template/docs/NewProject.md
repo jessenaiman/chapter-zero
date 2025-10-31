@@ -1,7 +1,7 @@
 # New Projects
 
 These instructions assume starting with the entire contents of the project folder. This will be the case when cloning the repo, or starting from the *template* version in the Godot Asset Library accessible from the Project Manager window.
-
+  
 
 1.  Finish setup.
 
@@ -28,7 +28,7 @@ These instructions assume starting with the entire contents of the project folde
     4.  Open `main_menu_with_animations.tscn`.
     5.  Select the `TitleLabel` node.
     6.  The `Text` should match the project's name.
-        1. If `Text` is customized, set `Auto Update` to false.
+        1. If `Text` is customized, set `Auto Update` to false.  
     7.  Select the `SubtitleLabelNode` node and customize the `Text` as desired.
     8.  Save the scene.
 
@@ -64,7 +64,7 @@ These instructions assume starting with the entire contents of the project folde
             1.  Open `main_menu_with_animations.tscn` and `pause_menu.tscn`.
             2.  Select the `UISoundController` node.
             3.  Add audio streams to the various UI node events.
-            4.  Save the scenes.
+            4.  Save the scenes.  
 
 
         2.  Project-wide.
@@ -73,18 +73,18 @@ These instructions assume starting with the entire contents of the project folde
             1.  Open `project_ui_sound_controller.tscn`.
             2.  Select the `UISoundController` node.
             3.  Add audio streams to the various UI node events.
-            4.  Save the scene.
+            4.  Save the scene.  
 
 
 4.  Add readable names for input actions to the controls menu.
 
 
     1.  Open `input_options_menu.tscn`.
-    2.  In the scene tree, select the `Controls` node.
-    3.  In the node inspector, select the desired input remapping mode (defaults to `List`).
-    4.  In the scene tree, select `InputActionsList` or `InputActionsTree`, depending on the choice of input remapping. The other node should be hidden.
-    5.  In the node inspector, update the `Input Action Names` and corresponding `Readable Action Names` to show user-friendly names for the project's input actions.
-    6.  Save the scene.
+    2.  In the scene tree, select the `Controls` node.  
+    3.  In the node inspector, select the desired input remapping mode (defaults to `List`).  
+    4.  In the scene tree, select `InputActionsList` or `InputActionsTree`, depending on the choice of input remapping. The other node should be hidden.  
+    5.  In the node inspector, update the `Input Action Names` and corresponding `Readable Action Names` to show user-friendly names for the project's input actions.  
+    6.  Save the scene.  
 
 
 5.  Add / remove configurable settings to / from menus.
@@ -105,15 +105,15 @@ These instructions assume starting with the entire contents of the project folde
     5.  Save the scene (even if it shows no changes).
 
 
-7.  Keep, update, or remove `res://LICENSE.txt`.
+7.  Keep, update, or remove `res://LICENSE.txt`.  
 
 
-8.  Optionally, if using Git for version control, update `.gitignore` to include `addons/`.
+8.  Optionally, if using Git for version control, update `.gitignore` to include `addons/`.  
 
 
 9.  Continue with:
 
-    1.  [Setting up the Main Menu.](/addons/maaacks_menus_template/docs/MainMenuSetup.md)
-    3.  [Loading scenes asynchronously.](/addons/maaacks_menus_template/docs/LoadingScenes.md)
-    4.  [Adding icons to the Input Options.](/addons/maaacks_menus_template/docs/InputIconMapping.md)
+    1.  [Setting up the Main Menu.](/addons/maaacks_menus_template/docs/MainMenuSetup.md)  
+    3.  [Loading scenes asynchronously.](/addons/maaacks_menus_template/docs/LoadingScenes.md)  
+    4.  [Adding icons to the Input Options.](/addons/maaacks_menus_template/docs/InputIconMapping.md)  
     5.  [Adding Custom Options.](/addons/maaacks_menus_template/docs/AddingCustomOptions.md)

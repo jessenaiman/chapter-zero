@@ -4,13 +4,12 @@
 
 namespace OmegaSpiral.Source.Backend.Narrative;
 
+using System;
 using Godot;
 using Newtonsoft.Json;
 
 /// <summary>
-/// Generic JSON narrative script loader.
-/// Provides stage-agnostic deserialization of JSON narrative files into <see cref="NarrativeScriptRoot"/> instances.
-/// Replaces YamlDotNet-based loading with Newtonsoft.Json for unified JSON support.
+/// Narrative script loader that deserializes JSON files into <see cref="StoryScriptRoot"/> instances.
 /// </summary>
 public static class StoryLoader
 {
@@ -22,7 +21,7 @@ public static class StoryLoader
     /// <exception cref="InvalidOperationException">Thrown when the file cannot be opened or read, or deserialization fails.</exception>
     public static StoryScriptRoot LoadJsonScript(string jsonFilePath)
     {
-        using var file = Godot.FileAccess.Open(jsonFilePath, Godot.FileAccess.ModeFlags.Read);
+        using var file = FileAccess.Open(jsonFilePath, FileAccess.ModeFlags.Read);
         if (file == null)
         {
             throw new InvalidOperationException($"Failed to open {jsonFilePath}");
@@ -38,15 +37,14 @@ public static class StoryLoader
                 throw new InvalidOperationException($"Failed to deserialize JSON from {jsonFilePath}: result was null");
             }
 
-            // Validate required fields
             if (string.IsNullOrWhiteSpace(script.Title))
             {
-                GD.PrintErr($"[NarrativeScriptJsonLoader] Warning: 'title' is missing or empty in {jsonFilePath}");
+                GD.PrintErr($"[StoryLoader] Warning: 'title' is missing or empty in {jsonFilePath}");
             }
 
             if (script.Scenes == null || script.Scenes.Count == 0)
             {
-                GD.PrintErr($"[NarrativeScriptJsonLoader] Warning: 'scenes' is empty or missing in {jsonFilePath}");
+                GD.PrintErr($"[StoryLoader] Warning: 'scenes' is empty or missing in {jsonFilePath}");
             }
 
             return script;
@@ -73,7 +71,7 @@ public static class StoryLoader
     public static T LoadJsonScript<T>(string jsonFilePath)
         where T : StoryScriptRoot
     {
-        using var file = Godot.FileAccess.Open(jsonFilePath, Godot.FileAccess.ModeFlags.Read);
+        using var file = FileAccess.Open(jsonFilePath, FileAccess.ModeFlags.Read);
         if (file == null)
         {
             throw new InvalidOperationException($"Failed to open {jsonFilePath}");
