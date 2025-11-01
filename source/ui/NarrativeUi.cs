@@ -18,6 +18,9 @@ namespace OmegaSpiral.Source.Narrative;
 [GlobalClass]
 public partial class NarrativeUi : OmegaContainer
 {
+    [Signal]
+    public delegate void ChoiceSelectedEventHandler(string sceneOwner, string choiceOwner);
+
     /// <summary>
     /// Gets or sets a value indicating whether to show boot sequence on ready.
     /// </summary>
@@ -87,7 +90,7 @@ public partial class NarrativeUi : OmegaContainer
     /// <param name="speaker">The character asking the question.</param>
     /// <param name="choices">The available choices.</param>
     /// <returns>A task representing the asynchronous operation, with the selected choice.</returns>
-    public virtual async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
+    public virtual async Task<Choice> PresentChoiceAsync(string question, string speaker, IList<Choice> choices)
     {
         if (this.ChoiceContainer == null)
         {
@@ -99,7 +102,7 @@ public partial class NarrativeUi : OmegaContainer
         this.ChoiceContainer.AddChild(questionLabel);
         GD.Print($"[NarrativeUi] Question: {question}");
 
-        var tcs = new TaskCompletionSource<ChoiceOption>();
+        var tcs = new TaskCompletionSource<Choice>();
 
         // Create buttons for each choice
         foreach (var choice in choices)
@@ -141,15 +144,33 @@ public partial class NarrativeUi : OmegaContainer
     }
 
     /// <summary>
-    /// Applies scene-specific effects like pauses.
+    /// Applies scene-specific effects like pauses by parsing commands in the lines.
     /// </summary>
     /// <param name="scene">The scene element.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public virtual async Task ApplySceneEffectsAsync(StoryScriptElement scene)
+    public virtual async Task ApplySceneEffectsAsync(StoryBlock scene)
     {
-        if (scene.Pause.HasValue && scene.Pause.Value > 0)
+        await this.ApplyEffectsFromLinesAsync(scene.Lines);
+    }
+
+    /// <summary>
+    /// Parses and applies effects from the scene lines, such as pauses.
+    /// </summary>
+    /// <param name="lines">The lines to parse for commands.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task ApplyEffectsFromLinesAsync(IList<string> lines)
+    {
+        foreach (var line in lines)
         {
-            await this.ToSignal(this.GetTree().CreateTimer(scene.Pause.Value), SceneTreeTimer.SignalName.Timeout);
+            if (line.StartsWith("[PAUSE:") && line.EndsWith("]"))
+            {
+                var pauseText = line.Substring(7, line.Length - 8); // Remove [PAUSE: and ]
+                if (double.TryParse(pauseText, out var pauseSeconds) && pauseSeconds > 0)
+                {
+                    await this.ToSignal(this.GetTree().CreateTimer(pauseSeconds), SceneTreeTimer.SignalName.Timeout);
+                }
+            }
+            // Add other command parsing here as needed
         }
     }
 
@@ -158,7 +179,7 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="selected">The selected choice.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public virtual Task ProcessChoiceAsync(ChoiceOption selected)
+    public virtual Task ProcessChoiceAsync(Choice selected)
     {
         GD.Print($"[NarrativeUi] Processing choice: {selected.Text}");
         return Task.CompletedTask;

@@ -2,7 +2,7 @@ class_name GameStateExample
 extends Resource
 
 const STATE_NAME : String = "GameStateExample"
-const FILE_PATH = "res://addons/source/scripts/game_state.gd"
+const FILE_PATH = "res://source/scripts/game_state.gd"
 
 @export var level_states : Dictionary = {}
 @export var current_level_path : String
@@ -64,11 +64,18 @@ static func continue_game() -> void:
 	game_state.current_level_path = game_state.continue_level_path
 	GlobalState.save()
 
-static func reset() -> void:
+static func update_dreamweaver_scores(scores : Array) -> void:
 	var game_state := get_or_create_state()
-	game_state.level_states = {}
-	game_state.current_level_path = ""
-	game_state.continue_level_path = ""
-	game_state.play_time = 0
-	game_state.total_time = 0
-	GlobalState.save()
+	var level_state := get_level_state(game_state.current_level_path)
+	if level_state and scores.size() >= 3:
+		level_state.dreamweaver_scores = scores.duplicate()
+		GlobalState.save()
+
+static func get_dreamweaver_scores() -> Array:
+	if not has_game_state():
+		return [0, 0, 0]
+	var game_state := get_or_create_state()
+	var level_state := get_level_state(game_state.current_level_path)
+	if level_state:
+		return level_state.dreamweaver_scores.duplicate()
+	return [0, 0, 0]

@@ -22,18 +22,59 @@ public interface ICinematicDirector
 }
 
 /// <summary>
+/// Result of running a scene.
+/// </summary>
+public class SceneResult
+{
+    /// <summary>
+    /// Gets or sets the scene ID.
+    /// </summary>
+    public string? SceneId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the choice made.
+    /// </summary>
+    public string? Choice { get; set; }
+}
+
+/// <summary>
 /// Base class for stage story directors that load JSON story scripts and cache their plans.
 /// Handles thread-safe caching, loading, and plan building for all stages.
 /// Each stage director inherits this and implements abstract methods for data path and plan building.
+/// <para>
+/// Inheritance Example:
+/// <code>
+/// public class GhostStageDirector : CinematicDirector
+/// {
+///     public GhostStageDirector() : base(new StageConfiguration
+///     {
+///         DataPath = "res://source/stages/stage_1_ghost/ghost.json",
+///         ScenePath = "res://source/scenes/narrative_ui.tscn", // Optional UI scene
+///         PlanFactory = script => new GhostPlan(script),
+///         ManagerFactory = (scene, data) => new GhostSceneManager(scene, data)
+///     }) { }
+/// }
+/// </code>
+/// </para>
+/// <para>
+/// Usage Example:
+/// <code>
+/// var director = new GhostStageDirector();
+/// var results = await director.RunStageAsync();
+/// // Results contain scene outcomes for game state updates
+/// </code>
+/// </para>
 /// </summary>
-/// <typeparam name="TPlan">The plan record type for this stage (e.g., GhostTerminalStoryPlan, NethackStoryPlan).</typeparam>
-public abstract class CinematicDirector<TPlan> : ICinematicDirector
-    where TPlan : StoryPlan
+public abstract class CinematicDirector : ICinematicDirector
 {
-    /// <summary>
-    /// Gets the cached plan for this stage.
-    /// </summary>
-    protected TPlan? Plan { get; private set; }
+    protected StageConfiguration Config { get; }
+
+    protected StoryPlan? Plan { get; set; }
+
+    protected CinematicDirector(StageConfiguration config)
+    {
+        this.Config = config;
+    }
 
     /// <summary>
     /// Runs the stage by iterating through scenes, creating SceneManager for each, awaiting completion.
@@ -49,6 +90,27 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// Subclasses can override this method and call RunStageWithGameplayAsync(scenePath)
     /// to combine narrative sequences with interactive gameplay scenes.
     /// This is the standardized approach for hybrid stages (Town, PartySelection, Escape).
+    /// <para>
+    /// Override Example for Hybrid Stage:
+    /// <code>
+    /// public override async Task&lt;IReadOnlyList&lt;SceneResult&gt;&gt; RunStageAsync()
+    /// {
+    ///     // Phase 1: Run narrative
+    ///     var narrativeResults = await base.RunStageAsync();
+    ///
+    ///     // Phase 2: Load gameplay scene
+    ///     await RunStageWithGameplayAsync("res://source/scenes/town_exploration.tscn");
+    ///
+    ///     return narrativeResults;
+    /// }
+    /// </code>
+    /// </para>
+    /// <para>
+    /// Override Example for Pure Narrative with UI:
+    /// <code>
+    /// protected override string? GetScenePath() => "res://source/scenes/narrative_display.tscn";
+    /// </code>
+    /// </para>
     /// </summary>
     /// <returns>A task that completes when the stage is finished.</returns>
     public virtual async Task<IReadOnlyList<SceneResult>> RunStageAsync()
@@ -89,17 +151,14 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// Must be implemented by subclasses.
     /// </summary>
     /// <returns>Path to narrative data file (e.g., "res://source//stages/stage_1_ghost/ghost.json").</returns>
-    protected abstract string GetDataPath();
+    protected virtual string GetDataPath() => this.Config.DataPath;
 
     /// <summary>
     /// Gets the path to a UI scene to load before running narrative sequences.
     /// Override in subclasses that need a visual scene for narrative display.
     /// </summary>
     /// <returns>Path to .tscn file, or null if no scene should be loaded.</returns>
-    protected virtual string? GetScenePath()
-    {
-        return null;
-    }
+    protected virtual string? GetScenePath() => this.Config.ScenePath;
 
     /// <summary>
     /// Builds the plan from the parsed script.
@@ -107,7 +166,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// </summary>
     /// <param name="script">The parsed narrative script.</param>
     /// <returns>The stage-specific plan.</returns>
-    protected abstract TPlan BuildPlan(StoryScriptRoot script);
+    protected virtual StoryPlan BuildPlan(StoryBlock script) => this.Config.PlanFactory(script);
 
     /// <summary>
     /// Creates a SceneManager for the given scene.
@@ -116,7 +175,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// <param name="scene">The scene data.</param>
     /// <param name="data">Additional data for the scene.</param>
     /// <returns>The SceneManager instance.</returns>
-    protected abstract OmegaSpiral.Source.Backend.SceneManager CreateSceneManager(StoryScriptElement scene, object data);
+    protected virtual SceneManager CreateSceneManager(StoryBlock scene, object data) => this.Config.ManagerFactory(scene, data);
 
     /// <summary>
     /// Gathers data required for the scene.
@@ -124,7 +183,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// </summary>
     /// <param name="scene">The scene data.</param>
     /// <returns>Data object for the scene.</returns>
-    protected virtual object GatherSceneData(StoryScriptElement scene)
+    protected virtual object GatherSceneData(StoryBlock scene)
     {
         // Query NarrativeEngine - stub
         return new object();

@@ -65,7 +65,7 @@ public sealed class GhostCinematicDirector : CinematicDirector<GhostCinematicPla
     }
 
     /// <inheritdoc/>
-    protected override OmegaSpiral.Source.Backend.SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    protected override OmegaSpiral.Source.Backend.SceneManager CreateSceneManager(StoryBlock scene, object data)
     {
         GD.Print($"[GhostCinematicDirector] Creating GhostSceneManager for: {scene.Id}");
         return new GhostSceneManager(scene, data);

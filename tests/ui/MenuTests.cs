@@ -12,7 +12,7 @@ public partial class MenuTests
     public void MenuSceneLoadsWithoutHanging()
     {
         // Load scene inline - auto-freed by GdUnit API
-        ISceneRunner runner = ISceneRunner.Load("res://source//ui/menu/scenes/menus/main_menu/main_menu_with_animations.tscn");
+        ISceneRunner runner = ISceneRunner.Load("res://source/scenes/menus/main_menu/main_menu_with_animations.tscn");
 
         // Verify scene loaded
         AssertThat(runner.Scene()).IsNotNull();

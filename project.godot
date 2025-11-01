@@ -20,22 +20,11 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
-GameManager="*res://source/frontend/autoloads/GameManager.cs"
-SceneManager="*res://source/frontend/autoloads/SceneManager.cs"
-GameState="*res://source/autoloads/GameState.cs"
-Player="*res://source/autoloads/Player.cs"
-AudioManager="*res://source/frontend/autoloads/AudioManager.cs"
-FieldEvents="*res://source/field/FieldEvents.cs"
-FieldCamera="*res://source/field/FieldCamera.cs"
-Gameboard="*res://source/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://source/field/gamepieces/GamepieceRegistry.cs"
-CombatEvents="*res://source/combat/CombatEvents.cs"
-Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
 SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
-Transition="*res://source/common/screen_transitions/ScreenTransition.tscn"
+Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 [dialogic]
 
@@ -88,7 +77,7 @@ theme/custom="res://theme.tres"
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://source//ui/menu/translations/menus_translations.en.translation", "res://source//ui/menu/translations/menus_translations.fr.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
 
 [maaacks_game_template]
 

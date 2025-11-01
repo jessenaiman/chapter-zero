@@ -14,7 +14,7 @@
         <MaxCpuCount>1</MaxCpuCount>
         <DisableParallelization>true</DisableParallelization>
         <TestAdaptersPaths>.</TestAdaptersPaths>
-        <ResultsDirectory>./TestResults</ResultsDirectory>
+        <ResultsDirectory>./test_results</ResultsDirectory>
 
         <!-- Timeout for entire test session (30 minutes) -->
         <TestSessionTimeout>1800000</TestSessionTimeout>
@@ -44,7 +44,7 @@
             </Logger>
 
             <!-- HTML logger for human-readable reports -->
-            <Logger friendlyName="html" enabled="False">
+            <Logger friendlyName="html" enabled="True">
                 <Configuration>
                     <LogFileName>test-result.html</LogFileName>
                 </Configuration>

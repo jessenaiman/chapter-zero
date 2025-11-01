@@ -98,7 +98,7 @@ public partial class GhostUi : NarrativeUi
     /// <param name="speaker">The speaker.</param>
     /// <param name="choices">The available choices.</param>
     /// <returns>The selected choice.</returns>
-    public override async Task<ChoiceOption> PresentChoiceAsync(string question, string speaker, IList<ChoiceOption> choices)
+    public override async Task<Choice> PresentChoiceAsync(string question, string speaker, IList<Choice> choices)
     {
         await this.TypeTextAsync(question + "\n");
 
@@ -107,7 +107,7 @@ public partial class GhostUi : NarrativeUi
             return choices[0]; // Default
         }
 
-        var tcs = new TaskCompletionSource<ChoiceOption>();
+        var tcs = new TaskCompletionSource<Choice>();
 
         foreach (var choice in choices)
         {
@@ -133,7 +133,7 @@ public partial class GhostUi : NarrativeUi
     /// </summary>
     /// <param name="selected">The selected choice.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public override Task ProcessChoiceAsync(ChoiceOption selected)
+    public override Task ProcessChoiceAsync(Choice selected)
     {
         // Handle choice processing, e.g., update scores
         GD.Print($"Choice selected: {selected.Text}");

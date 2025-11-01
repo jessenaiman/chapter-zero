@@ -23,7 +23,7 @@ public sealed partial class GhostSceneManager : SceneManager
     /// </summary>
     /// <param name="scene">The scene element to play.</param>
     /// <param name="data">Additional data for the scene.</param>
-    public GhostSceneManager(StoryScriptElement scene, object data)
+    public GhostSceneManager(StoryBlock scene, object data)
         : base(scene, data, _HandlerPreferences)
     {
     }

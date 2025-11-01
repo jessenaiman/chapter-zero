@@ -14,12 +14,12 @@ var level_paths : Array[String]
 func _ready() -> void:
 	add_levels_to_container()
 	
-## A fresh level list is propgated into the ItemList, and the file names are cleaned
+## A fresh level list is propagated into the ItemList, and the file names are cleaned
 func add_levels_to_container() -> void:
 	level_buttons_container.clear()
 	level_paths.clear()
-	var game_state := GameStateExample.get_or_create_state()
-	for file_path in game_state.level_states.keys():
+	# Use SceneLister to get all available level files
+	for file_path in scene_lister.files:
 		var file_name : String = file_path.get_file()  # e.g., "level_1.tscn"
 		file_name = file_name.trim_suffix(".tscn")  # Remove the ".tscn" extension
 		file_name = file_name.replace("_", " ")  # Replace underscores with spaces

@@ -4,30 +4,140 @@
 
 namespace OmegaSpiral.Source.Backend.Narrative;
 
+using System.Collections.Generic;
+using Godot;
+using Newtonsoft.Json;
+
 /// <summary>
-/// Represents a story block used in narrative scenes.
-/// Contains paragraphs of text, optional question with choices, and navigation info.
+/// Represents the entire story structure loaded from JSON files (e.g., ghost.json, nethack.json).
+/// This class serves as the data model for narrative content, deserialized from JSON and used by the story system.
+/// Signals are emitted to communicate with the GDScript state managers for scene transitions and choice handling.
+/// <para>
+/// Related Architecture:
+/// <see cref="GameStateExample.gd"/> - Handles global game state persistence and reacts to story events.
+/// <see cref="LevelAndStateManager.gd"/> - Manages scene loading and transitions based on story signals.
+/// </para>
 /// </summary>
-public class StoryBlock
+public partial class StoryBlock : Node
 {
     /// <summary>
-    /// Gets or sets the paragraphs of text in this story block.
+    /// Gets or sets the story title.
     /// </summary>
-    public IList<string> Paragraphs { get; set; } = new List<string>();
+    [JsonProperty("title")]
+    public string? Title { get; set; }
 
     /// <summary>
-    /// Gets or sets the question text for interactive blocks.
+    /// Gets or sets the speaker/narrator for the story.
     /// </summary>
+    [JsonProperty("speaker")]
+    public string? Speaker { get; set; }
+
+    /// <summary>
+    /// Gets or sets the story description.
+    /// </summary>
+    [JsonProperty("description")]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Gets or sets the list of story scenes.
+    /// Each scene contains narrative lines and optional choices.
+    /// </summary>
+    [JsonProperty("scenes")]
+    public List<Scene>? Scenes { get; set; }
+
+    /// <summary>
+    /// Signal emitted when the player makes a choice in a scene.
+    /// Connected by GDScript state managers to update game state and trigger scene changes.
+    /// </summary>
+    [Signal]
+    public delegate void ChoiceMadeEventHandler(string choiceId, string sceneId);
+
+    /// <summary>
+    /// Signal emitted when transitioning to a new scene.
+    /// Used by GDScript to load the appropriate scene and update UI.
+    /// </summary>
+    [Signal]
+    public delegate void SceneChangedEventHandler(string sceneId);
+
+    /// <summary>
+    /// Emits the ChoiceMade signal when a player selects an option.
+    /// This decouples the narrative logic from state management.
+    /// </summary>
+    /// <param name="choiceId">The identifier of the selected choice.</param>
+    /// <param name="sceneId">The identifier of the current scene.</param>
+    public void EmitChoiceMade(string choiceId, string sceneId)
+    {
+        EmitSignal(SignalName.ChoiceMade, choiceId, sceneId);
+    }
+
+    /// <summary>
+    /// Emits the SceneChanged signal when moving to a new scene.
+    /// Allows GDScript to handle scene loading asynchronously.
+    /// </summary>
+    /// <param name="sceneId">The identifier of the new scene.</param>
+    public void EmitSceneChanged(string sceneId)
+    {
+        EmitSignal(SignalName.SceneChanged, sceneId);
+    }
+}
+
+/// <summary>
+/// Represents a single scene in the story, containing narrative content and choices.
+/// Part of the StoryBlock structure, used for displaying story progression.
+/// </summary>
+public class Scene
+{
+    /// <summary>
+    /// Gets or sets the unique identifier for this scene.
+    /// Used for scene transitions and state tracking.
+    /// </summary>
+    [JsonProperty("id")]
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the owner/speaker for this scene (e.g., a dreamweaver persona).
+    /// </summary>
+    [JsonProperty("owner")]
+    public string? Owner { get; set; }
+
+    /// <summary>
+    /// Gets or sets the narrative lines displayed in this scene.
+    /// Each string represents a line of dialogue or description.
+    /// </summary>
+    [JsonProperty("lines")]
+    public List<string>? Lines { get; set; }
+
+    /// <summary>
+    /// Gets or sets the question text presented when choices are available.
+    /// </summary>
+    [JsonProperty("question")]
     public string? Question { get; set; }
 
     /// <summary>
-    /// Gets or sets the choices available for this story block.
+    /// Gets or sets the choice options available in this scene.
+    /// If null or empty, the scene is narrative-only.
     /// </summary>
-    public IList<ChoiceOption> Choices { get; set; } = new List<ChoiceOption>();
+    [JsonProperty("choice")]
+    public List<Choice>? Choice { get; set; }
+}
+
+/// <summary>
+/// Represents a choice option in a story scene, allowing player interaction.
+/// Choices drive the narrative branching and emit signals for state updates.
+/// </summary>
+public class Choice
+{
+    /// <summary>
+    /// Gets or sets the dreamweaver owner associated with this choice.
+    /// Influences narrative style and AI-driven story generation.
+    /// </summary>
+    [JsonProperty("owner")]
+    public string? Owner { get; set; }
 
     /// <summary>
-    /// Gets or sets the next block index for navigation.
-    /// -1 indicates no next block (end of sequence).
+    /// Gets or sets the display text for this choice option.
+    /// Shown to the player in the UI.
     /// </summary>
-    public int Next { get; set; } = -1;
+    [JsonProperty("text")]
+    public string? Text { get; set; }
 }
