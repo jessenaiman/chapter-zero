@@ -82,11 +82,18 @@ public partial class StoryBlock : Node
 }
 
 /// <summary>
-/// Represents a single scene in the story, containing narrative content and choices.
-/// Part of the StoryBlock structure, used for displaying story progression.
+/// Represents a scene in the story, which can be narrative, combat, or other types.
+/// Scenes contain narrative content and may include player choices or combat encounters.
 /// </summary>
 public class Scene
 {
+    /// <summary>
+    /// Gets or sets the scene type (e.g., "narrative", "combat").
+    /// Defaults to "narrative" if not specified.
+    /// </summary>
+    [JsonProperty("type")]
+    public string? Type { get; set; } = "narrative";
+
     /// <summary>
     /// Gets or sets the unique identifier for this scene.
     /// Used for scene transitions and state tracking.
@@ -119,6 +126,13 @@ public class Scene
     /// </summary>
     [JsonProperty("choice")]
     public List<Choice>? Choice { get; set; }
+
+    /// <summary>
+    /// Gets or sets combat encounter data for combat scenes.
+    /// Only used when Type is "combat".
+    /// </summary>
+    [JsonProperty("combat_data")]
+    public StoryCombatEncounter? CombatData { get; set; }
 }
 
 /// <summary>

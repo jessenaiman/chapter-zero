@@ -8,7 +8,7 @@ using OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Cinematic plan for Town stage.
-/// Wraps the StoryScriptRoot for stage-specific access patterns.
+/// Wraps the StoryBlock for stage-specific access patterns.
 /// </summary>
 public sealed class TownCinematicPlan : StoryPlan
 {
@@ -16,7 +16,7 @@ public sealed class TownCinematicPlan : StoryPlan
     /// Initializes a new instance of the <see cref="TownCinematicPlan"/> class.
     /// </summary>
     /// <param name="script">The story script root for Town.</param>
-    public TownCinematicPlan(StoryScriptRoot script)
+    public TownCinematicPlan(StoryBlock script)
     {
         this.Script = script;
     }

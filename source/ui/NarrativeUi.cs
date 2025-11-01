@@ -148,9 +148,9 @@ public partial class NarrativeUi : OmegaContainer
     /// </summary>
     /// <param name="scene">The scene element.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public virtual async Task ApplySceneEffectsAsync(StoryBlock scene)
+    public virtual async Task ApplySceneEffectsAsync(Scene scene)
     {
-        await this.ApplyEffectsFromLinesAsync(scene.Lines);
+        await this.ApplyEffectsFromLinesAsync(scene.Lines ?? new List<string>());
     }
 
     /// <summary>

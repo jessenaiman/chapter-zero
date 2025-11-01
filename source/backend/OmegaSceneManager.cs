@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Godot;
 using Newtonsoft.Json;
 using OmegaSpiral.Source.Backend.Narrative;
+using OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Simple scene manager for Omega Spiral stages.
@@ -38,7 +39,7 @@ public partial class OmegaSceneManager : Node
     /// <param name="jsonPath">Path to the JSON file.</param>
     public void LoadStory(string jsonPath)
     {
-        using var file = FileAccess.Open(jsonPath, FileAccess.ModeFlags.Read);
+        using var file = Godot.FileAccess.Open(jsonPath, Godot.FileAccess.ModeFlags.Read);
         if (file == null)
         {
             GD.PrintErr($"Failed to load story file: {jsonPath}");
@@ -81,9 +82,29 @@ public partial class OmegaSceneManager : Node
         var lines = scene.Lines?.ToArray() ?? System.Array.Empty<string>();
         EmitSignal(SignalName.SceneStarted, scene.Id ?? "", lines);
 
-        // If scene has choices, present them
-        if (!string.IsNullOrEmpty(scene.Question) && scene.Choice != null && scene.Choice.Count > 0)
+        // Handle different scene types
+        if (scene.Type == "combat" && scene.CombatData != null)
         {
+            // For combat scenes, emit a combat started signal
+            // In a full implementation, this would transition to combat UI
+            GD.Print($"Combat encounter: {scene.CombatData.Title}");
+
+            // Award points for combat victory based on encounter owner
+            if (!string.IsNullOrEmpty(scene.CombatData.Owner))
+            {
+                AwardCombatVictoryPoints(scene.CombatData.Owner);
+            }
+
+            // For now, just show victory text and continue
+            if (!string.IsNullOrEmpty(scene.CombatData.VictoryText))
+            {
+                // Could emit a different signal for combat results
+                GD.Print($"Combat result: {scene.CombatData.VictoryText}");
+            }
+        }
+        else if (!string.IsNullOrEmpty(scene.Question) && scene.Choice != null && scene.Choice.Count > 0)
+        {
+            // Handle narrative choices
             var choiceTexts = scene.Choice.Select(c => c.Text ?? "").ToArray();
             EmitSignal(SignalName.ChoicesPresented, scene.Question ?? "", choiceTexts);
         }
@@ -121,5 +142,56 @@ public partial class OmegaSceneManager : Node
         }
 
         return _story.Scenes[_currentSceneIndex];
+    }
+
+    /// <summary>
+    /// Awards Dreamweaver points for combat victory.
+    /// </summary>
+    /// <param name="owner">The Dreamweaver owner of the combat encounter.</param>
+    private void AwardCombatVictoryPoints(string owner)
+    {
+        // Get the OmegaGameManager autoload
+        var gameManager = GetNode("/root/OmegaGameManager");
+        if (gameManager == null)
+        {
+            GD.PrintErr("Could not find OmegaGameManager node");
+            return;
+        }
+
+        // Get current scores from GDScript GameManager
+        var currentScores = (Godot.Collections.Array)gameManager.Call("get_dreamweaver_scores");
+        if (currentScores == null || currentScores.Count < 3)
+        {
+            GD.PrintErr("Could not get current dreamweaver scores");
+            return;
+        }
+
+        // Award 2 points to the owner Dreamweaver (matching choice scoring)
+        int lightPoints = (int)currentScores[0];
+        int shadowPoints = (int)currentScores[1];
+        int ambitionPoints = (int)currentScores[2];
+
+        switch (owner.ToLower())
+        {
+            case "light":
+                gameManager.Call("update_dreamweaver_score", 0, 2); // Index 0 = Light
+                lightPoints += 2;
+                break;
+            case "shadow":
+            case "mischief":
+                gameManager.Call("update_dreamweaver_score", 1, 2); // Index 1 = Shadow/Mischief
+                shadowPoints += 2;
+                break;
+            case "ambition":
+            case "wrath":
+                gameManager.Call("update_dreamweaver_score", 2, 2); // Index 2 = Ambition/Wrath
+                ambitionPoints += 2;
+                break;
+            default:
+                GD.Print($"Unknown combat owner: {owner}");
+                return;
+        }
+
+        GD.Print($"Combat victory: Awarded 2 points to {owner} | Scores: Light:{lightPoints} Shadow:{shadowPoints} Ambition:{ambitionPoints}");
     }
 }

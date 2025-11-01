@@ -34,7 +34,7 @@ public partial class UiDialogue : OmegaContainer
     private Control? _continueIndicator;
     private string _currentText = string.Empty;
     private Character? _currentSpeaker;
-    private List<ChoiceOption> _currentChoices = new List<ChoiceOption>();
+    private List<Choice> _currentChoices = new List<Choice>();
     private bool _isTyping;
     private int _textPosition;
     private float _characterDelay;
@@ -173,7 +173,7 @@ public partial class UiDialogue : OmegaContainer
     /// Display dialogue choices.
     /// </summary>
     /// <param name="choices">The dialogue choices to display.</param>
-    public void ShowChoices(Collection<ChoiceOption> choices)
+    public void ShowChoices(Collection<Choice> choices)
     {
         if (choices == null || choices.Count == 0)
         {
@@ -181,7 +181,7 @@ public partial class UiDialogue : OmegaContainer
         }
 
         // Store the current choices
-        this._currentChoices = new List<ChoiceOption>(choices);
+        this._currentChoices = new List<Choice>(choices);
 
         // Clear any existing choices
         this.ClearChoices();
@@ -413,7 +413,7 @@ public partial class UiDialogue : OmegaContainer
     /// Add a dialogue choice.
     /// </summary>
     /// <param name="choice">The dialogue choice to add.</param>
-    public void AddChoice(ChoiceOption choice)
+    public void AddChoice(Choice choice)
     {
         if (choice == null)
         {
@@ -431,7 +431,7 @@ public partial class UiDialogue : OmegaContainer
     /// Remove a dialogue choice.
     /// </summary>
     /// <param name="choice">The dialogue choice to remove.</param>
-    public void RemoveChoice(ChoiceOption choice)
+    public void RemoveChoice(Choice choice)
     {
         if (choice == null)
         {
@@ -503,9 +503,9 @@ public partial class UiDialogue : OmegaContainer
     /// Get the current dialogue choices.
     /// </summary>
     /// <returns>The current dialogue choices.</returns>
-    public Collection<ChoiceOption> GetChoices()
+    public Collection<Choice> GetChoices()
     {
-        return new Collection<ChoiceOption>(this._currentChoices);
+        return new Collection<Choice>(this._currentChoices);
     }
 
     /// <summary>
@@ -648,7 +648,7 @@ public partial class UiDialogue : OmegaContainer
     /// Create a choice button for a dialogue choice.
     /// </summary>
     /// <param name="choice">The dialogue choice to create a button for.</param>
-    private void CreateChoiceButton(ChoiceOption choice)
+    private void CreateChoiceButton(Choice choice)
     {
         if (choice == null || this._choicesContainer == null)
         {
@@ -711,7 +711,7 @@ public partial class UiDialogue : OmegaContainer
     /// Callback when a choice button is pressed.
     /// </summary>
     /// <param name="choice">The selected dialogue choice.</param>
-    private void OnChoiceButtonPressed(ChoiceOption choice)
+    private void OnChoiceButtonPressed(Choice choice)
     {
         if (choice == null || !this.IsActive)
         {

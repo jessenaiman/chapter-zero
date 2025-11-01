@@ -16,7 +16,7 @@ public partial class PartyCreator : Node2D
 {
     private PartyData? _partyData;
     private GameState? _gameState;
-    private SceneManager? _sceneManager;
+    private OmegaSceneManager? _sceneManager;
 
     /// <summary>
     /// Ui Elements
@@ -38,7 +38,7 @@ public partial class PartyCreator : Node2D
     {
         this._partyData = new PartyData();
         this._gameState = this.GetNode<GameState>("/root/GameState");
-        this._sceneManager = this.GetNode<SceneManager>("/root/SceneManager");
+        this._sceneManager = this.GetNode<OmegaSceneManager>("/root/SceneManager");
 
         // Initialize Ui
         this.characterNameInput = this.GetNode<LineEdit>("CharacterNameInput");

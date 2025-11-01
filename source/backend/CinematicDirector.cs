@@ -6,7 +6,10 @@ namespace OmegaSpiral.Source.Backend;
 
 using System.Collections.Generic;
 using Godot;
+using Newtonsoft.Json;
 using OmegaSpiral.Source.Backend.Narrative;
+using OmegaSpiral.Source.Stages;
+using OmegaSpiral.Source.Backend;
 
 /// <summary>
 /// Non-generic interface for running stages.
@@ -77,6 +80,29 @@ public abstract class CinematicDirector : ICinematicDirector
     }
 
     /// <summary>
+    /// Loads a JSON script from the specified file path.
+    /// </summary>
+    /// <param name="jsonPath">Path to the JSON file.</param>
+    /// <returns>The deserialized StoryBlock.</returns>
+    private static StoryBlock LoadJsonScript(string jsonPath)
+    {
+        using var file = Godot.FileAccess.Open(jsonPath, Godot.FileAccess.ModeFlags.Read);
+        if (file == null)
+        {
+            throw new System.IO.FileNotFoundException($"Failed to load story file: {jsonPath}");
+        }
+
+        var jsonText = file.GetAsText();
+        var script = JsonConvert.DeserializeObject<StoryBlock>(jsonText);
+        if (script == null)
+        {
+            throw new System.InvalidOperationException($"Failed to deserialize JSON from: {jsonPath}");
+        }
+
+        return script;
+    }
+
+    /// <summary>
     /// Runs the stage by iterating through scenes, creating SceneManager for each, awaiting completion.
     ///
     /// PURE NARRATIVE PATTERN (Default):
@@ -123,8 +149,8 @@ public abstract class CinematicDirector : ICinematicDirector
             await this.LoadUiSceneAsync(scenePath);
         }
 
-        // Run narrative sequences
-        var script = StoryLoader.LoadJsonScript(this.GetDataPath());
+                // Run narrative sequences
+        var script = LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
 
         var results = new List<SceneResult>();
@@ -137,7 +163,7 @@ public abstract class CinematicDirector : ICinematicDirector
                 var data = this.GatherSceneData(scene);
 
                 var sceneManager = this.CreateSceneManager(scene, data);
-                var result = await sceneManager.RunSceneAsync();
+                var result = await sceneManager.RunSceneAsync(scene);
                 results.Add(result);
             }
         }
@@ -175,7 +201,7 @@ public abstract class CinematicDirector : ICinematicDirector
     /// <param name="scene">The scene data.</param>
     /// <param name="data">Additional data for the scene.</param>
     /// <returns>The SceneManager instance.</returns>
-    protected virtual SceneManager CreateSceneManager(StoryBlock scene, object data) => this.Config.ManagerFactory(scene, data);
+    protected abstract OmegaSceneManager CreateSceneManager(Scene scene, object data);
 
     /// <summary>
     /// Gathers data required for the scene.
@@ -183,7 +209,7 @@ public abstract class CinematicDirector : ICinematicDirector
     /// </summary>
     /// <param name="scene">The scene data.</param>
     /// <returns>Data object for the scene.</returns>
-    protected virtual object GatherSceneData(StoryBlock scene)
+    protected virtual object GatherSceneData(Scene scene)
     {
         // Query NarrativeEngine - stub
         return new object();
@@ -233,7 +259,7 @@ public abstract class CinematicDirector : ICinematicDirector
     {
         // Phase 1: Run narrative sequences
         GD.Print("[CinematicDirector] Starting narrative phase...");
-        var script = StoryLoader.LoadJsonScript(this.GetDataPath());
+        var script = LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
 
         var results = new List<SceneResult>();
@@ -244,7 +270,7 @@ public abstract class CinematicDirector : ICinematicDirector
             {
                 var data = this.GatherSceneData(scene);
                 var sceneManager = this.CreateSceneManager(scene, data);
-                var result = await sceneManager.RunSceneAsync();
+                var result = await sceneManager.RunSceneAsync(scene);
                 results.Add(result);
             }
         }

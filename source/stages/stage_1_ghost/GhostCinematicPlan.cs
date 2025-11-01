@@ -15,7 +15,7 @@ public sealed class GhostCinematicPlan : StoryPlan
     /// Initializes a new instance of the <see cref="GhostCinematicPlan"/> class.
     /// </summary>
     /// <param name="script">The story script root.</param>
-    public GhostCinematicPlan(StoryScriptRoot script)
+    public GhostCinematicPlan(StoryBlock script)
     {
         this.Script = script;
     }

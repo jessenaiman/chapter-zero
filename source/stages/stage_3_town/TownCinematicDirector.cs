@@ -24,8 +24,20 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads town_stage.json script and orchestrates scene playback, then transitions to gameplay scene.
 /// </summary>
-public sealed class TownCinematicDirector : CinematicDirector<TownCinematicPlan>
+public sealed class TownCinematicDirector : CinematicDirector
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TownCinematicDirector"/> class.
+    /// </summary>
+    public TownCinematicDirector()
+        : base(new StageConfiguration
+        {
+            DataPath = "res://source//stages/stage_3_town/town_stage.json",
+            PlanFactory = script => new TownCinematicPlan(script)
+        })
+    {
+    }
+
     /// <inheritdoc/>
     public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
@@ -34,21 +46,15 @@ public sealed class TownCinematicDirector : CinematicDirector<TownCinematicPlan>
     }
 
     /// <inheritdoc/>
-    protected override string GetDataPath()
-    {
-        return "res://source//stages/stage_3_town/town_stage.json";
-    }
-
-    /// <inheritdoc/>
-    protected override TownCinematicPlan BuildPlan(StoryScriptRoot script)
+    protected override StoryPlan BuildPlan(StoryBlock script)
     {
         return new TownCinematicPlan(script);
     }
 
     /// <inheritdoc/>
-    protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
     {
         GD.Print($"[Town] Creating scene manager for: {scene.Id}");
-        return new SceneManager(scene, data);
+        return new OmegaSceneManager();
     }
 }

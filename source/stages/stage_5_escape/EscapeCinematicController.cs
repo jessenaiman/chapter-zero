@@ -24,8 +24,20 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads stage_5.json script and orchestrates scene playback, then transitions to escape gameplay.
 /// </summary>
-public sealed class EscapeCinematicDirector : CinematicDirector<EscapeCinematicPlan>
+public sealed class EscapeCinematicDirector : CinematicDirector
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EscapeCinematicDirector"/> class.
+    /// </summary>
+    public EscapeCinematicDirector()
+        : base(new StageConfiguration
+        {
+            DataPath = "res://source//stages/stage_5_escape/stage_5.json",
+            PlanFactory = script => new EscapeCinematicPlan(script)
+        })
+    {
+    }
+
     /// <inheritdoc/>
     public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
@@ -34,21 +46,15 @@ public sealed class EscapeCinematicDirector : CinematicDirector<EscapeCinematicP
     }
 
     /// <inheritdoc/>
-    protected override string GetDataPath()
-    {
-        return "res://source//stages/stage_5_escape/stage_5.json";
-    }
-
-    /// <inheritdoc/>
-    protected override EscapeCinematicPlan BuildPlan(StoryScriptRoot script)
+    protected override StoryPlan BuildPlan(StoryBlock script)
     {
         return new EscapeCinematicPlan(script);
     }
 
     /// <inheritdoc/>
-    protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
     {
         GD.Print($"[Escape] Creating scene manager for: {scene.Id}");
-        return new SceneManager(scene, data);
+        return new OmegaSceneManager();
     }
 }

@@ -29,43 +29,28 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads ghost.json script and orchestrates scene playback.
 /// </summary>
-public sealed class GhostCinematicDirector : CinematicDirector<GhostCinematicPlan>
+public sealed class GhostCinematicDirector : CinematicDirector
 {
-    /// <inheritdoc/>
-    protected override string GetDataPath()
-    {
-        return "res://source//stages/stage_1_ghost/ghost.json";
-    }
-
-    /// <inheritdoc/>
-    protected override string? GetScenePath()
-    {
-        return "res://source//stages/stage_1_ghost/ghost_terminal.tscn";
-    }
-
-    /// <inheritdoc/>
-    protected override async Task LoadUiSceneAsync(string scenePath)
-    {
-        var tree = Engine.GetMainLoop() as SceneTree;
-        if (tree == null)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GhostCinematicDirector"/> class.
+    /// </summary>
+    public GhostCinematicDirector()
+        : base(new StageConfiguration
         {
-            GD.PrintErr("[GhostCinematicDirector] Could not get scene tree");
-            return;
-        }
-
-        GD.Print($"[GhostCinematicDirector] Changing scene to: {scenePath}");
-        tree.ChangeSceneToFile(scenePath);
-        await Task.CompletedTask;
+            DataPath = "res://source//stages/stage_1_ghost/ghost.json",
+            ScenePath = "res://source//stages/stage_1_ghost/ghost_terminal.tscn",
+            PlanFactory = script => new GhostCinematicPlan(script)
+        })
+    {
     }
-
     /// <inheritdoc/>
-    protected override GhostCinematicPlan BuildPlan(StoryScriptRoot script)
+    protected override StoryPlan BuildPlan(StoryBlock script)
     {
         return new GhostCinematicPlan(script);
     }
 
     /// <inheritdoc/>
-    protected override OmegaSpiral.Source.Backend.SceneManager CreateSceneManager(StoryBlock scene, object data)
+    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
     {
         GD.Print($"[GhostCinematicDirector] Creating GhostSceneManager for: {scene.Id}");
         return new GhostSceneManager(scene, data);

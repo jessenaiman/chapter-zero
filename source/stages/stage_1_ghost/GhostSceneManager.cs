@@ -14,7 +14,7 @@ using OmegaSpiral.Source.Narrative;
 /// Stage 1-specific scene manager that delegates to GhostUi for narrative display.
 /// Inherits core RunSceneAsync() from base SceneManager which handles NarrativeUi coordination via signals.
 /// </summary>
-public sealed partial class GhostSceneManager : SceneManager
+public sealed partial class GhostSceneManager : OmegaSceneManager
 {
     private static readonly IReadOnlyList<string> _HandlerPreferences = new[] { "GhostUi", "NarrativeUi" };
 
@@ -23,8 +23,13 @@ public sealed partial class GhostSceneManager : SceneManager
     /// </summary>
     /// <param name="scene">The scene element to play.</param>
     /// <param name="data">Additional data for the scene.</param>
-    public GhostSceneManager(StoryBlock scene, object data)
-        : base(scene, data, _HandlerPreferences)
+    public GhostSceneManager(Scene scene, object data)
     {
+        // Store scene and data for later use
+        _Scene = scene;
+        _Data = data;
     }
+
+    private Scene? _Scene;
+    private object? _Data;
 }

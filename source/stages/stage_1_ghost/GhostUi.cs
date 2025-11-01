@@ -73,12 +73,13 @@ public partial class GhostUi : NarrativeUi
     /// </summary>
     /// <param name="scene">The narrative script element.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public override async Task ApplySceneEffectsAsync(StoryScriptElement scene)
+    public override async Task ApplySceneEffectsAsync(Scene scene)
     {
-        if (scene.Pause.HasValue && scene.Pause.Value > 0)
-        {
-            await Task.Delay((int) (scene.Pause.Value * 1000));
-        }
+        // Note: Scene doesn't have Pause property, this might need to be moved to scene data
+        // if (scene.Pause.HasValue && scene.Pause.Value > 0)
+        // {
+        //     await Task.Delay((int) (scene.Pause.Value * 1000));
+        // }
 
         // Apply shader effects based on tags
         if (scene.Lines?.Any(l => l.Contains("[GLITCH]")) == true)

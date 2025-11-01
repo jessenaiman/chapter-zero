@@ -167,27 +167,39 @@
         },
         {
             "id": "scene_2_chamber_light_monster",
+            "type": "combat",
             "owner": "light",
             "lines": [
-                "A spectral wolf lunges through the static.",
-                "> FIGHT: You trade three blows.",
-                "> FIGHT: Static scatters like snow."
+                "A spectral wolf lunges through the static."
             ],
-            "question": "Do you stand your ground?",
-            "choice": [
-                {
-                    "owner": "ambition",
-                    "text": "Fight with all your strength."
+            "combat_data": {
+                "id": "spectral_wolf_encounter",
+                "owner": "light",
+                "title": "Spectral Wolf",
+                "description": "A ghostly wolf made of television static and forgotten signals.",
+                "enemy": {
+                    "name": "Spectral Wolf",
+                    "sprite": "res://assets/sprites/enemies/spectral_wolf.png",
+                    "hp": 25,
+                    "maxHp": 25,
+                    "attack": 8,
+                    "defense": 3,
+                    "attackPatterns": [
+                        "Static Bite",
+                        "Glitch Claw",
+                        "Signal Howl"
+                    ]
                 },
-                {
-                    "owner": "light",
-                    "text": "Show it mercy."
-                },
-                {
-                    "owner": "shadow",
-                    "text": "Let it pass and move on."
-                }
-            ]
+                "actions": [
+                    "FIGHT",
+                    "MAGIC", 
+                    "ITEM",
+                    "RUN"
+                ],
+                "music": "res://assets/audio/combat_theme.ogg",
+                "victoryText": "The spectral wolf dissolves into static, its signal broken.",
+                "defeatText": "The static overwhelms you, pulling you into the void."
+            }
         },
         {
             "id": "scene_2_chamber_light_monster_response",

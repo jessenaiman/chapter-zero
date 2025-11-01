@@ -9,6 +9,7 @@ namespace OmegaSpiral.Source.Stages
         public required string DataPath { get; set; }
         public string? ScenePath { get; set; }
         public required Func<StoryBlock, StoryPlan> PlanFactory { get; set; }
-        public required Func<Scene, object, SceneManager> ManagerFactory { get; set; }
+        // Temporarily remove ManagerFactory until SceneManager is properly defined
+        // public required Func<Scene, object, SceneManager> ManagerFactory { get; set; }
     }
 }

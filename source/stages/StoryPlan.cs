@@ -10,6 +10,6 @@ namespace OmegaSpiral.Source.Stages
         /// <summary>
         /// Gets the story script for this plan.
         /// </summary>
-        public StoryBlock Script { get; protected set; }
+        public StoryBlock? Script { get; protected set; }
     }
 }

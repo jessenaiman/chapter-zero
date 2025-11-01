@@ -34,36 +34,33 @@ public partial class GhostStage : Node
         _sceneManager.StartStory();
     }
 
-    private void OnSceneStarted(Scene scene)
+    private void OnSceneStarted(string sceneId, string[] lines)
     {
-        GD.Print($"Scene started: {scene.Id}");
+        GD.Print($"Scene started: {sceneId}");
 
         // Display scene lines
-        if (scene.Lines != null)
+        foreach (var line in lines)
         {
-            foreach (var line in scene.Lines)
-            {
-                GD.Print(line);
-                // TODO: Send to UI for display
-            }
+            GD.Print(line);
+            // TODO: Send to UI for display
         }
     }
 
-    private void OnChoicesPresented(string question, List<Choice> choices)
+    private void OnChoicesPresented(string question, string[] choiceTexts)
     {
         GD.Print($"Question: {question}");
-        foreach (var choice in choices)
+        foreach (var choiceText in choiceTexts)
         {
-            GD.Print($"  - {choice.Text}");
+            GD.Print($"  - {choiceText}");
         }
 
         // TODO: Present choices to UI
         // For now, just auto-select first choice after a delay
         GetTree().CreateTimer(2.0f).Timeout += () =>
         {
-            if (choices.Count > 0)
+            if (choiceTexts.Length > 0)
             {
-                _sceneManager?.MakeChoice(choices[0].Text);
+                _sceneManager?.MakeChoice(choiceTexts[0]);
             }
         };
     }

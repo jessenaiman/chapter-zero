@@ -8,7 +8,7 @@ using OmegaSpiral.Source.Backend.Narrative;
 
 /// <summary>
 /// Cinematic plan for Party Selection (Echo Vault) stage.
-/// Wraps the StoryScriptRoot for stage-specific access patterns.
+/// Wraps the StoryBlock for stage-specific access patterns.
 /// </summary>
 public sealed class PartySelectionCinematicPlan : StoryPlan
 {
@@ -16,7 +16,7 @@ public sealed class PartySelectionCinematicPlan : StoryPlan
     /// Initializes a new instance of the <see cref="PartySelectionCinematicPlan"/> class.
     /// </summary>
     /// <param name="script">The story script root for Party Selection.</param>
-    public PartySelectionCinematicPlan(StoryScriptRoot script)
+    public PartySelectionCinematicPlan(StoryBlock script)
     {
         this.Script = script;
     }

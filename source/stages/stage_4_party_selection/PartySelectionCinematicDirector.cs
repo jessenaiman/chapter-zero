@@ -24,8 +24,20 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads stage4.json script and orchestrates scene playback, then transitions to party selection UI.
 /// </summary>
-public sealed class PartySelectionCinematicDirector : CinematicDirector<PartySelectionCinematicPlan>
+public sealed class PartySelectionCinematicDirector : CinematicDirector
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PartySelectionCinematicDirector"/> class.
+    /// </summary>
+    public PartySelectionCinematicDirector()
+        : base(new StageConfiguration
+        {
+            DataPath = "res://source//stages/stage_4_party_selection/stage4.json",
+            PlanFactory = script => new PartySelectionCinematicPlan(script)
+        })
+    {
+    }
+
     /// <inheritdoc/>
     public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
     {
@@ -35,21 +47,15 @@ public sealed class PartySelectionCinematicDirector : CinematicDirector<PartySel
     }
 
     /// <inheritdoc/>
-    protected override string GetDataPath()
-    {
-        return "res://source//stages/stage_4_party_selection/stage4.json";
-    }
-
-    /// <inheritdoc/>
-    protected override PartySelectionCinematicPlan BuildPlan(StoryScriptRoot script)
+    protected override StoryPlan BuildPlan(StoryBlock script)
     {
         return new PartySelectionCinematicPlan(script);
     }
 
     /// <inheritdoc/>
-    protected override SceneManager CreateSceneManager(StoryScriptElement scene, object data)
+    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
     {
         GD.Print($"[PartySelection] Creating scene manager for: {scene.Id}");
-        return new SceneManager(scene, data);
+        return new OmegaSceneManager();
     }
 }
