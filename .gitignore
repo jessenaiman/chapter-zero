@@ -19,6 +19,7 @@ addons/nobodywho/*.pdb
 addons/**/[.git|.gitignore]/
 addons/**/.github
 addons/**/project.godot
+addons/maaacks**
 
 # Chat exports (may contain sensitive tokens)
 chat-export-*.json

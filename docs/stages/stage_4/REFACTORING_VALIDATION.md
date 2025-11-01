@@ -14,11 +14,11 @@ This document validates that all core godot-open-rpg functionality has been corr
 
 | System | Original (GDScript) | Refactored (C#) | Status |
 |--------|---------------------|-----------------|--------|
-| **Camera** | `res://source/field/field_camera.gd` | `res://source/frontend/field/FieldCamera.cs` | ✅ **Implemented** |
-| **CombatEvents** | `res://source/frontend/combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
-| **FieldEvents** | `res://source/field/field_events.gd` | `res://source/frontend/field/FieldEvents.cs` | ✅ **Implemented** |
-| **Gameboard** | `res://source/field/gameboard/gameboard.gd` | `res://source/frontend/field/gameboard/Gameboard.cs` | ✅ **Implemented** |
-| **GamepieceRegistry** | `res://source/field/gamepieces/gamepiece_registry.gd` | `res://source/frontend/field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
+| **Camera** | `res://source/field/field_camera.gd` | `res://source//field/FieldCamera.cs` | ✅ **Implemented** |
+| **CombatEvents** | `res://source//combat/combat_events.gd` | `res://source/scripts/combat/CombatEvents.cs` | ✅ **Implemented** |
+| **FieldEvents** | `res://source/field/field_events.gd` | `res://source//field/FieldEvents.cs` | ✅ **Implemented** |
+| **Gameboard** | `res://source/field/gameboard/gameboard.gd` | `res://source//field/gameboard/Gameboard.cs` | ✅ **Implemented** |
+| **GamepieceRegistry** | `res://source/field/gamepieces/gamepiece_registry.gd` | `res://source//field/gamepieces/GamepieceRegistry.cs` | ✅ **Implemented** |
 | **Music** | `res://source/common/music/music_player.tscn` | `res://source/scripts/common/music/music_player.tscn` | ✅ **Implemented** |
 | **Player** | `res://source/common/player.gd` | `res://source/scripts/common/Player.cs` | ✅ **Implemented** |
 | **Transition** | `res://source/common/screen_transitions/ScreenTransition.tscn` | `res://source/scripts/common/screen_transitions/screen_transition.tscn` | ✅ **Implemented** |

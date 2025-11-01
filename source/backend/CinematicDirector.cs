@@ -88,7 +88,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// Gets the path to the JSON script file for this stage.
     /// Must be implemented by subclasses.
     /// </summary>
-    /// <returns>Path to narrative data file (e.g., "res://source/frontend/stages/stage_1_ghost/ghost.json").</returns>
+    /// <returns>Path to narrative data file (e.g., "res://source//stages/stage_1_ghost/ghost.json").</returns>
     protected abstract string GetDataPath();
 
     /// <summary>
@@ -116,7 +116,7 @@ public abstract class CinematicDirector<TPlan> : ICinematicDirector
     /// <param name="scene">The scene data.</param>
     /// <param name="data">Additional data for the scene.</param>
     /// <returns>The SceneManager instance.</returns>
-    protected abstract SceneManager CreateSceneManager(StoryScriptElement scene, object data);
+    protected abstract OmegaSpiral.Source.Backend.SceneManager CreateSceneManager(StoryScriptElement scene, object data);
 
     /// <summary>
     /// Gathers data required for the scene.

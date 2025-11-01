@@ -1,5 +1,5 @@
 {
-  "_doc": "Ωmega Spiral design configuration file. This JSON defines the core design system, UI tokens, shader presets, and stage mappings for the game 'Ωmega Spiral - Chapter Zero'. All color values are normalized between 0.0 and 1.0 for easy scaling. Shader parameters are tuned to match the ghost_design_document.md baseline. Use _doc fields for inline documentation to maintain sync with runtime configuration. This file is referenced by scenes, shaders, and UI components for consistent theming. C# Classes: source/frontend/design/OmegaSpiralConfig.cs, ColorValue.cs, ShaderPreset.cs. Shaders: source/frontend/design/shaders/. Related Docs: docs/ghost_design_document.md.",
+  "_doc": "Ωmega Spiral design configuration file. This JSON defines the core design system, UI tokens, shader presets, and stage mappings for the game 'Ωmega Spiral - Chapter Zero'. All color values are normalized between 0.0 and 1.0 for easy scaling. Shader parameters are tuned to match the ghost_design_document.md baseline. Use _doc fields for inline documentation to maintain sync with runtime configuration. This file is referenced by scenes, shaders, and UI components for consistent theming. C# Classes: source//design/OmegaSpiralConfig.cs, ColorValue.cs, ShaderPreset.cs. Shaders: source//design/shaders/. Related Docs: docs/ghost_design_document.md.",
   "design_system": {
     "_doc": "Core color palette shared across UI elements, shaders, and narrative threads. Each color includes RGB values (normalized), alpha, and hex for easy reference. These colors represent the game's aesthetic: deep space voids, warm accents, and thread-specific hues for the Dreamweavers. Use these in Godot shaders or UI materials for consistency.",
     "deep_space": {
@@ -162,7 +162,7 @@
     "_doc": "Collection of shader material presets and their parameters for various visual effects in Ωmega Spiral. Each preset includes a shader resource path and configurable parameters with defaults tuned to match the ghost_design_document.md baseline. These are used in scene materials for effects like borders, CRT distortions, and backgrounds. Parameters are normalized or in specific units as noted.",
     "spiral_border_base": {
       "_doc": "Default preset for the Omega spiral border frame animation. This shader creates animated energy streams around the screen border. Parameters control rotation, wave properties, and thread intensities for the three Dreamweaver threads (Light, Shadow, Ambition). Used in scene backgrounds for thematic framing.",
-      "shader": "res://source/frontend/design/shaders/spiral_border.gdshader",
+      "shader": "res://source//design/shaders/spiral_border.gdshader",
       "parameters": {
         "rotation_speed": 0.05,
         "wave_speed": 0.8,
@@ -178,7 +178,7 @@
     },
     "crt_phosphor_base": {
       "_doc": "Baseline phosphor settings (Stage 1 stable).",
-      "shader": "res://source/frontend/design/shaders/crt_phosphor.tres",
+      "shader": "res://source//design/shaders/crt_phosphor.tres",
       "parameters": {
         "phosphor_glow": 1.2,
         "phosphor_tint": {
@@ -196,7 +196,7 @@
     },
     "crt_scanlines_base": {
       "_doc": "Baseline scanline movement.",
-      "shader": "res://source/frontend/design/shaders/crt_scanlines.tres",
+      "shader": "res://source//design/shaders/crt_scanlines.tres",
       "parameters": {
         "scanline_opacity": 0.08,
         "scanline_speed": 5.0,
@@ -209,7 +209,7 @@
     },
     "crt_glitch_base": {
       "_doc": "Subtle ambient glitches for stable baseline.",
-      "shader": "res://source/frontend/design/shaders/crt_glitch.tres",
+      "shader": "res://source//design/shaders/crt_glitch.tres",
       "parameters": {
         "glitch_intensity": 0.0,
         "interference_speed": 5.0,
@@ -221,7 +221,7 @@
     },
     "pulsing_background_base": {
       "_doc": "Fallback for pulsing background shader.",
-      "shader": "res://source/frontend/design/shaders/pulsing_background.gdshader",
+      "shader": "res://source//design/shaders/pulsing_background.gdshader",
       "parameters": {
         "pulse_speed": 0.35,
         "pulse_strength": 0.6,
@@ -240,7 +240,7 @@
     },
     "phosphor": {
       "_doc": "Legacy preset: pure green phosphor for fast validation.",
-      "shader": "res://source/frontend/design/shaders/crt_phosphor.tres",
+      "shader": "res://source//design/shaders/crt_phosphor.tres",
       "parameters": {
         "phosphor_color": {
           "r": 0.0,
@@ -255,7 +255,7 @@
     },
     "scanlines": {
       "_doc": "Legacy preset: classic CRT scanlines.",
-      "shader": "res://source/frontend/design/shaders/crt_scanlines.tres",
+      "shader": "res://source//design/shaders/crt_scanlines.tres",
       "parameters": {
         "scanline_color": {
           "color_ref": "design_system.pure_black"
@@ -267,7 +267,7 @@
     },
     "glitch": {
       "_doc": "Legacy preset: combined glitch overlay.",
-      "shader": "res://source/frontend/design/shaders/crt_glitch.tres",
+      "shader": "res://source//design/shaders/crt_glitch.tres",
       "parameters": {
         "glitch_intensity": 0.6,
         "noise_amount": 0.3,
@@ -277,7 +277,7 @@
     },
     "crt": {
       "_doc": "Legacy preset: combined CRT effect.",
-      "shader": "res://source/frontend/design/shaders/crt_combined.tres",
+      "shader": "res://source//design/shaders/crt_combined.tres",
       "parameters": {
         "phosphor_color": {
           "r": 0.0,
@@ -297,7 +297,7 @@
     },
     "boot_sequence": {
       "_doc": "Stage 1 · Boot sequence glitch (design doc State 1).",
-      "shader": "res://source/frontend/design/shaders/crt_glitch.tres",
+      "shader": "res://source//design/shaders/crt_glitch.tres",
       "parameters": {
         "glitch_intensity": 1.0,
         "scanline_speed": 3.0,
@@ -308,7 +308,7 @@
     },
     "stable_baseline_glitch_spike": {
       "_doc": "Momentary glitch spike during narrative beats.",
-      "shader": "res://source/frontend/design/shaders/crt_glitch.tres",
+      "shader": "res://source//design/shaders/crt_glitch.tres",
       "parameters": {
         "glitch_intensity": 0.5,
         "chromatic_offset": 2.0,
@@ -317,7 +317,7 @@
     },
     "code_fragment_glitch_overlay": {
       "_doc": "Secret reveal overlay (design doc State 3).",
-      "shader": "res://source/frontend/design/shaders/crt_glitch.tres",
+      "shader": "res://source//design/shaders/crt_glitch.tres",
       "parameters": {
         "glitch_intensity": 1.0,
         "chromatic_offset": 2.0,
@@ -328,7 +328,7 @@
     },
     "dreamweaver_selection_light": {
       "_doc": "Light thread CRT adjustments.",
-      "shader": "res://source/frontend/design/shaders/crt_phosphor.tres",
+      "shader": "res://source//design/shaders/crt_phosphor.tres",
       "parameters": {
         "phosphor_tint": {
           "x": 1.0,
@@ -343,7 +343,7 @@
     },
     "dreamweaver_selection_shadow": {
       "_doc": "Shadow thread CRT adjustments.",
-      "shader": "res://source/frontend/design/shaders/crt_phosphor.tres",
+      "shader": "res://source//design/shaders/crt_phosphor.tres",
       "parameters": {
         "phosphor_tint": {
           "x": 0.6,
@@ -358,7 +358,7 @@
     },
     "dreamweaver_selection_ambition": {
       "_doc": "Ambition thread CRT adjustments.",
-      "shader": "res://source/frontend/design/shaders/crt_phosphor.tres",
+      "shader": "res://source//design/shaders/crt_phosphor.tres",
       "parameters": {
         "phosphor_tint": {
           "x": 1.0,

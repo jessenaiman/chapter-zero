@@ -38,7 +38,7 @@
 - **Role**: Background scene loading utility
 - **Used By**: Optional - for smooth transitions with loading screens
 - **Current**: 
-  - Configured to use `res://source/frontend/ui/menu/scenes/loading_screen/loading_screen.tscn`
+  - Configured to use `res://source//ui/menu/scenes/loading_screen/loading_screen.tscn`
   - Async-loads .tscn files in background
   - Can display loading screen while loading
   - NOT currently wired to GameManager/CinematicDirector

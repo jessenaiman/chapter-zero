@@ -15,10 +15,10 @@
 
 ### 2. **No C# Controller to Bridge Menu ↔ GameManager** ❌
 
-**File**: `main_menu.tscn` references non-existent `res://source/frontend/scenes/menus/main_menu/MainMenu.cs`
+**File**: `main_menu.tscn` references non-existent `res://source//scenes/menus/main_menu/MainMenu.cs`
 
 ```gdscene
-[ext_resource type="Script" path="res://source/frontend/scenes/menus/main_menu/MainMenu.cs" id="2_custom"]
+[ext_resource type="Script" path="res://source//scenes/menus/main_menu/MainMenu.cs" id="2_custom"]
 ```
 
 **Issue**: File doesn't exist. Menu has no C# logic to manage game startup.
@@ -88,7 +88,7 @@ public partial class MainMenuController : Node
 Replace broken MainMenu.cs reference with working MainMenuController.cs:
 
 ```gdscene
-[ext_resource type="Script" path="res://source/frontend/scenes/menus/main_menu/MainMenuController.cs" id="2_custom"]
+[ext_resource type="Script" path="res://source//scenes/menus/main_menu/MainMenuController.cs" id="2_custom"]
 
 [node name="MainMenuController" type="Node" parent="." index="5"]
 script = ExtResource("2_custom")

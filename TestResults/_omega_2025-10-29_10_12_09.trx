@@ -1509,7 +1509,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://source/field/gameboard/Gameboard.cs
 .. Loading resource: res://source/field/gamepieces/GamepieceRegistry.cs
 .. Loading resource: res://source/common/Player.cs
-.. Loading resource: res://source/frontend/combat/CombatEvents.cs
+.. Loading resource: res://source//combat/CombatEvents.cs
 .. Loading resource: res://source/audio/AudioManager.cs
 .. Loading resource: res://source/services/GameAppConfig.cs
 .. [  66% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Initializing plugins...\u001b[39m\u001b[0m

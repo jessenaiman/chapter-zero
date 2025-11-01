@@ -138,31 +138,31 @@ This is **correct architecture** because:
 ### Required for Opening → Menu → Game Flow
 
 1. **Opening Scene**
-   - Location: `res://source/frontend/scenes/opening/opening.tscn`
-   - Must inherit/instance: `res://source/frontend/ui/menu/nodes/opening/opening.tscn`
-   - Must set: `next_scene_path = "res://source/frontend/scenes/menus/main_menu/main_menu_with_animations.tscn"`
+   - Location: `res://source//scenes/opening/opening.tscn`
+   - Must inherit/instance: `res://source//ui/menu/nodes/opening/opening.tscn`
+   - Must set: `next_scene_path = "res://source//scenes/menus/main_menu/main_menu_with_animations.tscn"`
    - Must set: `images = [Array of Texture2D]` (Godot logo, etc.)
    - Status: ✅ Configured correctly
 
 2. **Main Menu Scene**
-   - Location: `res://source/frontend/scenes/menus/main_menu/main_menu_with_animations.tscn`
-   - Must inherit/instance: `res://source/frontend/ui/menu/nodes/main_menu/main_menu.tscn`
+   - Location: `res://source//scenes/menus/main_menu/main_menu_with_animations.tscn`
+   - Must inherit/instance: `res://source//ui/menu/nodes/main_menu/main_menu.tscn`
    - Must have: MainMenuController.cs as child to handle game_started signal
    - Status: ✅ Configured
 
 3. **Loading Screen Scene**
-   - Location: `res://source/frontend/scenes/loading_screen/loading_screen.tscn`
-   - Must inherit/instance: `res://source/frontend/ui/menu/nodes/loading_screen/loading_screen.tscn`
+   - Location: `res://source//scenes/loading_screen/loading_screen.tscn`
+   - Must inherit/instance: `res://source//ui/menu/nodes/loading_screen/loading_screen.tscn`
    - Status: ❓ File exists but SceneLoader can't load it (UID issue likely)
 
 4. **AppConfig (Global Setting)**
-   - In `source/frontend/ui/menu/nodes/autoloads/app_config/app_config.tscn`
-   - `main_menu_scene_path = "res://source/frontend/scenes/menus/main_menu/main_menu_with_animations.tscn"` ✅
+   - In `source//ui/menu/nodes/autoloads/app_config/app_config.tscn`
+   - `main_menu_scene_path = "res://source//scenes/menus/main_menu/main_menu_with_animations.tscn"` ✅
    - `ending_scene_path = "res://source/scenes/end_credits/end_credits.tscn"` ⚠️ May need to set
 
 5. **SceneLoader (Global Setting)**
-   - In `source/frontend/ui/menu/nodes/autoloads/scene_loader/scene_loader.tscn`
-   - `loading_screen_path = "res://source/frontend/scenes/loading_screen/loading_screen.tscn"` ⚠️ Broken UID ref
+   - In `source//ui/menu/nodes/autoloads/scene_loader/scene_loader.tscn`
+   - `loading_screen_path = "res://source//scenes/loading_screen/loading_screen.tscn"` ⚠️ Broken UID ref
 
 ## Current Debug Errors Analysis
 

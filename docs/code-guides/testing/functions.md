@@ -14,19 +14,16 @@ This is particularly useful in scenarios where you want to test or ensure the re
 
 ## Function Overview
 
-
 |Function|Description|
 |---|---|
 |[AwaitMethod](#await_func) |Waits for a function in the scene to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
 |[AwaitMethodOn](#await_func_on) |Waits for a function of a specific source node to return a value. Returns a GdUnitFuncAssert object, which allows you to verify the result of the function call.|
-
 
 ### await_func
 
 The **await_func** function pauses execution until a specified function in the scene returns a value.
 It returns a [GdUnitFuncAssert]({{site.baseurl}}/testing/assert-function/#functionmethod-assertions) object, which provides a suite of
 assertion methods to verify the returned value.
-
 
 It takes the following arguments:
 

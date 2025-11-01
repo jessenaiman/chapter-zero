@@ -3,7 +3,7 @@
 ## Created Solutions for Memory-Efficient Animated Star Backgrounds
 
 ### Four Implementation Approaches
-All created in `/source/frontend/ui/components/`:
+All created in `/source//ui/components/`:
 
 1. **Procedural Shader Starfield** (`procedural_starfield.gdshader` + `procedural_starfield.tscn`)
    - Memory: ~1KB (shader code only)
