@@ -24,33 +24,33 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads stage4.json script and orchestrates scene playback, then transitions to party selection UI.
 /// </summary>
-public sealed class PartySelectionCinematicDirector : CinematicDirector
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PartySelectionCinematicDirector"/> class.
-    /// </summary>
-    public PartySelectionCinematicDirector()
-        : base(new StageConfiguration
-        {
-            DataPath = "res://source//stages/stage_4_party_selection/stage4.json",
-            PlanFactory = script => new PartySelectionCinematicPlan(script)
-        })
-    {
-    }
+// public sealed class PartySelectionCinematicDirector : CinematicDirector
+// {
+//     /// <summary>
+//     /// Initializes a new instance of the <see cref="PartySelectionCinematicDirector"/> class.
+//     /// </summary>
+//     // public PartySelectionCinematicDirector()
+//     //     : base(new StageConfiguration
+//     //     {
+//     //         DataPath = "res://source//stages/stage_4_party_selection/stage4.json",
+//     //         PlanFactory = script => new PartySelectionCinematicPlan(script)
+//     //     })
+//     // {
+//     // }
 
-    /// <inheritdoc/>
-    public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
-    {
-        // HYBRID PATTERN: Run narrative first, then party selection UI
-        // TODO: Implement party selection scene path
-        return this.RunStageWithGameplayAsync("res://source//stages/stage_4_party_selection/party_selection_ui.tscn");
-    }
+//     /// <inheritdoc/>
+//     public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
+//     {
+//         // HYBRID PATTERN: Run narrative first, then party selection UI
+//         // TODO: Implement party selection scene path
+//         return this.RunStageWithGameplayAsync("res://source//stages/stage_4_party_selection/party_selection_ui.tscn");
+//     }
 
-    /// <inheritdoc/>
-    protected override StoryPlan BuildPlan(StoryBlock script)
-    {
-        return new PartySelectionCinematicPlan(script);
-    }
+//     /// <inheritdoc/>
+//     protected override StoryPlan BuildPlan(StoryBlock script)
+//     {
+//         return new PartySelectionCinematicPlan(script);
+//     }
 
-    // TODO: Convert to Dialogic like Ghost stage
-}
+//     // TODO: Convert to Dialogic like Ghost stage
+// }

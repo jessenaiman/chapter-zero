@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://dg3llhqqj5vag"]
 
-[ext_resource type="Script" uid="uid://cxrcy0evb0j3l" path="res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd" id="1_l0dhx"]
+[ext_resource type="Script" uid="uid://placeholder" path="res://source/autoloads/scene_loader/omega_scene_loader.gd" id="1"]
 
 [node name="OmegaSceneLoader" type="Node"]
-script = ExtResource("1_l0dhx")
-loading_screen_path = "res://addons/maaacks_game_template/examples/scenes/loading_screen/loading_screen.tscn"
+script = ExtResource("1")
+loading_screen_path = ""

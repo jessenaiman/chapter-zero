@@ -70,14 +70,14 @@ public class SceneResult
 /// </summary>
 public abstract class CinematicDirector : ICinematicDirector
 {
-    protected StageConfiguration Config { get; }
+    // protected StageConfiguration Config { get; }
 
     protected StoryPlan? Plan { get; set; }
 
-    protected CinematicDirector(StageConfiguration config)
-    {
-        this.Config = config;
-    }
+    // protected CinematicDirector(StageConfiguration config)
+    // {
+    //     this.Config = config;
+    // }
 
     /// <summary>
     /// Loads a JSON script from the specified file path.
@@ -149,7 +149,7 @@ public abstract class CinematicDirector : ICinematicDirector
             await this.LoadUiSceneAsync(scenePath);
         }
 
-                // Run narrative sequences
+        // Run narrative sequences
         var script = LoadJsonScript(this.GetDataPath());
         this.Plan = this.BuildPlan(script);
 
@@ -176,14 +176,14 @@ public abstract class CinematicDirector : ICinematicDirector
     /// Must be implemented by subclasses.
     /// </summary>
     /// <returns>Path to narrative data file (e.g., "res://source//stages/stage_1_ghost/ghost.json").</returns>
-    protected virtual string GetDataPath() => this.Config.DataPath;
+    protected abstract string GetDataPath(); // => this.Config.DataPath;
 
     /// <summary>
     /// Gets the path to a UI scene to load before running narrative sequences.
     /// Override in subclasses that need a visual scene for narrative display.
     /// </summary>
     /// <returns>Path to .tscn file, or null if no scene should be loaded.</returns>
-    protected virtual string? GetScenePath() => this.Config.ScenePath;
+    protected virtual string? GetScenePath() => null; // this.Config.ScenePath;
 
     /// <summary>
     /// Builds the plan from the parsed script.
@@ -191,7 +191,7 @@ public abstract class CinematicDirector : ICinematicDirector
     /// </summary>
     /// <param name="script">The parsed narrative script.</param>
     /// <returns>The stage-specific plan.</returns>
-    protected virtual StoryPlan BuildPlan(StoryBlock script) => this.Config.PlanFactory(script);
+    protected abstract StoryPlan BuildPlan(StoryBlock script); // => this.Config.PlanFactory(script);
 
     /// <summary>
     /// Gathers data required for the scene.

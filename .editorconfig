@@ -23,7 +23,6 @@ csharp_style_prefer_simple_using_statement = true
 csharp_style_prefer_local_over_anonymous_function = true
 csharp_style_prefer_conditional_expression_over_assignment = true
 csharp_style_prefer_conditional_expression_over_return = true
-csharp_style_require_braces = true:warning
 
 # Naming conventions - enforced across the project
 # Private fields must use underscore prefix and PascalCase for acronyms like Ui, AI
@@ -39,10 +38,10 @@ dotnet_naming_style.private_prefix_pascal_acronym.required_prefix = _
 dotnet_naming_style.private_prefix_pascal_acronym.capitalization = pascal_case
 
 # StyleCop suppressions for pragmatic development
-dotnet_diagnostic.SA1600.severity = error    # Elements should be documented (relaxed for brevity)
-dotnet_diagnostic.SA1649.severity = error    # File name should match first type (too strict, suppressed)
+dotnet_diagnostic.SA1600.severity = error    
+dotnet_diagnostic.SA1649.severity = error  
 
-# Enable key security and reliability rules
+# Enable key security and reliability rule
 dotnet_diagnostic.CA3001.severity = error    # SQL injection
 dotnet_diagnostic.CA3002.severity = error    # XSS vulnerabilities
 dotnet_diagnostic.CA3075.severity = error    # Insecure XML processing
@@ -57,8 +56,6 @@ dotnet_diagnostic.RCS1139.severity = error    # Add summary element
 dotnet_diagnostic.RCS1140.severity = error    # Add exception documentation
 dotnet_diagnostic.RCS1154.severity = error    # Sort modifiers
 dotnet_diagnostic.RCS1155.severity = error    # Use StringComparison
-dotnet_diagnostic.RCS1001.severity = none     # Add braces
-dotnet_diagnostic.RCS1003.severity = none     # Add braces to if-else
 dotnet_diagnostic.RCS1018.severity = error    # Add accessibility modifiers
 dotnet_diagnostic.RCS1110.severity = error    # Declare type inside namespace
 dotnet_diagnostic.RCS1225.severity = error    # Make class sealed

@@ -24,32 +24,32 @@ using OmegaSpiral.Source.Backend.Narrative;
 ///
 /// Loads stage_5.json script and orchestrates scene playback, then transitions to escape gameplay.
 /// </summary>
-public sealed class EscapeCinematicDirector : CinematicDirector
-{
-    /// <summary>
-    /// Initializes a new instance of the <see cref="EscapeCinematicDirector"/> class.
-    /// </summary>
-    public EscapeCinematicDirector()
-        : base(new StageConfiguration
-        {
-            DataPath = "res://source//stages/stage_5_escape/stage_5.json",
-            PlanFactory = script => new EscapeCinematicPlan(script)
-        })
-    {
-    }
+// public sealed class EscapeCinematicDirector : CinematicDirector
+// {
+//     /// <summary>
+//     /// Initializes a new instance of the <see cref="EscapeCinematicDirector"/> class.
+//     /// </summary>
+//     // public EscapeCinematicDirector()
+//     //     : base(new StageConfiguration
+//     //     {
+//     //         DataPath = "res://source//stages/stage_5_escape/stage_5.json",
+//     //         PlanFactory = script => new EscapeCinematicPlan(script)
+//     //     })
+//     // {
+//     // }
 
-    /// <inheritdoc/>
-    public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
-    {
-        // HYBRID PATTERN: Run narrative first, then escape sequence
-        return this.RunStageWithGameplayAsync("res://source//stages/stage_5_escape/escape_hub_start.tscn");
-    }
+//     /// <inheritdoc/>
+//     public override Task<IReadOnlyList<SceneResult>> RunStageAsync()
+//     {
+//         // HYBRID PATTERN: Run narrative first, then escape sequence
+//         return this.RunStageWithGameplayAsync("res://source//stages/stage_5_escape/escape_hub_start.tscn");
+//     }
 
-    /// <inheritdoc/>
-    protected override StoryPlan BuildPlan(StoryBlock script)
-    {
-        return new EscapeCinematicPlan(script);
-    }
+//     /// <inheritdoc/>
+//     protected override StoryPlan BuildPlan(StoryBlock script)
+//     {
+//         return new EscapeCinematicPlan(script);
+//     }
 
-    // TODO: Convert to Dialogic like Ghost stage
-}
+//     // TODO: Convert to Dialogic like Ghost stage
+// }

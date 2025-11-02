@@ -20,8 +20,8 @@ boot_splash/icon=""
 [autoload]
 
 GlobalState="*res://addons/maaacks_game_template/base/nodes/state/global_state.gd"
-OmegaGlobalState="*res://source/autoloads/global_state.gd"
-OmegaGameManager="*res://source/scenes/game_scene/scripts/level_and_state_manager.gd"
+OmegaGlobalState="*res://source/autoloads/omega_global_state.gd"
+OmegaGameManager="*res://source/scripts/level_and_state_manager.gd"
 AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
 SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
@@ -32,11 +32,15 @@ LevelAndStateManager="*res://source/scenes/game_scene/scripts/level_and_state_ma
 [dialogic]
 
 directories/dch_directory={
+"ambition": "res://source/scenes/game_scene/levels/level_1_ghost/characters/ambition.dch",
 "enemy_ghost": "res://source/overworld/maps/town/enemy_ghost.dch",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dch",
 "ghost": "res://source/overworld/maps/forest/ghost.dch",
+"light": "res://source/scenes/game_scene/levels/level_1_ghost/characters/light.dch",
 "monk": "res://source/overworld/maps/town/monk.dch",
+"omega": "res://source/scenes/game_scene/levels/level_1_ghost/characters/omega.dch",
 "runner": "res://source/overworld/maps/town/runner.dch",
+"shadow": "res://source/scenes/game_scene/levels/level_1_ghost/characters/shadow.dch",
 "smith": "res://source/overworld/maps/town/smith.dch",
 "thief": "res://source/overworld/maps/town/thief.dch",
 "warrior": "res://source/overworld/maps/town/warrior.dch",
@@ -49,7 +53,9 @@ directories/dtl_directory={
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
 "ghost": "res://source/overworld/maps/forest/ghost.dtl",
 "ghost_terminal": "res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl",
+"ghost_terminal_refactored": "res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal_refactored.dtl",
 "monk": "res://source/overworld/maps/town/monk.dtl",
+"nethack_echo_chamber": "res://source/scenes/game_scene/levels/level_2_nethack/nethack_echo_chamber.dtl",
 "opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
 "runner": "res://source/overworld/maps/town/runner.dtl",
 "sign": "res://source/overworld/maps/town/sign.dtl",
@@ -95,18 +101,6 @@ project/solution_directory="."
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
-
-[gdunit4]
-
-templates/testsuite/GDScript="# GdUnit generated TestSuite
-class_name ${suite_class_name}
-extends GdUnitTestSuite
-@warning_ignore('unused_parameter')
-@warning_ignore('return_value_discarded')
-
-# TestSuite generated from
-const __source: String = '${source_resource_path}'
-"
 
 [gui]
 
