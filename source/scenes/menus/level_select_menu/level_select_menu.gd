@@ -2,7 +2,7 @@ extends Control
 
 ## Loads a simple ItemList node within a margin container. SceneLister updates
 ## the available scenes in the directory provided. Activating a level will update
-## the GameStateExample's current_level, and emit a signal. The main menu node will trigger
+## the GameState's current_level, and emit a signal. The main menu node will trigger
 ## a load action from that signal.
 
 signal level_selected
@@ -29,5 +29,5 @@ func add_levels_to_container() -> void:
 		level_paths.append(file_path)
 
 func _on_level_buttons_container_item_activated(index: int) -> void:
-	GameStateExample.set_current_level(level_paths[index])
+	GameState.set_current_level(level_paths[index])
 	level_selected.emit()

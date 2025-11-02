@@ -31,11 +31,11 @@ func _on_timeline_ended() -> void:
 	
 	# Collect all the choices player made
 	var results = {
-		"thread": Dialogic.VAR.get("player_thread", ""),
-		"story_choice": Dialogic.VAR.get("player_story_choice", ""),
-		"role": Dialogic.VAR.get("player_role", ""),
-		"name_view": Dialogic.VAR.get("player_name_view", ""),
-		"name_story": Dialogic.VAR.get("player_name_story", "")
+		"thread": Dialogic.VAR.get("player_thread") or "",
+		"story_choice": Dialogic.VAR.get("player_story_choice") or "",
+		"role": Dialogic.VAR.get("player_role") or "",
+		"name_view": Dialogic.VAR.get("player_name_view") or "",
+		"name_story": Dialogic.VAR.get("player_name_story") or ""
 	}
 	
 	print("[GhostDialogicBridge] Results: ", results)
@@ -43,14 +43,14 @@ func _on_timeline_ended() -> void:
 
 ## Get the selected thread for scoring
 func get_selected_thread() -> String:
-	return Dialogic.VAR.get("player_thread", "")
+	return Dialogic.VAR.get("player_thread") or ""
 
 ## Get all player choices as dictionary
 func get_player_choices() -> Dictionary:
 	return {
-		"thread": Dialogic.VAR.get("player_thread", ""),
-		"story_choice": Dialogic.VAR.get("player_story_choice", ""),
-		"role": Dialogic.VAR.get("player_role", ""),
-		"name_view": Dialogic.VAR.get("player_name_view", ""),
-		"name_story": Dialogic.VAR.get("player_name_story", "")
+		"thread": Dialogic.VAR.get("player_thread") or "",
+		"story_choice": Dialogic.VAR.get("player_story_choice") or "",
+		"role": Dialogic.VAR.get("player_role") or "",
+		"name_view": Dialogic.VAR.get("player_name_view") or "",
+		"name_story": Dialogic.VAR.get("player_name_story") or ""
 	}

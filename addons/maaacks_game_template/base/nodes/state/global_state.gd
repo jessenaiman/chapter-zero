@@ -1,5 +1,6 @@
-class_name GlobalState
 extends Node
+
+const GlobalStateData = preload("res://addons/maaacks_game_template/base/nodes/state/global_state_data.gd")
 
 const SAVE_STATE_PATH = "user://global_state.tres"
 const NO_VERSION_NAME = "0.0.0"

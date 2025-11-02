@@ -51,10 +51,5 @@ public sealed class EscapeCinematicDirector : CinematicDirector
         return new EscapeCinematicPlan(script);
     }
 
-    /// <inheritdoc/>
-    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
-    {
-        GD.Print($"[Escape] Creating scene manager for: {scene.Id}");
-        return new OmegaSceneManager();
-    }
+    // TODO: Convert to Dialogic like Ghost stage
 }

@@ -22,7 +22,7 @@ func new_game() -> void:
 	if confirm_new_game and GameState.get_levels_reached() > 0:
 		new_game_confirmation.show()
 	else:
-		GameStateExample.reset()
+		GameState.reset()
 		load_game_scene()
 
 func intro_done() -> void:
@@ -51,13 +51,13 @@ func _input(event : InputEvent) -> void:
 		return
 	super._input(event)
 
-func _show_level_select_if_set() -> void: 
+func _show_level_select_if_set() -> void:
 	if level_select_packed_scene == null: return
-	if GameStateExample.get_levels_reached() <= 1 : return
+	if GameState.get_levels_reached() <= 1 : return
 	level_select_button.show()
 
 func _show_continue_if_set() -> void:
-	if GameStateExample.get_current_level_path().is_empty(): return
+	if GameState.get_current_level_path().is_empty(): return
 	continue_game_button.show()
 
 func _ready() -> void:
@@ -67,7 +67,7 @@ func _ready() -> void:
 	animation_state_machine = $MenuAnimationTree.get("parameters/playback")
 
 func _on_continue_game_button_pressed() -> void:
-	GameStateExample.continue_game()
+	GameState.continue_game()
 	load_game_scene()
 
 func _on_level_select_button_pressed() -> void:
@@ -76,5 +76,5 @@ func _on_level_select_button_pressed() -> void:
 		level_select_scene.connect("level_selected", load_game_scene)
 
 func _on_new_game_confirmation_dialog_confirmed():
-	GameStateExample.reset()
+	GameState.reset()
 	load_game_scene()

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cmefjno2ddk7e" path="res://source/scenes/overlaid_menus/game_won_menu.tscn" id="9_suu1j"]
 [ext_resource type="Script" uid="uid://tooek7mdq54x" path="res://source/scenes/game_scene/configurable_sub_viewport.gd" id="9_u1dsg"]
 [ext_resource type="PackedScene" uid="uid://bralse0lmn6t3" path="res://source/scenes/overlaid_menus/level_lost_menu.tscn" id="10_lkew3"]
-[ext_resource type="Script" uid="uid://cmqngqwso0uve" path="res://source/scripts/level_and_state_manager.gd" id="11_a40ke"]
+[ext_resource type="Script" uid="uid://cmqngqwso0uve" path="res://source/scenes/game_scene/scripts/level_and_state_manager.gd" id="11_a40ke"]
 [ext_resource type="PackedScene" uid="uid://cyjcj8mo8x5tk" path="res://source/scenes/overlaid_menus/level_won_menu.tscn" id="11_p7huw"]
 [ext_resource type="Script" uid="uid://wjq7li836lwj" path="res://addons/maaacks_game_template/extras/scripts/scene_lister.gd" id="12_sgprk"]
 [ext_resource type="Script" uid="uid://cujhanlmdyxio" path="res://source/scenes/game_scene/game_timer.gd" id="12_up6yb"]

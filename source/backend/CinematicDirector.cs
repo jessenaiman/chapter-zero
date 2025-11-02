@@ -162,9 +162,8 @@ public abstract class CinematicDirector : ICinematicDirector
                 // Query NarrativeEngine for what's needed - stub for now
                 var data = this.GatherSceneData(scene);
 
-                var sceneManager = this.CreateSceneManager(scene, data);
-                var result = await sceneManager.RunSceneAsync(scene);
-                results.Add(result);
+                // TODO: Implement scene running with Dialogic
+                results.Add(new SceneResult { SceneId = scene.Id ?? "unknown" });
             }
         }
 
@@ -193,15 +192,6 @@ public abstract class CinematicDirector : ICinematicDirector
     /// <param name="script">The parsed narrative script.</param>
     /// <returns>The stage-specific plan.</returns>
     protected virtual StoryPlan BuildPlan(StoryBlock script) => this.Config.PlanFactory(script);
-
-    /// <summary>
-    /// Creates a SceneManager for the given scene.
-    /// Must be implemented by subclasses.
-    /// </summary>
-    /// <param name="scene">The scene data.</param>
-    /// <param name="data">Additional data for the scene.</param>
-    /// <returns>The SceneManager instance.</returns>
-    protected abstract OmegaSceneManager CreateSceneManager(Scene scene, object data);
 
     /// <summary>
     /// Gathers data required for the scene.
@@ -269,9 +259,8 @@ public abstract class CinematicDirector : ICinematicDirector
             foreach (var scene in this.Plan.Script.Scenes)
             {
                 var data = this.GatherSceneData(scene);
-                var sceneManager = this.CreateSceneManager(scene, data);
-                var result = await sceneManager.RunSceneAsync(scene);
-                results.Add(result);
+                // TODO: Implement with Dialogic
+                results.Add(new SceneResult { SceneId = scene.Id ?? "unknown" });
             }
         }
 

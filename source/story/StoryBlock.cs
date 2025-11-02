@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 /// Signals are emitted to communicate with the GDScript state managers for scene transitions and choice handling.
 /// <para>
 /// Related Architecture:
-/// <see cref="GameStateExample.gd"/> - Handles global game state persistence and reacts to story events.
+/// <see cref="OmegaSpiralGameState"/> - Handles global game state persistence and reacts to story events.
 /// <see cref="LevelAndStateManager.gd"/> - Manages scene loading and transitions based on story signals.
 /// </para>
 /// </summary>

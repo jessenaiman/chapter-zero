@@ -1,5 +1,7 @@
 extends Node
 
+const _GlobalState = preload("res://addons/maaacks_game_template/base/nodes/state/global_state.gd")
+
 var play_time : int
 var total_time : int
 
@@ -21,7 +23,7 @@ func _enter_tree() -> void:
 	_add_timers()
 
 func _exit_tree() -> void:
-	var game_state := GameStateExample.get_or_create_state()
+	var game_state := OmegaSpiralGameState.get_or_create_state()
 	game_state.play_time += play_time
 	game_state.total_time += total_time
-	GlobalState.save()
+	_GlobalState.save()

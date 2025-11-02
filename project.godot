@@ -12,20 +12,22 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="res://source/scenes/opening/opening.tscn"
+run/main_scene="uid://cyqy6dvynho67"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/icon=""
 
 [autoload]
 
-OmegaGlobalState="*res://source/autoloads/omega_global_state.gd"
-OmegaGameManager="*res://source/autoloads/level_and_state_manager.gd"
-AppConfig="*res://source/autoloads/omega_app_config.tscn"
-SceneLoader="*res://source/autoloads/omega_scene_loader.tscn"
-ProjectMusicController="*res://source/autoloads/omega_music_controller.tscn"
-ProjectUISoundController="*res://source/autoloads/omega_ui_sound_controller.gd"
+GlobalState="*res://addons/maaacks_game_template/base/nodes/state/global_state.gd"
+OmegaGlobalState="*res://source/autoloads/global_state.gd"
+OmegaGameManager="*res://source/scenes/game_scene/scripts/level_and_state_manager.gd"
+AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
+SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
+ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
+ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+LevelAndStateManager="*res://source/scenes/game_scene/scripts/level_and_state_manager.gd"
 
 [dialogic]
 
@@ -46,6 +48,7 @@ directories/dtl_directory={
 "encounter_on_victory": "res://source/overworld/maps/town/encounter_on_victory.dtl",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
 "ghost": "res://source/overworld/maps/forest/ghost.dtl",
+"ghost_terminal": "res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl",
 "monk": "res://source/overworld/maps/town/monk.dtl",
 "opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
 "runner": "res://source/overworld/maps/town/runner.dtl",
@@ -58,6 +61,27 @@ directories/dtl_directory={
 "warrior": "res://source/overworld/maps/town/warrior.dtl",
 "wizard": "res://source/overworld/maps/town/wizard.dtl"
 }
+glossary/default_case_sensitive=true
+extensions_folder="res://addons/dialogic_additions"
+text/letter_speed=0.01
+text/initial_text_reveal_skippable=true
+text/text_reveal_skip_delay=0.1
+text/advance_delay=0.1
+text/autoadvance_per_character_delay=0.1
+text/autoadvance_ignored_characters_enabled=true
+choices/autofocus_first=true
+choices/delay=0.2
+choices/reveal_delay=0
+choices/reveal_by_input=false
+audio/max_channels=4.0
+animations/join_default_length=0.5
+animations/join_default_wait=true
+animations/leave_default_length=0.5
+animations/leave_default_wait=true
+animations/cross_fade_default_length=0.5
+save/autosave_delay=60.0
+save/encryption_on_exports_only=true
+text/autopauses={}
 
 [display]
 

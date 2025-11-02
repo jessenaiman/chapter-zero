@@ -7,7 +7,9 @@ signal level_won_and_changed(level_path : String)
 ## Optional path to the next level if using an open world level system.
 @export_file("*.tscn") var next_level_path : String
 
-var level_state : LevelStateExample
+var level_state : OmegaSpiralLevelState
+
+const _GlobalState = preload("res://addons/maaacks_game_template/base/nodes/state/global_state.gd")
 
 func _on_lose_button_pressed() -> void:
 	level_lost.emit()
@@ -21,10 +23,10 @@ func _on_win_button_pressed() -> void:
 func open_tutorials() -> void:
 	%TutorialManager.open_tutorials()
 	level_state.tutorial_read = true
-	GlobalState.save()
+	_GlobalState.save()
 
 func _ready() -> void:
-	level_state = GameStateExample.get_level_state(scene_file_path)
+	level_state = OmegaSpiralGameState.get_level_state(scene_file_path)
 	%ColorPickerButton.color = level_state.color
 	%BackgroundColor.color = level_state.color
 	if not level_state.tutorial_read:
@@ -33,7 +35,7 @@ func _ready() -> void:
 func _on_color_picker_button_color_changed(color : Color) -> void:
 	%BackgroundColor.color = color
 	level_state.color = color
-	GlobalState.save()
+	_GlobalState.save()
 
 func _on_tutorial_button_pressed() -> void:
 	open_tutorials()

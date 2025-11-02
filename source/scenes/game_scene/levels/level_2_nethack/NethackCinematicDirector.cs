@@ -48,14 +48,5 @@ public sealed class NethackCinematicDirector : CinematicDirector
         return new NethackCinematicPlan(script);
     }
 
-    /// <inheritdoc/>
-    protected override OmegaSceneManager CreateSceneManager(Scene scene, object data)
-    {
-        GD.Print($"[Nethack] Creating scene manager for: {scene.Id} (type: {scene.Type})");
-
-        // For combat scenes, we use the basic OmegaSceneManager but could extend this
-        // to use a specialized CombatSceneManager in the future if needed
-        // The combat logic is handled through the CombatData in the scene
-        return new OmegaSceneManager();
-    }
+    // TODO: Convert to Dialogic like Ghost stage
 }
