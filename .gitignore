@@ -9,6 +9,17 @@ gdunit4_testadapter_v5/
 models/*.gguf
 *.gguf
 
+# Addon binaries and platform-specific files (keep source code)
+addons/*/*.so
+addons/*/*.dll
+addons/*/*.dylib
+addons/*/*.pdb
+addons/*/*.exe
+addons/*/bin/
+addons/*/obj/
+addons/*/.mono/
+addons/*/.godot/
+
 # NobodyWho plugin binaries (download from releases)
 addons/nobodywho/*.so
 addons/nobodywho/*.dll
@@ -19,6 +30,10 @@ addons/nobodywho/*.pdb
 addons/**/[.git|.gitignore]/
 addons/**/.github
 addons/**/project.godot
+
+# Godot import files (regenerated on import)
+*.import
+.godot/imported/
 
 # Chat exports (may contain sensitive tokens)
 chat-export-*.json
@@ -68,7 +83,6 @@ reports/
 *.cache
 
 # IDE specific
-addons/dialogic/
 
 
 #Ignore windsurf AI rules

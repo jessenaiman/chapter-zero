@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="fe5c684b-a99f-4198-a10a-72b4bf454c16" name="@omega 2025-11-01 22:28:33" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-11-01T22:28:33.5100144-04:00" queuing="2025-11-01T22:28:33.5100145-04:00" start="2025-11-01T22:27:58.6174573-04:00" finish="2025-11-01T22:28:33.5103950-04:00" />
-  <TestSettings name="default" id="cbeaa204-08cd-417a-8e8b-195fe0f42d90">
-    <Deployment runDeploymentRoot="_omega_2025-11-01_22_28_33" />
+<TestRun id="af7af093-3b80-4c07-a53d-45b7506a5bd8" name="@omega 2025-11-02 15:54:15" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-02T15:54:15.9715691-05:00" queuing="2025-11-02T15:54:15.9715691-05:00" start="2025-11-02T15:53:43.5060243-05:00" finish="2025-11-02T15:54:15.9721369-05:00" />
+  <TestSettings name="default" id="f77a79e0-079b-4ddd-8b20-c3a7572a3151">
+    <Deployment runDeploymentRoot="_omega_2025-11-02_15_54_15" />
   </TestSettings>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
@@ -13,8 +13,8 @@
     <Output>
       <StdOut>Running on GdUnit4 test engine version: 5.0.0.0
 Discover tests from assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
-Discover:  TestSuite OmegaSpiral.Tests.UI.MenuTests with 1 TestCases found.
-Discover tests done, 1 TestSuites and total 1 Tests found.
+Discover:  TestSuite OmegaSpiral.Tests.UI.MenuTests with 4 TestCases found.
+Discover tests done, 1 TestSuites and total 4 Tests found.
 Running on GdUnit4 test engine version: 5.0.0.0
 Set test session timeout to: 00:30:00
 Detected IDE Unknown
@@ -43,15 +43,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Found hostfxr: /usr/lib/dotnet/host/fxr/10.0.0-rc.2.25502.107/libhostfxr.so
 .. .NET: hostfxr initialized
 .. .NET: GodotPlugins initialized
-.. Loading resource: res://theme.tres
-.. Loading resource: res://default_bus_layout.tres
+.. Loading resource: res://source/ui/omega/omega_ui.theme.tres
 .. CORE API HASH: 3234800178
 .. EDITOR API HASH: 4055853480
 .. SceneTreeFTI: traversal method DEFAULT
-.. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/TimelineResourceLoader.gd
-.. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/TimelineResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
 .. Loading resource: /home/adam/.config/godot/editor_settings-4.6.tres
 .. EditorSettings: Load OK!
 .. EditorTheme: Generating new theme for the config '66886095'.
@@ -65,10 +64,10 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
 .. Loading resource: res://addons/godot_xterm/themes/fonts/regular.tres
-:: WARNING: res://addons/godot_xterm/themes/fonts/regular.tres:3 - ext_resource, invalid UID: uid://c51gnbjamppg - using text path instead: res://addons/godot_xterm/themes/fonts/jet_brains_mono/jet_brains_mono_nl-regular-2.304.ttf
-:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/godot_xterm/themes/fonts/jet_brains_mono/jet_brains_mono_nl-regular-2.304.ttf
+:: WARNING: res://addons/godot_xterm/themes/fonts/regular.tres:3 - ext_resource, invalid UID: uid://c51gnbjamppg - using text path instead: res://addons/godot_xterm/themes/fonts/jet_brains_mono/jet_brains_mono_nl-regular-2.304.ttf
 .. Loading resource: res://.godot/imported/jet_brains_mono_nl-regular-2.304.ttf-96fa438503371775be3cc744a4450fc2.fontdata
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/godot_xterm/icons/terminal_icon.svg
 .. Loading resource: res://.godot/imported/terminal_icon.svg-2a4b198a0e3aa43f04b43cec3e3f109d.ctex
 .. Loading resource: res://addons/godot_xterm/shaders/background.gdshader
@@ -79,31 +78,29 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. [  16% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Loading global class names...\u001b[39m\u001b[0m
 .. [  33% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Verifying GDExtensions...\u001b[39m\u001b[0m
 .. [  50% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Creating autoload scripts...\u001b[39m\u001b[0m
-.. Loading resource: res://source/autoloads/level_and_state_manager.gd
-:: SCRIPT ERROR: Parse Error: Class "OmegaGameManager" hides an autoload singleton.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:1)
-:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:13)
-:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:17)
-:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:21)
-:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:24)
-:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
-:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:27)
-:: ERROR: Failed to load script "res://source/autoloads/level_and_state_manager.gd" with error "Parse error".
-:: at: load (modules/gdscript/gdscript.cpp:3037)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.gd
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/music_controller.gd
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/ui_sound_controller.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/state/global_state.gd
+.. Loading resource: res://source/autoloads/omega_global_state.gd
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+.. Loading resource: res://source/autoloads/app_config/app_config.tscn
+:: WARNING: res://source/autoloads/app_config/app_config.tscn:3 - ext_resource, invalid UID: uid://omega_app_config - using text path instead: res://source/autoloads/app_config/omega_app_config.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://source/autoloads/app_config/omega_app_config.gd
+.. Loading resource: res://source/autoloads/scene_loader/omega_scene_loader.tscn
+:: WARNING: res://source/autoloads/scene_loader/omega_scene_loader.tscn:3 - ext_resource, invalid UID: uid://omega_scene_loader - using text path instead: res://source/autoloads/scene_loader/omega_scene_loader.gd
+.. Loading resource: res://source/autoloads/scene_loader/omega_scene_loader.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://source/autoloads/music_controller/project_music_controller.tscn
+.. Loading resource: res://source/autoloads/music_controller/omega_music_controller.gd
+:: WARNING: res://source/autoloads/music_controller/project_music_controller.tscn:3 - ext_resource, invalid UID: uid://omega_music_ctrl - using text path instead: res://source/autoloads/music_controller/omega_music_controller.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://source/autoloads/ui_sound_controller/project_ui_sound_controller.tscn
+.. Loading resource: res://source/autoloads/ui_sound_controller/omega_ui_sound_controller.gd
+:: WARNING: res://source/autoloads/ui_sound_controller/project_ui_sound_controller.tscn:3 - ext_resource, invalid UID: uid://omega_ui_sound_ctrl - using text path instead: res://source/autoloads/ui_sound_controller/omega_ui_sound_controller.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://source/assets/sfx/confirmation_002.ogg
+.. Loading resource: res://.godot/imported/confirmation_002.ogg-1f36c4c730eb10a140f7e1d1adfdfbe8.oggvorbisstr
+.. Loading resource: res://source/assets/sfx/impactWood_light_002.ogg
+.. Loading resource: res://.godot/imported/impactWood_light_002.ogg-0b160c6a2445f3d3b0192654b4ee0881.oggvorbisstr
 .. [  66% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Initializing plugins...\u001b[39m\u001b[0m
 .. Loading resource: res://addons/dialogic/plugin.gd
 .. Loading resource: res://addons/dialogic/Editor/editor_main.tscn
@@ -111,33 +108,33 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/editors_manager.gd
 :: WARNING: res://addons/dialogic/Editor/editor_main.tscn:5 - ext_resource, invalid UID: uid://dybg3l5pwetne - using text path instead: res://addons/dialogic/Editor/Images/plugin-icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
-.. Loading resource: res://addons/dialogic/Editor/Images/plugin-icon.svg
-.. Loading resource: res://.godot/imported/plugin-icon.svg-aa6701e8ed73f5fe5d177dfddce3a0e3.ctex
-.. Loading resource: res://addons/dialogic/Editor/Common/side_bar.tscn
 :: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:4 - ext_resource, invalid UID: uid://bff65e82555qr - using text path instead: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:5 - ext_resource, invalid UID: uid://dx3o2ild56i76 - using text path instead: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/dialogic/Editor/Images/plugin-icon.svg
+.. Loading resource: res://.godot/imported/plugin-icon.svg-aa6701e8ed73f5fe5d177dfddce3a0e3.ctex
+.. Loading resource: res://addons/dialogic/Editor/Common/side_bar.tscn
 .. Loading resource: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
 .. Loading resource: res://.godot/imported/close-icon.svg-c630c93ada599b08938f4854f5376f2f.ctex
 .. Loading resource: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
 .. Loading resource: res://.godot/imported/closed-icon.svg-b4f16653b91d6792313a130565319b2f.ctex
 .. Loading resource: res://addons/dialogic/Editor/Common/toolbar.gd
 :: WARNING: res://addons/dialogic/Editor/editor_main.tscn:8 - ext_resource, invalid UID: uid://bbea0efx0ybu7 - using text path instead: res://addons/dialogic/Editor/Images/Resources/character.svg
-:: at: load (scene/resources/resource_format_text.cpp:466)
-:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:9 - ext_resource, invalid UID: uid://b5xwnxdb7064n - using text path instead: res://addons/dialogic/Modules/Glossary/icon.svg
-:: at: load (scene/resources/resource_format_text.cpp:466)
-:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:10 - ext_resource, invalid UID: uid://1mccycya6eua - using text path instead: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
-:: at: load (scene/resources/resource_format_text.cpp:466)
-:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:11 - ext_resource, invalid UID: uid://ckilxvwc34s84 - using text path instead: res://addons/dialogic/Modules/Variable/variable.svg
-:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/dialogic/Editor/Images/Resources/character.svg
 .. Loading resource: res://.godot/imported/character.svg-48bc1c93fa13733a935ca2c669d933a7.ctex
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:9 - ext_resource, invalid UID: uid://b5xwnxdb7064n - using text path instead: res://addons/dialogic/Modules/Glossary/icon.svg
 .. Loading resource: res://addons/dialogic/Modules/Glossary/icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://.godot/imported/icon.svg-4fc0c12c53379638e37d654e7bbaea1a.ctex
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:10 - ext_resource, invalid UID: uid://1mccycya6eua - using text path instead: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
 .. Loading resource: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://.godot/imported/styles_icon.svg-c55f9f7d15c3512c8b20dbf30eed7047.ctex
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:11 - ext_resource, invalid UID: uid://ckilxvwc34s84 - using text path instead: res://addons/dialogic/Modules/Variable/variable.svg
 .. Loading resource: res://addons/dialogic/Modules/Variable/variable.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://.godot/imported/variable.svg-52aeb47fe1705a3f04d919f8dcd5d319.ctex
 .. Loading resource: res://addons/dialogic/Editor/Common/reference_manager.tscn
 .. Loading resource: res://addons/dialogic/Editor/Common/reference_manager.gd
@@ -197,14 +194,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor.gd
 .. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
 .. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor_portrait_tree.gd
-.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
-.. Loading resource: res://.godot/imported/add-folder.svg-41a970370f904038e63c13bddbdb6450.ctex
 :: WARNING: res://addons/dialogic/Editor/CharacterEditor/character_editor.tscn:6 - ext_resource, invalid UID: uid://babwe22dqjta - using text path instead: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
 :: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:42)
 :: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
+.. Loading resource: res://.godot/imported/add-folder.svg-41a970370f904038e63c13bddbdb6450.ctex
 .. Loading resource: res://addons/dialogic/Modules/Signal/index.gd
 .. Loading resource: res://addons/dialogic/Modules/Voice/index.gd
 .. Loading resource: res://addons/dialogic/Modules/StyleEditor/index.gd
@@ -247,14 +244,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Modules/Variable/variables_editor/variable_tree.gd
 .. Loading resource: res://addons/dialogic/Modules/Glossary/glossary_editor.tscn
 .. Loading resource: res://addons/dialogic/Modules/Glossary/glossary_editor.gd
+.. Loading resource: res://addons/dialogic/Modules/Glossary/add-glossary.svg
+.. Loading resource: res://.godot/imported/add-glossary.svg-1cde77c043d3874d9bc84cc14d0ec9dc.ctex
 :: WARNING: res://addons/dialogic/Modules/Glossary/glossary_editor.tscn:4 - ext_resource, invalid UID: uid://cenut3sc5cul0 - using text path instead: res://addons/dialogic/Modules/Glossary/add-glossary.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
 :: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:47)
 :: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
-.. Loading resource: res://addons/dialogic/Modules/Glossary/add-glossary.svg
-.. Loading resource: res://.godot/imported/add-glossary.svg-1cde77c043d3874d9bc84cc14d0ec9dc.ctex
 .. Loading resource: res://addons/dialogic/Editor/Settings/settings_editor.tscn
 .. Loading resource: res://addons/dialogic/Editor/Settings/settings_editor.gd
 .. Loading resource: res://addons/dialogic/Editor/Settings/settings_general.tscn
@@ -433,11 +430,35 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
 .. Loading resource: res://addons/dialogic/Editor/Inspector/inspector_plugin.gd
 .. Loading resource: res://addons/gdUnit4/plugin.gd
+:: SCRIPT ERROR: Parse Error: Too many arguments for "get_as_text()" call. Expected at most 0 but received 1.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitFileAccess.gd:199)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitTestResourceLoader.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitTestSuiteScanner.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/discovery/GdUnitTestDiscoverer.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/command/GdUnitCommandHandler.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/command/GdUnitShortcut.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitSettings.gd:0)
+:: SCRIPT ERROR: Parse Error: Too many arguments for "get_as_text()" call. Expected at most 0 but received 1.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitFileAccess.gd:199)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/plugin.gd:0)
+:: ERROR: Failed to load script "res://addons/gdUnit4/plugin.gd" with error "Compilation failed".
+:: at: load (modules/gdscript/gdscript.cpp:3037)
 .. \u001b[38;2;218;165;32mIt was recognized that GdUnit4 is running in a test environment, therefore the GdUnit4 plugin will not be executed!\u001b[0m
 .. Loading resource: res://addons/godot_xterm/plugin.gd
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.tscn
+:: WARNING: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.tscn:3 - ext_resource, invalid UID: uid://cufcnr6pxqofk - using text path instead: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.gd
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.tscn
+:: WARNING: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.tscn:3 - ext_resource, invalid UID: uid://cgjg4p52appdp - using text path instead: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.gd
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_new_terminal_shortcut.tres
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_kill_terminal_shortcut.tres
@@ -445,54 +466,6 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_paste_shortcut.tres
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_tab_right_shortcut.tres
 .. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_tab_left_shortcut.tres
-.. Loading resource: res://addons/maaacks_game_template/maaacks_game_template.gd
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
-.. Loading resource: res://addons/maaacks_game_template/installer/check_plugin_version.tscn
-.. Loading resource: res://addons/maaacks_game_template/installer/check_plugin_version.gd
-.. Loading resource: res://addons/maaacks_game_template/utilities/api_client.tscn
 .. Loading resource: res://addons/shadernoiselib/shadernoiselib.gd
 .. Loading resource: res://addons/type_writer_label/twl_init.gd
 .. Loading resource: res://addons/type_writer_label/classes/type_writer_label_icon.svg
@@ -502,12 +475,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. \u001b[0m
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
-:: WARNING: UID duplicate detected between res://source/autoloads/omega_app_config.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn.
-:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
-:: WARNING: UID duplicate detected between res://source/autoloads/omega_music_controller.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn.
-:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
-:: WARNING: UID duplicate detected between res://source/autoloads/omega_scene_loader.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn.
-:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
+.. Loading resource: res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Started Loading editor (5 steps)\u001b[39m\u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading editor layout...\u001b[39m\u001b[0m
 .. [  16% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading docks...\u001b[39m\u001b[0m
@@ -519,89 +487,310 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://.godot/imported/omega-spiral-logo.png-f88959a046834c30d8b44563ccc5d86a.ctex
 .. [  50% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading central editor layout...\u001b[39m\u001b[0m
 .. [  66% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading plugin window layout...\u001b[39m\u001b[0m
+.. Loading resource: res://source/scenes/game_scene/levels/level_1_ghost/ghost_dialogic_bridge.gd
 :: ERROR: Couldn't open external text editor, falling back to the internal editor. Review your `text_editor/external/` editor settings.
 :: at: edit (editor/script/script_editor_plugin.cpp:2613)
 .. [  83% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Editor layout ready.\u001b[39m\u001b[0m
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
 .. \u001b[0m
 .. Failed to bind socket. Error: 3.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6cf23718: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6cf2cb58: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6cf23718: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6cf23718: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6cf23718: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6cf23718: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6cf23718: Switch to application keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6cf2cb58: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6cf2cb58: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6cf2cb58: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6cf2cb58: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6cf2cb58: Switch to application keys for outbound traffic
-.. [   0% ] \u001b[90m\u001b[1msave\u001b[22m | Started Saving Scene (4 steps)\u001b[39m\u001b[0m
-.. [   0% ] \u001b[90m\u001b[1msave\u001b[22m | Analyzing\u001b[39m\u001b[0m
-.. [  20% ] \u001b[90m\u001b[1msave\u001b[22m | Creating Thumbnail\u001b[39m\u001b[0m
-.. [  80% ] \u001b[90m\u001b[1msave\u001b[22m | Saving Scene\u001b[39m\u001b[0m
-:: ERROR: Parameter "t" is null.
-:: at: texture_2d_get (servers/rendering/dummy/storage/texture_storage.h:106)
-:: GDScript backtrace (most recent call first):
-:: [0] &lt;anonymous lambda&gt; (res://addons/maaacks_game_template/maaacks_game_template.gd:319)
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/opening/opening.tscn
-.. \u001b[92m[ DONE ]\u001b[39m \u001b[1msave\u001b[22m
-.. \u001b[0m
-.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
-.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x40264378: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x40264378: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x40264378: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x40264378: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x40264378: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x40264378: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed8002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec8002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec0002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed8002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed8002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed8002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed8002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed8002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec4002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec8002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec8002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec8002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec8002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec8002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec0002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec0002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec0002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec0002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec0002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec4002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec4002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec4002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec4002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec4002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec0010008: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec400e548: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc00d698: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed800c738: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec0010008: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec0010008: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec0010008: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec0010008: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec0010008: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec400e548: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec400e548: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec400e548: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec400e548: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec400e548: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc00d698: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc00d698: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc00d698: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc00d698: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc00d698: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800e338: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed800c738: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed800c738: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed800c738: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed800c738: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed800c738: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800e338: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800e338: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800e338: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800e338: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800e338: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec400e548: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed80154e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc00e188: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec400e548: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec400e548: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec400e548: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec400e548: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec400e548: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed80154e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed80154e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed80154e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed80154e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed80154e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc00e188: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc00e188: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc00e188: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc00e188: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc00e188: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec000e3e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec000e3e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec80115c8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec000e3e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec000e3e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec000e3e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec000e3e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec80115c8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec80115c8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec80115c8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec80115c8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec80115c8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc012998: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec400e4e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc012998: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc012998: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc012998: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc012998: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc012998: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec400e4e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec400e4e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec400e4e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec400e4e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec400e4e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800fce8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800fce8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800fce8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800fce8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800fce8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800fce8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc012998: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec40115f8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed8010a78: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc012998: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec40115f8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec40115f8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec40115f8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec40115f8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec40115f8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc012998: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc012998: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc012998: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc012998: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec000e3e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed8010a78: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed8010a78: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed8010a78: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed8010a78: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed8010a78: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec4015a58: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800fb18: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec000e3e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec000e3e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec000e3e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec000e3e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec000e3e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec4015a58: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec4015a58: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec4015a58: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec4015a58: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec4015a58: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800fb18: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800fb18: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800fb18: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800fb18: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800fb18: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed8010a78: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed8010a78: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed8010a78: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed8010a78: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed8010a78: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed8010a78: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800d6b8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc011548: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec4015a58: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800d6b8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800d6b8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800d6b8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800d6b8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800d6b8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec4015a58: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec4015a58: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec4015a58: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec4015a58: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec4015a58: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc011548: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc011548: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc011548: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc011548: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc011548: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec000e3e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed80161a8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800ffd8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec000e3e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec000e3e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec000e3e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec000e3e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec000e3e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800ffd8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800ffd8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800ffd8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800ffd8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800ffd8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed80161a8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed80161a8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed80161a8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed80161a8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed80161a8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800ffd8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800ffd8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800ffd8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800ffd8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800ffd8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800ffd8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ecc011548: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ecc011548: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ecc011548: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ecc011548: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ecc011548: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ecc011548: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec800ffd8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec800ffd8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec800ffd8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec800ffd8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec800ffd8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec800ffd8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed8016118: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed4184658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed4184658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed4184658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed4184658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed4184658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed4184658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed8016118: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed8016118: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed8016118: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed8016118: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed8016118: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ed8016118: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ed8016118: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ed8016118: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ed8016118: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ed8016118: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ed8016118: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec4012a38: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec4012a38: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec4012a38: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec4012a38: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec4012a38: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec4012a38: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x750ec000e3e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x750ec000e3e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x750ec000e3e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x750ec000e3e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x750ec000e3e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x750ec000e3e8: Switch to application keys for outbound traffic
 .. Unloading addon: res://addons/dialogic/plugin.cfg
 .. Unloading addon: res://addons/gdUnit4/plugin.cfg
 .. Unloading addon: res://addons/godot_xterm/plugin.cfg
-.. Unloading addon: res://addons/maaacks_game_template/plugin.cfg
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
-:: ERROR: Condition "!named_globals.has(p_name)" is true.
-:: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
-:: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
-:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
-:: ERROR: Condition "!info-&gt;node" is true. Continuing.
-:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
-:: GDScript backtrace (most recent call first):
-:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
 .. Unloading addon: res://addons/shadernoiselib/plugin.cfg
 .. Unloading addon: res://addons/type_writer_label/plugin.cfg
 .. Script docs haven't been properly loaded or regenerated, so don't save them to disk.
@@ -611,56 +800,74 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. XR: Clearing primary interface
 .. XR: Removed interface "Native mobile"
 .. XR: Removed interface "OpenXR"
+:: ERROR: 1 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
 :: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
 :: at: cleanup (core/object/object.cpp:2570)
-.. Leaked instance: UndoRedo:2145638240753
+.. Leaked instance: GDScriptNativeClass:9223372058816152812 - Reference count: 1
+.. Leaked instance: DPITexture:9223372097974176188 - Reference count: 5
+.. Leaked instance: GDScript:9223374146472332455 - Reference count: 5
+.. Leaked instance: Image:9223374181587046441 - Reference count: 1
+.. Leaked instance: UndoRedo:2141729148979
+.. Leaked instance: Object:2499318735412
+.. Leaked instance: Object:2500090487352
+.. Leaked instance: Object:2499771720250
+.. Leaked instance: Object:2506616824379
+.. Leaked instance: Object:2506851705404
 .. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 .. Orphan StringName: RenderingDevice (static: 2, total: 4)
+.. Orphan StringName: get_parent_directory (static: 0, total: 1)
 .. Orphan StringName: Mesh (static: 18, total: 20)
 .. Orphan StringName: Tween (static: 2, total: 4)
 .. Orphan StringName: Shader (static: 3, total: 5)
 .. Orphan StringName: PTY (static: 0, total: 2)
 .. Orphan StringName: ImageTexture (static: 5, total: 7)
 .. Orphan StringName: Semaphore (static: 2, total: 4)
+.. Orphan StringName: index (static: 0, total: 9)
 .. Orphan StringName: Terminal (static: 0, total: 2)
+.. Orphan StringName: metadata (static: 0, total: 8)
 .. Orphan StringName: MainLoop (static: 3, total: 5)
 .. Orphan StringName: TriangleMesh (static: 2, total: 4)
 .. Orphan StringName: InputEvent (static: 18, total: 20)
 .. Orphan StringName: InputEventMouse (static: 4, total: 6)
 .. Orphan StringName: ThemeDB (static: 2, total: 4)
 .. Orphan StringName: InputEventWithModifiers (static: 9, total: 11)
-.. Orphan StringName: Control (static: 220, total: 222)
+.. Orphan StringName: Control (static: 222, total: 224)
 .. Orphan StringName: Shape3D (static: 11, total: 13)
 .. Orphan StringName: Input (static: 2, total: 4)
 .. Orphan StringName: InputEventFromWindow (static: 12, total: 14)
 .. Orphan StringName: ResourceLoader (static: 2, total: 4)
+.. Orphan StringName: icon (static: 3, total: 11)
 .. Orphan StringName: Font (static: 5, total: 7)
+.. Orphan StringName: text (static: 0, total: 8)
 .. Orphan StringName: RenderingServer (static: 2, total: 4)
 .. Orphan StringName: Image (static: 2, total: 4)
 .. Orphan StringName: Resource (static: 465, total: 467)
 .. Orphan StringName: StyleBoxFlat (static: 5, total: 7)
+.. Orphan StringName: _to_string (static: 0, total: 1)
 .. Orphan StringName: OS (static: 2, total: 4)
-.. Orphan StringName: Viewport (static: 62, total: 64)
+.. Orphan StringName: Viewport (static: 61, total: 63)
 .. Orphan StringName: MultiplayerAPI (static: 4, total: 6)
 .. Orphan StringName: Timer (static: 2, total: 4)
 .. Orphan StringName: DisplayServer (static: 2, total: 4)
 .. Orphan StringName: Mutex (static: 2, total: 4)
+.. Orphan StringName: ResourceListItem (static: 0, total: 1)
 .. Orphan StringName: ConcavePolygonShape3D (static: 2, total: 4)
 .. Orphan StringName: Thread (static: 2, total: 4)
-.. Orphan StringName: CanvasItem (static: 268, total: 270)
+.. Orphan StringName: CanvasItem (static: 270, total: 272)
+.. Orphan StringName: tooltip (static: 0, total: 8)
 .. Orphan StringName: SceneTree (static: 2, total: 4)
 .. Orphan StringName: InputEventMouseMotion (static: 2, total: 4)
 .. Orphan StringName: InputEventMouseButton (static: 2, total: 4)
-.. Orphan StringName: Texture (static: 44, total: 46)
+.. Orphan StringName: Texture (static: 44, total: 48)
 .. Orphan StringName: CanvasLayer (static: 3, total: 5)
 .. Orphan StringName: World2D (static: 2, total: 4)
 .. Orphan StringName: ShaderMaterial (static: 2, total: 4)
 .. Orphan StringName: Material (static: 13, total: 15)
-.. Orphan StringName: Node (static: 566, total: 569)
+.. Orphan StringName: Node (static: 567, total: 570)
 .. Orphan StringName: ProjectSettings (static: 2, total: 4)
 .. Orphan StringName: TextServer (static: 5, total: 7)
-.. Orphan StringName: RefCounted (static: 789, total: 791)
-.. Orphan StringName: Object (static: 1470, total: 1472)
+.. Orphan StringName: RefCounted (static: 790, total: 792)
+.. Orphan StringName: Object (static: 1472, total: 1475)
 .. Orphan StringName: Theme (static: 3, total: 5)
 .. Orphan StringName: RDPipelineSpecializationConstant (static: 2, total: 4)
 .. Orphan StringName: ConvexPolygonShape3D (static: 2, total: 4)
@@ -668,13 +875,16 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Orphan StringName: ResourceFormatLoader (static: 2, total: 4)
 .. Orphan StringName: MultiMesh (static: 2, total: 4)
 .. Orphan StringName: Texture2D (static: 20, total: 22)
-.. Orphan StringName: Window (static: 65, total: 67)
+.. Orphan StringName: DialogicSidebar.ResourceListItem (static: 0, total: 1)
+.. Orphan StringName: Window (static: 64, total: 66)
 .. Orphan StringName: StyleBox (static: 6, total: 8)
 .. Orphan StringName: ClassDB (static: 2, total: 4)
-.. StringName: 56 unclaimed string names at exit.
+.. StringName: 65 unclaimed string names at exit.
 Rebuild Godot Project ends with exit code: 0
 
 ======== Running GdUnit4 Godot Runtime Test Runner ========
+:: WARNING: res://source/autoloads/app_config/app_config.tscn:3 - ext_resource, invalid UID: uid://omega_app_config - using text path instead: res://source/autoloads/app_config/omega_app_config.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
 System.TimeoutException: The operation has timed out.
    at System.IO.Pipes.NamedPipeClientStream.ConnectInternal(Int32 timeout, CancellationToken cancellationToken, Int32 startTime)
    at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
@@ -689,10 +899,10 @@ Test execution stopped.
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-01T22:28:30.0743114-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-02T15:54:12.6646334-05:00">
         <Text>Failed to connect: Connection timeout</Text>
       </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-11-01T22:28:33.3236219-04:00">
+      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-11-02T15:54:15.8213115-05:00">
         <Text>No test is available in /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll. Make sure that test discoverer &amp; executors are registered and platform &amp; framework version settings are appropriate and try again.</Text>
       </RunInfo>
     </RunInfos>

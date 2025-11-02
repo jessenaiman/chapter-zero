@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://dg3llhqqj5vag"]
 
-[ext_resource type="Script" uid="uid://placeholder" path="res://source/autoloads/scene_loader/omega_scene_loader.gd" id="1"]
+[ext_resource type="Script" uid="uid://omega_scene_loader" path="res://source/autoloads/scene_loader/omega_scene_loader.gd" id="1"]
 
 [node name="OmegaSceneLoader" type="Node"]
 script = ExtResource("1")
-loading_screen_path = ""
+loading_screen_path = "res://source/scenes/loading_screen/loading_screen.tscn"

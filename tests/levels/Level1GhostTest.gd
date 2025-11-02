@@ -5,7 +5,7 @@ extends GdUnitTestSuite
 # Test timeout in milliseconds
 const TEST_TIMEOUT = 5000
 
-var _runner : GdUnitSceneRunner
+var _runner: GdUnitSceneRunner
 
 func before_test() -> void:
 	# Initialize runner for each test
