@@ -2,7 +2,7 @@ class_name GameState
 extends Resource
 
 const STATE_NAME : String = "GameState"
-const FILE_PATH = "res://source/scripts/game_state.gd"
+const FILE_PATH = "res://source/autoloads/game_state.gd"
 
 @export var level_states : Dictionary = {}
 @export var current_level_path : String
@@ -10,14 +10,15 @@ const FILE_PATH = "res://source/scripts/game_state.gd"
 @export var total_games_played : int
 @export var play_time : int
 @export var total_time : int
+@export var player_party : Dictionary = {}  # Simple party data: {member_index: {name: String, class: int, race: int}}
 
 static func get_level_state(level_state_key : String) -> LevelStateExample:
-	if not has_game_state(): 
+	if not has_game_state():
 		return
 	var game_state := get_or_create_state()
 	if level_state_key.is_empty() : return
 	if level_state_key in game_state.level_states:
-		return game_state.level_states[level_state_key] 
+		return game_state.level_states[level_state_key]
 	else:
 		var new_level_state := LevelStateExample.new()
 		game_state.level_states[level_state_key] = new_level_state
@@ -31,13 +32,13 @@ static func get_or_create_state() -> GameStateExample:
 	return GlobalState.get_or_create_state(STATE_NAME, FILE_PATH)
 
 static func get_current_level_path() -> String:
-	if not has_game_state(): 
+	if not has_game_state():
 		return ""
 	var game_state := get_or_create_state()
 	return game_state.current_level_path
 
 static func get_levels_reached() -> int:
-	if not has_game_state(): 
+	if not has_game_state():
 		return 0
 	var game_state := get_or_create_state()
 	return game_state.level_states.size()
@@ -79,3 +80,14 @@ static func get_dreamweaver_scores() -> Array:
 	if level_state:
 		return level_state.dreamweaver_scores.duplicate()
 	return [0, 0, 0]
+
+static func set_player_party(party_data : Dictionary) -> void:
+	var game_state := get_or_create_state()
+	game_state.player_party = party_data.duplicate()
+	GlobalState.save()
+
+static func get_player_party() -> Dictionary:
+	if not has_game_state():
+		return {}
+	var game_state := get_or_create_state()
+	return game_state.player_party.duplicate()

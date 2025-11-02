@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="315e32c7-c9ab-44a3-8d4e-6484edbb8ef9" name="@omega 2025-11-01 12:57:44" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-11-01T12:57:44.4381139-04:00" queuing="2025-11-01T12:57:44.4381139-04:00" start="2025-11-01T12:57:10.8581118-04:00" finish="2025-11-01T12:57:44.4384942-04:00" />
-  <TestSettings name="default" id="e15b5bce-e9eb-4d95-8bcf-a6a1fa7354bc">
-    <Deployment runDeploymentRoot="_omega_2025-11-01_12_57_44" />
+<TestRun id="fe5c684b-a99f-4198-a10a-72b4bf454c16" name="@omega 2025-11-01 22:28:33" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-01T22:28:33.5100144-04:00" queuing="2025-11-01T22:28:33.5100145-04:00" start="2025-11-01T22:27:58.6174573-04:00" finish="2025-11-01T22:28:33.5103950-04:00" />
+  <TestSettings name="default" id="cbeaa204-08cd-417a-8e8b-195fe0f42d90">
+    <Deployment runDeploymentRoot="_omega_2025-11-01_22_28_33" />
   </TestSettings>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
@@ -48,10 +48,10 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. CORE API HASH: 3234800178
 .. EDITOR API HASH: 4055853480
 .. SceneTreeFTI: traversal method DEFAULT
-.. Loading resource: res://addons/dialogic/Resources/TimelineResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
-.. Loading resource: res://addons/dialogic/Resources/TimelineResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/TimelineResourceLoader.gd
 .. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/TimelineResourceSaver.gd
 .. Loading resource: /home/adam/.config/godot/editor_settings-4.6.tres
 .. EditorSettings: Load OK!
 .. EditorTheme: Generating new theme for the config '66886095'.
@@ -82,12 +82,22 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://source/autoloads/level_and_state_manager.gd
 :: SCRIPT ERROR: Parse Error: Class "OmegaGameManager" hides an autoload singleton.
 :: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:1)
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn
-.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.gd
+:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
+:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:13)
+:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
+:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:17)
+:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
+:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:21)
+:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
+:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:24)
+:: SCRIPT ERROR: Parse Error: Identifier "GameState" not declared in the current scope.
+:: at: GDScript::reload (res://source/autoloads/level_and_state_manager.gd:27)
 :: ERROR: Failed to load script "res://source/autoloads/level_and_state_manager.gd" with error "Parse error".
 :: at: load (modules/gdscript/gdscript.cpp:3037)
 :: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
 :: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.gd
 .. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn
 .. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd
 .. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn
@@ -106,16 +116,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/Common/side_bar.tscn
 :: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:4 - ext_resource, invalid UID: uid://bff65e82555qr - using text path instead: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:5 - ext_resource, invalid UID: uid://dx3o2ild56i76 - using text path instead: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
 .. Loading resource: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
 .. Loading resource: res://.godot/imported/close-icon.svg-c630c93ada599b08938f4854f5376f2f.ctex
-:: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:5 - ext_resource, invalid UID: uid://dx3o2ild56i76 - using text path instead: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
 .. Loading resource: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
 .. Loading resource: res://.godot/imported/closed-icon.svg-b4f16653b91d6792313a130565319b2f.ctex
 .. Loading resource: res://addons/dialogic/Editor/Common/toolbar.gd
-:: at: load (scene/resources/resource_format_text.cpp:466)
 :: WARNING: res://addons/dialogic/Editor/editor_main.tscn:8 - ext_resource, invalid UID: uid://bbea0efx0ybu7 - using text path instead: res://addons/dialogic/Editor/Images/Resources/character.svg
-.. Loading resource: res://addons/dialogic/Editor/Images/Resources/character.svg
-.. Loading resource: res://.godot/imported/character.svg-48bc1c93fa13733a935ca2c669d933a7.ctex
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: WARNING: res://addons/dialogic/Editor/editor_main.tscn:9 - ext_resource, invalid UID: uid://b5xwnxdb7064n - using text path instead: res://addons/dialogic/Modules/Glossary/icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
@@ -123,6 +131,8 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: WARNING: res://addons/dialogic/Editor/editor_main.tscn:11 - ext_resource, invalid UID: uid://ckilxvwc34s84 - using text path instead: res://addons/dialogic/Modules/Variable/variable.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/dialogic/Editor/Images/Resources/character.svg
+.. Loading resource: res://.godot/imported/character.svg-48bc1c93fa13733a935ca2c669d933a7.ctex
 .. Loading resource: res://addons/dialogic/Modules/Glossary/icon.svg
 .. Loading resource: res://.godot/imported/icon.svg-4fc0c12c53379638e37d654e7bbaea1a.ctex
 .. Loading resource: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
@@ -148,14 +158,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://.godot/imported/dialogic-logo.svg-e43201cabc9573eeb3f78fd91ea9d909.ctex
 .. Loading resource: res://addons/dialogic/Editor/HomePage/home_page.tscn
 .. Loading resource: res://addons/dialogic/Editor/HomePage/home_page.gd
-.. Loading resource: res://addons/dialogic/Editor/HomePage/icon_bg.png
-.. Loading resource: res://.godot/imported/icon_bg.png-5937ce0a857c4a8a9d624ea9ebf09a97.ctex
 :: WARNING: res://addons/dialogic/Editor/HomePage/home_page.tscn:4 - ext_resource, invalid UID: uid://cvmlp5nxb2rer - using text path instead: res://addons/dialogic/Editor/HomePage/icon_bg.png
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
 :: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:40)
 :: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/HomePage/icon_bg.png
+.. Loading resource: res://.godot/imported/icon_bg.png-5937ce0a857c4a8a9d624ea9ebf09a97.ctex
 :: WARNING: res://addons/dialogic/Editor/HomePage/home_page.tscn:5 - ext_resource, invalid UID: uid://bt87p6qlso0ya - using text path instead: res://addons/dialogic/Editor/Images/dialogic-logo.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
@@ -187,14 +197,14 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor.gd
 .. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
 .. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor_portrait_tree.gd
+.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
+.. Loading resource: res://.godot/imported/add-folder.svg-41a970370f904038e63c13bddbdb6450.ctex
 :: WARNING: res://addons/dialogic/Editor/CharacterEditor/character_editor.tscn:6 - ext_resource, invalid UID: uid://babwe22dqjta - using text path instead: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
 :: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:42)
 :: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
-.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
-.. Loading resource: res://.godot/imported/add-folder.svg-41a970370f904038e63c13bddbdb6450.ctex
 .. Loading resource: res://addons/dialogic/Modules/Signal/index.gd
 .. Loading resource: res://addons/dialogic/Modules/Voice/index.gd
 .. Loading resource: res://addons/dialogic/Modules/StyleEditor/index.gd
@@ -360,19 +370,19 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_vector2.tscn
 .. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_vector2.gd
 .. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_number.tscn
-.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
-.. Loading resource: res://.godot/imported/increment_icon.svg-081e6509e76349f0628c55a41e85fd65.ctex
-.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
 :: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:4 - ext_resource, invalid UID: uid://dh1ycbmw8anqh - using text path instead: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:167)
 :: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
+.. Loading resource: res://.godot/imported/increment_icon.svg-081e6509e76349f0628c55a41e85fd65.ctex
 :: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:5 - ext_resource, invalid UID: uid://brjikovneb63n - using text path instead: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
 :: at: load (scene/resources/resource_format_text.cpp:466)
 :: GDScript backtrace (most recent call first):
 :: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:167)
 :: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
 .. Loading resource: res://.godot/imported/decrement_icon.svg-9556cf56db91e200fb946372e010fd5e.ctex
 .. Loading resource: res://addons/dialogic/Editor/Images/Resources/portrait.svg
 .. Loading resource: res://.godot/imported/portrait.svg-7d29c7cfe3e086d65dce33c3d66c48cd.ctex
@@ -492,16 +502,12 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. \u001b[0m
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
 .. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
-.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | Started Registering global classes... (7 steps)\u001b[39m\u001b[0m
-.. [   0% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | GameState\u001b[39m\u001b[0m
-.. [  12% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | OmegaGameManager\u001b[39m\u001b[0m
-.. [  25% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | LevelStateExample\u001b[39m\u001b[0m
-.. [  37% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
-.. [  50% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
-.. [  62% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
-.. [  75% ] \u001b[90m\u001b[1mupdate_scripts_classes\u001b[22m | \u001b[39m\u001b[0m
-.. \u001b[92m[ DONE ]\u001b[39m \u001b[1mupdate_scripts_classes\u001b[22m
-.. \u001b[0m
+:: WARNING: UID duplicate detected between res://source/autoloads/omega_app_config.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn.
+:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
+:: WARNING: UID duplicate detected between res://source/autoloads/omega_music_controller.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn.
+:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
+:: WARNING: UID duplicate detected between res://source/autoloads/omega_scene_loader.tscn and res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn.
+:: at: _process_file_system (editor/file_system/editor_file_system.cpp:1377)
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Started Loading editor (5 steps)\u001b[39m\u001b[0m
 .. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading editor layout...\u001b[39m\u001b[0m
 .. [  16% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading docks...\u001b[39m\u001b[0m
@@ -519,18 +525,18 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
 .. \u001b[0m
 .. Failed to bind socket. Error: 3.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6dc90218: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6dc999e8: Perform PSA-based ECDH/FFDH computation.
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6dc90218: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6dc90218: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6dc90218: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6dc90218: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6dc90218: Switch to application keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6dc999e8: Switch to handshake keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6dc999e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
-.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6dc999e8: Switch to handshake traffic keys for outbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6dc999e8: Switch to application keys for inbound traffic
-.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6dc999e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6cf23718: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x6cf2cb58: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6cf23718: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6cf23718: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6cf23718: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6cf23718: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6cf23718: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x6cf2cb58: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x6cf2cb58: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x6cf2cb58: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x6cf2cb58: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x6cf2cb58: Switch to application keys for outbound traffic
 .. [   0% ] \u001b[90m\u001b[1msave\u001b[22m | Started Saving Scene (4 steps)\u001b[39m\u001b[0m
 .. [   0% ] \u001b[90m\u001b[1msave\u001b[22m | Analyzing\u001b[39m\u001b[0m
 .. [  20% ] \u001b[90m\u001b[1msave\u001b[22m | Creating Thumbnail\u001b[39m\u001b[0m
@@ -576,8 +582,6 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 :: at: remove_named_global_constant (modules/gdscript/gdscript.cpp:2249)
 :: GDScript backtrace (most recent call first):
 :: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
-.. Unloading addon: res://addons/shadernoiselib/plugin.cfg
-.. Unloading addon: res://addons/type_writer_label/plugin.cfg
 :: ERROR: Failed to create an autoload, script 'res://source/autoloads/level_and_state_manager.gd' is not compiling.
 :: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:409)
 :: GDScript backtrace (most recent call first):
@@ -598,6 +602,8 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 :: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
 :: GDScript backtrace (most recent call first):
 :: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+.. Unloading addon: res://addons/shadernoiselib/plugin.cfg
+.. Unloading addon: res://addons/type_writer_label/plugin.cfg
 .. Script docs haven't been properly loaded or regenerated, so don't save them to disk.
 .. EditorSettings: Save OK!
 .. Unloading: Disposing tracked instances...
@@ -607,7 +613,7 @@ Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.
 .. XR: Removed interface "OpenXR"
 :: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
 :: at: cleanup (core/object/object.cpp:2570)
-.. Leaked instance: UndoRedo:2146258997745
+.. Leaked instance: UndoRedo:2145638240753
 .. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
 .. Orphan StringName: RenderingDevice (static: 2, total: 4)
 .. Orphan StringName: Mesh (static: 18, total: 20)
@@ -683,10 +689,10 @@ Test execution stopped.
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-01T12:57:41.0413172-04:00">
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-01T22:28:30.0743114-04:00">
         <Text>Failed to connect: Connection timeout</Text>
       </RunInfo>
-      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-11-01T12:57:44.2665335-04:00">
+      <RunInfo computerName="omega" outcome="Warning" timestamp="2025-11-01T22:28:33.3236219-04:00">
         <Text>No test is available in /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll. Make sure that test discoverer &amp; executors are registered and platform &amp; framework version settings are appropriate and try again.</Text>
       </RunInfo>
     </RunInfos>

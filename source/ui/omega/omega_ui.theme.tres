@@ -1,4 +1,6 @@
-[gd_resource type="Theme" format=3 uid="uid://dnhctb3dqu015"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dnhctb3dqu015"]
+
+[ext_resource type="FontFile" uid="uid://b4bnhd6uaqu3c" path="res://source/assets/gui/font/orbitron_buttons.tres" id="1_orbitron_buttons"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
@@ -62,6 +64,8 @@ Button/colors/font_color = Color(1.0, 0.843, 0.2, 1.0)
 Button/colors/font_hover_color = Color(1.0, 1.0, 1.0, 1.0)
 Button/colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
 Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/fonts/font = ExtResource("1_orbitron_buttons")
+Button/font_sizes/font_size = 20
 
 [resource]
 default_font_sizes/font_size = 24

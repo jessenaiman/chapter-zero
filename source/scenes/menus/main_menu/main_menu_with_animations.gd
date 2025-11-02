@@ -15,11 +15,11 @@ var animation_state_machine : AnimationNodeStateMachinePlayback
 @onready var new_game_confirmation = %NewGameConfirmationDialog
 
 func load_game_scene() -> void:
-	GameStateExample.start_game()
+	GameState.start_game()
 	super.load_game_scene()
 
 func new_game() -> void:
-	if confirm_new_game and GameStateExample.get_levels_reached() > 0:
+	if confirm_new_game and GameState.get_levels_reached() > 0:
 		new_game_confirmation.show()
 	else:
 		GameStateExample.reset()

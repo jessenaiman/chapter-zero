@@ -5,4 +5,5 @@ extends "res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_
 
 func _ready() -> void:
 	super()
-	# Omega-specific initialization
+	# Set the game scene path to our game UI
+	game_scene_path = "res://source/scenes/game_scene/game_ui.tscn"

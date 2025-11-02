@@ -62,10 +62,10 @@ public partial class StorybookEngine : Node
     public delegate void ChoiceMadeEventHandler(string choiceText, string sceneId);
 
     /// <summary>
-    /// Signal emitted when Dreamweaver scores are updated.
+    /// Signal emitted when Dreamweaver points are awarded.
     /// </summary>
     [Signal]
-    public delegate void DreamweaverScoresUpdatedEventHandler(Godot.Collections.Array scores);
+    public delegate void DreamweaverPointsAwardedEventHandler(string dreamweaverType, int points);
 
     /// <summary>
     /// Loads a story block from the provided data.
@@ -97,6 +97,13 @@ public partial class StorybookEngine : Node
     public void MakeChoice(string choiceText)
     {
         EmitSignal("ChoiceMade", choiceText, CurrentScene?.Id ?? "");
+
+        // Calculate and emit Dreamweaver points
+        if (CurrentScene?.Owner != null && TryGetChoiceOwner(choiceText, out var choiceOwner) && choiceOwner != null)
+        {
+            int points = (CurrentScene.Owner == choiceOwner) ? 2 : 1;
+            EmitSignal("DreamweaverPointsAwarded", choiceOwner, points);
+        }
     }
 
     /// <summary>
@@ -108,37 +115,29 @@ public partial class StorybookEngine : Node
     /// <summary>
     /// Gets the question for the current scene, if any.
     /// </summary>
-    public string? GetCurrentQuestion() => CurrentScene?.Question;
+    public string? GetCurrentQuestion() => CurrentScene?.Choice?.Question?.FirstOrDefault();
 
     /// <summary>
-    /// Updates Dreamweaver scores based on story completion and emits the update signal.
+    /// Attempts to get the owner of a choice from the choice text.
     /// </summary>
-    /// <param name="dreamweaverIndex">Index of the Dreamweaver (0-2) whose score to update.</param>
-    /// <param name="scoreValue">The score value to add (typically 1 or 2).</param>
-    public void UpdateDreamweaverScore(int dreamweaverIndex, int scoreValue)
+    /// <param name="choiceText">The text of the choice.</param>
+    /// <param name="owner">The owner if found.</param>
+    /// <returns>True if the owner was found, false otherwise.</returns>
+    private bool TryGetChoiceOwner(string choiceText, out string? owner)
     {
-        // Get current scores (initialize if needed)
-        var currentScores = GetDreamweaverScores();
+        owner = null;
 
-        // Update the specific Dreamweaver's score
-        if (dreamweaverIndex >= 0 && dreamweaverIndex < currentScores.Count)
+        if (CurrentScene?.Choice?.Options == null) return false;
+
+        foreach (var choice in CurrentScene.Choice.Options)
         {
-            int currentScore = (int)currentScores[dreamweaverIndex];
-            currentScores[dreamweaverIndex] = currentScore + scoreValue;
+            if (choice.Text == choiceText)
+            {
+                owner = choice.Owner;
+                return true;
+            }
         }
 
-        // Emit signal with updated scores
-        EmitSignal("DreamweaverScoresUpdated", new Godot.Collections.Array(currentScores));
-    }
-
-    /// <summary>
-    /// Gets the current Dreamweaver scores.
-    /// </summary>
-    /// <returns>Array of 3 integers representing Dreamweaver scores.</returns>
-    public Godot.Collections.Array GetDreamweaverScores()
-    {
-        // In a real implementation, this would be stored persistently
-        // For now, return default scores
-        return new Godot.Collections.Array { 0, 0, 0 };
+        return false;
     }
 }

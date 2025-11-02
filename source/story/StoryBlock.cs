@@ -115,17 +115,11 @@ public class Scene
     public List<string>? Lines { get; set; }
 
     /// <summary>
-    /// Gets or sets the question text presented when choices are available.
-    /// </summary>
-    [JsonProperty("question")]
-    public string? Question { get; set; }
-
-    /// <summary>
     /// Gets or sets the choice options available in this scene.
-    /// If null or empty, the scene is narrative-only.
+    /// If null, the scene is narrative-only.
     /// </summary>
     [JsonProperty("choice")]
-    public List<Choice>? Choice { get; set; }
+    public ChoiceBlock? Choice { get; set; }
 
     /// <summary>
     /// Gets or sets combat encounter data for combat scenes.
@@ -136,10 +130,31 @@ public class Scene
 }
 
 /// <summary>
+/// Represents a choice block in a story scene, containing a question and multiple options.
+/// This matches the JSON structure where "choice" is an object with "question" and "options".
+/// </summary>
+public class ChoiceBlock
+{
+    /// <summary>
+    /// Gets or sets the question text presented when choices are available.
+    /// Can be multiple lines for complex questions.
+    /// </summary>
+    [JsonProperty("question")]
+    public List<string>? Question { get; set; }
+
+    /// <summary>
+    /// Gets or sets the choice options available in this scene.
+    /// Each option has owner, text, and response properties.
+    /// </summary>
+    [JsonProperty("options")]
+    public List<ChoiceOption>? Options { get; set; }
+}
+
+/// <summary>
 /// Represents a choice option in a story scene, allowing player interaction.
 /// Choices drive the narrative branching and emit signals for state updates.
 /// </summary>
-public class Choice
+public class ChoiceOption
 {
     /// <summary>
     /// Gets or sets the dreamweaver owner associated with this choice.
@@ -154,4 +169,11 @@ public class Choice
     /// </summary>
     [JsonProperty("text")]
     public string? Text { get; set; }
+
+    /// <summary>
+    /// Gets or sets the response lines shown after this choice is selected.
+    /// Each string represents a line of narrative response.
+    /// </summary>
+    [JsonProperty("response")]
+    public List<string>? Response { get; set; }
 }

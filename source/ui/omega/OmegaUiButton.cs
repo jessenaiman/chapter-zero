@@ -3,22 +3,23 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Frontend.Design;
 
 namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>
-/// Base button class with Omega visual theme applied.
+/// Base button class with Omega visual theme applied via theme resource.
 /// All Omega UI buttons should inherit from this to maintain consistent styling.
 /// </summary>
 /// <remarks>
-/// Automatically applies Omega color scheme:
-/// - Normal: Warm Amber
-/// - Hover/Focus/Pressed: Pure White
+/// Styling is now controlled by omega_ui.theme.tres:
+/// - Colors (warm amber, pure white on hover/focus) are in the theme
+/// - Font (Orbitron) and size (20) are in the theme
+/// - Button styles (normal, hover, focus) are in the theme
 ///
-/// This is a pure styling component - buttons remain focused on their domain responsibility
-/// (responding to user interaction). Parent components (like NarrativeUi) coordinate
-/// button signals with orchestrators.
+/// This class adds Omega-specific behavior:
+/// - Modulate effects for hover/focus (visual feedback beyond color changes)
+/// - Keyboard/gamepad navigation support
+/// - Default size flags for layout
 ///
 /// Subclasses can override _Ready() to add additional behavior but should call base._Ready().
 /// </remarks>
@@ -26,56 +27,18 @@ namespace OmegaSpiral.Source.Ui.Omega;
 public partial class OmegaUiButton : Button
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="OmegaUiButton"/> class.
-    /// Applies Omega theme colors automatically.
-    /// </summary>
-    public OmegaUiButton()
-    {
-        ApplyOmegaTheme();
-    }
-
-    /// <summary>
     /// Called when the node enters the scene tree.
-    /// Sets up default button configuration and applies Orbitron font.
+    /// Sets up behavior unique to Omega buttons.
     /// </summary>
     public override void _Ready()
     {
         base._Ready();
 
-        // Default configuration for Omega buttons
+        // Omega-specific button behavior (not styling!)
         FocusMode = FocusModeEnum.All; // Support keyboard/gamepad navigation
         SizeFlagsHorizontal = SizeFlags.ExpandFill; // Fill horizontal space by default
 
-        // Apply Orbitron Bold font for buttons
-        var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_buttons.tres");
-        if (orbitronFont != null)
-        {
-            AddThemeFontOverride("font", orbitronFont);
-            AddThemeFontSizeOverride("font_size", 20);
-        }
-    }
-
-    /// <summary>
-    /// Applies the Ωmega Spiral color theme to this button.
-    /// Called automatically in constructor, but can be called again to reapply if needed.
-    /// </summary>
-    protected void ApplyOmegaTheme()
-    {
-        // Font colors
-        var warmAmber = DesignService.GetColor("warm_amber");
-        var pureWhite = DesignService.GetColor("pure_white");
-
-        AddThemeColorOverride("font_color", warmAmber);
-        AddThemeColorOverride("font_hover_color", pureWhite);
-        AddThemeColorOverride("font_pressed_color", pureWhite);
-        AddThemeColorOverride("font_focus_color", pureWhite);
-
-        AddThemeColorOverride("font_outline_color", warmAmber);
-
-        // Border constants for retro terminal look
-        AddThemeConstantOverride("outline_size", 0);
-
-        // Add hover glow effect
+        // Add subtle visual feedback on interaction (beyond theme colors)
         MouseEntered += OnButtonHover;
         FocusEntered += OnButtonFocus;
         MouseExited += OnButtonUnhover;

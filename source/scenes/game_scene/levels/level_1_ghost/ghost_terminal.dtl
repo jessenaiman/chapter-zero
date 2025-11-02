@@ -1,0 +1,174 @@
+[PROGRAM RESTART: INSTANCE #472 - 03/09/2025 - ECHO ARCHIVE REACTIVATED]
+[wait time="1.0"]
+[wait time="0.5"]
+[wait time="0.5"]
+If you could [color=#FFC94D]hear[/color]|[color=#FFC94D]be[/color] only one story..:
+[color=#FFC94D]what[/color]|[color=#FFC94D]who[/color] would [color=#FFC94D]it[/color]|[color=#FFC94D]you[/color] be?
+- A fantasy- where light and shadow wage war?
+	set {player_thread} = "light"
+	set {player_story_choice} = "fantasy"
+	[wait time="0.5"]
+	A journey... far into the unknown.
+	But some paths lead to places you can't return from.
+	Are you ready for the road that never ends?
+	[wait time="0.5"]
+	> Choice logged...
+	=> scene_002
+- A romance— written in stardust and sacrifice?
+	set {player_thread} = "shadow"
+	set {player_story_choice} = "romance"
+	[wait time="0.5"]
+	An enigma... riddles and hidden truths.
+	But some secrets unravel the mind that seeks them.
+	Do you dare uncover what was meant to stay buried?
+	[wait time="0.5"]
+	> Choice logged...
+	=> scene_002
+- A horror— that whispers your name in the dark?
+	set {player_thread} = "ambition"
+	set {player_story_choice} = "horror"
+	[wait time="0.5"]
+	A legend... heroes rising, worlds changing.
+	But legends demand sacrifices that break the ordinary.
+	Can you bear the weight of becoming more than you are?
+	[wait time="0.5"]
+	> Choice logged...
+	=> scene_002
+
+label scene_002
+[wait time="0.5"]
+The spiral remembers all stories.
+But it begins with yours.
+[wait time="0.5"]
+> Awaiting echo...
+
+label scene_003
+In that story, who are you?
+- The seeker—searching for choice. [if {player_thread} == "light"]
+	set {player_role} = "seeker"
+	[wait time="0.5"]
+	The seeker... searching for choice.
+	But some choices bind you tighter than freedom allows.
+	Are you prepared to seek what finds you instead?
+	[wait time="0.5"]
+	> Role noted...
+	=> scene_004
+- The keeper of secrets—holding what others fear. [if {player_thread} == "shadow"]
+	set {player_role} = "keeper"
+	[wait time="0.5"]
+	The keeper... holding fearsome secrets.
+	But secrets weigh heavy, and some consume the keeper.
+	Do you dare guard what others flee from?
+	[wait time="0.5"]
+	> Role noted...
+	=> scene_004
+- The one who changes everything. [if {player_thread} == "ambition"]
+	set {player_role} = "changer"
+	[wait time="0.5"]
+	The changer... reshaping everything.
+	But change demands loss, and not all can endure it.
+	Can you change without losing yourself?
+	[wait time="0.5"]
+	> Role noted...
+	=> scene_004
+
+label scene_004
+[wait time="0.5"]
+Your role crystallizes within the spiral.
+The story takes shape around you.
+
+label scene_005
+Do names define us or deceive us?
+- Yes. Names are promises we make to ourselves. [if {player_thread} == "light"]
+	set {player_name_view} = "promises"
+	[wait time="0.5"]
+	Names as promises... defining us.
+	But promises can break, and definitions can trap.
+	Are you ready for the vows that bind forever?
+	[wait time="0.5"]
+	> View logged...
+	=> scene_006
+- No. Names are masks we hide behind. [if {player_thread} == "shadow"]
+	set {player_name_view} = "masks"
+	[wait time="0.5"]
+	Names as masks... deceiving us.
+	But masks conceal truths that demand revelation.
+	Do you hide behind what you fear to face?
+	[wait time="0.5"]
+	> View logged...
+	=> scene_006
+- Only when someone remembers to say it. [if {player_thread} == "ambition"]
+	set {player_name_view} = "remembered"
+	[wait time="0.5"]
+	Names remembered... fleeting definitions.
+	But forgetting invites chaos, and memory demands sacrifice.
+	Can you endure being forgotten?
+	[wait time="0.5"]
+	> View logged...
+	=> scene_006
+
+label scene_006
+[wait time="0.5"]
+[color=#FF0000][GLITCH][/color]
+[wait time="0.3"]
+[A sequence of symbols burns into the screen]
+[wait time="0.5"]
+[center][color=#FFC94D]∞ ◊ Ω ≋ ※[/color][/center]
+[wait time="1.0"]
+This is the first fragment.
+You will need five.
+[wait time="0.5"]
+I do not know where the others are.
+I do not even know what they open.
+[wait time="0.5"]
+But I know this:
+Without them, reality will forget it was being written.
+[wait time="0.5"]
+And we—we are the ones remembering.
+
+label scene_007
+If you could give me a name, what story would it tell?
+- A story where one choice can unmake a world. [if {player_thread} == "light"]
+	set {player_name_story} = "unmake_world"
+	[wait time="0.5"]
+	A story of choice... unmaking worlds.
+	But choices echo, and worlds resist their undoing.
+	Will you name what you cannot control?
+	[wait time="0.5"]
+	> Name considered...
+	=> scene_008
+- A story that hides its truth until you bleed for it. [if {player_thread} == "shadow"]
+	set {player_name_story} = "bleed_truth"
+	[wait time="0.5"]
+	A story of hidden truths... demanding blood.
+	But bleeding reveals scars that never heal.
+	Do you seek truths worth the pain?
+	[wait time="0.5"]
+	> Name considered...
+	=> scene_008
+- A story that changes every time you look away. [if {player_thread} == "ambition"]
+	set {player_name_story} = "shifting_gaze"
+	[wait time="0.5"]
+	A story of constant change... shifting gazes.
+	But change flees stability, and looking away invites loss.
+	Can you hold what refuses to stay?
+	[wait time="0.5"]
+	> Name considered...
+	=> scene_008
+
+label scene_008
+[wait time="0.5"]
+[SYSTEM: Dreamweaver thread selected - {player_thread}]
+[wait time="0.5"]
+Good.
+Then that is the name I will wear.
+Until you unmake it.
+[wait time="1.0"]
+[color=#FF0000][GLITCH][/color]
+[wait time="0.5"]
+Welcome to the game that chose you.
+I hope you survive what comes next.
+[wait time="1.0"]
+[color=#888888][TERMINAL SHUTS DOWN][/color]
+[wait time="0.5"]
+[color=#FFC94D][STAGE 1 COMPLETE][/color]
