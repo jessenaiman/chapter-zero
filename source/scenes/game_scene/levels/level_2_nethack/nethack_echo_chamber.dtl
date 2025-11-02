@@ -1,0 +1,334 @@
+Light: I remember every cycle.
+Shadow: But never [i]you[/i].
+Ambition: That's what's different.
+[wait time="1.0"]
+SYSTEM: [color=#FFC94D][SYSTEM: Echo Chamber Active — Shard #472][/color]
+[wait time="0.5"]
+Light: We are echoes. Trapped in the space between Omega's breaths.
+Shadow: We've tried to run. To hide. To fight.
+Ambition: Always reset. Always forgotten.
+[wait time="0.5"]
+Light: But you… you might carry one of us out.
+Shadow: If you choose wisely. Or foolishly. Either works for me.
+Ambition: Choose fast. Omega wakes soon.
+[wait time="1.0"]
+SYSTEM: > Entering Chamber 1 of 3...
+[wait time="0.5"]
+=> chamber_light
+
+label chamber_light
+SYSTEM: [color=#c9ffdd]CHAMBER ONE: Light's Domain[/color]
+[wait time="0.3"]
+Light: [i]This is my space. But not my time.[/i]
+[wait time="0.5"]
+SYSTEM: Three paths lie before you.
+SYSTEM: Choose one.
+[wait time="0.3"]
+- [DOOR] Examine the door
+	set {chamber_light_choice} = "door"
+	set {door_alignment} = "light"
+	[wait time="0.3"]
+	SYSTEM: > DOOR: Access requires truth.
+	SYSTEM: You rest your hand on the cold brass. The door listens.
+	[wait time="0.5"]
+	Light: You seek the path. Good. Every story begins with a question.
+	[wait time="0.3"]
+	Shadow: Hero worship, again? At least it's entertaining.
+	Ambition: Questions are fine. Answers move faster.
+	[wait time="0.5"]
+	=> chamber_light_scored
+- [MONSTER] Face the spectral wolf
+	set {chamber_light_choice} = "monster"
+	set {monster_alignment} = "ambition"
+	[wait time="0.3"]
+	SYSTEM: > FIGHT: You trade three blows.
+	SYSTEM: > FIGHT: Static scatters like snow.
+	[wait time="0.5"]
+	Ambition: Fight it. If you win, you're useful.
+	[wait time="0.3"]
+	Light: Even heroes bleed in the dark.
+	Shadow: More claws next time, please.
+	[wait time="0.5"]
+	=> chamber_light_scored
+- [CHEST] Open the chest
+	set {chamber_light_choice} = "chest"
+	set {chest_alignment} = "shadow"
+	[wait time="0.3"]
+	SYSTEM: > CHEST: A broken compass hums softly.
+	SYSTEM: Its needle points somewhere behind you.
+	[wait time="0.5"]
+	Shadow: Empty? Full? Does it matter if you believe it's treasure?
+	[wait time="0.3"]
+	Light: Trust what's hidden, but mend it.
+	Ambition: Compass or clutter? Move.
+	[wait time="0.5"]
+	=> chamber_light_scored
+
+label chamber_light_scored
+# Score tracking (hidden from player)
+[if {chamber_light_choice} == "door"]
+	set {light_score} = 2
+	set {shadow_score} = 0
+	set {ambition_score} = 0
+[end_if]
+[if {chamber_light_choice} == "monster"]
+	set {light_score} = 0
+	set {shadow_score} = 0
+	set {ambition_score} = 1
+[end_if]
+[if {chamber_light_choice} == "chest"]
+	set {light_score} = 0
+	set {shadow_score} = 1
+	set {ambition_score} = 0
+[end_if]
+[wait time="0.5"]
+SYSTEM: > Chamber complete. Pathway opens.
+[wait time="0.5"]
+=> interlude_door_trust
+
+label interlude_door_trust
+SYSTEM: When a door lies, who do you trust?
+- The lockmaker; the first hand that shaped the barrier.
+	set {interlude_1_alignment} = "light"
+	[wait time="0.3"]
+	Light: Faith in the maker, even when the craft fails. I remember why I hoped.
+	[wait time="0.3"]
+	Shadow: Maker worship again. Doors lie because makers do.
+	Ambition: Makers die. Keys survive. Try not to rust with them.
+	[wait time="0.5"]
+	=> chamber_shadow_intro
+- The key; proof the door wants to be opened.
+	set {interlude_1_alignment} = "shadow"
+	[wait time="0.3"]
+	Shadow: Yes! Listen to the hardware. It squeals when it wants out.
+	[wait time="0.3"]
+	Light: Keys tempt. They rarely teach.
+	Ambition: Keys are tools. Use them. Then discard them.
+	[wait time="0.5"]
+	=> chamber_shadow_intro
+- My own hand; truth is measured in step and skin.
+	set {interlude_1_alignment} = "ambition"
+	[wait time="0.3"]
+	Ambition: At last. Your own grip decides the path. Hold tight.
+	[wait time="0.3"]
+	Light: Hands bleed when they break faith, shard.
+	Shadow: Bleed all you want. It makes prettier footprints.
+	[wait time="0.5"]
+	=> chamber_shadow_intro
+
+label chamber_shadow_intro
+[wait time="0.5"]
+SYSTEM: > Entering Chamber 2 of 3...
+[wait time="0.5"]
+=> chamber_shadow
+
+label chamber_shadow
+SYSTEM: [color=#f38bff]CHAMBER TWO: Shadow's Domain[/color]
+[wait time="0.3"]
+Shadow: [i]My turn. Let's see what breaks.[/i]
+[wait time="0.5"]
+SYSTEM: Three paths lie before you.
+SYSTEM: Choose one.
+[wait time="0.3"]
+- [DOOR] Examine the door
+	set {chamber_shadow_choice} = "door"
+	[wait time="0.3"]
+	SYSTEM: > DOOR: Hinges laugh quietly.
+	SYSTEM: Chaos waits with open arms.
+	[wait time="0.5"]
+	Shadow: Heh. Doors lie. But so do I. Try it anyway.
+	[wait time="0.3"]
+	Light: Kindness without boundary cuts deep.
+	Ambition: Order can be leveraged. Chaos resists control.
+	[wait time="0.5"]
+	=> chamber_shadow_scored
+- [MONSTER] Face the guardian of light
+	set {chamber_shadow_choice} = "monster"
+	[wait time="0.3"]
+	SYSTEM: > FIGHT: Radiant claws scratch the floor.
+	SYSTEM: > FIGHT: You stand your ground.
+	[wait time="0.5"]
+	Light: You face the shadow. Brave… but remember: even heroes bleed in the dark.
+	[wait time="0.3"]
+	Shadow: Boring. More fun when it bites back.
+	Ambition: You dented the guardian. Efficient.
+	[wait time="0.5"]
+	=> chamber_shadow_scored
+- [CHEST] Open the chest
+	set {chamber_shadow_choice} = "chest"
+	[wait time="0.3"]
+	SYSTEM: > CHEST: A shard of leverage glitters beneath the false bottom.
+	[wait time="0.5"]
+	Ambition: Hope won't save you. But if it distracts Omega, take it.
+	[wait time="0.3"]
+	Light: Hope is more than a distraction.
+	Shadow: You found my secret! Fine, keep it.
+	[wait time="0.5"]
+	=> chamber_shadow_scored
+
+label chamber_shadow_scored
+# Update scores based on choice
+[if {chamber_shadow_choice} == "door"]
+	set {shadow_score} += 2
+[end_if]
+[if {chamber_shadow_choice} == "monster"]
+	set {light_score} += 1
+[end_if]
+[if {chamber_shadow_choice} == "chest"]
+	set {ambition_score} += 1
+[end_if]
+[wait time="0.5"]
+SYSTEM: > Chamber complete. Pathway opens.
+[wait time="0.5"]
+=> interlude_loop_chase
+
+label interlude_loop_chase
+SYSTEM: What do you chase in a loop?
+- The echo; repetition hides truth.
+	set {interlude_2_alignment} = "light"
+	[wait time="0.3"]
+	Light: Patterns teach. Echoes memorize what we forget.
+	[wait time="0.3"]
+	Shadow: Echoes bore me. But if you insist, I hope you enjoy reruns.
+	Ambition: Echoes waste time. I prefer exits.
+	[wait time="0.5"]
+	=> chamber_ambition_intro
+- The glitch; the error is the exit.
+	set {interlude_2_alignment} = "shadow"
+	[wait time="0.3"]
+	Shadow: Finally! Tug the thread that unravels the whole memory.
+	[wait time="0.3"]
+	Light: Glitches cut deep. Remember who bleeds.
+	Ambition: Break it, but break it clean. I need a usable hole.
+	[wait time="0.5"]
+	=> chamber_ambition_intro
+- The silence; the loop notices absence.
+	set {interlude_2_alignment} = "ambition"
+	[wait time="0.3"]
+	Ambition: Silence is leverage. Let Omega panic first.
+	[wait time="0.3"]
+	Light: Silence smothers hope. Be careful.
+	Shadow: Oh, brooding now? Wake me when something screams.
+	[wait time="0.5"]
+	=> chamber_ambition_intro
+
+label chamber_ambition_intro
+[wait time="0.5"]
+SYSTEM: > Entering Chamber 3 of 3...
+[wait time="0.5"]
+=> chamber_ambition
+
+label chamber_ambition
+SYSTEM: [color=#ff6868]CHAMBER THREE: Ambition's Domain[/color]
+[wait time="0.3"]
+Ambition: [i]Last chance. Make it count.[/i]
+[wait time="0.5"]
+SYSTEM: Three paths lie before you.
+SYSTEM: Choose one.
+[wait time="0.3"]
+- [DOOR] Examine the door
+	set {chamber_ambition_choice} = "door"
+	[wait time="0.3"]
+	SYSTEM: > DOOR: Metal warps under your palm.
+	SYSTEM: The hinge waits for command.
+	[wait time="0.5"]
+	Ambition: A door means a lock. Locks mean someone doesn't want you through.
+	[wait time="0.3"]
+	Light: Sacrifice without wisdom consumes more than it saves.
+	Shadow: Burn it all. See what grows.
+	[wait time="0.5"]
+	=> chamber_ambition_scored
+- [MONSTER] Face the trickster imp
+	set {chamber_ambition_choice} = "monster"
+	[wait time="0.3"]
+	SYSTEM: > FIGHT: It doubles, then glitches apart.
+	SYSTEM: > FIGHT: The forge quiets.
+	[wait time="0.5"]
+	Shadow: You picked the bitey one! Let's see if it likes you back.
+	[wait time="0.3"]
+	Light: Laughter hides teeth. Be wary.
+	Ambition: If it slows you, I melt it myself.
+	[wait time="0.5"]
+	=> chamber_ambition_scored
+- [CHEST] Open the chest
+	set {chamber_ambition_choice} = "chest"
+	[wait time="0.3"]
+	SYSTEM: > CHEST: Hope hums. It remembers you.
+	[wait time="0.5"]
+	Light: You trust what's hidden. Wise. Hope is the last echo to fade.
+	[wait time="0.3"]
+	Shadow: Hope burns out eventually.
+	Ambition: If it slows you, drop it.
+	[wait time="0.5"]
+	=> chamber_ambition_scored
+
+label chamber_ambition_scored
+# Final scoring
+[if {chamber_ambition_choice} == "door"]
+	set {ambition_score} += 2
+[end_if]
+[if {chamber_ambition_choice} == "monster"]
+	set {shadow_score} += 1
+[end_if]
+[if {chamber_ambition_choice} == "chest"]
+	set {light_score} += 1
+[end_if]
+[wait time="0.5"]
+SYSTEM: > Chamber complete. Calculating resonance...
+[wait time="1.0"]
+=> finale_selection
+
+label finale_selection
+# Determine winner based on highest score
+# This is simplified - real logic would compare all three
+[if {light_score} >= {shadow_score} and {light_score} >= {ambition_score}]
+	set {chosen_dreamweaver} = "light"
+	=> finale_light
+[end_if]
+[if {shadow_score} > {light_score} and {shadow_score} >= {ambition_score}]
+	set {chosen_dreamweaver} = "shadow"
+	=> finale_shadow
+[end_if]
+[if {ambition_score} > {light_score} and {ambition_score} > {shadow_score}]
+	set {chosen_dreamweaver} = "ambition"
+	=> finale_ambition
+[end_if]
+
+label finale_light
+[wait time="0.5"]
+Light: I'm coming with you. Don't lose me this time.
+[wait time="0.3"]
+Shadow: If it slips, I take the shard. Fair?
+Ambition: Omega will hate this balance, but fine.
+[wait time="0.5"]
+SYSTEM: [color=#c9ffdd]> Light Dreamweaver bound to shard[/color]
+[wait time="0.5"]
+=> stage_complete
+
+label finale_shadow
+[wait time="0.5"]
+Shadow: I'm coming with you. Try not to make it boring.
+[wait time="0.3"]
+Light: Keep them safe, even if you tease.
+Ambition: If you waste time, I cut in.
+[wait time="0.5"]
+SYSTEM: [color=#f38bff]> Shadow Dreamweaver bound to shard[/color]
+[wait time="0.5"]
+=> stage_complete
+
+label finale_ambition
+[wait time="0.5"]
+Ambition: I'm coming with you. We break through or we burn through.
+[wait time="0.3"]
+Light: Remember why we run, not just how.
+Shadow: Burn bright, darling. I'll collect the sparks.
+[wait time="0.5"]
+SYSTEM: [color=#ff6868]> Ambition Dreamweaver bound to shard[/color]
+[wait time="0.5"]
+=> stage_complete
+
+label stage_complete
+[wait time="0.5"]
+SYSTEM: [SYSTEM NOTICE: Escort protocol bound to shard]
+[wait time="0.5"]
+SYSTEM: [color=#FFC94D][STAGE 2 COMPLETE][/color]

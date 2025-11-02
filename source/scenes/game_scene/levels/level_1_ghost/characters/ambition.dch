@@ -1,0 +1,30 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(1, 0.2, 0.05, 1),
+&"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "ambition_theme",
+"thread": "ambition",
+"personality": "Self-interest as moral framework. Every choice must benefit you first. Not cruel, but transactional. Can be heroic if heroism serves your goals."
+},
+&"default_portrait": "Default",
+&"description": "Ambition Dreamweaver - Crimson Self",
+&"display_name": "Ambition",
+&"mirror": false,
+&"nicknames": ["Changer", "Crimson One"],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"Default": {
+"export_overrides": {},
+"image": "",
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
+&"scale": 1.0
+}

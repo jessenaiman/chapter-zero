@@ -1,0 +1,30 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.6, 0.3, 0.8, 1),
+&"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "shadow_theme",
+"thread": "shadow",
+"personality": "Non-interventionist who values tradition and patience. Believes most problems resolve themselves given time. Nostalgic for simpler times."
+},
+&"default_portrait": "Default",
+&"description": "Shadow Dreamweaver - Violet Patience",
+&"display_name": "Shadow",
+&"mirror": false,
+&"nicknames": ["Keeper", "Violet One"],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"Default": {
+"export_overrides": {},
+"image": "",
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
+&"scale": 1.0
+}
