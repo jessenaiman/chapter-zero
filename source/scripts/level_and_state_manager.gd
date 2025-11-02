@@ -1,12 +1,6 @@
 extends LevelManager
 
-func _ready() -> void:
-	# Connect to story system signals for Dreamweaver score updates
-	var storybook_engine = get_node_or_null("/root/StorybookEngine")  # Adjust path as needed
-	if storybook_engine:
-		storybook_engine.connect("DreamweaverScoresUpdated", Callable(self, "_on_dreamweaver_scores_updated"))
-
-func set_current_level_path(value : String) -> void:
+func set_current_level_path(value: String) -> void:
 	super.set_current_level_path(value)
 	OmegaSpiralGameState.set_current_level(value)
 	OmegaSpiralGameState.get_level_state(value)
@@ -23,5 +17,5 @@ func _advance_level() -> bool:
 		OmegaSpiralGameState.level_reached(current_level_path)
 	return _advanced
 
-func _on_dreamweaver_scores_updated(scores : Array) -> void:
+func _on_dreamweaver_scores_updated(scores: Array) -> void:
 	OmegaSpiralGameState.update_dreamweaver_scores(scores)
