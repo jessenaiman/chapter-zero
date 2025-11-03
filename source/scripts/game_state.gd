@@ -1,18 +1,18 @@
-## Omega Spiral game state persistence layer.
+## Game state persistence layer for Omega Spiral.
 ##
-## Extends Maaack's Game Template GlobalState system to manage:
+## Manages:
 ## - Current level progression and level-specific state
 ## - Dreamweaver scoring (3 AI narrative personas)
 ## - Game session tracking (playtime, games played, etc.)
 ##
-## This Resource is automatically persisted to disk by GlobalState.
+## This Resource is automatically persisted to disk by GlobalState (Maaack's addon).
 ## Use static methods to read/write state - never instantiate directly.
 ##
 ## Architecture:
-## - Maaack's GlobalState (addon) manages the actual file I/O to user://
-## - This class (Omega extension) defines what data gets saved
-## - Level state Resource stores per-level data (dreamweaver scores, etc.)
-class_name OmegaSpiralGameState
+## - Maaack's GlobalState (addon) manages file I/O to user://
+## - This class defines what data gets saved
+## - LevelState stores per-level data (dreamweaver scores, tutorials, etc.)
+class_name GameState
 extends Resource
 
 const STATE_NAME : String = "GameState"
@@ -26,7 +26,7 @@ const _GlobalState = preload("res://source/autoloads/omega_global_state.gd")
 @export var play_time : int
 @export var total_time : int
 
-static func get_level_state(level_state_key : String) -> OmegaSpiralLevelState:
+static func get_level_state(level_state_key : String) -> LevelState:
 	if not has_game_state(): 
 		return
 	var game_state := get_or_create_state()
@@ -34,17 +34,15 @@ static func get_level_state(level_state_key : String) -> OmegaSpiralLevelState:
 	if level_state_key in game_state.level_states:
 		return game_state.level_states[level_state_key] 
 	else:
-		var new_level_state := OmegaSpiralLevelState.new()
+		var new_level_state := LevelState.new()
 		game_state.level_states[level_state_key] = new_level_state
-		print("[OmegaGameState] Creating new level state for: ", level_state_key)
 		_GlobalState.save()
 		return new_level_state
 
 static func has_game_state() -> bool:
 	return _GlobalState.has_state(STATE_NAME)
 
-static func get_or_create_state() -> OmegaSpiralGameState:
-	print("[OmegaGameState] Getting or creating game state")
+static func get_or_create_state() -> GameState:
 	return _GlobalState.get_or_create_state(STATE_NAME, FILE_PATH)
 
 static func get_current_level_path() -> String:
@@ -95,9 +93,10 @@ static func reset() -> void:
 ## Called by stages when they complete with player choices.
 static func update_dreamweaver_scores(scores : Array) -> void:
 	var game_state := get_or_create_state()
-	var level_state := get_level_state(game_state.current_level_path) as OmegaSpiralLevelState
+	var level_state := get_level_state(game_state.current_level_path) as LevelState
 	if level_state and scores.size() >= 3:
-		level_state.dreamweaver_scores = scores.duplicate()
+		level_state.dreamweaver_scores = scores
+		GD.Print("Dreamweaver scores for %s: %s" % [game_state.current_level_path, level_state.dreamweaver_scores])
 		_GlobalState.save()
 
 ## Retrieves the current Dreamweaver scores.
@@ -107,7 +106,8 @@ static func get_dreamweaver_scores() -> Array:
 	if not has_game_state():
 		return [0, 0, 0]
 	var game_state := get_or_create_state()
-	var level_state := get_level_state(game_state.current_level_path) as OmegaSpiralLevelState
+	var level_state := get_level_state(game_state.current_level_path) as LevelState
 	if level_state:
+		GD.Print("Retrieved Dreamweaver scores for %s: %s" % [game_state.current_level_path, level_state.dreamweaver_scores])
 		return level_state.dreamweaver_scores.duplicate()
 	return [0, 0, 0]

@@ -1,25 +1,22 @@
-## Omega Spiral per-level state persistence.
+## Per-level state persistence for Omega Spiral.
 ##
-## Stores level-specific data that needs to survive between playthroughs.
-## One OmegaSpiralLevelState instance is created per unique level visited.
-## Accessed via OmegaSpiralGameState.get_level_state(level_path).
+## Stores level-specific data including:
+## - Tutorial read status (prevents tutorial from showing every playthrough)
+## - Player's color preference
+## - Dreamweaver narrative scores (tracks which AI persona's story dominates)
 ##
-## Dreamweaver System:
-## - Three AI narrative personas (Light, Dark, Balance threads)
-## - Each level assigns scores based on player choices
-## - Scores determine which Dreamweaver's story dominates
+## One LevelState instance is created per unique level visited.
+## Accessed via GameState.get_level_state(level_path).
+class_name LevelState
 extends Resource
 
-class_name OmegaSpiralLevelState
-
-## User-selected color preference for this level (example feature from template)
+## User-selected color preference for this level
 @export var color : Color
 
 ## Whether tutorial message was dismissed in this level
-## Prevents tutorial from showing every playthrough
 @export var tutorial_read : bool = false
 
-## Dreamweaver influence scores for this level: [Light, Dark, Balance]
-## Updated when level completes with player's choices
-## Each score is 0-100, tracking which narrative thread won
+## Dreamweaver influence scores: [Light Thread, Dark Thread, Balance Thread]
+## Tracks which narrative persona's choices dominated this level.
+## Each score range: 0-100. Updated when level completes with player's choices.
 @export var dreamweaver_scores : Array[int] = [0, 0, 0]

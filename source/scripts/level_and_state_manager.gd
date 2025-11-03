@@ -18,8 +18,6 @@ func _advance_level() -> bool:
 	var _advanced := super._advance_level()
 	if _advanced:
 		OmegaSpiralGameState.level_reached(current_level_path)
-		# Emit our own signal since GameState can't have signals
-		emit_signal("dreamweaver_scores_updated", OmegaSpiralGameState.get_dreamweaver_scores())
 	return _advanced
 
 # Add this signal to this class since GameState can't have signals

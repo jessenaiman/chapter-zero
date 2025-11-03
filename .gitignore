@@ -25,6 +25,7 @@ addons/nobodywho/*.so
 addons/nobodywho/*.dll
 addons/nobodywho/*.dylib
 addons/nobodywho/*.pdb
+addonts/gdunit4/
 
 # Ignore git repositories within addons
 addons/**/[.git|.gitignore]/
