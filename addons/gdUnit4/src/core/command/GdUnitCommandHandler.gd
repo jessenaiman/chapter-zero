@@ -245,6 +245,7 @@ func cmd_run(debug: bool) -> void:
 	if _is_running:
 		return
 
+	GdUnitSignals.instance().gdunit_event.emit(GdUnitInit.new())
 	# save current selected excution config
 	var server_port: int = Engine.get_meta("gdunit_server_port")
 	var result := _runner_config.set_server_port(server_port).save_config()
@@ -382,7 +383,7 @@ func active_script() -> Script:
 # signals handles
 ################################################################################
 func _on_event(event: GdUnitEvent) -> void:
-	if event.type() == GdUnitEvent.SESSION_CLOSE:
+	if event.type() == GdUnitEvent.STOP:
 		cmd_stop(_client_id)
 
 

@@ -16,8 +16,8 @@ class_name OmegaSpiralGameState
 extends Resource
 
 const STATE_NAME : String = "GameState"
-const FILE_PATH = "res://source/scenes/game_scene/scripts/game_state.gd"
-const _GlobalState = preload("res://addons/maaacks_game_template/base/nodes/state/global_state.gd")
+const FILE_PATH = "res://source/scripts/game_state.gd"
+const _GlobalState = preload("res://source/autoloads/omega_global_state.gd")
 
 @export var level_states : Dictionary = {}
 @export var current_level_path : String
@@ -36,6 +36,7 @@ static func get_level_state(level_state_key : String) -> OmegaSpiralLevelState:
 	else:
 		var new_level_state := OmegaSpiralLevelState.new()
 		game_state.level_states[level_state_key] = new_level_state
+		print("[OmegaGameState] Creating new level state for: ", level_state_key)
 		_GlobalState.save()
 		return new_level_state
 
@@ -43,6 +44,7 @@ static func has_game_state() -> bool:
 	return _GlobalState.has_state(STATE_NAME)
 
 static func get_or_create_state() -> OmegaSpiralGameState:
+	print("[OmegaGameState] Getting or creating game state")
 	return _GlobalState.get_or_create_state(STATE_NAME, FILE_PATH)
 
 static func get_current_level_path() -> String:

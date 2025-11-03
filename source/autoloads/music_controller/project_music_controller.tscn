@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://nbm8mux1ko25"]
 
-[ext_resource type="Script" uid="uid://omega_music_ctrl" path="res://source/autoloads/music_controller/omega_music_controller.gd" id="1"]
+[ext_resource type="Script" uid="uid://don8endv78ac" path="res://source/autoloads/music_controller/omega_music_controller.gd" id="1"]
 
 [node name="OmegaMusicController" type="Node"]
 process_mode = 3
