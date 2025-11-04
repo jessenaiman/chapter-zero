@@ -22,7 +22,7 @@ public partial class GangOfFourConversation : Interaction
     /// Handles Dialogic signal events for this conversation.
     /// The method is registered as a global callback by the Dialogic integration layer.
     /// When the <c>coin_received</c> argument is received, a coin item is added to the
-    /// player's <see cref="OmegaSpiral.Source.Scripts.Field.Inventory"/>.
+    /// player's <see cref="Inventory"/>.
     /// </summary>
     /// <param name="argument">The signal argument supplied by Dialogic (e.g., "coin_received").</param>
     public static void OnDialogicSignalEvent(string argument)

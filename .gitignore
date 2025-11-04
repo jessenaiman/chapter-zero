@@ -10,22 +10,7 @@ models/*.gguf
 *.gguf
 
 # Addon binaries and platform-specific files (keep source code)
-addons/*/*.so
-addons/*/*.dll
-addons/*/*.dylib
-addons/*/*.pdb
-addons/*/*.exe
-addons/*/bin/
-addons/*/obj/
-addons/*/.mono/
-addons/*/.godot/
-
-# NobodyWho plugin binaries (download from releases)
-addons/nobodywho/*.so
-addons/nobodywho/*.dll
-addons/nobodywho/*.dylib
-addons/nobodywho/*.pdb
-addonts/gdunit4/
+addons/
 
 # Ignore git repositories within addons
 addons/**/[.git|.gitignore]/
