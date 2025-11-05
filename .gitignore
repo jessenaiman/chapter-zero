@@ -16,6 +16,7 @@ addons/
 addons/**/[.git|.gitignore]/
 addons/**/.github
 addons/**/project.godot
+addons/
 
 # Godot import files (regenerated on import)
 *.import

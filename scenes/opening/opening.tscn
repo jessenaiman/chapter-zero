@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn8qjkiujhi4a"]
+[gd_scene load_steps=5 format=3 uid="uid://dn8qjkiujhi4a"]
 
-[ext_resource type="PackedScene" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_ke3tw"]
-[ext_resource type="Texture2D" path="res://source/assets/godot_engine_logo/logo_vertical_color_dark.png" id="2_yhkvs"]
+[ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_u6ao7"]
+[ext_resource type="Texture2D" uid="uid://f7c8w18ldw2p" path="res://assets/images/GWJ-Full-Logo-tag-Orange2.svg" id="2_baoqs"]
+[ext_resource type="Texture2D" uid="uid://c83qpdqstdo5g" path="res://assets/images/ThemeBanner.png" id="3_kw64e"]
+[ext_resource type="Texture2D" uid="uid://d2g3pck3k2cad" path="res://assets/images/WildcardsBanner.png" id="4_t52o3"]
 
-[node name="Opening" instance=ExtResource("1_ke3tw")]
-images = Array[Texture2D]([ExtResource("2_yhkvs")])
+[node name="Opening" unique_id=1474383633 instance=ExtResource("1_u6ao7")]
+images = Array[Texture2D]([ExtResource("2_baoqs"), ExtResource("3_kw64e"), ExtResource("4_t52o3")])
 
 [node name="ImagesContainer" parent="." index="1"]
 theme_override_constants/margin_left = 64

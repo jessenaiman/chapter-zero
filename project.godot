@@ -12,18 +12,14 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="uid://bfqd23jw4cjx2"
+run/main_scene="res://scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/icon=""
 
 [autoload]
 
-GlobalState="res://addons/maaacks_game_template/base/nodes/state/global_state.gd"
-GameManager="res://source/scripts/level_and_state_manager.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-LevelAndStateManager="res://source/scripts/level_and_state_manager.gd"
-OmegaSettings="res://source/config/omega_app_settings.gd"
 AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
 SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
 ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
@@ -39,15 +35,15 @@ settings/gdscript/always_track_local_variables=true
 [dialogic]
 
 directories/dch_directory={
-"characters/ambition": "res://scenes/game_scene/levels/level_1_ghost/characters/ambition.dch",
-"characters/light": "res://scenes/game_scene/levels/level_1_ghost/characters/light.dch",
-"characters/omega": "res://scenes/game_scene/levels/level_1_ghost/characters/omega.dch",
-"characters/shadow": "res://scenes/game_scene/levels/level_1_ghost/characters/shadow.dch",
+"ambition": "res://levels/level_1_ghost/characters/ambition.dch",
 "enemy_ghost": "res://source/overworld/maps/town/enemy_ghost.dch",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dch",
 "ghost": "res://source/overworld/maps/forest/ghost.dch",
+"light": "res://levels/level_1_ghost/characters/light.dch",
 "monk": "res://source/overworld/maps/town/monk.dch",
+"omega": "res://levels/level_1_ghost/characters/omega.dch",
 "runner": "res://source/overworld/maps/town/runner.dch",
+"shadow": "res://levels/level_1_ghost/characters/shadow.dch",
 "smith": "res://source/overworld/maps/town/smith.dch",
 "thief": "res://source/overworld/maps/town/thief.dch",
 "warrior": "res://source/overworld/maps/town/warrior.dch",
@@ -59,11 +55,10 @@ directories/dtl_directory={
 "encounter_on_victory": "res://source/overworld/maps/town/encounter_on_victory.dtl",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
 "ghost": "res://source/overworld/maps/forest/ghost.dtl",
-"ghost_terminal": "res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl",
-"level_1_ghost/ghost_terminal": "res://scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl",
-"level_1_ghost/ghost_terminal_refactored": "res://scenes/game_scene/levels/level_1_ghost/ghost_terminal_refactored.dtl",
-"level_2_nethack/nethack_echo_chamber": "res://scenes/game_scene/levels/level_2_nethack/nethack_echo_chamber.dtl",
+"ghost_terminal_refactored": "res://levels/level_1_ghost/ghost_terminal_refactored.dtl",
+"levels/level_1_ghost/ghost_terminal": "res://levels/level_1_ghost/ghost_terminal.dtl",
 "monk": "res://source/overworld/maps/town/monk.dtl",
+"nethack_echo_chamber": "res://levels/level_2_nethack/nethack_echo_chamber.dtl",
 "opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
 "runner": "res://source/overworld/maps/town/runner.dtl",
 "sign": "res://source/overworld/maps/town/sign.dtl",
@@ -110,6 +105,18 @@ project/solution_directory="."
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/fuku/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
 
+[gdunit4]
+
+templates/testsuite/GDScript="# GdUnit generated TestSuite
+class_name ${suite_class_name}
+extends GdUnitTestSuite
+@warning_ignore('unused_parameter')
+@warning_ignore('return_value_discarded')
+
+# TestSuite generated from
+const __source = '${source_resource_path}'
+"
+
 [gui]
 
 theme/custom="res://source/ui/omega/omega_ui.theme.tres"
@@ -131,15 +138,8 @@ locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/t
 
 disable_install_audio_busses=true
 disable_update_check=false
-disable_install_wizard=false
 copy_path="res://"
-
-[maaacks_menus_template]
-
-disable_install_audio_busses=true
-disable_update_check=false
 disable_install_wizard=true
-copy_path="res://source/"
 
 [plugins]
 

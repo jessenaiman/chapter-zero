@@ -9,8 +9,8 @@
 [ext_resource type="PackedScene" path="res://scenes/windows/level_lost_window.tscn" id="7_i7m4m"]
 [ext_resource type="PackedScene" path="res://scenes/windows/level_won_window.tscn" id="8_rkfhe"]
 [ext_resource type="Script" path="res://addons/maaacks_game_template/extras/scripts/scene_lister.gd" id="9_g2ndc"]
-[ext_resource type="PackedScene" path="res://source/scenes/loading_screen/omega_level_loading_screen.tscn" id="10_0v86b"]
-[ext_resource type="Script" path="res://source/scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
+[ext_resource type="PackedScene" path="res://scenes/loading_screen/level_loading_screen.tscn" id="10_0v86b"]
+[ext_resource type="Script" path="res://scenes/game_scene/configurable_sub_viewport.gd" id="11_ulq3g"]
 [ext_resource type="Script" path="res://scenes/game_scene/game_timer.gd" id="12_gpor5"]
 
 [node name="GameUI" type="Control"]

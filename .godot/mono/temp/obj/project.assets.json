@@ -57,7 +57,7 @@
           }
         }
       },
-      "gdUnit4.api/5.0.0": {
+      "gdUnit4.api/5.1.0-rc1": {
         "type": "package",
         "dependencies": {
           "CommandLineParser": "2.9.1",
@@ -2114,10 +2114,10 @@
         "lib/netstandard2.0/GdUnit4Analyzers.xml"
       ]
     },
-    "gdUnit4.api/5.0.0": {
-      "sha512": "YMGA7dSj53Bn0uFVy4YBYNqTE3T0YulzXTJsQp/9eAsErf11G/7fdkgccn2mhS0oo2TuL9E1Vhgj8lUlmfadQw==",
+    "gdUnit4.api/5.1.0-rc1": {
+      "sha512": "dLxmn8rrt44rzHAJUTXr8MxBBYvftPiVxmvX4V73yP2TNmpRuegAp+cginmAQ6l9I5IVCYVLh3pez6PGFPU9Zw==",
       "type": "package",
-      "path": "gdunit4.api/5.0.0",
+      "path": "gdunit4.api/5.1.0-rc1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2130,7 +2130,7 @@
         "content/LICENSE",
         "contentFiles/any/net8.0/LICENSE",
         "contentFiles/any/net9.0/LICENSE",
-        "gdunit4.api.5.0.0.nupkg.sha512",
+        "gdunit4.api.5.1.0-rc1.nupkg.sha512",
         "gdunit4.api.nuspec",
         "icon.png",
         "lib/net8.0/GdUnit4Api.dll",
@@ -5162,7 +5162,7 @@
       "Spectre.Console >= 0.53.0",
       "coverlet.collector >= 6.0.4",
       "gdUnit4.analyzers >= 1.0.0",
-      "gdUnit4.api >= 5.0.0",
+      "gdUnit4.api >= 5.1.0-rc1",
       "gdUnit4.test.adapter >= 3.0.0"
     ]
   },
@@ -5194,6 +5194,9 @@
         }
       },
       "warningProperties": {
+        "noWarn": [
+          "NU1605"
+        ],
         "warnAsError": [
           "NU1605"
         ]
@@ -5280,13 +5283,13 @@
           },
           "gdUnit4.analyzers": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-            "suppressParent": "All",
+            "suppressParent": "None",
             "target": "Package",
             "version": "[1.0.0, )"
           },
           "gdUnit4.api": {
             "target": "Package",
-            "version": "[5.0.0, )"
+            "version": "[5.1.0-rc1, )"
           },
           "gdUnit4.test.adapter": {
             "target": "Package",

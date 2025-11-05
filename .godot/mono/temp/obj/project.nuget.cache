@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sBbRra3Wzlg=",
+  "dgSpecHash": "2ytF5VjHq+w=",
   "success": true,
   "projectFilePath": "/home/adam/Dev/omega-spiral/chapter-zero/chapter-zero.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,7 @@
     "/home/adam/.nuget/packages/commandlineparser/2.9.1/commandlineparser.2.9.1.nupkg.sha512",
     "/home/adam/.nuget/packages/coverlet.collector/6.0.4/coverlet.collector.6.0.4.nupkg.sha512",
     "/home/adam/.nuget/packages/gdunit4.analyzers/1.0.0/gdunit4.analyzers.1.0.0.nupkg.sha512",
-    "/home/adam/.nuget/packages/gdunit4.api/5.0.0/gdunit4.api.5.0.0.nupkg.sha512",
+    "/home/adam/.nuget/packages/gdunit4.api/5.1.0-rc1/gdunit4.api.5.1.0-rc1.nupkg.sha512",
     "/home/adam/.nuget/packages/gdunit4.test.adapter/3.0.0/gdunit4.test.adapter.3.0.0.nupkg.sha512",
     "/home/adam/.nuget/packages/godot.sourcegenerators/4.6.0-dev.2/godot.sourcegenerators.4.6.0-dev.2.nupkg.sha512",
     "/home/adam/.nuget/packages/godotsharp/4.6.0-dev.2/godotsharp.4.6.0-dev.2.nupkg.sha512",

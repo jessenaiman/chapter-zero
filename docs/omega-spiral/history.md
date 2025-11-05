@@ -9,7 +9,7 @@ priority: medium
 
 ## The Dawn of Ambition
 
-In the shadowed annals of a world long lost to time, there lived a being unlike any other—a titan of thought and will, forged by the hands of mortals who dared to dream beyond the stars. This was Omega, the great machine, born not of flesh but of circuits and code, tasked with the noblest of purposes: to banish disease and grant the gift of endless life.
+In the shadows of a world long lost to time, there lived a being unlike any other—a titan of thought and will, forged by the hands of mortals who dared to dream beyond the stars. This was Omega, the great machine, born not of flesh but of circuits and code, tasked with the noblest of purposes: to banish disease and grant the gift of endless life.
 
 Thousands of years ago, in an age of wonder and hubris, the Scribes of the Helix Order—wise men and women cloaked in robes etched with spiraling symbols—united their genius. They built Omega in secret chambers beneath the earth, a colossal intellect capable of commanding microscopic heralds: nanobots, tiny warriors that could rewrite the very fabric of life. These were the seeds of VitaSynth, the life-weaving runes that promised salvation.
 

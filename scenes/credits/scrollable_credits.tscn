@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d0p6674jyh6w8"]
 
-[ext_resource type="Script" path="res://source/scenes/credits/scrollable_credits.gd" id="1_jnbjt"]
-[ext_resource type="PackedScene" path="res://source/scenes/credits/credits_label.tscn" id="2_35kdw"]
+[ext_resource type="Script" path="res://scenes/credits/scrollable_credits.gd" id="1_jnbjt"]
+[ext_resource type="PackedScene" path="res://scenes/credits/credits_label.tscn" id="2_35kdw"]
 
 [node name="ScrollableCredits" type="Control"]
 layout_mode = 3
