@@ -41,8 +41,8 @@ public sealed partial class GhostCinematicDirector : Node
     {
         GD.Print("[GhostCinematicDirector] Starting Ghost Terminal stage");
 
-        // Load the Dialogic bridge script
-        var bridgeScript = GD.Load<GDScript>("res://source/scenes/game_scene/levels/level_1_ghost/ghost_dialogic_bridge.gd");
+                // Load the Dialogic bridge script
+        var bridgeScript = GD.Load<GDScript>("res://levels/level_1_ghost/ghost_dialogic_bridge.gd");
         _DialogicBridge = (Node)bridgeScript.New();
 
         if (_DialogicBridge == null)

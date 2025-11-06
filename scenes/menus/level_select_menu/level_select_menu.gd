@@ -14,7 +14,7 @@ var level_paths : Array[String]
 func _ready() -> void:
 	add_levels_to_container()
 	
-## A fresh level list is propgated into the ItemList, and the file names are cleaned
+## A fresh level list is propgated into the ItemList, and the file nam /*-+9+90.es are cleaned
 func add_levels_to_container() -> void:
 	level_buttons_container.clear()
 	level_paths.clear()

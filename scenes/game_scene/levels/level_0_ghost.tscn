@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpp1cjaldtgpp"]
+
+[ext_resource type="Script" uid="uid://dtrtnqoaarbrf" path="res://levels/level_1_ghost/level_0_ghost.gd" id="1_ghost_script"]
+
+[node name="Level1Ghost" type="Control" unique_id=510817872]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ghost_script")
+
+[node name="BackgroundColor" type="ColorRect" parent="." unique_id=1504196529]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.054902, 0.0666667, 0.0862745, 1)

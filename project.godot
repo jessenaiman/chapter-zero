@@ -15,6 +15,7 @@ config/description="A classic rpg narrative driven adventure game built with God
 run/main_scene="res://scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
+boot_splash/show_image=false
 boot_splash/icon=""
 
 [autoload]
@@ -103,7 +104,7 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/fuku/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
 
 [gdunit4]
 
@@ -150,4 +151,5 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 [rendering]
 
+viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.15, 0.15, 0.25, 1)

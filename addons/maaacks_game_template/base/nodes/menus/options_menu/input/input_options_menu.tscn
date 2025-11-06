@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://6gdbfi0172ji" path="res://addons/maaacks_game_template/base/nodes/windows/overlaid_window.tscn" id="8_jtpjy"]
 [ext_resource type="Script" uid="uid://custha7r0uoic" path="res://addons/maaacks_game_template/base/nodes/menus/options_menu/input/key_assignment_window.gd" id="9_pdk84"]
 
-[node name="Controls" type="MarginContainer"]
+[node name="Controls" type="MarginContainer" unique_id=452374763]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -22,43 +22,43 @@ theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1515943158]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_wft4x")
 search_depth = 5
 
-[node name="InputMappingContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="InputMappingContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1135154456]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/InputMappingContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/InputMappingContainer" unique_id=919097645]
 layout_mode = 2
 text = "Actions & Inputs"
 horizontal_alignment = 1
 
-[node name="InputActionsList" parent="VBoxContainer/InputMappingContainer" instance=ExtResource("4_lf2nw")]
+[node name="InputActionsList" parent="VBoxContainer/InputMappingContainer" unique_id=682821978 instance=ExtResource("4_lf2nw")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(560, 440)
 layout_mode = 2
 
-[node name="InputActionsTree" parent="VBoxContainer/InputMappingContainer" instance=ExtResource("5_b2whh")]
+[node name="InputActionsTree" parent="VBoxContainer/InputMappingContainer" unique_id=1779869149 instance=ExtResource("5_b2whh")]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(400, 440)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/InputMappingContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/InputMappingContainer" unique_id=599892404]
 layout_mode = 2
 alignment = 1
 
-[node name="ResetButton" type="Button" parent="VBoxContainer/InputMappingContainer/HBoxContainer"]
+[node name="ResetButton" type="Button" parent="VBoxContainer/InputMappingContainer/HBoxContainer" unique_id=2065119743]
 layout_mode = 2
 text = "Reset"
 
-[node name="KeyDeletionConfirmation" parent="." instance=ExtResource("7_5j1ya")]
+[node name="KeyDeletionConfirmation" parent="." unique_id=108406387 instance=ExtResource("7_5j1ya")]
 visible = false
 custom_minimum_size = Vector2(420, 200)
 layout_mode = 2
@@ -66,7 +66,7 @@ update_content = true
 text = "Are you sure you want to remove KEY from ACTION?"
 title = "Remove Key"
 
-[node name="ResetConfirmation" parent="." instance=ExtResource("7_5j1ya")]
+[node name="ResetConfirmation" parent="." unique_id=1994975435 instance=ExtResource("7_5j1ya")]
 visible = false
 custom_minimum_size = Vector2(420, 200)
 layout_mode = 2
@@ -74,21 +74,21 @@ update_content = true
 text = "Are you sure you want to reset controls back to the defaults?"
 title = "Reset to Default"
 
-[node name="OneInputMinimumMessage" parent="." instance=ExtResource("8_jtpjy")]
+[node name="OneInputMinimumMessage" parent="." unique_id=1158079966 instance=ExtResource("8_jtpjy")]
 visible = false
 custom_minimum_size = Vector2(420, 200)
 layout_mode = 2
 update_content = true
 title = "One Input Minimum"
 
-[node name="AlreadyAssignedMessage" parent="." instance=ExtResource("8_jtpjy")]
+[node name="AlreadyAssignedMessage" parent="." unique_id=839047938 instance=ExtResource("8_jtpjy")]
 visible = false
 custom_minimum_size = Vector2(420, 200)
 layout_mode = 2
 update_content = true
 title = "Already Assigned"
 
-[node name="KeyAssignmentWindow" parent="." instance=ExtResource("7_5j1ya")]
+[node name="KeyAssignmentWindow" parent="." unique_id=1162406610 instance=ExtResource("7_5j1ya")]
 visible = false
 custom_minimum_size = Vector2(420, 200)
 layout_mode = 2
@@ -96,17 +96,17 @@ script = ExtResource("9_pdk84")
 input_confirmation = 0
 update_content = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="KeyAssignmentWindow/ContentContainer/BoxContainer" index="1"]
+[node name="VBoxContainer" type="VBoxContainer" parent="KeyAssignmentWindow/ContentContainer/BoxContainer" index="1" unique_id=1478500290]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="InputLabel" type="Label" parent="KeyAssignmentWindow/ContentContainer/BoxContainer/VBoxContainer"]
+[node name="InputLabel" type="Label" parent="KeyAssignmentWindow/ContentContainer/BoxContainer/VBoxContainer" unique_id=7240184]
 unique_name_in_owner = true
 layout_mode = 2
 text = "None"
 horizontal_alignment = 1
 
-[node name="InputTextEdit" type="TextEdit" parent="KeyAssignmentWindow/ContentContainer/BoxContainer/VBoxContainer"]
+[node name="InputTextEdit" type="TextEdit" parent="KeyAssignmentWindow/ContentContainer/BoxContainer/VBoxContainer" unique_id=1133195847]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -133,7 +133,7 @@ focus_neighbor_top = NodePath("../../../VBoxContainer/InputTextEdit")
 [node name="ConfirmButton" parent="KeyAssignmentWindow/ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons" index="1"]
 focus_neighbor_top = NodePath("../../../VBoxContainer/InputTextEdit")
 
-[node name="DelayTimer" type="Timer" parent="KeyAssignmentWindow"]
+[node name="DelayTimer" type="Timer" parent="KeyAssignmentWindow" unique_id=1027928120]
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true

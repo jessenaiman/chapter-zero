@@ -1,22 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://bcn6mmdd6008n"]
 
-[ext_resource type="Script" uid="uid://b3lvu4ava3yc2" path="res://source//field/Interaction.cs" id="1_86ylf"]
+[ext_resource type="Script" uid="uid://dt462tsvod5s4" path="res://source/field/Interaction.cs" id="1_7m7d5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jn5tq"]
 radius = 4.0
 
-[node name="Interaction" type="Node2D"]
-script = ExtResource("1_86ylf")
+[node name="Interaction" type="Node2D" unique_id=1177254255]
+script = ExtResource("1_7m7d5")
 
-[node name="InteractionArea2D" type="Area2D" parent="."]
+[node name="InteractionArea2D" type="Area2D" parent="." unique_id=2127531801]
 collision_layer = 16
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea2D" unique_id=1496774717]
 shape = SubResource("CircleShape2D_jn5tq")
 debug_color = Color(1, 0.929412, 0.631373, 0.419608)
 
-[node name="Button" type="Button" parent="."]
+[node name="Button" type="Button" parent="." unique_id=709097780]
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0

@@ -119,13 +119,13 @@
           }
         }
       },
-      "Godot.SourceGenerators/4.6.0-dev.2": {
+      "Godot.SourceGenerators/4.6.0-dev.3": {
         "type": "package",
         "build": {
           "build/Godot.SourceGenerators.props": {}
         }
       },
-      "GodotSharp/4.6.0-dev.2": {
+      "GodotSharp/4.6.0-dev.3": {
         "type": "package",
         "compile": {
           "lib/net8.0/GodotSharp.dll": {
@@ -138,10 +138,10 @@
           }
         }
       },
-      "GodotSharpEditor/4.6.0-dev.2": {
+      "GodotSharpEditor/4.6.0-dev.3": {
         "type": "package",
         "dependencies": {
-          "GodotSharp": "4.6.0-dev.2"
+          "GodotSharp": "4.6.0-dev.3"
         },
         "compile": {
           "lib/net8.0/GodotSharpEditor.dll": {
@@ -2163,40 +2163,40 @@
         "lib/net9.0/GdUnit4.TestAdapter.xml"
       ]
     },
-    "Godot.SourceGenerators/4.6.0-dev.2": {
-      "sha512": "rg71zgnJhsKT90RJP1eAlGj7dZMnmb3CV27HHCllZHw+JBxtfxDy5kKkXdt0klsDOOfgD62YklA6cW9Yo8iETQ==",
+    "Godot.SourceGenerators/4.6.0-dev.3": {
+      "sha512": "YPiViy58gRWdzZnsOUFy6C+ip3N3lPKQNmO/rToaz4sA7UFQyS6zKfJTRnYFdVgq1mPLEpueNiylpIYVU65HCA==",
       "type": "package",
-      "path": "godot.sourcegenerators/4.6.0-dev.2",
+      "path": "godot.sourcegenerators/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Godot.SourceGenerators.dll",
         "build/Godot.SourceGenerators.props",
-        "godot.sourcegenerators.4.6.0-dev.2.nupkg.sha512",
+        "godot.sourcegenerators.4.6.0-dev.3.nupkg.sha512",
         "godot.sourcegenerators.nuspec"
       ]
     },
-    "GodotSharp/4.6.0-dev.2": {
-      "sha512": "hX08fM/+DnNg0Q1OKhoYtsDPTyXJes3z62uaSgD3XvQtyQbil/pkoz4B+UkcSx+/SVfjNqtlnfF+MCSnncMo6Q==",
+    "GodotSharp/4.6.0-dev.3": {
+      "sha512": "SiVBnmiE+CAuAbk5q+vrozSISMvz0uqZpA8sYVxskGfkgnjqt6IDB96nYCTcm3KkTWcYpxQn+dXBRmUO6rBh3A==",
       "type": "package",
-      "path": "godotsharp/4.6.0-dev.2",
+      "path": "godotsharp/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharp.4.6.0-dev.2.nupkg.sha512",
+        "godotsharp.4.6.0-dev.3.nupkg.sha512",
         "godotsharp.nuspec",
         "lib/net8.0/GodotSharp.dll",
         "lib/net8.0/GodotSharp.xml"
       ]
     },
-    "GodotSharpEditor/4.6.0-dev.2": {
-      "sha512": "j/Vh9a60zogTjAc4Ox9iRqmC+qBDkm17rZUDoA+FHzcKy3UX13Twm9RmdRI4LVAbSKqXgH5ufHwVTTNqNV8VxQ==",
+    "GodotSharpEditor/4.6.0-dev.3": {
+      "sha512": "4/ptlxh4qP9XDASsjd5OIoHT/IXXYvdqSRr9dFf4yZXTjXoaAd2x9YZQQnGAX41lRoX1apHiHrcHp/TrsWh4nw==",
       "type": "package",
-      "path": "godotsharpeditor/4.6.0-dev.2",
+      "path": "godotsharpeditor/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharpeditor.4.6.0-dev.2.nupkg.sha512",
+        "godotsharpeditor.4.6.0-dev.3.nupkg.sha512",
         "godotsharpeditor.nuspec",
         "lib/net8.0/GodotSharpEditor.dll",
         "lib/net8.0/GodotSharpEditor.xml"
@@ -5145,9 +5145,9 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Godot.SourceGenerators >= 4.6.0-dev.2",
-      "GodotSharp >= 4.6.0-dev.2",
-      "GodotSharpEditor >= 4.6.0-dev.2",
+      "Godot.SourceGenerators >= 4.6.0-dev.3",
+      "GodotSharp >= 4.6.0-dev.3",
+      "GodotSharpEditor >= 4.6.0-dev.3",
       "Microsoft.Build.Tasks.Core >= 17.14.28",
       "Microsoft.Build.Utilities.Core >= 17.14.28",
       "Microsoft.EntityFrameworkCore >= 10.0.0-rc.2.25502.107",
@@ -5214,17 +5214,17 @@
         "dependencies": {
           "Godot.SourceGenerators": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "GodotSharp": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "GodotSharpEditor": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "Microsoft.Build.Tasks.Core": {

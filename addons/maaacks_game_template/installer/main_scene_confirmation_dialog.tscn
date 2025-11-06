@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://uyh03f60qvd2" path="res://addons/maaacks_game_template/installer/main_scene_confirmation_dialog.gd" id="1_1ydgd"]
 
-[node name="MainSceneConfirmationDialog" type="ConfirmationDialog"]
+[node name="MainSceneConfirmationDialog" type="ConfirmationDialog" unique_id=1514378638]
 oversampling_override = 1.0
 title = "Update Main Scene"
 initial_position = 2

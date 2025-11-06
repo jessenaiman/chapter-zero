@@ -1,26 +1,20 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://bijaulbve2kv1"]
 
-[ext_resource type="Script" path="res://addons/dialogic/Modules/Condition/ui_condition_end.gd" id="1_sh52m"]
+[ext_resource type="Script" uid="uid://bt0pu4ru2bceb" path="res://addons/dialogic/Modules/Condition/ui_condition_end.gd" id="1_sh52m"]
 
-[node name="Condition_End" type="HBoxContainer"]
+[node name="Condition_End" type="HBoxContainer" unique_id=1236895264]
 offset_right = 90.0
 offset_bottom = 23.0
 script = ExtResource("1_sh52m")
 
-[node name="Label" type="Label" parent="."]
-offset_top = 2.0
-offset_right = 141.0
-offset_bottom = 28.0
+[node name="Label" type="Label" parent="." unique_id=664368037]
+layout_mode = 2
 text = "End of condition X"
 
-[node name="AddElif" type="Button" parent="."]
-offset_left = 145.0
-offset_right = 212.0
-offset_bottom = 31.0
+[node name="AddElif" type="Button" parent="." unique_id=1740540836]
+layout_mode = 2
 text = "Add Elif"
 
-[node name="AddElse" type="Button" parent="."]
-offset_left = 216.0
-offset_right = 290.0
-offset_bottom = 31.0
+[node name="AddElse" type="Button" parent="." unique_id=346570466]
+layout_mode = 2
 text = "Add Else"

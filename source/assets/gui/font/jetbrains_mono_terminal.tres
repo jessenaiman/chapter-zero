@@ -1,10 +1,12 @@
-[gd_resource type="FontFile" load_steps=2 format=3 uid="uid://jetbrains_mono_terminal"]
+[gd_resource type="FontFile" load_steps=2 format=3 uid="uid://xsm6hr0pmrvi"]
 
-[ext_resource type="FontFile" path="res://addons/fuku/JetBrainsMono-ExtraBold.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://buh5dd185ek8n" path="res://addons/fuku/JetBrainsMono-ExtraBold.ttf" id="1"]
 
 [resource]
-font_data = ExtResource("1")
-antialiasing = 1
+fallbacks = Array[Font]([ExtResource("1")])
 hinting = 2
-subpixel_positioning = 1
-force_autohinter = false
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0

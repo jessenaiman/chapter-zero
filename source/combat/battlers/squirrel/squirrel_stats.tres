@@ -1,14 +1,6 @@
 [gd_resource type="Resource" script_class="BattlerStats" load_steps=2 format=3 uid="uid://bka1pe2l3gbv"]
 
-[ext_resource type="Script" uid="uid://ds4k7h6qe68j3" path="res://source//combat/battlers/BattlerStats.cs" id="1_xux7p"]
+[ext_resource type="Script" uid="uid://cn5t73q2lmbkq" path="res://source/combat/battlers/BattlerStats.cs" id="1_xs2l3"]
 
 [resource]
-script = ExtResource("1_xux7p")
-affinity = 0
-base_max_health = 100
-base_max_energy = 6
-base_attack = 10
-base_defense = 10
-base_speed = 60
-base_hit_chance = 100
-base_evasion = 0
+script = ExtResource("1_xs2l3")

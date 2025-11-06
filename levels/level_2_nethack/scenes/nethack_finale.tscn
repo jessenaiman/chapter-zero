@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c167c652kdhsn"]
 
-[node name="NethackFinale" type="Control"]
+[node name="NethackFinale" type="Control" unique_id=1319040562]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

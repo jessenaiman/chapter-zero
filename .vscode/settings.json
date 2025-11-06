@@ -11,7 +11,6 @@
     "dotnet-test-explorer.autoExpandTree": true,
     "chatgpt.commentCodeLensEnabled": true,
     "dotnet.unitTests.runSettingsPath": "./.runsettings",
-    
     // MARKDOWN LINTING DISABLE - Add these lines:
     "markdown.validate.enabled": false,
     "markdownlint.config": {
@@ -24,6 +23,6 @@
     "files.watcherExclude": {
         "**/*.md": true
     },
-    
-    "godot.editorPath": "/home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.6-dev2_mono_linux.x86_64"
+    "godot.editorPath": "/home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.6-dev2_mono_linux.x86_64",
+    "godotTools.editorPath.godot4": "/home/adam/Godot_v4.6-dev3_mono_linux_x86_64/Godot_v4.6-dev3_mono_linux.x86_64"
 }

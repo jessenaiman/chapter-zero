@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="StatsBattlerAction" load_steps=3 format=3 uid="uid://ctimffr7v621e"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://ctimffr7v621e"]
 
-[ext_resource type="Texture2D" uid="uid://cch8ku256ts3y" path="res://source//combat/battlers/bear/icon_raise.svg" id="1_2rya6"]
-[ext_resource type="Script" uid="uid://lq2mfixji1w5" path="res://source//combat/actions/BattlerActionModifyStats.cs" id="1_4j0yh"]
+[ext_resource type="Texture2D" uid="uid://cch8ku256ts3y" path="res://source/combat/battlers/bear/icon_raise.svg" id="1_2rya6"]
+[ext_resource type="Script" uid="uid://4lvn2j6cs1yn" path="res://source/combat/actions/BattlerActionModifyStats.cs" id="2_bf1hj"]
 
 [resource]
-script = ExtResource("1_4j0yh")
+script = ExtResource("2_bf1hj")
 added_value = 10
 icon = ExtResource("1_2rya6")
 label = "Focus"

@@ -1,14 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://bt38xr3sc8p07"]
 
-[ext_resource type="Script" uid="uid://dwpddwhqy1vhu" path="res://source//combat/battlers/BattlerAnim.cs" id="1_j0v3v"]
+[ext_resource type="Script" uid="uid://3wtuniau1qm8" path="res://source/combat/battlers/BattlerAnim.cs" id="1_4jv4i"]
 
-[node name="BattlerAnim" type="Marker2D"]
-script = ExtResource("1_j0v3v")
+[node name="BattlerAnim" type="Marker2D" unique_id=1377330546]
+script = ExtResource("1_4jv4i")
+Direction = 1
 
-[node name="Pivot" type="Marker2D" parent="."]
+[node name="Pivot" type="Marker2D" parent="." unique_id=1554242940]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Pivot" unique_id=1507126098]
 
-[node name="FrontAnchor" type="Marker2D" parent="."]
+[node name="FrontAnchor" type="Marker2D" parent="." unique_id=578272836]
 
-[node name="TopAnchor" type="Marker2D" parent="."]
+[node name="TopAnchor" type="Marker2D" parent="." unique_id=1398003634]
