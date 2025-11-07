@@ -45,3 +45,4 @@ func _on_AddButton_pressed() -> void:
 	x.value_changed.connect(recalculate_values)
 	recalculate_values()
 	move_child(%Add, -1)
+

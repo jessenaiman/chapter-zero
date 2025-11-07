@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpp1cjaldtgpp"]
+[gd_scene load_steps=2 format=3 uid="uid://d3dikua83q0i7"]
 
-[ext_resource type="Script" uid="uid://dtrtnqoaarbrf" path="res://levels/level_1_ghost/level_0_ghost.gd" id="1_ghost_script"]
+[ext_resource type="Script" path="res://levels/level_1_ghost/level_1_ghost.gd" id="1_ghost_script"]
 
 [node name="Level1Ghost" type="Control" unique_id=510817872]
 layout_mode = 3

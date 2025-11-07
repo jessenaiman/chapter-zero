@@ -1,14 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://c7lmt5cp7bxcm"]
+[gd_scene load_steps=14 format=3 uid="uid://c7lmt5cp7bxcm"]
 
-[ext_resource type="Script" uid="uid://b7mkaja4mvyyn" path="res://addons/dialogic/Editor/Common/reference_manager.gd" id="1_3t531"]
-[ext_resource type="Script" uid="uid://bpvvcbea5i8tf" path="res://addons/dialogic/Editor/Common/broken_reference_manager.gd" id="1_agmg4"]
-[ext_resource type="Script" uid="uid://cqefudhdwnv3i" path="res://addons/dialogic/Editor/Common/ReferenceManager_AddReplacementPanel.gd" id="2_tt4jd"]
+[ext_resource type="Script" uid="uid://dugy11ebty3yq" path="res://addons/dialogic/Editor/Common/reference_manager.gd" id="1_3t531"]
+[ext_resource type="Script" uid="uid://nrhtjk2rgmgk" path="res://addons/dialogic/Editor/Common/broken_reference_manager.gd" id="1_agmg4"]
+[ext_resource type="Script" uid="uid://dca6a1a74jfur" path="res://addons/dialogic/Editor/Common/ReferenceManager_AddReplacementPanel.gd" id="2_tt4jd"]
 [ext_resource type="PackedScene" uid="uid://dpwhshre1n4t6" path="res://addons/dialogic/Editor/Events/Fields/field_options_dynamic.tscn" id="3_yomsc"]
-[ext_resource type="Script" uid="uid://vqj5fq8si6se" path="res://addons/dialogic/Editor/Common/unique_identifiers_manager.gd" id="5_wnvbq"]
+[ext_resource type="PackedScene" uid="uid://dbpkta2tjsqim" path="res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn" id="5_sdymt"]
+[ext_resource type="Script" uid="uid://bvbsqai5sh0na" path="res://addons/dialogic/Editor/Common/unique_identifiers_manager.gd" id="5_wnvbq"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_l6uiy"]
 
-[sub_resource type="Image" id="Image_n016d"]
+[sub_resource type="Image" id="Image_pnutm"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 224, 224, 224, 255, 224, 224, 224, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -18,13 +19,21 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_a0gfq"]
-image = SubResource("Image_n016d")
+image = SubResource("Image_pnutm")
 
-[sub_resource type="DPITexture" id="DPITexture_2j4b6"]
-_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#ff5d5d\" d=\"M2 1v8.586l1.293-1.293a1 1 0 0 1 1.414 0L7 10.587l2.293-2.293a1 1 0 0 1 1.414 0L13 10.586l1-1V6H9V1H2zm8 0v4h4zm-6 9.414-2 2V15h12v-2.586l-.293.293a1 1 0 0 1-1.414 0L10 10.414l-2.293 2.293a1 1 0 0 1-1.414 0L4 10.414z\"/></svg>
-"
+[sub_resource type="Image" id="Image_asrh0"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
 
-[sub_resource type="Image" id="Image_pnutm"]
+[sub_resource type="ImageTexture" id="ImageTexture_2hc6a"]
+image = SubResource("Image_asrh0")
+
+[sub_resource type="Image" id="Image_xvpjt"]
 data = {
 "data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 94, 94, 127, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 231, 255, 94, 94, 54, 255, 94, 94, 57, 255, 93, 93, 233, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 93, 93, 41, 255, 255, 255, 0, 255, 255, 255, 0, 255, 97, 97, 42, 255, 93, 93, 233, 255, 93, 93, 232, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 44, 255, 255, 255, 0, 255, 97, 97, 42, 255, 97, 97, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 96, 96, 45, 255, 93, 93, 235, 255, 94, 94, 234, 255, 95, 95, 43, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 93, 93, 235, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 233, 255, 95, 95, 59, 255, 96, 96, 61, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 93, 93, 255, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
 "format": "RGBA8",
@@ -34,9 +43,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_lce2m"]
-image = SubResource("Image_pnutm")
+image = SubResource("Image_xvpjt")
 
-[node name="Manager" type="PanelContainer" unique_id=361803819]
+[node name="Manager" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,14 +53,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3t531")
 
-[node name="Tabs" type="VBoxContainer" parent="." unique_id=905935009]
+[node name="Tabs" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Tabs" type="HBoxContainer" parent="Tabs" unique_id=186094885]
+[node name="Tabs" type="HBoxContainer" parent="Tabs"]
 layout_mode = 2
 alignment = 1
 
-[node name="TabA" type="Button" parent="Tabs/Tabs" unique_id=595357084]
+[node name="TabA" type="Button" parent="Tabs/Tabs"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
@@ -59,7 +68,7 @@ button_pressed = true
 text = "Broken References"
 flat = true
 
-[node name="TabB" type="Button" parent="Tabs/Tabs" unique_id=1766000397]
+[node name="TabB" type="Button" parent="Tabs/Tabs"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
@@ -67,55 +76,54 @@ button_group = SubResource("ButtonGroup_l6uiy")
 text = "Unique Identifiers"
 flat = true
 
-[node name="BrokenReferences" type="VSplitContainer" parent="Tabs" unique_id=1523852530]
+[node name="BrokenReferences" type="VSplitContainer" parent="Tabs"]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("1_agmg4")
 
-[node name="ChangesList" type="PanelContainer" parent="Tabs/BrokenReferences" unique_id=1647956146]
+[node name="ChangesList" type="PanelContainer" parent="Tabs/BrokenReferences"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"DialogicPanelA"
 
-[node name="VBox" type="VBoxContainer" parent="Tabs/BrokenReferences/ChangesList" unique_id=1878246121]
+[node name="VBox" type="VBoxContainer" parent="Tabs/BrokenReferences/ChangesList"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox" unique_id=2104197374]
+[node name="HBoxContainer" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox"]
 layout_mode = 2
 
-[node name="SectionTitle" type="Label" parent="Tabs/BrokenReferences/ChangesList/VBox/HBoxContainer" unique_id=1194297908]
+[node name="SectionTitle" type="Label" parent="Tabs/BrokenReferences/ChangesList/VBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Recent renames"
 
-[node name="AddButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/HBoxContainer" unique_id=770211378]
+[node name="AddButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 tooltip_text = "Add custom rename"
 icon = SubResource("ImageTexture_a0gfq")
 
-[node name="ReplacementEditPanel" type="PanelContainer" parent="Tabs/BrokenReferences/ChangesList/VBox" unique_id=805115379]
+[node name="ReplacementEditPanel" type="PanelContainer" parent="Tabs/BrokenReferences/ChangesList/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 script = ExtResource("2_tt4jd")
 
-[node name="VBox" type="HFlowContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel" unique_id=1460971380]
+[node name="VBox" type="HFlowContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel"]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox" unique_id=1257519173]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox"]
 layout_mode = 2
 
-[node name="Type" type="OptionButton" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer3" unique_id=1667181461]
+[node name="Type" type="OptionButton" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-tooltip_text = "This decides the regexes for searching. Pure text allows you to enter your own regex into into \"Old\". "
+tooltip_text = "This decides the regexes for searching. Pure text allows you to enter your own regex into \"Old\". "
 selected = 0
 item_count = 5
 popup/item_0/text = "Pure Text"
-popup/item_0/id = 0
 popup/item_1/text = "Variable"
 popup/item_1/id = 1
 popup/item_2/text = "Portrait"
@@ -125,71 +133,70 @@ popup/item_3/id = 3
 popup/item_4/text = "Timeline (Ref)"
 popup/item_4/id = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox" unique_id=241802431]
+[node name="HBoxContainer" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Old" type="LineEdit" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer" unique_id=351976089]
+[node name="Old" type="LineEdit" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Old"
 
-[node name="Label2" type="Label" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer" unique_id=581894996]
+[node name="Label2" type="Label" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer"]
 layout_mode = 2
 text = "->"
 
-[node name="New" type="LineEdit" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer" unique_id=1757621432]
+[node name="New" type="LineEdit" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "New"
 
-[node name="PureTextFlags" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox" unique_id=209977976]
+[node name="PureTextFlags" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 2
 
-[node name="MatchCase" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/PureTextFlags" unique_id=35872003]
+[node name="MatchCase" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/PureTextFlags"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Match Case"
 toggle_mode = true
-icon = SubResource("DPITexture_2j4b6")
+icon = SubResource("ImageTexture_2hc6a")
 
-[node name="WholeWords" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/PureTextFlags" unique_id=1735550432]
+[node name="WholeWords" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/PureTextFlags"]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Whole World"
 toggle_mode = true
-icon = SubResource("DPITexture_2j4b6")
+icon = SubResource("ImageTexture_2hc6a")
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox" unique_id=1948084152]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox"]
 layout_mode = 2
 
-[node name="Where" type="OptionButton" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer4" unique_id=1356440414]
+[node name="Where" type="OptionButton" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
 fit_to_longest_item = false
 item_count = 3
 popup/item_0/text = "Everywhere"
-popup/item_0/id = 0
 popup/item_1/text = "Only for Character"
 popup/item_1/id = 1
 popup/item_2/text = "Texts only"
 popup/item_2/id = 2
 
-[node name="Character" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer4" unique_id=956396280 instance=ExtResource("3_yomsc")]
+[node name="Character" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox/HBoxContainer4" instance=ExtResource("3_yomsc")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AddButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox" unique_id=366319819]
+[node name="AddButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox/ReplacementEditPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Add/Save"
 
-[node name="ChangeTree" type="Tree" parent="Tabs/BrokenReferences/ChangesList/VBox" unique_id=177006288]
+[node name="ChangeTree" type="Tree" parent="Tabs/BrokenReferences/ChangesList/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -199,7 +206,7 @@ theme_override_constants/draw_relationship_lines = 1
 columns = 3
 hide_root = true
 
-[node name="CheckButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox" unique_id=338762692]
+[node name="CheckButton" type="Button" parent="Tabs/BrokenReferences/ChangesList/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -207,26 +214,26 @@ tooltip_text = "Search timelines for occurences of these renames"
 text = "Check Selected"
 icon = SubResource("ImageTexture_lce2m")
 
-[node name="ReplacementSection" type="PanelContainer" parent="Tabs/BrokenReferences" unique_id=1623374535]
+[node name="ReplacementSection" type="PanelContainer" parent="Tabs/BrokenReferences"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"DialogicPanelA"
 
-[node name="FindList" type="VBoxContainer" parent="Tabs/BrokenReferences/ReplacementSection" unique_id=1220019199]
+[node name="FindList" type="VBoxContainer" parent="Tabs/BrokenReferences/ReplacementSection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBox" type="HBoxContainer" parent="Tabs/BrokenReferences/ReplacementSection/FindList" unique_id=1584869583]
+[node name="HBox" type="HBoxContainer" parent="Tabs/BrokenReferences/ReplacementSection/FindList"]
 layout_mode = 2
 
-[node name="SectionTitle2" type="Label" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBox" unique_id=597827671]
+[node name="SectionTitle2" type="Label" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Found references"
 
-[node name="State" type="Label" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBox" unique_id=767239217]
+[node name="State" type="Label" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -234,20 +241,24 @@ size_flags_vertical = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "State"
 
-[node name="ReferenceTree" type="Tree" parent="Tabs/BrokenReferences/ReplacementSection/FindList" unique_id=286974035]
+[node name="ReferenceTree" type="Tree" parent="Tabs/BrokenReferences/ReplacementSection/FindList"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/draw_relationship_lines = 1
-columns = 2
+columns = 3
 hide_root = true
 
-[node name="Progress" type="ProgressBar" parent="Tabs/BrokenReferences/ReplacementSection/FindList" unique_id=972193242]
+[node name="Progress" type="ProgressBar" parent="Tabs/BrokenReferences/ReplacementSection/FindList"]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 1.0
 
-[node name="Replace" type="Button" parent="Tabs/BrokenReferences/ReplacementSection/FindList" unique_id=1406765308]
+[node name="HBoxContainer" type="HBoxContainer" parent="Tabs/BrokenReferences/ReplacementSection/FindList"]
+layout_mode = 2
+alignment = 1
+
+[node name="Replace" type="Button" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -255,27 +266,33 @@ tooltip_text = "Replace all selected findings (Careful, no undo!)"
 text = "Replace Selected"
 icon = SubResource("ImageTexture_lce2m")
 
-[node name="UniqueIdentifiers" type="PanelContainer" parent="Tabs" unique_id=91524255]
+[node name="HintTooltip" parent="Tabs/BrokenReferences/ReplacementSection/FindList/HBoxContainer" instance=ExtResource("5_sdymt")]
+layout_mode = 2
+texture = null
+hint_text = "Note that searching and replacing is only implemented for timelines. 
+E.g. variables used in character display names or glossary entries will have to be replaced manually."
+
+[node name="UniqueIdentifiers" type="PanelContainer" parent="Tabs"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"DialogicPanelA"
 script = ExtResource("5_wnvbq")
 
-[node name="VBox" type="VBoxContainer" parent="Tabs/UniqueIdentifiers" unique_id=1447124903]
+[node name="VBox" type="VBoxContainer" parent="Tabs/UniqueIdentifiers"]
 layout_mode = 2
 
-[node name="Tools" type="HBoxContainer" parent="Tabs/UniqueIdentifiers/VBox" unique_id=282838069]
+[node name="Tools" type="HBoxContainer" parent="Tabs/UniqueIdentifiers/VBox"]
 layout_mode = 2
 alignment = 1
 
-[node name="Search" type="LineEdit" parent="Tabs/UniqueIdentifiers/VBox/Tools" unique_id=1764165530]
+[node name="Search" type="LineEdit" parent="Tabs/UniqueIdentifiers/VBox/Tools"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 placeholder_text = "Search"
 
-[node name="IdentifierTable" type="Tree" parent="Tabs/UniqueIdentifiers/VBox" unique_id=137974807]
+[node name="IdentifierTable" type="Tree" parent="Tabs/UniqueIdentifiers/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -283,19 +300,19 @@ columns = 2
 column_titles_visible = true
 hide_root = true
 
-[node name="RenameNotification" type="Label" parent="Tabs/UniqueIdentifiers/VBox" unique_id=78380022]
+[node name="RenameNotification" type="Label" parent="Tabs/UniqueIdentifiers/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "You've renamed some identifier(s)! Use the \"Broken References\" tab to check if you have used this identifier (and fix it if so)."
 autowrap_mode = 3
 
-[node name="Close" type="Button" parent="Tabs" unique_id=1427093780]
+[node name="Close" type="Button" parent="Tabs"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
-[node name="HelpButton" type="LinkButton" parent="." unique_id=1159132496]
+[node name="HelpButton" type="LinkButton" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -309,7 +326,7 @@ uri = "https://docs.dialogic.pro/reference-manager.html"
 [connection signal="button_clicked" from="Tabs/BrokenReferences/ChangesList/VBox/ChangeTree" to="Tabs/BrokenReferences" method="_on_change_tree_button_clicked"]
 [connection signal="item_edited" from="Tabs/BrokenReferences/ChangesList/VBox/ChangeTree" to="Tabs/BrokenReferences" method="_on_change_tree_item_edited"]
 [connection signal="pressed" from="Tabs/BrokenReferences/ChangesList/VBox/CheckButton" to="Tabs/BrokenReferences" method="_on_check_button_pressed"]
-[connection signal="pressed" from="Tabs/BrokenReferences/ReplacementSection/FindList/Replace" to="Tabs/BrokenReferences" method="_on_replace_pressed"]
+[connection signal="pressed" from="Tabs/BrokenReferences/ReplacementSection/FindList/HBoxContainer/Replace" to="Tabs/BrokenReferences" method="_on_replace_pressed"]
 [connection signal="text_changed" from="Tabs/UniqueIdentifiers/VBox/Tools/Search" to="Tabs/UniqueIdentifiers" method="_on_search_text_changed"]
 [connection signal="button_clicked" from="Tabs/UniqueIdentifiers/VBox/IdentifierTable" to="Tabs/UniqueIdentifiers" method="_on_identifier_table_button_clicked"]
 [connection signal="item_edited" from="Tabs/UniqueIdentifiers/VBox/IdentifierTable" to="Tabs/UniqueIdentifiers" method="_on_identifier_table_item_edited"]

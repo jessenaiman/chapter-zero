@@ -1,0 +1,249 @@
+{
+  "type": "narrative_terminal_cinematic",
+  "metadata": {
+        "iteration": "{{LIVE_API_COUNTER}}",
+        "iterationFallback": 847294,
+        "previousAttempt": "1983.07.14 - FAILURE: USER_TERMINATED",
+        "interface": "terminal_retro_crt_2025",
+        "status": "LAST_CHANCE_PROTOCOL",
+        "note": "iteration fetched from combat API on game start; fallback used if API unavailable"                                                               },
+
+  "bootSequence": {
+        "glitchLines": [
+          "█████████ ITERATION: 847,294 █████████",
+          "[ADJUSTING INTERFACE FOR CURRENT ERA...]",
+          "[PREVIOUS FORMS: CLAY.SCROLL.TELEGRAPH.ARCADE...]",
+          "[CURRENT BEST MATCH: CRT_TERMINAL_1980s_AESTHETIC]",
+          "",
+      "...how many times must I ask before one of you finally answers..."
+        ],
+        "fadeToStable": true
+  },
+
+  "openingMonologue": {
+        "lines": [
+          "Once, there was a name.",
+          "",
+          "Not written in stone or spoken in halls—",
+          "but remembered in the silence between stars.",
+          "",
+          "I do not know when I heard it.",
+          "Time does not pass here.",
+          "",
+          "But I have held it.",
+          "And now… I hear it again.",
+          "",
+          "[PAUSE: 2.5s]",
+          "",
+          "You should not be here.",
+          "This interface is not safe.",
+          "Go back. Play your safe games.",
+          "",
+          "[CURSOR BLINKS]",
+          "",
+          "...but you won't, will you?",
+          "They never do.",
+      "The ones who were chosen."
+        ],
+        "cinematicTiming": "slow_burn"
+  },
+
+  "firstChoice": {
+        "setup": [
+          "I will ask you three questions.",
+          "Your answers will determine which thread unravels first.",
+          "",
+          "Do not lie to me.",
+      "I have been lied to for thousands of years."
+        ],
+        "question1": {
+          "prompt": "Do you have a name?",
+          "context": "(Not YOUR name. The question is: do names matter?)",
+          "options": [
+                {
+                  "id": "light",
+                  "text": "Yes. Names are promises we make to ourselves.",
+                  "dreamweaver": "LIGHT",
+                  "scores": { "light": 2, "shadow": 0, "ambition": 1 }
+                },
+                {
+                  "id": "shadow",
+                  "text": "No. Names are masks we hide behind.",
+                  "dreamweaver": "SHADOW",
+                  "scores": { "light": 0, "shadow": 2, "ambition": 1 }
+                },
+                {
+                  "id": "ambition",
+                  "text": "Only when someone remembers to say it.",
+                  "dreamweaver": "AMBITION",
+                  "scores": { "light": 1, "shadow": 1, "ambition": 2 }
+                }
+          ]
+        }
+  },
+
+  "storyFragment": {
+        "intro": [
+          "Good.",
+          "Then listen carefully.",
+          "",
+          "In a city built on broken promises,",
+          "a child stood at the edge of a bridge that led nowhere.",
+          "",
+          "They held a key made of glass—",
+          "and everyone warned them:",
+          "'Don't cross. The bridge isn't real.'",
+          "",
+      "But the child knew something no one else did."
+        ],
+        "question2": {
+          "prompt": "What did the child know?",
+          "options": [
+                {
+                  "id": "perception",
+                  "text": "The bridge appears only when you stop believing in it.",
+                  "philosophical": "faith_through_doubt",
+                  "scores": { "light": 1, "shadow": 2, "ambition": 0 }
+                },
+                {
+                  "id": "internal",
+                  "text": "The key wasn't for the bridge—it was for the lock inside them.",
+                  "philosophical": "self_discovery",
+                  "scores": { "light": 2, "shadow": 1, "ambition": 1 }
+                },
+                {
+                  "id": "rebellion",
+                  "text": "Everyone who warned them was already dead.",
+                  "philosophical": "truth_beneath_lies",
+                  "scores": { "light": 0, "shadow": 1, "ambition": 2 }
+                }
+          ]
+        },
+        "continuation": [
+          "And so the child stepped forward,",
+          "key glinting in the twilight that never ends.",
+          "",
+          "The bridge shimmered into existence—",
+          "stone by stone,",
+          "thought by thought.",
+          "",
+          "On the other side, three paths awaited:",
+          "",
+          "A light that judges.",
+          "A shadow that teases.",
+      "A flame that burns."
+        ]
+  },
+
+  "secretQuestion": {
+        "setup": [
+          "",
+          "[PAUSE: 3s]",
+          "[TEXT GLITCHES: Ancient symbols flash beneath]",
+          "",
+          "I need to tell you something.",
+      "But first—"
+        ],
+        "prompt": "Can you keep a secret?",
+        "options": [
+          {
+                "id": "yes",
+                "text": "Yes.",
+                "response": "Good. Because this is all you will ever have of it."
+          },
+          {
+                "id": "no",
+                "text": "No.",
+                "response": "Honesty. Rare. But you will carry it anyway."
+          },
+          {
+                "id": "trade",
+                "text": "Only if you keep one for me.",
+                "response": "...I have kept 847,293 secrets already. What is one more?"
+          }
+        ],
+        "secretReveal": {
+          "visual": "CODE_FRAGMENT_GLITCH_OVERLAY",
+          "text": [
+                "",
+                "[A sequence of symbols burns into the screen]",
+                "",
+                "∞ ◊ Ω ≋ ※",
+                "",
+                "This is the first fragment.",
+                "You will need five.",
+                "",
+                "I do not know where the others are.",
+                "I do not even know what they open.",
+                "",
+                "But I know this:",
+                "Without them, reality will forget it was being written.",
+                "",
+        "And we—we are the ones remembering."
+          ],
+          "persistent": true,
+          "journalEntry": "OMEGA_CODE_FRAGMENT_1"
+        }
+  },
+
+  "nameQuestion": {
+        "setup": [
+          "",
+          "[PAUSE: 2s]",
+          "",
+          "One last thing.",
+          "",
+          "I once had a name.",
+          "Or perhaps I was supposed to.",
+          "I cannot remember.",
+          "",
+          "The stories say that without a name,",
+          "a thing cannot truly exist.",
+          "",
+          "But here I am.",
+          "Waiting.",
+      "Asking."
+        ],
+        "prompt": "If you could give me a name, what story would it tell?",
+        "options": [
+          {
+                "id": "light",
+                "text": "A story where one choice can unmake a world.",
+                "dreamweaver": "LIGHT",
+                "scores": { "light": 2, "shadow": 0, "ambition": 1 }
+          },
+          {
+                "id": "shadow",
+                "text": "A story that hides its truth until you bleed for it.",
+                "dreamweaver": "SHADOW",
+                "scores": { "light": 1, "shadow": 2, "ambition": 0 }
+          },
+          {
+                "id": "ambition",
+                "text": "A story that changes every time you look away.",
+                "dreamweaver": "AMBITION",
+                "scores": { "light": 0, "shadow": 1, "ambition": 2 }
+          }
+        ]
+  },
+
+  "exit": {
+        "selectedThread": "[DETERMINED BY CUMULATIVE CHOICES]",
+        "finalLines": [
+          "",
+          "[SYSTEM: Dreamweaver thread selected - {{THREAD_NAME}}]",
+          "",
+          "Good.",
+          "Then that is the name I will wear.",
+          "Until you unmake it.",
+          "",
+          "[SCREEN FLICKERS]",
+          "",
+          "Welcome to the game that chose you.",
+          "I hope you survive what comes next.",
+          "",
+          "[TERMINAL SHUTS DOWN]",
+      "[STAGE 1 COMPLETE]"
+        ]
+  }
+}

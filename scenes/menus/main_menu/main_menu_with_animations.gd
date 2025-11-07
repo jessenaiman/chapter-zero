@@ -6,17 +6,23 @@ extends MainMenu
 ## Optional scene to open when the player clicks a 'Level Select' button.
 @export var level_select_packed_scene: PackedScene
 ## If true, have the player confirm before starting a new game if a game is in progress.
-@export var confirm_new_game : bool = true
+@export var confirm_new_game: bool = true
 
-var animation_state_machine : AnimationNodeStateMachinePlayback
+var animation_state_machine: AnimationNodeStateMachinePlayback
 
 @onready var continue_game_button = %ContinueGameButton
 @onready var level_select_button = %LevelSelectButton
 @onready var new_game_confirmation = %NewGameConfirmation
+@onready var omega_spiral_button = %OmegaSpiralButton
 
 func load_game_scene() -> void:
 	GameState.start_game()
 	super.load_game_scene()
+
+func load_omega_scene() -> void:
+	GameState.start_omega_game()
+	# Use the Maaack SceneLoader pattern for proper scene loading
+	SceneLoader.load_scene("res://levels/level_1_ghost/ghost_terminal.tscn")
 
 func new_game() -> void:
 	if confirm_new_game and GameState.get_levels_reached() > 0:
@@ -31,13 +37,13 @@ func intro_done() -> void:
 func _is_in_intro() -> bool:
 	return animation_state_machine.get_current_node() == "Intro"
 
-func _event_skips_intro(event : InputEvent) -> bool:
+func _event_skips_intro(event: InputEvent) -> bool:
 	return event.is_action_released("ui_accept") or \
 		event.is_action_released("ui_select") or \
 		event.is_action_released("ui_cancel") or \
 		_event_is_mouse_button_released(event)
 
-func _open_sub_menu(menu : PackedScene) -> Node:
+func _open_sub_menu(menu: PackedScene) -> Node:
 	animation_state_machine.travel("OpenSubMenu")
 	return super._open_sub_menu(menu)
 
@@ -45,15 +51,15 @@ func _close_sub_menu() -> void:
 	super._close_sub_menu()
 	animation_state_machine.travel("OpenMainMenu")
 
-func _input(event : InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if _is_in_intro() and _event_skips_intro(event):
 		intro_done()
 		return
 	super._input(event)
 
-func _show_level_select_if_set() -> void: 
+func _show_level_select_if_set() -> void:
 	if level_select_packed_scene == null: return
-	if GameState.get_levels_reached() <= 1 : return
+	if GameState.get_levels_reached() <= 1: return
 	level_select_button.show()
 
 func _show_continue_if_set() -> void:
@@ -78,3 +84,7 @@ func _on_level_select_button_pressed() -> void:
 func _on_new_game_confirmation_confirmed() -> void:
 	GameState.reset()
 	load_game_scene()
+
+func _on_omega_spiral_button_pressed() -> void:
+	GameState.start_omega_game()
+	load_omega_scene()

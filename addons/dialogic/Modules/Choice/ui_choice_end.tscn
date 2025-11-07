@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cn0wbb2lk0s22"]
 
-[ext_resource type="Script" uid="uid://b3jrrgxfb0qyv" path="res://addons/dialogic/Modules/Choice/ui_choice_end.gd" id="1_7qd85"]
+[ext_resource type="Script" uid="uid://d28x7h2ufh3dd" path="res://addons/dialogic/Modules/Choice/ui_choice_end.gd" id="1_7qd85"]
 
-[node name="Choice_End" type="HBoxContainer" unique_id=947032100]
+[node name="Choice_End" type="HBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,10 +11,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7qd85")
 
-[node name="AddChoice" type="Button" parent="." unique_id=1870705211]
+[node name="AddChoice" type="Button" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="." unique_id=693131337]
+[node name="Label" type="Label" parent="."]
 layout_mode = 2
 
 [connection signal="pressed" from="AddChoice" to="." method="_on_add_choice_pressed"]

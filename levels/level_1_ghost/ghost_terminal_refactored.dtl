@@ -1,4 +1,4 @@
-SYSTEM: [PROGRAM RESTART: INSTANCE #472 - 03/09/2025 - ECHO ARCHIVE REACTIVATED]
+SYSTEM: [PROGRAM RESTART\: INSTANCE #472 - 03/09/2025 - ECHO ARCHIVE REACTIVATED]
 [wait time="1.0"]
 SYSTEM: Initializing connection...
 [wait time="0.5"]
@@ -7,14 +7,13 @@ SYSTEM: Echo chamber active.
 SYSTEM: If you could [color=#FFC94D]hear[/color] only one story...
 SYSTEM: [color=#FFC94D]What[/color] would [color=#FFC94D]it[/color] be?
 - A fantasy— where light and shadow wage war?
-	set {player_thread} = "light"
 	set {player_story_choice} = "fantasy"
 	[wait time="0.3"]
 	Light: A journey... far into the unknown.
 	Light: But some paths lead to places you can't return from.
 	Light: Are you ready for the road that never ends?
 	[wait time="0.5"]
-	SYSTEM: > Choice logged: LIGHT affinity detected
+	SYSTEM: > Choice logged\: LIGHT affinity detected
 	=> scene_002
 - A romance— written in stardust and sacrifice?
 	set {player_thread} = "shadow"
@@ -24,7 +23,7 @@ SYSTEM: [color=#FFC94D]What[/color] would [color=#FFC94D]it[/color] be?
 	Shadow: But some secrets unravel the mind that seeks them.
 	Shadow: Do you dare uncover what was meant to stay buried?
 	[wait time="0.5"]
-	SYSTEM: > Choice logged: SHADOW affinity detected
+	SYSTEM: > Choice logged\: SHADOW affinity detected
 	=> scene_002
 - A horror— that whispers your name in the dark?
 	set {player_thread} = "ambition"
@@ -34,7 +33,7 @@ SYSTEM: [color=#FFC94D]What[/color] would [color=#FFC94D]it[/color] be?
 	Ambition: But legends demand sacrifices that break the ordinary.
 	Ambition: Can you bear the weight of becoming more than you are?
 	[wait time="0.5"]
-	SYSTEM: > Choice logged: AMBITION affinity detected
+	SYSTEM: > Choice logged\: AMBITION affinity detected
 	=> scene_002
 
 label scene_002
@@ -47,32 +46,32 @@ SYSTEM: > Awaiting echo response...
 
 label scene_003
 SYSTEM: In that story, who are you?
-- The seeker— searching for truth [if {player_thread} == "light"]
+- The seeker— searching for truth | [if {player_thread} == "light"]
 	set {player_role} = "seeker"
 	[wait time="0.3"]
 	Light: The seeker... searching for choice.
 	Light: But some choices bind you tighter than freedom allows.
 	Light: Are you prepared to seek what finds you instead?
 	[wait time="0.5"]
-	SYSTEM: > Role archived: SEEKER
+	SYSTEM: > Role archived\: SEEKER
 	=> scene_004
-- The keeper— holding what others fear [if {player_thread} == "shadow"]
+- The keeper— holding what others fear | [if {player_thread} == "shadow"]
 	set {player_role} = "keeper"
 	[wait time="0.3"]
 	Shadow: The keeper... holding fearsome secrets.
 	Shadow: But secrets weigh heavy, and some consume the keeper.
 	Shadow: Do you dare guard what others flee from?
 	[wait time="0.5"]
-	SYSTEM: > Role archived: KEEPER
+	SYSTEM: > Role archived\: KEEPER
 	=> scene_004
-- The changer— reshaping everything [if {player_thread} == "ambition"]
+- The changer— reshaping everything | [if {player_thread} == "ambition"]
 	set {player_role} = "changer"
 	[wait time="0.3"]
 	Ambition: The changer... reshaping everything.
 	Ambition: But change demands loss, and not all can endure it.
 	Ambition: Can you change without losing yourself?
 	[wait time="0.5"]
-	SYSTEM: > Role archived: CHANGER
+	SYSTEM: > Role archived\: CHANGER
 	=> scene_004
 
 label scene_004
@@ -84,48 +83,48 @@ SYSTEM: The story takes shape around you.
 
 label scene_005
 SYSTEM: Do names define us or deceive us?
-- Yes. Names are promises we make to ourselves. [if {player_thread} == "light"]
+- Yes. Names are promises we make to ourselves. | [if {player_thread} == "light"]
 	set {player_name_view} = "promises"
 	[wait time="0.3"]
 	Light: Names as promises... defining us.
 	Light: But promises can break, and definitions can trap.
 	Light: Are you ready for the vows that bind forever?
 	[wait time="0.5"]
-	SYSTEM: > Philosophy logged: PROMISES
+	SYSTEM: > Philosophy logged\: PROMISES
 	=> scene_006
-- No. Names are masks we hide behind. [if {player_thread} == "shadow"]
+- No. Names are masks we hide behind. | [if {player_thread} == "shadow"]
 	set {player_name_view} = "masks"
 	[wait time="0.3"]
 	Shadow: Names as masks... deceiving us.
 	Shadow: But masks conceal truths that demand revelation.
 	Shadow: Do you hide behind what you fear to face?
 	[wait time="0.5"]
-	SYSTEM: > Philosophy logged: MASKS
+	SYSTEM: > Philosophy logged\: MASKS
 	=> scene_006
-- Only when someone remembers to say it. [if {player_thread} == "ambition"]
+- Only when someone remembers to say it. | [if {player_thread} == "ambition"]
 	set {player_name_view} = "remembered"
 	[wait time="0.3"]
 	Ambition: Names exist only in memory.
 	Ambition: Forgotten names fade like smoke.
 	Ambition: Will you be remembered or erased?
 	[wait time="0.5"]
-	SYSTEM: > Philosophy logged: REMEMBERED
+	SYSTEM: > Philosophy logged\: REMEMBERED
 	=> scene_006
 
 label scene_006
 SYSTEM: What name will the story remember?
 [wait time="0.3"]
-- The story I was told as a child [if {player_thread} == "light"]
+- The story I was told as a child | [if {player_thread} == "light"]
 	set {player_name_story} = "childhood"
 	Light: The stories of childhood shape who we become.
 	Light: They are the first echoes of truth we hear.
 	=> scene_final
-- The story I wish I could forget [if {player_thread} == "shadow"]
+- The story I wish I could forget | [if {player_thread} == "shadow"]
 	set {player_name_story} = "forgotten"
 	Shadow: Some stories haunt us because we refuse to release them.
 	Shadow: What you wish to forget defines you most.
 	=> scene_final
-- The story I'm still writing [if {player_thread} == "ambition"]
+- The story I'm still writing | [if {player_thread} == "ambition"]
 	set {player_name_story} = "writing"
 	Ambition: You are not the story told to you.
 	Ambition: You are the story you choose to write.
@@ -134,22 +133,22 @@ SYSTEM: What name will the story remember?
 label scene_final
 [wait time="0.5"]
 SYSTEM: Archive complete.
-SYSTEM: Thread alignment: {player_thread}
-SYSTEM: Role designation: {player_role}
-SYSTEM: Narrative perspective: {player_name_view}
-SYSTEM: Story origin: {player_name_story}
+SYSTEM: Thread alignment\: {player_thread}
+SYSTEM: Role designation\: {player_role}
+SYSTEM: Narrative perspective\: {player_name_view}
+SYSTEM: Story origin\: {player_name_story}
 [wait time="1.0"]
 [if {player_thread} == "light"]
-	Light: I'm coming with you. Don't lose me this time.
-	SYSTEM: > Light Dreamweaver has joined your spiral.
+Light: I'm coming with you. Don't lose me this time.
+SYSTEM: > Light Dreamweaver has joined your spiral.
 [end_if]
 [if {player_thread} == "shadow"]
-	Shadow: I'm coming with you. Try not to make it boring.
-	SYSTEM: > Shadow Dreamweaver has joined your spiral.
+Shadow: I'm coming with you. Try not to make it boring.
+SYSTEM: > Shadow Dreamweaver has joined your spiral.
 [end_if]
 [if {player_thread} == "ambition"]
-	Ambition: I'm coming with you. We break through or we burn through.
-	SYSTEM: > Ambition Dreamweaver has joined your spiral.
+Ambition: I'm coming with you. We break through or we burn through.
+SYSTEM: > Ambition Dreamweaver has joined your spiral.
 [end_if]
 [wait time="0.5"]
 SYSTEM: [INITIALIZING CHAPTER ZERO...]

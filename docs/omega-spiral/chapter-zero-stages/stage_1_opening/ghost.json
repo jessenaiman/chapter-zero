@@ -114,12 +114,15 @@
             }
         },
         {
-            "id": "scene_004_role_crystallization",
+            "id": "scene_004_story_purpose",
             "owner": "omega",
             "lines": [
                 "",
-                "Your role crystallizes within the spiral.",
-                "The story takes shape around you."
+                "Every story needs a name.",
+                "A purpose.",
+                "A reason to be told.",
+                "",
+                "> Awaiting echo..."
             ]
         },
         {
@@ -168,25 +171,15 @@
             }
         },
         {
-            "id": "scene_006_code_fragment",
+            "id": "scene_006_secret",
             "owner": "omega",
             "lines": [
-                "",
+                "Can I tell you a secret?",
                 "[GLITCH]",
                 "[A sequence of symbols burns into the screen]",
                 "",
                 "∞ ◊ Ω ≋ ※",
-                "",
-                "This is the first fragment.",
-                "You will need five.",
-                "",
-                "I do not know where the others are.",
-                "I do not even know what they open.",
-                "",
-                "But I know this:",
-                "Without them, reality will forget it was being written.",
-                "",
-                "And we—we are the ones remembering."
+                ""
             ]
         },
         {

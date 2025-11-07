@@ -100,12 +100,7 @@ chromatic_aberration = 2.0  // Reality slightly unstable
 
 [Player choice: Can you keep a secret?]
 
-[Regardless of answer:]
-[Screen flashes pure white for 0.15s - disorienting]
-[Symbols burn in over 3 seconds with layered transparency]
-[Each symbol appears with individual pulse/sound]
-[Hold on screen - NO TIME LIMIT, player must press key to continue]
-[On keypress: "You will carry this until the end."]
+[On keypress: 'TODO: add ominous message']
 [Fade symbol_bleed to 0.3 over 4 seconds - symbols remain faintly visible]
 [Journal notification: "Fragment 1/5 recorded"]
 ```

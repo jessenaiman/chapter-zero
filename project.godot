@@ -92,6 +92,7 @@ animations/cross_fade_default_length=0.5
 save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
+layout/style_directory={}
 
 [display]
 
@@ -104,7 +105,7 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
+enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
 
 [gdunit4]
 
@@ -144,7 +145,7 @@ disable_install_wizard=true
 
 [plugins]
 
-ai_assistant_hub/llm_api="ollama_api"
+ai_assistant_hub/llm_api="openrouter_api"
 ai_assistant_hub/preferences/thinking_target=0
 ai_assistant_hub/preferences/skip_greeting=false
 ai_assistant_hub/preferences/always_scroll_to_bottom=false

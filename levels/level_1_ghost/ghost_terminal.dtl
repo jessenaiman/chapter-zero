@@ -5,7 +5,6 @@
 If you could [color=#FFC94D]hear[/color]|[color=#FFC94D]be[/color] only one story..:
 [color=#FFC94D]what[/color]|[color=#FFC94D]who[/color] would [color=#FFC94D]it[/color]|[color=#FFC94D]you[/color] be?
 - A fantasy- where light and shadow wage war?
-	set {player_thread} = "light"
 	set {player_story_choice} = "fantasy"
 	[wait time="0.5"]
 	A journey... far into the unknown.
@@ -15,7 +14,6 @@ If you could [color=#FFC94D]hear[/color]|[color=#FFC94D]be[/color] only one stor
 	> Choice logged...
 	=> scene_002
 - A romance— written in stardust and sacrifice?
-	set {player_thread} = "shadow"
 	set {player_story_choice} = "romance"
 	[wait time="0.5"]
 	An enigma... riddles and hidden truths.
@@ -25,7 +23,6 @@ If you could [color=#FFC94D]hear[/color]|[color=#FFC94D]be[/color] only one stor
 	> Choice logged...
 	=> scene_002
 - A horror— that whispers your name in the dark?
-	set {player_thread} = "ambition"
 	set {player_story_choice} = "horror"
 	[wait time="0.5"]
 	A legend... heroes rising, worlds changing.
@@ -45,7 +42,6 @@ But it begins with yours.
 label scene_003
 In that story, who are you?
 - The seeker—searching for choice. [if {player_thread} == "light"]
-	set {player_role} = "seeker"
 	[wait time="0.5"]
 	The seeker... searching for choice.
 	But some choices bind you tighter than freedom allows.
