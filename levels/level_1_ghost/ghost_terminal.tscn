@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cllb8hd26meae"]
+[gd_scene load_steps=7 format=3 uid="uid://cllb8hd26meae"]
 
 [ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2"]
 [ext_resource type="Script" path="res://source/ui/omega/OmegaTextRenderer.cs" id="3"]
 [ext_resource type="Script" path="res://source/stages/stage_1_ghost/GhostUi.cs" id="4"]
+[ext_resource type="Script" path="res://levels/level_1_ghost/PixelDissolveEffect.cs" id="5"]
+[ext_resource type="Script" path="res://levels/level_1_ghost/AsciiStaticTransition.cs" id="6"]
 
 [node name="GhostTerminal" type="Control" unique_id=497145942]
 layout_mode = 3
@@ -64,3 +66,16 @@ size_flags_vertical = 1
 visible = false
 theme_override_constants/separation = 12
 alignment = 0
+
+[node name="PixelDissolveEffect" type="Node" parent="." unique_id=999999999]
+script = ExtResource("5")
+
+[node name="AsciiStaticTransition" type="Control" parent="." unique_id=888888888]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+script = ExtResource("6")

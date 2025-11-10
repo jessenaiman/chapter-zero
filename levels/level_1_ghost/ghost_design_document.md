@@ -243,48 +243,6 @@ Omega's interface should sound like **communication artifacts from every era it'
 
 **Audio Files Needed:**
 
-- `telegraph_morse_pattern.ogg` (public domain)
-- `modem_56k_handshake.ogg` (Creative Commons)
-- `fax_machine_negotiation.ogg`
-- `dotmatrix_printer_feed.ogg`
-
-#### Layer 3: Stable State (State 2)
-
-**Ghost Typing**
-
-- Mechanical typewriter keys (IBM Selectric sound)
-- Random 1-3 key presses every 5-10 seconds
-- Sounds like someone else is typing just out of sync
-- Volume: -12dB (noticeable but not intrusive)
-- **Narrative Purpose:** "847,293 failed attempts still echoing"
-
-**Cursor Blink Tone**
-
-- Subtle electronic pulse synchronized with visual cursor
-- 600Hz sine wave, 50ms duration, every 0.53 seconds
-- Volume: -30dB (barely audible, subliminal rhythm)
-
-#### Layer 4: Choice Moments
-
-**Selection Hover Sound**
-
-- Soft electrical charge-up (rising pitch)
-- 200Hz → 400Hz over 0.2s
-- Volume: -18dB
-
-**Selection Confirm Sound**
-
-- Mechanical relay click + electronic confirmation
-- Two-part sound:
-  1. Physical: Relay switch click (100ms)
-  2. Electronic: 800Hz tone burst (80ms)
-- Volume: -12dB
-
-**Dreamweaver Thread-Specific Tones:**
-
-- **Light:** Warm analog synth (C major chord, 528Hz fundamental)
-- **Shadow:** Detuned bells (Eb minor, 432Hz with slight dissonance)
-- **Ambition:** Distorted sawtooth (F# power chord, 639Hz aggressive)
 
 #### Layer 5: Secret Reveal (State 3)
 
@@ -299,20 +257,7 @@ Omega's interface should sound like **communication artifacts from every era it'
 1.5s: Multiple ghost typewriters typing simultaneously
 2.0s: All historical sounds layer (cacophony)
 2.5s: Sudden silence (0.3s)
-3.0s: Clean Tibetan singing bowl tone begins
 ```
-
-**Singing Bowl Resonance:**
-
-- Fundamental: 432Hz (natural resonance frequency)
-- Overtones: 864Hz, 1728Hz (octave harmonics)
-- 6-second sustain with natural decay
-- Each code symbol punctuates with a different overtone:
-  - `∞` → 432Hz (base)
-  - `◊` → 540Hz (perfect fifth)
-  - `Ω` → 648Hz (perfect fourth above fifth)
-  - `≋` → 810Hz (major third)
-  - `※` → 972Hz (resolution)
 
 **Post-Reveal Ambience:**
 
@@ -335,42 +280,6 @@ Omega's interface should sound like **communication artifacts from every era it'
 - Heavy metallic *thunk* at end
 - Conveys: "Your choice is permanent"
 
-
-### Audio File Structure
-
-```file
-res://source/Assets/Audio/Stage1/
-├── Ambient/
-│   ├── crt_hum_60hz.ogg (looping)
-│   ├── electrical_crackle_01.ogg
-│   ├── electrical_crackle_02.ogg
-│   └── electrical_crackle_03.ogg
-├── Historical/
-│   ├── telegraph_morse.ogg
-│   ├── modem_56k_handshake.ogg
-│   ├── fax_negotiation.ogg
-│   ├── dotmatrix_printer.ogg
-│   └── typewriter_ghost_keys.ogg (randomized samples)
-├── Ui/
-│   ├── choice_hover.ogg
-│   ├── choice_confirm_light.ogg
-│   ├── choice_confirm_shadow.ogg
-│   ├── choice_confirm_ambition.ogg
-│   └── cursor_blink_pulse.ogg
-├── SecretReveal/
-│   ├── buildup_layers.ogg (pre-mixed cacophony)
-│   ├── singing_bowl_432hz.ogg
-│   ├── symbol_tone_01_infinity.ogg (432Hz)
-│   ├── symbol_tone_02_diamond.ogg (540Hz)
-│   ├── symbol_tone_03_omega.ogg (648Hz)
-│   ├── symbol_tone_04_wave.ogg (810Hz)
-│   └── symbol_tone_05_asterisk.ogg (972Hz)
-└── ThreadThemes/
-    ├── light_lock_warmth.ogg
-    ├── shadow_lock_vinyl.ogg
-    ├── ambition_lock_digital.ogg
-    └── vault_lock_mechanical.ogg
-```
 
 ---
 

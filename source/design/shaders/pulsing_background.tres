@@ -1,3 +1,11 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://buxln3uupe5o5"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://buxln3uupe5o5"]
+
+[ext_resource type="Shader" uid="uid://dq2im2dqg60j6" path="res://source/design/shaders/pulsing_background.gdshader" id="1"]
 
 [resource]
+shader = ExtResource("1")
+shader_parameter/glow_color = Color(0.2, 0.15, 0.3, 1)
+shader_parameter/pulse_speed = 0.35
+shader_parameter/pulse_strength = 0.6
+shader_parameter/vignette_radius = 1.1
+shader_parameter/vignette_softness = 0.45

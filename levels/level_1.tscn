@@ -1,10 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://ck74pbk747v5r"]
+[gd_scene load_steps=3 format=3 uid="uid://ck74pbk747v5r"]
 
 [ext_resource type="Script" uid="uid://3bd6350v3ux5" path="res://levels/level.gd" id="1_awc2m"]
-[ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="2_v57fp"]
-[ext_resource type="Script" uid="uid://brnwqtxnaxfud" path="res://scenes/game_scene/input_display_label.gd" id="3_nsv34"]
-[ext_resource type="Script" uid="uid://xlwk4oqnogtp" path="res://scenes/game_scene/tutorial_manager.gd" id="4_e3xq8"]
-[ext_resource type="PackedScene" uid="uid://d0nia8dkw66l5" path="res://scenes/game_scene/tutorials/tutorial_1.tscn" id="5_xbaqx"]
+[ext_resource type="PackedScene" path="res://levels/level_1_ghost/ghost_terminal.tscn" id="2_ghost_terminal"]
 
 [node name="Level1" type="Control" unique_id=1132742682]
 layout_mode = 3
@@ -14,78 +11,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_awc2m")
-next_level_path = "res://addons/maaacks_game_template/examples/scenes/game_scene/levels/level_2.tscn"
+next_level_path = "res://levels/level_2.tscn"
 
-[node name="BackgroundColor" type="ColorRect" parent="." unique_id=301605312]
-unique_name_in_owner = true
-layout_mode = 1
+; Ghost Terminal is the sole content of Level 1. It drives narrative and emits level_won.
+[node name="GhostTerminal" parent="." instance=ExtResource("2_ghost_terminal")]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=74281983]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1665472655]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1821642348]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 32
-script = ExtResource("2_v57fp")
-
-[node name="LoseButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1218148721]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Lose"
-
-[node name="WinButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=828733436]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Win"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1896328437]
-layout_mode = 2
-
-[node name="TutorialButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=372834689]
-layout_mode = 2
-text = "Tutorial"
-
-[node name="InputDisplayLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1099944407]
-layout_mode = 2
-size_flags_horizontal = 3
-horizontal_alignment = 1
-script = ExtResource("3_nsv34")
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=717995610]
-layout_mode = 2
-text = "Change Level Color: "
-
-[node name="ColorPickerButton" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1706751061]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Change Color"
-
-[node name="TutorialManager" type="Node" parent="." unique_id=477324776]
-unique_name_in_owner = true
-script = ExtResource("4_e3xq8")
-tutorial_scenes = Array[PackedScene]([ExtResource("5_xbaqx")])
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/LoseButton" to="." method="_on_lose_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/WinButton" to="." method="_on_win_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/TutorialButton" to="." method="_on_tutorial_button_pressed"]
-[connection signal="color_changed" from="MarginContainer/VBoxContainer/HBoxContainer2/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]
+; When ghost_terminal.gd signals level_won, reuse Level.gd's win handler so LevelManager sees it.
+[connection signal="level_won" from="GhostTerminal" to="." method="_on_win_button_pressed"]

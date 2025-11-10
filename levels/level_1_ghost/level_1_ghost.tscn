@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3dikua83q0i7"]
+[gd_scene load_steps=6 format=3 uid="uid://d3dikua83q0i7"]
 
 [ext_resource type="Script" path="res://levels/level_1_ghost/level_1_ghost.gd" id="1_ghost_script"]
+[ext_resource type="PackedScene" uid="uid://r82p8nbdtpdf" path="res://scenes/loading_screen/level_loading_screen.tscn" id="2_loading"]
+[ext_resource type="PackedScene" uid="uid="bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn" id="3_music"]
+[ext_resource type="PackedScene" uid="uid="dmrtmi7c0xpih" path="res://scenes/windows/pause_menu_layer.tscn" id="4_pause"]
+[ext_resource type="Material" uid="uid="buxln3uupe5o5" path="res://source/design/shaders/pulsing_background.tres" id="5_shader"]
 
 [node name="Level1Ghost" type="Control" unique_id=510817872]
 layout_mode = 3
@@ -11,11 +15,51 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ghost_script")
 
-[node name="BackgroundColor" type="ColorRect" parent="." unique_id=1504196529]
+[node name="GameViewport" type="SubViewport" parent="." unique_id=123456789]
+handle_input_locally = false
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="LevelBackground" type="TextureRect" parent="GameViewport" unique_id=1504196528]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.054902, 0.0666667, 0.0862745, 1)
+expand_mode = 1
+stretch_mode = 5
+color = Color(0.15, 0.1, 0.2, 1)
+material = ExtResource("5_shader")
+
+[node name="GhostCharacter" type="Control" parent="GameViewport" unique_id=987654321]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.9, 0.9, 1.0, 1.0)
+text = "👻"
+
+[node name="GameUI" type="Control" parent="." unique_id=456789123]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoadingScreen" parent="." unique_id=321654987 instance=ExtResource("2_loading")]
+visible = false
+
+[node name="MusicPlayer" parent="." unique_id=654321987 instance=ExtResource("3_music")]
+
+[node name="PauseMenu" parent="." unique_id=789123456 instance=ExtResource("4_pause")]
+visible = false

@@ -8,12 +8,6 @@ extends Button
 @export var focus_brightness: float = 1.1
 
 func _ready() -> void:
-	super._ready()
-	
-	# Omega-specific button behavior (not styling!)
-	focus_mode = FocusModeEnum.All  # Support keyboard/gamepad navigation
-	size_flags_horizontal = SizeFlags.ExpandFill  # Fill horizontal space by default
-	
 	# Add subtle visual feedback on interaction (beyond theme colors)
 	mouse_entered.connect(_on_button_hover)
 	focus_entered.connect(_on_button_focus)

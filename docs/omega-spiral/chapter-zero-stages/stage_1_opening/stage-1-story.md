@@ -18,9 +18,6 @@ Drawing from inspirations like The Neverending Story and The Matrix, Stage 1 est
 2. **Reality as Choice (The Matrix)**  
    Perception shapes existence; unplugging from illusions reveals deeper truths. The player's answers redefine their role, mirroring Neo's red-pill moment—choices here aren't just inputs; they begin reconstructing fragmented realities.
 
-3. **Fragmentation vs. Reconvergence (Spiral Metaphor)**  
-   Divergent paths spiral outward, but nexus points demand convergence. The code fragment `∞ ◊ Ω ≋ ※` symbolizes this, with the player's responses as the first threads of reconvergence.
-
 4. **Consciousness and Identity (AI/Dreamweaver Parallels)**  
    Who are we when our thoughts are simulated? The Dreamweavers' isolated interpretations reflect fragmented selves, with the player as the emerging reconverging force.
 
@@ -36,7 +33,6 @@ Drawing from inspirations like The Neverending Story and The Matrix, Stage 1 est
 ### Narrative Hooks
 
 - **"Audience of one"** — System log opening line. *But which one?*
-- **Code fragment** `∞ ◊ Ω ≋ ※` — Three-fold symbol; infinity spiral
 - **Question phrasing**: "If you could hear one story?" — Implies many stories exist
 - **Final line**: "The game that chose you" — *It* was choosing, not asking
 

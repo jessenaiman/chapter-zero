@@ -1,25 +1,5 @@
 # Stage 1 CRT Shaders
 
-This directory contains the custom shaders for Stage 1's terminal aesthetic.
-
-## Naming Convention
-
-All shader files follow `snake_case` naming (GDScript convention)
-
-- `crt_phosphor.gdshader` - Base phosphor/curvature layer
-- `crt_scanlines.gdshader` - Animated scanline overlay
-- `crt_glitch.gdshader` - Glitch/interference effects
-
-## Documentation Standard
-
-All shaders must include:
-
-1. **Header block** with purpose, layer position, usage, thread configs, and performance notes
-2. **Function documentation** for all helper functions (purpose, parameters, returns, implementation notes)
-3. **Inline comments** explaining non-obvious calculations
-4. **Usage examples** in GDScript at end of file
-
-This matches the XML documentation standard we use for C# files.
 
 ## crt_phosphor.gdshader
 
@@ -120,47 +100,4 @@ Applied in this order on TerminalBase.tscn:
 - Digital block corruption artifacts
 - Noise/static overlay
 - Random full-screen flashes
-- Performance optimization (zero cost when glitch_intensity = 0.0)
 
-**Visual State Configurations:**
-
-```gdscript
-// Boot Sequence (Heavy Corruption)
-glitch_intensity = 0.8
-interference_speed = 15.0
-chromatic_offset = 5.0
-
-// Stable Baseline (No Glitches)
-glitch_intensity = 0.0
-
-// Secret Reveal (Reality Break)
-glitch_intensity = 1.0
-chromatic_offset = 8.0
-block_size = 32.0
-
-// Thread Lock-In Burst (Brief Transition)
-glitch_intensity = 0.3  # For 0.5 seconds
-# Then fade to 0.0
-```
-
-**Usage in TerminalBase.cs:**
-
-```csharp
-// Boot sequence glitching
-SetShaderParameter(ShaderLayer.Glitch, "glitch_intensity", 0.8f);
-SetShaderParameter(ShaderLayer.Glitch, "interference_speed", 15.0f);
-
-// Disable glitches for stable operation
-SetShaderParameter(ShaderLayer.Glitch, "glitch_intensity", 0.0f);
-
-// Secret reveal effect
-SetShaderParameter(ShaderLayer.Glitch, "glitch_intensity", 1.0f);
-SetShaderParameter(ShaderLayer.Glitch, "chromatic_offset", 8.0f);
-```
-
-## Performance Notes
-
-- Shaders run on GPU, minimal CPU impact
-- Screen curvature is the most expensive effect
-- Can disable curvature on low-end hardware (set `curvature_strength = 0.0`)
-- All effects are real-time adjustable via shader parameters

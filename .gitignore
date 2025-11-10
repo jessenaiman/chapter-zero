@@ -16,7 +16,9 @@ addons/
 addons/**/[.git|.gitignore]/
 addons/**/.github
 addons/**/project.godot
+addons/GdUnit4
 addons/
+
 
 # Godot import files (regenerated on import)
 *.import
@@ -78,3 +80,5 @@ reports/
 .github/
 .roo/
 .env
+
+docs/omega-spiral/chapter-zero-stages/stage_1_opening/Videogamescenecreation/.git

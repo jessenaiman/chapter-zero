@@ -7,7 +7,7 @@ signal level_won_and_changed(level_path: String)
 ## Optional path to the next level if using an open world level system.
 @export_file("*.tscn") var next_level_path: String
 
-var level_state: LevelStateExample
+var level_state: LevelState
 
 func _on_lose_button_pressed() -> void:
 	level_lost.emit()
@@ -24,7 +24,7 @@ func open_tutorials() -> void:
 	GlobalState.save()
 
 func _ready() -> void:
-	level_state = GameStateExample.get_level_state(scene_file_path)
+	level_state = GameState.get_level_state(scene_file_path)
 	%ColorPickerButton.color = level_state.color
 	%BackgroundColor.color = level_state.color
 	if not level_state.tutorial_read:

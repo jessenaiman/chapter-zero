@@ -15,16 +15,5 @@
 
 - Refer to [Omega Spiral Game Documentation](./../docs/) for overall game design, architecture, and systems.
 
-Follow [Godot practices](./../docs/code-guides/complete_godot_c_sharp.rst) for C# coding standards and Godot integration.
-
-### Important Code Rules
-
-- private fields: `_camelCase`
-- private Members: `_PascalCase`
-- public Members: `PascalCase`
-- add meaningful XML docs to all public classes/members
-
-
 **Do not guess or assume**
-
-    When you use the words or phrases: "I think", "maybe", "probably", "might", "could", "should", "probably", "possibly", "somewhat", "a little", "a bit", "seems like", "seems to", "I believe", "I feel", "I guess", "I assume", "I expect", "it appears", "it looks like", "it seems", or any other similar words or phrases that indicate uncertainty or lack of confidence in your statements, you must STOP and do the following: 
+- If you don't know, say so and ask for clarification.

@@ -32,16 +32,18 @@ public sealed partial class GhostCinematicDirector : Node
 {
     private Node? _DialogicBridge;
     private TaskCompletionSource<Dictionary>? _TimelineCompletionSource;
+    private PixelDissolveEffect? _PixelDissolveEffect;
+    private AsciiStaticTransition? _AsciiStaticTransition;
 
     /// <summary>
-    /// Runs the Ghost Terminal stage using Dialogic.
+    /// Runs the Ghost Terminal stage using Dialogic with enhanced visual effects.
     /// </summary>
     /// <returns>Player choices and thread selection for Dreamweaver scoring.</returns>
     public async Task<Dictionary> RunStageAsync()
     {
         GD.Print("[GhostCinematicDirector] Starting Ghost Terminal stage");
 
-                // Load the Dialogic bridge script
+        // Load the Dialogic bridge script
         var bridgeScript = GD.Load<GDScript>("res://levels/level_1_ghost/ghost_dialogic_bridge.gd");
         _DialogicBridge = (Node)bridgeScript.New();
 
@@ -55,9 +57,27 @@ public sealed partial class GhostCinematicDirector : Node
         var tree = Engine.GetMainLoop() as SceneTree;
         tree?.Root.AddChild(_DialogicBridge);
 
+        // Create visual effects
+        _PixelDissolveEffect = new PixelDissolveEffect();
+        _DialogicBridge.AddChild(_PixelDissolveEffect);
+
+        _AsciiStaticTransition = new AsciiStaticTransition();
+        tree?.Root.AddChild(_AsciiStaticTransition);
+
         // Setup completion tracking
         _TimelineCompletionSource = new TaskCompletionSource<Dictionary>();
         _DialogicBridge.Connect("timeline_completed", Callable.From<Dictionary>(OnTimelineCompleted));
+
+        // Connect to custom signals for visual effects
+        if (_DialogicBridge.HasSignal("pixel_dissolve_requested"))
+        {
+            _DialogicBridge.Connect("pixel_dissolve_requested", Callable.From(OnPixelDissolveRequested));
+        }
+
+        if (_DialogicBridge.HasSignal("ascii_static_requested"))
+        {
+            _DialogicBridge.Connect("ascii_static_requested", Callable.From(OnAsciiStaticRequested));
+        }
 
         // Start the Dialogic timeline
         _DialogicBridge.Call("start_ghost_timeline");
@@ -68,6 +88,7 @@ public sealed partial class GhostCinematicDirector : Node
         GD.Print($"[GhostCinematicDirector] Stage complete. Selected thread: {results.GetValueOrDefault("thread", "")}");
 
         // Cleanup
+        _AsciiStaticTransition?.QueueFree();
         _DialogicBridge?.QueueFree();
 
         return results;
@@ -77,5 +98,27 @@ public sealed partial class GhostCinematicDirector : Node
     {
         GD.Print("[GhostCinematicDirector] Timeline completed callback");
         _TimelineCompletionSource?.SetResult(results);
+    }
+
+    /// <summary>
+    /// Handles pixel dissolve effect requests from the timeline.
+    /// </summary>
+    private async void OnPixelDissolveRequested()
+    {
+        if (_PixelDissolveEffect != null)
+        {
+            await _PixelDissolveEffect.StartDissolveAsync(2500f);
+        }
+    }
+
+    /// <summary>
+    /// Handles ASCII static transition requests from the timeline.
+    /// </summary>
+    private async void OnAsciiStaticRequested()
+    {
+        if (_AsciiStaticTransition != null)
+        {
+            await _AsciiStaticTransition.StartTransitionAsync(2000f);
+        }
     }
 }

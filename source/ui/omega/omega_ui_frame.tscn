@@ -1,94 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxutlugvk2o8k"]
+[gd_scene load_steps=3 format=3 uid="uid://cxutlugvk2o8k"]
 
-[ext_resource type="Shader" uid="uid://d12xf8v7m9ak" path="res://source//shaders/crt_unified.gdshader" id="6"]
+[ext_resource type="Shader" path="res://source/design/shaders/crt.gdshader" id="1"]
+[ext_resource type="Theme" uid="uid://dnhctb3dqu015" path="res://source/ui/omega/omega_ui.theme.tres" id="2"]
 
-[sub_resource type="ShaderMaterial" id="CrtUnifiedMaterial"]
-shader = ExtResource("6")
-shader_parameter/curvature_strength = 0.0
-shader_parameter/phosphor_glow = 0.5
-shader_parameter/phosphor_tint = Color(0.7725, 0.6196, 0.3725, 1)
-shader_parameter/phosphor_spread = 0.5
-shader_parameter/vignette_strength = 0.0
-shader_parameter/vignette_softness = 0.5
-shader_parameter/chromatic_aberration = 0.0
-shader_parameter/brightness = 1.0
-shader_parameter/contrast = 1.0
+[sub_resource type="ShaderMaterial" id="CrtMaterial"]
+shader = ExtResource("1")
 shader_parameter/scanline_opacity = 0.05
-shader_parameter/scanline_speed = 5.0
 shader_parameter/scanline_count = 400.0
-shader_parameter/scanline_thickness = 1.0
-shader_parameter/scanline_tint = Color(0.6078, 0.4157, 0.251, 1)
-shader_parameter/glitch_intensity = 0.0
-shader_parameter/interference_speed = 5.0
-shader_parameter/chromatic_offset = 0.0
-shader_parameter/block_size = 16.0
-shader_parameter/block_intensity = 0.0
-shader_parameter/noise_amount = 0.05
-shader_parameter/displacement_strength = 0.0
-shader_parameter/glitch_tint = Color(0.6078, 0.4157, 0.251, 1)
-shader_parameter/glitch_flash_tint = Color(0.7725, 0.6196, 0.3725, 1)
+shader_parameter/tint_color = Vector3(0.7725, 0.6196, 0.3725)
+shader_parameter/tint_strength = 0.1
 
 [node name="OmegaFrame" type="Control"]
 layout_mode = 3
-anchors_left = 0.0
-anchors_top = 0.0
-anchors_right = 1.0
-anchors_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2")
 
-[node name="Background" type="ColorRect" parent="OmegaFrame"]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_left = 0.0
-anchors_top = 0.0
-anchors_right = 1.0
-anchors_bottom = 1.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.054902, 0.0666667, 0.0862745, 1)
+mouse_filter = 2
 
-[node name="CrtEffects" type="ColorRect" parent="OmegaFrame"]
+[node name="CrtOverlay" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_left = 0.0
-anchors_top = 0.0
-anchors_right = 1.0
-anchors_bottom = 1.0
-material = SubResource("CrtUnifiedMaterial")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+material = SubResource("CrtMaterial")
 color = Color(1, 1, 1, 0)
 mouse_filter = 2
 
-[node name="ContentContainer" type="VBoxContainer" parent="OmegaFrame"]
+[node name="ContentContainer" type="Control" parent="."]
 layout_mode = 1
-anchors_left = 0.0
-anchors_top = 0.0
-anchors_right = 1.0
-anchors_bottom = 1.0
-offset_left = 32
-offset_top = 24
-offset_right = -32
-offset_bottom = -24
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="MenuTitle" type="Label" parent="OmegaFrame/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.992157, 0.788235, 0.384314, 1)
-theme_override_font_sizes/font_size = 24
-text = "MENU TITLE"
-horizontal_alignment = 1
-
-[node name="MenuButtonContainer" type="VBoxContainer" parent="OmegaFrame/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 12
-
-[node name="MenuActionBar" type="HBoxContainer" parent="OmegaFrame/ContentContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-alignment = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

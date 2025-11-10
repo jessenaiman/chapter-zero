@@ -147,7 +147,7 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omega_light_fill"]
+[sub_resource type="StyleBoxFlat" id="StyBoxFlat_omega_light_fill"]
 bg_color = Color(0.95, 0.95, 1.0, 1)  # light_thread
 corner_radius_top_left = 2
 corner_radius_top_right = 2
@@ -155,7 +155,6 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
 [resource]
-# === BUTTON STYLES ===
 Button/colors/font_color = Color(1.0, 1.0, 1.0, 1)  # pure_white
 Button/colors/font_disabled_color = Color(0.5, 0.5, 0.5, 0.5)  # disabled_gray
 Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1)  # pure_white

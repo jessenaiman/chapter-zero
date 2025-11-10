@@ -1,11 +1,11 @@
-extends "res://addons/maaacks_game_template/base/nodes/overlaid_menu/overlaid_menu.gd"
+extends "res://addons/maaacks_game_template/base/nodes/menus/main_menu/main_menu.gd"
 
 # Omega Overlaid Menu with CRT frame and Omega styling
 # Extends Maaacks OverlaidMenu with Omega visual design
 
 # Omega-specific properties
 @export var enable_crt_frame: bool = true
-@export var crt_frame_color: Color = Color(0.7725, 0.6196, 0.3725, 1)  # Warm amber phosphor
+@export var crt_frame_color: Color = Color(0.7725, 0.6196, 0.3725, 1) # Warm amber phosphor
 
 func _ready() -> void:
 	super._ready()
@@ -17,10 +17,10 @@ func _setup_omega_frame() -> void:
 	# Create Omega CRT frame background
 	var frame_bg = ColorRect.new()
 	frame_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	frame_bg.color = Color(0.054902, 0.0666667, 0.0862745, 1)  # Deep space background
+	frame_bg.color = Color(0.054902, 0.0666667, 0.0862745, 1) # Deep space background
 	frame_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(frame_bg)
-	move_child(frame_bg, 0)  # Put behind everything
+	move_child(frame_bg, 0) # Put behind everything
 	
 	# Add CRT shader material if available
 	# Note: You can add your CRT shader here as needed
@@ -35,7 +35,7 @@ func _apply_omega_styling() -> void:
 
 func _create_omega_panel_style() -> StyleBoxFlat:
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.1, 0.1, 0.15, 0.95)  # Semi-transparent dark
+	style.bg_color = Color(0.1, 0.1, 0.15, 0.95) # Semi-transparent dark
 	style.border_width_left = 2
 	style.border_width_right = 2
 	style.border_width_top = 2

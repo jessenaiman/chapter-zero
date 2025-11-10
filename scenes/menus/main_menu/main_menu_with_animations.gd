@@ -21,8 +21,8 @@ func load_game_scene() -> void:
 
 func load_omega_scene() -> void:
 	GameState.start_omega_game()
-	# Use the Maaack SceneLoader pattern for proper scene loading
-	SceneLoader.load_scene("res://levels/level_1_ghost/ghost_terminal.tscn")
+	# Use the Maaack SceneLoader pattern: start at Level 1, which hosts the Ghost Terminal.
+	SceneLoader.load_scene("res://levels/level_1.tscn")
 
 func new_game() -> void:
 	if confirm_new_game and GameState.get_levels_reached() > 0:
