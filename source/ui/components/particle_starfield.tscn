@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://b23p425fgba6t"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fghij"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_12345"]
+offsets = PackedFloat32Array(0, 0, 0, 1)
+colors = PackedColorArray(1, 1, 0.8, 1, 1, 1, 0.7, 1, 1, 0.6, 0.8, 1, 0.8, 0.9, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_67890"]
+gradient = SubResource("Gradient_12345")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_abcde"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(960, 540, 1)
+direction = Vector3(0, 0, 0)
+spread = 180.0
+angular_velocity_min = -10.0
+angular_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("GradientTexture1D_67890")
+color_ramp = SubResource("GradientTexture1D_67890")
+hue_variation_min = -0.1
+hue_variation_max = 0.1
+
+[node name="ParticleStarfield" type="GPUParticles2D" unique_id=1728320624]
+material = SubResource("CanvasItemMaterial_fghij")
+amount = 200
+texture = SubResource("GradientTexture1D_67890")
+lifetime = 10.0
+preprocess = 1.0
+speed_scale = 0.5
+randomness = 0.5
+visibility_rect = Rect2(-960, -540, 1920, 1080)
+process_material = SubResource("ParticleProcessMaterial_abcde")
+
+[node name="TwinkleTimer" type="Timer" parent="." unique_id=1290557615]
+wait_time = 0.1
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1141900348]
+autoplay = &"twinkle"

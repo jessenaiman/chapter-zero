@@ -1,0 +1,1571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="32a72885-67b5-4723-8e5d-6c257a89f3fd" name="@omega 2025-11-03 18:02:41" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-03T18:02:41.0721172-05:00" queuing="2025-11-03T18:02:41.0721173-05:00" start="2025-11-03T18:02:20.0227133-05:00" finish="2025-11-03T18:02:41.2236090-05:00" />
+  <TestSettings name="default" id="3b3b7126-8bb4-45bb-96c3-d28b02b5ad37">
+    <Deployment runDeploymentRoot="_omega_2025-11-03_18_02_41" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ebeaffa0-9515-4a4b-b3c9-4d5a427e3635" testId="c3591975-c51e-44f0-ba50-1fe0cc2e7df7" testName="OmegaSpiral.Tests.UI.MenuTests.SpaceKeyOnNewGameButtonLoadsLevelOne" computerName="omega" duration="00:00:00.0200000" startTime="2025-11-03T18:02:40.7924122-05:00" endTime="2025-11-03T18:02:40.7929176-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ebeaffa0-9515-4a4b-b3c9-4d5a427e3635">
+      <Output>
+        <ErrorInfo>
+          <Message>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Message>
+          <StackTrace>   at GdUnit4.Core.SceneRunner.LoadScene(String resourcePath)
+   at GdUnit4.Core.SceneRunner..ctor(String resourcePath, Boolean autoFree, Boolean verbose)
+   at GdUnit4.ISceneRunner.Load(String resourcePath, Boolean autoFree, Boolean verbose)
+   at OmegaSpiral.Tests.UI.MenuTests.SpaceKeyOnNewGameButtonLoadsLevelOne() in /home/adam/Dev/omega-spiral/chapter-zero/tests/ui/MenuTests.cs:line 125
+   at GdUnit4.Core.Execution.ExecutionStage`1.ExecuteStage(ExecutionContext context)
+   at GdUnit4.Core.Execution.ExecutionStage`1.Execute(ExecutionContext context)
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="85ee215b-1c40-45e5-9aab-d7e2681eb4be" testId="834103fa-fe46-4bf5-a2ed-d25bac659806" testName="OmegaSpiral.Tests.UI.MenuTests.EnterKeyOnNewGameButtonLoadsLevelOne" computerName="omega" duration="00:00:00.0110000" startTime="2025-11-03T18:02:40.7716448-05:00" endTime="2025-11-03T18:02:40.7720954-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="85ee215b-1c40-45e5-9aab-d7e2681eb4be">
+      <Output>
+        <ErrorInfo>
+          <Message>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Message>
+          <StackTrace>   at GdUnit4.Core.SceneRunner.LoadScene(String resourcePath)
+   at GdUnit4.Core.SceneRunner..ctor(String resourcePath, Boolean autoFree, Boolean verbose)
+   at GdUnit4.ISceneRunner.Load(String resourcePath, Boolean autoFree, Boolean verbose)
+   at OmegaSpiral.Tests.UI.MenuTests.EnterKeyOnNewGameButtonLoadsLevelOne() in /home/adam/Dev/omega-spiral/chapter-zero/tests/ui/MenuTests.cs:line 86
+   at GdUnit4.Core.Execution.ExecutionStage`1.ExecuteStage(ExecutionContext context)
+   at GdUnit4.Core.Execution.ExecutionStage`1.Execute(ExecutionContext context)
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="98bc2647-45fb-4c6c-99f1-bea32cf66499" testId="9bd75ea8-2e83-4448-9955-5088f5f81ff6" testName="OmegaSpiral.Tests.UI.MenuTests.MenuSceneLoadsWithoutHanging" computerName="omega" duration="00:00:00.0440000" startTime="2025-11-03T18:02:40.7504996-05:00" endTime="2025-11-03T18:02:40.7520608-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="98bc2647-45fb-4c6c-99f1-bea32cf66499">
+      <Output>
+        <ErrorInfo>
+          <Message>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Message>
+          <StackTrace>   at GdUnit4.Core.SceneRunner.LoadScene(String resourcePath)
+   at GdUnit4.Core.SceneRunner..ctor(String resourcePath, Boolean autoFree, Boolean verbose)
+   at GdUnit4.ISceneRunner.Load(String resourcePath, Boolean autoFree, Boolean verbose)
+   at OmegaSpiral.Tests.UI.MenuTests.MenuSceneLoadsWithoutHanging() in /home/adam/Dev/omega-spiral/chapter-zero/tests/ui/MenuTests.cs:line 23
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="196d8010-99de-4fd6-88e2-b71f22cd1a1f" testId="2a2afd39-caec-4815-a867-3877275f848e" testName="OmegaSpiral.Tests.UI.MenuTests.MouseClickNewGameButtonLoadsLevelOne" computerName="omega" duration="00:00:00.0100000" startTime="2025-11-03T18:02:40.7593823-05:00" endTime="2025-11-03T18:02:40.7598571-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="196d8010-99de-4fd6-88e2-b71f22cd1a1f">
+      <Output>
+        <ErrorInfo>
+          <Message>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Message>
+          <StackTrace>   at GdUnit4.Core.SceneRunner.LoadScene(String resourcePath)
+   at GdUnit4.Core.SceneRunner..ctor(String resourcePath, Boolean autoFree, Boolean verbose)
+   at GdUnit4.ISceneRunner.Load(String resourcePath, Boolean autoFree, Boolean verbose)
+   at OmegaSpiral.Tests.UI.MenuTests.MouseClickNewGameButtonLoadsLevelOne() in /home/adam/Dev/omega-spiral/chapter-zero/tests/ui/MenuTests.cs:line 39
+   at GdUnit4.Core.Execution.ExecutionStage`1.ExecuteStage(ExecutionContext context)
+   at GdUnit4.Core.Execution.ExecutionStage`1.Execute(ExecutionContext context)
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MenuSceneLoadsWithoutHanging" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="9bd75ea8-2e83-4448-9955-5088f5f81ff6">
+      <Execution id="98bc2647-45fb-4c6c-99f1-bea32cf66499" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.UI.MenuTests" name="MenuSceneLoadsWithoutHanging" />
+    </UnitTest>
+    <UnitTest name="EnterKeyOnNewGameButtonLoadsLevelOne" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="834103fa-fe46-4bf5-a2ed-d25bac659806">
+      <Execution id="85ee215b-1c40-45e5-9aab-d7e2681eb4be" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.UI.MenuTests" name="EnterKeyOnNewGameButtonLoadsLevelOne" />
+    </UnitTest>
+    <UnitTest name="SpaceKeyOnNewGameButtonLoadsLevelOne" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="c3591975-c51e-44f0-ba50-1fe0cc2e7df7">
+      <Execution id="ebeaffa0-9515-4a4b-b3c9-4d5a427e3635" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.UI.MenuTests" name="SpaceKeyOnNewGameButtonLoadsLevelOne" />
+    </UnitTest>
+    <UnitTest name="MouseClickNewGameButtonLoadsLevelOne" storage="/home/adam/dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/debug/chapter-zero.dll" id="2a2afd39-caec-4815-a867-3877275f848e">
+      <Execution id="196d8010-99de-4fd6-88e2-b71f22cd1a1f" />
+      <TestMethod codeBase="/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll" adapterTypeName="executor://gdunit4.testadapter/" className="OmegaSpiral.Tests.UI.MenuTests" name="MouseClickNewGameButtonLoadsLevelOne" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="c3591975-c51e-44f0-ba50-1fe0cc2e7df7" executionId="ebeaffa0-9515-4a4b-b3c9-4d5a427e3635" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="834103fa-fe46-4bf5-a2ed-d25bac659806" executionId="85ee215b-1c40-45e5-9aab-d7e2681eb4be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9bd75ea8-2e83-4448-9955-5088f5f81ff6" executionId="98bc2647-45fb-4c6c-99f1-bea32cf66499" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2a2afd39-caec-4815-a867-3877275f848e" executionId="196d8010-99de-4fd6-88e2-b71f22cd1a1f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="4" executed="4" passed="0" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>Running on GdUnit4 test engine version: 5.0.0.0
+Discover tests from assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
+Discover:  TestSuite OmegaSpiral.Tests.UI.MenuTests with 4 TestCases found.
+Discover tests done, 1 TestSuites and total 4 Tests found.
+Running on GdUnit4 test engine version: 5.0.0.0
+Set test session timeout to: 00:30:00
+Detected IDE Unknown
+Starting tests for assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
+Search '.csproj' at /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
+Set current working directory to: /home/adam/Dev/omega-spiral/chapter-zero
+Starting GodotGdUnit4RestClient.
+Working dir /home/adam/Dev/omega-spiral/chapter-zero
+Rebuild Godot Project ... /home/adam/Godot_v4.6-dev2_mono_linux_x86_64/Godot_v4.6-dev2_mono_linux.x86_64 --path . -e --headless --quit-after 1000 --verbose
+.. WorkerThreadPool: 6 threads, 4 max low-priority.
+.. Godot Engine v4.6.dev2.mono.official.7864ac801 - https://godotengine.org
+.. TextServer: Added interface "Dummy"
+.. TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+.. Unrecognized output string "misc2" in mapping:
+.. 030000000d0f0000ab01000011010000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:a5,leftx:a0,lefty:a1,misc2:b2,paddle1:b19,paddle2:b18,paddle3:b15,paddle4:b5,rightshoulder:b7,rightstick:b14,righttrigger:a4,rightx:a2,righty:a3,start:b11,x:b3,y:b4,platform:Linux,
+.. Unrecognized output string "misc2" in mapping:
+.. 050000000d0f00009601000091000000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:a5,leftx:a0,lefty:a1,misc2:b2,paddle1:b19,paddle2:b18,paddle3:b15,paddle4:b5,rightshoulder:b7,rightstick:b14,righttrigger:a4,rightx:a2,righty:a3,start:b11,x:b3,y:b4,platform:Linux,
+.. Unrecognized output string "misc2" in mapping:
+.. 030000007e0500006920000011010000,Nintendo Switch 2 Pro Controller,a:b0,b:b1,back:b14,dpdown:b8,dpleft:b10,dpright:b9,dpup:b11,guide:b16,leftshoulder:b12,leftstick:b15,lefttrigger:b13,leftx:a0,lefty:a1~,misc1:b17,misc2:b20,paddle1:b18,paddle2:b19,rightshoulder:b4,rightstick:b7,righttrigger:b5,rightx:a2,righty:a3~,start:b6,x:b2,y:b3,platform:Linux,
+.. SDL: Init OK!
+.. Using "default" pen tablet driver...
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
+.. TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+.. .NET: Initializing module...
+.. Found hostfxr: /usr/lib/dotnet/host/fxr/10.0.0-rc.2.25502.107/libhostfxr.so
+.. .NET: hostfxr initialized
+.. .NET: GodotPlugins initialized
+.. Loading resource: res://source/ui/omega/omega_ui.theme.tres
+.. Loading resource: res://default_bus_layout.tres
+.. CORE API HASH: 3234800178
+.. EDITOR API HASH: 4055853480
+.. SceneTreeFTI: traversal method DEFAULT
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceLoader.gd
+.. Loading resource: res://addons/dialogic/Resources/TimelineResourceLoader.gd
+.. Loading resource: res://addons/dialogic/Resources/CharacterResourceSaver.gd
+.. Loading resource: res://addons/dialogic/Resources/TimelineResourceSaver.gd
+.. Loading resource: /home/adam/.config/godot/editor_settings-4.6.tres
+.. EditorSettings: Load OK!
+.. EditorTheme: Generating new theme for the config '66886095'.
+.. EditorTheme: Generating new icons.
+.. EditorTheme: Generating new fonts.
+.. EditorTheme: Generating new styles.
+.. Found .NET Sdk version '10.0.100': /usr/lib/dotnet/sdk/10.0.100-rc.2.25502.107/
+.. Loading resource: /home/adam/.cache/godot/editor_doc_cache-4.6.res
+.. Loaded system CA certificates
+.. Failed to bind socket. Error: 3.
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
+.. Loading resource: res://addons/godot_xterm/themes/fonts/regular.tres
+.. Loading resource: res://addons/godot_xterm/themes/fonts/jet_brains_mono/jet_brains_mono_nl-regular-2.304.ttf
+.. Loading resource: res://.godot/imported/jet_brains_mono_nl-regular-2.304.ttf-96fa438503371775be3cc744a4450fc2.fontdata
+.. Loading resource: res://addons/godot_xterm/icons/terminal_icon.svg
+.. Loading resource: res://.godot/imported/terminal_icon.svg-2a4b198a0e3aa43f04b43cec3e3f109d.ctex
+.. Loading resource: res://addons/godot_xterm/shaders/background.gdshader
+.. Loading resource: res://addons/godot_xterm/shaders/common.gdshaderinc
+.. Loading resource: res://addons/godot_xterm/shaders/foreground.gdshader
+.. [   0% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Started Project initialization (5 steps)\u001b[39m\u001b[0m
+.. [   0% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Scanning file structure...\u001b[39m\u001b[0m
+.. [  16% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Loading global class names...\u001b[39m\u001b[0m
+.. [  33% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Verifying GDExtensions...\u001b[39m\u001b[0m
+.. [  50% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Creating autoload scripts...\u001b[39m\u001b[0m
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/state/global_state.gd
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/music_controller.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/ui_sound_controller.gd
+.. [  66% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Initializing plugins...\u001b[39m\u001b[0m
+.. Loading resource: res://addons/dialogic/plugin.gd
+.. Loading resource: res://addons/dialogic/Editor/editor_main.tscn
+.. Loading resource: res://addons/dialogic/Editor/editor_main.gd
+.. Loading resource: res://addons/dialogic/Editor/editors_manager.gd
+.. Loading resource: res://addons/dialogic/Editor/Images/plugin-icon.svg
+.. Loading resource: res://.godot/imported/plugin-icon.svg-aa6701e8ed73f5fe5d177dfddce3a0e3.ctex
+.. Loading resource: res://addons/dialogic/Editor/Common/side_bar.tscn
+.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
+.. Loading resource: res://.godot/imported/close-icon.svg-c630c93ada599b08938f4854f5376f2f.ctex
+.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:5 - ext_resource, invalid UID: uid://dybg3l5pwetne - using text path instead: res://addons/dialogic/Editor/Images/plugin-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:4 - ext_resource, invalid UID: uid://bff65e82555qr - using text path instead: res://addons/dialogic/Editor/Images/Pieces/close-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: res://addons/dialogic/Editor/Common/side_bar.tscn:5 - ext_resource, invalid UID: uid://dx3o2ild56i76 - using text path instead: res://addons/dialogic/Editor/Images/Pieces/closed-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/closed-icon.svg-b4f16653b91d6792313a130565319b2f.ctex
+.. Loading resource: res://addons/dialogic/Editor/Common/toolbar.gd
+.. Loading resource: res://addons/dialogic/Editor/Images/Resources/character.svg
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:8 - ext_resource, invalid UID: uid://bbea0efx0ybu7 - using text path instead: res://addons/dialogic/Editor/Images/Resources/character.svg
+.. Loading resource: res://.godot/imported/character.svg-48bc1c93fa13733a935ca2c669d933a7.ctex
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:9 - ext_resource, invalid UID: uid://b5xwnxdb7064n - using text path instead: res://addons/dialogic/Modules/Glossary/icon.svg
+.. Loading resource: res://addons/dialogic/Modules/Glossary/icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/icon.svg-4fc0c12c53379638e37d654e7bbaea1a.ctex
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:10 - ext_resource, invalid UID: uid://1mccycya6eua - using text path instead: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/styles_icon.svg
+.. Loading resource: res://.godot/imported/styles_icon.svg-c55f9f7d15c3512c8b20dbf30eed7047.ctex
+:: WARNING: res://addons/dialogic/Editor/editor_main.tscn:11 - ext_resource, invalid UID: uid://ckilxvwc34s84 - using text path instead: res://addons/dialogic/Modules/Variable/variable.svg
+.. Loading resource: res://addons/dialogic/Modules/Variable/variable.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/variable.svg-52aeb47fe1705a3f04d919f8dcd5d319.ctex
+.. Loading resource: res://addons/dialogic/Editor/Common/reference_manager.tscn
+.. Loading resource: res://addons/dialogic/Editor/Common/reference_manager.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/broken_reference_manager.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/ReferenceManager_AddReplacementPanel.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_options_dynamic.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_options_dynamic.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/unique_identifiers_manager.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/reference_manager_window.gd
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/TextEditor/CodeCompletionHelper.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/update_manager.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/update_install_window.tscn
+.. Loading resource: res://addons/dialogic/Editor/Common/update_install_window.gd
+:: WARNING: res://addons/dialogic/Editor/Common/update_install_window.tscn:4 - ext_resource, invalid UID: uid://dybg3l5pwetne - using text path instead: res://addons/dialogic/Editor/Images/plugin-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/TextEditor/syntax_highlighter.gd
+.. Loading resource: res://addons/dialogic/Editor/Images/dialogic-logo.svg
+.. Loading resource: res://.godot/imported/dialogic-logo.svg-e43201cabc9573eeb3f78fd91ea9d909.ctex
+.. Loading resource: res://addons/dialogic/Editor/HomePage/home_page.tscn
+.. Loading resource: res://addons/dialogic/Editor/HomePage/home_page.gd
+:: WARNING: res://addons/dialogic/Editor/HomePage/home_page.tscn:4 - ext_resource, invalid UID: uid://cvmlp5nxb2rer - using text path instead: res://addons/dialogic/Editor/HomePage/icon_bg.png
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
+:: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:40)
+:: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/HomePage/icon_bg.png
+.. Loading resource: res://.godot/imported/icon_bg.png-5937ce0a857c4a8a9d624ea9ebf09a97.ctex
+:: WARNING: res://addons/dialogic/Editor/HomePage/home_page.tscn:5 - ext_resource, invalid UID: uid://bt87p6qlso0ya - using text path instead: res://addons/dialogic/Editor/Images/dialogic-logo.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
+:: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:40)
+:: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/timeline_editor.tscn
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/timeline_editor.gd
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/timeline_editor_visual.tscn
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/timeline_editor_visual.gd
+.. Loading resource: res://addons/dialogic/Editor/Theme/MainTheme.tres
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/TimelineArea.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/EventBlock/event_right_click_menu.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.gd
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/TextEditor/timeline_editor_text.tscn
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/TextEditor/timeline_editor_text.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/EventBlock/event_block.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/EventBlock/event_block.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/styles/unselected_stylebox.tres
+:: WARNING: res://addons/dialogic/Editor/Events/EventBlock/event_block.tscn:5 - ext_resource, invalid UID: uid://dybg3l5pwetne - using text path instead: res://addons/dialogic/Editor/Images/plugin-icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/TimelineEditor/VisualEditor/timeline_editor_visual.gd:160)
+:: [1] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:74)
+:: [2] _ready (res://addons/dialogic/Editor/editors_manager.gd:41)
+:: [3] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/character_editor_portrait_tree.gd
+:: WARNING: res://addons/dialogic/Editor/CharacterEditor/character_editor.tscn:6 - ext_resource, invalid UID: uid://babwe22dqjta - using text path instead: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
+.. Loading resource: res://addons/dialogic/Editor/Images/Pieces/add-folder.svg
+.. Loading resource: res://.godot/imported/add-folder.svg-41a970370f904038e63c13bddbdb6450.ctex
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
+:: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:42)
+:: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Modules/Signal/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Voice/index.gd
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Text/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Jump/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Condition/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Choice/index.gd
+.. Loading resource: res://addons/dialogic/Modules/History/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Audio/index.gd
+.. Loading resource: res://addons/dialogic/Modules/LayeredPortrait/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Character/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Variable/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Save/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Glossary/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Comment/index.gd
+.. Loading resource: res://addons/dialogic/Modules/HighlightPortrait/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Call/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Clear/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Core/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Background/index.gd
+.. Loading resource: res://addons/dialogic/Modules/DefaultLayoutParts/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Settings/index.gd
+.. Loading resource: res://addons/dialogic/Modules/TextInput/index.gd
+.. Loading resource: res://addons/dialogic/Modules/WaitInput/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Wait/index.gd
+.. Loading resource: res://addons/dialogic/Modules/Style/index.gd
+.. Loading resource: res://addons/dialogic/Modules/End/index.gd
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/style_editor.tscn
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/style_editor.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/style_layer_editor.gd
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/Components/style_layer_tree.gd
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/Components/style_browser_window.gd
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/Components/style_browser.tscn
+.. Loading resource: res://addons/dialogic/Modules/StyleEditor/Components/style_browser.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/BrowserItem.tscn
+.. Loading resource: res://addons/dialogic/Editor/Common/BrowserItem.gd
+.. Loading resource: res://addons/dialogic/Modules/Variable/variables_editor/variables_editor.tscn
+.. Loading resource: res://addons/dialogic/Modules/Variable/variables_editor/variables_editor.gd
+.. Loading resource: res://addons/dialogic/Modules/Variable/variables_editor/variable_tree.gd
+.. Loading resource: res://addons/dialogic/Modules/Glossary/glossary_editor.tscn
+.. Loading resource: res://addons/dialogic/Modules/Glossary/glossary_editor.gd
+.. Loading resource: res://addons/dialogic/Modules/Glossary/add-glossary.svg
+:: WARNING: res://addons/dialogic/Modules/Glossary/glossary_editor.tscn:4 - ext_resource, invalid UID: uid://cenut3sc5cul0 - using text path instead: res://addons/dialogic/Modules/Glossary/add-glossary.svg
+.. Loading resource: res://.godot/imported/add-glossary.svg-1cde77c043d3874d9bc84cc14d0ec9dc.ctex
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _add_editor (res://addons/dialogic/Editor/editors_manager.gd:73)
+:: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:47)
+:: [2] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_editor.tscn
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_editor.gd
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_general.tscn
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_general.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.gd
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_translation.tscn
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_translation.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.tscn
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_modules.tscn
+.. Loading resource: res://addons/dialogic/Editor/Settings/settings_modules.gd
+.. Loading resource: res://addons/dialogic/Modules/Text/settings_text.tscn
+.. Loading resource: res://addons/dialogic/Modules/Text/settings_text.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/Choice/settings_choices.tscn
+.. Loading resource: res://addons/dialogic/Modules/Choice/settings_choices.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/History/settings_history.tscn
+.. Loading resource: res://addons/dialogic/Modules/History/settings_history.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/Audio/settings_audio.tscn
+.. Loading resource: res://addons/dialogic/Modules/Audio/settings_audio.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/Character/settings_portraits.tscn
+.. Loading resource: res://addons/dialogic/Modules/Character/settings_portraits.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.tscn
+.. Loading resource: res://addons/dialogic/Modules/Save/settings_save.tscn
+.. Loading resource: res://addons/dialogic/Modules/Save/settings_save.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/styles/ResourceMenuPanelBackground.tres
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Images/Toolbar/add-timeline.svg
+.. Loading resource: res://.godot/imported/add-timeline.svg-86961b528ebdf01f585931a15fea1755.ctex
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/AddEventButton.tscn
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/AddEventButton.gd
+.. Loading resource: res://addons/dialogic/Modules/Signal/event_signal.gd
+.. Loading resource: res://addons/dialogic/Modules/Jump/event_return.gd
+.. Loading resource: res://addons/dialogic/Modules/Condition/event_condition.gd
+.. Loading resource: res://addons/dialogic/Modules/History/event_history.gd
+.. Loading resource: res://addons/dialogic/Modules/Audio/event_music.gd
+.. Loading resource: res://addons/dialogic/Modules/Audio/event_sound.gd
+.. Loading resource: res://addons/dialogic/Modules/Variable/event_variable.gd
+.. Loading resource: res://addons/dialogic/Modules/Save/event_save.gd
+.. Loading resource: res://addons/dialogic/Modules/Comment/event_comment.gd
+.. Loading resource: res://addons/dialogic/Modules/Call/event_call.gd
+.. Loading resource: res://addons/dialogic/Modules/Clear/event_clear.gd
+.. Loading resource: res://addons/dialogic/Modules/Background/event_background.gd
+.. Loading resource: res://addons/dialogic/Modules/Settings/event_setting.gd
+.. Loading resource: res://addons/dialogic/Modules/TextInput/event_text_input.gd
+.. Loading resource: res://addons/dialogic/Modules/WaitInput/event_wait_input.gd
+.. Loading resource: res://addons/dialogic/Modules/Wait/event_wait.gd
+.. Loading resource: res://addons/dialogic/Modules/Style/event_style.gd
+.. Loading resource: res://addons/dialogic/Modules/End/event_end.gd
+.. Loading resource: res://addons/dialogic/Modules/Signal/icon.png
+.. Loading resource: res://.godot/imported/icon.png-5e2e422904d471016252dff8d4bdfa96.ctex
+.. Loading resource: res://addons/dialogic/Modules/Voice/icon.png
+.. Loading resource: res://.godot/imported/icon.png-85989da147a1404ecd08c88eac72cda1.ctex
+.. Loading resource: res://addons/dialogic/Modules/Jump/icon_jump.png
+.. Loading resource: res://.godot/imported/icon_jump.png-50f6cdd715fcbdbed16b43c5beb6b851.ctex
+.. Loading resource: res://addons/dialogic/Modules/Jump/icon_label.png
+.. Loading resource: res://.godot/imported/icon_label.png-3923bd1131990c8869923c838ffdb9ae.ctex
+.. Loading resource: res://addons/dialogic/Modules/Jump/icon_return.svg
+.. Loading resource: res://.godot/imported/icon_return.svg-dc7fb704ff391638f73cbbc2b30b32fa.ctex
+.. Loading resource: res://addons/dialogic/Modules/Condition/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-502d45c064cc30f576b7b105a01357ce.ctex
+.. Loading resource: res://addons/dialogic/Modules/Choice/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-372a9bfce8bea67fff1988d7acf09a9a.ctex
+.. Loading resource: res://addons/dialogic/Modules/History/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-82841efe3f86e947d4f66fd24dc8f52c.ctex
+.. Loading resource: res://addons/dialogic/Modules/Audio/icon_music.png
+.. Loading resource: res://.godot/imported/icon_music.png-ffc971ba1265164a55f745186974be5f.ctex
+.. Loading resource: res://addons/dialogic/Modules/Audio/icon_sound.png
+.. Loading resource: res://.godot/imported/icon_sound.png-7a1a8a5533773d97969b6311b6a9133f.ctex
+.. Loading resource: res://addons/dialogic/Modules/Character/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-4f340f6efbb83004dbd5c761dd1dc448.ctex
+.. Loading resource: res://addons/dialogic/Modules/Variable/icon.png
+.. Loading resource: res://.godot/imported/icon.png-99064bb3920f49262c581fccbfcfc353.ctex
+.. Loading resource: res://addons/dialogic/Modules/Save/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-aad0408eebe298e9d92c76d6f2c79cf6.ctex
+.. Loading resource: res://addons/dialogic/Modules/Comment/icon.png
+.. Loading resource: res://.godot/imported/icon.png-fab76b8a5886dac0012cf73c317dbee4.ctex
+.. Loading resource: res://addons/dialogic/Modules/Call/icon.png
+.. Loading resource: res://.godot/imported/icon.png-12e444f0ed59397c7537943ea85b475c.ctex
+.. Loading resource: res://addons/dialogic/Modules/Clear/icon.png
+.. Loading resource: res://.godot/imported/icon.png-b4986c88bf1e20891dc480c8f4703ca4.ctex
+.. Loading resource: res://addons/dialogic/Modules/Background/icon.png
+.. Loading resource: res://.godot/imported/icon.png-cab4c78f59b171335e340ba590cf5991.ctex
+.. Loading resource: res://addons/dialogic/Modules/Settings/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-d4407cb145fa5c1d965de3d2bd63ce5f.ctex
+.. Loading resource: res://addons/dialogic/Modules/TextInput/icon.png
+.. Loading resource: res://.godot/imported/icon.png-aea103d18fdc694e2da87b3c5a56be35.ctex
+.. Loading resource: res://addons/dialogic/Modules/WaitInput/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-cb8e50b081a310c64183b12c6d12fcf2.ctex
+.. Loading resource: res://addons/dialogic/Modules/Wait/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-7e9f52b17ae6e5e1f284e12048cb8f05.ctex
+.. Loading resource: res://addons/dialogic/Modules/Style/icon.png
+.. Loading resource: res://.godot/imported/icon.png-ee52cc92a2b11ac2a101ff92d2eaaa7c.ctex
+.. Loading resource: res://addons/dialogic/Modules/End/icon.png
+.. Loading resource: res://.godot/imported/icon.png-8e345f81e023043fdbb4f75b1b0e9bb0.ctex
+.. Loading resource: res://addons/dialogic/Modules/Text/icon.svg
+.. Loading resource: res://.godot/imported/icon.svg-e2501ddcdef01c7f2c3538940f5abfc1.ctex
+.. Loading resource: res://addons/dialogic/Editor/Images/Toolbar/add-character.svg
+.. Loading resource: res://.godot/imported/add-character.svg-a658b65c1225b02657a50d5c965e0d5e.ctex
+.. Loading resource: res://addons/dialogic/Editor/TimelineEditor/VisualEditor/AddEventButton.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_section_general.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_section_general.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_section_portraits.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_section_portraits.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_vector2.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_vector2.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_number.tscn
+.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:4 - ext_resource, invalid UID: uid://dh1ycbmw8anqh - using text path instead: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/increment_icon.svg-081e6509e76349f0628c55a41e85fd65.ctex
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:167)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:5 - ext_resource, invalid UID: uid://brjikovneb63n - using text path instead: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
+.. Loading resource: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
+.. Loading resource: res://.godot/imported/decrement_icon.svg-9556cf56db91e200fb946372e010fd5e.ctex
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:167)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Editor/Images/Resources/portrait.svg
+.. Loading resource: res://.godot/imported/portrait.svg-7d29c7cfe3e086d65dce33c3d66c48cd.ctex
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_main_exports.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_main_exports.gd
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_exports.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_exports.gd
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_main.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_main.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/portrait_scene_browser.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/portrait_scene_browser.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_layout.tscn
+.. Loading resource: res://addons/dialogic/Editor/CharacterEditor/char_edit_p_section_layout.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_vector2.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_number.tscn
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:4 - ext_resource, invalid UID: uid://dh1ycbmw8anqh - using text path instead: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:173)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:5 - ext_resource, invalid UID: uid://brjikovneb63n - using text path instead: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:173)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Modules/Text/character_settings/character_moods_settings.tscn
+.. Loading resource: res://addons/dialogic/Modules/Text/character_settings/character_moods_settings.gd
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_file.tscn
+.. Loading resource: res://addons/dialogic/Editor/Events/Fields/field_number.tscn
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:4 - ext_resource, invalid UID: uid://dh1ycbmw8anqh - using text path instead: res://addons/dialogic/Editor/Images/Interactable/increment_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:178)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+:: WARNING: res://addons/dialogic/Editor/Events/Fields/field_number.tscn:5 - ext_resource, invalid UID: uid://brjikovneb63n - using text path instead: res://addons/dialogic/Editor/Images/Interactable/decrement_icon.svg
+:: at: load (scene/resources/resource_format_text.cpp:466)
+:: GDScript backtrace (most recent call first):
+:: [0] _ready (res://addons/dialogic/Editor/CharacterEditor/character_editor.gd:178)
+:: [1] _enter_tree (res://addons/dialogic/plugin.gd:36)
+.. Loading resource: res://addons/dialogic/Modules/Text/node_type_sound.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Modules/Text/character_settings/character_portrait_mood_settings.tscn
+.. Loading resource: res://addons/dialogic/Modules/Text/character_settings/character_portrait_mood_settings.gd
+.. Loading resource: res://addons/dialogic/Modules/Style/character_settings_style.tscn
+.. Loading resource: res://addons/dialogic/Modules/Style/character_settings_style.gd
+.. Loading resource: res://addons/dialogic/Editor/Common/hint_tooltip_icon.tscn
+.. Loading resource: res://addons/dialogic/Editor/Inspector/inspector_plugin.gd
+.. Loading resource: res://addons/fuku/fuku.gd
+.. Loading resource: res://addons/fuku/control.tscn
+:: WARNING: res://addons/fuku/control.tscn:3 - ext_resource, invalid UID: uid://kli5hsvyxscd - using text path instead: res://addons/fuku/control.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/fuku/control.gd
+.. Loading resource: res://addons/fuku/JetBrainsMono-Medium.ttf
+:: WARNING: res://addons/fuku/control.tscn:4 - ext_resource, invalid UID: uid://crssti8tw2ucj - using text path instead: res://addons/fuku/JetBrainsMono-Medium.ttf
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/JetBrainsMono-Medium.ttf-73d5538132d4c3677152115b43368fec.fontdata
+.. Loading resource: res://addons/fuku/JetBrainsMono-ExtraBold.ttf
+:: WARNING: res://addons/fuku/control.tscn:5 - ext_resource, invalid UID: uid://bqyjkmo5taqr4 - using text path instead: res://addons/fuku/JetBrainsMono-ExtraBold.ttf
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://.godot/imported/JetBrainsMono-ExtraBold.ttf-924649c1cb7e0fb1c1793bd53f941716.fontdata
+.. Loading resource: res://addons/fuku/fuku.png
+.. Loading resource: res://.godot/imported/fuku.png-400f2ee485d6a2332e8c6e01d6c4d42e.ctex
+.. No .env file found at: res://addons/fuku/.env
+.. Loading resource: res://addons/gdUnit4/plugin.gd
+:: SCRIPT ERROR: Parse Error: Too many arguments for "get_as_text()" call. Expected at most 0 but received 1.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitFileAccess.gd:191)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitTestResourceLoader.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitTestSuiteScanner.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/discovery/GdUnitTestDiscoverer.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/command/GdUnitCommandHandler.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/command/GdUnitShortcut.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/src/core/GdUnitSettings.gd:0)
+:: SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+:: at: GDScript::reload (res://addons/gdUnit4/plugin.gd:0)
+:: ERROR: Failed to load script "res://addons/gdUnit4/plugin.gd" with error "Compilation failed".
+:: at: load (modules/gdscript/gdscript.cpp:3037)
+.. \u001b[38;2;218;165;32mIt was recognized that GdUnit4 is running in a test environment, therefore the GdUnit4 plugin will not be executed!\u001b[0m
+.. Loading resource: res://addons/godot_xterm/plugin.gd
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.tscn
+:: WARNING: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.tscn:3 - ext_resource, invalid UID: uid://cufcnr6pxqofk - using text path instead: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.gd
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/terminal_panel.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.tscn
+:: WARNING: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.tscn:3 - ext_resource, invalid UID: uid://cgjg4p52appdp - using text path instead: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.gd
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/editor_terminal.gd
+:: at: load (scene/resources/resource_format_text.cpp:466)
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_new_terminal_shortcut.tres
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_kill_terminal_shortcut.tres
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_copy_shortcut.tres
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_paste_shortcut.tres
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_tab_right_shortcut.tres
+.. Loading resource: res://addons/godot_xterm/editor_plugins/terminal/settings/default_tab_left_shortcut.tres
+.. Loading resource: res://addons/maaacks_game_template/maaacks_game_template.gd
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:357)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:358)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:359)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _enter_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:360)
+.. Loading resource: res://addons/maaacks_game_template/installer/check_plugin_version.tscn
+.. Loading resource: res://addons/maaacks_game_template/installer/check_plugin_version.gd
+.. Loading resource: res://addons/maaacks_game_template/utilities/api_client.tscn
+.. Loading resource: res://addons/shadernoiselib/shadernoiselib.gd
+.. Loading resource: res://addons/type_writer_label/twl_init.gd
+.. Loading resource: res://addons/type_writer_label/classes/type_writer_label_icon.svg
+.. Loading resource: res://.godot/imported/type_writer_label_icon.svg-4ed2f6ad1e9b0ca97691e0060c880e78.ctex
+.. [  83% ] \u001b[90m\u001b[1mfirst_scan_filesystem\u001b[22m | Starting file scan...\u001b[39m\u001b[0m
+.. \u001b[92m[ DONE ]\u001b[39m \u001b[1mfirst_scan_filesystem\u001b[22m
+.. \u001b[0m
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
+.. Loading resource: res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl
+.. [Dialogic] Error opening file:7
+.. Failed loading resource: res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl
+:: ERROR: Failed loading resource: res://source/scenes/game_scene/levels/level_1_ghost/ghost_terminal.dtl.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] load_saved_state (res://addons/dialogic/Editor/editors_manager.gd:230)
+:: [1] _ready (res://addons/dialogic/Editor/editors_manager.gd:62)
+:: SCRIPT ERROR: Attempt to call function 'as_text' in base 'null instance' on a null instance.
+:: at: load_timeline (res://addons/dialogic/Editor/TimelineEditor/TextEditor/timeline_editor_text.gd:31)
+:: GDScript backtrace (most recent call first):
+:: [0] load_timeline (res://addons/dialogic/Editor/TimelineEditor/TextEditor/timeline_editor_text.gd:31)
+:: [1] _open_resource (res://addons/dialogic/Editor/TimelineEditor/timeline_editor.gd:74)
+:: [2] load_saved_state (res://addons/dialogic/Editor/editors_manager.gd:230)
+:: [3] _ready (res://addons/dialogic/Editor/editors_manager.gd:62)
+:: SCRIPT ERROR: Invalid access to property or key 'resource_path' on a base object of type 'null instance'.
+:: at: _open_resource (res://addons/dialogic/Editor/TimelineEditor/timeline_editor.gd:76)
+:: GDScript backtrace (most recent call first):
+:: [0] _open_resource (res://addons/dialogic/Editor/TimelineEditor/timeline_editor.gd:76)
+:: [1] load_saved_state (res://addons/dialogic/Editor/editors_manager.gd:230)
+:: [2] _ready (res://addons/dialogic/Editor/editors_manager.gd:62)
+.. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Started Loading editor (5 steps)\u001b[39m\u001b[0m
+.. [   0% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading editor layout...\u001b[39m\u001b[0m
+.. [  16% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading docks...\u001b[39m\u001b[0m
+.. [  33% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Reopening scenes...\u001b[39m\u001b[0m
+.. [  50% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading central editor layout...\u001b[39m\u001b[0m
+.. [  66% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Loading plugin window layout...\u001b[39m\u001b[0m
+:: ERROR: Couldn't open external text editor, falling back to the internal editor. Review your `text_editor/external/` editor settings.
+:: at: edit (editor/script/script_editor_plugin.cpp:2613)
+.. Loading resource: res://scenes/game_scene/levels/level.gd
+:: SCRIPT ERROR: Parse Error: Could not find type "OmegaSpiralLevelState" in the current scope.
+:: at: GDScript::reload (res://scenes/game_scene/levels/level.gd:10)
+:: SCRIPT ERROR: Parse Error: Identifier "_GlobalState" not declared in the current scope.
+:: at: GDScript::reload (res://scenes/game_scene/levels/level.gd:24)
+:: SCRIPT ERROR: Parse Error: Identifier "OmegaSpiralGameState" not declared in the current scope.
+:: at: GDScript::reload (res://scenes/game_scene/levels/level.gd:27)
+:: SCRIPT ERROR: Parse Error: Identifier "_GlobalState" not declared in the current scope.
+:: at: GDScript::reload (res://scenes/game_scene/levels/level.gd:36)
+:: ERROR: Failed to load script "res://scenes/game_scene/levels/level.gd" with error "Parse error".
+:: at: load (modules/gdscript/gdscript.cpp:3037)
+:: ERROR: Couldn't open external text editor, falling back to the internal editor. Review your `text_editor/external/` editor settings.
+:: at: edit (editor/script/script_editor_plugin.cpp:2613)
+.. [  83% ] \u001b[90m\u001b[1mloading_editor_layout\u001b[22m | Editor layout ready.\u001b[39m\u001b[0m
+.. \u001b[92m[ DONE ]\u001b[39m \u001b[1mloading_editor_layout\u001b[22m
+.. \u001b[0m
+.. Loading resource: res://scenes/game_scene/game_ui.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/utilities/pause_menu_controller.gd
+.. Loading resource: res://scenes/windows/pause_menu_layer.tscn
+.. Loading resource: res://scenes/windows/pause_menu_layer.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/overlaid_window.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/overlaid_window.gd
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/window_container.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd
+.. Loading resource: res://scenes/windows/pause_menu.gd
+.. Loading resource: res://scenes/windows/pause_menu_options_window.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/overlaid_window_scene_container.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/overlaid_window_scene_container.gd
+.. Loading resource: res://source/scenes/menus/options_menu/mini_options_menu_with_reset.tscn
+.. Failed loading resource: res://source/scenes/menus/options_menu/mini_options_menu_with_reset.tscn
+:: ERROR: Cannot open file 'res://source/scenes/menus/options_menu/mini_options_menu_with_reset.tscn'.
+:: at: load (scene/resources/resource_format_text.cpp:1409)
+:: ERROR: Failed loading resource: res://source/scenes/menus/options_menu/mini_options_menu_with_reset.tscn.
+:: at: _load (core/io/resource_loader.cpp:343)
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn
+.. Loading resource: res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn
+.. Loading resource: res://addons/maaacks_game_template/extras/scripts/level_loader.gd
+.. Loading resource: res://scripts/level_and_state_manager.gd
+.. Loading resource: res://scenes/windows/game_won_window.tscn
+.. Loading resource: res://scenes/windows/game_won_window.gd
+.. Loading resource: res://scenes/windows/level_lost_window.tscn
+.. Loading resource: res://scenes/windows/level_lost_window.gd
+.. Loading resource: res://scenes/windows/level_won_window.tscn
+.. Loading resource: res://scenes/windows/level_won_window.gd
+.. Loading resource: res://source/scenes/loading_screen/omega_level_loading_screen.tscn
+:: ERROR: Cannot open file 'res://source/scenes/loading_screen/omega_level_loading_screen.tscn'.
+:: at: load (scene/resources/resource_format_text.cpp:1409)
+.. Failed loading resource: res://source/scenes/loading_screen/omega_level_loading_screen.tscn
+:: ERROR: Failed loading resource: res://source/scenes/loading_screen/omega_level_loading_screen.tscn.
+:: at: _load (core/io/resource_loader.cpp:343)
+.. Loading resource: res://source/scenes/game_scene/configurable_sub_viewport.gd
+:: ERROR: Attempt to open script 'res://source/scenes/game_scene/configurable_sub_viewport.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+.. Failed loading resource: res://source/scenes/game_scene/configurable_sub_viewport.gd
+:: ERROR: Failed loading resource: res://source/scenes/game_scene/configurable_sub_viewport.gd.
+.. Loading resource: res://scenes/game_scene/game_timer.gd
+:: at: _load (core/io/resource_loader.cpp:343)
+.. Failed to bind socket. Error: 3.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x65805658: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x658c2d78: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x65805658: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x65805658: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x65805658: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x65805658: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x65805658: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x658c2d78: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x658c2d78: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x658c2d78: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x658c2d78: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x658c2d78: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac4002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac4002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac4002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac4002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac4002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac4002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac8002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac8002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac8002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac8002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac8002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac8002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac0002478: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab4002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc001dd8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac0002478: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac0002478: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac0002478: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac0002478: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac0002478: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab4002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab4002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab4002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab4002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab4002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704abc001dd8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704abc001dd8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704abc001dd8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704abc001dd8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704abc001dd8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab4010138: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc010328: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac0002478: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab4010138: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab4010138: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab4010138: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab4010138: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab4010138: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704abc010328: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac0002478: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704abc010328: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704abc010328: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704abc010328: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704abc010328: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac0002478: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac0002478: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac0002478: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac0002478: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac8012808: Perform PSA-based ECDH/FFDH computation.
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.en.translation
+.. Loading resource: res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac4002388: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac8012808: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac8012808: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac8012808: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac8012808: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac8012808: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac4002388: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac4002388: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac4002388: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac4002388: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac4002388: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac000e4e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac800e478: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400e168: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac000e4e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac000e4e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac000e4e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac000e4e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac000e4e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac800e478: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac800e478: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac800e478: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac800e478: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac800e478: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400e168: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400e168: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400e168: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400e168: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400e168: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab40130e8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab40130e8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab40130e8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab40130e8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab40130e8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab40130e8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac000fae8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400e168: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc0c0898: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac8011488: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc011708: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704abc011708: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704abc011708: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704abc011708: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704abc011708: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704abc011708: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc0c0898: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc0c0898: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc0c0898: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc0c0898: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc0c0898: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac8011488: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac000fae8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400e168: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac000fae8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac000fae8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac000fae8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac000fae8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400e168: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400e168: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400e168: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400e168: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac8011488: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac8011488: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac8011488: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac8011488: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc02ff68: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab40130a8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc02ff68: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc02ff68: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc02ff68: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc02ff68: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc02ff68: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac800d698: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac40020a8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab40130a8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac0012c88: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab40130a8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab40130a8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab40130a8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab40130a8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac800d698: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac800d698: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac800d698: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac800d698: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac800d698: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac0012c88: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac40020a8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac40020a8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac40020a8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac40020a8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac40020a8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac0012c88: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac0012c88: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac0012c88: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac0012c88: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc001a08: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400ccb8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac0012c88: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc02ff68: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac800ffc8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400ccb8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400ccb8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400ccb8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400ccb8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400ccb8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc02ff68: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc02ff68: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc02ff68: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc02ff68: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc02ff68: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac0012c88: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac800ffc8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac800ffc8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac800ffc8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac800ffc8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac800ffc8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac0012c88: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac0012c88: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac0012c88: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac0012c88: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc00e788: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400cbf8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac0012c88: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab40130a8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704abc00e788: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704abc00e788: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704abc00e788: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704abc00e788: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704abc00e788: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac0012c88: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac0012c88: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac0012c88: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac0012c88: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac0012c88: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400cbf8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab40130a8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab40130a8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab40130a8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab40130a8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab40130a8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400cbf8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400cbf8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400cbf8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400cbf8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac80152f8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc02ff68: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac80152f8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac80152f8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac80152f8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac80152f8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac80152f8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc02ff68: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc02ff68: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc02ff68: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc02ff68: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc02ff68: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ab4012088: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ab4012088: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ab4012088: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ab4012088: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ab4012088: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ab4012088: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac8016478: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704acc02ff68: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704abc001a08: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac8016478: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac8016478: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac8016478: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac8016478: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac8016478: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704acc02ff68: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704acc02ff68: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704acc02ff68: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704acc02ff68: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704acc02ff68: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704abc001a08: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704abc001a08: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704abc001a08: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704abc001a08: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704abc001a08: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400cbf8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400cbf8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400cbf8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400cbf8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400cbf8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400cbf8: Switch to application keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1552: 0x704ac400cbf8: Perform PSA-based ECDH/FFDH computation.
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:1950: 0x704ac400cbf8: Switch to handshake keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:0403: 0x704ac400cbf8: mbedtls_ssl_tls13_process_certificate_verify() returned 0 (-0x0000)
+.. thirdparty/mbedtls/library/ssl_tls13_client.c:2639: 0x704ac400cbf8: Switch to handshake traffic keys for outbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1235: 0x704ac400cbf8: Switch to application keys for inbound traffic
+.. thirdparty/mbedtls/library/ssl_tls13_generic.c:1238: 0x704ac400cbf8: Switch to application keys for outbound traffic
+.. Unloading addon: res://addons/dialogic/plugin.cfg
+.. Unloading addon: res://addons/fuku/plugin.cfg
+.. Unloading addon: res://addons/gdUnit4/plugin.cfg
+.. Unloading addon: res://addons/godot_xterm/plugin.cfg
+.. Unloading addon: res://addons/maaacks_game_template/plugin.cfg
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:369)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:370)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:371)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+.. Loading resource: res://source/scripts/level_and_state_manager.gd
+.. Failed loading resource: res://source/scripts/level_and_state_manager.gd
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+.. Loading resource: res://source/config/omega_app_settings.gd
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Failed to create an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: _create_autoload (editor/settings/editor_autoload_settings.cpp:405)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+:: ERROR: Condition "!info-&gt;node" is true. Continuing.
+:: at: update_autoload (editor/settings/editor_autoload_settings.cpp:571)
+:: GDScript backtrace (most recent call first):
+:: [0] _exit_tree (res://addons/maaacks_game_template/maaacks_game_template.gd:372)
+.. Failed loading resource: res://source/config/omega_app_settings.gd
+.. Unloading addon: res://addons/shadernoiselib/plugin.cfg
+.. Unloading addon: res://addons/type_writer_label/plugin.cfg
+:: ERROR: Unable to start the timer because it's not inside the scene tree. Either add it or set autostart to true.
+:: at: start (scene/main/timer.cpp:119)
+:: C# backtrace (most recent call first):
+:: [0] void Godot.NativeCalls.godot_icall_1_6(nint, nint, double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:68)
+:: [1] void Godot.Timer.Start(double) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Timer.cs:228)
+:: [2] void GodotTools.HotReloadAssemblyWatcher.RestartTimer() (/root/godot/modules/mono/editor/GodotTools/GodotTools/HotReloadAssemblyWatcher.cs:41)
+:: [3] void GodotTools.HotReloadAssemblyWatcher._Notification(int) (/root/godot/modules/mono/editor/GodotTools/GodotTools/HotReloadAssemblyWatcher.cs:18)
+:: [4] bool Godot.GodotObject.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&amp;, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&amp;) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/GodotObject.cs:1209)
+:: [5] bool Godot.Node.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&amp;, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&amp;) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Node.cs:2653)
+:: [6] bool GodotTools.HotReloadAssemblyWatcher.InvokeGodotClassMethod(Godot.NativeInterop.godot_string_name&amp;, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&amp;) (/root/godot/modules/mono/editor/GodotTools/GodotTools/Godot.SourceGenerators/Godot.SourceGenerators.ScriptMethodsGenerator/GodotTools.HotReloadAssemblyWatcher_ScriptMethods.generated.cs:70)
+:: [7] Godot.NativeInterop.godot_bool Godot.Bridge.CSharpInstanceBridge.Call(nint, Godot.NativeInterop.godot_string_name*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant_call_error*, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Bridge/CSharpInstanceBridge.cs:24)
+.. Script docs haven't been properly loaded or regenerated, so don't save them to disk.
+.. EditorSettings: Save OK!
+.. Unloading: Disposing tracked instances...
+.. Unloading: Finished disposing tracked instances.
+.. XR: Clearing primary interface
+.. XR: Removed interface "Native mobile"
+.. XR: Removed interface "OpenXR"
+:: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+:: at: cleanup (core/object/object.cpp:2570)
+.. Leaked instance: UndoRedo:2145118146995
+.. Hint: Leaked instances typically happen when nodes are removed from the scene tree (with `remove_child()`) but not freed (with `free()` or `queue_free()`).
+.. Orphan StringName: RenderingDevice (static: 2, total: 4)
+.. Orphan StringName: Mesh (static: 18, total: 20)
+.. Orphan StringName: Tween (static: 2, total: 4)
+.. Orphan StringName: Shader (static: 3, total: 5)
+.. Orphan StringName: PTY (static: 0, total: 2)
+.. Orphan StringName: ImageTexture (static: 5, total: 7)
+.. Orphan StringName: Semaphore (static: 2, total: 4)
+.. Orphan StringName: Terminal (static: 0, total: 2)
+.. Orphan StringName: MainLoop (static: 3, total: 5)
+.. Orphan StringName: TriangleMesh (static: 2, total: 4)
+.. Orphan StringName: InputEvent (static: 18, total: 20)
+.. Orphan StringName: InputEventMouse (static: 4, total: 6)
+.. Orphan StringName: ThemeDB (static: 2, total: 4)
+.. Orphan StringName: InputEventWithModifiers (static: 9, total: 11)
+.. Orphan StringName: Control (static: 221, total: 223)
+.. Orphan StringName: Shape3D (static: 11, total: 13)
+.. Orphan StringName: Input (static: 2, total: 4)
+.. Orphan StringName: InputEventFromWindow (static: 12, total: 14)
+.. Orphan StringName: ResourceLoader (static: 2, total: 4)
+.. Orphan StringName: Font (static: 5, total: 7)
+.. Orphan StringName: RenderingServer (static: 2, total: 4)
+.. Orphan StringName: Image (static: 2, total: 4)
+.. Orphan StringName: Resource (static: 464, total: 466)
+.. Orphan StringName: StyleBoxFlat (static: 5, total: 7)
+.. Orphan StringName: OS (static: 2, total: 4)
+.. Orphan StringName: Viewport (static: 62, total: 64)
+.. Orphan StringName: MultiplayerAPI (static: 4, total: 6)
+.. Orphan StringName: Timer (static: 2, total: 4)
+.. Orphan StringName: DisplayServer (static: 2, total: 4)
+.. Orphan StringName: Mutex (static: 2, total: 4)
+.. Orphan StringName: ConcavePolygonShape3D (static: 2, total: 4)
+.. Orphan StringName: Thread (static: 2, total: 4)
+.. Orphan StringName: CanvasItem (static: 269, total: 271)
+.. Orphan StringName: SceneTree (static: 2, total: 4)
+.. Orphan StringName: InputEventMouseMotion (static: 2, total: 4)
+.. Orphan StringName: InputEventMouseButton (static: 2, total: 4)
+.. Orphan StringName: Texture (static: 44, total: 46)
+.. Orphan StringName: CanvasLayer (static: 3, total: 5)
+.. Orphan StringName: World2D (static: 2, total: 4)
+.. Orphan StringName: ShaderMaterial (static: 2, total: 4)
+.. Orphan StringName: Material (static: 13, total: 15)
+.. Orphan StringName: Node (static: 568, total: 571)
+.. Orphan StringName: ProjectSettings (static: 2, total: 4)
+.. Orphan StringName: TextServer (static: 5, total: 7)
+.. Orphan StringName: RefCounted (static: 789, total: 791)
+.. Orphan StringName: Object (static: 1471, total: 1473)
+.. Orphan StringName: Theme (static: 3, total: 5)
+.. Orphan StringName: RDPipelineSpecializationConstant (static: 2, total: 4)
+.. Orphan StringName: ConvexPolygonShape3D (static: 2, total: 4)
+.. Orphan StringName: InputEventKey (static: 2, total: 4)
+.. Orphan StringName: ResourceFormatLoader (static: 2, total: 4)
+.. Orphan StringName: MultiMesh (static: 2, total: 4)
+.. Orphan StringName: Texture2D (static: 20, total: 22)
+.. Orphan StringName: Window (static: 65, total: 67)
+.. Orphan StringName: StyleBox (static: 6, total: 8)
+.. Orphan StringName: ClassDB (static: 2, total: 4)
+.. StringName: 56 unclaimed string names at exit.
+Rebuild Godot Project ends with exit code: 0
+
+======== Running GdUnit4 Godot Runtime Test Runner ========
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to instantiate an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: start (main/main.cpp:4270)
+:: ERROR: Attempt to open script 'res://source/scripts/level_and_state_manager.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: ERROR: Failed loading resource: res://source/scripts/level_and_state_manager.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to instantiate an autoload, can't load from path: res://source/scripts/level_and_state_manager.gd.
+:: at: start (main/main.cpp:4270)
+:: ERROR: Attempt to open script 'res://source/config/omega_app_settings.gd' resulted in error 'File not found'.
+:: at: load_source_code (modules/gdscript/gdscript.cpp:1119)
+:: ERROR: Failed loading resource: res://source/config/omega_app_settings.gd.
+:: at: _load (core/io/resource_loader.cpp:343)
+:: ERROR: Failed to instantiate an autoload, can't load from path: res://source/config/omega_app_settings.gd.
+:: at: start (main/main.cpp:4270)
+:: WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+:: at: cleanup (core/object/object.cpp:2570)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: Cannot get path of node as it is not in a scene tree.
+:: at: get_path (scene/main/node.cpp:2432)
+:: ERROR: 26 resources still in use at exit.
+:: at: clear (core/io/resource.cpp:796)
+GdUnit4 Godot Runtime Test Runner ends with exit code: 0
+
+Completed tests for assembly: /home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/bin/Debug/chapter-zero.dll
+Test execution stopped.
+</StdOut>
+    </Output>
+    <RunInfos>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-03T18:02:40.7610973-05:00">
+        <Text>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Text>
+      </RunInfo>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-03T18:02:40.7611137-05:00">
+        <Text>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Text>
+      </RunInfo>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-03T18:02:40.7727495-05:00">
+        <Text>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Text>
+      </RunInfo>
+      <RunInfo computerName="omega" outcome="Error" timestamp="2025-11-03T18:02:40.7934664-05:00">
+        <Text>GdUnitSceneRunner: Can't load scene by given resource path: 'res://source/scenes/menus/main_menu/main_menu_with_animations.tscn'. The resource does not exists.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+</TestRun>

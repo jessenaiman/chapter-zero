@@ -4,7 +4,8 @@
 // </copyright>
 
 using Godot;
-using OmegaSpiral.Source.Scripts.Common;
+using OmegaSpiral.Source.Backend.Common;
+
 using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using System.Collections.ObjectModel;
 

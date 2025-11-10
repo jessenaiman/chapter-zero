@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://c3trg4x6hiuul"]
 
-[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source/scripts/field/gamepieces/gamepiece.tscn" id="1_3w6ce"]
-[ext_resource type="Script" uid="uid://cgwq0j8de7mxv" path="res://source/scripts/field/cutscenes/templates/treasure_chests/TreasureChest.cs" id="2_hxwix"]
-[ext_resource type="PackedScene" uid="uid://oot0x5n44b2r" path="res://source/scripts/field/cutscenes/Interaction.tscn" id="2_s6euu"]
-[ext_resource type="Script" uid="uid://dqccuka0umesn" path="res://source/scripts/field/cutscenes/templates/treasure_chests/TreasureChestInteraction.cs" id="4_3t0c6"]
-[ext_resource type="Texture2D" uid="uid://dm4h0uo6gjp22" path="res://source/overworld/maps/tilesets/dungeon_tilemap.png" id="4_5fem6"]
+[ext_resource type="PackedScene" uid="uid://b626e0bngfvjj" path="res://source//field/gamepieces/gamepiece.tscn" id="1_3w6ce"]
+[ext_resource type="Script" uid="uid://cgwq0j8de7mxv" path="res://source//field/cutscenes/templates/treasure_chests/TreasureChest.cs" id="2_hxwix"]
+[ext_resource type="PackedScene" uid="uid://oot0x5n44b2r" path="res://source//field/cutscenes/Interaction.tscn" id="2_s6euu"]
+[ext_resource type="Script" uid="uid://dqccuka0umesn" path="res://source//field/cutscenes/templates/treasure_chests/TreasureChestInteraction.cs" id="4_3t0c6"]
+[ext_resource type="Texture2D" uid="uid://dm4h0uo6gjp22" path="res://source//overworld/maps/tilesets/dungeon_tilemap.png" id="4_5fem6"]
 [ext_resource type="AudioStream" uid="uid://d0fqunqsgssgd" path="res://assets/sfx/doorClose_4.ogg" id="5_3t0c6"]
 [ext_resource type="AudioStream" uid="uid://cwpbiytveaon0" path="res://assets/sfx/doorOpen_2.ogg" id="6_rtaj3"]
-[ext_resource type="PackedScene" uid="uid://cubp81mykng3h" path="res://source/scripts/field/cutscenes/popups/InteractionPopup.tscn" id="7_3s1uf"]
+[ext_resource type="PackedScene" uid="uid://cubp81mykng3h" path="res://source//field/cutscenes/popups/InteractionPopup.tscn" id="7_3s1uf"]
 
 [sub_resource type="Animation" id="Animation_upvuf"]
 length = 0.001

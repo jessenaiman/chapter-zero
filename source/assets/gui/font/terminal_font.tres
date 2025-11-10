@@ -1,9 +1,14 @@
-[gd_resource type="FontFile" load_steps=2 format=3]
+[gd_resource type="FontFile" load_steps=2 format=3 uid="uid://csv7cdraekeeb"]
 
-[ext_resource type="FontFile" path="res://source/assets/gui/font/SourceCodePro-Bold.ttf" id="1"]
+[ext_resource type="FontFile" uid="uid://d12hnvq203mdg" path="res://source/assets/gui/font/SourceCodePro-Bold.ttf" id="1"]
 
 [resource]
-font_data = ExtResource("1")
+fallbacks = Array[Font]([ExtResource("1")])
 antialiasing = 0
-hinting = 0
 subpixel_positioning = 0
+hinting = 0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0

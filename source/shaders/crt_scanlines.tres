@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3]
-
-[ext_resource type="Shader" path="res://source/shaders/crt_scanlines.gdshader" id="1"]
-
-[resource]
-shader = ExtResource("1")
-shader_parameter/scanline_speed = 1.0
-shader_parameter/scanline_intensity = 0.5
-shader_parameter/line_thickness = 1.0

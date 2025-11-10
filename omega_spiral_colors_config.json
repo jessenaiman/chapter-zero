@@ -1,0 +1,399 @@
+{
+  "_doc": "Omega Spiral Chapter Zero - Quick Win Color Palette\nThis palette provides immediate visual improvements for your game UI",
+  "design_system": {
+    "warm_amber": {
+      "r": 1.0,
+      "g": 0.85,
+      "b": 0.2,
+      "a": 1.0,
+      "hex": "#FFD93D",
+      "_doc": "Primary accent color - warm and inviting"
+    },
+    "pure_white": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 1.0,
+      "hex": "#FFFFFF",
+      "_doc": "Clean, readable text and highlights"
+    },
+    "light_thread": {
+      "r": 0.9,
+      "g": 0.8,
+      "b": 0.6,
+      "a": 1.0,
+      "hex": "#E6CCA6",
+      "_doc": "Luminary Dreamweaver - soft and hopeful"
+    },
+    "shadow_thread": {
+      "r": 0.6,
+      "g": 0.4,
+      "b": 0.8,
+      "a": 1.0,
+      "hex": "#9966CC",
+      "_doc": "Shadow Dreamweaver - mysterious and elegant"
+    },
+    "ambition_thread": {
+      "r": 0.8,
+      "g": 0.2,
+      "b": 0.2,
+      "a": 1.0,
+      "hex": "#CC3333",
+      "_doc": "Ambition Dreamweaver - bold and intense"
+    },
+    "deep_navy": {
+      "r": 0.1,
+      "g": 0.1,
+      "b": 0.2,
+      "a": 1.0,
+      "hex": "#1A1A33",
+      "_doc": "Background and deep shadows"
+    },
+    "steel_blue": {
+      "r": 0.4,
+      "g": 0.5,
+      "b": 0.7,
+      "a": 1.0,
+      "hex": "#6680B3",
+      "_doc": "UI panels and secondary elements"
+    },
+    "soft_green": {
+      "r": 0.6,
+      "g": 0.8,
+      "b": 0.6,
+      "a": 1.0,
+      "hex": "#99CC99",
+      "_doc": "Success and positive feedback"
+    }
+  },
+  "shader_presets": {
+    "spiral_border_base": {
+      "_doc": "Basic spiral border effect for UI frames",
+      "shader": "res://source/design/shaders/spiral_border.gdshader",
+      "parameters": {
+        "border_color": [
+          1.0,
+          0.85,
+          0.2,
+          0.8
+        ],
+        "border_width": 2.0,
+        "scanline_overlay": {
+          "_doc": "Scanline overlay tint.",
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.18,
+          "hex": "#FFFFFF",
+          "alpha_note": "18% opacity white overlay"
+        },
+        "glitch_distortion": {
+          "_doc": "Glitch overlay tint.",
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 0.08,
+          "hex": "#FFFFFF",
+          "alpha_note": "8% opacity white overlay"
+        },
+        "light_thread": {
+          "_doc": "Dreamweaver Light thread (Silver).",
+          "r": 0.95,
+          "g": 0.95,
+          "b": 1.0,
+          "a": 1.0,
+          "hex": "#F2F2FF"
+        },
+        "shadow_thread": {
+          "_doc": "Dreamweaver Shadow thread (Golden Amber).",
+          "r": 1.0,
+          "g": 0.75,
+          "b": 0.2,
+          "a": 1.0,
+          "hex": "#FFBF33"
+        },
+        "ambition_thread": {
+          "_doc": "Dreamweaver Ambition thread (Crimson).",
+          "r": 0.9,
+          "g": 0.15,
+          "b": 0.1,
+          "a": 1.0,
+          "hex": "#E62619"
+        },
+        "intro_white": {
+          "_doc": "Intro sequence title text (pure white).",
+          "r": 1.0,
+          "g": 1.0,
+          "b": 1.0,
+          "a": 1.0,
+          "hex": "#FFFFFF"
+        },
+        "intro_gray_light": {
+          "_doc": "Intro sequence subtitle text (light gray).",
+          "r": 0.8,
+          "g": 0.8,
+          "b": 0.8,
+          "a": 1.0,
+          "hex": "#CCCCCC"
+        },
+        "intro_gray_medium": {
+          "_doc": "Intro sequence description text (medium gray).",
+          "r": 0.6667,
+          "g": 0.6667,
+          "b": 0.6667,
+          "a": 1.0,
+          "hex": "#AAAAAA"
+        },
+        "intro_gray_dark": {
+          "_doc": "Intro sequence detail text (dark gray).",
+          "r": 0.6,
+          "g": 0.6,
+          "b": 0.6,
+          "a": 1.0,
+          "hex": "#999999"
+        },
+        "intro_gray_darker": {
+          "_doc": "Intro sequence ending text (darker gray).",
+          "r": 0.5333,
+          "g": 0.5333,
+          "b": 0.5333,
+          "a": 1.0,
+          "hex": "#888888"
+        },
+        "damage_color": {
+          "_doc": "Combat damage label color.",
+          "r": 0.6902,
+          "g": 0.1882,
+          "b": 0.3608,
+          "a": 1.0,
+          "hex": "#B0305C"
+        },
+        "heal_color": {
+          "_doc": "Combat heal label color.",
+          "r": 0.2353,
+          "g": 0.6549,
+          "b": 0.4392,
+          "a": 1.0,
+          "hex": "#3CA370"
+        }
+      },
+      "shader_presets": {
+        "_doc": "Collection of shader material presets and their parameters for various visual effects in Ωmega Spiral. Each preset includes a shader resource path and configurable parameters with defaults tuned to match the ghost_design_document.md baseline. These are used in scene materials for effects like borders, CRT distortions, and backgrounds. Parameters are normalized or in specific units as noted.",
+        "spiral_border_base": {
+          "_doc": "Default preset for the Omega spiral border frame animation. This shader creates animated energy streams around the screen border. Parameters control rotation, wave properties, and thread intensities for the three Dreamweaver threads (Light, Shadow, Ambition). Used in scene backgrounds for thematic framing.",
+          "shader": "res://source//design/shaders/spiral_border.gdshader",
+          "parameters": {
+            "rotation_speed": 0.05,
+            "wave_speed": 0.8,
+            "wave_frequency": 8.0,
+            "wave_amplitude": 0.25,
+            "border_width": 0.015,
+            "glow_intensity": 1.2,
+            "thread_separation": 2.094,
+            "light_thread_weight": 1.0,
+            "shadow_thread_weight": 1.0,
+            "ambition_thread_weight": 1.0
+          }
+        },
+        "crt_phosphor_base": {
+          "_doc": "Baseline phosphor settings (Stage 1 stable).",
+          "shader": "res://source//design/shaders/crt_phosphor.tres",
+          "parameters": {
+            "phosphor_glow": 1.2,
+            "phosphor_tint": {
+              "x": 0.2,
+              "y": 1.0,
+              "z": 0.4
+            },
+            "phosphor_spread": 1.0,
+            "vignette_strength": 0.3,
+            "vignette_softness": 0.5,
+            "chromatic_aberration": 1.5,
+            "brightness": 1.0,
+            "contrast": 1.1
+          }
+        },
+        "crt_scanlines_base": {
+          "_doc": "Baseline scanline movement.",
+          "shader": "res://source//design/shaders/crt_scanlines.tres",
+          "parameters": {
+            "scanline_opacity": 0.08,
+            "scanline_speed": 5.0,
+            "scanline_count": 400.0,
+            "scanline_thickness": 1.2,
+            "scanline_tint": {
+              "color_ref": "design_system.scanline_overlay"
+            }
+          }
+        },
+        "crt_glitch_base": {
+          "_doc": "Subtle ambient glitches for stable baseline.",
+          "shader": "res://source//design/shaders/crt_glitch.tres",
+          "parameters": {
+            "glitch_intensity": 0.0,
+            "interference_speed": 5.0,
+            "chromatic_offset": 2.0,
+            "block_size": 16.0,
+            "noise_amount": 0.1,
+            "displacement_strength": 0.02
+          }
+        },
+        "pulsing_background_base": {
+          "_doc": "Fallback for pulsing background shader.",
+          "shader": "res://source//design/shaders/pulsing_background.gdshader",
+          "parameters": {
+            "pulse_speed": 0.35,
+            "pulse_strength": 0.6,
+            "vignette_radius": 1.1,
+            "vignette_softness": 0.45,
+            "base_color": {
+              "color_ref": "design_system.dark_void"
+            },
+            "glow_color": {
+              "r": 0.2,
+              "g": 0.15,
+              "b": 0.3,
+              "a": 1.0
+            }
+          }
+        },
+        "phosphor": {
+          "_doc": "Legacy preset: pure green phosphor for fast validation.",
+          "shader": "res://source//design/shaders/crt_phosphor.tres",
+          "parameters": {
+            "phosphor_color": {
+              "r": 0.0,
+              "g": 1.0,
+              "b": 0.0,
+              "a": 1.0
+            },
+            "phosphor_intensity": 1.2,
+            "scanline_intensity": 0.3,
+            "glow_strength": 0.8
+          }
+        },
+        "scanlines": {
+          "_doc": "Legacy preset: classic CRT scanlines.",
+          "shader": "res://source//design/shaders/crt_scanlines.tres",
+          "parameters": {
+            "scanline_color": {
+              "color_ref": "design_system.pure_black"
+            },
+            "scanline_opacity": 0.4,
+            "scanline_spacing": 2.0,
+            "brightness": 1.1
+          }
+        },
+        "glitch": {
+          "_doc": "Legacy preset: combined glitch overlay.",
+          "shader": "res://source//design/shaders/crt_glitch.tres",
+          "parameters": {
+            "glitch_intensity": 0.6,
+            "noise_amount": 0.3,
+            "rgb_shift": 0.02,
+            "scanline_jitter": 0.1
+          }
+        },
+        "crt": {
+          "_doc": "Legacy preset: combined CRT effect.",
+          "shader": "res://source//design/shaders/crt_combined.tres",
+          "parameters": {
+            "phosphor_color": {
+              "r": 0.0,
+              "g": 1.0,
+              "b": 0.0,
+              "a": 1.0
+            },
+            "phosphor_intensity": 1.0,
+            "scanline_intensity": 0.5,
+            "curvature": 0.1,
+            "brightness": 1.0
+          }
+        },
+        "terminal": {
+          "_doc": "Clean CRT terminal (no shader material).",
+          "parameters": {}
+        },
+        "boot_sequence": {
+          "_doc": "Stage 1 · Boot sequence glitch (design doc State 1).",
+          "shader": "res://source//design/shaders/crt_glitch.tres",
+          "parameters": {
+            "glitch_intensity": 1.0,
+            "scanline_speed": 3.0,
+            "rgb_split": 7.0,
+            "symbol_bleed": 0.8,
+            "noise_amount": 0.6
+          }
+        },
+        "stable_baseline_glitch_spike": {
+          "_doc": "Momentary glitch spike during narrative beats.",
+          "shader": "res://source//design/shaders/crt_glitch.tres",
+          "parameters": {
+            "glitch_intensity": 0.5,
+            "chromatic_offset": 2.0,
+            "noise_amount": 0.2
+          }
+        },
+        "code_fragment_glitch_overlay": {
+          "_doc": "Secret reveal overlay (design doc State 3).",
+          "shader": "res://source//design/shaders/crt_glitch.tres",
+          "parameters": {
+            "glitch_intensity": 1.0,
+            "chromatic_offset": 2.0,
+            "noise_amount": 0.8,
+            "interference_speed": 15.0,
+            "block_size": 32.0
+          }
+        },
+        "dreamweaver_selection_light": {
+          "_doc": "Light thread CRT adjustments.",
+          "shader": "res://source//design/shaders/crt_phosphor.tres",
+          "parameters": {
+            "phosphor_tint": {
+              "x": 1.0,
+              "y": 0.9,
+              "z": 0.5
+            },
+            "scanline_intensity": 0.25,
+            "flicker_frequency": 0.8,
+            "vignette_strength": 0.15,
+            "glow_spread": 1.4
+          }
+        },
+        "dreamweaver_selection_shadow": {
+          "_doc": "Shadow thread CRT adjustments.",
+          "shader": "res://source//design/shaders/crt_phosphor.tres",
+          "parameters": {
+            "phosphor_tint": {
+              "x": 0.6,
+              "y": 0.3,
+              "z": 0.8
+            },
+            "scanline_intensity": 0.45,
+            "rgb_split": 1.5,
+            "flicker_frequency": 2.0,
+            "vignette_strength": 0.5
+          }
+        },
+        "dreamweaver_selection_ambition": {
+          "_doc": "Ambition thread CRT adjustments.",
+          "shader": "res://source//design/shaders/crt_phosphor.tres",
+          "parameters": {
+            "phosphor_tint": {
+              "x": 1.0,
+              "y": 0.2,
+              "z": 0.05
+            },
+            "scanline_intensity": 0.55,
+            "flicker_frequency": 3.5,
+            "vignette_strength": 0.45,
+            "glow_spread": 0.8
+          }
+        }
+      },
+      "notes": [
+        "All numeric values derived from ghost_design_document.md and stage-review docs.",
+        "Shader preset stacks apply from base layers outward (phosphor → scanlines → glitch).",
+        "Use _doc fields to keep design documentation in sync with runtime configuration."
+      ]
+    }

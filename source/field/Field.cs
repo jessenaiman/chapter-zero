@@ -4,8 +4,9 @@
 // </copyright>
 
 using Godot;
+using OmegaSpiral.Source.Backend.Common;
+
 using OmegaSpiral.Source.Scripts.Combat;
-using OmegaSpiral.Source.Scripts.Common;
 using OmegaSpiral.Source.Scripts.Field.cutscenes;
 using OmegaSpiral.Source.Scripts.Field.gamepieces;
 using OmegaSpiral.Source.Scripts.Field.gamepieces.Controllers;
@@ -124,7 +125,7 @@ public partial class Field : Node2D
         // Check for exit condition - ESC key exits the RPG act
         if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.Escape)
         {
-            GD.Print("Field: Exit requested - returning to Omega Spiral act sequence");
+            GD.Print("Field: Exit requested - returning to Ωmega Spiral act sequence");
             this.EmitSignal(SignalName.ActExitRequested);
         }
     }

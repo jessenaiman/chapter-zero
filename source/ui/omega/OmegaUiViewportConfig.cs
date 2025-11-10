@@ -2,9 +2,6 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace OmegaSpiral.Source.Ui.Omega;
 
 /// <summary>

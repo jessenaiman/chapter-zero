@@ -1,12 +1,3 @@
----
-layout: default
-title: Key Inputs
-parent: Scene Runner
-grand_parent: Advanced Testing
-nav_order: 2
----
-
-
 # Simulate Key Inputs
 
 This page provides guidance on how to test key inputs in your scene using GdUnit4.
@@ -31,20 +22,20 @@ All functions listed below utilize the
 To simulate key interactions in your scene, you can use the provided key simulation functions.
 These functions allow you to mimic user key inputs for testing purposes. There are two main categories of functions:
 
-* **Unfinished Functions**<br>
+* **Unfinished Functions**
     Unfinished functions simulate the act of pressing a key without releasing it immediately.
     These are useful for simulating combinations, such as holding down a modifier key (e.g., Ctrl) while pressing another key (e.g., C for Ctrl+C).
     The interaction is completed when the key release function is called.
 
-  * **[simulate_key_press](#simulate_key_press)**<br>
-    Simulates pressing a key without releasing it.<br>
-  * **[simulate_key_release](#simulate_key_release)**<br>
+  * **[simulate_key_press](#simulate_key_press)**
+    Simulates pressing a key without releasing it.
+  * **[simulate_key_release](#simulate_key_release)**
     Completes a key interaction by releasing the key.
 
-* **Finalized Functions**<br>
+* **Finalized Functions**
     Finalized functions simulate a complete key press-and-release action in a single function call.
 
-  * **[simulate_key_pressed](#simulate_key_pressed)**<br>
+  * **[simulate_key_pressed](#simulate_key_pressed)**
     Simulates a full key press-and-release interaction.
 
 {% include advice.html

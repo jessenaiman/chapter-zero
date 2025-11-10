@@ -176,17 +176,17 @@ public partial class Pathfinder : RefCounted
     /// <returns>A list of cell positions representing the path from start to end point, or empty list if no path found.</returns>
     public IReadOnlyCollection<Vector2I> GetPath(int startId, int endId)
     {
-        ResetScores();
-        if (!TryGetPoints(startId, endId, out var startPoint, out var endPoint) || startPoint == null || endPoint == null)
+        this.ResetScores();
+        if (!this.TryGetPoints(startId, endId, out var startPoint, out var endPoint) || startPoint == null || endPoint == null)
         {
             return new List<Vector2I>();
         }
-        InitializeStartPoint(startPoint, endPoint);
+        this.InitializeStartPoint(startPoint, endPoint);
         var openSet = new PriorityQueue<int, float>();
         var cameFrom = new Dictionary<int, int>();
         var openSetHash = new HashSet<int> { startId };
         openSet.Enqueue(startId, startPoint.FScore);
-        return FindPath(endId, cameFrom, openSet, openSetHash, endPoint);
+        return this.FindPath(endId, cameFrom, openSet, openSetHash, endPoint);
     }
 
     private IReadOnlyCollection<Vector2I> FindPath(int endId, Dictionary<int, int> cameFrom, PriorityQueue<int, float> openSet, HashSet<int> openSetHash, PointData endPoint)
@@ -199,7 +199,7 @@ public partial class Pathfinder : RefCounted
             {
                 return this.ReconstructPath(cameFrom, currentId);
             }
-            if (ProcessNeighbors(currentId, endPoint, cameFrom, openSet, openSetHash))
+            if (this.ProcessNeighbors(currentId, endPoint, cameFrom, openSet, openSetHash))
             {
                 continue;
             }

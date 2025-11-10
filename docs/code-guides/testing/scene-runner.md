@@ -123,16 +123,14 @@ runner.SetTimeFactor(5);
 await runner.SimulateFrames(60);
 ```
 
-
 ### move_window_to_foreground
 
-The **move_window_to_foreground** function restores the scene window to a windowed mode and brings it to the foreground.<br>
+The **move_window_to_foreground** function restores the scene window to a windowed mode and brings it to the foreground.
 This ensures that the scene is visible and active during testing, making it easier to observe and interact with,
-as the window are minimized or moved to the background after each test.<br>
-<br>
+as the window are minimized or moved to the background after each test.
+
 This function is essential for scenarios where the scene needs to be actively monitored or interacted with during automated tests.
 Without it, the scene may not be visible or accessible, which can hinder the debugging process.
-
 
 ```cs
 /// <summary>
@@ -148,4 +146,3 @@ ISceneRunner runner = ISceneRunner.Load("res://test_scene.tscn");
 // Shows the running scene and moves the window to the foreground
 runner.MoveWindowToForeground();
 ```
-

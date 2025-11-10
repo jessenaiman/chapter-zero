@@ -2,11 +2,10 @@
 // Copyright (c) Ωmega Spiral. All rights reserved.
 // </copyright>
 
-using Godot;
-using OmegaSpiral.Source.Scripts.Common;
-
 namespace OmegaSpiral.Source.Scripts.Field
 {
+    using Godot;
+    using OmegaSpiral.Source.Backend.Common;
     /// <summary>
     /// Represents a single ASCII-based dungeon room with map layout, objects, and navigation.
     /// Each room belongs to a specific Dreamweaver type and contains interactive elements.

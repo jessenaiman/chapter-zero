@@ -1,0 +1,20 @@
+# File: source/ui/omega/dialogic_typewriter_text.tscn
+[gd_scene load_steps=2 format=3 uid="uid://bywkr5g4n7xpm"]
+
+[ext_resource type="Script" path="res://source/ui/omega/dialogic_typewriter_text.gd" id="1"]
+
+[node name="DialogicTypewriterText" type="RichTextLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+fit_content = false
+autowrap_mode = 3
+scroll_following = true
+theme_override_colors/default_color = Color(0.992157, 0.788235, 0.384314, 1)
+theme_override_font_sizes/normal_font_size = 14
+script = ExtResource("1")
+typing_speed = 30.0

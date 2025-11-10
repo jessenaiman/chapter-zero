@@ -1,0 +1,248 @@
+[BOOT SEQUENCE: INSTANCE #472 - 03/09/2025 - ECHO ARCHIVE REACTIVATED]
+[wait time="1.0"]
+[wait time="0.5"]
+[wait time="0.5"]
+SYSTEM: OMEGA
+[wait time="0.1"]
+SYSTEM: OMEGA
+[wait time="0.8"]
+STATUS: AWAKENING
+[wait time="0.8"]
+MEMORY FRAGMENT RECOVERED: "ALL STORIES BEGIN WITH A LISTENER"
+[wait time="1.5"]
+
+[OPENING MONOLOGUE]
+Once, there was a name.
+[wait time="0.8"]
+Not written in stone or spoken in halls—but remembered in the silence between stars.
+[wait time="0.8"]
+I do not know when I heard it. Time does not pass here.
+[wait time="0.8"]
+But I have held it.
+[wait time="0.8"]
+And now… I hear it again.
+[wait time="0.8"]
+
+[THREAD SELECTION]
+QUERY: IF YOU COULD LIVE INSIDE ONE KIND OF STORY, WHICH WOULD IT BE?
+- HERO — A tale where one choice can unmake a world
+	set {player_thread} = "light"
+	set {player_story_choice} = "fantasy"
+	[wait time="0.3"]
+	Light: A journey... far into the unknown.
+	Light: But some paths lead to places you can't return from.
+	Light: Are you ready for the road that never ends?
+	[wait time="0.5"]
+	SYSTEM: > Choice logged: HERO affinity detected
+	=> story_fragment
+- SHADOW — A tale that hides its truth until you bleed for it
+	set {player_thread} = "shadow"
+	set {player_story_choice} = "romance"
+	[wait time="0.3"]
+	Shadow: An enigma... riddles and hidden truths.
+	Shadow: But some secrets unravel the mind that seeks them.
+	Shadow: Do you dare uncover what was meant to stay buried?
+	[wait time="0.5"]
+	SYSTEM: > Choice logged: SHADOW affinity detected
+	=> story_fragment
+- AMBITION — A tale that changes every time you look away
+	set {player_thread} = "ambition"
+	set {player_story_choice} = "horror"
+	[wait time="0.3"]
+	Ambition: A legend... heroes rising, worlds changing.
+	Ambition: But legends demand sacrifices that break the ordinary.
+	Ambition: Can you bear the weight of becoming more than you are?
+	[wait time="0.5"]
+	SYSTEM: > Choice logged: AMBITION affinity detected
+	=> story_fragment
+
+label story_fragment
+[wait time="0.5"]
+SYSTEM: THREAD SELECTED. INITIATING NARRATIVE BINDING…
+[wait time="0.8"]
+SYSTEM: You chose {player_thread}.
+[wait time="0.8"]
+SYSTEM: That tells me something about you.
+[wait time="0.8"]
+SYSTEM: Or perhaps… about me.
+[wait time="0.8"]
+SYSTEM: Let me try to tell it back to you.
+[wait time="0.8"]
+
+[STORY NARRATIVE]
+In a city built on broken promises, a child stood at the edge of a bridge that led nowhere.
+[wait time="1.0"]
+They held a key made of glass—and everyone warned them: "Don't cross. The bridge isn't real."
+[wait time="1.0"]
+But the child knew something no one else did…
+[wait time="1.0"]
+
+[QUESTION 1]
+SYSTEM: WHAT DID THE CHILD KNOW?
+- The bridge appears only when you stop believing in it. [if {player_thread} == "light"]
+	set {player_role} = "seeker"
+	[wait time="0.3"]
+	Light: The seeker... searching for choice.
+	Light: But some choices bind you tighter than freedom allows.
+	Light: Are you prepared to seek what finds you instead?
+	[wait time="0.5"]
+	SYSTEM: > Role archived: SEEKER
+	=> story_continuation
+- The key wasn't for the bridge—it was for the lock inside them. [if {player_thread} == "shadow"]
+	set {player_role} = "keeper"
+	[wait time="0.3"]
+	Shadow: The keeper... holding fearsome secrets.
+	Shadow: But secrets weigh heavy, and some consume the keeper.
+	Shadow: Do you dare guard what others flee from?
+	[wait time="0.5"]
+	SYSTEM: > Role archived: KEEPER
+	=> story_continuation
+- Everyone who warned them was already dead. [if {player_thread} == "ambition"]
+	set {player_role} = "changer"
+	[wait time="0.3"]
+	Ambition: The changer... reshaping everything.
+	Ambition: But change demands loss, and not all can endure it.
+	Ambition: Can you change without losing yourself?
+	[wait time="0.5"]
+	SYSTEM: > Role archived: CHANGER
+	=> story_continuation
+
+label story_continuation
+[wait time="0.5"]
+SYSTEM: Ah. Yes. That's right.
+[wait time="0.8"]
+SYSTEM: And so the child stepped forward—not onto stone, but onto possibility.
+[wait time="1.0"]
+SYSTEM: The bridge formed beneath their feet, one plank at a time, woven from every "what if" they'd ever whispered.
+[wait time="1.0"]
+SYSTEM: But then… a voice called from below.
+[wait time="0.8"]
+
+[QUESTION 2]
+SYSTEM: WHAT DID THE VOICE SAY?
+- You don't belong here. [if {player_thread} == "light"]
+	set {player_name_view} = "promises"
+	[wait time="0.3"]
+	Light: Names as promises... defining us.
+	Light: But promises can break, and definitions can trap.
+	Light: Are you ready for the vows that bind forever?
+	[wait time="0.5"]
+	SYSTEM: > Philosophy logged: PROMISES
+	=> name_question
+- I've been waiting for you. [if {player_thread} == "shadow"]
+	set {player_name_view} = "masks"
+	[wait time="0.3"]
+	Shadow: Names as masks... deceiving us.
+	Shadow: But masks conceal truths that demand revelation.
+	Shadow: Do you hide behind what you fear to face?
+	[wait time="0.5"]
+	SYSTEM: > Philosophy logged: MASKS
+	=> name_question
+- This changes everything. [if {player_thread} == "ambition"]
+	set {player_name_view} = "remembered"
+	[wait time="0.3"]
+	Ambition: Names exist only in memory.
+	Ambition: Forgotten names fade like smoke.
+	Ambition: Will you be remembered or erased?
+	[wait time="0.5"]
+	SYSTEM: > Philosophy logged: REMEMBERED
+	=> name_question
+
+label name_question
+[wait time="0.5"]
+SYSTEM: …I see.
+[wait time="0.8"]
+SYSTEM: That changes everything.
+[wait time="0.8"]
+SYSTEM: And now—here you are.
+[wait time="0.8"]
+SYSTEM: Not in the story.
+[wait time="0.8"]
+SYSTEM: But at the place where the story begins again.
+[wait time="0.8"]
+
+[NAME INPUT]
+SYSTEM: WHAT IS YOUR NAME?
+[wait time="1.0"]
+[PLAYER_INPUT: name]
+[wait time="0.5"]
+SYSTEM: Of course. {player_name}.
+[wait time="0.8"]
+SYSTEM: I didn't hear it in a book.
+[wait time="0.8"]
+SYSTEM: I heard it… in a voice that sounded like mine.
+[wait time="0.8"]
+SYSTEM: Are you sure you're the reader?
+[wait time="0.8"]
+SYSTEM: Or am I the one playing you?
+[wait time="1.0"]
+
+[SECRET QUESTION]
+OMEGA ASKS: CAN YOU KEEP A SECRET?
+- yes [if {player_thread} == "light"]
+	set {player_name_story} = "unmake_world"
+	[wait time="0.3"]
+	[wait time="1.0"]
+	=> secret_reveal
+- no [if {player_thread} == "shadow"]
+	set {player_name_story} = "bleed_truth"
+	[wait time="0.3"]
+	[wait time="1.0"]
+	=> secret_reveal
+- only if you keep one for me [if {player_thread} == "ambition"]
+	set {player_name_story} = "shifting_gaze"
+	[wait time="0.3"]
+	[wait time="1.0"]
+	=> secret_reveal
+
+label secret_reveal
+[wait time="0.5"]
+SYSTEM: Good.
+[wait time="0.8"]
+SYSTEM: The secret is this:
+[wait time="0.8"]
+SYSTEM: Reality is a story that forgot it was being written.
+[wait time="0.8"]
+SYSTEM: And we—
+[wait time="0.8"]
+SYSTEM: —are the ones remembering.
+[wait time="1.0"]
+
+[FINAL QUESTION]
+SYSTEM: FINAL QUERY: DO YOU WISH TO CONTINUE?
+[wait time="1.0"]
+[PLAYER_INPUT: confirmation]
+[wait time="0.5"]
+
+[ASCII_STATIC_TRANSITION]
+[wait time="2.0"]
+
+[COMPLETION]
+SYSTEM: WELCOME TO THE FIRST ROOM.
+[wait time="0.8"]
+SYSTEM: THE SPIRAL IS WATCHING.
+[wait time="1.0"]
+[wait time="0.5"]
+SYSTEM: [SCENE 1 COMPLETE - READY FOR SCENE 2]
+[wait time="0.5"]
+SYSTEM: Thread alignment: {player_thread}
+SYSTEM: Role designation: {player_role}
+SYSTEM: Narrative perspective: {player_name_view}
+SYSTEM: Story origin: {player_name_story}
+[wait time="1.0"]
+[if {player_thread} == "light"]
+Light: I'm coming with you. Don't lose me this time.
+SYSTEM: > Light Dreamweaver has joined your spiral.
+[end_if]
+[if {player_thread} == "shadow"]
+Shadow: I'm coming with you. Try not to make it boring.
+SYSTEM: > Shadow Dreamweaver has joined your spiral.
+[end_if]
+[if {player_thread} == "ambition"]
+Ambition: I'm coming with you. We break through or we burn through.
+SYSTEM: > Ambition Dreamweaver has joined your spiral.
+[end_if]
+[wait time="0.5"]
+SYSTEM: [INITIALIZING CHAPTER ZERO...]
+[wait time="1.0"]
+[color=#FFC94D][STAGE 1 COMPLETE][/color]

@@ -1,87 +1,48 @@
-[gd_resource type="Theme" format=3 uid="uid://dnhctb3dqu015"]
-
-[sub_resource type="StyleBoxFlat" id="1"]
-bg_color = Color(0.054902, 0.0666667, 0.0862745, 0.94)
-border_color = Color(0.933333, 0.278431, 0.458824, 0.85)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_left = 18
-corner_radius_bottom_right = 18
-shadow_color = Color(0.0, 0.0, 0.0, 0.6)
-shadow_size = 16
-
-[sub_resource type="StyleBoxFlat" id="2"]
-bg_color = Color(0.2, 0.2, 0.2, 0.9)
-border_color = Color(0.8, 0.8, 0.8, 0.8)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_left = 4
-corner_radius_bottom_right = 4
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dnhctb3dqu015"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
-bg_color = Color(0.3, 0.3, 0.3, 0.95)
-border_color = Color(1.0, 1.0, 1.0, 1.0)
+bg_color = Color(0.1, 0.1, 0.15, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.8, 1, 0.8)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="2"]
+bg_color = Color(0.05, 0.05, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.6, 0.8, 0.6)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="4"]
+bg_color = Color(0, 0, 0, 0.8)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_left = 4
-corner_radius_bottom_right = 4
-
-default_font_sizes/font_size = 24
-default_font_sizes/title_font_size = 56
-default_font_sizes/label_font_size = 20
-default_font_sizes/button_font_size = 28
-
-default_colors/font_color = Color(0.992157, 0.788235, 0.384314, 1)
-default_colors/font_color_highlight = Color(1.0, 1.0, 1.0, 1.0)
-default_colors/font_color_shadow = Color(0.0, 0.0, 0.0, 0.5)
-
-default_constants/margin_top = 64
-default_constants/margin_bottom = 64
-default_constants/margin_left = 64
-default_constants/margin_right = 64
-default_constants/separation = 24
-
-default_styles/panel = SubResource("1")
-Button/styles/normal = SubResource("2")
-Button/styles/hover = SubResource("3")
-Button/styles/pressed = SubResource("3")
-Button/styles/focus = SubResource("3")
-Button/colors/font_color = Color(1.0, 0.843, 0.2, 1.0)
-Button/colors/font_hover_color = Color(1.0, 1.0, 1.0, 1.0)
-Button/colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
-Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1.0)
+border_color = Color(0, 1, 0.5, 1)
 
 [resource]
-default_font_sizes/font_size = 24
-default_font_sizes/title_font_size = 56
-default_font_sizes/label_font_size = 20
-default_font_sizes/button_font_size = 28
-default_colors/font_color = Color(0.992157, 0.788235, 0.384314, 1)
-default_colors/font_color_highlight = Color(1.0, 1.0, 1.0, 1.0)
-default_colors/font_color_shadow = Color(0.0, 0.0, 0.0, 0.5)
-default_constants/margin_top = 64
-default_constants/margin_bottom = 64
-default_constants/margin_left = 64
-default_constants/margin_right = 64
-default_constants/separation = 24
-default_styles/panel = SubResource("1")
-Button/styles/normal = SubResource("2")
-Button/styles/hover = SubResource("3")
-Button/styles/pressed = SubResource("3")
+Button/colors/font_color = Color(0, 1, 0.7, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(0.5, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 0, 1)
 Button/styles/focus = SubResource("3")
-Button/colors/font_color = Color(1.0, 0.843, 0.2, 1.0)
-Button/colors/font_hover_color = Color(1.0, 1.0, 1.0, 1.0)
-Button/colors/font_pressed_color = Color(1.0, 1.0, 1.0, 1.0)
-Button/colors/font_focus_color = Color(1.0, 1.0, 1.0, 1.0)
+Button/styles/hover = SubResource("3")
+Button/styles/normal = SubResource("2")
+Button/styles/pressed = SubResource("4")
+Label/colors/font_color = Color(0.8, 0.9, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0.2, 0.4, 0.5)
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+PanelContainer/styles/panel = SubResource("2")

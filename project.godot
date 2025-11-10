@@ -12,35 +12,39 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="uid://b3vx8y2h1qm4p"
+run/main_scene="res://scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
-boot_splash/image="uid://bsoinggacqq5l"
-boot_splash/icon="uid://cb0tfa5vcg2tg"
+boot_splash/show_image=false
+boot_splash/icon=""
 
 [autoload]
 
-GameManager="*res://source/infrastructure/GameManager.cs"
-SceneManager="*res://source/scripts/SceneManager.cs"
-GameState="*res://source/common/GameState.cs"
-FieldEvents="*res://source/field/FieldEvents.cs"
-FieldCamera="*res://source/field/FieldCamera.cs"
-Gameboard="*res://source/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://source/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://source/common/Player.cs"
-CombatEvents="*res://source/combat/CombatEvents.cs"
-AudioManager="*res://source/audio/AudioManager.cs"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
-AppConfig="*res://source/services/GameAppConfig.cs"
+AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
+SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
+ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
+ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
+file_logging/enable_file_logging=true
+settings/gdscript/always_track_call_stacks=true
+settings/gdscript/always_track_local_variables=true
 
 [dialogic]
 
 directories/dch_directory={
+"ambition": "res://levels/level_1_ghost/characters/ambition.dch",
 "enemy_ghost": "res://source/overworld/maps/town/enemy_ghost.dch",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dch",
 "ghost": "res://source/overworld/maps/forest/ghost.dch",
+"light": "res://levels/level_1_ghost/characters/light.dch",
 "monk": "res://source/overworld/maps/town/monk.dch",
+"omega": "res://levels/level_1_ghost/characters/omega.dch",
 "runner": "res://source/overworld/maps/town/runner.dch",
+"shadow": "res://levels/level_1_ghost/characters/shadow.dch",
 "smith": "res://source/overworld/maps/town/smith.dch",
 "thief": "res://source/overworld/maps/town/thief.dch",
 "warrior": "res://source/overworld/maps/town/warrior.dch",
@@ -52,7 +56,10 @@ directories/dtl_directory={
 "encounter_on_victory": "res://source/overworld/maps/town/encounter_on_victory.dtl",
 "fan_of_four": "res://source/overworld/maps/town/fan_of_four.dtl",
 "ghost": "res://source/overworld/maps/forest/ghost.dtl",
+"ghost_terminal_refactored": "res://levels/level_1_ghost/ghost_terminal_refactored.dtl",
+"levels/level_1_ghost/ghost_terminal": "res://levels/level_1_ghost/ghost_terminal.dtl",
 "monk": "res://source/overworld/maps/town/monk.dtl",
+"nethack_echo_chamber": "res://levels/level_2_nethack/nethack_echo_chamber.dtl",
 "opening_cutscene": "res://source/overworld/maps/opening_cutscene.dtl",
 "runner": "res://source/overworld/maps/town/runner.dtl",
 "sign": "res://source/overworld/maps/town/sign.dtl",
@@ -64,6 +71,28 @@ directories/dtl_directory={
 "warrior": "res://source/overworld/maps/town/warrior.dtl",
 "wizard": "res://source/overworld/maps/town/wizard.dtl"
 }
+glossary/default_case_sensitive=true
+extensions_folder="res://addons/dialogic_additions"
+text/letter_speed=0.01
+text/initial_text_reveal_skippable=true
+text/text_reveal_skip_delay=0.1
+text/advance_delay=0.1
+text/autoadvance_per_character_delay=0.1
+text/autoadvance_ignored_characters_enabled=true
+choices/autofocus_first=true
+choices/delay=0.2
+choices/reveal_delay=0
+choices/reveal_by_input=false
+audio/max_channels=4.0
+animations/join_default_length=0.5
+animations/join_default_wait=true
+animations/leave_default_length=0.5
+animations/leave_default_wait=true
+animations/cross_fade_default_length=0.5
+save/autosave_delay=60.0
+save/encryption_on_exports_only=true
+text/autopauses={}
+layout/style_directory={}
 
 [display]
 
@@ -76,19 +105,52 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
+enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/ai_context_generator/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/shadernoiselib/plugin.cfg", "res://addons/type_writer_label/plugin.cfg")
+
+[gdunit4]
+
+templates/testsuite/GDScript="# GdUnit generated TestSuite
+class_name ${suite_class_name}
+extends GdUnitTestSuite
+@warning_ignore('unused_parameter')
+@warning_ignore('return_value_discarded')
+
+# TestSuite generated from
+const __source = '${source_resource_path}'
+"
 
 [gui]
 
-theme/custom="res://theme.tres"
+theme/custom="uid://dckl66udi34ev"
+
+[input]
+
+dialogic_default_action={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":13,"location":0,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://addons/maaacks_game_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_game_template/base/translations/menus_translations.fr.translation")
+
+[maaacks_game_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+copy_path="res://"
+disable_install_wizard=true
 
 [plugins]
 
-ai_assistant_hub/llm_api="ollama_api"
+ai_assistant_hub/llm_api="openrouter_api"
 ai_assistant_hub/preferences/thinking_target=0
 ai_assistant_hub/preferences/skip_greeting=false
 ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 [rendering]
 
+viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.15, 0.15, 0.25, 1)

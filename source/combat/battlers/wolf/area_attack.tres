@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="RangedBattlerAction" load_steps=2 format=3 uid="uid://bs4g81qa8u57q"]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bs4g81qa8u57q"]
 
-[ext_resource type="Script" uid="uid://do6i1t56x1km0" path="res://source/combat/actions/BattlerActionProjectile.cs" id="1_bbarm"]
+[ext_resource type="Script" uid="uid://c6cetgq3pgfn2" path="res://source/combat/actions/BattlerActionProjectile.cs" id="1_j8dsd"]
 
 [resource]
-script = ExtResource("1_bbarm")
+script = ExtResource("1_j8dsd")
 attack_distance = 350.0
 attack_time = 0.25
 return_time = 0.25

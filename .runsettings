@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    GdUnit4Net Test Configuration for Omega Spiral
+    GdUnit4Net Test Configuration for Ωmega Spiral
 
     This configuration file provides settings for test execution using GdUnit4Net,
     the VSTest-compatible testing framework for Godot C# projects.
@@ -32,28 +32,21 @@
         </EnvironmentVariables>
     </RunConfiguration>
 
-    <!-- Test Result Loggers -->
     <LoggerRunSettings>
         <Loggers>
-            <!-- Console logger for terminal output -->
             <Logger friendlyName="console" enabled="True">
                 <Configuration>
-                    <!-- Verbosity: quiet, minimal, normal, detailed, diagnostic -->
-                    <Verbosity>normal</Verbosity>
+                    <Verbosity>detailed</Verbosity>
                 </Configuration>
             </Logger>
-
-            <!-- HTML logger for human-readable reports -->
-            <Logger friendlyName="html" enabled="False">
+            <Logger friendlyName="html" enabled="True">
                 <Configuration>
                     <LogFileName>test-result.html</LogFileName>
                 </Configuration>
             </Logger>
-
-            <!-- TRX logger for CI/CD integration -->
             <Logger friendlyName="trx" enabled="True">
                 <Configuration>
-                    <LogFileName>TestResults/test-result.trx</LogFileName>
+                    <LogFileName>test-result.trx</LogFileName>
                 </Configuration>
             </Logger>
         </Loggers>
@@ -61,23 +54,23 @@
 
     <GdUnit4>
         <!-- Additional Godot runtime parameters. These are passed to the Godot executable when running tests.-->
-        <Parameters>--headless --no-extensions</Parameters>
-
+        <Parameters>"--verbose"</Parameters>
+  
         <!-- Controls the display name format of test cases in the test results.
                  Allowed values:
                  - SimpleName: Uses only the method name (e.g., "TestMethod")
                  - FullyQualifiedName: Uses the full path including class and method name (e.g., "MyNamespace.MyClass.TestMethod")
                  Default: SimpleName -->
         <DisplayName>FullyQualifiedName</DisplayName>
-
+  
         <!-- When set to true, standard output (stdout) from test cases is captured
                  and included in the test result. This can be useful for debugging. -->
         <CaptureStdOut>true</CaptureStdOut>
-
+  
         <!-- The maximum duration allowed for a Godot project compilation process in milliseconds.
-                          After this timeout period expires, the compilation process is forcefully terminated.
-                          For large or complex Godot projects, you may need to increase this value.
-                          Default: 20000 (20 seconds) -->
-         <CompileProcessTimeout>60000</CompileProcessTimeout>
+                         After this timeout period expires, the compilation process is forcefully terminated.
+                         For large or complex Godot projects, you may need to increase this value.
+                         Default: 20000 (20 seconds) -->
+        <CompileProcessTimeout>20000</CompileProcessTimeout>
     </GdUnit4>
 </RunSettings>

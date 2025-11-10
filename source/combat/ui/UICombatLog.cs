@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Collections.ObjectModel;
 // <copyright file="UiCombatLog.cs" company="Ωmega Spiral">
 // Copyright (c) Ωmega Spiral. All rights reserved.
@@ -11,7 +10,7 @@ using OmegaSpiral.Source.Scripts.Combat.Battlers;
 namespace OmegaSpiral.Source.Scripts.Combat.Ui
 {
     /// <summary>
-    /// Represents the Ui component for displaying the combat log in Omega Spiral.
+    /// Represents the Ui component for displaying the combat log in Ωmega Spiral.
     /// The UiCombatLog provides a visual record of combat events, actions, and outcomes,
     /// allowing players to review the flow of battle and make informed decisions.
     /// </summary>

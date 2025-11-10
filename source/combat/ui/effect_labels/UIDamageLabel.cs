@@ -6,6 +6,7 @@
 using Godot;
 using System.Globalization;
 using OmegaSpiral.Source.Combat.Actions;
+using OmegaSpiral.Source.Frontend.Design;
 
 namespace OmegaSpiral.Source.Scripts.Combat.Ui.EffectLabels;
 /// <summary>
@@ -38,27 +39,27 @@ public partial class UiDamageLabel : Marker2D
     /// Gets or sets label color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
-    public Color ColorDamage { get; set; } = new Color("#b0305c");
+    public Color ColorDamage { get; set; } = DesignService.GetColor("damage_color");
 
     /// <summary>
     /// Gets or sets label outline color when <see cref="Amount"/> is >= 0.
     /// </summary>
     [Export]
-    public Color ColorDamageOutline { get; set; } = new Color("#b0305c");
+    public Color ColorDamageOutline { get; set; } = DesignService.GetColor("damage_color");
 
     /// <summary>
     /// Gets or sets label color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
-    public Color ColorHeal { get; set; } = new Color("#3ca370");
+    public Color ColorHeal { get; set; } = DesignService.GetColor("heal_color");
 
     /// <summary>
     /// Gets or sets label outline color when <see cref="Amount"/> is &lt; 0.
     /// </summary>
     [Export]
-    public Color ColorHealOutline { get; set; } = new Color("#3ca370");
+    public Color ColorHealOutline { get; set; } = DesignService.GetColor("heal_color");
 
-    private int amount;
+    private int _Amount;
 
     /// <summary>
     /// Gets or sets consistent with <see cref="BattlerHit"/>, damage values greater than 0 incur damage whereas those less than 0
@@ -66,59 +67,59 @@ public partial class UiDamageLabel : Marker2D
     /// </summary>
     public int Amount
     {
-        get => this.amount;
+        get => this._Amount;
         set
         {
-            this.amount = value;
+            this._Amount = value;
 
             if (!this.IsInsideTree())
             {
                 // We'll set the value and wait for the node to be ready
-                this.amount = value;
+                this._Amount = value;
                 return;
             }
 
-            if (this.label != null)
+            if (this._Label != null)
             {
-                this.label.Text = this.amount.ToString(CultureInfo.InvariantCulture);
+                this._Label.Text = this._Amount.ToString(CultureInfo.InvariantCulture);
 
-                if (this.amount >= 0)
+                if (this._Amount >= 0)
                 {
-                    this.label.Modulate = this.ColorDamage;
-                    this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
+                    this._Label.Modulate = this.ColorDamage;
+                    this._Label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
                 }
                 else
                 {
-                    this.label.Modulate = this.ColorHeal;
-                    this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
+                    this._Label.Modulate = this.ColorHeal;
+                    this._Label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
                 }
             }
         }
     }
 
-    private Tween? tween;
+    private Tween? _Tween;
 
-    private Label? label;
+    private Label? _Label;
 
     /// <inheritdoc/>
     public override void _Ready()
     {
-        this.label = this.GetNode<Label>("Label");
+        this._Label = this.GetNode<Label>("Label");
 
         // If Amount was set before the node was ready, apply it now
-        if (this.label != null)
+        if (this._Label != null)
         {
-            this.label.Text = this.amount.ToString(CultureInfo.InvariantCulture);
+            this._Label.Text = this._Amount.ToString(CultureInfo.InvariantCulture);
 
-            if (this.amount >= 0)
+            if (this._Amount >= 0)
             {
-                this.label.Modulate = this.ColorDamage;
-                this.label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
+                this._Label.Modulate = this.ColorDamage;
+                this._Label.AddThemeColorOverride("font_outline_color", this.ColorDamageOutline);
             }
             else
             {
-                this.label.Modulate = this.ColorHeal;
-                this.label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
+                this._Label.Modulate = this.ColorHeal;
+                this._Label.AddThemeColorOverride("font_outline_color", this.ColorHealOutline);
             }
         }
 
@@ -139,32 +140,32 @@ public partial class UiDamageLabel : Marker2D
         // We define a range of 60 degrees for the labels movement.
         var angle = (GD.Randf() * (Mathf.Pi / 3.0f)) - (Mathf.Pi / 6.0f); // Random angle between -π/6 and π/6
         var target = this.Position;
-        if (this.label != null)
+        if (this._Label != null)
         {
-            target = (Vector2.Up.Rotated(angle) * this.MoveDistance) + this.label.Position;
+            target = (Vector2.Up.Rotated(angle) * this.MoveDistance) + this._Label.Position;
         }
 
-        this.tween = this.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
-        if (this.label != null)
+        this._Tween = this.CreateTween().SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Quad);
+        if (this._Label != null)
         {
-            this.tween.TweenProperty(
-                this.label,
+            this._Tween.TweenProperty(
+                this._Label,
                 "position",
                 target,
                 this.MoveTime);
         }
 
         // Fade out the label at the end of it's movement upwards.
-        if (this.tween != null)
+        if (this._Tween != null)
         {
-            this.tween.Parallel().TweenProperty(
+            this._Tween.Parallel().TweenProperty(
                 this,
                 "modulate",
                 Colors.Transparent,
                 this.FadeTime).SetEase(Tween.EaseType.In).SetTrans(Tween.TransitionType.Linear).SetDelay(this.MoveTime - this.FadeTime);
 
             // Finally, after everything prior has finished, free the label.
-            this.tween.TweenCallback(new Callable(this, "QueueFree"));
+            this._Tween.TweenCallback(new Callable(this, "QueueFree"));
         }
     }
 }

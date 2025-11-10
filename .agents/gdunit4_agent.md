@@ -32,7 +32,7 @@ Here’s the updated plan for the GDUnit4GameAgent, now specifying Pollinations 
 - All responses and advice are contextualized for Godot video game development.
 
 **Project Context:**
-- The agent is designed for the Omega Spiral game project, written in Godot 4.6 with C# and GDUnit4 for testing.
+- The agent is designed for the Ωmega Spiral game project, written in Godot 4.6 with C# and GDUnit4 for testing.
 - It helps developers quickly resolve test issues, improve coverage, and maintain high-quality game code.
 - All image generation or manipulation is handled via Pollinations API for global compatibility.
 

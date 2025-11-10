@@ -1,0 +1,110 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2vtndc0rocem"]
+
+[ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn" id="4_w8sbm"]
+[ext_resource type="Script" uid="uid://b5oej1q4h7jvh" path="res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/ui_sound_controller.gd" id="6_bs342"]
+[ext_resource type="Script" uid="uid://byxeh7k1ir763" path="res://source/ui/omega/omega_main_menu.gd" id="omega_main_menu_script"]
+
+[node name="MainMenu" type="Control" unique_id=151410375]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("omega_main_menu_script")
+
+[node name="UISoundController" type="Node" parent="." unique_id=228008584]
+script = ExtResource("6_bs342")
+
+[node name="BackgroundMusicPlayer" parent="." unique_id=152240148 instance=ExtResource("4_w8sbm")]
+
+[node name="BackgroundTextureRect" type="TextureRect" parent="." unique_id=1947855350]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OmegaLogoContainer" type="VBoxContainer" parent="." unique_id=354626060]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.3
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OmegaLogo" type="TextureRect" parent="OmegaLogoContainer" unique_id=1598256288]
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="OmegaLogoContainer" unique_id=1690205020]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Ωmega Spiral"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuPanelContainer" type="PanelContainer" parent="." unique_id=834943683]
+unique_name_in_owner = true
+process_mode = 3
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+offset_left = -200.0
+offset_top = -16.0
+offset_right = 200.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuPanelContainer" unique_id=1288234392]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="BoxContainer" type="VBoxContainer" parent="MenuPanelContainer/MarginContainer" unique_id=1244107058]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="StartGameButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=869436868]
+layout_mode = 2
+theme_type_variation = &"OmegaButton"
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=1941016098]
+layout_mode = 2
+theme_type_variation = &"OmegaButton"
+text = "Options"
+
+[node name="ExitButton" type="Button" parent="MenuPanelContainer/MarginContainer/BoxContainer" unique_id=240659831]
+layout_mode = 2
+theme_type_variation = &"OmegaButton"
+text = "Exit"
+
+[node name="VersionMargin" type="MarginContainer" parent="." unique_id=1933942341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8

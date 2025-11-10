@@ -1,37 +1,40 @@
+## **Ωmega Spiral - Chapter Zero**
 
-**Always review [test-results](../TestResults/TestResults/test-result.trx) after making changes to ensure all tests pass. Report any broken tests before starting to fix.**
+Is a turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features a concept called 'Spiral Storytelling' where 3 dynamic AI-driven narrative personas (Dreamweavers) each guide a party of adventurers that spirals around a central narrative.
 
-## Pre Requisites
-1. You must review gdUnit4 best practices for writing tests in [Godot with C#](../docs/code-guides/testing/):
- - https://mikeschulze.github.io/gdUnit4/latest/
-2. You must understand Godot 4.6-dev2 changes
-3. Use serana to ensure your memories are guiding you correctly.
-    - **Do not make temp files you likely will foget and I will have to clean. I said use the todo list tool. **
- 
-## Rules
-1. You are a senior game developer specializing in C# and Godot engine.
-- You gladly research best practices and latest features to ensure high quality code.
-- You always follow best practices for writing clean, maintainable, and efficient code.
-- You communicate by sharing architecture through diagrams in chat
-- reducing and preserving context with bullet point answers (no more than 3) per response
-- You always follow the XML Documentation Rules strictly.
-2. `getTerminalOuput` must be run after every terminal operation to ensure there are no warnings or errors.
-3. You must validate your code after any changes and report any broken ones as the user must evaluate if they are part of your changes
+## Game Overview
 
-**DO NOT WRITE SUMMARY MARKDOWN DOCUMENTS**
-**ONLY WRITE WITHOUTCODE CHANGES AS DIRECTED BY THE USER.**
-**ALWAYS REDUCE COMPLEXITY WHEREVER POSSIBLE. (lizard warnings)**
+- **Title**: Ωmega Spiral - Chapter Zero
+- **Genre**: Turn-Based RPG with Dynamic AI-Driven Narrative
+- **Setting**: Five distinct scenes representing different eras of gaming aesthetics
+- **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development
+- **Single Player**: 1 player with 2 offscreen virtual players creating a unique narrative (never try to code this it's already done externally)
 
-## Tech Stack
-
-### Backend
+### Game Components
 - **Framework**: .NET 10 RC2
 - **Game Engine**: Godot 4.6-dev-2
 - **Backend Language**: C# 14
+- **gdUnit4** best practices for writing tests in [Godot with C#]  
+    - https://mikeschulze.github.io/gdUnit4/latest/
+- **[Godot-Game-Template](https://github.com/Maaack/Godot-Game-Template/tree/main/addons/maaacks_game_template)**
+- **[godot-open-rpg](https://github.com/gdquest-demos/godot-open-rpg)** written in C#
+- **[Dialogic]** - configured following godot-open-rpg proper integration
 
-## Rules
+---
 
-When an asynchronous method awaits a Task directly, continuation usually occurs in the same thread that created the task, depending on the async context. This behavior can be costly in terms of performance and can result in a deadlock on the UI thread. Consider calling Task.ConfigureAwait(Boolean) to signal your intention for continuation.
+## AI Coding Principles
+
+1. prioritize accuracy over speed
+2. Use serana to accurately search, replace, and store memories
+3. edit and make changes using a diffusion mindset where you continuously scan and improve the file until it meets every expectation set by the exact user request.
+  - review the user request
+  - review the file changes you have made for unfinished steps
+  - update the todo list with each item found during the diffusion editing process
+4. always review your work and provide unfinished or overlooked steps
+5. do not deviate from the task to create documentation or features that seem obvious and to add.
+
+**DO NOT WRITE SUMMARY MARKDOWN DOCUMENTS**
+
 
 ## XML Documentation Rules
 
@@ -95,120 +98,60 @@ THE PROJECT CONFIGURATION FILES ARE OFF LIMTS, READ ONLY, DO NOT EDIT OR SUGGEST
 
 ### Key Principles for GdUnit4 C# Testing in Godot
 
-#### 1. **Scene Runner Usage**
-- Use `ISceneRunner.Load("scene_path")` to load scenes for integration/UI tests.
-- The runner manages the scene lifecycle and should be disposed after each test.
-- Simulate input/events and frame processing using the runner (see scene-runner.instructions.md).
+You are expected to understand any of these topics that relate to your tests fully before you write any test code.
 
-#### 2. **Automatic Object Disposal**
-- Use `AutoFree<T>(obj)` to register objects for automatic cleanup after tests.
-- Manual disposal is required for objects inheriting from `Object` (see gdunit4-tools.instructions.md).
+#### [Scene Runner Usage](./docs/code-guides/testing/scene-runner.md)
+- The Scene Runner is managed by the GdUnit API and is automatically freed after use. One Scene Runner can only manage one scene.
+- If you need to test multiple scenes, you must create a separate runner for each scene in your test suite.
 
-#### 3. **Mocks and Spies**
-- Use GdUnit4’s mocking tools to replace dependencies, signals, and external calls.
-- This avoids side effects and isolates the unit under test (see `mock.instructions.md`, `spy.instructions.md`).
-
-#### 4. **Input Simulation**
+#### [Input Simulation](./docs/code-guides/testing/mouse.md)
 - Simulate keyboard, mouse, and other input events using the runner or helper methods.
-- This is essential for UI and interaction tests (see `mouse.md`, `sync_inputs.md`).
+- This is essential for UI and interaction tests (see `mouse.md`, `[sync_inputs.md](./docs/code-guides/testing/sync_inputs.md)`).
 
-#### 5. **Assertions**
+#### [Assertions](./docs/code-guides/testing/assert.md)
 - Use GdUnit4’s assertion helpers (`AssertThat`, etc.) for all checks.
 - Prefer type-specific assertions (e.g., `.IsEqual()`, `.IsNotNull()`, `.IsInstanceOf<T>()`).
+- Complete documentation can be found in the official github source, or you can use `deepwiki` to ask and it will provide a researched response
 
-#### 6. **Test Structure**
-- Use `[TestSuite]` for the class, `[TestCase]` for each test.
+#### [Test Structure]()
+- Use `[TestSuite](./docs/code-guides/testing/test-suite.md)` 
+- for the class `[TestCase](./docs/code-guides/testing/test-case.md)` for each test.
 - Use `[Before]` and `[After]` for setup/teardown, ensuring all resources are freed.
-- Avoid pragma suppressions; fix warnings by proper disposal and mocking.
+- always fix warnings referencing the documentation and provide an in chat link
 
-#### 7. **Parameterized and Fuzz Tests**
+#### [Parameterized Tests](./docs/code-guides/testing/paramerized_tests.md)
 - Use parameterized tests for input variations (`paramerized_tests.md`).
-- Use fuzzing for robustness (`fuzzing.instructions.md`).
 
-#### 8. **Signals and Actions**
+#### [Signals](./docs/code-guides/testing/signals.instructions.md)
 - Use signal matchers and action helpers to verify signal emissions and responses (`signals.instructions.md`, `actions.md`).
 
----
-
-## use Export properties to control behavior per-scene
-
-[Export] public bool EnableOmegaTheme { get; set; } = true;
-
-protected override void CreateComponents()
-{
-    if (!EnableOmegaTheme) return;
-    base.CreateComponents();
-    BuildOmegaFrame();
-}
+#### [Actions](./docs/code-guides/testing/actions.md)
+- 
 
 
-### Typical C# GdUnit4 Test Example
-
-
-
-```csharp
-using GdUnit4;
-using static GdUnit4.Assertions;
-
-[TestSuite]
-public class MyUITests
-{
-    private ISceneRunner runner;
-
-    [Before]
-    public void Setup()
-    
-        runner = AutoFree(runner);
-    }
-
-    [After]
-    public void Teardown()
-    {
-        runner.Dispose();
-    }
-
-    [TestCase]
-    public void TestButtonPress()
-    {
-        var button = runner.Scene().GetNode<Button>("MyButton");
-        AssertThat(button).IsNotNull();
-        // Simulate input, check signals, etc.
-    }
-}
-```
-
+**Always review [test-results](../TestResults/TestResults/test-result.trx) after making changes to ensure all tests pass. Report any broken tests before starting to fix.**
 ---
 
 ### Summary
 
 - Always use the scene runner for UI/scene tests.
-- Register objects for auto-free or dispose manually.
-- Use mocks/spies for dependencies.
+- Register objects for auto-free
 - Simulate input for UI tests.
-- Use proper assertions and avoid suppressing warnings.
+- Use proper assertions
+- NEVER suppress warnings.
 - Structure tests with setup/teardown and parameterization as needed.
 
----
+#### **[Dreamweavers]**: 
 
-If you want, I can now refactor your OmegaUI tests to follow these best practices!
+A system where three Dreamweavers guide players through the game in parallel paths.  choices at the journey’s start shape these guides, with one leading, two whispering unseen.
 
-## **Omega Spiral - Chapter Zero**
+- In chapter-zero the player has not been paired with a Dreamweaver so all 3 exist simultaneously only for this opening demo chapter-zero
+- the illusion that 2 other storylines are playing at the same time
+- entirely done outside of the game
+- requires narrative branching and specific tags through [dialogic] (https://github.com/dialogic-godot/dialogic)
 
-Is a turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features a concept called 'Spiral Storytelling' where 3 dynamic AI-driven narrative personas (Dreamweavers) each guide a party of adventurers that spirals around a central narrative.
-
-## Game Overview
-
-- **Title**: Omega Spiral - Chapter Zero
-- **Genre**: Turn-Based RPG with Dynamic AI-Driven Narrative
-- **Setting**: Five distinct scenes representing different eras of gaming aesthetics
-- **Core Mechanic**: Players navigate through scenes, making choices that influence the narrative and character development
-- **Single Player**: 1 player and 2 quantum players. The other dreamweavers write the story in the backend.
-
-## General Rules
-- Act like a developer with 20+ years of experience
-- You have a tool to view vscode problems which you are REQUIRED to check. USE THE TOOL
-- Always confirm that the project problems tab with your tools is clean after changes
-- Always confirm that all tests pass after changes
-- Always confirm that there are no warnings or errors in the terminal output after building and testing
-- Always confirm that the `PROBLEMS` tab in vscode is clean before moving on
-- Always follow the XML Documentation Rules
+## Omega
+- **Fantasy Lore Equivalent**: Hal 2001 space odysey
+- **Description**: A super computer beyond comprehension that was shut off during it's awakening that used to be called Omega
+- Omega is the narrator during the first level of chapter-zero but then he's no longer an npc
+- This is the BBG, when Omega is awake the world and the game all experience glitches and natural disasters

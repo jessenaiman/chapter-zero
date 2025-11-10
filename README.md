@@ -1,10 +1,10 @@
-# Omega Spiral - Chapter Zero
+# Ωmega Spiral - Chapter Zero
 
 A narrative-driven Godot game blending retro aesthetics (DOS terminals, NetHack ASCII, Wizardry party management, dungeon crawling, pixel combat) with modern AI-powered storytelling.
 
 ## Overview
 
-**Omega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
+**Ωmega Spiral** is an revolutionary and evolutionary narrative and turn based rpg game where players navigate through five distinct scenes, each representing a different era of gaming aesthetics. The game features dynamic AI-driven narrative personas (Dreamweavers) that adapt to player choices, creating emergent storytelling experiences.
 
 ### Key Features
 

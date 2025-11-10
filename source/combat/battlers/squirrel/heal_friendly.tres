@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="HealBattlerAction" load_steps=3 format=3 uid="uid://cfj3osdc334ks"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cfj3osdc334ks"]
 
-[ext_resource type="Script" uid="uid://d2chwgobkstjb" path="res://source/combat/actions/BattlerActionHeal.cs" id="1_knane"]
 [ext_resource type="Texture2D" uid="uid://colusv412eplq" path="res://source/combat/battlers/squirrel/icon_first_aid.svg" id="1_rw7rc"]
+[ext_resource type="Script" uid="uid://bxfiwqvh437ap" path="res://source/combat/actions/BattlerActionHeal.cs" id="2_i8bt2"]
 
 [resource]
-script = ExtResource("1_knane")
+script = ExtResource("2_i8bt2")
 heal_amount = 50
 icon = ExtResource("1_rw7rc")
 label = "First Aid"

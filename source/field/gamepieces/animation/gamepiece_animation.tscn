@@ -1,14 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://bp144woft7xyw"]
 
-[ext_resource type="Script" uid="uid://wd1g3om38mkf" path="res://source/scripts/field/gamepieces/animation/GamepieceAnimation.cs" id="1_l0scw"]
+[ext_resource type="Script" uid="uid://bqlc3jhkynyyc" path="res://source/field/gamepieces/animation/GamepieceAnimation.cs" id="1_8l6d2"]
 
-[node name="CharacterAnimation" type="Marker2D"]
-script = ExtResource("1_l0scw")
+[node name="CharacterAnimation" type="Marker2D" unique_id=338848730]
+script = ExtResource("1_8l6d2")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1450998067]
 
-[node name="Anchor" type="Marker2D" parent="."]
+[node name="Anchor" type="Marker2D" parent="." unique_id=414892905]
 
-[node name="Sprite" type="Sprite2D" parent="Anchor"]
+[node name="Sprite" type="Sprite2D" parent="Anchor" unique_id=1931118070]
 
-[node name="Shadow" type="Sprite2D" parent="Anchor"]
+[node name="Shadow" type="Sprite2D" parent="Anchor" unique_id=394814151]

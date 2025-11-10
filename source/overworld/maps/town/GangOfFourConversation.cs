@@ -7,18 +7,24 @@ using Godot;
 using OmegaSpiral.Source.Scripts.Field;
 
 namespace OmegaSpiral.Source.Overworld.Maps.town;
+
 /// <summary>
-/// Conversation interaction with the Gang of Four NPCs.
-/// Handles dialogue interactions and coin rewards.
+/// Interaction that drives the dialogue with the "Gang of Four" NPC group.
+/// It integrates with the Dialogic plugin via the static signal handler
+/// <see cref="OnDialogicSignalEvent(string)"/> and awards a coin to the player
+/// when the "coin_received" signal is emitted.
 /// </summary>
 [GlobalClass]
 [Tool]
 public partial class GangOfFourConversation : Interaction
 {
     /// <summary>
-    /// Handle Dialogic signal events for this conversation.
+    /// Handles Dialogic signal events for this conversation.
+    /// The method is registered as a global callback by the Dialogic integration layer.
+    /// When the <c>coin_received</c> argument is received, a coin item is added to the
+    /// player's <see cref="Inventory"/>.
     /// </summary>
-    /// <param name="argument">The signal argument from Dialogic.</param>
+    /// <param name="argument">The signal argument supplied by Dialogic (e.g., "coin_received").</param>
     public static void OnDialogicSignalEvent(string argument)
     {
         if (argument == "coin_received")

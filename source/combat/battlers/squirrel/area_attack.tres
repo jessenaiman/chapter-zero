@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="AttackBattlerAction" load_steps=3 format=3 uid="uid://c01ilo1olkfsm"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://c01ilo1olkfsm"]
 
 [ext_resource type="Texture2D" uid="uid://dt7jcphqs175b" path="res://source/combat/battlers/squirrel/icon_arrows.svg" id="1_eedy7"]
-[ext_resource type="Script" uid="uid://cpbigevghfrjn" path="res://source/combat/actions/BattlerActionAttack.cs" id="2_x25ju"]
+[ext_resource type="Script" uid="uid://37gs0kdwxcpn" path="res://source/combat/actions/BattlerActionAttack.cs" id="2_6uojg"]
 
 [resource]
-script = ExtResource("2_x25ju")
+script = ExtResource("2_6uojg")
 hit_chance = 85.0
 base_damage = 60
 icon = ExtResource("1_eedy7")

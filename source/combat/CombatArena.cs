@@ -59,7 +59,7 @@ public partial class CombatArena : Control
             return;
         }
 
-        SetupCombatUi();
+        this.SetupCombatUi();
     }
 
     /// <summary>
@@ -74,10 +74,10 @@ public partial class CombatArena : Control
             return;
         }
 
-        SetupEffectLabels(combatParticipantData);
-        SetupPlayerMenus(combatParticipantData);
-        SetupTurnBar(combatParticipantData);
-        SubscribeToBattlersDowned(combatParticipantData);
+        this.SetupEffectLabels(combatParticipantData);
+        this.SetupPlayerMenus(combatParticipantData);
+        this.SetupTurnBar(combatParticipantData);
+        this.SubscribeToBattlersDowned(combatParticipantData);
     }
 
     /// <summary>

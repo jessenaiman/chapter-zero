@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cywmehk61l0tn"]
 
-[ext_resource type="Script" uid="uid://2bkem6rl5jl6" path="res://source/combat/ui/battler_entry/UiPlayerBattlerList.cs" id="1_gvsvq"]
-[ext_resource type="PackedScene" uid="uid://cxrn4uvha8g2w" path="res://source/combat/ui/cursors/ui_menu_cursor.tscn" id="2_okk2n"]
+[ext_resource type="Script" uid="uid://2bkem6rl5jl6" path="res://source//combat/ui/battler_entry/UiPlayerBattlerList.cs" id="1_gvsvq"]
+[ext_resource type="PackedScene" uid="uid://cxrn4uvha8g2w" path="res://source//combat/ui/cursors/ui_menu_cursor.tscn" id="2_okk2n"]
 
 [sub_resource type="Animation" id="Animation_eofhr"]
 length = 0.001

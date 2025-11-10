@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bo6hj2mg02uef"]
 
-[ext_resource type="Script" uid="uid://bxswssnxw5bpx" path="res://source/combat/ui/effect_labels/UiDamageLabel.cs" id="1_ukhhs"]
-[ext_resource type="Theme" uid="uid://dgb8v5sh8ropf" path="res://source/combat/ui/ui_combat.theme" id="2_krdq3"]
+[ext_resource type="Script" uid="uid://bxswssnxw5bpx" path="res://source//combat/ui/effect_labels/UiDamageLabel.cs" id="1_ukhhs"]
+[ext_resource type="Theme" uid="uid://dgb8v5sh8ropf" path="res://source//combat/ui/ui_combat.theme" id="2_krdq3"]
 
 [node name="UiDamageLabel" type="Marker2D"]
 script = ExtResource("1_ukhhs")

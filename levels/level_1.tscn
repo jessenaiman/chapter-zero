@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck74pbk747v5r"]
+
+[ext_resource type="Script" uid="uid://3bd6350v3ux5" path="res://levels/level.gd" id="1_awc2m"]
+[ext_resource type="PackedScene" path="res://levels/level_1_ghost/ghost_terminal.tscn" id="2_ghost_terminal"]
+
+[node name="Level1" type="Control" unique_id=1132742682]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_awc2m")
+next_level_path = "res://levels/level_2.tscn"
+
+; Ghost Terminal is the sole content of Level 1. It drives narrative and emits level_won.
+[node name="GhostTerminal" parent="." instance=ExtResource("2_ghost_terminal")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+; When ghost_terminal.gd signals level_won, reuse Level.gd's win handler so LevelManager sees it.
+[connection signal="level_won" from="GhostTerminal" to="." method="_on_win_button_pressed"]
