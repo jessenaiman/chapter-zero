@@ -28,29 +28,29 @@ public partial class OmegaUiButton : Button
         ApplyOmegaTheme();
     }
 
-        /// <summary>
-        /// Called when the node enters the scene tree.
-        /// Sets up default button configuration and applies Orbitron font.
-        /// </summary>
-        public override void _Ready()
-        {
-            base._Ready();
-
-            // Default configuration for Omega buttons
-            FocusMode = FocusModeEnum.All; // Support keyboard/gamepad navigation
-            SizeFlagsHorizontal = SizeFlags.ExpandFill; // Fill horizontal space by default
-
-            // Apply Orbitron Bold font for buttons
-            var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_buttons.tres");
-            if (orbitronFont != null)
-            {
-                AddThemeFontOverride("font", orbitronFont);
-                AddThemeFontSizeOverride("font_size", 20);
-            }
-        }    /// <summary>
-    /// Applies the Omega Spiral color theme to this button.
-    /// Called automatically in constructor, but can be called again to reapply if needed.
+    /// <summary>
+    /// Called when the node enters the scene tree.
+    /// Sets up default button configuration and applies Orbitron font.
     /// </summary>
+    public override void _Ready()
+    {
+        base._Ready();
+
+        // Default configuration for Omega buttons
+        FocusMode = FocusModeEnum.All; // Support keyboard/gamepad navigation
+        SizeFlagsHorizontal = SizeFlags.ExpandFill; // Fill horizontal space by default
+
+        // Apply Orbitron Bold font for buttons
+        var orbitronFont = GD.Load<Font>("res://source/assets/gui/font/orbitron_buttons.tres");
+        if (orbitronFont != null)
+        {
+            AddThemeFontOverride("font", orbitronFont);
+            AddThemeFontSizeOverride("font_size", 20);
+        }
+    }    /// <summary>
+         /// Applies the Omega Spiral color theme to this button.
+         /// Called automatically in constructor, but can be called again to reapply if needed.
+         /// </summary>
     protected void ApplyOmegaTheme()
     {
         // Font colors
@@ -60,7 +60,6 @@ public partial class OmegaUiButton : Button
         AddThemeColorOverride("font_focus_color", OmegaSpiralColors.PureWhite);
 
         // Background stays transparent/dark
-        var transparentBg = new Color(0, 0, 0, 0);
         AddThemeColorOverride("font_outline_color", OmegaSpiralColors.WarmAmber);
 
         // Border constants for retro terminal look

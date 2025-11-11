@@ -119,13 +119,13 @@
           }
         }
       },
-      "Godot.SourceGenerators/4.6.0-dev.2": {
+      "Godot.SourceGenerators/4.6.0-dev.3": {
         "type": "package",
         "build": {
           "build/Godot.SourceGenerators.props": {}
         }
       },
-      "GodotSharp/4.6.0-dev.2": {
+      "GodotSharp/4.6.0-dev.3": {
         "type": "package",
         "compile": {
           "lib/net8.0/GodotSharp.dll": {
@@ -138,10 +138,10 @@
           }
         }
       },
-      "GodotSharpEditor/4.6.0-dev.2": {
+      "GodotSharpEditor/4.6.0-dev.3": {
         "type": "package",
         "dependencies": {
-          "GodotSharp": "4.6.0-dev.2"
+          "GodotSharp": "4.6.0-dev.3"
         },
         "compile": {
           "lib/net8.0/GodotSharpEditor.dll": {
@@ -1803,40 +1803,40 @@
         "lib/net9.0/GdUnit4.TestAdapter.xml"
       ]
     },
-    "Godot.SourceGenerators/4.6.0-dev.2": {
-      "sha512": "rg71zgnJhsKT90RJP1eAlGj7dZMnmb3CV27HHCllZHw+JBxtfxDy5kKkXdt0klsDOOfgD62YklA6cW9Yo8iETQ==",
+    "Godot.SourceGenerators/4.6.0-dev.3": {
+      "sha512": "YPiViy58gRWdzZnsOUFy6C+ip3N3lPKQNmO/rToaz4sA7UFQyS6zKfJTRnYFdVgq1mPLEpueNiylpIYVU65HCA==",
       "type": "package",
-      "path": "godot.sourcegenerators/4.6.0-dev.2",
+      "path": "godot.sourcegenerators/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Godot.SourceGenerators.dll",
         "build/Godot.SourceGenerators.props",
-        "godot.sourcegenerators.4.6.0-dev.2.nupkg.sha512",
+        "godot.sourcegenerators.4.6.0-dev.3.nupkg.sha512",
         "godot.sourcegenerators.nuspec"
       ]
     },
-    "GodotSharp/4.6.0-dev.2": {
-      "sha512": "hX08fM/+DnNg0Q1OKhoYtsDPTyXJes3z62uaSgD3XvQtyQbil/pkoz4B+UkcSx+/SVfjNqtlnfF+MCSnncMo6Q==",
+    "GodotSharp/4.6.0-dev.3": {
+      "sha512": "SiVBnmiE+CAuAbk5q+vrozSISMvz0uqZpA8sYVxskGfkgnjqt6IDB96nYCTcm3KkTWcYpxQn+dXBRmUO6rBh3A==",
       "type": "package",
-      "path": "godotsharp/4.6.0-dev.2",
+      "path": "godotsharp/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharp.4.6.0-dev.2.nupkg.sha512",
+        "godotsharp.4.6.0-dev.3.nupkg.sha512",
         "godotsharp.nuspec",
         "lib/net8.0/GodotSharp.dll",
         "lib/net8.0/GodotSharp.xml"
       ]
     },
-    "GodotSharpEditor/4.6.0-dev.2": {
-      "sha512": "j/Vh9a60zogTjAc4Ox9iRqmC+qBDkm17rZUDoA+FHzcKy3UX13Twm9RmdRI4LVAbSKqXgH5ufHwVTTNqNV8VxQ==",
+    "GodotSharpEditor/4.6.0-dev.3": {
+      "sha512": "4/ptlxh4qP9XDASsjd5OIoHT/IXXYvdqSRr9dFf4yZXTjXoaAd2x9YZQQnGAX41lRoX1apHiHrcHp/TrsWh4nw==",
       "type": "package",
-      "path": "godotsharpeditor/4.6.0-dev.2",
+      "path": "godotsharpeditor/4.6.0-dev.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharpeditor.4.6.0-dev.2.nupkg.sha512",
+        "godotsharpeditor.4.6.0-dev.3.nupkg.sha512",
         "godotsharpeditor.nuspec",
         "lib/net8.0/GodotSharpEditor.dll",
         "lib/net8.0/GodotSharpEditor.xml"
@@ -4278,9 +4278,9 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Godot.SourceGenerators >= 4.6.0-dev.2",
-      "GodotSharp >= 4.6.0-dev.2",
-      "GodotSharpEditor >= 4.6.0-dev.2",
+      "Godot.SourceGenerators >= 4.6.0-dev.3",
+      "GodotSharp >= 4.6.0-dev.3",
+      "GodotSharpEditor >= 4.6.0-dev.3",
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.8",
@@ -4298,24 +4298,31 @@
     ]
   },
   "packageFolders": {
-    "/home/adam/.nuget/packages/": {}
+    "C:\\Users\\jesse\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/adam/Dev/omega-spiral/chapter-zero/chapter-zero.csproj",
+      "projectUniqueName": "c:\\SpiralDrive\\Videogamescenecreation\\chapter-zero\\chapter-zero.csproj",
       "projectName": "chapter-zero",
-      "projectPath": "/home/adam/Dev/omega-spiral/chapter-zero/chapter-zero.csproj",
-      "packagesPath": "/home/adam/.nuget/packages/",
-      "outputPath": "/home/adam/Dev/omega-spiral/chapter-zero/.godot/mono/temp/obj/",
+      "projectPath": "c:\\SpiralDrive\\Videogamescenecreation\\chapter-zero\\chapter-zero.csproj",
+      "packagesPath": "C:\\Users\\jesse\\.nuget\\packages\\",
+      "outputPath": "c:\\SpiralDrive\\Videogamescenecreation\\chapter-zero\\.godot\\mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/adam/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\jesse\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4345,17 +4352,17 @@
         "dependencies": {
           "Godot.SourceGenerators": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "GodotSharp": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "GodotSharpEditor": {
             "target": "Package",
-            "version": "[4.6.0-dev.2, )",
+            "version": "[4.6.0-dev.3, )",
             "autoReferenced": true
           },
           "Microsoft.EntityFrameworkCore": {
@@ -4435,7 +4442,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

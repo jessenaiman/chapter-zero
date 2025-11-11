@@ -49,83 +49,83 @@ public partial class OmegaContainer : Control
     /// Standard initialization pattern - subclasses override to implement specific behavior.
     /// </summary>
     /// <summary>
-/// Called by Godot when the node enters the scene tree.
-/// Standard initialization pattern - subclasses override to implement specific behavior.
-/// </summary>
-public override void _Ready()
-{
-    base._Ready();
-
-    // Ensure proper anchoring so this control fills its parent
-    AnchorLeft = 0f;
-    AnchorTop = 0f;
-    AnchorRight = 1f;
-    AnchorBottom = 1f;
-    OffsetLeft = 0;
-    OffsetTop = 0;
-    OffsetRight = 0;
-    OffsetBottom = 0;
-
-    // Create OmegaBorderFrame if enabled via export property
-    CreateBorderFrameIfEnabled();
-
-    // Emit signal to indicate initialization is complete
-    EmitSignal(SignalName.InitializationCompleted);
-}
-
-/// <summary>
-/// Creates the OmegaBorderFrame if enable_omega_border is true.
-/// Checks for existing BorderFrame and creates one if missing.
-/// </summary>
-/// <summary>
-/// Creates the OmegaBorderFrame if enable_omega_border is true.
-/// Checks for existing BorderFrame and creates one if missing.
-/// </summary>
-/// <summary>
-/// Creates the OmegaBorderFrame if enable_omega_border is true.
-/// Checks for existing BorderFrame and creates one if missing.
-/// </summary>
-/// <summary>
-/// Creates the OmegaBorderFrame if enable_omega_border is true.
-/// Checks for existing BorderFrame and creates one if missing.
-/// </summary>
-private void CreateBorderFrameIfEnabled()
-{
-    // Check if enable_omega_border property is set (default: true)
-    bool enableBorder = true;
-    
-    // Look for enable_omega_border property in this node or scene
-    if (HasMeta("enable_omega_border"))
+    /// Called by Godot when the node enters the scene tree.
+    /// Standard initialization pattern - subclasses override to implement specific behavior.
+    /// </summary>
+    public override void _Ready()
     {
-        enableBorder = (bool)GetMeta("enable_omega_border");
-    }
-    
-    if (!enableBorder)
-    {
-        return; // Border frame disabled
+        base._Ready();
+
+        // Ensure proper anchoring so this control fills its parent
+        AnchorLeft = 0f;
+        AnchorTop = 0f;
+        AnchorRight = 1f;
+        AnchorBottom = 1f;
+        OffsetLeft = 0;
+        OffsetTop = 0;
+        OffsetRight = 0;
+        OffsetBottom = 0;
+
+        // Create OmegaBorderFrame if enabled via export property
+        CreateBorderFrameIfEnabled();
+
+        // Emit signal to indicate initialization is complete
+        EmitSignal(SignalName.InitializationCompleted);
     }
 
-    // Check if BorderFrame already exists in the scene tree
-    var existingBorder = GetNodeOrNull<ColorRect>("BorderFrame");
-    if (existingBorder != null)
+    /// <summary>
+    /// Creates the OmegaBorderFrame if enable_omega_border is true.
+    /// Checks for existing BorderFrame and creates one if missing.
+    /// </summary>
+    /// <summary>
+    /// Creates the OmegaBorderFrame if enable_omega_border is true.
+    /// Checks for existing BorderFrame and creates one if missing.
+    /// </summary>
+    /// <summary>
+    /// Creates the OmegaBorderFrame if enable_omega_border is true.
+    /// Checks for existing BorderFrame and creates one if missing.
+    /// </summary>
+    /// <summary>
+    /// Creates the OmegaBorderFrame if enable_omega_border is true.
+    /// Checks for existing BorderFrame and creates one if missing.
+    /// </summary>
+    private void CreateBorderFrameIfEnabled()
     {
-        return; // BorderFrame already exists
-    }
+        // Check if enable_omega_border property is set (default: true)
+        bool enableBorder = true;
 
-    // Create new OmegaBorderFrame and add it
-    var borderFrame = new OmegaBorderFrame();
-    AddChild(borderFrame);
-    
-    // Ensure BorderFrame fills parent properly - set anchors manually
-    borderFrame.AnchorLeft = 0.0f;
-    borderFrame.AnchorTop = 0.0f;
-    borderFrame.AnchorRight = 1.0f;
-    borderFrame.AnchorBottom = 1.0f;
-    borderFrame.OffsetLeft = 0;
-    borderFrame.OffsetTop = 0;
-    borderFrame.OffsetRight = 0;
-    borderFrame.OffsetBottom = 0;
-}
+        // Look for enable_omega_border property in this node or scene
+        if (HasMeta("enable_omega_border"))
+        {
+            enableBorder = (bool) GetMeta("enable_omega_border");
+        }
+
+        if (!enableBorder)
+        {
+            return; // Border frame disabled
+        }
+
+        // Check if BorderFrame already exists in the scene tree
+        var existingBorder = GetNodeOrNull<ColorRect>("BorderFrame");
+        if (existingBorder != null)
+        {
+            return; // BorderFrame already exists
+        }
+
+        // Create new OmegaBorderFrame and add it
+        var borderFrame = new OmegaBorderFrame();
+        AddChild(borderFrame);
+
+        // Ensure BorderFrame fills parent properly - set anchors manually
+        borderFrame.AnchorLeft = 0.0f;
+        borderFrame.AnchorTop = 0.0f;
+        borderFrame.AnchorRight = 1.0f;
+        borderFrame.AnchorBottom = 1.0f;
+        borderFrame.OffsetLeft = 0;
+        borderFrame.OffsetTop = 0;
+        borderFrame.OffsetRight = 0;
+        borderFrame.OffsetBottom = 0;
+    }
 
     /// <summary>
     /// Called when node exits the scene tree.
@@ -211,29 +211,63 @@ private void CreateBorderFrameIfEnabled()
 
         foreach (var beat in beats)
         {
-            if (!string.IsNullOrEmpty(beat.VisualPreset) && ShaderController != null)
-            {
-                try
-                {
-                    await ShaderController.ApplyVisualPresetAsync(beat.VisualPreset);
-                }
-                catch (Exception ex)
-                {
-                    GD.PrintErr($"Visual preset failed: {ex.Message}");
-                }
-            }
+            await ProcessNarrativeBeatAsync(beat);
+        }
+    }
 
-            if (beat.DelaySeconds > 0)
-            {
-                await ToSignal(GetTree().CreateTimer(beat.DelaySeconds), SceneTreeTimer.SignalName.Timeout);
-            }
+    /// <summary>
+    /// Processes a single narrative beat.
+    /// </summary>
+    /// <param name="beat">The beat to process.</param>
+    private async Task ProcessNarrativeBeatAsync(NarrativeBeat beat)
+    {
+        await ApplyVisualPresetIfNeededAsync(beat);
+        await ApplyDelayIfNeededAsync(beat);
+        await DisplayTextIfNeededAsync(beat);
+    }
 
-            if (!string.IsNullOrEmpty(beat.Text))
+    /// <summary>
+    /// Applies visual preset if specified in the beat.
+    /// </summary>
+    /// <param name="beat">The narrative beat.</param>
+    private async Task ApplyVisualPresetIfNeededAsync(NarrativeBeat beat)
+    {
+        if (!string.IsNullOrEmpty(beat.VisualPreset) && ShaderController != null)
+        {
+            try
             {
-                float speed = beat.TypingSpeed > 0 ? beat.TypingSpeed : 30f; // Default if not set
-                string text = beat.Text.EndsWith("\n") ? beat.Text : beat.Text + "\n";
-                await DisplayTextAsync(text, speed);
+                await ShaderController.ApplyVisualPresetAsync(beat.VisualPreset);
             }
+            catch (Exception ex)
+            {
+                GD.PrintErr($"Visual preset failed: {ex.Message}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Applies delay if specified in the beat.
+    /// </summary>
+    /// <param name="beat">The narrative beat.</param>
+    private async Task ApplyDelayIfNeededAsync(NarrativeBeat beat)
+    {
+        if (beat.DelaySeconds > 0)
+        {
+            await ToSignal(GetTree().CreateTimer(beat.DelaySeconds), SceneTreeTimer.SignalName.Timeout);
+        }
+    }
+
+    /// <summary>
+    /// Displays text if specified in the beat.
+    /// </summary>
+    /// <param name="beat">The narrative beat.</param>
+    private async Task DisplayTextIfNeededAsync(NarrativeBeat beat)
+    {
+        if (!string.IsNullOrEmpty(beat.Text))
+        {
+            float speed = beat.TypingSpeed > 0 ? beat.TypingSpeed : 30f;
+            string text = beat.Text.EndsWith("\n") ? beat.Text : beat.Text + "\n";
+            await DisplayTextAsync(text, speed);
         }
     }
 }

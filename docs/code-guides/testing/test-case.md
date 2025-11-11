@@ -79,30 +79,7 @@ See [Testing with Fuzzers]({{site.baseurl}}/advanced_testing/fuzzing/#testing-wi
 ## TestCase Parameters
 
 GdUnit allows you to define additional test parameters to have more control over the test execution.
-{% tabs faq-test-case-attr %}
-{% tab faq-test-case-attr GdScript %}
 
-| Parameter | Description |
-|---| ---|
-| timeout | Defines a custom timeout in milliseconds. By default, a TestCase will be interrupted after 5 minutes if the tests are not finished.|
-| do_skip | Set to 'true' to skip the test. Conditional expressions are supported. |
-| skip_reason | Adds a comment why you want to skip this test. |
-| fuzzer | Defines a fuzzer to provide test data. |
-| fuzzer_iterations | Defines the number of times a TestCase will be run using the fuzzer. |
-| fuzzer_seed | Defines a seed used by the fuzzer. |
-| test_parameters | Defines the TestCase dataset for parameterized tests. |
-
-{% endtab %}
-{% tab faq-test-case-attr C# %}
-
-| Parameter | Description |
-|---| ---|
-| Timeout | Defines a custom timeout in milliseconds. By default, a TestCase will be interrupted after 5 minutes if the tests are not finished. |
-| TestName | Defines a custom TestCase name. |
-| Seed | Defines a seed to provide test data. |
-
-{% endtab %}
-{% endtabs %}
 
 ### timeout
 
@@ -131,8 +108,6 @@ public async Task ATestWithTimeout()
    ...
 ```
 
-{% endtab %}
-{% endtabs %}
 
 ### fuzzer parameters
 

@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyqy6dvynho67"]
+
+[ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_tjbcx"]
+[ext_resource type="Texture2D" uid="uid://5rltpvy6c5b" path="res://addons/maaacks_game_template/examples/assets/godot_engine_logo/logo_vertical_color_dark.png" id="2_5ncfi"]
+[ext_resource type="Texture2D" uid="uid://c61b6ymhfey6v" path="res://assets/logo/omega-spiral.svg" id="3_baoqs"]
+[ext_resource type="Texture2D" uid="uid://ms7w5sed2kto" path="res://assets/logo/logo-monochrome.png" id="4_kw64e"]
+[ext_resource type="Texture2D" uid="uid://d1pa0c4rd3xs3" path="res://assets/logo/Gemini_Generated_Image_mt1xl0mt1xl0mt1x.png" id="5_t52o3"]
+
+[node name="Opening" instance=ExtResource("1_tjbcx")]
+show_loading_screen = false
+images = Array[Texture2D]([ExtResource("3_baoqs"), ExtResource("4_kw64e"), ExtResource("5_t52o3")])
+
+[node name="ImagesContainer" parent="." index="1"]
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
