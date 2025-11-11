@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc7yoie2goq7v"]
+[gd_scene load_steps=2 format=3 uid="uid://b4g85oq3l6v76"]
 
 [ext_resource type="Script" path="res://scenes/menus/options_menu/game/reset_game_control/reset_game_control.gd" id="1_mkb8o"]
 

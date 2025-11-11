@@ -5,19 +5,11 @@ namespace OmegaSpiral.Source.Scripts.Common;
 
 /// <summary>
 /// Base class for all narrative scenes across stages 1, 2, and 3.
-/// Provides common functionality like GameState access, audio management, and scene transitions.
+/// Provides common functionality like audio management, and scene transitions.
 /// </summary>
 [GlobalClass]
 public abstract partial class BaseNarrativeScene : Control
 {
-    /// <summary>
-    /// Gets the game state instance for tracking choices and scores.
-    /// </summary>
-    protected GameState GetGameState()
-    {
-        return GetNode<GameState>("/root/GameState");
-    }
-
     /// <summary>
     /// Plays audio using the centralized AudioManager.
     /// </summary>
@@ -45,7 +37,7 @@ public abstract partial class BaseNarrativeScene : Control
     /// Transitions to the next scene in the narrative sequence.
     /// </summary>
     /// <param name="nextScenePath">Path to the next scene file.</param>
-    protected async void TransitionToScene(string nextScenePath)
+    protected async Task TransitionToScene(string nextScenePath)
     {
         if (ResourceLoader.Load<PackedScene>(nextScenePath) is not { } nextScene)
         {
@@ -54,7 +46,7 @@ public abstract partial class BaseNarrativeScene : Control
         }
 
         // Optional: Play transition effect here
-    await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(0.5), SceneTreeTimer.SignalName.Timeout);
         GetTree().ChangeSceneToPacked(nextScene);
     }
 }

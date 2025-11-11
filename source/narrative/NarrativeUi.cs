@@ -62,7 +62,7 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// Plays narrative beats sequentially.
     /// </summary>
     /// <param name="beats">The beats to play.</param>
-    protected async void PlayNarrativeSequence(NarrativeBeat[] beats)
+    protected async Task PlayNarrativeSequence(NarrativeBeat[] beats)
     {
         await PlayNarrativeBeatsAsync(beats);
     }
@@ -71,7 +71,7 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// Transitions persona with shader animation.
     /// </summary>
     /// <param name="threadName">Thread name (light/shadow/ambition).</param>
-    protected async void TransitionPersona(string threadName)
+    protected async Task TransitionPersona(string threadName)
     {
         if (string.IsNullOrEmpty(threadName) || ShaderController == null) return;
 
@@ -88,14 +88,17 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
     /// </summary>
     /// <param name="threadName">Thread name.</param>
     /// <returns>Color.</returns>
-    private static Color GetThreadColor(string threadName)
+    private Color GetThreadColor(string threadName)
     {
+        var theme = GetTheme();
+        if (theme == null) return Colors.White; // Fallback
+
         return threadName.ToLowerInvariant() switch
         {
-            "light" => OmegaSpiralColors.LightThread,
-            "shadow" => OmegaSpiralColors.ShadowThread,
-            "ambition" => OmegaSpiralColors.AmbitionThread,
-            _ => OmegaSpiralColors.WarmAmber
+            "light" => theme.GetColor("silver", "OmegaSpiral"),
+            "shadow" => theme.GetColor("gold", "OmegaSpiral"),
+            "ambition" => theme.GetColor("red", "OmegaSpiral"),
+            _ => theme.GetColor("accent_gold", "OmegaSpiral")
         };
     }
 
@@ -111,10 +114,10 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
         Vector3 currentTint = currentVariant.VariantType == Variant.Type.Vector3 ? currentVariant.AsVector3() : new Vector3(1.0f, 0.9f, 0.5f);
         Vector3 targetTint = new(targetColor.R, targetColor.G, targetColor.B);
 
-        int totalFrames = (int)(duration * 60);
+        int totalFrames = (int) (duration * 60);
         for (int frame = 0; frame <= totalFrames; frame++)
         {
-            float t = (float)frame / totalFrames;
+            float t = (float) frame / totalFrames;
             Vector3 interpolated = currentTint.Lerp(targetTint, t);
             material.SetShaderParameter("phosphor_tint", interpolated);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -160,7 +163,7 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
 
         var result = await ToSignal(this, SignalName.ChoiceSelected);
         ClearNarrative();
-        return (string)result[0];
+        return (string) result[0];
     }
 
     // INarrativeHandler implementation (simplified)

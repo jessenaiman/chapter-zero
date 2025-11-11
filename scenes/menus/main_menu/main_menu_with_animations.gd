@@ -13,6 +13,7 @@ var animation_state_machine : AnimationNodeStateMachinePlayback
 @onready var continue_game_button = %ContinueGameButton
 @onready var level_select_button = %LevelSelectButton
 @onready var new_game_confirmation = %NewGameConfirmation
+@onready var example_game = %ExampleGame
 
 func load_game_scene() -> void:
 	GameStateExample.start_game()

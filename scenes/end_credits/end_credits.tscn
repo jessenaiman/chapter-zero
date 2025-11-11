@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://chh75kst36aeg"]
+[gd_scene load_steps=5 format=3 uid="uid://bku6bwkxgk1an"]
 
 [ext_resource type="PackedScene" path="res://scenes/credits/scrolling_credits.tscn" id="1_0sycx"]
 [ext_resource type="Script" path="res://scenes/end_credits/end_credits.gd" id="2_2v40y"]

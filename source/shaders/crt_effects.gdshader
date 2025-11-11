@@ -5,10 +5,10 @@ render_mode unshaded, blend_add;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 // ============================================================================
-// CRT Unified Shader - All-in-One 1980s Monochrome CRT Monitor Effect
+// CRT Effects Shader - Base CRT Monitor Effects (Phosphor + Scanlines)
 // ============================================================================
-// Combines phosphor glow, scanlines, and glitch effects into a single shader.
-// All effects are configurable via uniforms for maximum flexibility.
+// Combines phosphor glow, scanlines into a single shader for UI backgrounds.
+// Glitch effects removed for cleaner, more focused CRT aesthetic.
 // ============================================================================
 
 // === Screen Curvature (Phosphor Layer) ===
@@ -36,18 +36,7 @@ uniform float scanline_opacity : hint_range(0.0, 0.3) = 0.08;
 uniform float scanline_speed : hint_range(0.0, 20.0) = 5.0;
 uniform float scanline_count : hint_range(100.0, 1000.0) = 400.0;
 uniform float scanline_thickness : hint_range(0.5, 3.0) = 1.2;
-uniform vec3 scanline_tint : source_color = vec3(0.6078, 0.4157, 0.2510);
-
-// === Glitch (Glitch Layer) ===
-uniform float glitch_intensity : hint_range(0.0, 1.0) = 0.0;
-uniform float interference_speed : hint_range(0.0, 30.0) = 5.0;
-uniform float chromatic_offset : hint_range(0.0, 20.0) = 2.0;
-uniform float block_size : hint_range(4.0, 64.0) = 16.0;
-uniform float block_intensity : hint_range(0.0, 1.0) = 0.5;
-uniform float noise_amount : hint_range(0.0, 1.0) = 0.1;
-uniform float displacement_strength : hint_range(0.0, 0.2) = 0.02;
-uniform vec3 glitch_tint : source_color = vec3(0.6078, 0.4157, 0.2510);
-uniform vec3 glitch_flash_tint : source_color = vec3(0.7725, 0.6196, 0.3725);
+uniform vec3 scanline_tint : source_color = vec3(0.6078, 0.4157, 0.251);
 
 // ============================================================================
 // Screen Curvature Function (Phosphor Effect)
@@ -87,44 +76,6 @@ float calculate_scanline_intensity(float uv_y, float time_offset, float count, f
     float scanline_wave = sin(scanline_position);
     float intensity = smoothstep(1.0 - thickness * 0.1, 1.0, abs(scanline_wave));
     return intensity;
-}
-
-// ============================================================================
-// Random Number Generator (Glitch Effect)
-// ============================================================================
-float random(vec2 uv) {
-    return fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
-}
-
-// ============================================================================
-// Noise Function (Glitch Effect)
-// ============================================================================
-float noise(vec2 uv, float time_offset) {
-    vec2 noise_uv = floor(uv * 100.0 + time_offset * 10.0);
-    return random(noise_uv);
-}
-
-// ============================================================================
-// Horizontal Displacement for Glitch (Glitch Effect)
-// ============================================================================
-float calculate_horizontal_displacement(float uv_y, float time_offset, float speed, float strength) {
-    float wave1 = sin(uv_y * 10.0 + time_offset * speed);
-    float wave2 = sin(uv_y * 23.0 + time_offset * speed * 1.5);
-    float wave3 = sin(uv_y * 47.0 + time_offset * speed * 0.7);
-    float combined = (wave1 * 0.5 + wave2 * 0.3 + wave3 * 0.2);
-    float random_jump = step(0.97, random(vec2(uv_y * 100.0, floor(time_offset * 10.0)))) * 2.0 - 1.0;
-    return (combined + random_jump * 0.3) * strength;
-}
-
-// ============================================================================
-// Block Corruption for Glitch (Glitch Effect)
-// ============================================================================
-float calculate_block_corruption(vec2 uv, float time_offset, float block_sz) {
-    vec2 block_uv = floor(uv * vec2(1920.0 / block_sz, 1080.0 / block_sz));
-    float block_random = random(block_uv + floor(time_offset * 5.0));
-    float is_corrupted = step(0.85, block_random);
-    float corruption_strength = random(block_uv * 1.5 + time_offset);
-    return is_corrupted * corruption_strength;
 }
 
 // ============================================================================
@@ -178,58 +129,6 @@ void fragment() {
 
         vec3 scanline_overlay = scanline_tint * scanline * scanline_opacity;
         color += scanline_overlay;
-
-        // ==================== GLITCH LAYER ====================
-        if (glitch_intensity > 0.001) {
-            // Calculate horizontal displacement for this scanline
-            float displacement = calculate_horizontal_displacement(
-                SCREEN_UV.y,
-                time,
-                interference_speed,
-                displacement_strength * glitch_intensity
-            );
-
-            vec2 displaced_uv = SCREEN_UV + vec2(displacement, 0.0);
-            displaced_uv = clamp(displaced_uv, 0.0, 1.0);
-
-            vec3 glitch_color;
-
-            // High-intensity glitches use chromatic aberration
-            if (glitch_intensity > 0.5) {
-                float angle_r = random(vec2(time, 0.0)) * 6.28318;
-                float angle_g = random(vec2(time, 1.0)) * 6.28318;
-                float angle_b = random(vec2(time, 2.0)) * 6.28318;
-
-                vec2 pixel_size = vec2(1.0 / 1920.0, 1.0 / 1080.0);
-                vec2 offset_uv = pixel_size * (chromatic_offset * glitch_intensity);
-
-                float r = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_r), sin(angle_r)) * offset_uv).r;
-                float g = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_g), sin(angle_g)) * offset_uv).g;
-                float b = texture(SCREEN_TEXTURE, displaced_uv + vec2(cos(angle_b), sin(angle_b)) * offset_uv).b;
-
-                glitch_color = vec3(r, g, b);
-            } else {
-                glitch_color = texture(SCREEN_TEXTURE, displaced_uv).rgb;
-            }
-
-            // Add digital block corruption
-            float block_corruption = calculate_block_corruption(SCREEN_UV, time, block_size);
-            float block_noise = random(SCREEN_UV + time);
-            vec3 tinted_block = vec3(block_noise) * glitch_tint;
-            glitch_color = mix(glitch_color, tinted_block, block_corruption * block_intensity * glitch_intensity);
-
-            // Add noise/static overlay
-            float static_noise = noise(SCREEN_UV, time);
-            vec3 tinted_static = (vec3(static_noise) - vec3(0.5)) * glitch_tint;
-            glitch_color += tinted_static * noise_amount * glitch_intensity;
-
-            // Random full-screen flashes
-            float flash = step(0.998, random(vec2(time * 10.0, 0.0))) * glitch_intensity;
-            glitch_color = mix(glitch_color, glitch_flash_tint, flash);
-
-            glitch_color = clamp(glitch_color, 0.0, 1.0);
-            color += glitch_color * glitch_intensity;
-        }
 
         // Adjust brightness and contrast
         color = adjust_levels(color, brightness, contrast);

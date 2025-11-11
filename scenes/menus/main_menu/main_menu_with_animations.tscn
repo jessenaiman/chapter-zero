@@ -1,17 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://c63y6b25bs4bk"]
+[gd_scene load_steps=19 format=3 uid="uid://c63y6b25bs4bk"]
 
-[ext_resource type="Theme" uid="uid://dnhctb3dqu015" path="res://source/ui/omega/omega_ui.theme.tres" id="1_xkrf4"]
-[ext_resource type="Script" uid="uid://b25gxsjy8p7i6" path="res://scenes/menus/main_menu/main_menu_with_animations.gd" id="2_ncvk7"]
-[ext_resource type="PackedScene" uid="uid://nedg0m85c10h" path="res://scenes/menus/options_menu/game/game_options_menu.tscn" id="3_801fg"]
-[ext_resource type="Script" uid="uid://b5oej1q4h7jvh" path="res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/ui_sound_controller.gd" id="4_6xh1d"]
-[ext_resource type="PackedScene" uid="uid://chh75kst36aeg" path="res://scenes/end_credits/end_credits.tscn" id="4_801fg"]
+[ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_game_template/base/nodes/menus/main_menu/main_menu.tscn" id="1_0i2sc"]
+[ext_resource type="Script" uid="uid://boy1iu0rqp8mp" path="res://scenes/menus/main_menu/main_menu_with_animations.gd" id="2_ncvk7"]
+[ext_resource type="PackedScene" uid="uid://crov2ygbpmsk3" path="res://scenes/menus/options_menu/master_options_menu_with_tabs.tscn" id="3_801fg"]
+[ext_resource type="PackedScene" uid="uid://b0pnxlrfopq0a" path="res://scenes/credits/scrolling_credits.tscn" id="4_801fg"]
 [ext_resource type="PackedScene" uid="uid://cwt4p3bufkke5" path="res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn" id="5_801fg"]
-[ext_resource type="PackedScene" uid="uid://bkcsjsk2ciff" path="res://addons/maaacks_game_template/base/nodes/music_players/background_music_player.tscn" id="5_dhrx6"]
-[ext_resource type="Script" uid="uid://dmkubt2nsnsbn" path="res://addons/maaacks_game_template/base/nodes/labels/config_version_label.gd" id="6_xkrf4"]
-[ext_resource type="Script" uid="uid://bkwlopi4qn32o" path="res://addons/maaacks_game_template/base/nodes/labels/config_name_label.gd" id="7_x5bcm"]
-[ext_resource type="Script" uid="uid://1nf36h0gms3q" path="res://addons/maaacks_game_template/base/nodes/utilities/capture_focus.gd" id="8_672y5"]
-[ext_resource type="PackedScene" path="res://source/ui/omega/omega_button.tscn" id="10_x5bcm"]
-[ext_resource type="PackedScene" path="res://source/ui/omega/omega_ui_frame.tscn" id="11_frame"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -321,194 +314,54 @@ states/Start/position = Vector2(82, 123)
 transitions = ["Intro", "OpenMainMenu", SubResource("11"), "OpenMainMenu", "OpenSubMenu", SubResource("14"), "Start", "Intro", SubResource("AnimationNodeStateMachineTransition_j0orr"), "OpenSubMenu", "OpenMainMenu", SubResource("AnimationNodeStateMachineTransition_63dxc")]
 graph_offset = Vector2(-180.277, 49)
 
-[node name="MainMenu" type="Control" unique_id=325972722]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_xkrf4")
+[node name="MainMenu" unique_id=158425851 instance=ExtResource("1_0i2sc")]
 script = ExtResource("2_ncvk7")
+level_select_packed_scene = null
+confirm_new_game = true
 options_packed_scene = ExtResource("3_801fg")
 credits_packed_scene = ExtResource("4_801fg")
 
-[node name="UISoundController" type="Node" parent="." unique_id=225552587]
-script = ExtResource("4_6xh1d")
-
-[node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." unique_id=884054101]
+[node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=1656244528]
 libraries = {
 &"": SubResource("AnimationLibrary_2kqig")
 }
 
-[node name="MenuAnimationTree" type="AnimationTree" parent="." unique_id=123968490]
+[node name="MenuAnimationTree" type="AnimationTree" parent="." index="2" unique_id=371104469]
 tree_root = SubResource("AnimationNodeStateMachine_vikuh")
 anim_player = NodePath("../MenuAnimationPlayer")
 parameters/conditions/intro_done = false
 
-[node name="BackgroundMusicPlayer" parent="." unique_id=1017470088 instance=ExtResource("5_dhrx6")]
-
-[node name="BackgroundTextureRect" type="TextureRect" parent="." unique_id=73763481]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
-stretch_mode = 5
-
-[node name="VersionMargin" type="MarginContainer" parent="." unique_id=2041924233]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="VersionContainer" type="Control" parent="VersionMargin" unique_id=1264771778]
+[node name="VersionContainer" parent="VersionMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-mouse_filter = 2
 
-[node name="VersionLabel" type="Label" parent="VersionMargin/VersionContainer" unique_id=1240175671]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -88.0
-offset_top = -26.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "v0.0.0"
-horizontal_alignment = 2
-script = ExtResource("6_xkrf4")
-
-[node name="MenuContainer" type="MarginContainer" parent="." unique_id=556809956]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TitleMargin" type="MarginContainer" parent="MenuContainer" unique_id=1787046111]
-layout_mode = 2
-theme_override_constants/margin_top = 24
-
-[node name="TitleContainer" type="Control" parent="MenuContainer/TitleMargin" unique_id=1348937910]
+[node name="TitleContainer" parent="MenuContainer/TitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-mouse_filter = 2
 
-[node name="TitleLabel" type="Label" parent="MenuContainer/TitleMargin/TitleContainer" unique_id=1904811015]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 67.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 48
+[node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="0"]
 text = "Ωmega Spiral"
-horizontal_alignment = 1
-vertical_alignment = 1
-script = ExtResource("7_x5bcm")
 
-[node name="SubTitleMargin" type="MarginContainer" parent="MenuContainer" unique_id=2093993978]
-layout_mode = 2
-theme_override_constants/margin_top = 92
-
-[node name="SubTitleContainer" type="Control" parent="MenuContainer/SubTitleMargin" unique_id=2112802076]
+[node name="SubTitleContainer" parent="MenuContainer/SubTitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-mouse_filter = 2
 
-[node name="SubTitleLabel" type="Label" parent="MenuContainer/SubTitleMargin/SubTitleContainer" unique_id=904189671]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 34.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
-text = "Subtitle"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuButtonsMargin" type="MarginContainer" parent="MenuContainer" unique_id=121944424]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/margin_top = 136
-theme_override_constants/margin_bottom = 8
-
-[node name="MenuButtonsContainer" type="Control" parent="MenuContainer/MenuButtonsMargin" unique_id=1238839321]
+[node name="MenuButtonsContainer" parent="MenuContainer/MenuButtonsMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-mouse_filter = 2
 
-[node name="MenuButtonsBoxContainer" type="BoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" unique_id=1164584727]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -104.0
-offset_right = 64.0
-offset_bottom = 104.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 16
-alignment = 1
-vertical = true
-script = ExtResource("8_672y5")
+[node name="MenuButtonsBoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" index="0"]
 lock = true
 
-[node name="OmegaNewGameButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1881558914 instance=ExtResource("10_x5bcm")]
-layout_mode = 2
-text = "New Game"
-
-[node name="ExampleGame" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=363332392]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Start Demo"
-
-[node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1841264571]
+[node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="1" unique_id=547545501]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Continue"
 
-[node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=711536612]
+[node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2" unique_id=1478567065]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Level Select"
 
-[node name="OptionsButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=348800434]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Options"
-
-[node name="CreditsButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1362981778]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Credits"
-
-[node name="ExitButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" unique_id=1256425248]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Exit"
-
-[node name="NewGameConfirmation" parent="." unique_id=620729645 instance=ExtResource("5_801fg")]
+[node name="NewGameConfirmation" parent="." index="7" unique_id=1309320192 instance=ExtResource("5_801fg")]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(420, 200)
@@ -523,7 +376,7 @@ text = "Are you sure you want to start a new game?
 All progress in the current game will be lost."
 title = "New Game"
 
-[node name="MouseFilter" type="Control" parent="." unique_id=1415190190]
+[node name="MouseFilter" type="Control" parent="." index="8" unique_id=1892898886]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -533,10 +386,6 @@ grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ExampleGame" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ContinueGameButton" to="." method="_on_continue_game_button_pressed"]
 [connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/LevelSelectButton" to="." method="_on_level_select_button_pressed"]
-[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
-[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="confirmed" from="NewGameConfirmation" to="." method="_on_new_game_confirmation_confirmed"]

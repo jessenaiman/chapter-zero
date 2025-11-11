@@ -21,7 +21,23 @@ public partial class OmegaTextRenderer : RichTextLabel
     public OmegaTextRenderer()
     {
         BbcodeEnabled = true; // Enable BBCode for formatting
-        SetTextColor(OmegaSpiralColors.WarmAmber); // Apply default Omega color
+        // Color will be set in _Ready from theme
+    }
+
+    /// <inheritdoc/>
+    public override void _Ready()
+    {
+        base._Ready();
+        var theme = GetTheme();
+        if (theme != null)
+        {
+            var warmAmber = theme.GetColor("gold", "OmegaSpiral");
+            SetTextColor(warmAmber);
+        }
+        else
+        {
+            SetTextColor(Colors.Yellow); // Fallback
+        }
     }
 
     /// <inheritdoc/>
@@ -39,7 +55,7 @@ public partial class OmegaTextRenderer : RichTextLabel
         // Delay before starting animation
         if (delayBeforeStart > 0)
         {
-            await Task.Delay((int)(delayBeforeStart * 1000)).ConfigureAwait(false);
+            await Task.Delay((int) (delayBeforeStart * 1000)).ConfigureAwait(false);
         }
 
         _IsAnimating = true;
@@ -55,7 +71,7 @@ public partial class OmegaTextRenderer : RichTextLabel
                 CallDeferred(nameof(UpdateTextDeferred), currentText);
 
                 // Wait for the character delay, but allow for cancellation
-                await Task.Delay((int)(charDelay * 1000)).ConfigureAwait(false);
+                await Task.Delay((int) (charDelay * 1000)).ConfigureAwait(false);
             }
         }
         finally

@@ -1,0 +1,285 @@
+﻿Here is a complete project plan for your AI agent. These tasks are designed to be executed sequentially.
+Project Plan: Quantum Resonance UI
+Agent Instructions:
+Execute the following tasks sequentially. Do not add, omit, or alter any creative or functional details. Do not create any new documentation files. All file paths are relative to the project root.
+________________
+
+
+Phase 1: Create Core Theme Assets
+
+
+Task 1: Verify/Update Global Color Palette
+Action: MODIFY FILE
+File: source/ui/omega/OmegaSpiralColors.cs
+Instructions: Ensure the file contains the following static color definitions. Add or overwrite any existing definitions to match this palette exactly.
+
+
+C#
+
+
+
+
+using Godot;
+
+// Global static class for your project's color palette.
+public static class OmegaSpiralColors
+{
+   // Core palette from the logo
+   public static readonly Color Background = Color.FromHtml("#000000");
+   public static readonly Color Silver = Color.FromHtml("#EAF8FF");
+   public static readonly Color Gold = Color.FromHtml("#FFC300");
+   public static readonly Color Red = Color.FromHtml("#D10000");
+
+   // Brighter accents for highlights and effects
+   public static readonly Color AccentGold = Color.FromHtml("#FFAA00");
+   public static readonly Color AccentWhite = Color.FromHtml("#FFFFFF");
+}
+
+________________
+Task 2: Create the Animated Border Shader
+Action: CREATE FILE
+File: source/shaders/quantum_resonance_border.gdshader
+Instructions: Create the shader file with the exact content below.
+
+
+OpenGL Shading Language
+
+
+
+
+shader_type canvas_item;
+
+// Core Palette
+uniform vec4 base_color : source_color = vec4(0.819, 0.0, 0.0, 1.0); // Red: #D10000
+uniform vec4 mid_color : source_color = vec4(1.0, 0.753, 0.0, 1.0);  // Gold: #FFC300
+uniform vec4 high_color : source_color = vec4(0.918, 0.973, 1.0, 1.0); // Silver: #EAF8FF
+
+// Controls
+uniform float border_width : hint_range(0.0, 0.1) = 0.01;
+uniform float pulse_speed = 0.5;
+uniform float reaction_strength : hint_range(0.0, 1.0) = 0.0; // 0.0 = idle, 1.0 = full reaction
+
+// Mathematical art parameters
+const float PI = 3.1415926535;
+uniform float complexity = 6.0;
+uniform float strand_width = 0.005;
+
+// Function to draw an anti-aliased line
+float draw_line(vec2 p1, vec2 p2, vec2 uv, float width) {
+   vec2 dir = p2 - p1;
+   float len = length(dir);
+   dir /= len;
+   
+   vec2 normal = vec2(-dir.y, dir.x);
+   vec2 p_to_uv = uv - p1;
+   
+   float dist_along = dot(p_to_uv, dir);
+   float dist_perp = abs(dot(p_to_uv, normal));
+   
+   // Check if we are within the line segment and width
+   if (dist_along >= 0.0 && dist_along <= len) {
+       return smoothstep(width + 0.002, width, dist_perp); // Anti-aliasing
+   }
+   return 0.0;
+}
+
+// Function to get the animated, reactive path position
+vec2 get_path_pos(float t, float offset) {
+   // This creates a complex, looping path (Lissajous-like)
+   vec2 pos;
+   pos.x = 0.5 + 0.5 * cos(t + offset);
+   pos.y = 0.5 + 0.5 * sin((t * 0.5) + offset + sin(t * 0.2) * (1.0 + reaction_strength * 2.0));
+   return pos;
+}
+
+void fragment() {
+   // 1. Get distance from edge
+   // Use `min` on mirrored UVs to get distance from the nearest edge
+   vec2 mirrored_uv = abs(UV - 0.5) * 2.0;
+   float dist_from_edge = max(mirrored_uv.x, mirrored_uv.y);
+   
+   // 2. Create the border mask
+   // 'border_width' is scaled by reaction strength
+   float reactive_border_width = border_width * (1.0 + reaction_strength * 3.0);
+   float border_mask = smoothstep(1.0 - reactive_border_width - 0.01, 1.0 - reactive_border_width, dist_from_edge);
+   border_mask *= (1.0 - smoothstep(0.99, 1.0, dist_from_edge)); // Fade at the very edge
+   
+   if (border_mask == 0.0) {
+       discard; // Don't draw outside the border
+   }
+
+   // 3. Define the three energy strands
+   float time = TIME * pulse_speed;
+   float total_color = 0.0;
+   vec3 final_color = vec3(0.0);
+   
+   // Animate path time with reaction
+   float anim_time = time + reaction_strength * TIME * 0.2;
+
+   // Strand 1 (Base Color - Red)
+   vec2 p1_start = get_path_pos(anim_time, 0.0);
+   vec2 p1_end = get_path_pos(anim_time + 0.1, 0.0);
+   float strand1 = draw_line(p1_start, p1_end, UV, strand_width);
+   
+   // Strand 2 (Mid Color - Gold)
+   vec2 p2_start = get_path_pos(anim_time * 0.9, 2.0 * PI / 3.0);
+   vec2 p2_end = get_path_pos(anim_time * 0.9 + 0.1, 2.0 * PI / 3.0);
+   float strand2 = draw_line(p2_start, p2_end, UV, strand_width);
+
+   // Strand 3 (High Color - Silver)
+   vec2 p3_start = get_path_pos(anim_time * 0.8, 4.0 * PI / 3.0);
+   vec2 p3_end = get_path_pos(anim_time * 0.8 + 0.1, 4.0 * PI / 3.0);
+   float strand3 = draw_line(p3_start, p3_end, UV, strand_width);
+
+   // 4. Combine strands
+   // Use additive blending, enhanced by reaction
+   float reaction_glow = 1.0 + reaction_strength * 2.0;
+   final_color += strand1 * base_color.rgb * reaction_glow;
+   final_color += strand2 * mid_color.rgb * reaction_glow;
+   final_color += strand3 * high_color.rgb * reaction_glow;
+   
+   // 5. Apply the border mask
+   COLOR = vec4(final_color, border_mask);
+}
+
+________________
+Task 3: Create the Border Controller Script
+Action: MODIFY FILE
+File: source/ui/omega/OmegaBorderFrame.cs
+Instructions: Overwrite the entire file with this content. This script will control the shader's reaction_strength.
+
+
+C#
+
+
+
+
+using Godot;
+
+public partial class OmegaBorderFrame : Control
+{
+   [Export] private AudioServer.Bus bus = AudioServer.Bus.Master;
+   [Export] private float audioSensitivity = 10.0f; // Multiplier for audio peak
+   [Export] private float minAudioThreshold = 0.01f; // Ignore very quiet sounds
+   [Export] private float reactionHoldTime = 0.1f;
+   [Export] private float reactionFadeTime = 0.5f;
+
+   private ShaderMaterial _shaderMaterial;
+   private Tween _reactionTween;
+   private int _busIndex;
+
+   public override void _Ready()
+   {
+       // Find the Panel node that holds the shader
+       var borderPanel = GetNode<Panel>("BorderPanel");
+       if (borderPanel != null)
+       {
+           _shaderMaterial = borderPanel.Material as ShaderMaterial;
+       }
+
+       if (_shaderMaterial == null)
+       {
+           GD.PrintErr("OmegaBorderFrame: Could not find ShaderMaterial on 'BorderPanel' child.");
+       }
+       
+       _busIndex = AudioServer.GetBusIndex(bus.ToString());
+   }
+
+   public override void _Input(InputEvent @event)
+   {
+       // Trigger reaction on any key press or mouse click
+       if (@event.IsPressed() && !@event.IsEcho())
+       {
+           if (@event is InputEventKey || @event is InputEventMouseButton)
+           {
+               TriggerReaction();
+           }
+       }
+   }
+
+   public override void _Process(double delta)
+   {
+       if (_shaderMaterial == null) return;
+
+       // Check if a tween is *not* active (i.e., no input reaction)
+       if (_reactionTween == null || !_reactionTween.IsRunning())
+       {
+           // Apply audio reactivity
+           float peakDb = AudioServer.GetBusPeakVolumeDb(_busIndex, 0); // Get peak for left channel
+           float linearPeak = Mathf.DbToLinear(peakDb) * audioSensitivity;
+           
+           float targetStrength = Mathf.Clamp(linearPeak, 0.0f, 1.0f);
+
+           if (targetStrength < minAudioThreshold)
+           {
+               targetStrength = 0.0f;
+           }
+
+           // Smoothly move to the audio level
+           float currentStrength = (float)_shaderMaterial.GetShaderParameter("reaction_strength");
+           float smoothedStrength = Mathf.Lerp(currentStrength, targetStrength, (float)delta * 5.0f);
+           
+           _shaderMaterial.SetShaderParameter("reaction_strength", smoothedStrength);
+       }
+   }
+
+   public void TriggerReaction()
+   {
+       if (_shaderMaterial == null) return;
+
+       // Kill existing tween to restart the reaction
+       if (_reactionTween != null && _reactionTween.IsRunning())
+       {
+           _reactionTween.Kill();
+       }
+
+       _reactionTween = CreateTween();
+       _reactionTween.SetTrans(Tween.TransitionType.Sine);
+       _reactionTween.SetEase(Tween.EaseType.Out);
+
+       // Tween to 1.0, hold, then fade back to 0.0
+       _reactionTween.TweenProperty(_shaderMaterial, "shader_parameter/reaction_strength", 1.0f, 0.05f); // Fast ramp up
+       _reactionTween.TweenProperty(_shaderMaterial, "shader_parameter/reaction_strength", 0.0f, reactionFadeTime)
+                     .SetDelay(reactionHoldTime); // Hold then fade
+   }
+}
+
+________________
+Task 4: Modify the Reusable Border Scene
+Action: MODIFY SCENE
+File: source/ui/omega/omega_ui_frame.tscn
+Instructions:
+1. Ensure the root node is a Control node named OmegaBorderFrame and that its Script property is set to res://source/ui/omega/OmegaBorderFrame.cs.
+2. Add a Panel node as a child of OmegaBorderFrame. Name it BorderPanel.
+3. Set the BorderPanel's Layout -> Anchors Preset to Full Rect.
+4. In the BorderPanel's Inspector, go to Material -> [empty] and select New ShaderMaterial.
+5. Click the new ShaderMaterial to expand it, then set its Shader property to Load -> res://source/shaders/quantum_resonance_border.gdshader.
+6. Add a MarginContainer as a child of OmegaBorderFrame. Name it ContentArea.
+7. Set the ContentArea's Layout -> Anchors Preset to Full Rect.
+8. In the ContentArea's Inspector, set all Theme Overrides -> Constants -> Margin values (Left, Top, Right, Bottom) to 10. This creates the space for the border to be visible.
+________________
+
+
+Phase 2: Apply Border to Main Menu
+
+
+Task 5: Re-structure the Main Menu Scene
+Action: MODIFY SCENE
+File: source/ui/menus/main_menu/main_menu_with_animations.tscn
+Instructions:
+1. Open the scene.
+2. Find the primary Control node that contains all the visible UI elements (e.g., "MarginContainer", "VBoxContainer", etc.).
+3. Instance res://source/ui/omega/omega_ui_frame.tscn as a new child of the scene's root node.
+4. Move the main UI container node (identified in step 2) so that it is now a child of the ContentArea node inside the newly instanced omega_ui_frame.
+5. Use the Scene dock to ensure the omega_ui_frame instance is at the top of the node list (rendered first) and the main UI container is inside its ContentArea. The OmegaBorderFrame will handle all input and audio reactions automatically.
+________________
+Task 6: Validate Node Paths in Main Menu Script
+Action: MODIFY FILE
+File: source/ui/menus/MainMenuWithAnimations.cs
+Instructions:
+1. Review this file for any GetNode calls.
+2. Because nodes were reparented in Task 5, these paths are now broken.
+3. Update all GetNode paths to reflect the new hierarchy.
+   * Example (if this exists): GetNode<Button>("MarginContainer/VBoxContainer/StartButton")
+   * Must become: GetNode<Button>("OmegaBorderFrame/ContentArea/MarginContainer/VBoxContainer/StartButton")
+4. Check all button signal connections in the script and scene to ensure they are still correctly wired after the reparenting.

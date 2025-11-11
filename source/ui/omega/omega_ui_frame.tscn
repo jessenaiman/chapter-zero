@@ -1,36 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxutlugvk2o8k"]
+[gd_scene load_steps=6 format=3 uid="uid://cxutlugvk2o8k"]
 
-[ext_resource type="Shader" uid="uid://8cv0y0vgndor" path="res://source/shaders/spiral_border.gdshader" id="5"]
-[ext_resource type="Shader" uid="uid://d12xf8v7m9ak" path="res://source/shaders/crt_unified.gdshader" id="6"]
+[ext_resource type="Shader" uid="uid://8cv0y0vgndor" path="res://source/shaders/spiral_border.gdshader" id="1"]
+[ext_resource type="Shader" uid="uid://starfield" path="res://source/shaders/starfield.gdshader" id="2"]
+[ext_resource type="Script" path="res://source/ui/omega/OmegaShaderController.cs" id="3"]
+[ext_resource type="Theme" uid="uid://dnhctb3dqu015" path="res://theme.tres" id="4"]
 
 [sub_resource type="ShaderMaterial" id="BorderMaterial"]
-shader = ExtResource("5")
-shader_parameter/light_thread = Color(0.75, 0.75, 0.75, 1)
-shader_parameter/shadow_thread = Color(0.996078, 0.788235, 0.384314, 1)
-shader_parameter/ambition_thread = Color(0.862745, 0.0784314, 0.235294, 1)
+shader = ExtResource("1")
+shader_parameter/light_thread = Color(0.95, 0.95, 1.0, 1.0)
+shader_parameter/shadow_thread = Color(1.0, 0.75, 0.2, 1.0)
+shader_parameter/ambition_thread = Color(0.9, 0.15, 0.1, 1.0)
 shader_parameter/rotation_speed = 0.15
 shader_parameter/flow_speed = 2.0
-shader_parameter/particle_density = 20.0
+shader_parameter/particle_density = 25.0
 shader_parameter/trail_length = 1.5
-shader_parameter/line_width = 0.008
-shader_parameter/glow_intensity = 2.5
+shader_parameter/line_width = 0.012
+shader_parameter/glow_intensity = 2.8
 
-[sub_resource type="ShaderMaterial" id="CrtUnifiedMaterial"]
-shader = ExtResource("6")
-shader_parameter/curvature_strength = 0.15
-shader_parameter/phosphor_glow = 1.2
-shader_parameter/phosphor_tint = Color(0.7725, 0.6196, 0.3725, 1)
-shader_parameter/phosphor_spread = 1.0
-shader_parameter/vignette_strength = 0.3
-shader_parameter/vignette_softness = 0.5
-shader_parameter/chromatic_aberration = 1.5
-shader_parameter/brightness = 1.0
-shader_parameter/contrast = 1.1
-shader_parameter/scanline_opacity = 0.08
-shader_parameter/scanline_speed = 5.0
-shader_parameter/scanline_count = 400.0
-shader_parameter/scanline_thickness = 1.2
-shader_parameter/scanline_tint = Color(0.6078, 0.4157, 0.251, 1)
+[sub_resource type="ShaderMaterial" id="StarfieldMaterial"]
+shader = ExtResource("2")
+shader_parameter/star_density = 0.8
+shader_parameter/twinkle_speed = 1.0
+shader_parameter/movement_speed = 0.02
+shader_parameter/background_color = Color(0.02, 0.02, 0.05, 1)
 shader_parameter/glitch_intensity = 0.0
 shader_parameter/interference_speed = 5.0
 shader_parameter/chromatic_offset = 2.0
@@ -53,6 +45,7 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4")
 
 [node name="OuterBlackBorder" type="ColorRect" parent="OmegaFrame"]
 layout_mode = 1
@@ -70,6 +63,7 @@ anchors_right = 0.92
 anchors_bottom = 0.9
 material = SubResource("BorderMaterial")
 color = Color(0, 0, 0, 0)
+script = ExtResource("3")
 
 [node name="CrtFrame" type="AspectRatioContainer" parent="OmegaFrame"]
 layout_mode = 1

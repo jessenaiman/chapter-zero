@@ -1,7 +1,7 @@
-class_name GameState
+class_name GameStateExample
 extends Resource
 
-const STATE_NAME : String = "GameState"
+const STATE_NAME : String = "GameStateExample"
 const FILE_PATH = "res://scripts/game_state.gd"
 
 @export var level_states : Dictionary = {}
@@ -11,7 +11,7 @@ const FILE_PATH = "res://scripts/game_state.gd"
 @export var play_time : int
 @export var total_time : int
 
-static func get_level_state(level_state_key : String) -> LevelState:
+static func get_level_state(level_state_key : String) -> LevelStateExample:
 	if not has_game_state(): 
 		return
 	var game_state := get_or_create_state()
@@ -19,7 +19,7 @@ static func get_level_state(level_state_key : String) -> LevelState:
 	if level_state_key in game_state.level_states:
 		return game_state.level_states[level_state_key] 
 	else:
-		var new_level_state := LevelState.new()
+		var new_level_state := LevelStateExample.new()
 		game_state.level_states[level_state_key] = new_level_state
 		GlobalState.save()
 		return new_level_state
@@ -27,7 +27,7 @@ static func get_level_state(level_state_key : String) -> LevelState:
 static func has_game_state() -> bool:
 	return GlobalState.has_state(STATE_NAME)
 
-static func get_or_create_state() -> GameState:
+static func get_or_create_state() -> GameStateExample:
 	return GlobalState.get_or_create_state(STATE_NAME, FILE_PATH)
 
 static func get_current_level_path() -> String:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0nia8dkw66l5"]
+[gd_scene load_steps=2 format=3 uid="uid://bcxd4wxw6eycy"]
 
 [ext_resource type="PackedScene" path="res://addons/maaacks_game_template/base/nodes/windows/overlaid_window.tscn" id="1_b2dkv"]
 

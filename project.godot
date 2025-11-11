@@ -20,9 +20,6 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
-GameManager="*res://source/infrastructure/GameManager.cs"
-SceneManager="*res://source/scripts/SceneManager.cs"
-GameState="*res://source/common/GameState.cs"
 FieldEvents="*res://source/field/FieldEvents.cs"
 FieldCamera="*res://source/field/FieldCamera.cs"
 Gameboard="*res://source/field/gameboard/Gameboard.cs"
@@ -35,6 +32,13 @@ SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_load
 ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
 ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
+file_logging/enable_file_logging=true
+settings/gdscript/always_track_call_stacks=true
+settings/gdscript/always_track_local_variables=true
 
 [dialogic]
 
@@ -80,7 +84,11 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/godot_xterm/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg")
+
+[gdunit4]
+
+settings/test/test_discovery=true
 
 [gui]
 

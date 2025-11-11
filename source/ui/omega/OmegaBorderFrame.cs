@@ -89,15 +89,26 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return;
 
-            _ShaderMaterial.SetShaderParameter("light_thread", OmegaSpiralColors.LightThread);
-            _ShaderMaterial.SetShaderParameter("shadow_thread", OmegaSpiralColors.ShadowThread);
-            _ShaderMaterial.SetShaderParameter("ambition_thread", OmegaSpiralColors.AmbitionThread);
+            var theme = GetTheme();
+            if (theme != null)
+            {
+                _ShaderMaterial.SetShaderParameter("light_thread", theme.GetColor("silver", "OmegaSpiral"));
+                _ShaderMaterial.SetShaderParameter("shadow_thread", theme.GetColor("gold", "OmegaSpiral"));
+                _ShaderMaterial.SetShaderParameter("ambition_thread", theme.GetColor("red", "OmegaSpiral"));
+            }
+            else
+            {
+                // Fallback colors
+                _ShaderMaterial.SetShaderParameter("light_thread", new Color(0.917647f, 0.972549f, 1f));
+                _ShaderMaterial.SetShaderParameter("shadow_thread", new Color(1f, 0.764706f, 0f));
+                _ShaderMaterial.SetShaderParameter("ambition_thread", new Color(0.819608f, 0f, 0f));
+            }
 
             if (DesignConfigService.TryGetShaderPreset("spiral_border_base", out var preset))
             {
                 foreach (var parameter in preset.Parameters)
                 {
-                    // Colors are already applied from OmegaSpiralColors palette.
+                    // Colors are already applied from theme palette.
                     if (parameter.Key.Contains("thread", StringComparison.Ordinal) && parameter.Key.EndsWith("_thread", StringComparison.Ordinal))
                     {
                         continue;
@@ -142,7 +153,7 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return 0.05f;
 
-            return (float)_ShaderMaterial.GetShaderParameter("rotation_speed");
+            return (float) _ShaderMaterial.GetShaderParameter("rotation_speed");
         }
 
         /// <summary>
@@ -155,7 +166,7 @@ namespace OmegaSpiral.Source.Ui.Omega
             if (_ShaderMaterial == null)
                 return 0.8f;
 
-            return (float)_ShaderMaterial.GetShaderParameter("wave_speed");
+            return (float) _ShaderMaterial.GetShaderParameter("wave_speed");
         }
 
         /// <summary>
@@ -179,9 +190,9 @@ namespace OmegaSpiral.Source.Ui.Omega
         /// <summary>
         /// Updates the three thread colors used by the spiral border animation.
         /// </summary>
-        /// <param name="lightThread">Silver/light thread color (typically LightThread from OmegaSpiralColors).</param>
-        /// <param name="shadowThread">Golden/shadow thread color (typically ShadowThread from OmegaSpiralColors).</param>
-        /// <param name="ambitionThread">Crimson/ambition thread color (typically AmbitionThread from OmegaSpiralColors).</param>
+        /// <param name="lightThread">Silver/light thread color (from theme).</param>
+        /// <param name="shadowThread">Golden/shadow thread color (from theme).</param>
+        /// <param name="ambitionThread">Crimson/ambition thread color (from theme).</param>
         public void UpdateThreadColors(Color lightThread, Color shadowThread, Color ambitionThread)
         {
             if (_ShaderMaterial == null)

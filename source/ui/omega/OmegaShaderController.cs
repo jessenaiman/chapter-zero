@@ -36,7 +36,7 @@ public partial class OmegaShaderController : ColorRect
 
     private readonly Dictionary<ShaderLayer, ColorRect> _LayerMap = new();
     private readonly Dictionary<ShaderLayer, ShaderMaterial?> _ActiveMaterials = new();
-    private ShaderLayer _PrimaryLayer = ShaderLayer.Primary;
+    private ShaderLayer _PrimaryLayer;
     private ShaderMaterial? _CurrentMaterial;
 
     /// <summary>
@@ -50,6 +50,8 @@ public partial class OmegaShaderController : ColorRect
         _PrimaryLayer = ShaderLayer.Primary;
     }
 
+    private Tween? _ReactionTween;
+
     /// <summary>
     /// Called when the node enters the scene tree.
     /// Discovers and registers additional shader layers as child nodes.
@@ -60,6 +62,30 @@ public partial class OmegaShaderController : ColorRect
 
         // Discover additional layers by name
         DiscoverShaderLayers();
+
+        // Set colors from theme
+        var parent = GetParent<Control>();
+        if (parent != null && parent.Theme != null)
+        {
+            var theme = parent.Theme;
+            var silver = theme.GetColor("silver", "OmegaSpiral");
+            var gold = theme.GetColor("gold", "OmegaSpiral");
+            var red = theme.GetColor("red", "OmegaSpiral");
+            if (Material is ShaderMaterial shaderMat)
+            {
+                shaderMat.SetShaderParameter("light_thread", silver);
+                shaderMat.SetShaderParameter("shadow_thread", gold);
+                shaderMat.SetShaderParameter("ambition_thread", red);
+            }
+        }
+
+        // Set current material
+        _CurrentMaterial = Material as ShaderMaterial;
+
+        // Create a Tween for smooth reactions
+        _ReactionTween = CreateTween();
+        _ReactionTween.SetTrans(Tween.TransitionType.Sine);
+        _ReactionTween.SetEase(Tween.EaseType.Out);
     }
 
     /// <summary>
@@ -183,10 +209,10 @@ public partial class OmegaShaderController : ColorRect
 
         // Animate dissolve with fixed frame rate
         const int frameRate = 60;
-        int totalFrames = (int)(duration * frameRate);
+        int totalFrames = (int) (duration * frameRate);
         for (int frame = 0; frame < totalFrames; frame++)
         {
-            float progress = (float)frame / totalFrames;
+            float progress = (float) frame / totalFrames;
             _CurrentMaterial.SetShaderParameter("dissolve_progress", progress);
             await Task.Delay(1000 / frameRate).ConfigureAwait(false); // Delay for one frame
         }
@@ -221,6 +247,43 @@ public partial class OmegaShaderController : ColorRect
     {
         base._ExitTree();
         ResetShaderEffects();
+    }
+
+    /// <summary>
+    /// Handles input events for reactivity.
+    /// </summary>
+    /// <param name="event">The input event.</param>
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_accept") || @event.IsActionPressed("click"))
+        {
+            TriggerReaction();
+        }
+    }
+
+    /// <summary>
+    /// Processes per frame.
+    /// </summary>
+    /// <param name="delta">Time delta.</param>
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+    }
+
+    /// <summary>
+    /// Triggers a reaction effect on the shader.
+    /// </summary>
+    public void TriggerReaction()
+    {
+        if (_ReactionTween != null && _ReactionTween.IsRunning())
+        {
+            _ReactionTween.Kill();
+        }
+        _ReactionTween = CreateTween();
+        // Briefly set reaction strength to 1.0, then back to 0.0
+        _ReactionTween.TweenProperty(_CurrentMaterial, "shader_parameter/reaction_strength", 1.0f, 0.1f);
+        _ReactionTween.TweenProperty(_CurrentMaterial, "shader_parameter/reaction_strength", 0.0f, 0.5f)
+                      .SetDelay(0.1f);
     }
 
     private static ShaderLayer ResolveLayerFromShader(string shaderPath)

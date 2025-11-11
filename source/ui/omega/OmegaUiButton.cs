@@ -47,20 +47,29 @@ public partial class OmegaUiButton : Button
             AddThemeFontOverride("font", orbitronFont);
             AddThemeFontSizeOverride("font_size", 20);
         }
+
+        // Apply theme colors
+        ApplyOmegaTheme();
     }    /// <summary>
          /// Applies the Omega Spiral color theme to this button.
          /// Called automatically in constructor, but can be called again to reapply if needed.
          /// </summary>
     protected void ApplyOmegaTheme()
     {
+        var theme = GetTheme();
+        if (theme == null) return; // No theme, skip
+
+        var warmAmber = theme.GetColor("gold", "OmegaSpiral");
+        var pureWhite = theme.GetColor("accent_white", "OmegaSpiral");
+
         // Font colors
-        AddThemeColorOverride("font_color", OmegaSpiralColors.WarmAmber);
-        AddThemeColorOverride("font_hover_color", OmegaSpiralColors.PureWhite);
-        AddThemeColorOverride("font_pressed_color", OmegaSpiralColors.PureWhite);
-        AddThemeColorOverride("font_focus_color", OmegaSpiralColors.PureWhite);
+        AddThemeColorOverride("font_color", warmAmber);
+        AddThemeColorOverride("font_hover_color", pureWhite);
+        AddThemeColorOverride("font_pressed_color", pureWhite);
+        AddThemeColorOverride("font_focus_color", pureWhite);
 
         // Background stays transparent/dark
-        AddThemeColorOverride("font_outline_color", OmegaSpiralColors.WarmAmber);
+        AddThemeColorOverride("font_outline_color", warmAmber);
 
         // Border constants for retro terminal look
         AddThemeConstantOverride("outline_size", 0);
