@@ -20,12 +20,6 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 
 [autoload]
 
-FieldEvents="*res://source/field/FieldEvents.cs"
-FieldCamera="*res://source/field/FieldCamera.cs"
-Gameboard="*res://source/field/gameboard/Gameboard.cs"
-GamepieceRegistry="*res://source/field/gamepieces/GamepieceRegistry.cs"
-Player="*res://source/common/Player.cs"
-CombatEvents="*res://source/combat/CombatEvents.cs"
 AudioManager="*res://source/audio/AudioManager.cs"
 AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
 SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"

@@ -1,216 +1,89 @@
 using Godot;
-using System;
-using OmegaSpiral.Source.Scripts.Infrastructure;
 
-namespace OmegaSpiral.Source.Ui.Omega
+public partial class OmegaBorderFrame : Control
 {
-    /// <summary>
-    /// Animated spiral border frame with three intermingling energy streams.
-    /// Creates a decorative border using shader-based rendering with wavelike particle trails
-    /// in LightThread (Silver), ShadowThread (Golden), and AmbitionThread (Crimson) colors.
-    ///
-    /// RESPONSIBILITY: Pure border frame presentation - shader setup, animation parameters, thread colors.
-    /// Does NOT manage parent control or layout - assumes parent will add it to scene tree.
-    /// </summary>
-    [GlobalClass]
-    public partial class OmegaBorderFrame : ColorRect
+    [Export] private string bus = "Master";
+    [Export] private float audioSensitivity = 10.0f; // Multiplier for audio peak
+    [Export] private float minAudioThreshold = 0.01f; // Ignore very quiet sounds
+    [Export] private float reactionHoldTime = 0.1f;
+    [Export] private float reactionFadeTime = 0.5f;
+
+    private ShaderMaterial _shaderMaterial;
+    private Tween _reactionTween;
+    private int _busIndex;
+
+    public override void _Ready()
     {
-        private ShaderMaterial? _ShaderMaterial;
-
-        /// <summary>
-        /// Initializes the spiral border frame with shader and default animation parameters.
-        /// Loads spiral_border.gdshader and applies design system colors and animation settings.
-        /// If shader file is missing, logs error but frame remains functional (transparent fallback).
-        /// </summary>
-        public OmegaBorderFrame()
+        // Find the Panel node that holds the shader
+        var borderPanel = GetNode<Panel>("BorderPanel");
+        if (borderPanel != null)
         {
-            // Configure basic layout properties in constructor
-            Name = "BorderFrame";
-            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-            SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-            ZIndex = 10;
-            MouseFilter = MouseFilterEnum.Ignore;
-
-            // Anchor to fill entire parent control
-            AnchorLeft = 0;
-            AnchorTop = 0;
-            AnchorRight = 1;
-            AnchorBottom = 1;
+            _shaderMaterial = borderPanel.Material as ShaderMaterial;
         }
 
-        /// <summary>
-        /// Called when the node enters the scene tree.
-        /// Initializes the shader and animation parameters here (not in constructor).
-        /// </summary>
-        public override void _Ready()
+        if (_shaderMaterial == null)
         {
-            base._Ready();
-            try
+            GD.PrintErr("OmegaBorderFrame: Could not find ShaderMaterial on 'BorderPanel' child.");
+        }
+
+        _busIndex = AudioServer.GetBusIndex(bus);
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        // Trigger reaction on any key press or mouse click
+        if (@event.IsPressed() && !@event.IsEcho())
+        {
+            if (@event is InputEventKey || @event is InputEventMouseButton)
             {
-                InitializeShader();
-            }
-            catch (Exception ex)
-            {
-                GD.PushError($"[OmegaBorderFrame] Shader initialization failed: {ex.Message}");
-                // Don't rethrow - allow the border to function without shader
+                TriggerReaction();
             }
         }
+    }
 
-        /// <summary>
-        /// Sets up the shader and animation parameters.
-        /// Called from _Ready() to initialize after the node enters the scene tree.
-        /// </summary>
-        private void InitializeShader()
+    public override void _Process(double delta)
+    {
+        if (_shaderMaterial == null) return;
+
+        // Check if a tween is *not* active (i.e., no input reaction)
+        if (_reactionTween == null || !_reactionTween.IsRunning())
         {
-            // Load spiral border shader
-            var shader = GD.Load<Shader>("res://source/shaders/spiral_border.gdshader");
-            if (shader == null)
+            // Apply audio reactivity
+            float peakDb = AudioServer.GetBusPeakVolumeLeftDb(_busIndex, 0); // Get peak for left channel
+            float linearPeak = Mathf.DbToLinear(peakDb) * audioSensitivity;
+
+            float targetStrength = Mathf.Clamp(linearPeak, 0.0f, 1.0f);
+
+            if (targetStrength < minAudioThreshold)
             {
-                GD.PushError("[OmegaBorderFrame] spiral_border.gdshader not found at res://source/shaders/spiral_border.gdshader");
-                return;
+                targetStrength = 0.0f;
             }
 
-            _ShaderMaterial = new ShaderMaterial { Shader = shader };
-            Material = _ShaderMaterial;
+            // Smoothly move to the audio level
+            float currentStrength = (float) _shaderMaterial.GetShaderParameter("reaction_strength");
+            float smoothedStrength = Mathf.Lerp(currentStrength, targetStrength, (float) delta * 5.0f);
 
-            // Apply design system colors
-            ApplyDesignSystemColors();
-
-            // Apply animation parameters (slow, subtle animation by default)
-            SetAnimationDefaults();
+            _shaderMaterial.SetShaderParameter("reaction_strength", smoothedStrength);
         }
+    }
 
-        /// <summary>
-        /// Applies thread colors from the design system to the shader.
-        /// Updates LightThread (Silver), ShadowThread (Golden), and AmbitionThread (Crimson).
-        /// </summary>
-        private void ApplyDesignSystemColors()
+    public void TriggerReaction()
+    {
+        if (_shaderMaterial == null) return;
+
+        // Kill existing tween to restart the reaction
+        if (_reactionTween != null && _reactionTween.IsRunning())
         {
-            if (_ShaderMaterial == null)
-                return;
-
-            var theme = GetTheme();
-            if (theme != null)
-            {
-                _ShaderMaterial.SetShaderParameter("light_thread", theme.GetColor("silver", "OmegaSpiral"));
-                _ShaderMaterial.SetShaderParameter("shadow_thread", theme.GetColor("gold", "OmegaSpiral"));
-                _ShaderMaterial.SetShaderParameter("ambition_thread", theme.GetColor("red", "OmegaSpiral"));
-            }
-            else
-            {
-                // Fallback colors
-                _ShaderMaterial.SetShaderParameter("light_thread", new Color(0.917647f, 0.972549f, 1f));
-                _ShaderMaterial.SetShaderParameter("shadow_thread", new Color(1f, 0.764706f, 0f));
-                _ShaderMaterial.SetShaderParameter("ambition_thread", new Color(0.819608f, 0f, 0f));
-            }
-
-            if (DesignConfigService.TryGetShaderPreset("spiral_border_base", out var preset))
-            {
-                foreach (var parameter in preset.Parameters)
-                {
-                    // Colors are already applied from theme palette.
-                    if (parameter.Key.Contains("thread", StringComparison.Ordinal) && parameter.Key.EndsWith("_thread", StringComparison.Ordinal))
-                    {
-                        continue;
-                    }
-
-                    _ShaderMaterial.SetShaderParameter(parameter.Key, parameter.Value);
-                }
-            }
+            _reactionTween.Kill();
         }
 
-        /// <summary>
-        /// Sets default animation parameters for the spiral border.
-        /// These can be overridden via ConfigureAnimationSpeed() or direct shader parameter access.
-        /// </summary>
-        private void SetAnimationDefaults()
-        {
-            if (_ShaderMaterial == null)
-                return;
+        _reactionTween = CreateTween();
+        _reactionTween.SetTrans(Tween.TransitionType.Sine);
+        _reactionTween.SetEase(Tween.EaseType.Out);
 
-            // Defaults expected by unit tests (slow, subtle)
-            _ShaderMaterial.SetShaderParameter("rotation_speed", 0.05f);
-            _ShaderMaterial.SetShaderParameter("wave_speed", 0.8f);
-            _ShaderMaterial.SetShaderParameter("wave_frequency", 8.0f);
-            _ShaderMaterial.SetShaderParameter("wave_amplitude", 0.25f);
-            _ShaderMaterial.SetShaderParameter("border_width", 0.015f);
-            _ShaderMaterial.SetShaderParameter("glow_intensity", 1.2f);
-
-            // Backward-compatible params for alternate shader variants
-            _ShaderMaterial.SetShaderParameter("flow_speed", 2.0f);
-            _ShaderMaterial.SetShaderParameter("particle_density", 20.0f);
-            _ShaderMaterial.SetShaderParameter("trail_length", 1.5f);
-            _ShaderMaterial.SetShaderParameter("line_width", 0.003f);
-        }
-
-        /// <summary>
-        /// Gets the current rotation speed of the spiral animation.
-        /// Range: 0.0 (static) to 2.0 (fast). Default: 0.05 (very slow).
-        /// </summary>
-        /// <returns>Current rotation speed value.</returns>
-        public float GetRotationSpeed()
-        {
-            if (_ShaderMaterial == null)
-                return 0.05f;
-
-            return (float) _ShaderMaterial.GetShaderParameter("rotation_speed");
-        }
-
-        /// <summary>
-        /// Gets the current wave flow speed of the border animation.
-        /// Range: 0.0 (static) to 5.0 (fast). Default: 0.8 (gentle flow).
-        /// </summary>
-        /// <returns>Current wave speed value.</returns>
-        public float GetWaveSpeed()
-        {
-            if (_ShaderMaterial == null)
-                return 0.8f;
-
-            return (float) _ShaderMaterial.GetShaderParameter("wave_speed");
-        }
-
-        /// <summary>
-        /// Configures the animation speed of the spiral border.
-        /// Allows independent control of rotation and wave flow speeds.
-        /// </summary>
-        /// <param name="rotationSpeed">Rotation speed of spiral. Range: 0.0 (static) to 2.0 (fast).</param>
-        /// <param name="waveSpeed">Wave flow speed. Range: 0.0 (static) to 5.0 (fast).</param>
-        public void ConfigureAnimationSpeed(float rotationSpeed, float waveSpeed)
-        {
-            if (_ShaderMaterial == null)
-            {
-                GD.PushWarning("[OmegaBorderFrame] Cannot configure animation - ShaderMaterial not initialized");
-                return;
-            }
-
-            _ShaderMaterial.SetShaderParameter("rotation_speed", Mathf.Clamp(rotationSpeed, 0.0f, 2.0f));
-            _ShaderMaterial.SetShaderParameter("wave_speed", Mathf.Clamp(waveSpeed, 0.0f, 5.0f));
-        }
-
-        /// <summary>
-        /// Updates the three thread colors used by the spiral border animation.
-        /// </summary>
-        /// <param name="lightThread">Silver/light thread color (from theme).</param>
-        /// <param name="shadowThread">Golden/shadow thread color (from theme).</param>
-        /// <param name="ambitionThread">Crimson/ambition thread color (from theme).</param>
-        public void UpdateThreadColors(Color lightThread, Color shadowThread, Color ambitionThread)
-        {
-            if (_ShaderMaterial == null)
-            {
-                GD.PushWarning("[OmegaBorderFrame] Cannot update thread colors - ShaderMaterial not initialized");
-                return;
-            }
-
-            _ShaderMaterial.SetShaderParameter("light_thread", lightThread);
-            _ShaderMaterial.SetShaderParameter("shadow_thread", shadowThread);
-            _ShaderMaterial.SetShaderParameter("ambition_thread", ambitionThread);
-        }
-
-        /// <summary>
-        /// Gets the current ShaderMaterial used by the border frame.
-        /// Exposed for testing and advanced shader parameter access.
-        /// </summary>
-        /// <returns>The ShaderMaterial, or null if shader failed to load.</returns>
-        public ShaderMaterial? GetShaderMaterial() => _ShaderMaterial;
+        // Tween to 1.0, hold, then fade back to 0.0
+        _reactionTween.TweenProperty(_shaderMaterial, "shader_parameter/reaction_strength", 1.0f, 0.05f); // Fast ramp up
+        _reactionTween.TweenProperty(_shaderMaterial, "shader_parameter/reaction_strength", 0.0f, reactionFadeTime)
+                      .SetDelay(reactionHoldTime); // Hold then fade
     }
 }

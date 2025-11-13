@@ -1,21 +1,15 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-
 		{
-            "label": "build",
-            "command": "C:\\Users\\jesse\\OneDrive\\Desktop\\Godot_v4.6-dev3_mono_win64\\Godot_v4.6-dev3_mono_win64.exe",
-            "type": "process",
-            "args": [
-                "--build-solutions",
-                "--path",
-                "${workspaceRoot}",
-                "--no-window",
-				"--headless",
-                "-q"
-            ],
-            "problemMatcher": "$msCompile"
-        },
+			"label": "build",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build"
+			],
+			"problemMatcher": "$msCompile"
+		},
 		{
 			"label": "test",
 			"command": "dotnet",
@@ -36,6 +30,6 @@
 					"GODOT_BIN": "${env:GODOT_BIN}"
 				}
 			}
-		},
+		}
 	]
 }

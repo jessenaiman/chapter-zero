@@ -1,8 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://stage5_escape_hub"]
+[gd_scene load_steps=15 format=3]
 
-[ext_resource type="Script" path="res://source/stages/stage_5_escape/EscapeHubController.cs" id="1"]
-[ext_resource type="Shader" path="res://source/shaders/crt_glitch.gdshader" id="2"]
-[ext_resource type="Shader" path="res://source/shaders/crt_phosphor.gdshader" id="3"]
+[ext_resource type="Script" uid="uid://c8acb7h4pmils" path="res://source/stages/stage_5_escape/EscapeHubController.cs" id="1"]
+[ext_resource type="Shader" uid="uid://dfg3wwm5ndfts" path="res://shaders/crt_glitch.gdshader" id="2"]
+[ext_resource type="Shader" uid="uid://chh77xmj8vthf" path="res://shaders/crt_phosphor.gdshader" id="3"]
 
 [sub_resource type="ShaderMaterial" id="glitch_material"]
 shader = ExtResource("2")

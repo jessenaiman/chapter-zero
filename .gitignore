@@ -75,4 +75,7 @@ addons/dialogic/
 .windsurfrules
 .serana/
 .github/
+.godot/
 .roo/
+.vs/
+.windsurf/

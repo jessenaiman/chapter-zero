@@ -67,21 +67,6 @@ public partial class NarrativeUi : OmegaContainer, INarrativeHandler
         await PlayNarrativeBeatsAsync(beats);
     }
 
-    /// <summary>
-    /// Transitions persona with shader animation.
-    /// </summary>
-    /// <param name="threadName">Thread name (light/shadow/ambition).</param>
-    protected async Task TransitionPersona(string threadName)
-    {
-        if (string.IsNullOrEmpty(threadName) || ShaderController == null) return;
-
-        Color targetColor = GetThreadColor(threadName);
-        var material = ShaderController.GetCurrentShaderMaterial();
-        if (material != null)
-        {
-            await CrossfadePhosphorTint(material, targetColor, PersonaTransitionDuration);
-        }
-    }
 
     /// <summary>
     /// Gets thread color.
