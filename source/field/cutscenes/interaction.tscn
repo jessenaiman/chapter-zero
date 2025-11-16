@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bcn6mmdd6008n"]
 
-[ext_resource type="Script" uid="uid://b3lvu4ava3yc2" path="res://source/scripts/field/Interaction.cs" id="1_86ylf"]
+[ext_resource type="Script" uid="uid://b3lvu4ava3yc2" path="res://source/field/Interaction.cs" id="1_86ylf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jn5tq"]
 radius = 4.0
 
-[node name="Interaction" type="Node2D"]
+[node name="Interaction" type="Area2D"]
 script = ExtResource("1_86ylf")
 
 [node name="InteractionArea2D" type="Area2D" parent="."]
