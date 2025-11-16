@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://iasw10f3adri"]
+
+[node name="HBoxContainer" type="HBoxContainer" unique_id=887599110]
+offset_right = 705.0
+offset_bottom = 423.0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1700024179]
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=325609900]
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0.29803923, 1, 1)

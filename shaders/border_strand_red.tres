@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bxf0fjsnbymba"]
+
+[ext_resource type="Shader" uid="uid://dmc7k3yg0gl3c" path="res://shaders/animated_border_strand.gdshader" id="1_p2wsq"]
+
+[resource]
+shader = ExtResource("1_p2wsq")
+shader_parameter/strand_color = Color(1, 1, 1, 1)
+shader_parameter/strand_width = 0.005
+shader_parameter/border_width = 0.10000000149012
+shader_parameter/speed = 0.5
+shader_parameter/time_offset = 0.0
+shader_parameter/complexity_x = 1.0
+shader_parameter/complexity_y = 2.0
+shader_parameter/complexity_z = 3.0

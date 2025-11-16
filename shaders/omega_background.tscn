@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://e2hkbko3u0a7"]
+
+[ext_resource type="Shader" uid="uid://b75qbxcpv43fc" path="res://shaders/skybox.gdshader" id="1_77qnm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hvpj7"]
+shader = ExtResource("1_77qnm")
+shader_parameter/anim_speed = 2.3750000011091288e-07
+shader_parameter/star_brightness = 0.0050000002375
+shader_parameter/dust = 0.125
+shader_parameter/dist_fade = 0.35
+shader_parameter/pixelation = 300.00001187500004
+shader_parameter/quantization_levels = 256
+shader_parameter/dust_color = Color(0, 0, 0, 1)
+shader_parameter/saturation = 1.0
+shader_parameter/layers = 7.0
+shader_parameter/iterations = 10
+
+[node name="OmegaBackground" type="Control" unique_id=1463930951]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=661954282]
+material = SubResource("ShaderMaterial_hvpj7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

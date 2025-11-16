@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://wcssveno43yo"]
+
+[ext_resource type="Shader" uid="uid://dkxfkci3a27ff" path="res://ui/omega/border_panel.gdshader" id="1_fbe8k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7n3ha"]
+shader = ExtResource("1_fbe8k")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0.04
+shader_parameter/border_visibility = 1.0
+shader_parameter/gradient_intensity = 3.0
+shader_parameter/gradient_steps = 10.0
+
+[node name="BorderPanel" type="Panel" unique_id=1994526596]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SolidBorder" type="ColorRect" parent="." unique_id=1050422778]
+material = SubResource("ShaderMaterial_7n3ha")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.19100818, 0.22513646, 0.40344316, 1)

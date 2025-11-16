@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://b60tu4k76dbuf" path="res://source/ui/omega/OmegaUiButton.cs" id="omega_button_script"]
+
+
+[node name="OmegaButton" type="Button"]
+script = ExtResource("omega_button_script")
+focus_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4

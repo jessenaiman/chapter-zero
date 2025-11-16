@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 uid="uid://-hmaxqqwtqiu1"]
 
-[ext_resource type="Script" path="res://source/scripts/AsciiRoomRenderer.cs" id="1"]
+[ext_resource type="Script" path="res://source/AsciiRoomRenderer.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8x3q8x3q8x3q" path="res://addons/godot_xterm/scenes/terminal.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid="uid://c9y4r9y4r9y4r" path="res://addons/godot_xterm/scenes/pty.tscn" id="3"]
 

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Ωmega Spiral"
 config/description="A classic rpg narrative driven adventure game built with Godot 4.6-dev2 and C# 12"
-run/main_scene="res://scenes/opening/opening.tscn"
+run/main_scene="uid://dn8qjkiujhi4a"
 config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0.15, 0.15, 0.25, 1)
 boot_splash/image="uid://bsoinggacqq5l"
@@ -21,10 +21,10 @@ boot_splash/icon="uid://cb0tfa5vcg2tg"
 [autoload]
 
 AudioManager="*res://source/audio/AudioManager.cs"
-AppConfig="*res://addons/maaacks_game_template/base/nodes/autoloads/app_config/app_config.tscn"
-SceneLoader="*res://addons/maaacks_game_template/base/nodes/autoloads/scene_loader/scene_loader.tscn"
-ProjectMusicController="*res://addons/maaacks_game_template/base/nodes/autoloads/music_controller/project_music_controller.tscn"
-ProjectUISoundController="*res://addons/maaacks_game_template/base/nodes/autoloads/ui_sound_controller/project_ui_sound_controller.tscn"
+AppConfig="*uid://cjke6crjg14a0"
+SceneLoader="*uid://cbwmrnp0af35y"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 [debug]
@@ -66,10 +66,13 @@ directories/dtl_directory={
 "wizard": "res://source/overworld/maps/town/wizard.dtl"
 }
 layout/style_directory={}
+glossary/default_case_sensitive=true
 
 [display]
 
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/stretch/scale=4.0
 
 [dotnet]
 
@@ -78,7 +81,7 @@ project/solution_directory="."
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg")
+enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg", "res://addons/dialogic/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/maaacks_game_template/plugin.cfg", "res://addons/script-ide/plugin.cfg")
 
 [gdunit4]
 
@@ -87,6 +90,7 @@ settings/test/test_discovery=true
 [gui]
 
 theme/custom="res://theme.tres"
+theme/custom_font="uid://fq4aqgu2smx"
 
 [input]
 
@@ -120,4 +124,5 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 environment/defaults/default_clear_color=Color(0.15, 0.15, 0.25, 1)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cei0cwdiyui5a"]
+
+[ext_resource type="Shader" uid="uid://btkv8doj3ch0g" path="res://ui/omega/animated_border.gdshader" id="1_4fr2k"]
+[ext_resource type="Script" uid="uid://wyiaawn0dy56" path="res://ui/omega/AnimatedBorder.cs" id="2_dqkwt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ebf03"]
+shader = ExtResource("1_4fr2k")
+shader_parameter/max_line_width = 10.0
+shader_parameter/min_line_width = 5.0
+shader_parameter/freq = 1.0
+shader_parameter/block_size = 20.0
+shader_parameter/starting_colour = Vector4(0, 0, 0, 1)
+shader_parameter/ending_colour = Vector4(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t45ey"]
+bg_color = Color(0.0051570684, 0.081529506, 0.12933958, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.25370997, 0.1755282, 0.06383015, 1)
+
+[node name="AnimatedBorder" type="PanelContainer" unique_id=883462843]
+material = SubResource("ShaderMaterial_ebf03")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t45ey")
+script = ExtResource("2_dqkwt")
+theme_override_styles/panel = SubResource("StyleBoxFlat_t45ey")

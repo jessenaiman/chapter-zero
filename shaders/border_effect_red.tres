@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ghbjib2f7c4p"]
+
+[ext_resource type="Shader" uid="uid://dmc7k3yg0gl3c" path="res://shaders/animated_border_strand.gdshader" id="1_v2a8s"]
+
+[resource]
+shader = ExtResource("1_v2a8s")
+shader_parameter/strand_color = Color(1, 0, 0, 1)
+shader_parameter/highlight_color = Color(1, 1, 1, 1)
+shader_parameter/speed = 1.0
+shader_parameter/time_offset = 0.0
+shader_parameter/wave_amplitude = 0.0950000045125
+shader_parameter/wave_frequency = 52.08400242649
+shader_parameter/noise_scale = 4.50000016625
+shader_parameter/streak_stretch = 13.5110005942725
+shader_parameter/strand_density = 0.43400001735512

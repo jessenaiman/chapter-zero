@@ -15,7 +15,7 @@ namespace OmegaSpiral.Source.Narrative;
 /// Base class for narrative stages; implements INarrativeHandler.
 /// </summary>
 [GlobalClass]
-public partial class NarrativeUi : OmegaContainer, INarrativeHandler
+public partial class NarrativeUi : NarrativeUiContainer, INarrativeHandler
 {
     [Export] public bool EnableBootSequence { get; set; } = true;
     [Export] public float DefaultTypingSpeed { get; set; } = 15f;

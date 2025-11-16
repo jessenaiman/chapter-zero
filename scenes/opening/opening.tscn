@@ -1,12 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn8qjkiujhi4a"]
+[gd_scene load_steps=4 format=3 uid="uid://dn8qjkiujhi4a"]
 
 [ext_resource type="PackedScene" uid="uid://sikc02ddepyt" path="res://addons/maaacks_game_template/base/nodes/opening/opening.tscn" id="1_ke3tw"]
-[ext_resource type="Texture2D" uid="uid://dm56yl3y0o75d" path="res://assets/godot_engine_logo/logo_vertical_color_dark.png" id="2_yhkvs"]
+[ext_resource type="Shader" uid="uid://b75qbxcpv43fc" path="res://shaders/skybox.gdshader" id="3_yhkvs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u6ao7"]
+shader = ExtResource("3_yhkvs")
+shader_parameter/anim_speed = 2.375000001109129e-07
+shader_parameter/star_brightness = 0.0050000002375
+shader_parameter/dust = 0.125
+shader_parameter/dist_fade = 0.35
+shader_parameter/pixelation = 300.00001187500004
+shader_parameter/quantization_levels = 256
+shader_parameter/dust_color = Color(0, 0, 0, 1)
+shader_parameter/saturation = 1.0
+shader_parameter/layers = 7.0
+shader_parameter/iterations = 10
 
 [node name="Opening" unique_id=1931698687 instance=ExtResource("1_ke3tw")]
-images = Array[Texture2D]([ExtResource("2_yhkvs")])
 
-[node name="ImagesContainer" parent="." index="1"]
+[node name="ColorRect" type="ColorRect" parent="." index="1" unique_id=1623022936]
+material = SubResource("ShaderMaterial_u6ao7")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImagesContainer" parent="." index="2"]
 theme_override_constants/margin_left = 64
 theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 64

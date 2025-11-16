@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://dde0fxaw1jncp"]
+
+[ext_resource type="Script" uid="uid://dby1btmxscb5e" path="res://ui/omega/OmegaContainer.cs" id="1_yw51b"]
+[ext_resource type="Script" uid="uid://gyb30o7ox3bh" path="res://ui/omega/FilamentField.cs" id="3_88fmu"]
+[ext_resource type="Script" uid="uid://dafee0lovg2fs" path="res://ui/omega/OmegaFrame.cs" id="3_lu6ss"]
+
+[node name="OmegaContainer" type="Panel" unique_id=942033051]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yw51b")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1918667183]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 100
+
+[node name="BorderPanel" type="Control" parent="MarginContainer" unique_id=1459327847]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+script = ExtResource("3_lu6ss")
+
+[node name="FilamentField" type="Control" parent="MarginContainer" unique_id=1963624196]
+layout_mode = 2
+script = ExtResource("3_88fmu")
+
+[node name="ContentArea" type="MarginContainer" parent="MarginContainer" unique_id=1852583756]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20

@@ -40,7 +40,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Ui.TurnBar
             this.anim = this.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
             this.background = this.GetNodeOrNull<TextureRect>("Background");
             this.icons = this.GetNodeOrNull<Control>("Background/Icons");
-            this.iconScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/turn_bar/UiBattlerIcon.tscn");
+            this.iconScene = GD.Load<PackedScene>("res://source/combat/ui/turn_bar/UiBattlerIcon.tscn");
 
             // Log warnings if essential Ui nodes are missing
             if (this.anim == null)

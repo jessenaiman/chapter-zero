@@ -1,61 +1,53 @@
-[gd_scene load_steps=4 format=3 uid="uid://cllb8hd26meae"]
+[gd_scene load_steps=3 format=3 uid="uid://cllb8hd26meae"]
 
-[ext_resource type="Script" uid="uid://bvtoo1bhre25b" path="res://source/stages/stage_1_ghost/GhostUi.cs" id="1"]
-[ext_resource type="PackedScene" uid="uid://omega_ui_frame_v1" path="res://source/ui/omega/omega_ui_frame.tscn" id="2"]
-[ext_resource type="Script" path="res://source/ui/omega/OmegaTextRenderer.cs" id="3"]
+[ext_resource type="PackedScene" uid="uid://dde0fxaw1jncp" path="res://ui/omega/omega_frame.tscn" id="2"]
+[ext_resource type="Script" uid="uid://bnycdxkulyk13" path="res://ui/omega/OmegaTextRenderer.cs" id="3"]
 
 [node name="GhostTerminal" type="Control" unique_id=497145942]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 10.0
+offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
-enable_omega_border = true
-enable_crt_shaders = true
-enable_omega_text = true
 
-[node name="OmegaFrame" parent="." instance=ExtResource("2")]
+[node name="OmegaFrame" parent="." unique_id=273307265 instance=ExtResource("2")]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.947
+anchor_bottom = 0.95500004
+offset_right = 47.585938
+offset_bottom = -38.400024
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="MenuTitle" parent="OmegaFrame/CrtFrame/ContentContainer"]
-visible = false
-
-[node name="MenuButtonContainer" parent="OmegaFrame/CrtFrame/ContentContainer"]
-visible = false
-
-[node name="MenuActionBar" parent="OmegaFrame/CrtFrame/ContentContainer"]
-visible = false
-
-[node name="NarrativeViewport" type="MarginContainer" parent="OmegaFrame/CrtFrame/ContentContainer" unique_id=1126409552]
-layout_mode = 2
+[node name="OmegaFrame_CrtFrame_ContentContainer#NarrativeViewport" type="MarginContainer" parent="." unique_id=1126409552]
+layout_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 48
-theme_override_constants/margin_right = 48
 theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
 theme_override_constants/margin_bottom = 48
 
-[node name="NarrativeStack" type="VBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport" unique_id=5720449]
-layout_mode = 2
+[node name="OmegaFrame_CrtFrame_ContentContainer_NarrativeViewport#NarrativeStack" type="VBoxContainer" parent="." unique_id=5720449]
+layout_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="TextDisplay" type="RichTextLabel" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=1684461506]
-layout_mode = 2
+[node name="OmegaFrame_CrtFrame_ContentContainer_NarrativeViewport_NarrativeStack#TextDisplay" type="RichTextLabel" parent="." unique_id=1684461506]
+layout_mode = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-fit_content = false
-autowrap_mode = 3
 scroll_following = true
 script = ExtResource("3")
 
-[node name="ChoiceContainer" type="VBoxContainer" parent="OmegaFrame/CrtFrame/ContentContainer/NarrativeViewport/NarrativeStack" unique_id=187836256]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
+[node name="OmegaFrame_CrtFrame_ContentContainer_NarrativeViewport_NarrativeStack#ChoiceContainer" type="VBoxContainer" parent="." unique_id=187836256]
 visible = false
+layout_mode = 0
+size_flags_horizontal = 3
 theme_override_constants/separation = 16
-alignment = 0

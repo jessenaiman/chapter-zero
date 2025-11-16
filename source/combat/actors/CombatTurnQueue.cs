@@ -11,7 +11,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Actors;
 /// Manages the turn-based combat system, coordinating the sequence of actions between all combat participants.
 /// Handles round progression, actor initiative ordering, and battle end conditions.
 /// </summary>
-[Icon("res://source/scripts/combat/actors/icon_turn_queue.png")]
+[Icon("res://source/combat/actors/icon_turn_queue.png")]
 public partial class CombatTurnQueue : Node
 {
     private int roundCount = 1;

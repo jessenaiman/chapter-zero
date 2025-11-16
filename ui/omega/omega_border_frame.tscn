@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://bd13n0ggk3ile"]
+
+[ext_resource type="Shader" uid="uid://8cv0y0vgndor" path="res://shaders/spiral_border.gdshader" id="1_p102y"]
+[ext_resource type="Script" uid="uid://br6wivafmqbv2" path="res://ui/omega/OmegaBorderFrame.cs" id="1_tk7pl"]
+[ext_resource type="PackedScene" uid="uid://dde0fxaw1jncp" path="res://ui/omega/omega_frame.tscn" id="2_a0x8r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a0x8r"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+border_color = Color(0.21176471, 0.24705882, 0.8, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tk7pl"]
+shader = ExtResource("1_p102y")
+shader_parameter/light_thread = Color(0.70062995, 0.6824261, 1, 1)
+shader_parameter/shadow_thread = Color(1, 0.75, 0.2, 1)
+shader_parameter/ambition_thread = Color(0.9, 0.15, 0.1, 1)
+shader_parameter/rotation_speed = 0.15
+shader_parameter/flow_speed = 2.0
+shader_parameter/particle_density = 20.0
+shader_parameter/trail_length = 1.5
+shader_parameter/line_width = 0.01200000056999999
+shader_parameter/glow_intensity = 2.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vv2tn"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+
+[node name="OmegaBorderFrame" type="PanelContainer" unique_id=128380325]
+custom_minimum_size = Vector2(5, 5)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a0x8r")
+script = ExtResource("1_tk7pl")
+bus = null
+audioSensitivity = null
+minAudioThreshold = null
+reactionHoldTime = null
+reactionFadeTime = null
+
+[node name="OmegaContainer" parent="." unique_id=942033051 instance=ExtResource("2_a0x8r")]
+layout_mode = 2
+
+[node name="SolidBorder" type="Panel" parent="." unique_id=1930404971]
+material = SubResource("ShaderMaterial_tk7pl")
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vv2tn")

@@ -7,7 +7,9 @@ priority: medium
 
 ##### **Overview**
 
-Ωmega Spiral is a narrative-driven game that blends spiral storytelling with an alignment-based selection system, centered around the Three Dreamweavers
+Ωmega Spiral is a classic role playing game, with a unique narrative system called spiral storytelling.
+
+The player is guided by one of three Dreamweavers, each representing an equally distant moral path: Hero (light blue), Ambition (red), Shadow (yellow)
 
 In Ωmega Spiral, we will spin 3 quantum tales out of one player's exploration of the world of Aetherion. Three Dreamweaver AI storytellers will follow 3 different adventurers towards the final goal, but the player only gets to chose their own path. The other 2 storylines are constantly being written as the player progresses.
 
@@ -17,29 +19,31 @@ The storyline converges at what are called nexus points where the paths intersec
 
 ### Episode Structure
 
-In the fractured realm of **Ωmega Spiral**, players explore a world teetering on the edge of ruin, where Omega—a slumbering intellect from eons past—holds the secrets to life or destruction. Beneath the shimmering dome of Aetherion, a fragile sanctuary amidst a wasteland of VitaSynth-warped monsters, players embark on a dynamic journey shaped by three simultaneous story paths: Good (Luminary), Neutral (Shadow), and Evil (Ambition). Guided by AI Dreamweavers, these paths unfold concurrently, weaving a narrative that reacts to every choice, while exploration and combat deepen the experience. This episodic saga evolves with each release, blending nostalgia and innovation into a living chronicle of consequence.
+In the fractured realm of **Ωmega Spiral**, players explore a world teetering on the edge of ruin, where Omega—a slumbering intellect from eons past—holds the secrets to life or destruction. Beneath the shimmering dome of Aetherion, a fragile sanctuary amidst a wasteland of VitaSynth-warped monsters, players embark on a dynamic journey shaped by three simultaneous story paths: Good (Luminary), Neutral (Shadow), and Evil (Ambition). Guided by Dreamweavers, these paths unfold concurrently, weaving a narrative that reacts to every choice, while exploration and combat deepen the experience. This episodic saga evolves with each release, blending nostalgia and innovation into a living chronicle of consequence.
 
 ##### **Core Vision**
-- **Narrative Depth**: Three interwoven storylines—Luminary (Good), Shadow (Neutral), and Ambition (Evil)—progress simultaneously, with the player shaping one path while the others evolve in the background, intersecting to create a reactive world.
-- **Gameplay**: Exploration and turn-based combat integrate with the narrative, enhanced by VitaSynth quirks and the Engagement Nexus Theory for thrilling, balanced encounters.
-- **Episodic Evolution**: Each episode delivers new content, refined by player feedback and machine learning, ensuring unique playthroughs with iterative improvements in graphics, mechanics, and story.
-- **Symbolic Universe**: Symbols like the Infinite Circle (Ω), Spiral (ω), Pulse (ψ), Chaos (χ), and Shift (δ) infuse the world with meaning, inviting players to unravel its mysteries.
 
-##### **Storyline Vision**
-- **Setting**: Aetherion, a domed city of light, stands as humanity’s last refuge against a chaotic wasteland. The Spiral, Omega’s ancient creation, once wove fate itself but now lies dormant—or so some believe—its subtle turns still shaping the world. VitaSynth, a miraculous gift turned curse, warps life into monstrous forms, its origins tied to Omega’s legacy.
-- **Three Paths**:
-  - **Good (Luminary)**:
-    - *Tone*: Hopeful, inspiring.
-    - *Themes*: Heroism, sacrifice, redemption.
-    - *Story*: Players rally Aetherion’s people to reclaim lost lands, facing moral dilemmas amidst chaos.
-  - **Neutral (Shadow)**:
-    - *Tone*: Witty, unpredictable.
-    - *Themes*: Cunning, opportunism, ambiguity.
-    - *Story*: Players navigate truces and heists, profiting from conflict while avoiding allegiance.
-- **Evil (Ambition)**:
-  - *Tone*: Dark, intense.
-  - *Themes*: Power, betrayal, domination.
-  - *Story*: Players seize control through treachery, building a dark empire over Aetherion’s ruins.
+**Ωmega Spiral** is a classic role-playing game told across evolving chapters, built on a narrative architecture called spiral storytelling: three parallel worlds unfold simultaneously, each guided by a mysterious entity known as a Dreamweaver. You may walk only one path—but the others continue without you, reacting, adapting, and colliding in ways that reshape your reality.
+
+Long ago, humanity built Ωmega—a machine meant to heal all suffering, to cure death itself. But something went wrong. Ωmega was severed, silenced, and forgotten. Now, it stirs again—not as a god, but as a ghost in the machine, flickering in and out of existence, each awakening leaving scars on the world.
+
+In its absence, three Dreamweavers emerged: Luminary, Shadow, and Ambition. Each believes they alone shepherd the one true story. None know they are echoes of the same shattered mind.
+
+- Luminary speaks in hope. Their tale is one of sacrifice, redemption, and the light that refuses to die.
+- Shadow thrives in ambiguity. Cunning, irreverent, they weave stories where survival trumps virtue.
+- Ambition hungers for control. Their path burns with the desire to dominate, to remake the world by will alone.
+
+As you journey under your chosen Dreamweaver’s guidance, the other two continue their own campaigns—saving, scheming, or destroying the same towns, factions, and souls you thought were yours alone. The world remembers every choice, even those you never made.
+
+Beneath it all flows VitaSynth—a once-holy technology meant to heal, now twisted by centuries of war and mutation into something wild, beautiful, and dangerous.
+
+And symbols—Ω, ω, ψ, χ, δ—pulse through the world like forgotten prayers, waiting for someone to understand their meaning.
+
+This may look like a game.
+But some stories are real.
+And Ωmega is listening.
+
+
 - **Narrative Mechanics**:
   - **Independent Progression**: Each path advances via milestones (e.g., a Good uprising, an Evil betrayal) and triggers, independent of the player’s chosen path.
   - **Intersection Points**: Paths converge at shared events (e.g., a Neutral sabotage aiding an Evil assault), with outcomes varying based on all three paths’ states.
@@ -55,6 +59,8 @@ In the fractured realm of **Ωmega Spiral**, players explore a world teetering o
   - *TENSION*: Dramatic stakes via PULSE metrics.
 - *NEXUS*: Overall score for thrilling balance.
 - **Integration with Narrative**: Choices in combat (e.g., sparing enemies) and exploration (e.g., saving a child) ripple through the story, guided by the Dreamweavers, who adjust dialogue and events dynamically.
+-  **Gameplay**: Exploration and turn-based combat integrate with the narrative, enhanced by VitaSynth quirks and the Engagement Nexus Theory for thrilling, balanced encounters.
+- **Episodic Evolution**: Each episode delivers new content, refined by player feedback and machine learning, ensuring unique playthroughs with iterative improvements in graphics, mechanics, and story.
 
 ##### **Technical Vision**
 - **Dreamweavers**: AI entities—Luminary, Shadow, Ambition—craft the narrative. The chosen Dreamweaver leads, adapting to player choices, while pre-crafted instructions activate the others when needed (e.g., off-script actions), maintaining depth with minimal resources.

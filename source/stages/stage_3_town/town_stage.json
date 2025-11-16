@@ -5,7 +5,7 @@
   "scene": "Stage4Main",
   "resources": {
     "fieldScene": "res://source/stages/stage_4/stage_4_main.tscn",
-    "dialogueAssets": "res://source/scripts/field/dialogue",
+    "dialogueAssets": "res://source/field/dialogue",
     "npcAssets": "res://source/overworld/characters"
   }
 }

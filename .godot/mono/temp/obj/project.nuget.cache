@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yo3Ht1dy85I=",
+  "dgSpecHash": "baYVk/LMGfo=",
   "success": true,
   "projectFilePath": "C:\\SpiralDrive\\Videogamescenecreation\\chapter-zero\\chapter-zero.csproj",
   "expectedPackageFiles": [
@@ -10,9 +10,9 @@
     "C:\\Users\\jesse\\.nuget\\packages\\gdunit4.analyzers\\1.0.0\\gdunit4.analyzers.1.0.0.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\gdunit4.api\\5.0.0\\gdunit4.api.5.0.0.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\gdunit4.test.adapter\\3.0.0\\gdunit4.test.adapter.3.0.0.nupkg.sha512",
-    "C:\\Users\\jesse\\.nuget\\packages\\godot.sourcegenerators\\4.6.0-dev.3\\godot.sourcegenerators.4.6.0-dev.3.nupkg.sha512",
-    "C:\\Users\\jesse\\.nuget\\packages\\godotsharp\\4.6.0-dev.3\\godotsharp.4.6.0-dev.3.nupkg.sha512",
-    "C:\\Users\\jesse\\.nuget\\packages\\godotsharpeditor\\4.6.0-dev.3\\godotsharpeditor.4.6.0-dev.3.nupkg.sha512",
+    "C:\\Users\\jesse\\.nuget\\packages\\godot.sourcegenerators\\4.6.0-dev.4\\godot.sourcegenerators.4.6.0-dev.4.nupkg.sha512",
+    "C:\\Users\\jesse\\.nuget\\packages\\godotsharp\\4.6.0-dev.4\\godotsharp.4.6.0-dev.4.nupkg.sha512",
+    "C:\\Users\\jesse\\.nuget\\packages\\godotsharpeditor\\4.6.0-dev.4\\godotsharpeditor.4.6.0-dev.4.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\9.0.0\\microsoft.bcl.asyncinterfaces.9.0.0.nupkg.sha512",
     "C:\\Users\\jesse\\.nuget\\packages\\microsoft.codeanalysis\\4.14.0\\microsoft.codeanalysis.4.14.0.nupkg.sha512",

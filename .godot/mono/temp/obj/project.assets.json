@@ -119,13 +119,13 @@
           }
         }
       },
-      "Godot.SourceGenerators/4.6.0-dev.3": {
+      "Godot.SourceGenerators/4.6.0-dev.4": {
         "type": "package",
         "build": {
           "build/Godot.SourceGenerators.props": {}
         }
       },
-      "GodotSharp/4.6.0-dev.3": {
+      "GodotSharp/4.6.0-dev.4": {
         "type": "package",
         "compile": {
           "lib/net8.0/GodotSharp.dll": {
@@ -138,10 +138,10 @@
           }
         }
       },
-      "GodotSharpEditor/4.6.0-dev.3": {
+      "GodotSharpEditor/4.6.0-dev.4": {
         "type": "package",
         "dependencies": {
-          "GodotSharp": "4.6.0-dev.3"
+          "GodotSharp": "4.6.0-dev.4"
         },
         "compile": {
           "lib/net8.0/GodotSharpEditor.dll": {
@@ -1803,40 +1803,40 @@
         "lib/net9.0/GdUnit4.TestAdapter.xml"
       ]
     },
-    "Godot.SourceGenerators/4.6.0-dev.3": {
-      "sha512": "YPiViy58gRWdzZnsOUFy6C+ip3N3lPKQNmO/rToaz4sA7UFQyS6zKfJTRnYFdVgq1mPLEpueNiylpIYVU65HCA==",
+    "Godot.SourceGenerators/4.6.0-dev.4": {
+      "sha512": "+q1S2aZhPbggPag0aajATkF2PJs0HtiyHZsc8QRREnbAoGlAkEmYFtNgRhiWGzmQCsfQ/2Bg+B2pczjomwL8Mg==",
       "type": "package",
-      "path": "godot.sourcegenerators/4.6.0-dev.3",
+      "path": "godot.sourcegenerators/4.6.0-dev.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Godot.SourceGenerators.dll",
         "build/Godot.SourceGenerators.props",
-        "godot.sourcegenerators.4.6.0-dev.3.nupkg.sha512",
+        "godot.sourcegenerators.4.6.0-dev.4.nupkg.sha512",
         "godot.sourcegenerators.nuspec"
       ]
     },
-    "GodotSharp/4.6.0-dev.3": {
-      "sha512": "SiVBnmiE+CAuAbk5q+vrozSISMvz0uqZpA8sYVxskGfkgnjqt6IDB96nYCTcm3KkTWcYpxQn+dXBRmUO6rBh3A==",
+    "GodotSharp/4.6.0-dev.4": {
+      "sha512": "4OJBsKuzsRJPVopFakUH42+bFMm0Jvht4flwXSbUkfpZYA483e8RyNfdqnul7UDqKaop1B3MDY8uF7PCwokkww==",
       "type": "package",
-      "path": "godotsharp/4.6.0-dev.3",
+      "path": "godotsharp/4.6.0-dev.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharp.4.6.0-dev.3.nupkg.sha512",
+        "godotsharp.4.6.0-dev.4.nupkg.sha512",
         "godotsharp.nuspec",
         "lib/net8.0/GodotSharp.dll",
         "lib/net8.0/GodotSharp.xml"
       ]
     },
-    "GodotSharpEditor/4.6.0-dev.3": {
-      "sha512": "4/ptlxh4qP9XDASsjd5OIoHT/IXXYvdqSRr9dFf4yZXTjXoaAd2x9YZQQnGAX41lRoX1apHiHrcHp/TrsWh4nw==",
+    "GodotSharpEditor/4.6.0-dev.4": {
+      "sha512": "y1Sa81/8SbkH1jHdhhUXzIWQ81Pe+XJwm4sxw00wxpS22XKyMyvAgQLJDK0a0oLOMVx7EHUGWgtFhG1XXTrNkg==",
       "type": "package",
-      "path": "godotsharpeditor/4.6.0-dev.3",
+      "path": "godotsharpeditor/4.6.0-dev.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "godotsharpeditor.4.6.0-dev.3.nupkg.sha512",
+        "godotsharpeditor.4.6.0-dev.4.nupkg.sha512",
         "godotsharpeditor.nuspec",
         "lib/net8.0/GodotSharpEditor.dll",
         "lib/net8.0/GodotSharpEditor.xml"
@@ -4278,9 +4278,9 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Godot.SourceGenerators >= 4.6.0-dev.3",
-      "GodotSharp >= 4.6.0-dev.3",
-      "GodotSharpEditor >= 4.6.0-dev.3",
+      "Godot.SourceGenerators >= 4.6.0-dev.4",
+      "GodotSharp >= 4.6.0-dev.4",
+      "GodotSharpEditor >= 4.6.0-dev.4",
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.8",
@@ -4353,17 +4353,17 @@
         "dependencies": {
           "Godot.SourceGenerators": {
             "target": "Package",
-            "version": "[4.6.0-dev.3, )",
+            "version": "[4.6.0-dev.4, )",
             "autoReferenced": true
           },
           "GodotSharp": {
             "target": "Package",
-            "version": "[4.6.0-dev.3, )",
+            "version": "[4.6.0-dev.4, )",
             "autoReferenced": true
           },
           "GodotSharpEditor": {
             "target": "Package",
-            "version": "[4.6.0-dev.3, )",
+            "version": "[4.6.0-dev.4, )",
             "autoReferenced": true
           },
           "Microsoft.EntityFrameworkCore": {

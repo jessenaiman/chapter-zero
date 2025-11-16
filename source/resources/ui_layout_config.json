@@ -1,11 +1,11 @@
 {
   "ui_layout": {
-    "bezel_margin": 0.05,
-    "stage_name_width": 0.15,
-    "status_label_width": 0.15,
-    "button_height": 80,
-    "button_padding_h": 16,
-    "button_padding_v": 8,
-    "button_spacing": 16
+	"bezel_margin": 0.05,
+	"stage_name_width": 0.15,
+	"status_label_width": 0.15,
+	"button_height": 80,
+	"button_padding_h": 16,
+	"button_padding_v": 8,
+	"button_spacing": 16
   }
 }

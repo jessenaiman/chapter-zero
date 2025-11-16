@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bclvp15p485yg"]
 
-[ext_resource type="Script" uid="uid://ynkfss4o3als" path="res://source/scripts/field/ui/popups/UiPopup.cs" id="1_wg748"]
-[ext_resource type="Texture2D" uid="uid://f2uyafsf3srw" path="res://assets/gui/emotes/emote__.png" id="2_j48km"]
+[ext_resource type="Script" uid="uid://25fkidft1mxy" path="res://source/field/ui/popups/UIPopup.cs" id="1_wg748"]
+[ext_resource type="Texture2D" uid="uid://f2uyafsf3srw" path="res://source/assets/gui/emotes/emote__.png" id="2_j48km"]
 
 [sub_resource type="Animation" id="Animation_qeih3"]
 length = 0.001
@@ -105,14 +105,14 @@ _data = {
 &"disappear": SubResource("Animation_veesw")
 }
 
-[node name="Popup" type="Node2D"]
+[node name="Popup" type="Node2D" unique_id=1927573717]
 script = ExtResource("1_wg748")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2136714919]
 texture = ExtResource("2_j48km")
 offset = Vector2(0, -8)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=149055695]
 libraries = {
-"": SubResource("AnimationLibrary_fggt1")
+&"": SubResource("AnimationLibrary_fggt1")
 }

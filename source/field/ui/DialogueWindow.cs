@@ -12,7 +12,7 @@ namespace OmegaSpiral.Source.Scripts.Field.Ui;
 /// Shows and hides automatically when timelines start and end.
 /// </summary>
 [GlobalClass]
-public partial class DialogueWindow : OmegaContainer
+public partial class DialogueWindow : NarrativeUiContainer
 {
     /// <inheritdoc/>
     public override void _Ready()

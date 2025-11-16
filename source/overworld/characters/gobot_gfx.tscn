@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://qxua6ekob7fa"]
 
-[ext_resource type="PackedScene" uid="uid://caxhff6by5nqu" path="res://source/scripts/field/gamepieces/animation/GamepieceAnimation.tscn" id="1_ggnk7"]
+[ext_resource type="PackedScene" uid="uid://bp144woft7xyw" path="res://source/field/gamepieces/animation/gamepiece_animation.tscn" id="1_ggnk7"]
 [ext_resource type="AnimationLibrary" uid="uid://dmmjb8ambpwar" path="res://source/overworld/characters/default_animations/standard_animations.res" id="2_mw4lc"]
 [ext_resource type="Texture2D" uid="uid://4ua1ohn2tllf" path="res://source/overworld/characters/gobot_field.png" id="3_rnaav"]
 

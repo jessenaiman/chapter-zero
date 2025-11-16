@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://dshxbkmio8nco"]
+
+[ext_resource type="Shader" uid="uid://cjohwfaihlyvn" path="res://shaders/glow_and_ripple.gdshader" id="1_aidbt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8h0li"]
+shader = ExtResource("1_aidbt")
+shader_parameter/size = Vector2(5, 5)
+shader_parameter/center1 = Vector2(10, 10)
+shader_parameter/center2 = Vector2(50, 50)
+shader_parameter/time1 = 0.010000000475
+shader_parameter/time2 = 0.2000000095
+shader_parameter/width1 = 0.05
+shader_parameter/width2 = 0.1
+shader_parameter/corner_radius = 0.386000018335
+shader_parameter/glow = 3.5430001682925
+shader_parameter/color = Color(1, 1, 1, 1)
+
+[node name="UiTestBench" type="Control" unique_id=285254629]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=866401007]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=1693096462]
+material = SubResource("ShaderMaterial_8h0li")
+use_parent_material = true
+layout_mode = 2
+color = Color(0.11119685, 0.11119684, 0.11119684, 1)
+
+[node name="Label" type="Label" parent="MarginContainer/ColorRect" unique_id=1665695386]
+layout_mode = 0
+offset_left = 383.0
+offset_top = 258.0
+offset_right = 659.0
+offset_bottom = 279.0
+size_flags_horizontal = 4
+text = "This is my animated component"

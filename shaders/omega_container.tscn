@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://twoopawlx7v3"]
+
+[ext_resource type="Script" path="res://source/ui/omega/OmegaContainer.cs" id="1_dxtui"]
+[ext_resource type="Script" path="res://source/ui/omega/OmegaBorderController.cs" id="2_rhkvh"]
+
+[node name="OmegaContainer" type="Panel" unique_id=942033051]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dxtui")
+
+[node name="BorderPanel" type="Panel" parent="." unique_id=1294307910]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_rhkvh")
+
+[node name="ContentArea" type="MarginContainer" parent="." unique_id=1852583756]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20

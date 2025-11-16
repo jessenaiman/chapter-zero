@@ -22,7 +22,7 @@ public partial class UiBattlerTargetingCursor : Node2D
     /// <summary>
     /// The cursor scene that will be used to denote the active target[s].
     /// </summary>
-    private readonly PackedScene cursorScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/cursors/ui_menu_cursor.tscn");
+    private readonly PackedScene cursorScene = GD.Load<PackedScene>("res://source/combat/ui/cursors/ui_menu_cursor.tscn");
 
     /// <summary>
     /// Emitted when the player has selected targets.

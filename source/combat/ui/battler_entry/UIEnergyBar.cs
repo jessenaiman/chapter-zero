@@ -13,7 +13,7 @@ namespace OmegaSpiral.Source.Scripts.Combat.Ui.BattlerEntry;
 [GlobalClass]
 public partial class UiBattlerEnergyBar : Node
 {
-    private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://source/scripts/combat/ui/battler_entry/UiEnergyPoint.tscn");
+    private readonly PackedScene energyPointScene = GD.Load<PackedScene>("res://source/combat/ui/battler_entry/UiEnergyPoint.tscn");
 
     private int maxValue;
 

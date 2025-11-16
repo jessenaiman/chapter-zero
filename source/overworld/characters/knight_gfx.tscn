@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://se1wnxu5svgj"]
 
-[ext_resource type="PackedScene" uid="uid://caxhff6by5nqu" path="res://source/scripts/field/gamepieces/animation/GamepieceAnimation.tscn" id="1_c58iv"]
+[ext_resource type="PackedScene" uid="uid://bp144woft7xyw" path="res://source/field/gamepieces/animation/gamepiece_animation.tscn" id="1_c58iv"]
 [ext_resource type="Texture2D" uid="uid://ti2vhkpokeib" path="res://source/overworld/characters/knight.atlastex" id="2_f3pos"]
 
 [sub_resource type="Animation" id="Animation_sr8xj"]
